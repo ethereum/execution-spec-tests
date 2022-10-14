@@ -69,13 +69,13 @@ class Filler:
             pkg_path = self.options.filler_path
 
         fillers = []
-        for module in find_modules(os.path.abspath(pkg_path)):
-            self.log.debug(f"searching {module} for fillers")
-            module = importlib.import_module(pkg_name + "." + module)
+        for module_name in find_modules(os.path.abspath(pkg_path)):
+            self.log.debug(f"searching {module_name} for fillers")
+            module = importlib.import_module(pkg_name + "." + module_name)
             for obj in module.__dict__.values():
                 if callable(obj):
                     if hasattr(obj, "__filler_metadata__"):
-
+                        obj.__filler_metadata__["module_path"] = module_name.split(".")
                         fillers.append(obj)
 
         self.log.info(f"collected {len(fillers)} fillers")
@@ -84,7 +84,10 @@ class Filler:
 
         for filler in fillers:
             name = filler.__filler_metadata__["name"]
-            path = os.path.join(self.options.output, f"{name}.json")
+            output_dir = os.path.join(self.options.output,
+                            *(filler.__filler_metadata__["module_path"]))
+            os.makedirs(output_dir)
+            path = os.path.join(output_dir, f"{name}.json")
 
             self.log.debug(f"filling {name}")
             fixture = filler("NoProof")
