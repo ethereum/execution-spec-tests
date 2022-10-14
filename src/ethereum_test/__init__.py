@@ -6,6 +6,8 @@ from .decorators import test_from, test_only
 from .fill import fill_state_test
 from .state_test import StateTest
 from .types import Account, Environment, JSONEncoder, Transaction
+from .common import TestAddress
+from .yul import Yul
 
 __all__ = (
     "Account",
@@ -13,6 +15,8 @@ __all__ = (
     "JSONEncoder",
     "StateTest",
     "Transaction",
+    "Yul",
+    "TestAddress",
     "fill_state_test",
     "test_from",
     "test_only",

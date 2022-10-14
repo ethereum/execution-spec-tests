@@ -3,10 +3,10 @@ Useful types for generating Ethereum tests.
 """
 import json
 from dataclasses import dataclass
-from typing import Any, List, Mapping, Optional, Tuple, Type
+from typing import Any, List, Mapping, Optional, Tuple, Type, Union
 
 from .common import AddrAA, TestPrivateKey
-
+from .code import Code
 
 @dataclass
 class Account:
@@ -16,7 +16,7 @@ class Account:
 
     nonce: int = 0
     balance: int = 0
-    code: str = ""
+    code: Union[bytes, str, Code] = ""
     storage: Optional[Mapping[str, str]] = None
 
     @classmethod
@@ -169,12 +169,26 @@ class JSONEncoder(json.JSONEncoder):
         Enocdes types defined in this module using basic python facilities.
         """
         if isinstance(obj, Account):
-            return {
+            acc = {
                 "nonce": hex(obj.nonce),
                 "balance": hex(obj.balance),
-                "code": obj.code if len(obj.code) != 0 else "0x",
+                "code": "0x",
                 "storage": obj.storage if obj.storage is not None else {},
             }
+            if not obj.code is None:
+                if isinstance(obj.code, Code):
+                    acc["code"] = "0x" + obj.code.assemble().hex()
+                elif type(obj.code) is str:
+                    acc["code"] = obj.code
+                    if not acc["code"].startswith("0x"):
+                        acc["code"] = "0x" + acc["code"]
+                elif type(obj.code) is bytes:
+                    acc["code"] = "0x" + obj.code.hex()
+                else:
+                    raise Exception(
+                        "invalid type for `code` of the account"
+                    )
+            return acc
         elif isinstance(obj, Transaction):
             tx = {
                 "type": hex(obj.ty),
