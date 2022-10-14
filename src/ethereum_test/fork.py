@@ -20,6 +20,13 @@ forks = [
     "arrow glacier",
 ]
 
+def forks_from_until(fork_from: str, fork_until: str) -> List[str]:
+    """
+    Returns the specified fork and all forks after it until the second specified fork
+    """
+    out = forks[forks.index(fork_from.strip().lower()) : forks.index(fork_until.strip().lower())]
+    return list(map(lambda x: x, out))
+
 
 def forks_from(fork: str) -> List[str]:
     """
