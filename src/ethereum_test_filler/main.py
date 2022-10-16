@@ -48,6 +48,16 @@ class Filler:
             default="out",
         )
 
+        parser.add_argument(
+            "--test-module",
+            help="limit to filling tests of a specific module",
+        )
+
+        parser.add_argument(
+            "--test-case",
+            help="limit to filling only tests with matching name",
+        )
+
         return parser.parse_args()
 
     options: argparse.Namespace
@@ -62,7 +72,7 @@ class Filler:
         Fill test fixtures.
         """
         pkg_name = "ethereum_tests"
-        pkg_path = "src/ethereum_tests"
+        pkg_path = os.path.join("src", "ethereum_tests")
 
         if self.options.filler_path is not None:
             pkg_name = os.path.basename(self.options.filler_path)
@@ -70,11 +80,17 @@ class Filler:
 
         fillers = []
         for module_name in find_modules(os.path.abspath(pkg_path)):
+            if self.options.test_module and self.options.test_module not in module_name:
+                continue
             self.log.debug(f"searching {module_name} for fillers")
             module = importlib.import_module(pkg_name + "." + module_name)
             for obj in module.__dict__.values():
                 if callable(obj):
                     if hasattr(obj, "__filler_metadata__"):
+                        if (self.options.test_case and
+                                self.options.test_case not in
+                                obj.__filler_metadata__["name"]):
+                            continue
                         obj.__filler_metadata__["module_path"] = module_name.split(".")
                         fillers.append(obj)
 
