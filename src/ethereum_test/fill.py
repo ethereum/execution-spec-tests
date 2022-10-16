@@ -46,6 +46,7 @@ def fill_state_test(
                 head=head,
                 fork=fork,
                 pre_state=test.pre,
+                post_state=None,
                 seal_engine=engine,
             )
         )

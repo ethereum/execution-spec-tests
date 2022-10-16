@@ -86,7 +86,7 @@ class Filler:
             name = filler.__filler_metadata__["name"]
             output_dir = os.path.join(self.options.output,
                             *(filler.__filler_metadata__["module_path"]))
-            os.makedirs(output_dir)
+            os.makedirs(output_dir, exist_ok=True)
             path = os.path.join(output_dir, f"{name}.json")
 
             self.log.debug(f"filling {name}")

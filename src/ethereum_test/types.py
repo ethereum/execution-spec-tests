@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any, List, Mapping, Optional, Tuple, Type, Union
 
 from .common import AddrAA, TestPrivateKey
-from .code import Code
+from .code import Code, code_to_hex
 
 @dataclass
 class Account:
@@ -14,10 +14,34 @@ class Account:
     State associated with an address.
     """
 
-    nonce: int = 0
-    balance: int = 0
-    code: Union[bytes, str, Code] = ""
+    nonce: Optional[int] = None
+    balance: Optional[int] = None
+    code: Optional[Union[bytes, str, Code]] = ""
     storage: Optional[Mapping[str, str]] = None
+
+    def check_alloc(self: "Account", alloc: dict) -> bool:
+        """
+        Checks the returned alloc against an expected account in post state
+        """
+        if self.nonce is not None:
+            if "nonce" not in alloc or self.nonce != int(alloc["nonce"], 16):
+                return False
+        if self.balance is not None:
+            if "balance" not in alloc or self.balance != int(alloc["balance"], 16):
+                return False
+        if self.code is not None:
+            if "code" not in alloc:
+                return False
+            if code_to_hex(self.code) != alloc["code"]:
+                return False
+        if self.storage is not None:
+            """
+            TODO: The test writer can set a map of strings, and this
+            manual format could have some differences between the format
+            returned by the evm t8n.
+            """
+            pass
+        return True
 
     @classmethod
     def with_code(cls: Type, code: str) -> "Account":
@@ -26,6 +50,7 @@ class Account:
         """
         return Account(nonce=1, code=code)
 
+ACCOUNT_DEFAULTS = Account(nonce=0, balance=0, code=bytes(), storage={})
 
 @dataclass
 class Environment:
@@ -156,6 +181,7 @@ class Fixture:
     head: str
     fork: str
     pre_state: Mapping[str, Account]
+    post_state: Mapping[str, Account]
     seal_engine: str
 
 
@@ -170,24 +196,13 @@ class JSONEncoder(json.JSONEncoder):
         """
         if isinstance(obj, Account):
             acc = {
-                "nonce": hex(obj.nonce),
-                "balance": hex(obj.balance),
-                "code": "0x",
+                "nonce": (hex(obj.nonce) if obj.nonce is not None
+                            else hex(ACCOUNT_DEFAULTS.nonce)),
+                "balance": (hex(obj.balance) if obj.balance is not None
+                            else hex(ACCOUNT_DEFAULTS.balance)),
+                "code": code_to_hex(obj.code),
                 "storage": obj.storage if obj.storage is not None else {},
             }
-            if not obj.code is None:
-                if isinstance(obj.code, Code):
-                    acc["code"] = "0x" + obj.code.assemble().hex()
-                elif type(obj.code) is str:
-                    acc["code"] = obj.code
-                    if not acc["code"].startswith("0x"):
-                        acc["code"] = "0x" + acc["code"]
-                elif type(obj.code) is bytes:
-                    acc["code"] = "0x" + obj.code.hex()
-                else:
-                    raise Exception(
-                        "invalid type for `code` of the account"
-                    )
             return acc
         elif isinstance(obj, Transaction):
             tx = {
@@ -273,6 +288,7 @@ class JSONEncoder(json.JSONEncoder):
                 "lastblockhash": obj.head,
                 "network": obj.fork,
                 "pre": json.loads(json.dumps(obj.pre_state, cls=JSONEncoder)),
+                "postState": json.loads(json.dumps(obj.post_state, cls=JSONEncoder)),
                 "sealEngine": obj.seal_engine,
             }
         else:

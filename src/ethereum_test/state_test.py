@@ -59,6 +59,25 @@ class StateTest:
 
         return genesis
 
+    def verify_post_alloc(self, alloc) -> bool:
+        """
+        Verify that an allocation matches the expected post in the test.
+        """
+        for acc in self.post:
+            if self.post[acc] is None:
+                # If an account is None in post, it must not exist in the
+                # alloc.
+                if acc in alloc:
+                    return False
+            else:
+                if acc in alloc:
+                    if not self.post[acc].check_alloc(alloc[acc]):
+                        return False
+                else:
+                    return False
+
+        return True
+
     def make_block(
         self,
         b11r: BlockBuilder,
@@ -76,7 +95,7 @@ class StateTest:
 
         with tempfile.TemporaryDirectory() as directory:
             txsRlp = os.path.join(directory, "txs.rlp")
-            (_, result) = t8n.evaluate(
+            (alloc, result) = t8n.evaluate(
                 pre,
                 txs,
                 env,
@@ -85,6 +104,8 @@ class StateTest:
                 chain_id=chain_id,
                 reward=reward,
             )
+            if not self.verify_post_alloc(alloc):
+                raise Exception("mismatch between output alloc and post")
             with open(txsRlp, "r") as file:
                 txs = file.read().strip('"')
 
