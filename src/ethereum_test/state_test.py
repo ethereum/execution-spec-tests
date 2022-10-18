@@ -59,24 +59,30 @@ class StateTest:
 
         return genesis
 
-    def verify_post_alloc(self, alloc) -> bool:
+    def verify_post_alloc(self, alloc):
         """
         Verify that an allocation matches the expected post in the test.
+        Raises exception on unexpected values.
         """
         for acc in self.post:
             if self.post[acc] is None:
                 # If an account is None in post, it must not exist in the
                 # alloc.
                 if acc in alloc:
-                    return False
+                    raise Exception(f"found unexpected account: {acc}")
             else:
                 if acc in alloc:
-                    if not self.post[acc].check_alloc(alloc[acc]):
-                        return False
+                    self.post[acc].check_alloc(acc, alloc[acc])
                 else:
-                    return False
+                    raise Exception(f"expected account not found: {acc}")
 
-        return True
+    
+    def verify_txs(self, result) -> bool:
+        """
+        TODO: Verify rejected transactions (if any) against the expected outcome.
+        Raises exception on unexpected values.
+        """
+        pass
 
     def make_block(
         self,
@@ -88,6 +94,8 @@ class StateTest:
     ) -> Tuple[str, str]:
         """
         Create a block from the state test definition.
+        Performs checks against the expected behavior of the test.
+        Raises exception on invalid test behavior.
         """
         pre = json.loads(json.dumps(self.pre, cls=JSONEncoder))
         txs = json.loads(json.dumps(self.txs, cls=JSONEncoder))
@@ -104,10 +112,11 @@ class StateTest:
                 chain_id=chain_id,
                 reward=reward,
             )
-            if not self.verify_post_alloc(alloc):
-                raise Exception("mismatch between output alloc and post")
             with open(txsRlp, "r") as file:
                 txs = file.read().strip('"')
+
+        self.verify_txs(result)
+        self.verify_post_alloc(alloc)
 
         header = result | {
             "parentHash": self.env.previous,

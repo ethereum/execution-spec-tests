@@ -8,6 +8,105 @@ from typing import Any, List, Mapping, Optional, Tuple, Type, Union
 from .common import AddrAA, TestPrivateKey
 from .code import Code, code_to_hex
 
+class Storage:
+    """
+    Definition of a storage in pre or post state of a test
+    """
+
+    data: Mapping[int, int]
+
+    @staticmethod
+    def parse_key_value(input: Union[str, int]) -> int:
+        if type(input) is str:
+            if input.startswith("0x"):
+                return int(input, 16)
+            else:
+                return int(input)
+        elif type(input) is int:
+            return input
+        
+        raise Exception("invalid type for key/value of storage")
+    
+    @staticmethod
+    def key_value_to_string(value: int) -> str:
+        return "0x" + value.to_bytes(32, 'big').hex()
+    
+    def __init__(self, input: Mapping[Union[str, int], Union[str, int]]):
+        """
+        Initializes the storage using a given mapping which can have
+        keys and values either as string or int.
+        Strings must be valid decimal or hexadecimal (starting with 0x) numbers.
+        """
+        self.data = {}
+        for k in input:
+            v = Storage.parse_key_value(input[k])
+            k = Storage.parse_key_value(k)
+            self.data[k] = v
+        pass
+
+    def __len__(self) -> int:
+        return len(self.data)
+
+    def __getitem__(self, key: Union[str, int]) -> int:
+        key = Storage.parse_key_value(key)
+        if key not in self.data:
+            return None
+        return self.data[key]
+    
+    def __setitem__(self, key: Union[str, int], value: Union[str, int]):
+        self.data[Storage.parse_key_value(key)] = Storage.parse_key_value(value)
+    
+    def __delitem__(self, key: Union[str, int]):
+        del(self.data[Storage.parse_key_value(key)])
+
+    def to_dict(self) -> Mapping[str, str]:
+        """
+        Converts the storage into a string dict with appropriate 32-byte
+        hex string formatting.
+        """
+        res = {}
+        for k in self.data:
+            res[Storage.key_value_to_string(k)] = Storage.key_value_to_string(self.data[k])
+        return res
+
+    def contains(self, stor2: "Storage") -> bool:
+        """
+        Returns True if self contains all keys with equal value as
+        contained by second storage.
+        Used for comparison with test expected post state and alloc returned
+        by the transition tool.
+        """
+        for k in stor2.data:
+            if k not in self.data:
+                return False
+            if self.data[k] != stor2.data[k]:
+                return False
+        return True
+    
+    def must_contain(self, stor2: "Storage"):
+        """
+        Succeeds only if self contains all keys with equal value as
+        contained by second storage.
+        Used for comparison with test expected post state and alloc returned
+        by the transition tool.
+        Raises detailed exception when a difference is found.
+        """
+        for k in stor2.data:
+            if k not in self.data:
+                raise Exception(
+                    "key {0} not found in storage".format(
+                        Storage.key_value_to_string(k)
+                        )
+                    )
+            if self.data[k] != stor2.data[k]:
+                raise Exception(
+                    "incorrect value for key {0}: {1}!={2}".format(
+                        Storage.key_value_to_string(k),
+                        Storage.key_value_to_string(self.data[k]),
+                        Storage.key_value_to_string(stor2.data[k])
+                        )
+                    )
+
 @dataclass
 class Account:
     """
@@ -17,34 +116,43 @@ class Account:
     nonce: Optional[int] = None
     balance: Optional[int] = None
     code: Optional[Union[bytes, str, Code]] = ""
-    storage: Optional[Mapping[str, str]] = None
+    storage: Optional[Storage] = None
 
-    def check_alloc(self: "Account", alloc: dict) -> bool:
+    def __post_init__(self) -> None:
+        if self.storage is not None:
+            self.storage = Storage(self.storage)
+
+    def check_alloc(self: "Account", acc: str, alloc: dict):
         """
-        Checks the returned alloc against an expected account in post state
+        Checks the returned alloc against an expected account in post state.
+        Raises exception on failure.
         """
         if self.nonce is not None:
-            if "nonce" not in alloc or self.nonce != int(alloc["nonce"], 16):
-                return False
+            if "nonce" not in alloc:
+                raise Exception(f"nonce not found in alloc for account {acc}")
+            nonce = int(alloc["nonce"], 16)
+            if self.nonce != nonce:
+                raise Exception(f"unexpected nonce value found in alloc for account {acc}: {nonce}, expected {self.nonce}")
         if self.balance is not None:
-            if "balance" not in alloc or self.balance != int(alloc["balance"], 16):
-                return False
+            if "balance" not in alloc:
+                raise Exception(f"balance not found in alloc for account {acc}")
+            balance = int(alloc["balance"], 16)
+            if self.balance != balance:
+                raise Exception(f"unexpected balance value found in alloc for account {acc}: {balance}, expected {self.balance}")
         if self.code is not None:
             if "code" not in alloc:
-                return False
-            if code_to_hex(self.code) != alloc["code"]:
-                return False
+                raise Exception(f"code not found in alloc for account {acc}")
+            expected_code = code_to_hex(self.code)
+            if expected_code != alloc["code"]:
+                actual_code = alloc["code"]
+                raise Exception(f"unexpected code found in alloc for account {acc}: {actual_code}, expected {expected_code}")
         if self.storage is not None:
-            """
-            TODO: The test writer can set a map of strings, and this
-            manual format could have some differences between the format
-            returned by the evm t8n.
-            """
-            pass
-        return True
-
+            if "storage" not in alloc:
+                raise Exception(f"storage not found in alloc for account {acc}")
+            Storage(alloc["storage"]).must_contain(self.storage)
+            
     @classmethod
-    def with_code(cls: Type, code: str) -> "Account":
+    def with_code(cls: Type, code: Union[bytes, str, Code]) -> "Account":
         """
         Create account with provided `code` and nonce of `1`.
         """
@@ -194,14 +302,16 @@ class JSONEncoder(json.JSONEncoder):
         """
         Enocdes types defined in this module using basic python facilities.
         """
-        if isinstance(obj, Account):
+        if isinstance(obj, Storage):
+            return obj.to_dict()
+        elif isinstance(obj, Account):
             acc = {
                 "nonce": (hex(obj.nonce) if obj.nonce is not None
                             else hex(ACCOUNT_DEFAULTS.nonce)),
                 "balance": (hex(obj.balance) if obj.balance is not None
                             else hex(ACCOUNT_DEFAULTS.balance)),
                 "code": code_to_hex(obj.code),
-                "storage": obj.storage if obj.storage is not None else {},
+                "storage": json.loads(json.dumps(obj.storage, cls=JSONEncoder)) if obj.storage is not None else {},
             }
             return acc
         elif isinstance(obj, Transaction):
