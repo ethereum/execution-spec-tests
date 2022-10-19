@@ -42,18 +42,40 @@ This is a wrapper around the [transaction][t8n] (t8n) tool.
 
 ### `ethereum_tests`
 
-Every test is a generator function that starts with `test_` located inside the `ethereum_tests` folder structure.
+Contains all the Ethereum consensus tests available in this repository.
 
-The function _must_ be decorated by only one either of the following decorators:
+Each subdirectory is a test category, which can contain multiple python source
+files.
+
+Each file can in turn contain multiple functions, which each can generate
+multiple test vectors.
+
+Every test function is a generator which must `yield` one or many `StateTest` 
+objects during its runtime.
+
+The `StateTest` object contains the following attributes pertaining to a single
+test vector:
+
+- env: Environment object which describes the global state of the blockchain
+    before the test starts.
+- pre: Pre-State containing the information of all Ethereum accounts that exist
+    before any transaction is executed.
+- post: Post-State containing the information of all Ethereum accounts that are
+    created or modified after all transactions are executed.
+- txs: All transactions which are executed during the test vector runtime.
+
+The test vector's generator function _must_ be decorated by only one of the
+following decorators:
 - test_from
 - test_from_until
 - test_only
 
-These decorators specify the forks on which the test case is supposed to be run.
+These decorators specify the forks on which the test vector is supposed to run.
 
-They also include further useful information for the `ethereum_test_filler` to read when the generator is being executed to fill the tests.
+They also include further useful information for the `ethereum_test_filler` to
+read when the generator is being executed to fill the tests.
 
-The test must take only 1 parameter: the fork name.
+The test vector function must take only 1 parameter: the fork name.
 
 ### Writing your first test
 
