@@ -5,7 +5,7 @@ import json
 import os
 import tempfile
 from dataclasses import dataclass
-from typing import Any, List, Mapping, Tuple
+from typing import Any, Callable, Generator, List, Mapping, Tuple
 
 from evm_block_builder import BlockBuilder
 from evm_transition_tool import TransitionTool
@@ -134,3 +134,5 @@ class StateTest:
             header["baseFeePerGas"] = str(self.env.base_fee)
 
         return b11r.build(header, txs, [], None)
+
+StateTestSpec = Callable[[str], Generator[StateTest, None, None]]

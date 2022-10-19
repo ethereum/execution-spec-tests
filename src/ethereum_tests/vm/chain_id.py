@@ -12,7 +12,7 @@ from ethereum_test import (
 
 
 @test_from("istanbul")
-def test_chain_id():
+def test_chain_id(fork):
     """
     Test CHAINID opcode.
     """
@@ -51,4 +51,4 @@ def test_chain_id():
         ),
     }
 
-    return StateTest(env, pre, post, [tx])
+    yield StateTest(env, pre, post, [tx])

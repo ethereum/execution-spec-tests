@@ -12,16 +12,15 @@ from ethereum_test import (
     test_from,
 )
 
-
 @test_from("berlin")
-def test_yul():
+def test_yul(fork):
     """
-    Test CHAINID opcode.
+    Test YUL compiled bytecode.
     """
     env = Environment()
 
     pre = {
-        "0x095e7baea6a6c7c4c2dfeb977efac326af552d87": Account(
+        "0x1000000000000000000000000000000000000000": Account(
             balance=0x0ba1a9ce0ba1a9ce,
             code=Yul("""
             {
@@ -43,16 +42,20 @@ def test_yul():
         ty=0x0,
         chain_id=0x0,
         nonce=0,
-        to="0x095e7baea6a6c7c4c2dfeb977efac326af552d87",
-        gas_limit=100000000,
+        to="0x1000000000000000000000000000000000000000",
+        gas_limit=500000,
         gas_price=10,
         protected=False,
     )
 
     post = {
-        "0x095e7baea6a6c7c4c2dfeb977efac326af552d87": Account(
-            code="0x6011565b600082820190505b92915050565b601b600260016003565b60005560206000f3", storage={"0x00": "0x03"}
+        "0x1000000000000000000000000000000000000000": Account(
+            code="""0x6011565b600082820190505b92915050565b
+                      601b600260016003565b60005560206000f3""",
+            storage={
+                0x00: 0x03,
+            }
         ),
     }
 
-    return StateTest(env, pre, post, [tx])
+    yield StateTest(env, pre, post, [tx])
