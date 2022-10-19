@@ -8,6 +8,7 @@ from .state_test import StateTest
 from .types import Account, Environment, JSONEncoder, Transaction
 from .common import TestAddress
 from .yul import Yul
+from .helpers import to_address
 
 __all__ = (
     "Account",
@@ -20,4 +21,5 @@ __all__ = (
     "fill_state_test",
     "test_from",
     "test_only",
+    "to_address",
 )
