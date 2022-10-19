@@ -198,6 +198,7 @@ class Transaction:
     signature: Optional[Tuple[str, str, str]] = None
     secret_key: Optional[str] = None
     protected: bool = True
+    error: Optional[str] = None
 
     def __post_init__(self) -> None:
         """

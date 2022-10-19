@@ -77,12 +77,28 @@ class StateTest:
                     raise Exception(f"expected account not found: {acc}")
 
     
-    def verify_txs(self, result) -> bool:
+    def verify_txs(self, result):
         """
-        TODO: Verify rejected transactions (if any) against the expected outcome.
-        Raises exception on unexpected values.
+        Verify rejected transactions (if any) against the expected outcome.
+        Raises exception on unexpected rejections or unexpected successful txs.
         """
-        pass
+        rejected_txs = {}
+        if 'rejected' in result:
+            for rejected_tx in result['rejected']:
+                if 'index' not in rejected_tx or 'error' not in rejected_tx:
+                    raise Exception("badly formatted result")
+                rejected_txs[rejected_tx['index']] = rejected_tx['error']
+        
+        for i, tx in enumerate(self.txs):
+            error = rejected_txs[i] if i in rejected_txs else None
+            if tx.error and not error:
+                raise Exception("tx expected to fail succeeded")
+            elif not tx.error and error:
+                raise Exception(f"tx unexpectedly failed: {error}")
+
+            # TODO: Also we need a way to check we actually got the
+            # correct error
+
 
     def make_block(
         self,
