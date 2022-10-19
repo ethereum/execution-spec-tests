@@ -115,7 +115,7 @@ class Account:
 
     nonce: Optional[int] = None
     balance: Optional[int] = None
-    code: Optional[Union[bytes, str, Code]] = ""
+    code: Optional[Union[bytes, str, Code]] = None
     storage: Optional[Storage] = None
 
     def __post_init__(self) -> None:
@@ -187,7 +187,7 @@ class Transaction:
     nonce: int = 0
     to: Optional[str] = AddrAA
     value: int = 0
-    data: str = ""
+    data: Union[bytes, str, Code] = bytes()
     gas_limit: int = 21000
     access_list: Optional[List[Tuple[str, List[str]]]] = None
 
@@ -325,7 +325,7 @@ class JSONEncoder(json.JSONEncoder):
                 "maxFeePerGas": None,
                 "gas": hex(obj.gas_limit),
                 "value": hex(obj.value),
-                "input": obj.data,
+                "input": code_to_hex(obj.data),
                 "to": obj.to,
                 "accessList": obj.access_list,
                 "protected": obj.protected,
