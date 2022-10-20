@@ -36,8 +36,9 @@ jobs:
       - name: Install solc compiler
         run: |
           RELEASE_NAME=$(curl https://binaries.soliditylang.org/linux-amd64/list.json | jq -r --arg SOLC_VERSION "${{ matrix.solc }}" '.releases[$SOLC_VERSION]')
-          wget -O /usr/bin/solc https://binaries.soliditylang.org/linux-amd64/$RELEASE_NAME
-          chmod a+x /usr/bin/solc
+          wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/linux-amd64/$RELEASE_NAME
+          chmod a+x $GITHUB_WORKSPACE/bin/solc
+          echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
       - name: Install Tox and any other packages
         run: pip install tox requests
       - name: Run Tox (CPython)
