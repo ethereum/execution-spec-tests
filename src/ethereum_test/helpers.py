@@ -2,7 +2,7 @@
 Helper functions for generating Ethereum tests.
 """
 
-from typing import Mapping, Union
+from typing import Dict, Union
 
 from .code import Code
 from .common import AddrAA, TestAddress
@@ -10,7 +10,11 @@ from .state_test import StateTest
 from .types import Account, Environment, Transaction
 
 
-def TestCode(code: Code, expected: Mapping[str, str], gas_limit: int = 100000):
+def TestCode(
+    code: Code,
+    expected: Dict[Union[str, int], Union[str, int]],
+    gas_limit: int = 100000,
+):
     """
     Test that `code` produces the `expected` storage output.
     """
@@ -28,7 +32,11 @@ def TestCode(code: Code, expected: Mapping[str, str], gas_limit: int = 100000):
     tx = Transaction(ty=0, to=AddrAA, gas_limit=gas_limit)
     return StateTest(env, pre, post, [tx])
 
+
 def to_address(input: Union[int, str]) -> str:
+    """
+    Converts an int or str into proper address 20-byte hex string.
+    """
     if type(input) is str:
         # Convert to int
         if input.startswith("0x"):
@@ -36,5 +44,5 @@ def to_address(input: Union[int, str]) -> str:
         else:
             input = int(input)
     if type(input) is int:
-        return "0x" + input.to_bytes(20, 'big').hex()
+        return "0x" + input.to_bytes(20, "big").hex()
     raise Exception("invalid type to convert into account address")

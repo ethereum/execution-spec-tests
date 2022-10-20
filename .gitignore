@@ -46,3 +46,7 @@ pip-delete-this-directory.txt
 /doc/_autosummary
 
 .coverage
+
+# misc
+
+*.code-workspace

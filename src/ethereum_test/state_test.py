@@ -64,31 +64,30 @@ class StateTest:
         Verify that an allocation matches the expected post in the test.
         Raises exception on unexpected values.
         """
-        for acc in self.post:
-            if self.post[acc] is None:
+        for account in self.post:
+            if self.post[account] is None:
                 # If an account is None in post, it must not exist in the
                 # alloc.
-                if acc in alloc:
-                    raise Exception(f"found unexpected account: {acc}")
+                if account in alloc:
+                    raise Exception(f"found unexpected account: {account}")
             else:
-                if acc in alloc:
-                    self.post[acc].check_alloc(acc, alloc[acc])
+                if account in alloc:
+                    self.post[account].check_alloc(account, alloc[account])
                 else:
-                    raise Exception(f"expected account not found: {acc}")
+                    raise Exception(f"expected account not found: {account}")
 
-    
     def verify_txs(self, result):
         """
         Verify rejected transactions (if any) against the expected outcome.
         Raises exception on unexpected rejections or unexpected successful txs.
         """
         rejected_txs = {}
-        if 'rejected' in result:
-            for rejected_tx in result['rejected']:
-                if 'index' not in rejected_tx or 'error' not in rejected_tx:
+        if "rejected" in result:
+            for rejected_tx in result["rejected"]:
+                if "index" not in rejected_tx or "error" not in rejected_tx:
                     raise Exception("badly formatted result")
-                rejected_txs[rejected_tx['index']] = rejected_tx['error']
-        
+                rejected_txs[rejected_tx["index"]] = rejected_tx["error"]
+
         for i, tx in enumerate(self.txs):
             error = rejected_txs[i] if i in rejected_txs else None
             if tx.error and not error:
@@ -98,7 +97,6 @@ class StateTest:
 
             # TODO: Also we need a way to check we actually got the
             # correct error
-
 
     def make_block(
         self,
@@ -150,5 +148,6 @@ class StateTest:
             header["baseFeePerGas"] = str(self.env.base_fee)
 
         return b11r.build(header, txs, [], None)
+
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]

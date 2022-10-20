@@ -22,8 +22,9 @@ def test_yul(fork):
 
     pre = {
         "0x1000000000000000000000000000000000000000": Account(
-            balance=0x0ba1a9ce0ba1a9ce,
-            code=Yul("""
+            balance=0x0BA1A9CE0BA1A9CE,
+            code=Yul(
+                """
             {
                 function f(a, b) -> c {
                     c := add(a, b)
@@ -32,11 +33,10 @@ def test_yul(fork):
                 sstore(0, f(1, 2))
                 return(0, 32)
             }
-            """)
+            """
+            ),
         ),
-        TestAddress: Account(
-            balance=0x0ba1a9ce0ba1a9ce
-        ),
+        TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE),
     }
 
     tx = Transaction(
@@ -55,7 +55,7 @@ def test_yul(fork):
                       601b600260016003565b60005560206000f3""",
             storage={
                 0x00: 0x03,
-            }
+            },
         ),
     }
 

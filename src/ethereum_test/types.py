@@ -3,7 +3,7 @@ Useful types for generating Ethereum tests.
 """
 import json
 from dataclasses import dataclass
-from typing import Any, List, Mapping, Optional, Tuple, Type, Union
+from typing import Any, Dict, List, Mapping, Optional, Tuple, Type, Union
 
 from .code import Code, code_to_hex
 from .common import AddrAA, TestPrivateKey
@@ -14,10 +14,13 @@ class Storage:
     Definition of a storage in pre or post state of a test
     """
 
-    data: Mapping[int, int]
+    data: Dict[int, int]
 
     @staticmethod
     def parse_key_value(input: Union[str, int]) -> int:
+        """
+        Parses a key or value to a valid int key for storage.
+        """
         if type(input) is str:
             if input.startswith("0x"):
                 return int(input, 16)
@@ -25,18 +28,22 @@ class Storage:
                 return int(input)
         elif type(input) is int:
             return input
-        
+
         raise Exception("invalid type for key/value of storage")
-    
+
     @staticmethod
     def key_value_to_string(value: int) -> str:
-        return "0x" + value.to_bytes(32, 'big').hex()
-    
-    def __init__(self, input: Mapping[Union[str, int], Union[str, int]]):
+        """
+        Transforms a key or value into a 32-byte hex string.
+        """
+        return "0x" + value.to_bytes(32, "big").hex()
+
+    def __init__(self, input: Dict[Union[str, int], Union[str, int]]):
         """
         Initializes the storage using a given mapping which can have
         keys and values either as string or int.
-        Strings must be valid decimal or hexadecimal (starting with 0x) numbers.
+        Strings must be valid decimal or hexadecimal (starting with 0x)
+        numbers.
         """
         self.data = {}
         for k in input:
@@ -46,19 +53,27 @@ class Storage:
         pass
 
     def __len__(self) -> int:
+        """Returns number of elements in the storage"""
         return len(self.data)
 
     def __getitem__(self, key: Union[str, int]) -> int:
+        """Returns an item from the storage"""
         key = Storage.parse_key_value(key)
         if key not in self.data:
-            return None
+            raise KeyError()
         return self.data[key]
-    
-    def __setitem__(self, key: Union[str, int], value: Union[str, int]):
-        self.data[Storage.parse_key_value(key)] = Storage.parse_key_value(value)
-    
+
+    def __setitem__(
+        self, key: Union[str, int], value: Union[str, int]  # noqa: SC200
+    ):
+        """Sets an item in the storage"""
+        self.data[Storage.parse_key_value(key)] = Storage.parse_key_value(
+            value
+        )
+
     def __delitem__(self, key: Union[str, int]):
-        del(self.data[Storage.parse_key_value(key)])
+        """Deletes an item from the storage"""
+        del self.data[Storage.parse_key_value(key)]
 
     def to_dict(self) -> Mapping[str, str]:
         """
@@ -67,24 +82,26 @@ class Storage:
         """
         res = {}
         for k in self.data:
-            res[Storage.key_value_to_string(k)] = Storage.key_value_to_string(self.data[k])
+            res[Storage.key_value_to_string(k)] = Storage.key_value_to_string(
+                self.data[k]
+            )
         return res
 
-    def contains(self, stor2: "Storage") -> bool:
+    def contains(self, other: "Storage") -> bool:
         """
         Returns True if self contains all keys with equal value as
         contained by second storage.
         Used for comparison with test expected post state and alloc returned
         by the transition tool.
         """
-        for k in stor2.data:
+        for k in other.data:
             if k not in self.data:
                 return False
-            if self.data[k] != stor2.data[k]:
+            if self.data[k] != other.data[k]:
                 return False
         return True
-    
-    def must_contain(self, stor2: "Storage"):
+
+    def must_contain(self, other: "Storage"):
         """
         Succeeds only if self contains all keys with equal value as
         contained by second storage.
@@ -92,21 +109,22 @@ class Storage:
         by the transition tool.
         Raises detailed exception when a difference is found.
         """
-        for k in stor2.data:
+        for k in other.data:
             if k not in self.data:
                 raise Exception(
                     "key {0} not found in storage".format(
                         Storage.key_value_to_string(k)
-                        )
                     )
-            if self.data[k] != stor2.data[k]:
+                )
+            if self.data[k] != other.data[k]:
                 raise Exception(
                     "incorrect value for key {0}: {1}!={2}".format(
                         Storage.key_value_to_string(k),
                         Storage.key_value_to_string(self.data[k]),
-                        Storage.key_value_to_string(stor2.data[k])
-                        )
+                        Storage.key_value_to_string(other.data[k]),
                     )
+                )
+
 
 @dataclass
 class Account:
@@ -117,41 +135,54 @@ class Account:
     nonce: Optional[int] = None
     balance: Optional[int] = None
     code: Optional[Union[bytes, str, Code]] = None
-    storage: Optional[Storage] = None
+    storage: Optional[
+        Union[Storage, Dict[Union[str, int], Union[str, int]]]
+    ] = None
 
     def __post_init__(self) -> None:
-        if self.storage is not None:
+        """Automatically init account members"""
+        if self.storage is not None and type(self.storage) is dict:
             self.storage = Storage(self.storage)
 
-    def check_alloc(self: "Account", acc: str, alloc: dict):
+    def check_alloc(self: "Account", account: str, alloc: dict):
         """
         Checks the returned alloc against an expected account in post state.
         Raises exception on failure.
         """
         if self.nonce is not None:
             if "nonce" not in alloc:
-                raise Exception(f"nonce not found in alloc for account {acc}")
+                raise Exception(f"nonce not found for account {account}")
             nonce = int(alloc["nonce"], 16)
             if self.nonce != nonce:
-                raise Exception(f"unexpected nonce value found in alloc for account {acc}: {nonce}, expected {self.nonce}")
+                raise Exception(
+                    f"unexpected nonce value found for account {account}: "
+                    + f"{nonce}, expected {self.nonce}"
+                )
         if self.balance is not None:
             if "balance" not in alloc:
-                raise Exception(f"balance not found in alloc for account {acc}")
+                raise Exception(f"balance not found for account {account}")
             balance = int(alloc["balance"], 16)
             if self.balance != balance:
-                raise Exception(f"unexpected balance value found in alloc for account {acc}: {balance}, expected {self.balance}")
+                raise Exception(
+                    f"unexpected balance value found for account {account}: "
+                    + f"{balance}, expected {self.balance}"
+                )
         if self.code is not None:
             if "code" not in alloc:
-                raise Exception(f"code not found in alloc for account {acc}")
+                raise Exception(f"code not found for account {account}")
             expected_code = code_to_hex(self.code)
             if expected_code != alloc["code"]:
                 actual_code = alloc["code"]
-                raise Exception(f"unexpected code found in alloc for account {acc}: {actual_code}, expected {expected_code}")
+                raise Exception(
+                    f"unexpected code found for account {account}: "
+                    + f"{actual_code}, expected {expected_code}"
+                )
         if self.storage is not None:
             if "storage" not in alloc:
-                raise Exception(f"storage not found in alloc for account {acc}")
+                raise Exception(f"storage not found for account {account}")
+            assert type(self.storage) is Storage
             Storage(alloc["storage"]).must_contain(self.storage)
-            
+
     @classmethod
     def with_code(cls: Type, code: Union[bytes, str, Code]) -> "Account":
         """
@@ -159,7 +190,9 @@ class Account:
         """
         return Account(nonce=1, code=code)
 
+
 ACCOUNT_DEFAULTS = Account(nonce=0, balance=0, code=bytes(), storage={})
+
 
 @dataclass
 class Environment:
@@ -291,7 +324,7 @@ class Fixture:
     head: str
     fork: str
     pre_state: Mapping[str, Account]
-    post_state: Mapping[str, Account]
+    post_state: Optional[Mapping[str, Account]]
     seal_engine: str
 
 
@@ -307,15 +340,23 @@ class JSONEncoder(json.JSONEncoder):
         if isinstance(obj, Storage):
             return obj.to_dict()
         elif isinstance(obj, Account):
-            acc = {
-                "nonce": (hex(obj.nonce) if obj.nonce is not None
-                            else hex(ACCOUNT_DEFAULTS.nonce)),
-                "balance": (hex(obj.balance) if obj.balance is not None
-                            else hex(ACCOUNT_DEFAULTS.balance)),
+            account = {
+                "nonce": (
+                    hex(obj.nonce)
+                    if obj.nonce is not None
+                    else hex(ACCOUNT_DEFAULTS.nonce)
+                ),
+                "balance": (
+                    hex(obj.balance)
+                    if obj.balance is not None
+                    else hex(ACCOUNT_DEFAULTS.balance)
+                ),
                 "code": code_to_hex(obj.code),
-                "storage": json.loads(json.dumps(obj.storage, cls=JSONEncoder)) if obj.storage is not None else {},
+                "storage": json.loads(json.dumps(obj.storage, cls=JSONEncoder))
+                if obj.storage is not None
+                else {},
             }
-            return acc
+            return account
         elif isinstance(obj, Transaction):
             tx = {
                 "type": hex(obj.ty),
@@ -400,7 +441,9 @@ class JSONEncoder(json.JSONEncoder):
                 "lastblockhash": obj.head,
                 "network": obj.fork,
                 "pre": json.loads(json.dumps(obj.pre_state, cls=JSONEncoder)),
-                "postState": json.loads(json.dumps(obj.post_state, cls=JSONEncoder)),
+                "postState": json.loads(
+                    json.dumps(obj.post_state, cls=JSONEncoder)
+                ),
                 "sealEngine": obj.seal_engine,
             }
         else:

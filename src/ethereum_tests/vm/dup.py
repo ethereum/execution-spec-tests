@@ -19,7 +19,6 @@ def test_dup(fork):
     Based on ethereum/tests: GeneralStateTests/VMTests/vmTests/dup
     Original test by: Ori Pomerantz qbzzt1@gmail.com
     """
-
     env = Environment()
     pre = {
         "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": Account(
@@ -32,8 +31,8 @@ def test_dup(fork):
     """
     We are setting up 16 accounts, ranging from 0x100 to 0x10f.
     They push values into the stack from 0-16, but each contract uses a
-    different DUP opcode, and depending on the opcode used, the item copied into
-    the storage changes.
+    different DUP opcode, and depending on the opcode used, the item copied
+    into the storage changes.
     """
     for i in range(0, 16):
         """
@@ -44,20 +43,20 @@ def test_dup(fork):
         dup_opcode = 0x80 + i
 
         pre[account] = Account(
-                code=(
-                    # Push 0 - 16 onto the stack
-                    """0x6000 6001 6002 6003 6004 6005 6006 6007 6008 6009 
-                         600A 600B 600C 600D 600E 600F 6010""" +
-                    
-                    # Use the DUP opocode for this account
-                    hex(dup_opcode)[2:] +
-
-                    # Save each stack value into different keys in storage
-                    """6000 55 6001 55 6002 55 6003 55 6004 55 6005 55
-                       6006 55 6007 55 6008 55 6009 55 600A 55 600B 55    
-                       600C 55 600D 55 600E 55 600F 55 6010 55""")
-                )
-        
+            code=(
+                # Push 0 - 16 onto the stack
+                """0x6000 6001 6002 6003 6004 6005 6006 6007 6008 6009
+                         600A 600B 600C 600D 600E 600F 6010"""
+                +
+                # Use the DUP opcode for this account
+                hex(dup_opcode)[2:]
+                +
+                # Save each stack value into different keys in storage
+                """6000 55 6001 55 6002 55 6003 55 6004 55 6005 55
+                       6006 55 6007 55 6008 55 6009 55 600A 55 600B 55
+                       600C 55 600D 55 600E 55 600F 55 6010 55"""
+            )
+        )
 
         """
         Also we are sending one transaction to each account.
@@ -71,7 +70,7 @@ def test_dup(fork):
             gas_limit=500000,
             gas_price=10,
             protected=False,
-            data=""
+            data="",
         )
         txs.append(tx)
 
@@ -102,8 +101,6 @@ def test_dup(fork):
         s = dict(zip(range(1, 16), range(16, 0, -1)))
         s[0] = 16 - i
 
-        post[account] = Account(
-                storage=s
-            )
+        post[account] = Account(storage=s)
 
     yield StateTest(env, pre, post, txs)

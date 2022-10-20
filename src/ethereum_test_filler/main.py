@@ -80,18 +80,25 @@ class Filler:
 
         fillers = []
         for module_name in find_modules(os.path.abspath(pkg_path)):
-            if self.options.test_module and self.options.test_module not in module_name:
+            if (
+                self.options.test_module
+                and self.options.test_module not in module_name
+            ):
                 continue
             self.log.debug(f"searching {module_name} for fillers")
             module = importlib.import_module(pkg_name + "." + module_name)
             for obj in module.__dict__.values():
                 if callable(obj):
                     if hasattr(obj, "__filler_metadata__"):
-                        if (self.options.test_case and
-                                self.options.test_case not in
-                                obj.__filler_metadata__["name"]):
+                        if (
+                            self.options.test_case
+                            and self.options.test_case
+                            not in obj.__filler_metadata__["name"]
+                        ):
                             continue
-                        obj.__filler_metadata__["module_path"] = module_name.split(".")
+                        obj.__filler_metadata__[
+                            "module_path"
+                        ] = module_name.split(".")
                         fillers.append(obj)
 
         self.log.info(f"collected {len(fillers)} fillers")
@@ -100,8 +107,10 @@ class Filler:
 
         for filler in fillers:
             name = filler.__filler_metadata__["name"]
-            output_dir = os.path.join(self.options.output,
-                            *(filler.__filler_metadata__["module_path"]))
+            output_dir = os.path.join(
+                self.options.output,
+                *(filler.__filler_metadata__["module_path"]),
+            )
             os.makedirs(output_dir, exist_ok=True)
             path = os.path.join(output_dir, f"{name}.json")
 
