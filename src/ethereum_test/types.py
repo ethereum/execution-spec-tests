@@ -56,6 +56,11 @@ class Storage:
         """Returns number of elements in the storage"""
         return len(self.data)
 
+    def __contains__(self, key: Union[str, int]) -> bool:
+        """Checks for an item in the storage"""
+        key = Storage.parse_key_value(key)
+        return key in self.data
+
     def __getitem__(self, key: Union[str, int]) -> int:
         """Returns an item from the storage"""
         key = Storage.parse_key_value(key)
@@ -434,7 +439,7 @@ class JSONEncoder(json.JSONEncoder):
                 header["hash"] = obj.hash
             return header
         elif isinstance(obj, Fixture):
-            return {
+            f = {
                 "_info": {},
                 "blocks": list(map(lambda x: {"rlp": x}, obj.blocks)),
                 "genesisBlockHeader": self.default(obj.genesis),
@@ -446,5 +451,8 @@ class JSONEncoder(json.JSONEncoder):
                 ),
                 "sealEngine": obj.seal_engine,
             }
+            if f["postState"] is None:
+                del f["postState"]
+            return f
         else:
             return super().default(obj)

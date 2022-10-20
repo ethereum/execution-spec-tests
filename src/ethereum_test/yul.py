@@ -23,7 +23,7 @@ class Yul(Code):
     """
 
     source: str
-    compiled: Optional[bytes]
+    compiled: Optional[bytes] = None
 
     def __init__(self, source: str):
         self.source = source
