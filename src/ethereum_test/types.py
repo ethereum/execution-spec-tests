@@ -5,8 +5,9 @@ import json
 from dataclasses import dataclass
 from typing import Any, List, Mapping, Optional, Tuple, Type, Union
 
-from .common import AddrAA, TestPrivateKey
 from .code import Code, code_to_hex
+from .common import AddrAA, TestPrivateKey
+
 
 class Storage:
     """

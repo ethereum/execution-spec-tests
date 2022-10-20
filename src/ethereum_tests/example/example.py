@@ -6,11 +6,12 @@ from ethereum_test import (
     Account,
     Environment,
     StateTest,
+    TestAddress,
     Transaction,
     Yul,
-    TestAddress,
     test_from,
 )
+
 
 @test_from("berlin")
 def test_yul(fork):

@@ -2,10 +2,10 @@
 Yul frontend
 """
 
-from .code import Code
-
-import subprocess
 from pathlib import Path
+from subprocess import PIPE, run
+
+from .code import Code
 
 SOLC: Path = Path("solc")
 SOLC_ARGS = [
@@ -32,11 +32,11 @@ class Yul(Code):
         """
         if not self.compiled:
 
-            result = subprocess.run(
+            result = run(
                 SOLC_ARGS,
                 input=str.encode(self.source),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                stdout=PIPE,
+                stderr=PIPE,
             )
 
             if result.returncode != 0:

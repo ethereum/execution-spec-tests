@@ -5,6 +5,7 @@ assembler/compiler backends.
 from re import sub
 from typing import Union
 
+
 class Code(str):
     """
     Generic code object.

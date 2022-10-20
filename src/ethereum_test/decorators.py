@@ -1,12 +1,13 @@
 """
 Decorators for expanding filler definitions.
 """
-from typing import Any, Callable, Generator, Mapping, cast
+from typing import Any, Callable, Mapping, cast
 
 from .fill import fill_state_test
 from .fork import forks_from, forks_from_until
 from .state_test import StateTestSpec
 from .types import Fixture
+
 
 def test_from_until(
     fork_from: str,

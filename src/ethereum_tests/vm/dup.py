@@ -11,6 +11,7 @@ from ethereum_test import (
     to_address,
 )
 
+
 @test_from("istanbul")
 def test_dup(fork):
     """
