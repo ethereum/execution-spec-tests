@@ -9,7 +9,7 @@ jobs:
       matrix:
         python: ['3.10']
         golang: [1.17]
-        solc: ['0.8.6']
+        solc: ['0.8.17']
     steps:
       - uses: actions/checkout@v2
         with:
