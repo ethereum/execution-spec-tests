@@ -87,13 +87,15 @@ def test_yul():
         + "\n}"
     )
 
-    expected_code = bytes()
+    expected_bytecode = bytes()
     for i in range(5000):
         if i < 256:
             b = bytes.fromhex("60") + i.to_bytes(1, "big")
         else:
             b = bytes.fromhex("61") + i.to_bytes(2, "big")
-        expected_code += b * 2
-        expected_code += bytes.fromhex("55")
+        expected_bytecode += b
+        # solc 0.8.7+ uses DUP1 here to optimize
+        expected_bytecode += bytes.fromhex("80")
+        expected_bytecode += bytes.fromhex("55")
 
-    assert Yul(long_code).assemble() == expected_code
+    assert Yul(long_code).assemble() == expected_bytecode
