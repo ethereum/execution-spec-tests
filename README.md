@@ -42,29 +42,60 @@ Contains all the Ethereum consensus tests available in this repository.
 
 ## Writing Tests
 
+### Purpose of test specs in this repository
+
+The goal of the test specs included in this repository is to generate test vectors that can be consumed by any Execution client, and to verify that all of the clients agree on the same output after executing each test.
+
+Consensus is the most important aspect of any blockchain network, therefore, anything that modifies the state of the blockchain must be tested by at least one test in this repository.
+
+The tests focus on the EVM execution, therefore before being able to properly write a test, it is important to understand what the Ethereum Virtual Machine is and how it works.
+
+
+### Types of tests
+
+At the moment there are only two types of tests that can be produced by each test spec:
+
+- State Tests
+- Blockchain Tests
+
+The State tests span a single block and, ideally, a single transaction.
+
+Examples of State tests:
+
+- Test a single opcode behavior
+- Verify opcode gas costs
+- Test interactions between multiple smart contracts
+- Test creation of smart contracts
+
+The Blockchain tests span multiple blocks which can contain or not transactions, and mainly focus on the block to block effects to the Ethereum state.
+
+- Verify system-level operations such as coinbase balance updates or withdrawals
+- Verify fork transitions
+
 ### Adding a New Test
 
 All currently implemented tests can be found in the `src/ethereum_tests`
 directory, which is composed of many subdirectories, and each one represents a
 different test category.
 
-Source files included in each category contain one or multiple test functions,
-and each can in turn create one or many test vectors.
+Source files included in each category contain one or multiple test specs
+represented as python functions, and each can in turn produce one or many test
+vectors.
 
 A new test can be added by either:
 
-- Adding a new `test_` function to an existing file in any of the existing
-  category subdirectories within `src/ethereum_tests`.
+- Adding a new `test_` python function to an existing file in any of the
+  existing category subdirectories within `src/ethereum_tests`.
 - Creating a new source file in an existing category, and populating it with
   the new test function(s).
 - Creating an entirely new category by adding a subdirectory in
   `src/ethereum_tests` with the appropriate source files and test functions.
 
-### Test Generator Functions
+### Test Spec Generator Functions
 
-Every test function is a generator which can perform a single or multiple
-`yield` operations during its runtime to each time yield a single `StateTest` 
-object.
+Every test spec is a python generator function which can perform a single or
+multiple `yield` operations during its runtime to each time yield a single
+`StateTest`/`BlockchainTest` object.
 
 The test vector's generator function _must_ be decorated by only one of the
 following decorators:
