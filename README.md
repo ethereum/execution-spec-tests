@@ -5,7 +5,7 @@ Ethereum tests.
 
 ## Quick Start
 
-Relies on Python `3.10.0`, `geth` `v1.10.13`, `solc` `v0.8.5` or later. 
+Relies on Python `3.10.0`, `geth` `v1.10.13`, `solc` `v0.8.17` or later. 
 
 ```console
 $ git clone https://github.com/lightclient/testing-tools
@@ -123,6 +123,17 @@ following attributes:
 - post: Post-State containing the information of all Ethereum accounts that are
     created or modified after all transactions are executed.
 - txs: All transactions to be executed during the test vector runtime.
+
+### `BlockchainTest` Object
+
+The `BlockchainTest` object represents a single test vector that evaluates the
+Ethereum VM by attempting to append multiple blocks to the chain:
+
+- pre: Pre-State containing the information of all Ethereum accounts that exist
+    before any block is executed.
+- post: Post-State containing the information of all Ethereum accounts that are
+    created or modified after all blocks are executed.
+- blocks: All blocks to be appended to the blockchain during the test.
 
 
 ### Pre/Post State of the Test

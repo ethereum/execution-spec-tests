@@ -2,7 +2,8 @@
 Useful types for generating Ethereum tests.
 """
 import json
-from dataclasses import dataclass
+from copy import copy, deepcopy
+from dataclasses import dataclass, field
 from typing import Any, Dict, List, Mapping, Optional, Tuple, Type, Union
 
 from .code import Code, code_to_hex
@@ -202,17 +203,34 @@ ACCOUNT_DEFAULTS = Account(nonce=0, balance=0, code=bytes(), storage={})
 @dataclass
 class Environment:
     """
-    Context in which a test will be executed.
+    Structure used to keep track of the context in which a block
+    must be executed.
     """
 
     coinbase: str = "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"
-    difficulty: int = 0x20000
-    gas_limit: int = 10000000
+    gas_limit: int = 100000000000000000
     number: int = 1
     timestamp: int = 1000
-    previous: str = "0x5e20a0453cecd065ea59c37ac63e079ee08998b6045136a8ce6635c7912ec0b6"  # noqa: E501
-    extra_data: str = "0x"
+    difficulty: Optional[int] = None
+    prev_randao: Optional[int] = None
+    block_hashes: Dict[int, str] = field(default_factory=dict)
     base_fee: Optional[int] = None
+    parent_difficulty: Optional[int] = None
+    parent_timestamp: Optional[int] = None
+    parent_base_fee: Optional[int] = None
+    parent_gas_used: Optional[int] = None
+    parent_gas_limit: Optional[int] = None
+    parent_uncle_hash: Optional[str] = None
+
+    def parent_hash(self) -> str:
+        """
+        Obtjains the latest hash according to the highest block number in
+        `block_hashes`.
+        """
+        if len(self.block_hashes) == 0:
+            return "0x0000000000000000000000000000000000000000000000000000000000000000"  # noqa: E501
+        last_index = max(self.block_hashes.keys())
+        return self.block_hashes[last_index]
 
 
 @dataclass
@@ -221,7 +239,10 @@ class Transaction:
     Generic object that can represent all Ethereum transaction types.
     """
 
-    ty: int
+    ty: Optional[int] = None
+    """
+    Transaction type value.
+    """
     chain_id: int = 1
     nonce: int = 0
     to: Optional[str] = AddrAA
@@ -265,11 +286,23 @@ class Transaction:
         if self.signature is None and self.secret_key is None:
             self.secret_key = TestPrivateKey
 
+        if self.ty is None:
+            # Try to deduce transaction type from included fields
+            if (
+                self.max_fee_per_gas is not None
+                or self.max_priority_fee_per_gas is not None
+            ):
+                self.ty = 2
+            elif self.access_list is not None:
+                self.ty = 1
+            else:
+                self.ty = 0
+
 
 @dataclass
-class Header:
+class FixtureHeader:
     """
-    Ethereum header object.
+    Representation of an Ethereum header within a test Fixture.
     """
 
     parent_hash: str
@@ -289,6 +322,49 @@ class Header:
     nonce: str
     base_fee: Optional[int]
     hash: Optional[str] = None
+
+    @staticmethod
+    def from_dict(source: Dict[str, str]) -> "FixtureHeader":
+        """
+        Creates a FixedHeader object from a Dict.
+        """
+        return FixtureHeader(
+            parent_hash=source["parentHash"],
+            ommers_hash=source["sha3Uncles"]
+            if "sha3Uncles" in source
+            else "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
+            coinbase=source["miner"],
+            state_root=source["stateRoot"],
+            transactions_root=source["transactionsRoot"],
+            receipt_root=source["receiptsRoot"],
+            bloom=source["logsBloom"],
+            # Numbers
+            difficulty=int(source["difficulty"][2:], 16)
+            if source["difficulty"].startswith("0x")
+            else int(source["difficulty"]),
+            number=int(source["number"][2:], 16)
+            if source["number"].startswith("0x")
+            else int(source["number"]),
+            gas_limit=int(source["gasLimit"][2:], 16)
+            if source["gasLimit"].startswith("0x")
+            else int(source["gasLimit"]),
+            gas_used=int(source["gasUsed"][2:], 16)
+            if source["gasUsed"].startswith("0x")
+            else int(source["gasUsed"]),
+            timestamp=int(source["timestamp"][2:], 16)
+            if source["timestamp"].startswith("0x")
+            else int(source["timestamp"]),
+            extra_data=source["extraData"],
+            mix_digest=source["mixDigest"],
+            nonce=source["nonce"],
+            base_fee=int(source["baseFeePerGas"][2:], 16)
+            if "baseFeePerGas" in source
+            and source["baseFeePerGas"].startswith("0x")
+            else int(source["baseFeePerGas"])
+            if "baseFeePerGas" in source
+            else None,
+            hash=source["hash"] if "hash" in source else None,
+        )
 
     def to_geth_dict(self) -> Mapping[str, Any]:
         """
@@ -318,14 +394,137 @@ class Header:
         return header
 
 
+@dataclass(kw_only=True)
+class Header:
+    """
+    Header type used to describe block header properties in test specs.
+    """
+
+    coinbase: Optional[str] = None
+    parent_hash: Optional[str] = None
+    ommers_hash: Optional[str] = None
+    state_root: Optional[str] = None
+    transactions_root: Optional[str] = None
+    receipt_root: Optional[str] = None
+    bloom: Optional[str] = None
+    difficulty: Optional[int] = None
+    number: Optional[int] = None
+    gas_limit: Optional[int] = None
+    gas_used: Optional[int] = None
+    timestamp: Optional[int] = None
+    extra_data: Optional[str] = None
+    mix_digest: Optional[str] = None
+    nonce: Optional[str] = None
+    base_fee: Optional[int] = None
+    hash: Optional[str] = None
+
+
+@dataclass(kw_only=True)
+class Block(Header):
+    """
+    Block type used to describe block properties in test specs
+    """
+
+    rlp: Optional[str] = None
+    """
+    If set, blockchain test will skip generating the block using
+    `evm_block_builder`, and will pass this value directly to the Fixture.
+
+    Only meant to be used to simulate blocks with bad formats, and therefore
+    requires the block to produce an exception.
+    """
+    rlp_modifier: Optional[Header] = None
+    """
+    An RLP modifying header which values would be used to override the ones
+    returned by the  `evm_transition_tool`.
+    """
+    exception: Optional[str] = None
+    """
+    If set, the block is expected to be rejected by the client.
+    """
+    txs: Optional[List[Transaction]] = None
+    """
+    List of transactions included in the block.
+    """
+    uncles: Optional[List[Header]] = None
+    """
+    List of uncle headers included in the block.
+    """
+
+    def set_environment(self, env: Environment) -> Environment:
+        """
+        Creates a copy of the environment with the characteristics of this
+        specific block.
+        """
+        new_env = copy(env)
+
+        """
+        Values that need to be set in the environment and are `None` for
+        this block need to be set to their defaults.
+        """
+        environment_default = Environment()
+        new_env.difficulty = self.difficulty
+        new_env.coinbase = (
+            self.coinbase
+            if self.coinbase is not None
+            else environment_default.coinbase
+        )
+        new_env.gas_limit = (
+            self.gas_limit
+            if self.gas_limit is not None
+            else environment_default.gas_limit
+        )
+        new_env.base_fee = self.base_fee
+
+        """
+        These values are required, but they depend on the previous environment,
+        so they can be calculated here.
+        """
+        if self.number is not None:
+            new_env.number = self.number
+        else:
+            # calculate the next block number for the environment
+            if len(new_env.block_hashes) == 0:
+                new_env.number = 1
+            else:
+                new_env.number = max(new_env.block_hashes.keys()) + 1
+
+        if self.timestamp is not None:
+            new_env.timestamp = self.timestamp
+        else:
+            assert new_env.parent_timestamp is not None
+            new_env.timestamp = new_env.parent_timestamp + 12
+
+        return new_env
+
+    def copy_with_rlp(self, rlp) -> "Block":
+        """
+        Creates a copy of the block and adds the specified RLP.
+        """
+        new_block = deepcopy(self)
+        new_block.rlp = rlp
+        return new_block
+
+
+@dataclass(kw_only=True)
+class FixtureBlock:
+    """
+    Representation of an Ethereum block within a test Fixture.
+    """
+
+    rlp: str
+    block_header: Optional[FixtureHeader] = None
+    expected_exception: Optional[str] = None
+
+
 @dataclass
 class Fixture:
     """
     Cross-client compatible Ethereum test fixture.
     """
 
-    blocks: List[str]
-    genesis: Header
+    blocks: List[FixtureBlock]
+    genesis: FixtureHeader
     head: str
     fork: str
     pre_state: Mapping[str, Account]
@@ -398,22 +597,44 @@ class JSONEncoder(json.JSONEncoder):
 
             return tx
         elif isinstance(obj, Environment):
-            return {
+            env = {
                 "currentCoinbase": obj.coinbase,
-                "currentDifficulty": hex(obj.difficulty),
-                "parentDifficulty": None,
                 "currentGasLimit": str(obj.gas_limit),
                 "currentNumber": str(obj.number),
                 "currentTimestamp": str(obj.timestamp),
-                "parentTimstamp": None,
-                "blockHashes": {},
+                "currentRandom": str(obj.prev_randao)
+                if obj.prev_randao is not None
+                else None,
+                "currentDifficulty": str(obj.difficulty)
+                if obj.difficulty is not None
+                else None,
+                "parentDifficulty": str(obj.parent_difficulty)
+                if obj.parent_difficulty is not None
+                else None,
+                "parentBaseFee": str(obj.parent_base_fee)
+                if obj.parent_base_fee is not None
+                else None,
+                "parentGasUsed": str(obj.parent_gas_used)
+                if obj.parent_gas_used is not None
+                else None,
+                "parentGasLimit": str(obj.parent_gas_limit)
+                if obj.parent_gas_limit is not None
+                else None,
+                "parentTimstamp": str(obj.parent_timestamp)
+                if obj.parent_timestamp is not None
+                else None,
+                "blockHashes": {
+                    str(k): v for (k, v) in obj.block_hashes.items()
+                },
                 "ommers": [],
+                "parentUncleHash": obj.parent_uncle_hash,
                 "currentBaseFee": str(obj.base_fee)
                 if obj.base_fee is not None
                 else None,
-                "parentUncleHash": None,
             }
-        elif isinstance(obj, Header):
+
+            return {k: v for (k, v) in env.items() if v is not None}
+        elif isinstance(obj, FixtureHeader):
             header = {
                 "parentHash": obj.parent_hash,
                 "uncleHash": obj.ommers_hash,
@@ -438,10 +659,22 @@ class JSONEncoder(json.JSONEncoder):
             if obj.hash is not None:
                 header["hash"] = obj.hash
             return header
+        elif isinstance(obj, FixtureBlock):
+            b = {
+                "rlp": obj.rlp,
+            }
+            if obj.block_header is not None:
+                b["blockHeader"] = json.loads(
+                    json.dumps(obj.block_header, cls=JSONEncoder)
+                )
+            return b
         elif isinstance(obj, Fixture):
             f = {
                 "_info": {},
-                "blocks": list(map(lambda x: {"rlp": x}, obj.blocks)),
+                "blocks": [
+                    json.loads(json.dumps(b, cls=JSONEncoder))
+                    for b in obj.blocks
+                ],
                 "genesisBlockHeader": self.default(obj.genesis),
                 "lastblockhash": obj.head,
                 "network": obj.fork,

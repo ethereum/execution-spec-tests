@@ -50,9 +50,10 @@ class TransitionTool:
             "env": env,
         }
 
+        encoded_input = str.encode(json.dumps(stdin))
         result = subprocess.run(
             args,
-            input=str.encode(json.dumps(stdin)),
+            input=encoded_input,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
@@ -81,6 +82,8 @@ class TransitionTool:
             if env.base_fee is not None
             else None,
         }
+        if env["currentBaseFee"] is None:
+            del env["currentBaseFee"]
 
         (_, result) = self.evaluate(alloc, [], env, fork)
         return result.get("stateRoot")
