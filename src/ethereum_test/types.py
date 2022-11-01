@@ -534,7 +534,7 @@ class Block(Header):
         else:
             # calculate the next block number for the environment
             if len(new_env.block_hashes) == 0:
-                new_env.number = 1
+                new_env.number = 0
             else:
                 new_env.number = max(new_env.block_hashes.keys()) + 1
 
