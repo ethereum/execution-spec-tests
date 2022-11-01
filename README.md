@@ -1,4 +1,4 @@
-# Testing Tools
+# Execution Spec Tests
 
 This repository provides tools and libraries for generating cross-client
 Ethereum tests.
@@ -8,11 +8,28 @@ Ethereum tests.
 Relies on Python `3.10.0`, `geth` `v1.10.13`, `solc` `v0.8.17` or later. 
 
 ```console
-$ git clone https://github.com/lightclient/testing-tools
-$ cd testing-tools
+$ git clone https://github.com/ethereum/execution-spec-tests
+$ cd execution-spec-tests
 $ pip install -e .
 $ tf --output="fixtures"
 ```
+
+It is recommended to use a virtual environment to run the tests:
+```console
+$ git clone https://github.com/ethereum/execution-spec-tests
+$ cd execution-spec-tests
+$ python -m venv ./venv/
+$ source ./venv/bin/activate
+$ pip install -e .
+$ tf --output="fixtures"
+```
+
+Go-ethereum's `evm` command must be accessible in the `PATH`
+to be able to successfully produce the tests. See
+https://github.com/ethereum/go-ethereum#building-the-source for information on
+how to build go-ethereum utilities.
+
+`solc` compiler must also be accessible in the `PATH`.
 
 ## Overview 
 
