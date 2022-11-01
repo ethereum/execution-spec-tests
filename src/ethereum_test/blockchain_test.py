@@ -96,16 +96,18 @@ class BlockchainTest(BaseTest):
         returned are the same as passed as parameters.
         Raises exception on invalid test behavior.
 
-        Returns:
-            fixture_block (FixtureBlock): Block to be appended to the fixture
-            next_env (Environment): Environment for the next block to produce.
+        Returns
+        -------
+            FixtureBlock: Block to be appended to the fixture.
+            Environment: Environment for the next block to produce.
                 If the produced block is invalid, this is exactly the same
                 environment as the one passed as parameter.
-            next_alloc (Mapping[str, Any]): Allocation for the next block to
-                produce. If the produced block is invalid, this is exactly the
-                same allocation as the one passed as parameter.
-            head_hash (str): Hash of the head of the chain, only updated if the
-                produced block is not invalid.
+            Mapping[str, Any]: Allocation for the next block to produce.
+                If the produced block is invalid, this is exactly the same
+                allocation as the one passed as parameter.
+            str: Hash of the head of the chain, only updated if the produced
+                block is not invalid.
+
         """
         if block.rlp and block.exception is not None:
             raise Exception(
@@ -120,7 +122,7 @@ class BlockchainTest(BaseTest):
             # Set the environment according to the block to execute.
             env = block.set_environment(previous_env)
 
-            with tempfile.NamedTemporaryFile() as txs_rlp_tmp_file:
+            with tempfile.NamedTemporaryFile() as txs_rlp_file:
                 (next_alloc, result) = t8n.evaluate(
                     previous_alloc,
                     json.loads(
@@ -133,11 +135,11 @@ class BlockchainTest(BaseTest):
                     else [],
                     json.loads(json.dumps(env, cls=JSONEncoder)),
                     fork,
-                    txsPath=txs_rlp_tmp_file.name,
+                    txsPath=txs_rlp_file.name,
                     chain_id=chain_id,
                     reward=reward,
                 )
-                txs_rlp = txs_rlp_tmp_file.read().decode().strip('"')
+                txs_rlp = txs_rlp_file.read().decode().strip('"')
 
             rejected_txs = verify_transactions(block.txs, result)
             if len(rejected_txs) > 0:
@@ -166,8 +168,8 @@ class BlockchainTest(BaseTest):
             )
 
             if block.rlp_modifier is not None:
-                # Modify any parameter specified in the `rlp_modifier` in order
-                # to produce a deliberately modified header that migh
+                # Modify any parameter specified in the `rlp_modifier` after
+                # transition tool processing.
                 header = header.join(block.rlp_modifier)
 
             rlp, header.hash = b11r.build(
