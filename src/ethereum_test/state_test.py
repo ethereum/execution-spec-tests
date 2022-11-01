@@ -17,6 +17,7 @@ from .base_test import (
     verify_transactions,
 )
 from .common import EmptyTrieRoot
+from .fork import is_london
 from .types import (
     Account,
     Environment,
@@ -89,9 +90,12 @@ class StateTest(BaseTest):
         Performs checks against the expected behavior of the test.
         Raises exception on invalid test behavior.
         """
+        env = self.env.apply_new_parent(genesis)
+        if env.base_fee is None and is_london(fork):
+            env.base_fee = 7
         pre = json.loads(json.dumps(self.pre, cls=JSONEncoder))
         txs = json.loads(json.dumps(self.txs, cls=JSONEncoder))
-        env = json.loads(json.dumps(self.env, cls=JSONEncoder))
+        env = json.loads(json.dumps(env, cls=JSONEncoder))
 
         with tempfile.TemporaryDirectory() as directory:
             txsRlp = os.path.join(directory, "txs.rlp")

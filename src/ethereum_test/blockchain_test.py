@@ -3,10 +3,9 @@ Blockchain test filler.
 """
 
 import json
-import os
 import tempfile
 from dataclasses import dataclass
-from typing import Callable, Generator, List, Mapping, Tuple
+from typing import Any, Callable, Generator, List, Mapping, Tuple
 
 from ethereum_test.fork import is_london
 from evm_block_builder import BlockBuilder
@@ -79,6 +78,134 @@ class BlockchainTest(BaseTest):
 
         return genesis
 
+    def make_block(
+        self,
+        b11r: BlockBuilder,
+        t8n: TransitionTool,
+        fork: str,
+        block: Block,
+        previous_env: Environment,
+        previous_alloc: Mapping[str, Any],
+        previous_head: str,
+        chain_id=1,
+        reward=0,
+    ) -> Tuple[FixtureBlock, Environment, Mapping[str, Any], str]:
+        """
+        Produces a block based on the previous environment and allocation.
+        If the block is an invalid block, the environment and allocation
+        returned are the same as passed as parameters.
+        Raises exception on invalid test behavior.
+
+        Returns:
+            fixture_block (FixtureBlock): Block to be appended to the fixture
+            next_env (Environment): Environment for the next block to produce.
+                If the produced block is invalid, this is exactly the same
+                environment as the one passed as parameter.
+            next_alloc (Mapping[str, Any]): Allocation for the next block to
+                produce. If the produced block is invalid, this is exactly the
+                same allocation as the one passed as parameter.
+            head_hash (str): Hash of the head of the chain, only updated if the
+                produced block is not invalid.
+        """
+        if block.rlp and block.exception is not None:
+            raise Exception(
+                "test correctness: post-state cannot be verified if the "
+                + "block's rlp is supplied and the block is not supposed "
+                + "to produce an exception"
+            )
+
+        if block.rlp is None:
+            # This is the most common case, the RLP needs to be constructed
+            # based on the transactions to be included in the block.
+            # Set the environment according to the block to execute.
+            env = block.set_environment(previous_env)
+
+            with tempfile.NamedTemporaryFile() as txs_rlp_tmp_file:
+                (next_alloc, result) = t8n.evaluate(
+                    previous_alloc,
+                    json.loads(
+                        json.dumps(
+                            block.txs,
+                            cls=JSONEncoder,
+                        )
+                    )
+                    if block.txs is not None
+                    else [],
+                    json.loads(json.dumps(env, cls=JSONEncoder)),
+                    fork,
+                    txsPath=txs_rlp_tmp_file.name,
+                    chain_id=chain_id,
+                    reward=reward,
+                )
+                txs_rlp = txs_rlp_tmp_file.read().decode().strip('"')
+
+            rejected_txs = verify_transactions(block.txs, result)
+            if len(rejected_txs) > 0:
+                # Produced block contains an invalid transaction
+                txs_rlp = remove_transactions_from_rlp(txs_rlp, rejected_txs)
+
+            header = FixtureHeader.from_dict(
+                result
+                | {
+                    "parentHash": env.parent_hash(),
+                    "miner": env.coinbase,
+                    "transactionsRoot": result.get("txRoot"),
+                    "difficulty": result.get("currentDifficulty"),
+                    "number": str(env.number),
+                    "gasLimit": str(env.gas_limit),
+                    "timestamp": str(env.timestamp),
+                    "extraData": block.extra_data
+                    if block.extra_data is not None
+                    and len(block.extra_data) != 0
+                    else "0x",
+                    "sha3Uncles": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
+                    "mixDigest": "0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
+                    "nonce": "0x0000000000000000",
+                    "baseFeePerGas": result.get("currentBaseFee"),
+                }
+            )
+
+            if block.rlp_modifier is not None:
+                # Modify any parameter specified in the `rlp_modifier` in order
+                # to produce a deliberately modified header that migh
+                header = header.add_modifier(block.rlp_modifier)
+
+            rlp, header.hash = b11r.build(
+                header.to_geth_dict(), txs_rlp, [], None
+            )
+
+            if block.exception is None:
+                # Return environment and allocation of the following block
+                return (
+                    FixtureBlock(
+                        rlp=rlp,
+                        block_header=header,
+                    ),
+                    env.apply_new_parent(header),
+                    next_alloc,
+                    header.hash,
+                )
+            else:
+                return (
+                    FixtureBlock(
+                        rlp=rlp,
+                        expected_exception=block.exception,
+                    ),
+                    previous_env,
+                    previous_alloc,
+                    previous_head,
+                )
+        else:
+            return (
+                FixtureBlock(
+                    rlp=block.rlp,
+                    expected_exception=block.exception,
+                ),
+                previous_env,
+                previous_alloc,
+                previous_head,
+            )
+
     def make_blocks(
         self,
         b11r: BlockBuilder,
@@ -93,133 +220,31 @@ class BlockchainTest(BaseTest):
         Performs checks against the expected behavior of the test.
         Raises exception on invalid test behavior.
         """
-        prev_alloc = json.loads(json.dumps(self.pre, cls=JSONEncoder))
-        env = Environment(
-            parent_difficulty=genesis.difficulty,
-            parent_timestamp=genesis.timestamp,
-            parent_base_fee=genesis.base_fee,
-            parent_gas_used=genesis.gas_used,
-            parent_gas_limit=genesis.gas_limit,
-            parent_uncle_hash=genesis.ommers_hash,
-            block_hashes={
-                genesis.number: genesis.hash
-                if genesis.hash is not None
-                else "0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
-            },
+        alloc: Mapping[str, Any] = json.loads(
+            json.dumps(self.pre, cls=JSONEncoder)
         )
+        env = Environment.from_parent_header(genesis)
         blocks: List[FixtureBlock] = []
-        # head_number = self.env.number
-        head = genesis.hash if genesis.hash is not None else ""
+        head = (
+            genesis.hash
+            if genesis.hash is not None
+            else "0x0000000000000000000000000000000000000000000000000000000000000000"  # noqa: E501
+        )
         for block in self.blocks:
-            current_alloc = None
-            rlp = None
-            if block.rlp and block.exception is not None:
-                raise Exception(
-                    "test correctness: post-state cannot be verified if the "
-                    + "block's rlp is supplied and the block is not supposed "
-                    + "to produce an exception"
-                )
+            fixture_block, env, alloc, head = self.make_block(
+                b11r=b11r,
+                t8n=t8n,
+                fork=fork,
+                block=block,
+                previous_env=env,
+                previous_alloc=alloc,
+                previous_head=head,
+                chain_id=chain_id,
+                reward=reward,
+            )
+            blocks.append(fixture_block)
 
-            if block.rlp is None:
-                """
-                This is the most common case, the RLP needs to be constructed
-                based on the transactions to be included in the block.
-                """
-                txs = json.loads(
-                    json.dumps(
-                        block.txs if block.txs is not None else [],
-                        cls=JSONEncoder,
-                    )
-                )
-                """
-                Set the environment according to the block to execute.
-                """
-                env = block.set_environment(env)
-
-                with tempfile.TemporaryDirectory() as directory:
-                    txsRlp = os.path.join(directory, "txs.rlp")
-                    (current_alloc, result) = t8n.evaluate(
-                        prev_alloc,
-                        txs,
-                        json.loads(json.dumps(env, cls=JSONEncoder)),
-                        fork,
-                        txsPath=txsRlp,
-                        chain_id=chain_id,
-                        reward=reward,
-                    )
-                    with open(txsRlp, "r") as file:
-                        txs = file.read().strip('"')
-
-                rejected_txs = verify_transactions(block.txs, result)
-                if len(rejected_txs) > 0:
-                    txs = remove_transactions_from_rlp(txs, rejected_txs)
-
-                header = FixtureHeader.from_dict(
-                    result
-                    | {
-                        "parentHash": env.parent_hash(),
-                        "miner": env.coinbase,
-                        "transactionsRoot": result.get("txRoot"),
-                        "difficulty": result.get("currentDifficulty"),
-                        "number": str(env.number),
-                        "gasLimit": str(env.gas_limit),
-                        "timestamp": str(env.timestamp),
-                        "extraData": block.extra_data
-                        if block.extra_data is not None
-                        and len(block.extra_data) != 0
-                        else "0x",
-                        "sha3Uncles": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
-                        "mixDigest": "0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
-                        "nonce": "0x0000000000000000",
-                        "baseFeePerGas": result.get("currentBaseFee"),
-                    }
-                )
-
-                if block.rlp_modifier is not None:
-                    header |= json.loads(
-                        json.dumps(block.rlp_modifier, cls=JSONEncoder)
-                    )
-
-                rlp, header.hash = b11r.build(
-                    header.to_geth_dict(), txs, [], None
-                )
-
-                if block.exception is None:
-                    head = header.hash
-
-                    """
-                    Update environment for the following block
-                    """
-                    env.parent_base_fee = header.base_fee
-                    env.parent_difficulty = header.difficulty
-                    env.parent_timestamp = header.timestamp
-                    env.parent_gas_used = header.gas_used
-                    env.parent_gas_limit = header.gas_limit
-                    env.parent_uncle_hash = header.ommers_hash
-
-                    # Add hash to the list of previous hashes
-                    env.block_hashes[header.number] = header.hash
-
-                    # Update the allocation to the latest
-                    prev_alloc = current_alloc
-                    blocks.append(
-                        FixtureBlock(
-                            rlp=rlp,
-                            block_header=header,
-                            expected_exception=block.exception,
-                        )
-                    )
-            else:
-                rlp = block.rlp
-
-                blocks.append(
-                    FixtureBlock(
-                        rlp=rlp,
-                        expected_exception=block.exception,
-                    )
-                )
-
-        verify_post_alloc(self.post, prev_alloc)
+        verify_post_alloc(self.post, alloc)
 
         return (blocks, head)
 

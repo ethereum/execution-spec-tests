@@ -220,7 +220,26 @@ class Environment:
     parent_base_fee: Optional[int] = None
     parent_gas_used: Optional[int] = None
     parent_gas_limit: Optional[int] = None
-    parent_uncle_hash: Optional[str] = None
+    parent_ommers_hash: Optional[str] = None
+
+    @staticmethod
+    def from_parent_header(parent: "FixtureHeader") -> "Environment":
+        """
+        Instantiates a new environment with the provided header as parent.
+        """
+        return Environment(
+            parent_difficulty=parent.difficulty,
+            parent_timestamp=parent.timestamp,
+            parent_base_fee=parent.base_fee,
+            parent_gas_used=parent.gas_used,
+            parent_gas_limit=parent.gas_limit,
+            parent_ommers_hash=parent.ommers_hash,
+            block_hashes={
+                parent.number: parent.hash
+                if parent.hash is not None
+                else "0x0000000000000000000000000000000000000000000000000000000000000000"  # noqa: E501
+            },
+        )
 
     def parent_hash(self) -> str:
         """
@@ -231,6 +250,24 @@ class Environment:
             return "0x0000000000000000000000000000000000000000000000000000000000000000"  # noqa: E501
         last_index = max(self.block_hashes.keys())
         return self.block_hashes[last_index]
+
+    def apply_new_parent(self, new_parent: "FixtureHeader") -> "Environment":
+        """
+        Applies a header as parent to a copy of this environment.
+        """
+        new_environment = copy(self)
+        new_environment.parent_difficulty = new_parent.difficulty
+        new_environment.parent_timestamp = new_parent.timestamp
+        new_environment.parent_base_fee = new_parent.base_fee
+        new_environment.parent_gas_used = new_parent.gas_used
+        new_environment.parent_gas_limit = new_parent.gas_limit
+        new_environment.parent_ommers_hash = new_parent.ommers_hash
+        new_environment.block_hashes[new_parent.number] = (
+            new_parent.hash
+            if new_parent.hash is not None
+            else "0x0000000000000000000000000000000000000000000000000000000000000000"  # noqa: E501
+        )
+        return new_environment
 
 
 @dataclass
@@ -278,7 +315,7 @@ class Transaction:
             and self.max_fee_per_gas is None
             and self.max_priority_fee_per_gas is None
         ):
-            self.gas_price = 0
+            self.gas_price = 10
 
         if self.signature is not None and self.secret_key is not None:
             raise Exception("can't define both 'signature' and 'private_key'")
@@ -288,15 +325,37 @@ class Transaction:
 
         if self.ty is None:
             # Try to deduce transaction type from included fields
-            if (
-                self.max_fee_per_gas is not None
-                or self.max_priority_fee_per_gas is not None
-            ):
+            if self.max_fee_per_gas is not None:
                 self.ty = 2
             elif self.access_list is not None:
                 self.ty = 1
             else:
                 self.ty = 0
+
+
+@dataclass(kw_only=True)
+class Header:
+    """
+    Header type used to describe block header properties in test specs.
+    """
+
+    coinbase: Optional[str] = None
+    parent_hash: Optional[str] = None
+    ommers_hash: Optional[str] = None
+    state_root: Optional[str] = None
+    transactions_root: Optional[str] = None
+    receipt_root: Optional[str] = None
+    bloom: Optional[str] = None
+    difficulty: Optional[int] = None
+    number: Optional[int] = None
+    gas_limit: Optional[int] = None
+    gas_used: Optional[int] = None
+    timestamp: Optional[int] = None
+    extra_data: Optional[str] = None
+    mix_digest: Optional[str] = None
+    nonce: Optional[str] = None
+    base_fee: Optional[int] = None
+    hash: Optional[str] = None
 
 
 @dataclass
@@ -305,9 +364,9 @@ class FixtureHeader:
     Representation of an Ethereum header within a test Fixture.
     """
 
+    coinbase: str
     parent_hash: str
     ommers_hash: str
-    coinbase: str
     state_root: str
     transactions_root: str
     receipt_root: str
@@ -393,30 +452,17 @@ class FixtureHeader:
             header["baseFeePerGas"] = hex(self.base_fee)
         return header
 
-
-@dataclass(kw_only=True)
-class Header:
-    """
-    Header type used to describe block header properties in test specs.
-    """
-
-    coinbase: Optional[str] = None
-    parent_hash: Optional[str] = None
-    ommers_hash: Optional[str] = None
-    state_root: Optional[str] = None
-    transactions_root: Optional[str] = None
-    receipt_root: Optional[str] = None
-    bloom: Optional[str] = None
-    difficulty: Optional[int] = None
-    number: Optional[int] = None
-    gas_limit: Optional[int] = None
-    gas_used: Optional[int] = None
-    timestamp: Optional[int] = None
-    extra_data: Optional[str] = None
-    mix_digest: Optional[str] = None
-    nonce: Optional[str] = None
-    base_fee: Optional[int] = None
-    hash: Optional[str] = None
+    def add_modifier(self, modifier: Header) -> "FixtureHeader":
+        """
+        Produces a fixture header copy with the non-None values from
+        the modifier added.
+        """
+        new_fixture_header = copy(self)
+        for header_field in self.__dataclass_fields__:
+            value = getattr(modifier, header_field)
+            if value is not None:
+                setattr(new_fixture_header, header_field, value)
+        return new_fixture_header
 
 
 @dataclass(kw_only=True)
@@ -446,9 +492,9 @@ class Block(Header):
     """
     List of transactions included in the block.
     """
-    uncles: Optional[List[Header]] = None
+    ommers: Optional[List[Header]] = None
     """
-    List of uncle headers included in the block.
+    List of ommer headers included in the block.
     """
 
     def set_environment(self, env: Environment) -> Environment:
@@ -627,7 +673,7 @@ class JSONEncoder(json.JSONEncoder):
                     str(k): v for (k, v) in obj.block_hashes.items()
                 },
                 "ommers": [],
-                "parentUncleHash": obj.parent_uncle_hash,
+                "parentUncleHash": obj.parent_ommers_hash,
                 "currentBaseFee": str(obj.base_fee)
                 if obj.base_fee is not None
                 else None,
