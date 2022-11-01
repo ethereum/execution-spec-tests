@@ -22,8 +22,6 @@ def test_chain_id(fork):
         gas_limit=10000000000,
         number=1,
         timestamp=1000,
-        previous="0x92230ce5476ae868e98c7979cfc165a93f8b6ad1922acf2df62e340916efd49d",  # noqa: E501
-        extra_data="0x00",
     )
 
     pre = {
