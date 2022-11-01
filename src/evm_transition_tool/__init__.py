@@ -5,6 +5,7 @@ Python wrapper for the `evm t8n` tool.
 import json
 import subprocess
 from pathlib import Path
+from shutil import which
 from typing import Any, Optional, Tuple
 
 
@@ -13,7 +14,20 @@ class TransitionTool:
     Transition tool frontend.
     """
 
-    binary: Path = Path("evm")
+    binary: Path
+
+    def __init__(self, binary: Optional[Path] = None):
+        if binary is None:
+            which_path = which("evm")
+            if which_path is not None:
+                binary = Path(which_path)
+        if binary is None or not binary.exists():
+            raise Exception(
+                """`evm` binary executable is not accessible, please refer to
+                https://github.com/ethereum/go-ethereum on how to compile and
+                install the full suite of utilities including the `evm` tool"""
+            )
+        self.binary = binary
 
     def evaluate(
         self,
@@ -59,7 +73,7 @@ class TransitionTool:
         )
 
         if result.returncode != 0:
-            raise Exception("failed to evaluate")
+            raise Exception("failed to evaluate: " + result.stderr.decode())
 
         output = json.loads(result.stdout)
 
@@ -80,6 +94,8 @@ class TransitionTool:
             "currentTimestamp": "0",
             "currentBaseFee": hex(env.base_fee)
             if env.base_fee is not None
+            else "7"
+            if base_fee_required(fork)
             else None,
         }
         if env["currentBaseFee"] is None:
@@ -104,6 +120,12 @@ fork_map = {
     "london": "London",
     "arrow glacier": "ArrowGlacier",
 }
+
+fork_list = list(fork_map.keys())
+
+
+def base_fee_required(fork: str) -> bool:
+    return fork_list.index(fork.lower()) >= fork_list.index("london")
 
 
 def map_fork(fork: str) -> Optional[str]:
