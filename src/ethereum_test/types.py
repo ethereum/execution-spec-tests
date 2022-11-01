@@ -132,7 +132,7 @@ class Storage:
                 )
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Account:
     """
     State associated with an address.
@@ -200,7 +200,7 @@ class Account:
 ACCOUNT_DEFAULTS = Account(nonce=0, balance=0, code=bytes(), storage={})
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Environment:
     """
     Structure used to keep track of the context in which a block
@@ -270,7 +270,7 @@ class Environment:
         return new_environment
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Transaction:
     """
     Generic object that can represent all Ethereum transaction types.
@@ -358,7 +358,7 @@ class Header:
     hash: Optional[str] = None
 
 
-@dataclass
+@dataclass(kw_only=True)
 class FixtureHeader:
     """
     Representation of an Ethereum header within a test Fixture.
@@ -563,7 +563,7 @@ class FixtureBlock:
     expected_exception: Optional[str] = None
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Fixture:
     """
     Cross-client compatible Ethereum test fixture.

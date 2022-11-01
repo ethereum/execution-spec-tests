@@ -28,7 +28,7 @@ from .types import (
 )
 
 
-@dataclass
+@dataclass(kw_only=True)
 class StateTest(BaseTest):
     """
     Filler type that tests transactions over the period of a single block.

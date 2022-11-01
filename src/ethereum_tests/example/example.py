@@ -59,4 +59,4 @@ def test_yul(fork):
         ),
     }
 
-    yield StateTest(env, pre, post, [tx])
+    yield StateTest(env=env, pre=pre, post=post, txs=[tx])

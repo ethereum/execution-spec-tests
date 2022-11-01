@@ -49,4 +49,4 @@ def test_chain_id(fork):
         ),
     }
 
-    yield StateTest(env, pre, post, [tx])
+    yield StateTest(env=env, pre=pre, post=post, txs=[tx])
