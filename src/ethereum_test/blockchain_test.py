@@ -168,7 +168,7 @@ class BlockchainTest(BaseTest):
             if block.rlp_modifier is not None:
                 # Modify any parameter specified in the `rlp_modifier` in order
                 # to produce a deliberately modified header that migh
-                header = header.add_modifier(block.rlp_modifier)
+                header = header.join(block.rlp_modifier)
 
             rlp, header.hash = b11r.build(
                 header.to_geth_dict(), txs_rlp, [], None

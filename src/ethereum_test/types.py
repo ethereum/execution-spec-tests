@@ -456,10 +456,9 @@ class FixtureHeader:
             header["baseFeePerGas"] = hex(self.base_fee)
         return header
 
-    def add_modifier(self, modifier: Header) -> "FixtureHeader":
+    def join(self, modifier: Header) -> "FixtureHeader":
         """
-        Produces a fixture header copy with the non-None values from
-        the modifier added.
+        Produces a fixture header copy with the set values from the modifier.
         """
         new_fixture_header = copy(self)
         for header_field in self.__dataclass_fields__:
