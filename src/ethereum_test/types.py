@@ -10,6 +10,24 @@ from .code import Code, code_to_hex
 from .common import AddrAA, TestPrivateKey
 
 
+def hex_or_none(input: Union[int, None], default=None) -> Union[str, None]:
+    if input is None:
+        return default
+    return hex(input)
+
+
+def str_or_none(input: Any, default=None) -> Union[str, None]:
+    if input is None:
+        return default
+    return str(input)
+
+
+def int_or_none(input: Any, default=None) -> Union[int, None]:
+    if input is None:
+        return default
+    return int(input, 0)
+
+
 class Storage:
     """
     Definition of a storage in pre or post state of a test
@@ -379,7 +397,7 @@ class FixtureHeader:
     extra_data: str
     mix_digest: str
     nonce: str
-    base_fee: Optional[int]
+    base_fee: Optional[int] = None
     hash: Optional[str] = None
 
     @staticmethod
@@ -387,42 +405,28 @@ class FixtureHeader:
         """
         Creates a FixedHeader object from a Dict.
         """
+        ommers_hash = source.get("sha3Uncles")
+        if ommers_hash is None:
+            ommers_hash = "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"  # noqa: E501
         return FixtureHeader(
             parent_hash=source["parentHash"],
-            ommers_hash=source["sha3Uncles"]
-            if "sha3Uncles" in source
-            else "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
+            ommers_hash=ommers_hash,
             coinbase=source["miner"],
             state_root=source["stateRoot"],
             transactions_root=source["transactionsRoot"],
             receipt_root=source["receiptsRoot"],
             bloom=source["logsBloom"],
-            # Numbers
-            difficulty=int(source["difficulty"][2:], 16)
-            if source["difficulty"].startswith("0x")
-            else int(source["difficulty"]),
-            number=int(source["number"][2:], 16)
-            if source["number"].startswith("0x")
-            else int(source["number"]),
-            gas_limit=int(source["gasLimit"][2:], 16)
-            if source["gasLimit"].startswith("0x")
-            else int(source["gasLimit"]),
-            gas_used=int(source["gasUsed"][2:], 16)
-            if source["gasUsed"].startswith("0x")
-            else int(source["gasUsed"]),
-            timestamp=int(source["timestamp"][2:], 16)
-            if source["timestamp"].startswith("0x")
-            else int(source["timestamp"]),
             extra_data=source["extraData"],
-            mix_digest=source["mixDigest"],
+            mix_digest=source["mixHash"],
             nonce=source["nonce"],
-            base_fee=int(source["baseFeePerGas"][2:], 16)
-            if "baseFeePerGas" in source
-            and source["baseFeePerGas"].startswith("0x")
-            else int(source["baseFeePerGas"])
-            if "baseFeePerGas" in source
-            else None,
-            hash=source["hash"] if "hash" in source else None,
+            hash=source.get("hash"),
+            # Numbers
+            difficulty=int(source["difficulty"], 0),
+            number=int(source["number"], 0),
+            gas_limit=int(source["gasLimit"], 0),
+            gas_used=int(source["gasUsed"], 0),
+            timestamp=int(source["timestamp"], 0),
+            base_fee=int_or_none(source.get("baseFeePerGas")),
         )
 
     def to_geth_dict(self) -> Mapping[str, Any]:
@@ -591,15 +595,9 @@ class JSONEncoder(json.JSONEncoder):
             return obj.to_dict()
         elif isinstance(obj, Account):
             account = {
-                "nonce": (
-                    hex(obj.nonce)
-                    if obj.nonce is not None
-                    else hex(ACCOUNT_DEFAULTS.nonce)
-                ),
-                "balance": (
-                    hex(obj.balance)
-                    if obj.balance is not None
-                    else hex(ACCOUNT_DEFAULTS.balance)
+                "nonce": hex_or_none(obj.nonce, hex(ACCOUNT_DEFAULTS.nonce)),
+                "balance": hex_or_none(
+                    obj.balance, hex(ACCOUNT_DEFAULTS.balance)
                 ),
                 "code": code_to_hex(obj.code),
                 "storage": json.loads(json.dumps(obj.storage, cls=JSONEncoder))
@@ -612,15 +610,18 @@ class JSONEncoder(json.JSONEncoder):
                 "type": hex(obj.ty),
                 "chainId": hex(obj.chain_id),
                 "nonce": hex(obj.nonce),
-                "gasPrice": None,
-                "maxPriorityFeePerGas": None,
-                "maxFeePerGas": None,
+                "gasPrice": hex_or_none(obj.gas_price),
+                "maxPriorityFeePerGas": hex_or_none(
+                    obj.max_priority_fee_per_gas
+                ),
+                "maxFeePerGas": hex_or_none(obj.max_fee_per_gas),
                 "gas": hex(obj.gas_limit),
                 "value": hex(obj.value),
                 "input": code_to_hex(obj.data),
                 "to": obj.to,
                 "accessList": obj.access_list,
                 "protected": obj.protected,
+                "secretKey": obj.secret_key,
             }
 
             if obj.signature is None:
@@ -632,51 +633,26 @@ class JSONEncoder(json.JSONEncoder):
                 tx["r"] = obj.signature[1]
                 tx["s"] = obj.signature[2]
 
-            if obj.gas_price is not None:
-                tx["gasPrice"] = hex(obj.gas_price)
-            if obj.max_priority_fee_per_gas is not None:
-                tx["maxPriorityFeePerGas"] = hex(obj.max_priority_fee_per_gas)
-            if obj.max_fee_per_gas is not None:
-                tx["maxFeePerGas"] = hex(obj.max_fee_per_gas)
-            if obj.secret_key is not None:
-                tx["secretKey"] = obj.secret_key
-
-            return tx
+            return {k: v for (k, v) in tx.items() if v is not None}
         elif isinstance(obj, Environment):
             env = {
                 "currentCoinbase": obj.coinbase,
-                "currentGasLimit": str(obj.gas_limit),
-                "currentNumber": str(obj.number),
-                "currentTimestamp": str(obj.timestamp),
-                "currentRandom": str(obj.prev_randao)
-                if obj.prev_randao is not None
-                else None,
-                "currentDifficulty": str(obj.difficulty)
-                if obj.difficulty is not None
-                else None,
-                "parentDifficulty": str(obj.parent_difficulty)
-                if obj.parent_difficulty is not None
-                else None,
-                "parentBaseFee": str(obj.parent_base_fee)
-                if obj.parent_base_fee is not None
-                else None,
-                "parentGasUsed": str(obj.parent_gas_used)
-                if obj.parent_gas_used is not None
-                else None,
-                "parentGasLimit": str(obj.parent_gas_limit)
-                if obj.parent_gas_limit is not None
-                else None,
-                "parentTimstamp": str(obj.parent_timestamp)
-                if obj.parent_timestamp is not None
-                else None,
+                "currentGasLimit": str_or_none(obj.gas_limit),
+                "currentNumber": str_or_none(obj.number),
+                "currentTimestamp": str_or_none(obj.timestamp),
+                "currentRandom": str_or_none(obj.prev_randao),
+                "currentDifficulty": str_or_none(obj.difficulty),
+                "parentDifficulty": str_or_none(obj.parent_difficulty),
+                "parentBaseFee": str_or_none(obj.parent_base_fee),
+                "parentGasUsed": str_or_none(obj.parent_gas_used),
+                "parentGasLimit": str_or_none(obj.parent_gas_limit),
+                "parentTimstamp": str_or_none(obj.parent_timestamp),
                 "blockHashes": {
                     str(k): v for (k, v) in obj.block_hashes.items()
                 },
                 "ommers": [],
                 "parentUncleHash": obj.parent_ommers_hash,
-                "currentBaseFee": str(obj.base_fee)
-                if obj.base_fee is not None
-                else None,
+                "currentBaseFee": str_or_none(obj.base_fee),
             }
 
             return {k: v for (k, v) in env.items() if v is not None}

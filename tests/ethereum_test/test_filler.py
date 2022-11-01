@@ -57,7 +57,7 @@ def test_fill_state_test():
     }
 
     def generator(_) -> Generator[StateTest, None, None]:
-        yield StateTest(env, pre, post, [tx])
+        yield StateTest(env=env, pre=pre, post=post, txs=[tx])
 
     fixture = fill_test(generator, ["Istanbul"], "NoProof")
 

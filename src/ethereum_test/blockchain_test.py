@@ -159,7 +159,7 @@ class BlockchainTest(BaseTest):
                     and len(block.extra_data) != 0
                     else "0x",
                     "sha3Uncles": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
-                    "mixDigest": "0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
+                    "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
                     "nonce": "0x0000000000000000",
                     "baseFeePerGas": result.get("currentBaseFee"),
                 }
