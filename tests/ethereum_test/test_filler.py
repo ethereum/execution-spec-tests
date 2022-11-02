@@ -61,7 +61,7 @@ def test_fill_state_test():
 
     fixture = fill_test(generator, ["Istanbul"], "NoProof")
 
-    with open("tests/ethereum_test/fixtures/chainid_filled.json") as f:
+    with open("tests/ethereum_test/test_fixtures/chainid_filled.json") as f:
         expected = json.load(f)
     fixture_json = json.loads(json.dumps(fixture, cls=JSONEncoder))
     assert fixture_json == expected
@@ -347,7 +347,7 @@ def test_fill_london_blockchain_test():
     fixture = fill_test(generator, ["London"], "NoProof")
 
     with open(
-        "tests/ethereum_test/fixtures/blockchain_london_filled.json"
+        "tests/ethereum_test/test_fixtures/blockchain_london_filled.json"
     ) as f:
         expected = json.load(f)
 
