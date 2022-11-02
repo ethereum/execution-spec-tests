@@ -11,18 +11,27 @@ from .common import AddrAA, TestPrivateKey
 
 
 def hex_or_none(input: Union[int, None], default=None) -> Union[str, None]:
+    """
+    Converts an int to hex or returns a default (None).
+    """
     if input is None:
         return default
     return hex(input)
 
 
 def str_or_none(input: Any, default=None) -> Union[str, None]:
+    """
+    Converts a value to string or returns a default (None).
+    """
     if input is None:
         return default
     return str(input)
 
 
 def int_or_none(input: Any, default=None) -> Union[int, None]:
+    """
+    Converts a value to int or returns a default (None).
+    """
     if input is None:
         return default
     return int(input, 0)

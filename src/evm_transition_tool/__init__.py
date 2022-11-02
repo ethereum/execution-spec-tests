@@ -125,6 +125,9 @@ fork_list = list(fork_map.keys())
 
 
 def base_fee_required(fork: str) -> bool:
+    """
+    Return true if the fork requires baseFee in the block.
+    """
     return fork_list.index(fork.lower()) >= fork_list.index("london")
 
 
