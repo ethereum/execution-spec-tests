@@ -4,7 +4,7 @@ Generic Ethereum test base class
 from abc import abstractmethod
 from typing import Any, Callable, Dict, Generator, List, Mapping, Tuple, Union
 
-import rlp
+import rlp  # type: ignore
 
 from evm_block_builder import BlockBuilder
 from evm_transition_tool import TransitionTool
