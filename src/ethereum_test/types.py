@@ -282,19 +282,19 @@ class Environment:
         """
         Applies a header as parent to a copy of this environment.
         """
-        new_environment = copy(self)
-        new_environment.parent_difficulty = new_parent.difficulty
-        new_environment.parent_timestamp = new_parent.timestamp
-        new_environment.parent_base_fee = new_parent.base_fee
-        new_environment.parent_gas_used = new_parent.gas_used
-        new_environment.parent_gas_limit = new_parent.gas_limit
-        new_environment.parent_ommers_hash = new_parent.ommers_hash
-        new_environment.block_hashes[new_parent.number] = (
+        env = copy(self)
+        env.parent_difficulty = new_parent.difficulty
+        env.parent_timestamp = new_parent.timestamp
+        env.parent_base_fee = new_parent.base_fee
+        env.parent_gas_used = new_parent.gas_used
+        env.parent_gas_limit = new_parent.gas_limit
+        env.parent_ommers_hash = new_parent.ommers_hash
+        env.block_hashes[new_parent.number] = (
             new_parent.hash
             if new_parent.hash is not None
             else "0x0000000000000000000000000000000000000000000000000000000000000000"  # noqa: E501
         )
-        return new_environment
+        return env
 
 
 @dataclass(kw_only=True)
@@ -366,9 +366,9 @@ class Header:
     Header type used to describe block header properties in test specs.
     """
 
-    coinbase: Optional[str] = None
     parent_hash: Optional[str] = None
     ommers_hash: Optional[str] = None
+    coinbase: Optional[str] = None
     state_root: Optional[str] = None
     transactions_root: Optional[str] = None
     receipt_root: Optional[str] = None
@@ -391,9 +391,9 @@ class FixtureHeader:
     Representation of an Ethereum header within a test Fixture.
     """
 
-    coinbase: str
     parent_hash: str
     ommers_hash: str
+    coinbase: str
     state_root: str
     transactions_root: str
     receipt_root: str
@@ -425,17 +425,16 @@ class FixtureHeader:
             transactions_root=source["transactionsRoot"],
             receipt_root=source["receiptsRoot"],
             bloom=source["logsBloom"],
-            extra_data=source["extraData"],
-            mix_digest=source["mixHash"],
-            nonce=source["nonce"],
-            hash=source.get("hash"),
-            # Numbers
             difficulty=int(source["difficulty"], 0),
             number=int(source["number"], 0),
             gas_limit=int(source["gasLimit"], 0),
             gas_used=int(source["gasUsed"], 0),
             timestamp=int(source["timestamp"], 0),
+            extra_data=source["extraData"],
+            mix_digest=source["mixHash"],
+            nonce=source["nonce"],
             base_fee=int_or_none(source.get("baseFeePerGas")),
+            hash=source.get("hash"),
         )
 
     def to_geth_dict(self) -> Mapping[str, Any]:
