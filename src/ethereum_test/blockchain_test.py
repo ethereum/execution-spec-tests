@@ -22,6 +22,11 @@ from .types import (
     JSONEncoder,
 )
 
+default_base_fee = 1
+"""
+Default base_fee used in the genesis and block 1 for the BlockchainTests.
+"""
+
 
 @dataclass(kw_only=True)
 class BlockchainTest(BaseTest):
@@ -43,8 +48,11 @@ class BlockchainTest(BaseTest):
         """
         Create a genesis block from the state test definition.
         """
-        if is_london(fork) and self.genesis_environment.base_fee is None:
-            self.genesis_environment.base_fee = 7
+        base_fee = self.genesis_environment.base_fee
+        if is_london(fork) and base_fee is None:
+            base_fee = default_base_fee
+        elif not is_london(fork) and base_fee is not None:
+            base_fee = None
         genesis = FixtureHeader(
             parent_hash="0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
             ommers_hash="0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
@@ -65,7 +73,7 @@ class BlockchainTest(BaseTest):
             extra_data="0x00",
             mix_digest="0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
             nonce="0x0000000000000000",
-            base_fee=self.genesis_environment.base_fee,
+            base_fee=base_fee,
         )
 
         (_, h) = b11r.build(genesis.to_geth_dict(), "", [])

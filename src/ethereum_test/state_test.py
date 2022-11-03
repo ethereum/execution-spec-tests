@@ -10,12 +10,7 @@ from typing import Callable, Generator, List, Mapping, Tuple
 from evm_block_builder import BlockBuilder
 from evm_transition_tool import TransitionTool
 
-from .base_test import (
-    BaseTest,
-    remove_transactions_from_rlp,
-    verify_post_alloc,
-    verify_transactions,
-)
+from .base_test import BaseTest, verify_post_alloc, verify_transactions
 from .common import EmptyTrieRoot
 from .fork import is_london
 from .types import (
@@ -26,6 +21,11 @@ from .types import (
     JSONEncoder,
     Transaction,
 )
+
+default_base_fee = 1
+"""
+Default base_fee used in the genesis and block 1 for the StateTests.
+"""
 
 
 @dataclass(kw_only=True)
@@ -48,6 +48,14 @@ class StateTest(BaseTest):
         """
         Create a genesis block from the state test definition.
         """
+        base_fee = self.env.base_fee
+        if is_london(fork) and base_fee is None:
+            # If there is no base fee specified in the environment, we use a
+            # default.
+            base_fee = default_base_fee
+        elif not is_london(fork) and base_fee is not None:
+            base_fee = None
+
         genesis = FixtureHeader(
             parent_hash="0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
             ommers_hash="0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
@@ -63,12 +71,16 @@ class StateTest(BaseTest):
             difficulty=0x20000,
             number=self.env.number - 1,
             gas_limit=self.env.gas_limit,
-            gas_used=0,
+            # We need the base fee to remain unchanged from the genesis
+            # to block 1.
+            # To do that we set the gas used to exactly half of the limit
+            # so the base fee is unchanged.
+            gas_used=self.env.gas_limit // 2,
             timestamp=0,
             extra_data="0x00",
             mix_digest="0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
             nonce="0x0000000000000000",
-            base_fee=self.env.base_fee,
+            base_fee=base_fee,
         )
 
         (_, h) = b11r.build(genesis.to_geth_dict(), "", [])
@@ -92,17 +104,16 @@ class StateTest(BaseTest):
         """
         env = self.env.apply_new_parent(genesis)
         if env.base_fee is None and is_london(fork):
-            env.base_fee = 7
+            env.base_fee = default_base_fee
         pre = json.loads(json.dumps(self.pre, cls=JSONEncoder))
         txs = json.loads(json.dumps(self.txs, cls=JSONEncoder))
-        env = json.loads(json.dumps(env, cls=JSONEncoder))
 
         with tempfile.TemporaryDirectory() as directory:
             txsRlp = os.path.join(directory, "txs.rlp")
             (alloc, result) = t8n.evaluate(
                 pre,
                 txs,
-                env,
+                json.loads(json.dumps(env, cls=JSONEncoder)),
                 fork,
                 txsPath=txsRlp,
                 chain_id=chain_id,
@@ -121,21 +132,21 @@ class StateTest(BaseTest):
 
         header = result | {
             "parentHash": genesis.hash,
-            "miner": self.env.coinbase,
+            "miner": env.coinbase,
             "transactionsRoot": result.get("txRoot"),
-            "difficulty": hex(self.env.difficulty)
-            if self.env.difficulty is not None
+            "difficulty": hex(env.difficulty)
+            if env.difficulty is not None
             else result.get("currentDifficulty"),
-            "number": str(self.env.number),
-            "gasLimit": str(self.env.gas_limit),
-            "timestamp": str(self.env.timestamp),
+            "number": str(env.number),
+            "gasLimit": str(env.gas_limit),
+            "timestamp": str(env.timestamp),
             "extraData": "0x00",
             "sha3Uncles": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",  # noqa: E501
             "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
             "nonce": "0x0000000000000000",
         }
-        if self.env.base_fee is not None:
-            header["baseFeePerGas"] = str(self.env.base_fee)
+        if env.base_fee is not None:
+            header["baseFeePerGas"] = str(env.base_fee)
         block, head = b11r.build(header, txs, [], None)
         header["hash"] = head
         return (

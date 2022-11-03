@@ -86,20 +86,18 @@ class TransitionTool:
         """
         Calculate the state root for the given `alloc`.
         """
+        base_fee = env.base_fee
         env = {
             "currentCoinbase": "0x0000000000000000000000000000000000000000",
             "currentDifficulty": "0x0",
             "currentGasLimit": "0x0",
             "currentNumber": "0",
             "currentTimestamp": "0",
-            "currentBaseFee": hex(env.base_fee)
-            if env.base_fee is not None
-            else "7"
-            if base_fee_required(fork)
-            else None,
         }
-        if env["currentBaseFee"] is None:
-            del env["currentBaseFee"]
+        if base_fee is not None:
+            env["currentBaseFee"] = str(base_fee)
+        elif base_fee_required(fork):
+            env["currentBaseFee"] = "1"
 
         (_, result) = self.evaluate(alloc, [], env, fork)
         return result.get("stateRoot")
