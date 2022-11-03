@@ -50,7 +50,7 @@ def test_make_genesis():
     london_genesis = StateTest(env=env, pre=pre, post={}, txs=[]).make_genesis(
         b11r, t8n, "London"
     )
-    assert london_genesis.hash.startswith("0x7737b823fc39")
+    assert london_genesis.hash.startswith("0xe3c84688fa32")
     berlin_genesis = StateTest(env=env, pre=pre, post={}, txs=[]).make_genesis(
         b11r, t8n, "Berlin"
     )

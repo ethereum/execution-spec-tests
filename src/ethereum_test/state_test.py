@@ -22,7 +22,7 @@ from .types import (
     Transaction,
 )
 
-default_base_fee = 1
+default_base_fee = 7
 """
 Default base_fee used in the genesis and block 1 for the StateTests.
 """

@@ -97,7 +97,7 @@ class TransitionTool:
         if base_fee is not None:
             env["currentBaseFee"] = str(base_fee)
         elif base_fee_required(fork):
-            env["currentBaseFee"] = "1"
+            env["currentBaseFee"] = "7"
 
         (_, result) = self.evaluate(alloc, [], env, fork)
         return result.get("stateRoot")
