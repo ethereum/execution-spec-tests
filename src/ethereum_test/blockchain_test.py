@@ -11,12 +11,7 @@ from ethereum_test.fork import is_london
 from evm_block_builder import BlockBuilder
 from evm_transition_tool import TransitionTool
 
-from .base_test import (
-    BaseTest,
-    remove_transactions_from_rlp,
-    verify_post_alloc,
-    verify_transactions,
-)
+from .base_test import BaseTest, verify_post_alloc, verify_transactions
 from .common import EmptyTrieRoot
 from .types import (
     Account,
@@ -143,8 +138,9 @@ class BlockchainTest(BaseTest):
 
             rejected_txs = verify_transactions(block.txs, result)
             if len(rejected_txs) > 0:
-                # Produced block contains an invalid transaction
-                txs_rlp = remove_transactions_from_rlp(txs_rlp, rejected_txs)
+                # TODO: This block is invalid because it contains intrinsically
+                #       invalid transactions
+                pass
 
             header = FixtureHeader.from_dict(
                 result

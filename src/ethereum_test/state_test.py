@@ -113,7 +113,9 @@ class StateTest(BaseTest):
 
         rejected_txs = verify_transactions(self.txs, result)
         if len(rejected_txs) > 0:
-            txs = remove_transactions_from_rlp(txs, rejected_txs)
+            # TODO: This block is invalid because it contains intrinsically
+            #       invalid transactions
+            pass
 
         verify_post_alloc(self.post, alloc)
 

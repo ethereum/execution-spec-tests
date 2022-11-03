@@ -4,8 +4,6 @@ Generic Ethereum test base class
 from abc import abstractmethod
 from typing import Any, Callable, Dict, Generator, List, Mapping, Tuple, Union
 
-import rlp  # type: ignore
-
 from evm_block_builder import BlockBuilder
 from evm_transition_tool import TransitionTool
 
@@ -52,18 +50,6 @@ def verify_transactions(
             # TODO: Also we need a way to check we actually got the
             # correct error
     return list(rejected_txs.keys())
-
-
-def remove_transactions_from_rlp(txs: str, rejected_txs: List[int]) -> str:
-    """
-    Takes a transaction array formatted as an RLP hex string and removes the
-    indexes contained in the `rejected_txs` list, then formats back to RLP.
-    """
-    txs_decoded: List[bytes] = rlp.decode(bytes.fromhex(txs[2:]))
-    txs_decoded = [
-        v for (i, v) in enumerate(txs_decoded) if i not in rejected_txs
-    ]
-    return "0x" + rlp.encode(txs_decoded).hex()
 
 
 def verify_post_alloc(post: Mapping[str, Account], alloc: Mapping[str, Any]):
