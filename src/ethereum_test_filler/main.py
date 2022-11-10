@@ -38,7 +38,7 @@ class Filler:
             help="path to evm executable that provides `t8n` and `b11r` "
             + "subcommands",
             default="evm",
-            type=Path
+            type=Path,
         )
 
         parser.add_argument(
