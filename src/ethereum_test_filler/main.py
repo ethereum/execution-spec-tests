@@ -37,7 +37,7 @@ class Filler:
             "--evm-bin",
             help="path to evm executable that provides `t8n` and `b11r` "
             + "subcommands",
-            default="evm",
+            default=None,
             type=Path,
         )
 
