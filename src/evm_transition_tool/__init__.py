@@ -24,7 +24,7 @@ class TransitionTool:
         fork: str,
         chain_id: int = 1,
         reward: int = 0,
-        txsPath: Optional[str] = None,
+        txs_path: Optional[str] = None,
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Simulate a state transition with specified parameters
@@ -69,9 +69,11 @@ class EvmTransitionTool(TransitionTool):
     """
 
     binary: Path
+    verbose: bool = False
+    flags: List[str] = []
     cached_version: Optional[str] = None
 
-    def __init__(self, binary: Optional[Path] = None):
+    def __init__(self, binary: Optional[Path] = None, verbose = False, flags: List[str] = []):
         if binary is None:
             which_path = which("evm")
             if which_path is not None:
@@ -83,6 +85,8 @@ class EvmTransitionTool(TransitionTool):
                 install the full suite of utilities including the `evm` tool"""
             )
         self.binary = binary
+        self.flags = flags
+        self.verbose = verbose
 
     def evaluate(
         self,
@@ -92,7 +96,7 @@ class EvmTransitionTool(TransitionTool):
         fork: str,
         chain_id: int = 1,
         reward: int = 0,
-        txsPath: Optional[str] = None,
+        txs_path: Optional[str] = None,
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Executes `evm t8n` with the specified arguments.
@@ -110,8 +114,10 @@ class EvmTransitionTool(TransitionTool):
             f"--state.reward={reward}",
         ]
 
-        if txsPath is not None:
-            args.append(f"--output.body={txsPath}")
+        if txs_path is not None:
+            args.append(f"--output.body={txs_path}")
+
+        args += self.flags
 
         stdin = {
             "alloc": alloc,
@@ -126,6 +132,10 @@ class EvmTransitionTool(TransitionTool):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+
+        if self.verbose:
+            print(result.stderr.decode("utf8"))
+            print(result.stdout.decode("utf8"))
 
         if result.returncode != 0:
             raise Exception("failed to evaluate: " + result.stderr.decode())

@@ -41,6 +41,19 @@ class Filler:
         )
 
         parser.add_argument(
+            "--evm-verbose",
+            help="print evm binary logs",
+            action=argparse.BooleanOptionalAction,
+        )
+
+        parser.add_argument(
+            "--evm-flags",
+            help="additional flags to pass to evm binary",
+            default=[],
+            nargs="*",
+        )
+
+        parser.add_argument(
             "--filler-path",
             help="path to filler directives",
         )
@@ -115,7 +128,7 @@ class Filler:
 
         os.makedirs(self.options.output, exist_ok=True)
 
-        t8n = EvmTransitionTool(binary=self.options.evm_bin)
+        t8n = EvmTransitionTool(binary=self.options.evm_bin, verbose=self.options.evm_verbose, flags=self.options.evm_flags)
         b11r = EvmBlockBuilder(binary=self.options.evm_bin)
 
         for filler in fillers:
