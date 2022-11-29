@@ -24,7 +24,7 @@ class TransitionTool:
         fork: str,
         chain_id: int = 1,
         reward: int = 0,
-        txsPath: Optional[str] = None,
+        txs_path: Optional[str] = None,
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Simulate a state transition with specified parameters
@@ -96,7 +96,7 @@ class EvmTransitionTool(TransitionTool):
         fork: str,
         chain_id: int = 1,
         reward: int = 0,
-        txsPath: Optional[str] = None,
+        txs_path: Optional[str] = None,
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Executes `evm t8n` with the specified arguments.
@@ -114,8 +114,8 @@ class EvmTransitionTool(TransitionTool):
             f"--state.reward={reward}",
         ]
 
-        if txsPath is not None:
-            args.append(f"--output.body={txsPath}")
+        if txs_path is not None:
+            args.append(f"--output.body={txs_path}")
 
         args += self.flags
 
