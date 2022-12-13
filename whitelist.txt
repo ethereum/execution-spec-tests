@@ -34,6 +34,7 @@ trie
 txs
 u256
 utils
+v1
 validator
 vm
 
@@ -97,6 +98,7 @@ calldatacopy
 codesize
 codecopy
 gasprice
+eof
 extcodesize
 extcodecopy
 initcode
