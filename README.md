@@ -40,7 +40,7 @@ developers to easily test the consensus logic of Ethereum clients.
 
 ### `ethereum_test_filling_tool`
 
-The `ethereum_test_filling_tool` pacakge is a CLI application that recursively
+The `ethereum_test_filling_tool` package is a CLI application that recursively
 searches a given directory for Python modules that export test filler functions
 generated using `ethereum_test_tools`.
 It then processes the fillers using the transition tool and the block builder
@@ -219,7 +219,7 @@ specified in their `post` property actually match what was returned by the
 transition tool.
 
 Within the `post` dictionary object, an account address can be:
-- `None`: The account will not be checked for absence or existance in the
+- `None`: The account will not be checked for absence or existence in the
   result returned by the transition tool.
 - `Account` object: The test expects that this account exist and also has
   properties equal to the properties specified by the `Account` object.
