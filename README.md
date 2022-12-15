@@ -111,7 +111,7 @@ Examples of State tests:
 - Test interactions between multiple smart contracts
 - Test creation of smart contracts
 
-The Blockchain tests span multiple blocks which can contain or not transactions, and mainly focus on the block to block effects to the Ethereum state.
+The Blockchain tests span multiple blocks which may or may not contain transactions and mainly focus on the block to block effects to the Ethereum state.
 
 - Verify system-level operations such as coinbase balance updates or withdrawals
 - Verify fork transitions
@@ -144,9 +144,9 @@ multiple `yield` operations during its runtime to each time yield a single
 
 The test vector's generator function _must_ be decorated by only one of the
 following decorators:
-- test_from
-- test_from_until
-- test_only
+- `test_from`
+- `test_from_until`
+- `test_only`
 
 These decorators specify the forks on which the test vector is supposed to run.
 
