@@ -579,19 +579,6 @@ ALL_INVALID_CONTAINERS: List[Code | Container] = [
                 data="0x00",
             ),
             Section(
-                kind=SectionKind.DATA,
-                data="0x",
-            ),
-        ],
-        name="empty_data_section",
-    ),
-    Container(
-        sections=[
-            Section(
-                kind=SectionKind.CODE,
-                data="0x00",
-            ),
-            Section(
                 kind=VERSION_MAX_SECTION_KIND + 1,
                 data="0x01",
             ),
@@ -632,7 +619,6 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
         Op.RETURN,
         Op.REVERT,
         Op.INVALID,
-        Op.SELFDESTRUCT,
     ]
 
     if EIP_EOF_FUNCTIONS in V1_EOF_EIPS:
@@ -640,15 +626,18 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
 
     for valid_opcode in VALID_TERMINATING_OPCODES:
         test_bytecode = bytes()
-        if valid_opcode.min_stack_height > 0:
-            # We need to push some items onto the stack so the code is valid
-            # even with stack validation
-            for i in range(valid_opcode.min_stack_height):
-                test_bytecode += Op.ORIGIN
+        # We need to push some items onto the stack so the code is valid
+        # even with stack validation
+        for i in range(valid_opcode.popped_stack_items):
+            test_bytecode += Op.ORIGIN
         test_bytecode += valid_opcode
         ALL_VALID_CONTAINERS.append(
             Container(
                 sections=[
+                    Section(
+                        kind=SectionKind.TYPE,
+                        data=bytes.fromhex("0000") + valid_opcode.popped_stack_items.to_bytes(2, byteorder="big"),
+                    ),
                     Section(
                         kind=SectionKind.CODE,
                         data=test_bytecode,
@@ -658,7 +647,7 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
                         data="0x00",
                     ),
                 ],
-                name=f"valid_terminating_opcode_{valid_opcode.name.lower()}",
+                name=f"valid_terminating_opcode_{str(valid_opcode)}",
             ),
         )
 
@@ -733,7 +722,7 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
                         data="0x00",
                     ),
                 ],
-                name=f"valid_truncated_opcode_{data_portion_opcode.name}_"
+                name=f"valid_truncated_opcode_{data_portion_opcode}_"
                 + "no_data",
             ),
         )
@@ -751,7 +740,7 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
                             data="0x00",
                         ),
                     ],
-                    name=f"valid_truncated_opcode_{data_portion_opcode.name}_"
+                    name=f"valid_truncated_opcode_{data_portion_opcode}_"
                     + "one_byte",
                 ),
             )
@@ -769,7 +758,7 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
                         data="0x00",
                     ),
                 ],
-                name=f"valid_truncated_opcode_{data_portion_opcode.name}_"
+                name=f"valid_truncated_opcode_{data_portion_opcode}_"
                 + "terminating",
             ),
         )
@@ -781,18 +770,18 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
                 Op.RJUMP(0) + Op.STOP,
                 "zero_relative_jump",
             ),
-            (
-                Op.RJUMP(-3) + Op.STOP,
-                "minus_three_relative_jump",
-            ),
-            (
-                Op.RJUMP(1) + Op.STOP + Op.JUMPDEST + Op.STOP,
-                "one_relative_jump_to_jumpdest",
-            ),
-            (
-                Op.RJUMP(1) + Op.STOP + Op.STOP,
-                "one_relative_jump_to_stop",
-            ),
+            #  (
+            #      Op.RJUMP(-3) + Op.STOP,
+            #      "minus_three_relative_jump",
+            #  ),
+            #  (
+            #      Op.RJUMP(1) + Op.STOP + Op.JUMPDEST + Op.STOP,
+            #      "one_relative_jump_to_jumpdest",
+            #  ),
+            #  (
+            #      Op.RJUMP(1) + Op.STOP + Op.STOP,
+            #      "one_relative_jump_to_stop",
+            #  ),
         ]
 
         invalid_codes: List[Tuple[bytes, str]] = [
@@ -848,7 +837,7 @@ if EIP_CODE_VALIDATION in V1_EOF_EIPS:
                             data="0x00",
                         ),
                     ],
-                    name=f"valid_rjump_{invalid_code[1]}",
+                    name=f"invalid_rjump_{invalid_code[1]}",
                 ),
             )
 
@@ -890,49 +879,53 @@ if EIP_EOF_FUNCTIONS in V1_EOF_EIPS:
             name="eip_4750_single_code_single_data_section",
             force_type_section=True,
         ),
-        Container(
-            sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                )
-            ]
-            * 1024,
-            name="eip_4750_max_code_sections_1024",
-        ),
-        Container(
-            sections=(
-                [
-                    Section(
-                        kind=SectionKind.CODE,
-                        data="0x00",
-                    )
-                ]
-                * 1024
-            )
-            + [
-                Section(
-                    kind=SectionKind.DATA,
-                    data="0x00",
-                ),
-            ],
-            name="eip_4750_max_code_sections_1024_and_data",
-        ),
-        Container(
-            sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                    code_inputs=255,
-                    code_outputs=255,
-                ),
-            ],
-            name="eip_4750_multiple_code_section_max_inputs_max_outputs",
-        ),
+        #  Container(
+        #      sections=[
+        #          Section(
+        #              kind=SectionKind.TYPE,
+        #              data=bytes.fromhex("00000000") * 1024
+        #          ),
+        #          Section(
+        #              kind=SectionKind.CODE,
+        #              data="0x00",
+        #          )
+        #      ]
+        #      * 1024,
+        #      name="eip_4750_max_code_sections_1024",
+        #  ),
+        #  Container(
+        #      sections=(
+        #          [
+        #              Section(
+        #                  kind=SectionKind.CODE,
+        #                  data="0x00",
+        #              )
+        #          ]
+        #          * 1024
+        #      )
+        #      + [
+        #          Section(
+        #              kind=SectionKind.DATA,
+        #              data="0x00",
+        #          ),
+        #      ],
+        #      name="eip_4750_max_code_sections_1024_and_data",
+        #  ),
+        #  Container(
+        #      sections=[
+        #          Section(
+        #              kind=SectionKind.CODE,
+        #              data="0x00",
+        #          ),
+        #          Section(
+        #              kind=SectionKind.CODE,
+        #              data="0x00",
+        #              code_inputs=255,
+        #              code_outputs=255,
+        #          ),
+        #      ],
+        #      name="eip_4750_multiple_code_section_max_inputs_max_outputs",
+        #  ),
     ]
 
     ALL_INVALID_CONTAINERS += [
@@ -1180,14 +1173,14 @@ def test_legacy_initcode_valid_eof_v1_contract(_):
     )
 
     for container in ALL_VALID_CONTAINERS:
-        legacy_initcode = Initcode(container)
+        legacy_initcode = Initcode(deploy_code=container)
         tx_create_contract.data = legacy_initcode
         tx_create_opcode.data = legacy_initcode
         tx_create2_opcode.data = legacy_initcode
         post[tx_created_contract].code = container
         post[create_opcode_contract].code = container
         create2_opcode_contract = compute_create2_address(
-            0x200, 0, legacy_initcode
+            0x200, 0, legacy_initcode.assemble()
         )
         post[create2_opcode_contract] = Account(code=container)
         yield StateTest(
@@ -1199,7 +1192,7 @@ def test_legacy_initcode_valid_eof_v1_contract(_):
                 tx_create_opcode,
                 tx_create2_opcode,
             ],
-            name=container.name,
+            name=container.name if container.name is not None else "unknown_container",
         )
         del post[create2_opcode_contract]
 
@@ -1281,12 +1274,12 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
     )
 
     for container in ALL_INVALID_CONTAINERS:
-        legacy_initcode = Initcode(container)
+        legacy_initcode = Initcode(deploy_code=container)
         tx_create_contract.data = legacy_initcode
         tx_create_opcode.data = legacy_initcode
         tx_create2_opcode.data = legacy_initcode
         create2_opcode_contract = compute_create2_address(
-            0x200, 0, legacy_initcode
+            0x200, 0, legacy_initcode.assemble()
         )
         post[create2_opcode_contract] = Account.NONEXISTENT
         yield StateTest(
@@ -1298,7 +1291,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
                 tx_create_opcode,
                 tx_create2_opcode,
             ],
-            name=container.name,
+            name=container.name if container.name is not None else "unknown_container",
         )
         del post[create2_opcode_contract]
 

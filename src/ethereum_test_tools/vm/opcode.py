@@ -87,6 +87,12 @@ class Opcode(bytes):
         """
         return self.data_portion_length + 1
 
+    def __str__(self) -> str:
+        """
+        Returns the string representation of the opcode.
+        """
+        return hex(self.int())
+
     def int(self) -> int:
         """
         Returns the integer representation of the opcode.
@@ -178,8 +184,8 @@ class Opcodes(Opcode, Enum):
     JUMPDEST = Opcode(0x5B)
     RJUMP = Opcode(0x5C, data_portion_length=2)
     RJUMPI = Opcode(0x5D, popped_stack_items=1, data_portion_length=2)
-    CALLF = Opcode(0x5E, data_portion_length=2)
-    RETF = Opcode(0x49)
+    CALLF = Opcode(0xb0, data_portion_length=2)
+    RETF = Opcode(0xb1)
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
     PUSH1 = Opcode(0x60, pushed_stack_items=1, data_portion_length=1)
