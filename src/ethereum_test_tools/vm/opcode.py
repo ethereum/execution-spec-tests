@@ -184,8 +184,8 @@ class Opcodes(Opcode, Enum):
     JUMPDEST = Opcode(0x5B)
     RJUMP = Opcode(0x5C, immediate_length=2)
     RJUMPI = Opcode(0x5D, popped_stack_items=1, immediate_length=2)
-    CALLF = Opcode(0xb0, immediate_length=2)
-    RETF = Opcode(0xb1)
+    CALLF = Opcode(0xB0, immediate_length=2)
+    RETF = Opcode(0xB1)
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
     PUSH1 = Opcode(0x60, pushed_stack_items=1, immediate_length=1)

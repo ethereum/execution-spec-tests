@@ -14,7 +14,6 @@ V1_EOF_OPCODES: List[Op] = [
     Op.CALLF,
     Op.RETF,
     #  Op.JUMPF,
-
     Op.STOP,
     Op.ADD,
     Op.MUL,
@@ -167,13 +166,11 @@ VALID_TERMINATING_OPCODES = [
     Op.RETURN,
     Op.REVERT,
     Op.INVALID,
-    Op.RETF
+    Op.RETF,
 ]
 
 INVALID_TERMINATING_OPCODES = [
-    op
-    for op in V1_EOF_OPCODES
-    if op not in VALID_TERMINATING_OPCODES
+    op for op in V1_EOF_OPCODES if op not in VALID_TERMINATING_OPCODES
 ]
 
 INVALID_OPCODES = [

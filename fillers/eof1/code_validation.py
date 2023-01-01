@@ -15,6 +15,7 @@ from .opcodes import (
 VALID: List[Code | Container] = []
 INVALID: List[Code | Container] = []
 
+
 def make_valid_terminating_code(op: Op) -> bytes:
     out = bytes()
     for _ in range(op.popped_stack_items):
@@ -37,7 +38,7 @@ for op in VALID_TERMINATING_OPCODES:
                     data=make_valid_terminating_code(op),
                     code_inputs=0,
                     code_outputs=0,
-                    max_stack_height=op.popped_stack_items
+                    max_stack_height=op.popped_stack_items,
                 ),
             ],
         ),
@@ -57,7 +58,7 @@ for op in INVALID_TERMINATING_OPCODES:
                     data=make_valid_terminating_code(op),
                     code_inputs=0,
                     code_outputs=0,
-                    max_stack_height=op.popped_stack_items
+                    max_stack_height=op.popped_stack_items,
                 ),
             ],
         ),
@@ -80,7 +81,9 @@ for op in INVALID_OPCODES:
 
 # Create an invalid EOF container where the immediate operand of an opcode is
 # truncated or terminates the bytecode.
-OPCODES_WITH_IMMEDIATE = [op for op in V1_EOF_OPCODES if op.immediate_length > 0]
+OPCODES_WITH_IMMEDIATE = [
+    op for op in V1_EOF_OPCODES if op.immediate_length > 0
+]
 for op in OPCODES_WITH_IMMEDIATE:
     # No immediate
     INVALID.append(
@@ -92,7 +95,12 @@ for op in OPCODES_WITH_IMMEDIATE:
     # Immediate minus one
     INVALID.append(
         Container(
-            sections=[Section(kind=Kind.CODE, data=op + (Op.STOP * (op.immediate_length-1)))],
+            sections=[
+                Section(
+                    kind=Kind.CODE,
+                    data=op + (Op.STOP * (op.immediate_length - 1)),
+                )
+            ],
             name=f"truncated_opcode_{op}_terminating",
         ),
     )
@@ -112,7 +120,7 @@ EIP-4750 Valid and Invalid Containers
 
 VALID += [
     Container(
-        sections=[Section(kind=Kind.CODE, data="0x00")]*1024,
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
         name="max_code_sections_1024",
     ),
     #  Container(
@@ -189,7 +197,7 @@ INVALID += [
     ),
     Container(
         name="code_sections_above_1024",
-        sections=[Section(kind=Kind.CODE, data="0x00")]* 1025,
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1025,
     ),
     Container(
         name="single_code_section_incomplete_type",
@@ -207,7 +215,7 @@ INVALID += [
     ),
     Container(
         name="single_code_section_oversized_type",
-        sections=[ # why no work
+        sections=[  # why no work
             Section(kind=Kind.TYPE, data="0x0000000000"),
             Section(kind=Kind.CODE, data="0x00"),
         ],

@@ -13,7 +13,9 @@ from ethereum_test_tools.eof.v1 import SectionKind as Kind
 VALID = [
     Container(
         name="single_code_section",
-        sections=[Section(kind=Kind.CODE, data="0x00"),],
+        sections=[
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
     ),
     Container(
         name="single_code_single_data_section",
@@ -28,19 +30,30 @@ INVALID = [
     Code(name="incomplete_magic", bytecode=bytes([0xEF])),
     Code(name="no_version", bytecode=bytes([0xEF, 0x00])),
     Code(name="no_version", bytecode=bytes([0xEF, 0x00, 0x01])),
-    Code(name="no_code_section_size", bytecode=bytes([0xEF, 0x00, 0x01, 0x01])),
-    Code(name="code_section_size_incomplete", bytecode=bytes([0xEF, 0x00, 0x01, 0x01, 0x00])),
-    Code(name="no_data_section_size", bytecode=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x02, 0x02])),
-    Code(name="data_section_size_incomplete", bytecode=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x02, 0x02, 0x00])),
+    Code(
+        name="no_code_section_size", bytecode=bytes([0xEF, 0x00, 0x01, 0x01])
+    ),
+    Code(
+        name="code_section_size_incomplete",
+        bytecode=bytes([0xEF, 0x00, 0x01, 0x01, 0x00]),
+    ),
+    Code(
+        name="no_data_section_size",
+        bytecode=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x02, 0x02]),
+    ),
+    Code(
+        name="data_section_size_incomplete",
+        bytecode=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x02, 0x02, 0x00]),
+    ),
     Container(name="no_sections", sections=[]),
-    Container( 
+    Container(
         name="invalid_magic_01",
         custom_magic=0x01,
         sections=[Section(kind=Kind.CODE, data="0x00")],
     ),
     Container(
         name="invalid_magic_ff",
-        custom_magic=0xff,
+        custom_magic=0xFF,
         sections=[Section(kind=Kind.CODE, data="0x00")],
     ),
     Container(
@@ -83,7 +96,9 @@ INVALID = [
     ),
     Container(
         name="incomplete_code_section_contents",
-        sections=[Section(kind=Kind.CODE, data="0x00", custom_size=0x02),],
+        sections=[
+            Section(kind=Kind.CODE, data="0x00", custom_size=0x02),
+        ],
     ),
     Container(
         name="trailing_bytes_after_code_section",
@@ -98,7 +113,7 @@ INVALID = [
         name="empty_code_section_with_non_empty_data",
         sections=[
             Section(kind=Kind.CODE, data="0x"),
-            Section(kind=Kind.DATA, data="0xDEADBEEF")
+            Section(kind=Kind.DATA, data="0xDEADBEEF"),
         ],
     ),
     Container(
@@ -113,7 +128,6 @@ INVALID = [
         name="data_section_without_code_section",
         sections=[Section(kind=Kind.DATA, data="0xDEADBEEF")],
     ),
-
     Container(
         name="no_section_terminator_3",
         custom_terminator=bytes(),

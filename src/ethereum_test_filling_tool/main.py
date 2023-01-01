@@ -103,7 +103,7 @@ class Filler:
         ):
             module_full_name = module_loader.name
             self.log.debug(f"searching {module_full_name} for fillers")
-            sys.path.append(pkg_path) 
+            sys.path.append(pkg_path)
             module = module_loader.load_module()
             for obj in module.__dict__.values():
                 if callable(obj):

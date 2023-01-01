@@ -26,6 +26,7 @@ ALL_INVALID = INVALID_CONTAINERS + INVALID_CODE
 
 EOF_FORK_NAME = "Shanghai"
 
+
 @test_from(EOF_FORK_NAME)
 def test_legacy_initcode_valid_eof_v1_contract(_):
     """
@@ -116,7 +117,9 @@ def test_legacy_initcode_valid_eof_v1_contract(_):
                 tx_create_opcode,
                 tx_create2_opcode,
             ],
-            name=container.name if container.name is not None else "unknown_container",
+            name=container.name
+            if container.name is not None
+            else "unknown_container",
         )
         del post[create2_opcode_contract]
 
@@ -216,8 +219,8 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
                 tx_create_opcode,
                 tx_create2_opcode,
             ],
-            name=container.name if container.name is not None else "unknown_container",
+            name=container.name
+            if container.name is not None
+            else "unknown_container",
         )
         del post[create2_opcode_contract]
-
-
