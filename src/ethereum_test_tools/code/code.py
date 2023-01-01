@@ -4,7 +4,7 @@ assembler/compiler backends.
 """
 from dataclasses import dataclass
 from re import sub
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 
 @dataclass(kw_only=True)

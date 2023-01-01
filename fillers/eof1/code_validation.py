@@ -1,3 +1,7 @@
+"""
+EOF v1 code validation tests
+"""
+
 from typing import List
 
 from ethereum_test_tools import Code
@@ -17,6 +21,10 @@ INVALID: List[Code | Container] = []
 
 
 def make_valid_terminating_code(op: Op) -> bytes:
+    """
+    Builds bytecode with the specified op at the end and the proper number of
+    stack items to not underflow.
+    """
     out = bytes()
     for _ in range(op.popped_stack_items):
         # We need to push some items onto the stack so the code is valid
@@ -123,24 +131,13 @@ VALID += [
         sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
         name="max_code_sections_1024",
     ),
-    #  Container(
-    #      sections=(
-    #          [
-    #              Section(
-    #                  kind=Kind.CODE,
-    #                  data="0x00",
-    #              )
-    #          ]
-    #          * 1024
-    #      )
-    #      + [
-    #          Section(
-    #              kind=Kind.DATA,
-    #              data="0x00",
-    #          ),
-    #      ],
-    #      name="eip_4750_max_code_sections_1024_and_data",
-    #  ),
+    Container(
+        sections=([Section(kind=Kind.CODE, data="0x00")] * 1024)
+        + [
+            Section(kind=Kind.DATA, data="0x00"),
+        ],
+        name="max_code_sections_1024_and_data",
+    ),
     #  Container(
     #      sections=[
     #          Section(

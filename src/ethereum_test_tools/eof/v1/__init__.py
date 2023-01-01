@@ -157,7 +157,7 @@ class Container(Code):
             type_section_data: bytes = bytes()
             for s in sections:
                 if s.kind == SectionKind.CODE or s.force_type_listing:
-                    type_section_data += make_type_defn(
+                    type_section_data += make_type_def(
                         s.code_inputs, s.code_outputs, s.max_stack_height
                     )
             sections = [
@@ -170,13 +170,13 @@ class Container(Code):
                 if s.kind == SectionKind.CODE:
                     if s.custom_size:
                         code_sizes.append(s.custom_size)
-                    elif s.data == None:
+                    elif s.data is None:
                         continue
                     else:
                         code_sizes.append(len(code_to_bytes(s.data)))
 
         if self.auto_data_section:
-            if len(sections) > 2 and sections[2].kind == SectionKind.DATA:
+            if len(sections) > 0 and sections[-1].kind == SectionKind.DATA:
                 pass  # already exists
             else:
                 sections.append(Section(kind=SectionKind.DATA, data="0x"))
@@ -210,7 +210,10 @@ class Container(Code):
         return c
 
 
-def make_type_defn(inputs, outputs, max_stack_height) -> bytes:
+def make_type_def(inputs, outputs, max_stack_height) -> bytes:
+    """
+    Returns a serialized type section entry for the given values.
+    """
     out = bytes()
     out += inputs.to_bytes(
         length=((inputs.bit_length() - 1) // 8 + 1) if inputs > 0 else 1,
