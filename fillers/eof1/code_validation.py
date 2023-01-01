@@ -1,14 +1,16 @@
 from typing import List
 
 from ethereum_test_tools import Code
+from ethereum_test_tools.eof.v1 import Container, Section
+from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_tools.eof.v1 import (
-    Container,
-    Section,
-    SectionKind as Kind,
-)
 
-from .opcodes import V1_EOF_OPCODES, VALID_TERMINATING_OPCODES, INVALID_TERMINATING_OPCODES, INVALID_OPCODES
+from .opcodes import (
+    INVALID_OPCODES,
+    INVALID_TERMINATING_OPCODES,
+    V1_EOF_OPCODES,
+    VALID_TERMINATING_OPCODES,
+)
 
 VALID: List[Code | Container] = []
 INVALID: List[Code | Container] = []

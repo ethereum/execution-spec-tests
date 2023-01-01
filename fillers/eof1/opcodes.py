@@ -3,6 +3,7 @@ EOF Valid Opcodes
 """
 
 from typing import List
+
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 V1_EOF_OPCODES: List[Op] = [

@@ -15,15 +15,11 @@ from ethereum_test_tools import (
     test_from,
     to_address,
 )
-from .container import (
-        VALID as VALID_CONTAINERS, 
-        INVALID as INVALID_CONTAINERS
-)
-from .code_validation import (
-        VALID as VALID_CODE, 
-        INVALID as INVALID_CODE
-)
 
+from .code_validation import INVALID as INVALID_CODE
+from .code_validation import VALID as VALID_CODE
+from .container import INVALID as INVALID_CONTAINERS
+from .container import VALID as VALID_CONTAINERS
 
 ALL_VALID = VALID_CONTAINERS + VALID_CODE
 ALL_INVALID = INVALID_CONTAINERS + INVALID_CODE

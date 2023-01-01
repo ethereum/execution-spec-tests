@@ -7,8 +7,8 @@ from ethereum_test_tools.eof.v1 import (
     VERSION_MAX_SECTION_KIND,
     Container,
     Section,
-    SectionKind as Kind,
 )
+from ethereum_test_tools.eof.v1 import SectionKind as Kind
 
 VALID = [
     Container(
