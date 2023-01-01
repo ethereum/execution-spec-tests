@@ -28,7 +28,7 @@ class Section:
     Class that represents a section in an EOF V1 container.
     """
 
-    data: Code | str | bytes | List[Code | str | bytes] | None = None
+    data: Code | str | bytes | None = None
     """
     Data to be contained by this section.
     Can be code, another EOF container or any other abstract data.
@@ -70,18 +70,10 @@ class Section:
         size = self.custom_size
         if size is None:
             if self.data is None:
-                raise Exception(
-                    "Attempted to build header without section data"
-                )
-            if isinstance(self.data, list):
-                out = len(self.data).to_bytes(2, byteorder="big")
-                for data in self.data:
-                    out += len(code_to_bytes(data)).to_bytes(2, byteorder="big")
-                return self.kind.to_bytes(1, byteorder="big") + out
-            else:
-                size = len(code_to_bytes(self.data))
+                raise Exception("Attempted to build header without section data")
+            size = len(code_to_bytes(self.data))
         if self.kind == SectionKind.CODE:
-            return self.kind.to_bytes(1, byteorder="big") + bytes.fromhex("0001") + size.to_bytes(2, byteorder="big")
+                raise Exception("Need container-wide view of code sections to generate header")
         else:
             return self.kind.to_bytes(1, byteorder="big") + size.to_bytes(2, byteorder="big")
 
@@ -124,11 +116,10 @@ class Container(Code):
     """
     Automatically generate a `DATA` section.
     """
-    force_type_section: bool = False
+    auto_code_header: bool = True
     """
-    Force generate a `TYPE` section based on the included
-    `CODE` kind sections, even when only one code section
-    or zero.
+    Automatically generate a `CODE` section header based on the
+    included `CODE` kind sections.
     """
 
     def assemble(self) -> bytes:
@@ -154,37 +145,29 @@ class Container(Code):
 
         if (
             self.auto_type_section
-            and len(sections) > 0
+            and len(sections) != 0
             and sections[0].kind != SectionKind.TYPE
-        ) or self.force_type_section:
+        ):
             type_section_data: bytes = bytes()
             for s in sections:
                 if s.kind == SectionKind.CODE or s.force_type_listing:
-                    type_section_data += s.code_inputs.to_bytes(
-                        length=((s.code_inputs.bit_length() - 1) // 8 + 1)
-                        if s.code_inputs > 0
-                        else 1,
-                        byteorder="big",
-                    )
-                    type_section_data += s.code_outputs.to_bytes(
-                        length=((s.code_outputs.bit_length() - 1) // 8 + 1)
-                        if s.code_outputs > 0
-                        else 1,
-                        byteorder="big",
-                    )
-                    type_section_data += s.max_stack_height.to_bytes(
-                        length=((s.code_outputs.bit_length() - 1) // 8 + 1)
-                        if s.code_outputs > 255
-                        else 2,
-                        byteorder="big",
-                    )
+                    type_section_data += make_type_defn(s.code_inputs, s.code_outputs, s.max_stack_height)
+            sections = [Section(kind=SectionKind.TYPE, data=type_section_data)] + sections
 
-            sections = [
-                Section(
-                    kind=SectionKind.TYPE,
-                    data=type_section_data,
-                )
-            ] + sections
+
+        code_sizes = []
+        if (
+                self.auto_code_header
+                and len(sections) != 0
+        ):
+            for s in sections:
+                if s.kind == SectionKind.CODE:
+                    if s.custom_size:
+                        code_sizes.append(s.custom_size)
+                    elif s.data == None:
+                        continue
+                    else:
+                        code_sizes.append(len(code_to_bytes(s.data)))
 
         if self.auto_data_section:
             if len(sections) > 2 and sections[2].kind == SectionKind.DATA:
@@ -193,7 +176,13 @@ class Container(Code):
                 sections.append(Section(kind=SectionKind.DATA, data="0x"))
 
         # Add headers
-        for s in sections:
+        for i, s in enumerate(sections):
+            if self.auto_code_header and i == 1:
+                c += SectionKind.CODE.to_bytes(1, "big") + len(code_sizes).to_bytes(2, "big")
+                for size in code_sizes:
+                    c += size.to_bytes(2, byteorder="big")
+            if s.kind == SectionKind.CODE:
+                continue
             c += s.get_header()
 
         # Add header terminator
@@ -211,3 +200,19 @@ class Container(Code):
             c += self.extra
 
         return c
+
+def make_type_defn(inputs, outputs, max_stack_height) -> bytes:
+    out = bytes()
+    out += inputs.to_bytes(
+        length=((inputs.bit_length() - 1) // 8 + 1) if inputs > 0 else 1,
+        byteorder="big",
+    )
+    out += outputs.to_bytes(
+        length=((outputs.bit_length() - 1) // 8 + 1) if outputs > 0 else 1,
+        byteorder="big",
+    )
+    out += max_stack_height.to_bytes(
+        length=((outputs.bit_length() - 1) // 8 + 1) if outputs > 255 else 2,
+        byteorder="big",
+    )
+    return out

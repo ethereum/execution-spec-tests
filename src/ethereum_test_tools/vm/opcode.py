@@ -15,14 +15,14 @@ class Opcode(bytes):
     - popped_stack_items: number of items the opcode pops from the stack
     - pushed_stack_items: number of items the opcode pushes to the stack
     - min_stack_height: minimum stack height required by the opcode
-    - data_portion_length: number of bytes after the opcode in the bytecode
+    - immediate_length: number of bytes after the opcode in the bytecode
         that represent data
     """
 
     popped_stack_items: int
     pushed_stack_items: int
     min_stack_height: int
-    data_portion_length: int
+    immediate_length: int
 
     def __new__(
         cls,
@@ -31,7 +31,7 @@ class Opcode(bytes):
         popped_stack_items: int = 0,
         pushed_stack_items: int = 0,
         min_stack_height: int = 0,
-        data_portion_length: int = 0
+        immediate_length: int = 0
     ):
         """
         Creates a new opcode instance.
@@ -45,7 +45,7 @@ class Opcode(bytes):
             obj.popped_stack_items = popped_stack_items
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
-            obj.data_portion_length = data_portion_length
+            obj.immediate_length = immediate_length
             return obj
 
     def __call__(self, data: int = 0) -> bytes:
@@ -60,9 +60,9 @@ class Opcode(bytes):
         of the input must be:
         `[-2^(data_portion_bits-1), 2^(data_portion_bits)]`
         where:
-        `data_portion_bits == data_portion_length * 8`
+        `data_portion_bits == immediate_length * 8`
         """
-        if self.data_portion_length == 0:
+        if self.immediate_length == 0:
             if data == 0:
                 return self
             raise OverflowError(
@@ -71,11 +71,11 @@ class Opcode(bytes):
 
         if data < 0:
             data_portion = data.to_bytes(
-                length=self.data_portion_length, byteorder="big", signed=True
+                length=self.immediate_length, byteorder="big", signed=True
             )
         else:
             data_portion = data.to_bytes(
-                length=self.data_portion_length, byteorder="big", signed=False
+                length=self.immediate_length, byteorder="big", signed=False
             )
 
         return self + data_portion
@@ -85,7 +85,7 @@ class Opcode(bytes):
         Returns the total bytecode length of the opcode, taking into account
         its data portion.
         """
-        return self.data_portion_length + 1
+        return self.immediate_length + 1
 
     def __str__(self) -> str:
         """
@@ -182,44 +182,44 @@ class Opcodes(Opcode, Enum):
     MSIZE = Opcode(0x59, pushed_stack_items=1)
     GAS = Opcode(0x5A, pushed_stack_items=1)
     JUMPDEST = Opcode(0x5B)
-    RJUMP = Opcode(0x5C, data_portion_length=2)
-    RJUMPI = Opcode(0x5D, popped_stack_items=1, data_portion_length=2)
-    CALLF = Opcode(0xb0, data_portion_length=2)
+    RJUMP = Opcode(0x5C, immediate_length=2)
+    RJUMPI = Opcode(0x5D, popped_stack_items=1, immediate_length=2)
+    CALLF = Opcode(0xb0, immediate_length=2)
     RETF = Opcode(0xb1)
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
-    PUSH1 = Opcode(0x60, pushed_stack_items=1, data_portion_length=1)
-    PUSH2 = Opcode(0x61, pushed_stack_items=1, data_portion_length=2)
-    PUSH3 = Opcode(0x62, pushed_stack_items=1, data_portion_length=3)
-    PUSH4 = Opcode(0x63, pushed_stack_items=1, data_portion_length=4)
-    PUSH5 = Opcode(0x64, pushed_stack_items=1, data_portion_length=5)
-    PUSH6 = Opcode(0x65, pushed_stack_items=1, data_portion_length=6)
-    PUSH7 = Opcode(0x66, pushed_stack_items=1, data_portion_length=7)
-    PUSH8 = Opcode(0x67, pushed_stack_items=1, data_portion_length=8)
-    PUSH9 = Opcode(0x68, pushed_stack_items=1, data_portion_length=9)
-    PUSH10 = Opcode(0x69, pushed_stack_items=1, data_portion_length=10)
-    PUSH11 = Opcode(0x6A, pushed_stack_items=1, data_portion_length=11)
-    PUSH12 = Opcode(0x6B, pushed_stack_items=1, data_portion_length=12)
-    PUSH13 = Opcode(0x6C, pushed_stack_items=1, data_portion_length=13)
-    PUSH14 = Opcode(0x6D, pushed_stack_items=1, data_portion_length=14)
-    PUSH15 = Opcode(0x6E, pushed_stack_items=1, data_portion_length=15)
-    PUSH16 = Opcode(0x6F, pushed_stack_items=1, data_portion_length=16)
-    PUSH17 = Opcode(0x70, pushed_stack_items=1, data_portion_length=17)
-    PUSH18 = Opcode(0x71, pushed_stack_items=1, data_portion_length=18)
-    PUSH19 = Opcode(0x72, pushed_stack_items=1, data_portion_length=19)
-    PUSH20 = Opcode(0x73, pushed_stack_items=1, data_portion_length=20)
-    PUSH21 = Opcode(0x74, pushed_stack_items=1, data_portion_length=21)
-    PUSH22 = Opcode(0x75, pushed_stack_items=1, data_portion_length=22)
-    PUSH23 = Opcode(0x76, pushed_stack_items=1, data_portion_length=23)
-    PUSH24 = Opcode(0x77, pushed_stack_items=1, data_portion_length=24)
-    PUSH25 = Opcode(0x78, pushed_stack_items=1, data_portion_length=25)
-    PUSH26 = Opcode(0x79, pushed_stack_items=1, data_portion_length=26)
-    PUSH27 = Opcode(0x7A, pushed_stack_items=1, data_portion_length=27)
-    PUSH28 = Opcode(0x7B, pushed_stack_items=1, data_portion_length=28)
-    PUSH29 = Opcode(0x7C, pushed_stack_items=1, data_portion_length=29)
-    PUSH30 = Opcode(0x7D, pushed_stack_items=1, data_portion_length=30)
-    PUSH31 = Opcode(0x7E, pushed_stack_items=1, data_portion_length=31)
-    PUSH32 = Opcode(0x7F, pushed_stack_items=1, data_portion_length=32)
+    PUSH1 = Opcode(0x60, pushed_stack_items=1, immediate_length=1)
+    PUSH2 = Opcode(0x61, pushed_stack_items=1, immediate_length=2)
+    PUSH3 = Opcode(0x62, pushed_stack_items=1, immediate_length=3)
+    PUSH4 = Opcode(0x63, pushed_stack_items=1, immediate_length=4)
+    PUSH5 = Opcode(0x64, pushed_stack_items=1, immediate_length=5)
+    PUSH6 = Opcode(0x65, pushed_stack_items=1, immediate_length=6)
+    PUSH7 = Opcode(0x66, pushed_stack_items=1, immediate_length=7)
+    PUSH8 = Opcode(0x67, pushed_stack_items=1, immediate_length=8)
+    PUSH9 = Opcode(0x68, pushed_stack_items=1, immediate_length=9)
+    PUSH10 = Opcode(0x69, pushed_stack_items=1, immediate_length=10)
+    PUSH11 = Opcode(0x6A, pushed_stack_items=1, immediate_length=11)
+    PUSH12 = Opcode(0x6B, pushed_stack_items=1, immediate_length=12)
+    PUSH13 = Opcode(0x6C, pushed_stack_items=1, immediate_length=13)
+    PUSH14 = Opcode(0x6D, pushed_stack_items=1, immediate_length=14)
+    PUSH15 = Opcode(0x6E, pushed_stack_items=1, immediate_length=15)
+    PUSH16 = Opcode(0x6F, pushed_stack_items=1, immediate_length=16)
+    PUSH17 = Opcode(0x70, pushed_stack_items=1, immediate_length=17)
+    PUSH18 = Opcode(0x71, pushed_stack_items=1, immediate_length=18)
+    PUSH19 = Opcode(0x72, pushed_stack_items=1, immediate_length=19)
+    PUSH20 = Opcode(0x73, pushed_stack_items=1, immediate_length=20)
+    PUSH21 = Opcode(0x74, pushed_stack_items=1, immediate_length=21)
+    PUSH22 = Opcode(0x75, pushed_stack_items=1, immediate_length=22)
+    PUSH23 = Opcode(0x76, pushed_stack_items=1, immediate_length=23)
+    PUSH24 = Opcode(0x77, pushed_stack_items=1, immediate_length=24)
+    PUSH25 = Opcode(0x78, pushed_stack_items=1, immediate_length=25)
+    PUSH26 = Opcode(0x79, pushed_stack_items=1, immediate_length=26)
+    PUSH27 = Opcode(0x7A, pushed_stack_items=1, immediate_length=27)
+    PUSH28 = Opcode(0x7B, pushed_stack_items=1, immediate_length=28)
+    PUSH29 = Opcode(0x7C, pushed_stack_items=1, immediate_length=29)
+    PUSH30 = Opcode(0x7D, pushed_stack_items=1, immediate_length=30)
+    PUSH31 = Opcode(0x7E, pushed_stack_items=1, immediate_length=31)
+    PUSH32 = Opcode(0x7F, pushed_stack_items=1, immediate_length=32)
 
     DUP1 = Opcode(0x80, pushed_stack_items=1, min_stack_height=1)
     DUP2 = Opcode(0x81, pushed_stack_items=1, min_stack_height=2)

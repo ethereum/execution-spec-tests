@@ -46,18 +46,12 @@ class Code:
         return Code(bytecode=(code_to_bytes(other) + code_to_bytes(self)))
 
 
-def code_to_bytes(code: str | bytes | Code | List[str | bytes | Code]) -> bytes:
+def code_to_bytes(code: str | bytes | Code) -> bytes:
     """
     Converts multiple types into bytecode.
     """
     if code is None:
         raise Exception("Cannot convert `None` code to bytes")
-
-    if isinstance(code, list):
-        out = bytes()
-        for c in code:
-            out += code_to_bytes(c)
-        return out
 
     if isinstance(code, Code):
         return code.assemble()
