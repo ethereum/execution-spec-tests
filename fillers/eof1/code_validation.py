@@ -7,7 +7,7 @@ from typing import List
 from ethereum_test_tools import Code
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_tools.vm.opcode import Opcode, Opcodes as Op, opcode_map
 
 from .opcodes import (
     INVALID_OPCODES,
@@ -122,99 +122,62 @@ for op in OPCODES_WITH_IMMEDIATE:
         )
 
 
-"""
-EIP-4750 Valid and Invalid Containers
-"""
+def code_to_container(name: str, code: bytes) -> Container:
+    """
+    Computes the type annotation for code and returns a container with the code as a code section.
+    """
+    i = 0
+    stack_height = 0
+    min_stack_height = 0
+    max_stack_height = 0
 
-VALID += [
-    Container(
-        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
-        name="max_code_sections_1024",
-    ),
-    Container(
-        sections=([Section(kind=Kind.CODE, data="0x00")] * 1024)
-        + [
-            Section(kind=Kind.DATA, data="0x00"),
+    # compute type annotation
+    while i < len(code):
+        op = opcode_map.get(code[i])
+        if op is None:
+            raise Exception("unknown opcode" + hex(code[i]))
+
+        i += 1 + op.immediate_length
+
+        stack_height -= op.popped_stack_items
+        min_stack_height = min(stack_height, min_stack_height)
+        stack_height += op.pushed_stack_items
+        max_stack_height = max(stack_height, max_stack_height)
+
+    return Container(
+        name=name,
+        sections=[
+            Section(kind=Kind.CODE, data=Op.STOP),
+            Section(
+                kind=Kind.CODE,
+                data=code,
+                code_inputs=abs(min_stack_height),
+                code_outputs=stack_height,
+                max_stack_height=max_stack_height,
+            ),
         ],
-        name="max_code_sections_1024_and_data",
+    )
+
+
+VALID_CODE = [
+    (
+        "reachable_code_rjumpi",
+        Op.RJUMP(1) + Op.RETF + Op.ORIGIN + Op.RJUMPI(-5) + Op.RETF,
     ),
-    #  Container(
-    #      sections=[
-    #          Section(
-    #              kind=Kind.CODE,
-    #              data="0x00",
-    #          ),
-    #          Section(
-    #              kind=Kind.CODE,
-    #              data="0x00",
-    #              code_inputs=255,
-    #              code_outputs=255,
-    #          ),
-    #      ],
-    #      name="eip_4750_multiple_code_section_max_inputs_max_outputs",
-    #  ),
 ]
 
-INVALID += [
-    Container(
-        name="single_code_section_non_zero_inputs",
-        sections=[Section(kind=Kind.CODE, data=Op.POP, code_inputs=1)],
-    ),
-    Container(
-        name="single_code_section_non_zero_outputs",
-        sections=[Section(kind=Kind.CODE, data=Op.PUSH0, code_outputs=1)],
-    ),
-    Container(
-        name="multiple_code_section_non_zero_inputs",
-        sections=[
-            Section(kind=Kind.CODE, data=Op.POP, code_inputs=1),
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
-    Container(
-        name="multiple_code_section_non_zero_outputs",
-        sections=[
-            Section(kind=Kind.CODE, data=Op.PUSH0, code_outputs=1),
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
-    Container(
-        name="data_section_before_code_with_type",
-        sections=[
-            Section(kind=Kind.DATA, data="0xAA"),
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
-    Container(
-        name="data_section_listed_in_type",
-        sections=[
-            Section(kind=Kind.DATA, data="0x00", force_type_listing=True),
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
-    Container(
-        name="code_sections_above_1024",
-        sections=[Section(kind=Kind.CODE, data="0x00")] * 1025,
-    ),
-    Container(
-        name="single_code_section_incomplete_type",
-        sections=[
-            Section(kind=Kind.TYPE, data="0x00"),
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
-    Container(
-        name="single_code_section_incomplete_type_2",
-        sections=[
-            Section(kind=Kind.TYPE, data="0x00", custom_size=2),
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
-    Container(
-        name="single_code_section_oversized_type",
-        sections=[  # why no work
-            Section(kind=Kind.TYPE, data="0x0000000000"),
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
+for (name, code) in VALID_CODE:
+    VALID.append(code_to_container(name, code))
+
+INVALID_CODE = [
+    ("unreachable_code", Op.RJUMP(1) + Op.JUMPDEST + Op.RETF),
+    ("unreachable_code_2", Op.RJUMP(3) + Op.PUSH2(42) + Op.RETF),
+    ("unreachable_code_3", Op.RJUMP(1) + Op.RETF + Op.RJUMP(-4) + Op.RETF),
+    ("rjump_oob_1", Op.RJUMP(-4) + Op.RETF),
+    ("rjump_oob_2", Op.RJUMP(1) + Op.RETF),
+    ("rjumpi_oob_1", Op.PUSH0 + Op.RJUMPI(-5) + Op.RETF),
+    ("rjumpi_oob_2", Op.PUSH0 + Op.RJUMPI(1) + Op.RETF),
 ]
+
+for (name, code) in INVALID_CODE:
+    INVALID.append(code_to_container(name, code))

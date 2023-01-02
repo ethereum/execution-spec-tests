@@ -9,6 +9,7 @@ from ethereum_test_tools.eof.v1 import (
     Section,
 )
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 VALID = [
     Container(
@@ -218,3 +219,146 @@ INVALID = [
 ]
 
 # TODO: Max initcode as specified on EIP-3860
+
+"""
+EIP-4750 Valid and Invalid Containers
+"""
+
+VALID += [
+    Container(
+        name="max_code_sections_1024",
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
+    ),
+    Container(
+        name="max_code_sections_1024_and_data",
+        sections=([Section(kind=Kind.CODE, data="0x00")] * 1024)
+        + [
+            Section(kind=Kind.DATA, data="0x00"),
+        ],
+    ),
+    Container(
+        name="multiple_code_section_max_inputs_max_outputs",
+        sections=[
+            Section(kind=Kind.CODE, data="0x00"),
+            Section(
+                kind=Kind.CODE,
+                data=Op.RETF,
+                code_inputs=127,
+                code_outputs=127,
+                max_stack_height=127,
+            ),
+        ],
+    ),
+    Container(
+        name="single_code_section_max_stack_size",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=Op.CALLER * 1023 + Op.POP * 1023 + Op.STOP,
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=1023,
+            ),
+        ],
+    ),
+]
+
+INVALID += [
+    Container(
+        name="single_code_section_non_zero_inputs",
+        sections=[Section(kind=Kind.CODE, data=Op.POP, code_inputs=1)],
+    ),
+    Container(
+        name="single_code_section_non_zero_outputs",
+        sections=[Section(kind=Kind.CODE, data=Op.PUSH0, code_outputs=1)],
+    ),
+    Container(
+        name="multiple_code_section_non_zero_inputs",
+        sections=[
+            Section(kind=Kind.CODE, data=Op.POP, code_inputs=1),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
+        name="multiple_code_section_non_zero_outputs",
+        sections=[
+            Section(kind=Kind.CODE, data=Op.PUSH0, code_outputs=1),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
+        name="data_section_before_code_with_type",
+        sections=[
+            Section(kind=Kind.DATA, data="0xAA"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
+        name="data_section_listed_in_type",
+        sections=[
+            Section(kind=Kind.DATA, data="0x00", force_type_listing=True),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
+        name="code_sections_above_1024",
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1025,
+    ),
+    Container(
+        name="single_code_section_incomplete_type",
+        sections=[
+            Section(kind=Kind.TYPE, data="0x00"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
+        name="single_code_section_incomplete_type_2",
+        sections=[
+            Section(kind=Kind.TYPE, data="0x00", custom_size=2),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
+        name="single_code_section_oversized_type",
+        sections=[  # why no work
+            Section(kind=Kind.TYPE, data="0x0000000000"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
+        name="single_code_section_input_too_large",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=Op.POP + Op.RETF,
+                code_inputs=128,
+                code_outputs=127,
+                max_stack_height=0,
+            ),
+        ],
+    ),
+    Container(
+        name="single_code_section_output_too_large",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=Op.CALLER + Op.RETF,
+                code_inputs=127,
+                code_outputs=128,
+                max_stack_height=1,
+            ),
+        ],
+    ),
+    Container(
+        name="single_code_section_max_stack_size_too_large",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=Op.CALLER * 1024 + Op.POP * 1024 + Op.STOP,
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=1024,
+            ),
+        ],
+    ),
+]
