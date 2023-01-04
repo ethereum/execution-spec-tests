@@ -202,6 +202,7 @@ class Container(Code):
         return c
 
 
+
 def create_code_header(code_sections: List[Section]) -> bytes:
     """
     Creates the single code header for all code sections contained in
