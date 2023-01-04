@@ -18,6 +18,7 @@ def fill_test(
     test_spec: TestSpec,
     forks: List[str],
     engine: str,
+    fill_limit: str,
     eips: Optional[List[int]] = None,
 ) -> Mapping[str, Fixture]:
     """
@@ -27,6 +28,8 @@ def fill_test(
     for fork in forks:
 
         for index, test in enumerate(test_spec(fork)):
+            if fill_limit and fill_limit not in test.name:
+                continue
 
             mapped = map_fork(fork)
             if mapped is None:

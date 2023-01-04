@@ -27,13 +27,14 @@ def test_from_until(
     def decorator(
         fn: TestSpec,
     ) -> Callable[[Any, Any, str], Mapping[str, Fixture]]:
-        def inner(t8n, b11r, engine) -> Mapping[str, Fixture]:
+        def inner(t8n, b11r, engine, limit) -> Mapping[str, Fixture]:
             return fill_test(
                 t8n,
                 b11r,
                 fn,
                 forks_from_until(fork_from, fork_until),
                 engine,
+                limit,
                 eips=eips,
             )
 
@@ -63,9 +64,9 @@ def test_from(
     def decorator(
         fn: TestSpec,
     ) -> Callable[[Any, Any, str], Mapping[str, Fixture]]:
-        def inner(t8n, b11r, engine) -> Mapping[str, Fixture]:
+        def inner(t8n, b11r, engine, limit) -> Mapping[str, Fixture]:
             return fill_test(
-                t8n, b11r, fn, forks_from(fork), engine, eips=eips
+                t8n, b11r, fn, forks_from(fork), engine, limit, eips=eips
             )
 
         name = fn.__name__
@@ -94,8 +95,8 @@ def test_only(
     def decorator(
         fn: TestSpec,
     ) -> Callable[[Any, Any, str], Mapping[str, Fixture]]:
-        def inner(t8n, b11r, engine) -> Mapping[str, Fixture]:
-            return fill_test(t8n, b11r, fn, [fork], engine, eips=eips)
+        def inner(t8n, b11r, engine, limit) -> Mapping[str, Fixture]:
+            return fill_test(t8n, b11r, fn, [fork], engine, limit, eips=eips)
 
         name = fn.__name__
         assert name.startswith(TESTS_PREFIX)
