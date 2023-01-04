@@ -2,7 +2,7 @@
 Ethereum Virtual Machine opcode definitions.
 """
 from enum import Enum
-from typing import Union
+from typing import Tuple, Union
 
 
 class Opcode(bytes):
@@ -23,6 +23,7 @@ class Opcode(bytes):
     pushed_stack_items: int
     min_stack_height: int
     immediate_length: int
+    variable_immediate_length: Tuple[int]
 
     def __new__(
         cls,
@@ -31,7 +32,8 @@ class Opcode(bytes):
         popped_stack_items: int = 0,
         pushed_stack_items: int = 0,
         min_stack_height: int = 0,
-        immediate_length: int = 0
+        immediate_length: int = 0,
+        variable_immediate_length: Tuple[int] = ()
     ):
         """
         Creates a new opcode instance.
@@ -46,9 +48,18 @@ class Opcode(bytes):
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
             obj.immediate_length = immediate_length
+            obj.variable_immediate_length = variable_immediate_length
             return obj
 
-    def __call__(self, data: int = 0) -> bytes:
+    def get_immediate_item_length(self, i: int) -> int:
+        if len(self.variable_immediate_length) == 0:
+            return self.immediate_length
+
+        if i >= len(self.variable_immediate_length):
+            return self.variable_immediate_length[-1]
+        return self.variable_immediate_length[i]
+
+    def __call__(self, *data_items: int) -> bytes:
         """
         Makes all opcode instances callable to return a bytes object containing
         the opcode byte plus a formatted data portion.
@@ -62,21 +73,26 @@ class Opcode(bytes):
         where:
         `data_portion_bits == immediate_length * 8`
         """
-        if self.immediate_length == 0:
-            if data == 0:
-                return self
-            raise OverflowError(
-                "Attempted to append data to an opcode without data portion"
-            )
+        if len(data_items) == 0:
+            return self
 
-        if data < 0:
-            data_portion = data.to_bytes(
-                length=self.immediate_length, byteorder="big", signed=True
-            )
-        else:
-            data_portion = data.to_bytes(
-                length=self.immediate_length, byteorder="big", signed=False
-            )
+        data_portion = bytes()
+        for i, data in enumerate(data_items):
+            immediate_length = self.get_immediate_item_length(i)
+            if immediate_length == 0:
+                raise OverflowError(
+                    "Attempted to append data to an opcode without data"
+                    + "portion"
+                )
+
+            if data < 0:
+                data_portion += data.to_bytes(
+                    length=immediate_length, byteorder="big", signed=True
+                )
+            else:
+                data_portion += data.to_bytes(
+                    length=immediate_length, byteorder="big", signed=False
+                )
 
         return self + data_portion
 
@@ -98,6 +114,13 @@ class Opcode(bytes):
         Returns the integer representation of the opcode.
         """
         return int.from_bytes(bytes=self, byteorder="big")
+
+    def minimum_stack_height(self) -> int:
+        """
+        Returns the minimum amount of stack items so that opcode execution
+        does not produce a stack exception.
+        """
+        return max([self.min_stack_height, self.popped_stack_items])
 
 
 class Opcodes(Opcode, Enum):
@@ -184,6 +207,11 @@ class Opcodes(Opcode, Enum):
     JUMPDEST = Opcode(0x5B)
     RJUMP = Opcode(0x5C, immediate_length=2)
     RJUMPI = Opcode(0x5D, popped_stack_items=1, immediate_length=2)
+    RJUMPV = Opcode(
+        0x5E,
+        popped_stack_items=1,
+        variable_immediate_length=(1, 2),
+    )
     CALLF = Opcode(0xB0, immediate_length=2)
     RETF = Opcode(0xB1)
 
@@ -299,7 +327,6 @@ opcode_map = {
     0x13: Opcodes.SGT,
     0x14: Opcodes.EQ,
     0x15: Opcodes.ISZERO,
-    0x15: Opcodes.ISZERO,
     0x16: Opcodes.AND,
     0x17: Opcodes.OR,
     0x18: Opcodes.XOR,
@@ -348,6 +375,7 @@ opcode_map = {
     0x5B: Opcodes.JUMPDEST,
     0x5C: Opcodes.RJUMP,
     0x5D: Opcodes.RJUMPI,
+    0x5E: Opcodes.RJUMPV,
     0xB0: Opcodes.CALLF,
     0xB1: Opcodes.RETF,
     0x5F: Opcodes.PUSH0,
