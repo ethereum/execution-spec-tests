@@ -129,6 +129,7 @@ pc
 retf
 rjump
 rjumpi
+rjumpv
 sendall
 sload
 sstore

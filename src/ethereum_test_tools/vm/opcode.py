@@ -23,7 +23,7 @@ class Opcode(bytes):
     pushed_stack_items: int
     min_stack_height: int
     immediate_length: int
-    variable_immediate_length: Tuple[int]
+    variable_immediate_length: Tuple[int, ...] | None = None
 
     def __new__(
         cls,
@@ -33,7 +33,7 @@ class Opcode(bytes):
         pushed_stack_items: int = 0,
         min_stack_height: int = 0,
         immediate_length: int = 0,
-        variable_immediate_length: Tuple[int] = ()
+        variable_immediate_length: Tuple[int, ...] | None = None
     ):
         """
         Creates a new opcode instance.
@@ -52,12 +52,28 @@ class Opcode(bytes):
             return obj
 
     def get_immediate_item_length(self, i: int) -> int:
-        if len(self.variable_immediate_length) == 0:
+        """
+        Gets the byte length of an item that forms the immediate data after the
+        opcode.
+        Only useful for opcodes that have `variable_immediate_length` set.
+        For other opcodes simply returns `immediate_length`.
+        """
+        if (
+            self.variable_immediate_length is None
+            or len(self.variable_immediate_length) == 0
+        ):
             return self.immediate_length
 
         if i >= len(self.variable_immediate_length):
             return self.variable_immediate_length[-1]
         return self.variable_immediate_length[i]
+
+    def minimum_stack_height(self) -> int:
+        """
+        Returns the minimum amount of stack items so that opcode execution
+        does not produce a stack exception.
+        """
+        return max([self.min_stack_height, self.popped_stack_items])
 
     def __call__(self, *data_items: int) -> bytes:
         """
@@ -114,13 +130,6 @@ class Opcode(bytes):
         Returns the integer representation of the opcode.
         """
         return int.from_bytes(bytes=self, byteorder="big")
-
-    def minimum_stack_height(self) -> int:
-        """
-        Returns the minimum amount of stack items so that opcode execution
-        does not produce a stack exception.
-        """
-        return max([self.min_stack_height, self.popped_stack_items])
 
 
 class Opcodes(Opcode, Enum):

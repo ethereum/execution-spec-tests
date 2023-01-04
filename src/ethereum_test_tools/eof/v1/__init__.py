@@ -28,7 +28,7 @@ class Section:
     Class that represents a section in an EOF V1 container.
     """
 
-    data: Code | str | bytes | None = None
+    data: Code | str | bytes = bytes()
     """
     Data to be contained by this section.
     Can be code, another EOF container or any other abstract data.
@@ -200,7 +200,6 @@ class Container(Code):
             c += self.extra
 
         return c
-
 
 
 def create_code_header(code_sections: List[Section]) -> bytes:
