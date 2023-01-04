@@ -3,9 +3,11 @@ EVM Object Format Version 1 Libary to generate bytecode for testing purposes
 """
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from ...code import Code, code_to_bytes
+from ...vm.opcode import OPCODE_MAP
+from ...vm.opcode import Opcodes as Op
 from ..constants import EOF_HEADER_TERMINATOR, EOF_MAGIC
 
 VERSION_NUMBER = bytes.fromhex("01")
@@ -62,6 +64,16 @@ class Section:
     """
     Maximum height data stack reaches during execution of code section.
     """
+    auto_max_stack_height: bool = False
+    """
+    Whether to automatically compute the best suggestion for the
+    max_stack_height value for this code section.
+    """
+    auto_code_inputs_outputs: bool = False
+    """
+    Whether to automatically compute the best suggestion for the code_inputs,
+    code_outputs values for this code section.
+    """
 
     def get_header(self) -> bytes:
         """
@@ -82,6 +94,39 @@ class Section:
             return self.kind.to_bytes(1, byteorder="big") + size.to_bytes(
                 2, byteorder="big"
             )
+
+    def with_auto_max_stack_height(self) -> "Section":
+        """
+        Creates a copy of the section with `auto_max_stack_height` set to True.
+        """
+        return Section(
+            data=self.data,
+            custom_size=self.custom_size,
+            kind=self.kind,
+            force_type_listing=self.force_type_listing,
+            code_inputs=self.code_inputs,
+            code_outputs=self.code_outputs,
+            max_stack_height=self.max_stack_height,
+            auto_max_stack_height=True,
+            auto_code_inputs_outputs=self.auto_code_inputs_outputs,
+        )
+
+    def with_auto_code_inputs_outputs(self) -> "Section":
+        """
+        Creates a copy of the section with `auto_code_inputs_outputs` set to
+        True.
+        """
+        return Section(
+            data=self.data,
+            custom_size=self.custom_size,
+            kind=self.kind,
+            force_type_listing=self.force_type_listing,
+            code_inputs=self.code_inputs,
+            code_outputs=self.code_outputs,
+            max_stack_height=self.max_stack_height,
+            auto_max_stack_height=self.auto_max_stack_height,
+            auto_code_inputs_outputs=True,
+        )
 
 
 @dataclass(kw_only=True)
@@ -127,6 +172,10 @@ class Container(Code):
     Automatically generate a `CODE` section header based on the
     included `CODE` kind sections.
     """
+    validity_error: str = ""
+    """
+    Optional error expected for the container.
+    """
 
     def assemble(self) -> bytes:
         """
@@ -156,8 +205,27 @@ class Container(Code):
             type_section_data: bytes = bytes()
             for s in sections:
                 if s.kind == SectionKind.CODE or s.force_type_listing:
+                    code_inputs, code_outputs, max_stack_height = (
+                        s.code_inputs,
+                        s.code_outputs,
+                        s.max_stack_height,
+                    )
+                    if s.auto_max_stack_height or s.auto_code_inputs_outputs:
+                        (
+                            auto_code_inputs,
+                            auto_code_outputs,
+                            auto_max_height,
+                        ) = compute_code_stack_values(code_to_bytes(s.data))
+                        if s.auto_max_stack_height:
+                            max_stack_height = auto_max_height
+                        if s.auto_code_inputs_outputs:
+                            code_inputs, code_outputs = (
+                                auto_code_inputs,
+                                auto_code_outputs,
+                            )
+
                     type_section_data += make_type_def(
-                        s.code_inputs, s.code_outputs, s.max_stack_height
+                        code_inputs, code_outputs, max_stack_height
                     )
             sections = [
                 Section(kind=SectionKind.TYPE, data=type_section_data)
@@ -247,3 +315,37 @@ def make_type_def(inputs, outputs, max_stack_height) -> bytes:
         byteorder="big",
     )
     return out
+
+
+def compute_code_stack_values(code: bytes) -> Tuple[int, int, int]:
+    """
+    Computes the stack values for the given bytecode.
+
+    TODO: THIS DOES NOT WORK WHEN THE RJUMP* JUMPS BACKWARDS (and many other
+    things).
+    """
+    i = 0
+    stack_height = 0
+    min_stack_height = 0
+    max_stack_height = 0
+
+    # compute type annotation
+    while i < len(code):
+        op = OPCODE_MAP.get(code[i])
+        if op is None:
+            raise Exception("unknown opcode" + hex(code[i]))
+        elif op == Op.RJUMPV:
+            i += 1
+            if i < len(code):
+                count = code[i]
+                i += count * 2
+        else:
+            i += 1 + op.immediate_length
+
+        stack_height -= op.popped_stack_items
+        min_stack_height = min(stack_height, min_stack_height)
+        stack_height += op.pushed_stack_items
+        max_stack_height = max(stack_height, max_stack_height)
+    if stack_height < 0:
+        stack_height = 0
+    return (abs(min_stack_height), stack_height, max_stack_height)
