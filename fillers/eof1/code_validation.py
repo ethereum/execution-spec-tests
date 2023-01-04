@@ -298,7 +298,7 @@ OPCODES_WITH_MINIMUM_STACK_HEIGHT = [
 ]
 for op in OPCODES_WITH_MINIMUM_STACK_HEIGHT:
     underflow_stack_opcodes = Op.ORIGIN * (op.minimum_stack_height() - 1)
-    # Test using diferent max stack heights
+    # Test using different max stack heights
     for max_stack_height in [
         op.minimum_stack_height() - 1,
         op.minimum_stack_height(),
