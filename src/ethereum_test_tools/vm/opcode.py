@@ -317,7 +317,7 @@ class Opcodes(Opcode, Enum):
     SENDALL = Opcode(0xFF, popped_stack_items=1)
 
 
-opcode_map = {
+OPCODE_MAP = {
     0x00: Opcodes.STOP,
     0x01: Opcodes.ADD,
     0x02: Opcodes.MUL,

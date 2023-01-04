@@ -6,8 +6,8 @@ from typing import List
 from ethereum_test_tools import Code
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
+from ethereum_test_tools.vm.opcode import OPCODE_MAP
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_tools.vm.opcode import opcode_map
 
 VALID: List[Code | Container] = []
 INVALID: List[Code | Container] = []
@@ -25,7 +25,7 @@ def code_to_container(name: str, code: bytes) -> Container:
 
     # compute type annotation
     while i < len(code):
-        op = opcode_map.get(code[i])
+        op = OPCODE_MAP.get(code[i])
         if op is None:
             raise Exception("unknown opcode" + hex(code[i]))
         elif op == Op.RJUMPV:
