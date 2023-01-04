@@ -25,6 +25,10 @@ VALID = [
             Section(kind=Kind.DATA, data="0x00"),
         ],
     ),
+    Container(
+        name="max_code_sections",
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
+    ),
 ]
 
 INVALID = [
@@ -46,7 +50,12 @@ INVALID = [
         name="data_section_size_incomplete",
         bytecode=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x02, 0x02, 0x00]),
     ),
-    Container(name="no_sections", sections=[]),
+    Container(
+        name="no_sections",
+        sections=[],
+        auto_data_section=False,
+        auto_type_section=False,
+    ),
     Container(
         name="invalid_magic_01",
         custom_magic=0x01,
@@ -75,6 +84,38 @@ INVALID = [
     Container(
         name="no_code_section",
         sections=[Section(kind=Kind.DATA, data="0x00")],
+    ),
+    Container(
+        name="too_many_code_sections",
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1025,
+    ),
+    Code(
+        name="zero_code_sections_header",
+        bytecode=bytes(
+            [
+                0xEF,
+                0x00,
+                0x01,
+                0x01,
+                0x00,
+                0x04,
+                0x02,
+                0x00,
+                0x00,
+                0x03,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+            ]
+        ),
     ),
     Container(
         name="no_section_terminator_1",
@@ -193,6 +234,15 @@ INVALID = [
         ],
     ),
     Container(
+        name="code_section_out_of_order",
+        #  auto_type_section=False,
+        sections=[
+            Section(kind=Kind.CODE, data="0x00"),
+            Section(kind=Kind.DATA, data="0xAA"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
+    Container(
         name="unknown_section_1",
         sections=[
             Section(kind=Kind.CODE, data="0x00"),
@@ -215,6 +265,47 @@ INVALID = [
             Section(kind=Kind.DATA, data="0x"),
             Section(kind=VERSION_MAX_SECTION_KIND + 1, data="0x"),
         ],
+    ),
+    Container(
+        name="too_many_type_sections",
+        sections=[
+            Section(kind=Kind.TYPE, data="0x00000000"),
+            Section(kind=Kind.TYPE, data="0x00000000"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+        auto_type_section=False,
+    ),
+    Container(
+        name="empty_type_section",
+        sections=[
+            Section(kind=Kind.TYPE, data="0x"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+        auto_type_section=False,
+    ),
+    Container(
+        name="type_section_too_small_1",
+        sections=[
+            Section(kind=Kind.TYPE, data="0x00"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+        auto_type_section=False,
+    ),
+    Container(
+        name="type_section_too_small_2",
+        sections=[
+            Section(kind=Kind.TYPE, data="0x000000"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+        auto_type_section=False,
+    ),
+    Container(
+        name="type_section_too_big",
+        sections=[
+            Section(kind=Kind.TYPE, data="0x0000000000"),
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+        auto_type_section=False,
     ),
 ]
 

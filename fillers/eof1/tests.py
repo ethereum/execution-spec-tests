@@ -18,11 +18,13 @@ from ethereum_test_tools import (
 
 from .code_validation import INVALID as INVALID_CODE
 from .code_validation import VALID as VALID_CODE
+from .code_validation_rjump import INVALID as INVALID_RJUMP
+from .code_validation_rjump import VALID as VALID_RJUMP
 from .container import INVALID as INVALID_CONTAINERS
 from .container import VALID as VALID_CONTAINERS
 
-ALL_VALID = VALID_CONTAINERS + VALID_CODE
-ALL_INVALID = INVALID_CONTAINERS + INVALID_CODE
+ALL_VALID = VALID_CONTAINERS + VALID_CODE + VALID_RJUMP
+ALL_INVALID = INVALID_CONTAINERS + INVALID_CODE + INVALID_RJUMP
 
 EOF_FORK_NAME = "Shanghai"
 

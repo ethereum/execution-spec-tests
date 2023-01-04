@@ -10,7 +10,7 @@ V1_EOF_OPCODES: List[Op] = [
     # new eof ops
     Op.RJUMP,
     Op.RJUMPI,
-    #  Op.RJUMPV,
+    Op.RJUMPV,
     Op.CALLF,
     Op.RETF,
     #  Op.JUMPF,
@@ -72,8 +72,6 @@ V1_EOF_OPCODES: List[Op] = [
     Op.MSTORE8,
     Op.SLOAD,
     Op.SSTORE,
-    Op.JUMP,
-    Op.JUMPI,
     Op.MSIZE,
     Op.GAS,
     Op.JUMPDEST,
@@ -148,17 +146,42 @@ V1_EOF_OPCODES: List[Op] = [
     Op.LOG4,
     Op.CREATE,
     Op.CALL,
-    Op.CALLCODE,
+    # Op.CALLCODE,
     Op.RETURN,
     Op.DELEGATECALL,
     Op.CREATE2,
     Op.STATICCALL,
     Op.REVERT,
     Op.INVALID,
-    Op.SELFDESTRUCT,
+    # Op.SELFDESTRUCT,
 ]
 """
 List of all valid EOF V1 opcodes for Shanghai.
+"""
+
+V1_EOF_DEPRECATED_OPCODES = [
+    Op.SELFDESTRUCT,
+    Op.CALLCODE,
+    Op.JUMP,
+    Op.JUMPI,
+    Op.PC,
+]
+"""
+List of opcodes that will be deprecated for EOF V1.
+
+For these opcodes we will also add the correct expected amount of stack items
+so the container is not considered invalid due to buffer underflow.
+"""
+
+V1_EOF_ONLY_OPCODES = [
+    Op.RJUMP,
+    Op.RJUMPI,
+    Op.RJUMPV,
+    Op.CALLF,
+    Op.RETF,
+]
+"""
+List of valid EOF V1 opcodes that are disabled in legacy bytecode.
 """
 
 VALID_TERMINATING_OPCODES = [
@@ -176,5 +199,7 @@ INVALID_TERMINATING_OPCODES = [
 INVALID_OPCODES = [
     bytes([i])
     for i in range(256)
-    if i not in [x.int() for x in V1_EOF_OPCODES]
+    if i
+    not in [x.int() for x in V1_EOF_OPCODES]
+    + [x.int() for x in V1_EOF_DEPRECATED_OPCODES]
 ]
