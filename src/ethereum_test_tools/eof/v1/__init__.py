@@ -60,7 +60,7 @@ class Section:
     """
     max_stack_height: int = 0
     """
-    Maximum hieght data stack reaches during execution of code section.
+    Maximum height data stack reaches during execution of code section.
     """
 
     def get_header(self) -> bytes:
@@ -151,8 +151,7 @@ class Container(Code):
 
         if (
             self.auto_type_section
-            and len(sections) != 0
-            and sections[0].kind != SectionKind.TYPE
+            and count_sections(sections, SectionKind.TYPE) == 0
         ):
             type_section_data: bytes = bytes()
             for s in sections:
@@ -164,34 +163,27 @@ class Container(Code):
                 Section(kind=SectionKind.TYPE, data=type_section_data)
             ] + sections
 
-        code_sizes = []
-        if self.auto_code_header and len(sections) != 0:
-            for s in sections:
-                if s.kind == SectionKind.CODE:
-                    if s.custom_size:
-                        code_sizes.append(s.custom_size)
-                    elif s.data is None:
-                        continue
-                    else:
-                        code_sizes.append(len(code_to_bytes(s.data)))
-
         if self.auto_data_section:
-            if len(sections) > 0 and sections[-1].kind == SectionKind.DATA:
+            if count_sections(sections, SectionKind.DATA) > 0:
                 pass  # already exists
             else:
                 sections.append(Section(kind=SectionKind.DATA, data="0x"))
 
         # Add headers
-        for i, s in enumerate(sections):
-            if self.auto_code_header and i == 1:
-                c += SectionKind.CODE.to_bytes(1, "big") + len(
-                    code_sizes
-                ).to_bytes(2, "big")
-                for size in code_sizes:
-                    c += size.to_bytes(2, byteorder="big")
-            if s.kind == SectionKind.CODE:
-                continue
+        current_code_sections = []
+        for s in sections:
+            if self.auto_code_header:
+                if s.kind == SectionKind.CODE:
+                    current_code_sections.append(s)
+                    continue
+                elif len(current_code_sections) > 0:
+                    c += create_code_header(current_code_sections)
+                    current_code_sections = []
+
             c += s.get_header()
+
+        if len(current_code_sections) > 0:
+            c += create_code_header(current_code_sections)
 
         # Add header terminator
         if self.custom_terminator is not None:
@@ -208,6 +200,33 @@ class Container(Code):
             c += self.extra
 
         return c
+
+
+def create_code_header(code_sections: List[Section]) -> bytes:
+    """
+    Creates the single code header for all code sections contained in
+    the list.
+    """
+    h = bytes()
+    h += SectionKind.CODE.to_bytes(1, "big")
+    h += len(code_sections).to_bytes(2, "big")
+    for cs in code_sections:
+        if cs.custom_size:
+            h += cs.custom_size.to_bytes(2, "big")
+        else:
+            h += len(code_to_bytes(cs.data)).to_bytes(2, "big")
+    return h
+
+
+def count_sections(sections: List[Section], kind: SectionKind | int) -> int:
+    """
+    Counts sections from a list that match a specific kind
+    """
+    count = 0
+    for s in sections:
+        if s.kind == kind:
+            count += 1
+    return count
 
 
 def make_type_def(inputs, outputs, max_stack_height) -> bytes:

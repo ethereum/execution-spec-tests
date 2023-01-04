@@ -9,6 +9,15 @@ from ..eof.v1 import Container, Section, SectionKind
 @pytest.mark.parametrize(
     ["container", "hex"],
     [
+        # No sections
+        (
+            Container(
+                auto_data_section=False,
+                auto_type_section=False,
+                sections=[],
+            ),
+            "ef0001 00",
+        ),
         # Single code section
         (
             Container(
@@ -19,11 +28,21 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 01 0001 00 00",
+            "ef0001 01 0004 02 0001 0001 03 0000 00 00000000 00",
+        ),
+        # No code section
+        (
+            Container(
+                name="no_code_section",
+                sections=[Section(kind=SectionKind.DATA, data="0x00")],
+            ),
+            "ef0001 01 0000 03 0001 00 00",
         ),
         # Single data section
         (
             Container(
+                auto_type_section=False,
+                auto_code_header=False,
                 sections=[
                     Section(
                         kind=SectionKind.DATA,
@@ -31,11 +50,14 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 02 0001 00 00",
+            "ef0001 03 0001 00 00",
         ),
         # Custom invalid section
         (
             Container(
+                auto_data_section=False,
+                auto_type_section=False,
+                auto_code_header=False,
                 sections=[
                     Section(
                         kind=0xFE,
@@ -43,7 +65,7 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 fe 0001 00 00",
+            "ef0001 fe 0001 00 00",
         ),
         # Multiple sections
         (
@@ -59,7 +81,31 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 01 0001 02 0001 00 0e 0f",
+            "ef0001 01 0004 02 0001 0001 03 0001 00 00000000 0e 0f",
+        ),
+        # Multiple type sections
+        (
+            Container(
+                sections=[
+                    Section(
+                        kind=SectionKind.TYPE,
+                        data="0x00000000",
+                    ),
+                    Section(
+                        kind=SectionKind.TYPE,
+                        data="0x00000000",
+                    ),
+                    Section(
+                        kind=SectionKind.CODE,
+                        data="0x00",
+                    ),
+                ],
+                auto_type_section=False,
+            ),
+            """
+            ef0001 01 0004 01 0004 02 0001 0001 03 0000 00
+            00000000 00000000 00
+            """,
         ),
         # Invalid Magic
         (
@@ -72,7 +118,7 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "effe 01 01 0001 00 00",
+            "effe01 01 0004 02 0001 0001 03 0000 00 00000000 00",
         ),
         # Invalid Version
         (
@@ -85,7 +131,7 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 02 01 0001 00 00",
+            "ef0002 01 0004 02 0001 0001 03 0000 00 00000000 00",
         ),
         # Section Invalid size Version
         (
@@ -98,7 +144,7 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 01 ffff 00 00",
+            "ef0001 01 0004 02 0001 ffff 03 0000 00 00000000 00",
         ),
         # Nested EOF
         (
@@ -106,6 +152,10 @@ from ..eof.v1 import Container, Section, SectionKind
                 sections=[
                     Section(
                         kind=SectionKind.CODE,
+                        data="0x00",
+                    ),
+                    Section(
+                        kind=SectionKind.DATA,
                         data=Container(
                             sections=[
                                 Section(
@@ -117,7 +167,10 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 01 0008 00 ef00 01 01 0001 00 01",
+            """
+            ef0001 01 0004 02 0001 0001 03 0014 00 00000000 00
+            ef0001 01 0004 02 0001 0001 03 0000 00 00000000 01
+            """,
         ),
         # Incomplete code section
         (
@@ -130,7 +183,7 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 01 0002 00",
+            "ef0001 01 0004 02 0001 0002 03 0000 00 00000000",
         ),
         # Trailing bytes after code section
         (
@@ -143,7 +196,7 @@ from ..eof.v1 import Container, Section, SectionKind
                 ],
                 extra=bytes.fromhex("deadbeef"),
             ),
-            "ef00 01 01 0003 00 600000 deadbeef",
+            "ef0001 01 0004 02 0001 0003 03 0000 00 00000000 600000 deadbeef",
         ),
         # Multiple code sections
         (
@@ -159,9 +212,13 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
                 name="multiple_code_sections",
-                auto_type_section=False,
             ),
-            "ef00 01 01 0003 01 0003 00 600000 600000",
+            """
+            ef0001 01 0008 02 0002 0003 0003 03 0000 00
+            00000000 00000000
+            600000
+            600000
+            """,
         ),
         # No section terminator
         (
@@ -174,50 +231,22 @@ from ..eof.v1 import Container, Section, SectionKind
                 ],
                 custom_terminator=bytes(),
             ),
-            "ef00 01 01 0003 600000",
+            "ef0001 01 0004 02 0001 0003 03 0000 00000000 600000",
         ),
-        # No section terminator 2
+        # No auto type section
         (
             Container(
-                sections=[
-                    Section(
-                        kind=SectionKind.CODE,
-                        data="0x",
-                        custom_size=3,
-                    ),
-                ],
-                custom_terminator=bytes(),
-            ),
-            "ef00 01 01 0003",
-        ),
-        (
-            Container(
+                auto_type_section=False,
                 sections=[
                     Section(
                         kind=SectionKind.CODE,
                         data="0x00",
                     ),
                 ],
-                force_type_section=True,
             ),
-            "ef00 01 03 0002 01 0001 00 0000 00",
+            "ef0001 02 0001 0001 03 0000 00 00",
         ),
-        (
-            Container(
-                sections=[
-                    Section(
-                        kind=SectionKind.CODE,
-                        data="0x00",
-                    ),
-                    Section(
-                        kind=SectionKind.DATA,
-                        data="0x00",
-                    ),
-                ],
-                force_type_section=True,
-            ),
-            "ef00 01 03 0002 01 0001 02 0001 00 0000 00 00",
-        ),
+        # Data section in types
         (
             Container(
                 sections=[
@@ -231,10 +260,14 @@ from ..eof.v1 import Container, Section, SectionKind
                         force_type_listing=True,
                     ),
                 ],
-                force_type_section=True,
             ),
-            "ef00 01 03 0004 01 0001 02 0001 00 0000 0000 00 00",
+            """
+            ef0001 01 0008 02 0001 0001 03 0001 00
+            00000000 00000000
+            00 00
+            """,
         ),
+        # Code section inputs
         (
             Container(
                 sections=[
@@ -244,27 +277,121 @@ from ..eof.v1 import Container, Section, SectionKind
                         code_inputs=1,
                     ),
                 ],
-                force_type_section=True,
             ),
-            "ef00 01 03 0002 01 0001 00 0100 00",
+            """
+            ef0001 01 0004 02 0001 0001 03 0000 00
+            01000000
+            00
+            """,
         ),
+        # Code section inputs 2
         (
             Container(
                 sections=[
                     Section(
                         kind=SectionKind.CODE,
                         data="0x00",
+                        code_inputs=0xFF,
+                    ),
+                ],
+            ),
+            """
+            ef0001 01 0004 02 0001 0001 03 0000 00
+            ff000000
+            00
+            """,
+        ),
+        # Code section outputs
+        (
+            Container(
+                sections=[
+                    Section(
+                        kind=SectionKind.CODE,
+                        data="0x00",
+                        code_outputs=1,
+                    ),
+                ],
+            ),
+            """
+            ef0001 01 0004 02 0001 0001 03 0000 00
+            00010000
+            00
+            """,
+        ),
+        # Code section outputs 2
+        (
+            Container(
+                sections=[
+                    Section(
+                        kind=SectionKind.CODE,
+                        data="0x00",
+                        code_outputs=0xFF,
+                    ),
+                ],
+            ),
+            """
+            ef0001 01 0004 02 0001 0001 03 0000 00
+            00ff0000
+            00
+            """,
+        ),
+        # Code section max stack height
+        (
+            Container(
+                sections=[
+                    Section(
+                        kind=SectionKind.CODE,
+                        data="0x00",
+                        max_stack_height=0x0201,
+                    ),
+                ],
+            ),
+            """
+            ef0001 01 0004 02 0001 0001 03 0000 00
+            00000201
+            00
+            """,
+        ),
+        # Code section max stack height 2
+        (
+            Container(
+                sections=[
+                    Section(
+                        kind=SectionKind.CODE,
+                        data="0x00",
+                        max_stack_height=0xFFFF,
+                    ),
+                ],
+            ),
+            """
+            ef0001 01 0004 02 0001 0001 03 0000 00
+            0000FFFF
+            00
+            """,
+        ),
+        # Code section max stack height 3
+        (
+            Container(
+                sections=[
+                    Section(
+                        kind=SectionKind.CODE,
+                        data="0x00",
+                        max_stack_height=0xFFFF,
                     ),
                     Section(
                         kind=SectionKind.CODE,
                         data="0x00",
-                        code_inputs=255,
-                        code_outputs=255,
                     ),
                 ],
             ),
-            "ef00 01 03 0004 01 0001 01 0001 00 0000 ffff 00 00",
+            """
+            ef0001 01 0008 02 0002 0001 0001 03 0000 00
+            0000FFFF 00000000
+            00
+            00
+            """,
         ),
+        # Custom type section
         (
             Container(
                 sections=[
@@ -278,30 +405,14 @@ from ..eof.v1 import Container, Section, SectionKind
                     ),
                 ],
             ),
-            "ef00 01 03 0001 01 0001 00 00 00",
+            "ef0001 01 0001 02 0001 0001 03 0000 00 00 00",
         ),
         (
             Container(
                 sections=[
                     Section(
                         kind=SectionKind.TYPE,
-                        custom_size=2,
-                        data="0x00",
-                    ),
-                    Section(
-                        kind=SectionKind.CODE,
-                        data="0x00",
-                    ),
-                ],
-            ),
-            "ef00 01 03 0002 01 0001 00 00 00",
-        ),
-        (
-            Container(
-                sections=[
-                    Section(
-                        kind=SectionKind.TYPE,
-                        data="0x000000",
+                        data="0x0000000000",
                     ),
                     Section(
                         kind=SectionKind.CODE,
@@ -310,7 +421,18 @@ from ..eof.v1 import Container, Section, SectionKind
                 ],
                 name="eip_4750_single_code_section_oversized_type",
             ),
-            "ef00 01 03 0003 01 0001 00 000000 00",
+            "ef0001 01 0005 02 0001 0001 03 0000 00 0000000000 00",
+        ),
+        # Empty type section
+        (
+            Container(
+                sections=[
+                    Section(kind=SectionKind.TYPE, data="0x"),
+                    Section(kind=SectionKind.CODE, data="0x00"),
+                ],
+                auto_type_section=False,
+            ),
+            "ef0001 01 0000 02 0001 0001 03 0000 00 00",
         ),
     ],
 )
@@ -318,4 +440,7 @@ def test_eof_v1_assemble(container: Container, hex: str):
     """
     Test `ethereum_test.types.code`.
     """
-    assert container.assemble() == bytes.fromhex(hex.replace(" ", ""))
+    assembled_container = container.assemble()
+    assert assembled_container == bytes.fromhex(
+        hex.replace(" ", "").replace("\n", "")
+    )
