@@ -14,7 +14,7 @@ VALID: List[Code | Container] = []
 INVALID: List[Code | Container] = []
 
 MAX_BYTECODE_SIZE = 24576
-MANY_RJUMPS = (MAX_BYTECODE_SIZE - 27) // 3
+MANY_RJUMP_COUNT = (MAX_BYTECODE_SIZE - 27) // 3
 
 VALID_CODE_SECTIONS: List[Tuple[str, Section]] = [
     (
@@ -25,13 +25,12 @@ VALID_CODE_SECTIONS: List[Tuple[str, Section]] = [
         ),
     ),
     (
-        # 5c0003 5c0003 5c0003 5c0003 5c0003 5c -15 00
         "reachable_code_many_rjump",
         Section(
             kind=Kind.CODE,
             data=(
-                (Op.RJUMP(len(Op.RJUMP)) * (MANY_RJUMPS - 1))
-                + Op.RJUMP(-(len(Op.RJUMP) * (MANY_RJUMPS - 1)))
+                (Op.RJUMP(len(Op.RJUMP)) * (MANY_RJUMP_COUNT - 1))
+                + Op.RJUMP(-(len(Op.RJUMP) * (MANY_RJUMP_COUNT - 1)))
                 + Op.STOP
             ),
         ),
@@ -90,9 +89,9 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
         Section(
             kind=Kind.CODE,
             data=(
-                (Op.RJUMP(len(Op.RJUMP)) * (MANY_RJUMPS - 2))
-                + Op.RJUMP(-(len(Op.RJUMP) * (MANY_RJUMPS - 1)))
-                + Op.RJUMP(-(len(Op.RJUMP) * (MANY_RJUMPS - 1)))
+                (Op.RJUMP(len(Op.RJUMP)) * (MANY_RJUMP_COUNT - 2))
+                + Op.RJUMP(-(len(Op.RJUMP) * (MANY_RJUMP_COUNT - 1)))
+                + Op.RJUMP(-(len(Op.RJUMP) * (MANY_RJUMP_COUNT - 1)))
                 + Op.STOP
             ),
         ),
@@ -492,7 +491,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
         Section(
             kind=Kind.CODE,
             data=Op.ORIGIN
-            + Op.RJUMPV(255, *([0] * 254), len(Op.STOP))  # last branch underfl
+            # last branch underflow
+            + Op.RJUMPV(255, *([0] * 254), len(Op.STOP))
             + Op.STOP
             + Op.POP
             + Op.STOP,
@@ -504,7 +504,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
         Section(
             kind=Kind.CODE,
             data=Op.ORIGIN
-            + Op.RJUMPV(255, len(Op.STOP), *([0] * 254))  # 1st branch underfl
+            # first branch underflow
+            + Op.RJUMPV(255, len(Op.STOP), *([0] * 254))
             + Op.STOP
             + Op.POP
             + Op.STOP,
