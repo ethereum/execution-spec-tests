@@ -333,7 +333,7 @@ def compute_code_stack_values(code: bytes) -> Tuple[int, int, int]:
     while i < len(code):
         op = OPCODE_MAP.get(code[i])
         if op is None:
-            raise Exception("unknown opcode" + hex(code[i]))
+            return (0, 0, 0)
         elif op == Op.RJUMPV:
             i += 1
             if i < len(code):

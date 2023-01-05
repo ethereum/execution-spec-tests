@@ -4,7 +4,7 @@ EOF v1 code validation tests
 
 from typing import List
 
-from ethereum_test_tools import Code
+from ethereum_test_tools import Code, ceiling_division
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -16,6 +16,10 @@ from .opcodes import (
     V1_EOF_OPCODES,
     VALID_TERMINATING_OPCODES,
 )
+
+MAX_TOTAL_STACK_HEIGHT = 1023
+MAX_BYTECODE_SIZE = 24576
+MAX_INITCODE_LENGTH = MAX_BYTECODE_SIZE * 2
 
 VALID: List[Code | Container] = []
 INVALID: List[Code | Container] = []
@@ -37,10 +41,11 @@ def make_valid_stack_opcode(op: Op) -> bytes:
 # Create containers where each valid terminating opcode is at the end of the
 # bytecode.
 for op in VALID_TERMINATING_OPCODES:
+    opcode_name = op._name_.lower()
     # Valid terminating opcode at the end of the section
     VALID.append(
         Container(
-            name=f"valid_terminating_opcode_{op._name_}",
+            name=f"valid_terminating_opcode_{opcode_name}",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -56,7 +61,7 @@ for op in VALID_TERMINATING_OPCODES:
     # resulting in unreachable code
     INVALID.append(
         Container(
-            name=f"unreachable_code_after_opcode_{op._name_}",
+            name=f"unreachable_code_after_opcode_{opcode_name}",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -73,6 +78,7 @@ for op in VALID_TERMINATING_OPCODES:
 # in the code, with also a valid terminating opcode at the end (STOP).
 for op in V1_EOF_OPCODES:
     if op not in VALID_TERMINATING_OPCODES and op != Op.RJUMPV:
+        opcode_name = op._name_.lower()
         max_stack_height = max(
             op.minimum_stack_height(),
             op.minimum_stack_height()
@@ -81,7 +87,7 @@ for op in V1_EOF_OPCODES:
         )
         VALID.append(
             Container(
-                name=f"valid_opcode_{op._name_}",
+                name=f"valid_opcode_{opcode_name}",
                 sections=[
                     Section(
                         kind=Kind.CODE,
@@ -99,6 +105,7 @@ for op in V1_EOF_OPCODES:
 # Create containers where each invalid terminating opcode is located at the
 # end of the bytecode.
 for op in INVALID_TERMINATING_OPCODES:
+    opcode_name = op._name_.lower()
     max_stack_height = max(
         op.minimum_stack_height(),
         op.minimum_stack_height()
@@ -107,7 +114,7 @@ for op in INVALID_TERMINATING_OPCODES:
     )
     INVALID.append(
         Container(
-            name=f"invalid_terminating_opcode_{op._name_}",
+            name=f"invalid_terminating_opcode_{opcode_name}",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -140,6 +147,7 @@ for invalid_op_byte in INVALID_OPCODES:
 # We need to add the proper stack items so the stack validation does not
 # produce a false positive.
 for op in V1_EOF_DEPRECATED_OPCODES:
+    opcode_name = op._name_.lower()
     max_stack_height = max(
         op.minimum_stack_height(),
         op.minimum_stack_height()
@@ -157,7 +165,7 @@ for op in V1_EOF_DEPRECATED_OPCODES:
                     max_stack_height=max_stack_height,
                 ),
             ],
-            name=f"deprecated_opcode_{op._name_}",
+            name=f"deprecated_opcode_{opcode_name}",
         ),
     )
 
@@ -169,6 +177,7 @@ OPCODES_WITH_IMMEDIATE = [
     op for op in V1_EOF_OPCODES if op.immediate_length > 0
 ]
 for op in OPCODES_WITH_IMMEDIATE:
+    opcode_name = op._name_.lower()
     max_stack_height = max(
         op.minimum_stack_height(),
         op.minimum_stack_height()
@@ -179,7 +188,7 @@ for op in OPCODES_WITH_IMMEDIATE:
     # No immediate
     INVALID.append(
         Container(
-            name=f"truncated_opcode_{op}_no_immediate",
+            name=f"truncated_opcode_{opcode_name}_no_immediate",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -206,14 +215,14 @@ for op in OPCODES_WITH_IMMEDIATE:
                         max_stack_height=max_stack_height,
                     )
                 ],
-                name=f"truncated_opcode_{op}_terminating",
+                name=f"truncated_opcode_{opcode_name}_terminating",
             ),
         )
     # Single byte as immediate
     if op.immediate_length > 2:
         INVALID.append(
             Container(
-                name=f"truncated_opcode_{op}_one_byte",
+                name=f"truncated_opcode_{opcode_name}_one_byte",
                 sections=[
                     Section(
                         kind=Kind.CODE,
@@ -226,77 +235,13 @@ for op in OPCODES_WITH_IMMEDIATE:
             ),
         )
 
-# Special cases required for truncated Op.RJUMPV
-if Op.RJUMPV in V1_EOF_OPCODES:
-    max_stack_height = Op.RJUMPV.minimum_stack_height()
-    stack_opcodes = Op.ORIGIN * max_stack_height
-    # COUNT=0 truncated
-    INVALID.append(
-        Container(
-            sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=stack_opcodes + Op.RJUMPV(0),
-                    code_inputs=0,
-                    code_outputs=0,
-                    max_stack_height=max_stack_height,
-                )
-            ],
-            name="truncated_rjumpv_count_0",
-        ),
-    )
-    # COUNT=1 truncated
-    INVALID.append(
-        Container(
-            sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=stack_opcodes + Op.RJUMPV(1),
-                    code_inputs=0,
-                    code_outputs=0,
-                    max_stack_height=max_stack_height,
-                )
-            ],
-            name="truncated_rjumpv_count_1",
-        ),
-    )
-    # COUNT=2 truncated
-    INVALID.append(
-        Container(
-            sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=stack_opcodes + Op.RJUMPV(2, 0),
-                    code_inputs=0,
-                    code_outputs=0,
-                    max_stack_height=max_stack_height,
-                )
-            ],
-            name="truncated_rjumpv_count_2",
-        ),
-    )
-    # COUNT=255 truncated
-    INVALID.append(
-        Container(
-            sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=stack_opcodes + Op.RJUMPV(255, *([0] * 254)),
-                    code_inputs=0,
-                    code_outputs=0,
-                    max_stack_height=max_stack_height,
-                )
-            ],
-            name="truncated_rjumpv_count_255",
-        ),
-    )
-
 
 # Check all opcodes that can underflow the stack
 OPCODES_WITH_MINIMUM_STACK_HEIGHT = [
     op for op in V1_EOF_OPCODES if op.minimum_stack_height() > 0
 ]
 for op in OPCODES_WITH_MINIMUM_STACK_HEIGHT:
+    opcode_name = op._name_.lower()
     underflow_stack_opcodes = Op.ORIGIN * (op.minimum_stack_height() - 1)
     # Test using different max stack heights
     for max_stack_height in [
@@ -306,7 +251,7 @@ for op in OPCODES_WITH_MINIMUM_STACK_HEIGHT:
         if op in VALID_TERMINATING_OPCODES:
             INVALID.append(
                 Container(
-                    name=f"underflow_stack_opcode_{op}"
+                    name=f"underflow_stack_opcode_{opcode_name}"
                     + f"_max_stack_height_{max_stack_height}",
                     sections=[
                         Section(
@@ -317,12 +262,13 @@ for op in OPCODES_WITH_MINIMUM_STACK_HEIGHT:
                             max_stack_height=max_stack_height,
                         )
                     ],
+                    validity_error="StackUnderflow",
                 ),
             )
         else:
             INVALID.append(
                 Container(
-                    name=f"underflow_stack_opcode_{op}"
+                    name=f"underflow_stack_opcode_{opcode_name}"
                     + f"_max_stack_height_{max_stack_height}",
                     sections=[
                         Section(
@@ -333,6 +279,7 @@ for op in OPCODES_WITH_MINIMUM_STACK_HEIGHT:
                             max_stack_height=max_stack_height,
                         )
                     ],
+                    validity_error="StackUnderflow",
                 ),
             )
 
@@ -343,4 +290,56 @@ OPCODES_WITH_PUSH_STACK_ITEMS = [
     if op.pushed_stack_items > op.popped_stack_items
 ]
 for op in OPCODES_WITH_PUSH_STACK_ITEMS:
-    pass
+    opcode_name = op._name_.lower()
+    increment_per_iter = op.pushed_stack_items - op.popped_stack_items
+    iterations_needed = ceiling_division(
+        (MAX_TOTAL_STACK_HEIGHT + 1) - op.minimum_stack_height(),
+        increment_per_iter,
+    )
+    op_data = bytes([0] * op.immediate_length)
+
+    invalid_container = Container(
+        name=f"overflow_stack_opcode_{opcode_name}",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    (Op.ORIGIN * op.minimum_stack_height())
+                    + ((op + op_data) * iterations_needed)
+                    + Op.STOP
+                ),
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=1023,  # We are cheating a bit here
+            )
+        ],
+    )
+
+    non_overflowing_stack_height = op.minimum_stack_height() + (
+        increment_per_iter * (iterations_needed - 1)
+    )
+    assert non_overflowing_stack_height <= MAX_TOTAL_STACK_HEIGHT
+    valid_container = Container(
+        name=f"max_stack_opcode_{opcode_name}",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    (Op.ORIGIN * op.minimum_stack_height())
+                    + ((op + op_data) * (iterations_needed - 1))
+                    + Op.STOP
+                ),
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=non_overflowing_stack_height,
+            )
+        ],
+    )
+
+    if len(valid_container.assemble()) > MAX_BYTECODE_SIZE:
+        continue
+    VALID.append(valid_container)
+
+    if len(invalid_container.assemble()) > MAX_BYTECODE_SIZE:
+        continue
+    INVALID.append(invalid_container)
