@@ -125,6 +125,7 @@ mload
 msize
 mstore
 mstore8
+noop
 pc
 retf
 rjump

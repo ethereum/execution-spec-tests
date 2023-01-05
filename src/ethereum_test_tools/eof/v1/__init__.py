@@ -95,6 +95,23 @@ class Section:
                 2, byteorder="big"
             )
 
+    def with_max_stack_height(self, max_stack_height) -> "Section":
+        """
+        Creates a copy of the section with `max_stack_height` set to the
+        specified value.
+        """
+        return Section(
+            data=self.data,
+            custom_size=self.custom_size,
+            kind=self.kind,
+            force_type_listing=self.force_type_listing,
+            code_inputs=self.code_inputs,
+            code_outputs=self.code_outputs,
+            max_stack_height=max_stack_height,
+            auto_max_stack_height=self.auto_max_stack_height,
+            auto_code_inputs_outputs=self.auto_code_inputs_outputs,
+        )
+
     def with_auto_max_stack_height(self) -> "Section":
         """
         Creates a copy of the section with `auto_max_stack_height` set to True.

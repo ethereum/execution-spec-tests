@@ -213,6 +213,7 @@ class Opcodes(Opcode, Enum):
     PC = Opcode(0x58, pushed_stack_items=1)
     MSIZE = Opcode(0x59, pushed_stack_items=1)
     GAS = Opcode(0x5A, pushed_stack_items=1)
+    NOOP = Opcode(0x5B)
     JUMPDEST = Opcode(0x5B)
     RJUMP = Opcode(0x5C, immediate_length=2)
     RJUMPI = Opcode(0x5D, popped_stack_items=1, immediate_length=2)
@@ -381,7 +382,7 @@ OPCODE_MAP = {
     0x58: Opcodes.PC,
     0x59: Opcodes.MSIZE,
     0x5A: Opcodes.GAS,
-    0x5B: Opcodes.JUMPDEST,
+    0x5B: Opcodes.NOOP,
     0x5C: Opcodes.RJUMP,
     0x5D: Opcodes.RJUMPI,
     0x5E: Opcodes.RJUMPV,
