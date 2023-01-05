@@ -4,7 +4,7 @@ EOF v1 code validation tests
 
 from typing import List
 
-from ethereum_test_tools import Code, ceiling_division
+from ethereum_test_tools import ceiling_division
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -21,8 +21,8 @@ MAX_TOTAL_STACK_HEIGHT = 1023
 MAX_BYTECODE_SIZE = 24576
 MAX_INITCODE_LENGTH = MAX_BYTECODE_SIZE * 2
 
-VALID: List[Code | Container] = []
-INVALID: List[Code | Container] = []
+VALID: List[Container] = []
+INVALID: List[Container] = []
 
 
 def make_valid_stack_opcode(op: Op) -> bytes:
@@ -71,6 +71,7 @@ for op in VALID_TERMINATING_OPCODES:
                     max_stack_height=op.minimum_stack_height(),
                 ),
             ],
+            validity_error="UnreachableCode",
         ),
     )
 
@@ -124,6 +125,7 @@ for op in INVALID_TERMINATING_OPCODES:
                     max_stack_height=max_stack_height,
                 ),
             ],
+            validity_error="InvalidTerminatingOpcode",
         ),
     )
 
@@ -139,6 +141,7 @@ for invalid_op_byte in INVALID_OPCODES:
                     data=invalid_op_byte + Op.STOP,
                 ),
             ],
+            validity_error="UndefinedInstruction",
         ),
     )
 
@@ -156,6 +159,7 @@ for op in V1_EOF_DEPRECATED_OPCODES:
     )
     INVALID.append(
         Container(
+            name=f"deprecated_opcode_{opcode_name}",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -165,7 +169,7 @@ for op in V1_EOF_DEPRECATED_OPCODES:
                     max_stack_height=max_stack_height,
                 ),
             ],
-            name=f"deprecated_opcode_{opcode_name}",
+            validity_error="UndefinedInstruction",
         ),
     )
 
@@ -198,12 +202,14 @@ for op in OPCODES_WITH_IMMEDIATE:
                     max_stack_height=max_stack_height,
                 )
             ],
+            validity_error="TruncatedImmediate",
         ),
     )
     # Immediate minus one
     if op.immediate_length > 1:
         INVALID.append(
             Container(
+                name=f"truncated_opcode_{opcode_name}_terminating",
                 sections=[
                     Section(
                         kind=Kind.CODE,
@@ -215,7 +221,7 @@ for op in OPCODES_WITH_IMMEDIATE:
                         max_stack_height=max_stack_height,
                     )
                 ],
-                name=f"truncated_opcode_{opcode_name}_terminating",
+                validity_error="TruncatedImmediate",
             ),
         )
     # Single byte as immediate
@@ -232,6 +238,7 @@ for op in OPCODES_WITH_IMMEDIATE:
                         max_stack_height=max_stack_height,
                     )
                 ],
+                validity_error="TruncatedImmediate",
             ),
         )
 
@@ -313,6 +320,7 @@ for op in OPCODES_WITH_PUSH_STACK_ITEMS:
                 max_stack_height=1023,  # We are cheating a bit here
             )
         ],
+        validity_error="StackOverflow",
     )
 
     non_overflowing_stack_height = op.minimum_stack_height() + (

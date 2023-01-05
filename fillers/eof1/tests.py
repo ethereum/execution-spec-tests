@@ -204,6 +204,11 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
 
     for container in ALL_INVALID:
         # print(container.name + ": " + container.assemble().hex())
+        if container.validity_error == "":
+            print(
+                "WARN: Invalid container "
+                + f"`{container.name}` without validity error"
+            )
         legacy_initcode = Initcode(deploy_code=container)
         tx_create_contract.data = legacy_initcode
         tx_create_opcode.data = legacy_initcode
