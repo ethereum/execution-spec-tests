@@ -40,7 +40,7 @@ for op in VALID_TERMINATING_OPCODES:
     # Valid terminating opcode at the end of the section
     VALID.append(
         Container(
-            name=f"valid_terminating_opcode_{str(op)}",
+            name=f"valid_terminating_opcode_{op._name_}",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -56,7 +56,7 @@ for op in VALID_TERMINATING_OPCODES:
     # resulting in unreachable code
     INVALID.append(
         Container(
-            name=f"unreachable_code_after_opcode_{str(op)}",
+            name=f"unreachable_code_after_opcode_{op._name_}",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -81,7 +81,7 @@ for op in V1_EOF_OPCODES:
         )
         VALID.append(
             Container(
-                name=f"valid_opcode_{str(op)}",
+                name=f"valid_opcode_{op._name_}",
                 sections=[
                     Section(
                         kind=Kind.CODE,
@@ -107,7 +107,7 @@ for op in INVALID_TERMINATING_OPCODES:
     )
     INVALID.append(
         Container(
-            name=f"invalid_terminating_opcode_0x{op.hex()}",
+            name=f"invalid_terminating_opcode_{op._name_}",
             sections=[
                 Section(
                     kind=Kind.CODE,
@@ -157,7 +157,7 @@ for op in V1_EOF_DEPRECATED_OPCODES:
                     max_stack_height=max_stack_height,
                 ),
             ],
-            name=f"deprecated_opcode_{str(op)}",
+            name=f"deprecated_opcode_{op._name_}",
         ),
     )
 
