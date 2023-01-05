@@ -8,6 +8,8 @@ from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .opcodes import V1_EOF_OPCODES
+
 VALID: List[Code | Container] = []
 INVALID: List[Code | Container] = []
 
@@ -85,6 +87,22 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
         "InvalidRelativeOffset",
     ),
     (
+        "rjump_self_immediate_data_1",
+        Section(
+            kind=Kind.CODE,
+            data=Op.RJUMP(-1) + Op.RETF,
+        ),
+        "InvalidRelativeOffset",
+    ),
+    (
+        "rjump_self_immediate_data_2",
+        Section(
+            kind=Kind.CODE,
+            data=Op.RJUMP(-2) + Op.RETF,
+        ),
+        "InvalidRelativeOffset",
+    ),
+    (
         "rjumpi_oob_1",
         Section(
             kind=Kind.CODE,
@@ -97,6 +115,22 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
         Section(
             kind=Kind.CODE,
             data=Op.PUSH0 + Op.RJUMPI(1) + Op.RETF,
+        ),
+        "InvalidRelativeOffset",
+    ),
+    (
+        "rjumpi_self_immediate_data_1",
+        Section(
+            kind=Kind.CODE,
+            data=Op.PUSH0 + Op.RJUMPI(-2) + Op.RETF,
+        ),
+        "InvalidRelativeOffset",
+    ),
+    (
+        "rjumpi_self_immediate_data_2",
+        Section(
+            kind=Kind.CODE,
+            data=Op.PUSH0 + Op.RJUMPI(-1) + Op.RETF,
         ),
         "InvalidRelativeOffset",
     ),
@@ -126,6 +160,206 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
 ]
 
+# Check that rjump cannot jump to the immediate data section of any opcode
+OPCODES_WITH_IMMEDIATE = [
+    op for op in V1_EOF_OPCODES if op.immediate_length > 0
+]
+for op in OPCODES_WITH_IMMEDIATE:
+    op_stack_code = Op.ORIGIN * op.minimum_stack_height()
+    op_data = bytes([0] * op.immediate_length)
+    opcode_length = 1
+
+    # RJUMP to opcode immediate data of opcode appearing earlier in code
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjump_start_immediate_data_opcode_{op._name_}_1",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Add items to stack necessary to not underflow
+                    op_stack_code
+                    + op
+                    + op_data
+                    # Code added to reach end at some point
+                    + Op.ORIGIN
+                    + Op.RJUMPI(len(Op.RJUMP(0)))
+                    # Jump under test
+                    + Op.RJUMP(
+                        -(
+                            len(Op.RJUMP(0))
+                            + len(Op.RJUMPI(0))
+                            + len(Op.ORIGIN)
+                            + len(op_data)
+                        )
+                    )
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjump_end_immediate_data_opcode_{op._name_}_1",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Add items to stack necessary to not underflow
+                    op_stack_code
+                    + op
+                    + op_data
+                    # Code added to reach end at some point
+                    + Op.ORIGIN
+                    + Op.RJUMPI(len(Op.RJUMP(0)))
+                    # Jump under test
+                    + Op.RJUMP(
+                        -(
+                            len(Op.RJUMP(0))
+                            + len(Op.RJUMPI(0))
+                            + len(Op.ORIGIN)
+                            + 1
+                        )
+                    )
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+    # RJUMP to opcode immediate data of opcode appearing later in code
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjump_start_immediate_data_opcode_{op._name_}_2",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Code added to reach end at some point
+                    Op.ORIGIN
+                    + Op.RJUMPI(len(Op.RJUMP(0)))
+                    + Op.RJUMP(len(op_stack_code) + opcode_length)
+                    # Add items to stack necessary to not underflow
+                    + op_stack_code
+                    + op
+                    + op_data
+                    # Jump
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjump_end_immediate_data_opcode_{op._name_}_2",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Code added to reach end at some point
+                    Op.ORIGIN
+                    + Op.RJUMPI(len(Op.RJUMP(0)))
+                    + Op.RJUMP(
+                        len(op_stack_code) + opcode_length + len(op_data) - 1
+                    )
+                    # Add items to stack necessary to not underflow
+                    + op_stack_code
+                    + op
+                    + op_data
+                    # Jump
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+
+    # RJUMPI to opcode immediate data of opcode appearing earlier in code
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjumpi_start_immediate_data_opcode_{op._name_}_1",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Add items to stack necessary to not underflow
+                    op_stack_code
+                    + op
+                    + op_data
+                    # Add at least 1 value to stack for RJUMPI
+                    + Op.ORIGIN
+                    # Jump
+                    + Op.RJUMPI(
+                        -(len(Op.RJUMPI(0)) + len(Op.ORIGIN) + len(op_data))
+                    )
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjumpi_end_immediate_data_opcode_{op._name_}_1",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Add items to stack necessary to not underflow
+                    op_stack_code
+                    + op
+                    + op_data
+                    # Add at least 1 value to stack for RJUMPI
+                    + Op.ORIGIN
+                    # Jump
+                    + Op.RJUMPI(-(len(Op.RJUMPI(0)) + len(Op.ORIGIN) + 1))
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+
+    # RJUMPI to opcode immediate data of opcode appearing later in code
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjumpi_start_immediate_data_opcode_{op._name_}_2",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Add at least 1 value to stack for RJUMPI
+                    Op.ORIGIN
+                    # Jump
+                    + Op.RJUMPI(len(op_stack_code) + opcode_length)
+                    # Add items to stack necessary to not underflow
+                    + op_stack_code
+                    + op
+                    + op_data
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+    INVALID_CODE_SECTIONS.append(
+        (
+            f"rjumpi_end_immediate_data_opcode_{op._name_}_2",
+            Section(
+                kind=Kind.CODE,
+                data=(
+                    # Add at least 1 value to stack for RJUMPI
+                    Op.ORIGIN
+                    # Jump
+                    + Op.RJUMPI(
+                        len(op_stack_code) + opcode_length + len(op_data) - 1
+                    )
+                    # Add items to stack necessary to not underflow
+                    + op_stack_code
+                    + op
+                    + op_data
+                    + Op.STOP
+                ),
+            ),
+            "InvalidRelativeOffset",
+        )
+    )
+
 # TODO:
 # RJUMPV count is not zero
 # RJUMPV is not truncated
@@ -134,7 +368,9 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
 # RJUMPV path leads to recursion
 # RJUMPV path leaves out unreachable code
 # RJUMPV path leads to opcode immediate data
-# RJUMP does not jump to immediate data of some other opcode
+# RJUMP does not jump to immediate data of self
+# RJUMP does not jump to immediate data of some other opcode before the RJUMP
+# RJUMP does not jump to immediate data of some other opcode after the RJUMP
 
 for (name, section, error) in INVALID_CODE_SECTIONS:
     # Valid code section as main code section of the container
