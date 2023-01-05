@@ -152,7 +152,7 @@ class Container(Code):
     Class that represents an EOF V1 container.
     """
 
-    sections: List[Section]
+    sections: Optional[List[Section]] = None
     """
     List of sections in the container
     """
@@ -193,11 +193,24 @@ class Container(Code):
     """
     Optional error expected for the container.
     """
+    raw_bytes: Optional[bytes] = None
+    """
+    Optional raw bytes that represent the container.
+    Used to have a cohesive type among all test cases, even those that do not
+    resemble a valid EOF V1 container.
+    """
 
     def assemble(self) -> bytes:
         """
         Converts the EOF V1 Container into bytecode.
         """
+        if self.raw_bytes is not None:
+            assert type(self.raw_bytes) is bytes
+            assert self.sections is None or len(self.sections) == 0
+            return self.raw_bytes
+
+        assert self.sections is not None
+
         c = bytes.fromhex("EF")
 
         c += (
