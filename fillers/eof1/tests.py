@@ -99,7 +99,7 @@ def test_legacy_initcode_valid_eof_v1_contract(_):
     )
 
     for container in ALL_VALID:
-        print(container.assemble().hex())
+        # print(container.assemble().hex())
         legacy_initcode = Initcode(deploy_code=container)
         tx_create_contract.data = legacy_initcode
         tx_create_opcode.data = legacy_initcode
@@ -203,7 +203,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
     )
 
     for container in ALL_INVALID:
-        print(container.name + ": " + container.assemble().hex())
+        # print(container.name + ": " + container.assemble().hex())
         legacy_initcode = Initcode(deploy_code=container)
         tx_create_contract.data = legacy_initcode
         tx_create_opcode.data = legacy_initcode
