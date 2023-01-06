@@ -4,11 +4,11 @@ EOF v1 code validation tests
 
 from typing import List
 
-from ethereum_test_tools import ceiling_division
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .constants import MAX_BYTECODE_SIZE, MAX_OPERAND_STACK_HEIGHT
 from .opcodes import (
     INVALID_OPCODES,
     INVALID_TERMINATING_OPCODES,
@@ -16,10 +16,6 @@ from .opcodes import (
     V1_EOF_OPCODES,
     VALID_TERMINATING_OPCODES,
 )
-
-MAX_TOTAL_STACK_HEIGHT = 1023
-MAX_BYTECODE_SIZE = 24576
-MAX_INITCODE_LENGTH = MAX_BYTECODE_SIZE * 2
 
 VALID: List[Container] = []
 INVALID: List[Container] = []
@@ -290,6 +286,18 @@ for op in OPCODES_WITH_MINIMUM_STACK_HEIGHT:
                 ),
             )
 
+
+def get_stack_overflow_opcode_iteration_count(op: Op) -> int:
+    assert op.pushed_stack_items > op.popped_stack_items
+    iters = 0
+    stack_height = op.minimum_stack_height()
+    while stack_height < (MAX_OPERAND_STACK_HEIGHT + 1):
+        stack_height -= op.popped_stack_items
+        stack_height += op.pushed_stack_items
+        iters += 1
+    return iters
+
+
 # Check all opcodes that can overflow the stack
 OPCODES_WITH_PUSH_STACK_ITEMS = [
     op
@@ -299,10 +307,7 @@ OPCODES_WITH_PUSH_STACK_ITEMS = [
 for op in OPCODES_WITH_PUSH_STACK_ITEMS:
     opcode_name = op._name_.lower()
     increment_per_iter = op.pushed_stack_items - op.popped_stack_items
-    iterations_needed = ceiling_division(
-        (MAX_TOTAL_STACK_HEIGHT + 1) - op.minimum_stack_height(),
-        increment_per_iter,
-    )
+    iterations_needed = get_stack_overflow_opcode_iteration_count(op)
     op_data = bytes([0] * op.immediate_length)
 
     invalid_container = Container(
@@ -317,7 +322,8 @@ for op in OPCODES_WITH_PUSH_STACK_ITEMS:
                 ),
                 code_inputs=0,
                 code_outputs=0,
-                max_stack_height=1023,  # We are cheating a bit here
+                # We are cheating a bit here
+                max_stack_height=MAX_OPERAND_STACK_HEIGHT,
             )
         ],
         validity_error="StackOverflow",
@@ -326,7 +332,7 @@ for op in OPCODES_WITH_PUSH_STACK_ITEMS:
     non_overflowing_stack_height = op.minimum_stack_height() + (
         increment_per_iter * (iterations_needed - 1)
     )
-    assert non_overflowing_stack_height <= MAX_TOTAL_STACK_HEIGHT
+    assert non_overflowing_stack_height <= MAX_OPERAND_STACK_HEIGHT
     valid_container = Container(
         name=f"max_stack_opcode_{opcode_name}",
         sections=[

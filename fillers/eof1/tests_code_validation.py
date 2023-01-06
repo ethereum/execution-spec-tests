@@ -1,5 +1,5 @@
 """
-EOF tests
+EOF V1 Code Validation tests
 """
 
 from ethereum_test_tools import (
@@ -18,15 +18,19 @@ from ethereum_test_tools import (
 
 from .code_validation import INVALID as INVALID_CODE
 from .code_validation import VALID as VALID_CODE
+from .code_validation_function import INVALID as INVALID_FN
+from .code_validation_function import VALID as VALID_FN
 from .code_validation_jump import INVALID as INVALID_RJUMP
 from .code_validation_jump import VALID as VALID_RJUMP
+from .constants import EOF_FORK_NAME
 from .container import INVALID as INVALID_CONTAINERS
 from .container import VALID as VALID_CONTAINERS
+from .tests_execution_function import VALID as VALID_EXEC_FN
 
-ALL_VALID = VALID_CONTAINERS + VALID_CODE + VALID_RJUMP
-ALL_INVALID = INVALID_CONTAINERS + INVALID_CODE + INVALID_RJUMP
-
-EOF_FORK_NAME = "Shanghai"
+ALL_VALID = (
+    VALID_CONTAINERS + VALID_CODE + VALID_RJUMP + VALID_FN + VALID_EXEC_FN
+)
+ALL_INVALID = INVALID_CONTAINERS + INVALID_CODE + INVALID_RJUMP + INVALID_FN
 
 
 @test_from(EOF_FORK_NAME)
@@ -99,7 +103,7 @@ def test_legacy_initcode_valid_eof_v1_contract(_):
     )
 
     for container in ALL_VALID:
-        # print(container.assemble().hex())
+        # print(container.name + ": " + container.assemble().hex())
         legacy_initcode = Initcode(deploy_code=container)
         tx_create_contract.data = legacy_initcode
         tx_create_opcode.data = legacy_initcode
@@ -231,3 +235,20 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
             else "unknown_container",
         )
         del post[create2_opcode_contract]
+
+
+# TODO: EOF cannot create legacy code:
+#       Tx -> EOF-initcode -> Legacy return (Fail)
+#       EOF contract CREATE -> EOF-initcode -> Legacy return (Fail)
+#       EOF contract CREATE2 -> EOF-initcode -> Legacy return (Fail)
+#
+#       Tx -> Legacy-initcode -> Legacy return (Pass)
+#       EOF contract CREATE -> Legacy-initcode -> Legacy return (Fail)
+#       EOF contract CREATE2 -> Legacy-initcode -> Legacy return (Fail)
+#
+#       Tx -> Legacy-initcode -> EOF return (Pass)
+#       EOF contract CREATE -> Legacy-initcode -> EOF return (Fail)
+#       EOF contract CREATE2 -> Legacy-initcode -> EOF return (Fail)
+# TODO: Create empty contract from EOF
+# TODO: No new opcodes in legacy code
+# TODO: General EOF initcode validation

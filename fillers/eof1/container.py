@@ -12,6 +12,12 @@ from ethereum_test_tools.eof.v1 import (
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .constants import (
+    MAX_CODE_INPUTS,
+    MAX_CODE_OUTPUTS,
+    MAX_OPERAND_STACK_HEIGHT,
+)
+
 VALID: List[Container] = [
     Container(
         name="single_code_section",
@@ -464,21 +470,63 @@ VALID += [
             Section(
                 kind=Kind.CODE,
                 data=Op.RETF,
-                code_inputs=127,
-                code_outputs=127,
-                max_stack_height=127,
+                code_inputs=MAX_CODE_INPUTS,
+                code_outputs=MAX_CODE_OUTPUTS,
+                max_stack_height=MAX_CODE_INPUTS,
             ),
         ],
+    ),
+    Container(
+        name="single_code_section_input_maximum",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=((Op.PUSH0 * MAX_CODE_INPUTS) + Op.CALLF(1) + Op.STOP),
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=MAX_CODE_INPUTS,
+            ),
+            Section(
+                kind=Kind.CODE,
+                data=(Op.POP * MAX_CODE_INPUTS) + Op.RETF,
+                code_inputs=MAX_CODE_INPUTS,
+                code_outputs=0,
+                max_stack_height=0,
+            ),
+        ],
+        validity_error="InvalidTypeBody",
+    ),
+    Container(
+        name="single_code_section_output_maximum",
+        sections=[
+            Section(
+                kind=Kind.CODE,
+                data=(Op.CALLF(1) + Op.STOP),
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=MAX_CODE_OUTPUTS,
+            ),
+            Section(
+                kind=Kind.CODE,
+                data=(Op.PUSH0 * MAX_CODE_OUTPUTS) + Op.RETF,
+                code_inputs=0,
+                code_outputs=MAX_CODE_OUTPUTS,
+                max_stack_height=MAX_CODE_OUTPUTS,
+            ),
+        ],
+        validity_error="InvalidTypeBody",
     ),
     Container(
         name="single_code_section_max_stack_size",
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=Op.CALLER * 1023 + Op.POP * 1023 + Op.STOP,
+                data=(Op.CALLER * MAX_OPERAND_STACK_HEIGHT)
+                + (Op.POP * MAX_OPERAND_STACK_HEIGHT)
+                + Op.STOP,
                 code_inputs=0,
                 code_outputs=0,
-                max_stack_height=1023,
+                max_stack_height=MAX_OPERAND_STACK_HEIGHT,
             ),
         ],
     ),
@@ -554,9 +602,18 @@ INVALID += [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=Op.POP + Op.RETF,
-                code_inputs=128,
-                code_outputs=127,
+                data=(
+                    (Op.PUSH0 * (MAX_CODE_INPUTS + 1)) + Op.CALLF(1) + Op.STOP
+                ),
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=(MAX_CODE_INPUTS + 1),
+            ),
+            Section(
+                kind=Kind.CODE,
+                data=(Op.POP * (MAX_CODE_INPUTS + 1)) + Op.RETF,
+                code_inputs=(MAX_CODE_INPUTS + 1),
+                code_outputs=0,
                 max_stack_height=0,
             ),
         ],
@@ -567,10 +624,17 @@ INVALID += [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=Op.CALLER + Op.RETF,
-                code_inputs=127,
-                code_outputs=128,
-                max_stack_height=1,
+                data=(Op.CALLF(1) + Op.STOP),
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=(MAX_CODE_OUTPUTS + 1),
+            ),
+            Section(
+                kind=Kind.CODE,
+                data=(Op.PUSH0 * (MAX_CODE_OUTPUTS + 1)) + Op.RETF,
+                code_inputs=0,
+                code_outputs=(MAX_CODE_OUTPUTS + 1),
+                max_stack_height=(MAX_CODE_OUTPUTS + 1),
             ),
         ],
         validity_error="InvalidTypeBody",

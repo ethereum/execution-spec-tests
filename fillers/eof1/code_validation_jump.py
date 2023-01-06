@@ -3,19 +3,22 @@ Code validation of RJUMP, RJUMPI, RJUMPV opcodes tests
 """
 from typing import List, Tuple
 
-from ethereum_test_tools import Code
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .constants import (
+    MAX_BYTECODE_SIZE,
+    MAX_OPERAND_STACK_HEIGHT,
+    MAX_RJUMPV_COUNT,
+)
 from .opcodes import V1_EOF_OPCODES
 
-VALID: List[Code | Container] = []
-INVALID: List[Code | Container] = []
+VALID: List[Container] = []
+INVALID: List[Container] = []
 
 # Constants
-MAX_RJUMPV_COUNT = 0xFF
-MAX_BYTECODE_SIZE = 24576
+
 MANY_RJUMP_COUNT = (MAX_BYTECODE_SIZE - 27) // 3
 LONG_RJUMP = MAX_BYTECODE_SIZE - 34
 
@@ -802,7 +805,12 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
         "InvalidControlFlow",
     ),
 ]
-MAX_STACK_HEIGHTS = [1, 2, 1023, 1024]
+MAX_STACK_HEIGHTS = [
+    1,
+    2,
+    MAX_OPERAND_STACK_HEIGHT,
+    MAX_OPERAND_STACK_HEIGHT + 1,
+]
 for name, section, error in INVALID_OVERFLOW_CODE_SECTION:
     for max_stack_height in MAX_STACK_HEIGHTS:
         INVALID_CODE_SECTIONS.append(
