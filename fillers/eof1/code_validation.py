@@ -288,14 +288,18 @@ for op in OPCODES_WITH_MINIMUM_STACK_HEIGHT:
 
 
 def get_stack_overflow_opcode_iteration_count(op: Op) -> int:
+    """
+    Calculates the number of instances required of an opcode to produce an
+    overflow.
+    """
     assert op.pushed_stack_items > op.popped_stack_items
-    iters = 0
+    iterations = 0
     stack_height = op.minimum_stack_height()
     while stack_height < (MAX_OPERAND_STACK_HEIGHT + 1):
         stack_height -= op.popped_stack_items
         stack_height += op.pushed_stack_items
-        iters += 1
-    return iters
+        iterations += 1
+    return iterations
 
 
 # Check all opcodes that can overflow the stack

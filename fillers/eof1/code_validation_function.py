@@ -11,7 +11,10 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 from .constants import MAX_CODE_SECTIONS
 
 
-def bytes_sum(bytes_list: List[bytes]) -> bytes:
+def bytes_concatenate(bytes_list: List[bytes]) -> bytes:
+    """
+    Concatenates a list of bytes into a single object
+    """
     r = bytes()
     for b in bytes_list:
         r += b
@@ -69,7 +72,7 @@ VALID: List[Container] = [
             Section(
                 kind=Kind.CODE,
                 data=(
-                    bytes_sum(
+                    bytes_concatenate(
                         [Op.CALLF(i) for i in range(1, MAX_CODE_SECTIONS)]
                     )
                     + Op.STOP

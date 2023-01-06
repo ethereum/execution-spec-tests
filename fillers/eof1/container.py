@@ -491,7 +491,7 @@ VALID += [
                 data=(Op.POP * MAX_CODE_INPUTS) + Op.RETF,
                 code_inputs=MAX_CODE_INPUTS,
                 code_outputs=0,
-                max_stack_height=0,
+                max_stack_height=MAX_CODE_INPUTS,
             ),
         ],
         validity_error="InvalidTypeBody",
