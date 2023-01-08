@@ -131,7 +131,7 @@ def test_compute_create_address(
 )
 def test_compute_create2_address(
     address: str | int,
-    salt: int,
+    salt: str,
     initcode: str,
     expected_contract_address: str,
 ):
