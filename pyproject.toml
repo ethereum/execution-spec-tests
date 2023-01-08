@@ -9,3 +9,7 @@ line_length = 79
 
 [tool.black]
 line-length = 79
+
+[[tool.mypy.overrides]]
+module = "rlp"
+ignore_missing_imports = "True"
