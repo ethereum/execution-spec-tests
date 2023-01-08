@@ -2,8 +2,8 @@
 Helper functions/classes used to generate Ethereum tests.
 """
 
-from ethereum.crypto.hash import keccak256
-from ethereum.rlp import encode
+from eth_hash.auto import keccak as keccak256
+from rlp import encode
 
 """
 Helper functions
