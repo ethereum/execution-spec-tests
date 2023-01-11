@@ -117,7 +117,7 @@ def test_fill_state_test(fork: str, expected_json_file: str):
     b11r = EvmBlockBuilder()
     t8n = EvmTransitionTool()
 
-    fixture = fill_test(t8n, b11r, generator, [fork], "NoProof")
+    fixture = fill_test(t8n, b11r, generator, [fork], "NoProof", "")
     with open(
         os.path.join(
             "src",
@@ -396,7 +396,7 @@ def test_fill_london_blockchain_test_valid_txs():
     b11r = EvmBlockBuilder()
     t8n = EvmTransitionTool()
 
-    fixture = fill_test(t8n, b11r, generator, ["London"], "NoProof")
+    fixture = fill_test(t8n, b11r, generator, ["London"], "NoProof", "")
 
     with open(
         os.path.join(
@@ -724,7 +724,7 @@ def test_fill_london_blockchain_test_invalid_txs():
     b11r = EvmBlockBuilder()
     t8n = EvmTransitionTool()
 
-    fixture = fill_test(t8n, b11r, generator, ["London"], "NoProof")
+    fixture = fill_test(t8n, b11r, generator, ["London"], "NoProof", "")
 
     with open(
         os.path.join(

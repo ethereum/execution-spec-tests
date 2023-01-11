@@ -4,6 +4,7 @@ Python wrapper for the `evm t8n` tool.
 
 import json
 import os
+import pprint
 import subprocess
 import tempfile
 from abc import abstractmethod
@@ -136,11 +137,13 @@ class EvmTransitionTool(TransitionTool):
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
+    print_traces: bool
 
     def __init__(
         self,
         binary: Optional[Path] = None,
         trace: bool = False,
+        print_traces: bool = False,
     ):
         if binary is None:
             which_path = which("evm")
@@ -154,6 +157,7 @@ class EvmTransitionTool(TransitionTool):
             )
         self.binary = binary
         self.trace = trace
+        self.print_traces = print_traces
 
     def evaluate(
         self,
@@ -188,7 +192,7 @@ class EvmTransitionTool(TransitionTool):
             f"--state.reward={reward}",
         ]
 
-        if self.trace:
+        if self.trace or self.print_traces:
             args.append("--trace")
 
         stdin = {
@@ -216,7 +220,7 @@ class EvmTransitionTool(TransitionTool):
         with open(os.path.join(temp_dir.name, "txs.rlp"), "r") as txs_rlp_file:
             txs_rlp = txs_rlp_file.read().strip('"')
 
-        if self.trace:
+        if self.trace or self.print_traces:
             receipts: List[Any] = output["result"]["receipts"]
             traces: List[List[Dict]] = []
             for i, r in enumerate(receipts):
@@ -230,6 +234,9 @@ class EvmTransitionTool(TransitionTool):
                         tx_traces.append(json.loads(trace_line))
                     traces.append(tx_traces)
             self.append_traces(traces)
+            if self.print_traces:
+                pp = pprint.PrettyPrinter(indent=2)
+                pp.pprint(traces)
 
         temp_dir.cleanup()
 

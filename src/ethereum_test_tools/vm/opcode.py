@@ -2,7 +2,7 @@
 Ethereum Virtual Machine opcode definitions.
 """
 from enum import Enum
-from typing import Union
+from typing import Tuple, Union
 
 
 class Opcode(bytes):
@@ -15,14 +15,15 @@ class Opcode(bytes):
     - popped_stack_items: number of items the opcode pops from the stack
     - pushed_stack_items: number of items the opcode pushes to the stack
     - min_stack_height: minimum stack height required by the opcode
-    - data_portion_length: number of bytes after the opcode in the bytecode
+    - immediate_length: number of bytes after the opcode in the bytecode
         that represent data
     """
 
     popped_stack_items: int
     pushed_stack_items: int
     min_stack_height: int
-    data_portion_length: int
+    immediate_length: int
+    variable_immediate_length: Tuple[int, ...] | None = None
 
     def __new__(
         cls,
@@ -31,7 +32,8 @@ class Opcode(bytes):
         popped_stack_items: int = 0,
         pushed_stack_items: int = 0,
         min_stack_height: int = 0,
-        data_portion_length: int = 0
+        immediate_length: int = 0,
+        variable_immediate_length: Tuple[int, ...] | None = None
     ):
         """
         Creates a new opcode instance.
@@ -45,10 +47,35 @@ class Opcode(bytes):
             obj.popped_stack_items = popped_stack_items
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
-            obj.data_portion_length = data_portion_length
+            obj.immediate_length = immediate_length
+            obj.variable_immediate_length = variable_immediate_length
             return obj
 
-    def __call__(self, data: int = 0) -> bytes:
+    def get_immediate_item_length(self, i: int) -> int:
+        """
+        Gets the byte length of an item that forms the immediate data after the
+        opcode.
+        Only useful for opcodes that have `variable_immediate_length` set.
+        For other opcodes simply returns `immediate_length`.
+        """
+        if (
+            self.variable_immediate_length is None
+            or len(self.variable_immediate_length) == 0
+        ):
+            return self.immediate_length
+
+        if i >= len(self.variable_immediate_length):
+            return self.variable_immediate_length[-1]
+        return self.variable_immediate_length[i]
+
+    def minimum_stack_height(self) -> int:
+        """
+        Returns the minimum amount of stack items so that opcode execution
+        does not produce a stack exception.
+        """
+        return max([self.min_stack_height, self.popped_stack_items])
+
+    def __call__(self, *data_items: int) -> bytes:
         """
         Makes all opcode instances callable to return a bytes object containing
         the opcode byte plus a formatted data portion.
@@ -60,23 +87,28 @@ class Opcode(bytes):
         of the input must be:
         `[-2^(data_portion_bits-1), 2^(data_portion_bits)]`
         where:
-        `data_portion_bits == data_portion_length * 8`
+        `data_portion_bits == immediate_length * 8`
         """
-        if self.data_portion_length == 0:
-            if data == 0:
-                return self
-            raise OverflowError(
-                "Attempted to append data to an opcode without data portion"
-            )
+        if len(data_items) == 0:
+            return self
 
-        if data < 0:
-            data_portion = data.to_bytes(
-                length=self.data_portion_length, byteorder="big", signed=True
-            )
-        else:
-            data_portion = data.to_bytes(
-                length=self.data_portion_length, byteorder="big", signed=False
-            )
+        data_portion = bytes()
+        for i, data in enumerate(data_items):
+            immediate_length = self.get_immediate_item_length(i)
+            if immediate_length == 0:
+                raise OverflowError(
+                    "Attempted to append data to an opcode without data"
+                    + "portion"
+                )
+
+            if data < 0:
+                data_portion += data.to_bytes(
+                    length=immediate_length, byteorder="big", signed=True
+                )
+            else:
+                data_portion += data.to_bytes(
+                    length=immediate_length, byteorder="big", signed=False
+                )
 
         return self + data_portion
 
@@ -85,7 +117,13 @@ class Opcode(bytes):
         Returns the total bytecode length of the opcode, taking into account
         its data portion.
         """
-        return self.data_portion_length + 1
+        return self.immediate_length + 1
+
+    def __str__(self) -> str:
+        """
+        Returns the string representation of the opcode.
+        """
+        return hex(self.int())
 
     def int(self) -> int:
         """
@@ -175,45 +213,51 @@ class Opcodes(Opcode, Enum):
     PC = Opcode(0x58, pushed_stack_items=1)
     MSIZE = Opcode(0x59, pushed_stack_items=1)
     GAS = Opcode(0x5A, pushed_stack_items=1)
+    NOOP = Opcode(0x5B)
     JUMPDEST = Opcode(0x5B)
-    RJUMP = Opcode(0x5C, data_portion_length=2)
-    RJUMPI = Opcode(0x5D, popped_stack_items=1, data_portion_length=2)
-    CALLF = Opcode(0x5E, data_portion_length=2)
-    RETF = Opcode(0x49)
+    RJUMP = Opcode(0x5C, immediate_length=2)
+    RJUMPI = Opcode(0x5D, popped_stack_items=1, immediate_length=2)
+    RJUMPV = Opcode(
+        0x5E,
+        popped_stack_items=1,
+        variable_immediate_length=(1, 2),
+    )
+    CALLF = Opcode(0xB0, immediate_length=2)
+    RETF = Opcode(0xB1)
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
-    PUSH1 = Opcode(0x60, pushed_stack_items=1, data_portion_length=1)
-    PUSH2 = Opcode(0x61, pushed_stack_items=1, data_portion_length=2)
-    PUSH3 = Opcode(0x62, pushed_stack_items=1, data_portion_length=3)
-    PUSH4 = Opcode(0x63, pushed_stack_items=1, data_portion_length=4)
-    PUSH5 = Opcode(0x64, pushed_stack_items=1, data_portion_length=5)
-    PUSH6 = Opcode(0x65, pushed_stack_items=1, data_portion_length=6)
-    PUSH7 = Opcode(0x66, pushed_stack_items=1, data_portion_length=7)
-    PUSH8 = Opcode(0x67, pushed_stack_items=1, data_portion_length=8)
-    PUSH9 = Opcode(0x68, pushed_stack_items=1, data_portion_length=9)
-    PUSH10 = Opcode(0x69, pushed_stack_items=1, data_portion_length=10)
-    PUSH11 = Opcode(0x6A, pushed_stack_items=1, data_portion_length=11)
-    PUSH12 = Opcode(0x6B, pushed_stack_items=1, data_portion_length=12)
-    PUSH13 = Opcode(0x6C, pushed_stack_items=1, data_portion_length=13)
-    PUSH14 = Opcode(0x6D, pushed_stack_items=1, data_portion_length=14)
-    PUSH15 = Opcode(0x6E, pushed_stack_items=1, data_portion_length=15)
-    PUSH16 = Opcode(0x6F, pushed_stack_items=1, data_portion_length=16)
-    PUSH17 = Opcode(0x70, pushed_stack_items=1, data_portion_length=17)
-    PUSH18 = Opcode(0x71, pushed_stack_items=1, data_portion_length=18)
-    PUSH19 = Opcode(0x72, pushed_stack_items=1, data_portion_length=19)
-    PUSH20 = Opcode(0x73, pushed_stack_items=1, data_portion_length=20)
-    PUSH21 = Opcode(0x74, pushed_stack_items=1, data_portion_length=21)
-    PUSH22 = Opcode(0x75, pushed_stack_items=1, data_portion_length=22)
-    PUSH23 = Opcode(0x76, pushed_stack_items=1, data_portion_length=23)
-    PUSH24 = Opcode(0x77, pushed_stack_items=1, data_portion_length=24)
-    PUSH25 = Opcode(0x78, pushed_stack_items=1, data_portion_length=25)
-    PUSH26 = Opcode(0x79, pushed_stack_items=1, data_portion_length=26)
-    PUSH27 = Opcode(0x7A, pushed_stack_items=1, data_portion_length=27)
-    PUSH28 = Opcode(0x7B, pushed_stack_items=1, data_portion_length=28)
-    PUSH29 = Opcode(0x7C, pushed_stack_items=1, data_portion_length=29)
-    PUSH30 = Opcode(0x7D, pushed_stack_items=1, data_portion_length=30)
-    PUSH31 = Opcode(0x7E, pushed_stack_items=1, data_portion_length=31)
-    PUSH32 = Opcode(0x7F, pushed_stack_items=1, data_portion_length=32)
+    PUSH1 = Opcode(0x60, pushed_stack_items=1, immediate_length=1)
+    PUSH2 = Opcode(0x61, pushed_stack_items=1, immediate_length=2)
+    PUSH3 = Opcode(0x62, pushed_stack_items=1, immediate_length=3)
+    PUSH4 = Opcode(0x63, pushed_stack_items=1, immediate_length=4)
+    PUSH5 = Opcode(0x64, pushed_stack_items=1, immediate_length=5)
+    PUSH6 = Opcode(0x65, pushed_stack_items=1, immediate_length=6)
+    PUSH7 = Opcode(0x66, pushed_stack_items=1, immediate_length=7)
+    PUSH8 = Opcode(0x67, pushed_stack_items=1, immediate_length=8)
+    PUSH9 = Opcode(0x68, pushed_stack_items=1, immediate_length=9)
+    PUSH10 = Opcode(0x69, pushed_stack_items=1, immediate_length=10)
+    PUSH11 = Opcode(0x6A, pushed_stack_items=1, immediate_length=11)
+    PUSH12 = Opcode(0x6B, pushed_stack_items=1, immediate_length=12)
+    PUSH13 = Opcode(0x6C, pushed_stack_items=1, immediate_length=13)
+    PUSH14 = Opcode(0x6D, pushed_stack_items=1, immediate_length=14)
+    PUSH15 = Opcode(0x6E, pushed_stack_items=1, immediate_length=15)
+    PUSH16 = Opcode(0x6F, pushed_stack_items=1, immediate_length=16)
+    PUSH17 = Opcode(0x70, pushed_stack_items=1, immediate_length=17)
+    PUSH18 = Opcode(0x71, pushed_stack_items=1, immediate_length=18)
+    PUSH19 = Opcode(0x72, pushed_stack_items=1, immediate_length=19)
+    PUSH20 = Opcode(0x73, pushed_stack_items=1, immediate_length=20)
+    PUSH21 = Opcode(0x74, pushed_stack_items=1, immediate_length=21)
+    PUSH22 = Opcode(0x75, pushed_stack_items=1, immediate_length=22)
+    PUSH23 = Opcode(0x76, pushed_stack_items=1, immediate_length=23)
+    PUSH24 = Opcode(0x77, pushed_stack_items=1, immediate_length=24)
+    PUSH25 = Opcode(0x78, pushed_stack_items=1, immediate_length=25)
+    PUSH26 = Opcode(0x79, pushed_stack_items=1, immediate_length=26)
+    PUSH27 = Opcode(0x7A, pushed_stack_items=1, immediate_length=27)
+    PUSH28 = Opcode(0x7B, pushed_stack_items=1, immediate_length=28)
+    PUSH29 = Opcode(0x7C, pushed_stack_items=1, immediate_length=29)
+    PUSH30 = Opcode(0x7D, pushed_stack_items=1, immediate_length=30)
+    PUSH31 = Opcode(0x7E, pushed_stack_items=1, immediate_length=31)
+    PUSH32 = Opcode(0x7F, pushed_stack_items=1, immediate_length=32)
 
     DUP1 = Opcode(0x80, pushed_stack_items=1, min_stack_height=1)
     DUP2 = Opcode(0x81, pushed_stack_items=1, min_stack_height=2)
@@ -272,3 +316,158 @@ class Opcodes(Opcode, Enum):
 
     SELFDESTRUCT = Opcode(0xFF, popped_stack_items=1)
     SENDALL = Opcode(0xFF, popped_stack_items=1)
+
+
+OPCODE_MAP = {
+    0x00: Opcodes.STOP,
+    0x01: Opcodes.ADD,
+    0x02: Opcodes.MUL,
+    0x03: Opcodes.SUB,
+    0x04: Opcodes.DIV,
+    0x05: Opcodes.SDIV,
+    0x06: Opcodes.MOD,
+    0x07: Opcodes.SMOD,
+    0x08: Opcodes.ADDMOD,
+    0x09: Opcodes.MULMOD,
+    0x0A: Opcodes.EXP,
+    0x0B: Opcodes.SIGNEXTEND,
+    0x10: Opcodes.LT,
+    0x11: Opcodes.GT,
+    0x12: Opcodes.SLT,
+    0x13: Opcodes.SGT,
+    0x14: Opcodes.EQ,
+    0x15: Opcodes.ISZERO,
+    0x16: Opcodes.AND,
+    0x17: Opcodes.OR,
+    0x18: Opcodes.XOR,
+    0x19: Opcodes.NOT,
+    0x1A: Opcodes.BYTE,
+    0x1B: Opcodes.SHL,
+    0x1C: Opcodes.SHR,
+    0x1D: Opcodes.SAR,
+    0x20: Opcodes.SHA3,
+    0x30: Opcodes.ADDRESS,
+    0x31: Opcodes.BALANCE,
+    0x32: Opcodes.ORIGIN,
+    0x33: Opcodes.CALLER,
+    0x34: Opcodes.CALLVALUE,
+    0x35: Opcodes.CALLDATALOAD,
+    0x36: Opcodes.CALLDATASIZE,
+    0x37: Opcodes.CALLDATACOPY,
+    0x38: Opcodes.CODESIZE,
+    0x39: Opcodes.CODECOPY,
+    0x3A: Opcodes.GASPRICE,
+    0x3B: Opcodes.EXTCODESIZE,
+    0x3C: Opcodes.EXTCODECOPY,
+    0x3D: Opcodes.RETURNDATASIZE,
+    0x3E: Opcodes.RETURNDATACOPY,
+    0x3F: Opcodes.EXTCODEHASH,
+    0x40: Opcodes.BLOCKHASH,
+    0x41: Opcodes.COINBASE,
+    0x42: Opcodes.TIMESTAMP,
+    0x43: Opcodes.NUMBER,
+    0x44: Opcodes.PREVRANDAO,
+    0x45: Opcodes.GASLIMIT,
+    0x46: Opcodes.CHAINID,
+    0x47: Opcodes.SELFBALANCE,
+    0x48: Opcodes.BASEFEE,
+    0x50: Opcodes.POP,
+    0x51: Opcodes.MLOAD,
+    0x52: Opcodes.MSTORE,
+    0x53: Opcodes.MSTORE8,
+    0x54: Opcodes.SLOAD,
+    0x55: Opcodes.SSTORE,
+    0x56: Opcodes.JUMP,
+    0x57: Opcodes.JUMPI,
+    0x58: Opcodes.PC,
+    0x59: Opcodes.MSIZE,
+    0x5A: Opcodes.GAS,
+    0x5B: Opcodes.NOOP,
+    0x5C: Opcodes.RJUMP,
+    0x5D: Opcodes.RJUMPI,
+    0x5E: Opcodes.RJUMPV,
+    0xB0: Opcodes.CALLF,
+    0xB1: Opcodes.RETF,
+    0x5F: Opcodes.PUSH0,
+    0x60: Opcodes.PUSH1,
+    0x61: Opcodes.PUSH2,
+    0x62: Opcodes.PUSH3,
+    0x63: Opcodes.PUSH4,
+    0x64: Opcodes.PUSH5,
+    0x65: Opcodes.PUSH6,
+    0x66: Opcodes.PUSH7,
+    0x67: Opcodes.PUSH8,
+    0x68: Opcodes.PUSH9,
+    0x69: Opcodes.PUSH10,
+    0x6A: Opcodes.PUSH11,
+    0x6B: Opcodes.PUSH12,
+    0x6C: Opcodes.PUSH13,
+    0x6D: Opcodes.PUSH14,
+    0x6E: Opcodes.PUSH15,
+    0x6F: Opcodes.PUSH16,
+    0x70: Opcodes.PUSH17,
+    0x71: Opcodes.PUSH18,
+    0x72: Opcodes.PUSH19,
+    0x73: Opcodes.PUSH20,
+    0x74: Opcodes.PUSH21,
+    0x75: Opcodes.PUSH22,
+    0x76: Opcodes.PUSH23,
+    0x77: Opcodes.PUSH24,
+    0x78: Opcodes.PUSH25,
+    0x79: Opcodes.PUSH26,
+    0x7A: Opcodes.PUSH27,
+    0x7B: Opcodes.PUSH28,
+    0x7C: Opcodes.PUSH29,
+    0x7D: Opcodes.PUSH30,
+    0x7E: Opcodes.PUSH31,
+    0x7F: Opcodes.PUSH32,
+    0x80: Opcodes.DUP1,
+    0x81: Opcodes.DUP2,
+    0x82: Opcodes.DUP3,
+    0x83: Opcodes.DUP4,
+    0x84: Opcodes.DUP5,
+    0x85: Opcodes.DUP6,
+    0x86: Opcodes.DUP7,
+    0x87: Opcodes.DUP8,
+    0x88: Opcodes.DUP9,
+    0x89: Opcodes.DUP10,
+    0x8A: Opcodes.DUP11,
+    0x8B: Opcodes.DUP12,
+    0x8C: Opcodes.DUP13,
+    0x8D: Opcodes.DUP14,
+    0x8E: Opcodes.DUP15,
+    0x8F: Opcodes.DUP16,
+    0x90: Opcodes.SWAP1,
+    0x91: Opcodes.SWAP2,
+    0x92: Opcodes.SWAP3,
+    0x93: Opcodes.SWAP4,
+    0x94: Opcodes.SWAP5,
+    0x95: Opcodes.SWAP6,
+    0x96: Opcodes.SWAP7,
+    0x97: Opcodes.SWAP8,
+    0x98: Opcodes.SWAP9,
+    0x99: Opcodes.SWAP10,
+    0x9A: Opcodes.SWAP11,
+    0x9B: Opcodes.SWAP12,
+    0x9C: Opcodes.SWAP13,
+    0x9D: Opcodes.SWAP14,
+    0x9E: Opcodes.SWAP15,
+    0x9F: Opcodes.SWAP16,
+    0xA0: Opcodes.LOG0,
+    0xA1: Opcodes.LOG1,
+    0xA2: Opcodes.LOG2,
+    0xA3: Opcodes.LOG3,
+    0xA4: Opcodes.LOG4,
+    0xB3: Opcodes.TLOAD,
+    0xB4: Opcodes.TSTORE,
+    0xF0: Opcodes.CREATE,
+    0xF1: Opcodes.CALL,
+    0xF2: Opcodes.CALLCODE,
+    0xF3: Opcodes.RETURN,
+    0xF4: Opcodes.DELEGATECALL,
+    0xF5: Opcodes.CREATE2,
+    0xFA: Opcodes.STATICCALL,
+    0xFD: Opcodes.REVERT,
+    0xFE: Opcodes.INVALID,
+    0xFF: Opcodes.SENDALL,
+}

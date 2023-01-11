@@ -10,6 +10,7 @@ import argparse
 import json
 import logging
 import os
+import sys
 from pathlib import Path
 from pkgutil import iter_modules
 
@@ -64,6 +65,11 @@ class Filler:
         )
 
         parser.add_argument(
+            "--test-function",
+            help="limit to filling only test functions with matching name",
+        )
+
+        parser.add_argument(
             "--test-case",
             help="limit to filling only tests with matching name",
         )
@@ -73,6 +79,13 @@ class Filler:
             action="store_true",
             help="collect traces of the execution information from the "
             + "transition tool",
+        )
+
+        parser.add_argument(
+            "--print-traces",
+            action="store_true",
+            help="collect and print traces of the execution information from"
+            + "the transition tool",
         )
 
         return parser.parse_args()
@@ -102,13 +115,14 @@ class Filler:
         ):
             module_full_name = module_loader.name
             self.log.debug(f"searching {module_full_name} for fillers")
+            sys.path.append(pkg_path)
             module = module_loader.load_module()
             for obj in module.__dict__.values():
                 if callable(obj):
                     if hasattr(obj, "__filler_metadata__"):
                         if (
-                            self.options.test_case
-                            and self.options.test_case
+                            self.options.test_function
+                            and self.options.test_function
                             not in obj.__filler_metadata__["name"]
                         ):
                             continue
@@ -123,7 +137,9 @@ class Filler:
         os.makedirs(self.options.output, exist_ok=True)
 
         t8n = EvmTransitionTool(
-            binary=self.options.evm_bin, trace=self.options.traces
+            binary=self.options.evm_bin,
+            trace=self.options.traces,
+            print_traces=self.options.print_traces,
         )
         b11r = EvmBlockBuilder(binary=self.options.evm_bin)
 
@@ -137,7 +153,7 @@ class Filler:
             path = os.path.join(output_dir, f"{name}.json")
 
             self.log.debug(f"filling {name}")
-            fixture = filler(t8n, b11r, "NoProof")
+            fixture = filler(t8n, b11r, "NoProof", self.options.test_case)
 
             with open(path, "w", encoding="utf-8") as f:
                 json.dump(
