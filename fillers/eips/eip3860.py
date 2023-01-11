@@ -483,7 +483,11 @@ def generate_create_opcode_initcode_test_cases(
                 let contract_length := calldatasize()
                 calldatacopy(0, 0, contract_length)
                 let gas1 := gas()
+<<<<<<< HEAD
                 let res := create2(0, 0, contract_length, 0xdeadbeef)
+=======
+                let res := create2(0, 0, contract_length, 0xDEADBEEF)
+>>>>>>> 26a64f0 (Tox fix.)
                 let gas2 := gas()
                 sstore(0, res)
                 sstore(1, sub(gas1, gas2))
@@ -492,7 +496,7 @@ def generate_create_opcode_initcode_test_cases(
         )
         created_contract_address = compute_create2_address(
             address=0x100,
-            salt=0xdeadbeef,
+            salt=0xDEADBEEF,
             initcode=initcode.assemble(),
         )
     else:
