@@ -492,7 +492,7 @@ def generate_create_opcode_initcode_test_cases(
         )
         created_contract_address = compute_create2_address(
             address=0x100,
-            salt=0,
+            salt=0xdeadbeef,
             initcode=initcode.assemble(),
         )
     else:
@@ -525,6 +525,8 @@ def generate_create_opcode_initcode_test_cases(
         expected_gas_usage += PUSH_DUP_OPCODE_GAS
 
     if len(initcode.assemble()) > MAX_INITCODE_SIZE and eip_3860_active:
+        # Gas "runs out" due to exceptionally abort
+        expected_gas_usage = 0
         post[created_contract_address] = Account.NONEXISTENT
         post[to_address(0x100)] = Account(
             nonce=1,
