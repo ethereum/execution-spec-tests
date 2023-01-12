@@ -460,8 +460,7 @@ def generate_create_opcode_initcode_test_cases(
     call_code = Yul(
         """
         {
-            let initdata := calldataload(0)
-            mstore(0, initdata)
+            calldatacopy(0, 0, calldatasize())
             let call_result := call(10000000, \
                 0x0000000000000000000000000000000000000100, \
                 0, 0, calldatasize(), 0, 0)
