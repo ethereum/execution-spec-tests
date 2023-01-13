@@ -95,5 +95,5 @@ def to_hash(input: int | str) -> str:
         # Convert to int
         input = int(input, 0)
     if type(input) is int:
-        return "0x" + input.to_bytes(32, "big").hex()
+        return "0x" + input.to_bytes(32, "big", signed=True).hex()
     raise Exception("invalid type to convert to hash")
