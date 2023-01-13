@@ -359,7 +359,7 @@ def test_withdrawals_self_destructing_account(_):
         TestAddress: Account(balance=1000000000000000000000, nonce=0),
         to_address(0x100): Account(
             code=SELFDESTRUCT,
-            balance=10*(ONE_GWEI),
+            balance=(10 * ONE_GWEI),
         ),
         to_address(0x200): Account(
             balance=0,
@@ -380,7 +380,7 @@ def test_withdrawals_self_destructing_account(_):
         index=0,
         validator=0,
         address=to_address(0x100),
-        amount=99*(ONE_GWEI),
+        amount=(99 * ONE_GWEI),
     )
 
     block = Block(
@@ -391,11 +391,11 @@ def test_withdrawals_self_destructing_account(_):
     post = {
         to_address(0x100): Account(
             code=None,
-            balance=99*(ONE_GWEI),
+            balance=(99 * ONE_GWEI),
         ),
         to_address(0x200): Account(
             code=None,
-            balance=10*(ONE_GWEI),
+            balance=(10 * ONE_GWEI),
         ),
     }
 
@@ -455,7 +455,7 @@ def test_withdrawals_newly_created_contract(_):
     # Same test but include value in the contract creating transaction
 
     tx.value = ONE_GWEI
-    post[created_contract].balance = 2*(ONE_GWEI)
+    post[created_contract].balance = 2 * ONE_GWEI
 
     yield BlockchainTest(pre=pre, post=post, blocks=[block])
 
