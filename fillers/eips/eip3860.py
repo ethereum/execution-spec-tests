@@ -464,7 +464,6 @@ def generate_create_opcode_initcode_test_cases(
             let call_result := call(5000000, \
                 0x0000000000000000000000000000000000000100, \
                 0, 0, calldatasize(), 0, 0)
-            sstore(0, call_result)
             sstore(call_result, 1)
         }
         """
@@ -548,6 +547,7 @@ def generate_create_opcode_initcode_test_cases(
             nonce=1,
             storage={
                 0: 1,
+                1: 0,
             },
         )
 
@@ -583,7 +583,7 @@ def generate_create_opcode_initcode_test_cases(
         post[to_address(0x200)] = Account(
             nonce=1,
             storage={
-                0: 1,
+                0: 0,
                 1: 1,
             },
         )
