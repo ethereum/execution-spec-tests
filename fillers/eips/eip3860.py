@@ -461,10 +461,11 @@ def generate_create_opcode_initcode_test_cases(
         """
         {
             calldatacopy(0, 0, calldatasize())
-            let call_result := call(10000000, \
+            let call_result := call(5000000, \
                 0x0000000000000000000000000000000000000100, \
                 0, 0, calldatasize(), 0, 0)
             sstore(0, call_result)
+            sstore(call_result, 1)
         }
         """
     )
@@ -542,16 +543,16 @@ def generate_create_opcode_initcode_test_cases(
         expected_gas_usage += PUSH_DUP_OPCODE_GAS
 
     if len(initcode.assemble()) > MAX_INITCODE_SIZE and eip_3860_active:
-        # Call returns 0 as out of gas
+        # Call returns 0 as out of gas s[0]==1
         post[to_address(0x200)] = Account(
             nonce=1,
             storage={
-                0: 0,
+                0: 1,
             },
         )
 
         post[created_contract_address] = Account.NONEXISTENT
-        post[to_address(0x200)] = Account(
+        post[to_address(0x100)] = Account(
             nonce=1,
             storage={
                 0: 0,
@@ -578,11 +579,12 @@ def generate_create_opcode_initcode_test_cases(
                 len(initcode.assemble())
             )
 
-        # Call returns 1 as valid initcode length
+        # Call returns 1 as valid initcode length s[0]==1 && s[1]==1
         post[to_address(0x200)] = Account(
             nonce=1,
             storage={
                 0: 1,
+                1: 1,
             },
         )
 
