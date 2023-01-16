@@ -204,7 +204,7 @@ def test_withdrawals_balance_within_block(_):
                     index=0,
                     validator=0,
                     address=to_address(0x200),
-                    amount=ONE_GWEI,
+                    amount=ONE_GWEI**2,
                 )
             ],
         ),
@@ -224,7 +224,7 @@ def test_withdrawals_balance_within_block(_):
         to_address(0x100): Account(
             storage={
                 1: ONE_GWEI,
-                2: ONE_GWEI + ONE_GWEI,
+                2: ONE_GWEI**2 + ONE_GWEI,
             }
         )
     }
@@ -269,7 +269,7 @@ def test_withdrawals_multiple_withdrawals_same_address(_):
                     index=i,
                     validator=0,
                     address=ADDRESSES[i % len(ADDRESSES)],
-                    amount=ONE_GWEI,
+                    amount=ONE_GWEI**2,
                 )
                 for i in range(len(ADDRESSES) * 16)
             ],
@@ -280,7 +280,7 @@ def test_withdrawals_multiple_withdrawals_same_address(_):
 
     for addr in ADDRESSES:
         post[addr] = Account(
-            balance=16 * ONE_GWEI,
+            balance=16 * ONE_GWEI**2,
             storage={},
         )
 
@@ -296,7 +296,7 @@ def test_withdrawals_multiple_withdrawals_same_address(_):
                     index=i * 16 + j,
                     validator=i,
                     address=ADDRESSES[i],
-                    amount=ONE_GWEI,
+                    amount=ONE_GWEI**2,
                 )
                 for j in range(16)
             ],
@@ -321,7 +321,7 @@ def test_withdrawals_many_withdrawals(_):
     post = {}
     for i in range(N):
         addr = to_address(0x100 * i)
-        amount = i * ONE_GWEI
+        amount = i * ONE_GWEI**2
         pre[addr] = Account(
             code=SET_STORAGE,
         )
@@ -359,7 +359,7 @@ def test_withdrawals_self_destructing_account(_):
         TestAddress: Account(balance=1000000000000000000000, nonce=0),
         to_address(0x100): Account(
             code=SELFDESTRUCT,
-            balance=(10 * ONE_GWEI),
+            balance=(100 * ONE_GWEI),
         ),
         to_address(0x200): Account(
             balance=0,
@@ -395,7 +395,7 @@ def test_withdrawals_self_destructing_account(_):
         ),
         to_address(0x200): Account(
             code=None,
-            balance=(10 * ONE_GWEI),
+            balance=(100 * ONE_GWEI),
         ),
     }
 
@@ -499,13 +499,13 @@ def test_withdrawals_no_evm_execution(_):
                     index=0,
                     validator=0,
                     address=to_address(0x100),
-                    amount=ONE_GWEI,
+                    amount=ONE_GWEI**2,
                 ),
                 Withdrawal(
                     index=1,
                     validator=1,
                     address=to_address(0x200),
-                    amount=ONE_GWEI,
+                    amount=ONE_GWEI**2,
                 ),
             ],
         ),
@@ -527,13 +527,13 @@ def test_withdrawals_no_evm_execution(_):
                     index=0,
                     validator=0,
                     address=to_address(0x300),
-                    amount=ONE_GWEI,
+                    amount=ONE_GWEI**2,
                 ),
                 Withdrawal(
                     index=1,
                     validator=1,
                     address=to_address(0x400),
-                    amount=ONE_GWEI,
+                    amount=ONE_GWEI**2,
                 ),
             ],
         ),
