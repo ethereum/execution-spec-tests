@@ -80,7 +80,6 @@ def test_withdrawals_use_value_in_tx(_):
         validator=0,
         address=TestAddress,
         amount=tx.gas_limit + 1,
-
     )
 
     blocks = [
@@ -225,7 +224,7 @@ def test_withdrawals_balance_within_block(_):
         to_address(0x100): Account(
             storage={
                 1: ONE_GWEI,
-                2: 2*ONE_GWEI,
+                2: 2 * ONE_GWEI,
             }
         )
     }
@@ -336,7 +335,7 @@ def test_withdrawals_many_withdrawals(_):
         )
         post[addr] = Account(
             code=SET_STORAGE,
-            balance=amount*ONE_GWEI,
+            balance=amount * ONE_GWEI,
             storage={},
         )
 
