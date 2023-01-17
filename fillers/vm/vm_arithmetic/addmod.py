@@ -1,5 +1,5 @@
 """
-Test Add opcode
+Test Addmod opcode
 """
 
 from ethereum_test_tools import (
@@ -18,9 +18,9 @@ from ethereum_test_tools import (
 @test_from("shanghai")
 def test_addmod_opcode(fork):
     """
-    Test Add Opcode.
+    Test Addmod Opcode.
     Port from ethereum/tests:
-      - GeneralStateTestsFiller/VMTests/vmTest/addFiller.yml
+      - GeneralStateTestsFiller/VMTests/vmTest/addmodFiller.yml
       - Original test by Ori Pomerantz qbzzt1@gmail.com
     """
     env = Environment()
@@ -28,7 +28,7 @@ def test_addmod_opcode(fork):
     txs = []
     post = {}
 
-    code_sums = Yul(
+    code_addmod = Yul(
         """
         {
             let calladdr := calldataload(0)
@@ -109,7 +109,7 @@ def test_addmod_opcode(fork):
 
     for i in range(0, total_tests):
         account = to_address(0x100 + i)
-        pre[account] = Account(code=code_sums)
+        pre[account] = Account(code=code_addmod)
 
         tx = Transaction(
             nonce=i,
