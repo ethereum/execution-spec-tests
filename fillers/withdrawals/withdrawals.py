@@ -69,7 +69,7 @@ def test_withdrawals_use_value_in_tx(_):
     tx = Transaction(
         # Transaction sent from the `TestAddress`, which has 0 balance at start
         nonce=0,
-        gas_price=10,
+        gas_price=ONE_GWEI,
         gas_limit=21000,
         to=to_address(0x100),
         data="0x",
@@ -79,7 +79,8 @@ def test_withdrawals_use_value_in_tx(_):
         index=0,
         validator=0,
         address=TestAddress,
-        amount=(tx.gas_price * tx.gas_limit + ONE_GWEI),
+        amount=tx.gas_limit + 1,
+
     )
 
     blocks = [
@@ -139,7 +140,7 @@ def test_withdrawals_use_value_in_contract(_):
         index=0,
         validator=0,
         address=to_address(0x100),
-        amount=ONE_GWEI,
+        amount=1,
     )
 
     blocks = [
@@ -204,7 +205,7 @@ def test_withdrawals_balance_within_block(_):
                     index=0,
                     validator=0,
                     address=to_address(0x200),
-                    amount=ONE_GWEI**2,
+                    amount=1,
                 )
             ],
         ),
@@ -224,7 +225,7 @@ def test_withdrawals_balance_within_block(_):
         to_address(0x100): Account(
             storage={
                 1: ONE_GWEI,
-                2: ONE_GWEI**2 + ONE_GWEI,
+                2: 2*ONE_GWEI,
             }
         )
     }
@@ -269,7 +270,7 @@ def test_withdrawals_multiple_withdrawals_same_address(_):
                     index=i,
                     validator=0,
                     address=ADDRESSES[i % len(ADDRESSES)],
-                    amount=ONE_GWEI**2,
+                    amount=1,
                 )
                 for i in range(len(ADDRESSES) * 16)
             ],
@@ -280,7 +281,7 @@ def test_withdrawals_multiple_withdrawals_same_address(_):
 
     for addr in ADDRESSES:
         post[addr] = Account(
-            balance=16 * ONE_GWEI**2,
+            balance=16 * ONE_GWEI,
             storage={},
         )
 
@@ -296,7 +297,7 @@ def test_withdrawals_multiple_withdrawals_same_address(_):
                     index=i * 16 + j,
                     validator=i,
                     address=ADDRESSES[i],
-                    amount=ONE_GWEI**2,
+                    amount=1,
                 )
                 for j in range(16)
             ],
@@ -321,7 +322,7 @@ def test_withdrawals_many_withdrawals(_):
     post = {}
     for i in range(N):
         addr = to_address(0x100 * i)
-        amount = i * ONE_GWEI**2
+        amount = i * 1
         pre[addr] = Account(
             code=SET_STORAGE,
         )
@@ -335,7 +336,7 @@ def test_withdrawals_many_withdrawals(_):
         )
         post[addr] = Account(
             code=SET_STORAGE,
-            balance=amount,
+            balance=amount*ONE_GWEI,
             storage={},
         )
 
@@ -380,7 +381,7 @@ def test_withdrawals_self_destructing_account(_):
         index=0,
         validator=0,
         address=to_address(0x100),
-        amount=(99 * ONE_GWEI),
+        amount=(99),
     )
 
     block = Block(
@@ -435,7 +436,7 @@ def test_withdrawals_newly_created_contract(_):
         index=0,
         validator=0,
         address=created_contract,
-        amount=ONE_GWEI,
+        amount=1,
     )
 
     block = Block(
@@ -499,13 +500,13 @@ def test_withdrawals_no_evm_execution(_):
                     index=0,
                     validator=0,
                     address=to_address(0x100),
-                    amount=ONE_GWEI**2,
+                    amount=1,
                 ),
                 Withdrawal(
                     index=1,
                     validator=1,
                     address=to_address(0x200),
-                    amount=ONE_GWEI**2,
+                    amount=1,
                 ),
             ],
         ),
@@ -527,13 +528,13 @@ def test_withdrawals_no_evm_execution(_):
                     index=0,
                     validator=0,
                     address=to_address(0x300),
-                    amount=ONE_GWEI**2,
+                    amount=1,
                 ),
                 Withdrawal(
                     index=1,
                     validator=1,
                     address=to_address(0x400),
-                    amount=ONE_GWEI**2,
+                    amount=1,
                 ),
             ],
         ),
@@ -596,7 +597,7 @@ def test_withdrawals_zero_amount(_):
         index=1,
         validator=0,
         address=to_address(0x200),
-        amount=ONE_GWEI,
+        amount=1,
     )
     block.withdrawals.append(withdrawal_2)
     post[to_address(0x200)].balance = ONE_GWEI
@@ -627,7 +628,7 @@ def test_withdrawals_overflowing_balance(_):
                     index=0,
                     validator=0,
                     address=to_address(0x100),
-                    amount=ONE_GWEI,
+                    amount=1,
                 )
             ],
             exception="invalid withdrawal",
