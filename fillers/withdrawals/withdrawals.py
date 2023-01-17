@@ -564,6 +564,10 @@ def test_withdrawals_zero_amount(_):
             code="0x00",
             balance=0,
         ),
+        to_address(0x300): Account(
+            code="0x00",
+            balance=0,
+        ),
     }
 
     withdrawal_1 = Withdrawal(
@@ -586,6 +590,10 @@ def test_withdrawals_zero_amount(_):
             code="0x00",
             balance=0,
         ),
+        to_address(0x300): Account(
+            code="0x00",
+            balance=0,
+        ),
     }
 
     yield BlockchainTest(pre=pre, post=post, blocks=[block])
@@ -600,6 +608,18 @@ def test_withdrawals_zero_amount(_):
     )
     block.withdrawals.append(withdrawal_2)
     post[to_address(0x200)].balance = ONE_GWEI
+    yield BlockchainTest(pre=pre, post=post, blocks=[block])
+
+    # Same test but add another withdrawal with max amount in same
+    # block.
+    withdrawal_3 = Withdrawal(
+        index=2,
+        validator=0,
+        address=to_address(0x300),
+        amount=2**64 - 1,
+    )
+    block.withdrawals.append(withdrawal_3)
+    post[to_address(0x300)].balance = (2**64 - 1) * ONE_GWEI
     yield BlockchainTest(pre=pre, post=post, blocks=[block])
 
     # Same test but reverse order of withdrawals.
