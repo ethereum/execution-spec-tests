@@ -27,14 +27,19 @@ $ pip install -e .
 
 To generate all the tests defined in the `./fillers` sub-directory, run the `tf` command:
 ```console
-$ tf --output="fixtures"
+tf --output="fixtures"
 ```
 
 Note that the test `post` conditions are tested against the output of the `geth` `evm` utility during test generation.
 
-To generate all the tests in the `./fillers/vm` sub-directory (category), for example, run:
+To generate all the tests in the `./fillers/vm` directory (category), for example, run:
 ```console
 tf --output="fixtures" --test-categories vm
+```
+
+To generate all the tests in the `./fillers/vm/vm_tests` sub-directory (category), for example, run:
+```console
+tf --output="fixtures" --test-categories vm.vm_tests
 ```
 
 To generate all the tests in the `./fillers/*/dup.py` modules, for example, run:
