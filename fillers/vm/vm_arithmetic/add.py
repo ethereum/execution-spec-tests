@@ -16,7 +16,7 @@ from ethereum_test_tools import (
 
 
 @test_from("shanghai")
-def test_add(fork):
+def test_add_opcode(fork):
     """
     Test Add Opcode.
     Port from ethereum/tests:
