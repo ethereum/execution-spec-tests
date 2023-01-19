@@ -15,7 +15,7 @@ from ethereum_test_tools import (
 )
 
 
-@test_from("shanghai")
+@test_from("istanbul")
 def test_not_opcode(fork):
     """
     Test not Opcode.

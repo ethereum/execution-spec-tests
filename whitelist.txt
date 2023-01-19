@@ -39,7 +39,6 @@ vm
 0x10
 gwei
 wei
-0x10
 
 byteorder
 delitem

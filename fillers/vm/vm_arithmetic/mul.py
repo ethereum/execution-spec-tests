@@ -15,7 +15,7 @@ from ethereum_test_tools import (
 )
 
 
-@test_from("shanghai")
+@test_from("istanbul")
 def test_mul_opcode(fork):
     """
     Test Mul Opcode.
@@ -62,15 +62,16 @@ def test_mul_opcode(fork):
                     sstore(0, mul(sub(exp(2, 255), 1), sub(exp(2, 255), 1)))
                 }
                 case 0x107 {
-                    let large_num := 0X1234567890ABCDEF0FEDCBA0987654321
-                    sstore(0, mul(mul(large_num, large_num), large_num))
+                    // just x^3
+                    let x := 0x1234567890ABCDEF0FEDCBA0987654321
+                    sstore(0, mul(mul(x, x), x))
                 }
             }
         }
         """
     )
 
-    code_underflow = (  # noqa: case 0x108
+    code_underflow = (  # address 108
         # Do a mul underflow, see that the transaction is reverted
         # so the test will fail if there is no revert
         # 00 PUSH1 01
@@ -102,7 +103,7 @@ def test_mul_opcode(fork):
 
     for i in range(0, total_tests):
         account = to_address(0x100 + i)
-        # noqa: Use code_mul until lat address, i.e use code_underflow for 0x108
+        # Use code_mul until last address then use code_underflow for address 108
         pre[account] = (
             Account(code=code_mul) if (i < 8) else Account(code=code_underflow)
         )

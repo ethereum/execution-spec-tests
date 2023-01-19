@@ -15,7 +15,7 @@ from ethereum_test_tools import (
 )
 
 
-@test_from("shanghai")
+@test_from("istanbul")
 def test_sdiv_opcode(fork):
     """
     Test sdiv Opcode.

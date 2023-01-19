@@ -14,7 +14,7 @@ from ethereum_test_tools import (
 )
 
 
-@test_from("shanghai")
+@test_from("istanbul")
 def test_exp_power_256_of_256(fork):
     """
     Test Exp Opcode for (255 to 257)**((255 to 257)**n).

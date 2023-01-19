@@ -14,7 +14,7 @@ from ethereum_test_tools import (
 )
 
 
-@test_from("shanghai")
+@test_from("istanbul")
 def test_exp_power_2(fork):
     """
     Test Exp Opcode for 2^(2^(n)), 2^(2^(n-1)), 2^(2^(n+1)).
