@@ -1,5 +1,5 @@
 """
-Test Add opcode
+Test Add Opcode
 """
 
 from ethereum_test_tools import (
@@ -24,71 +24,47 @@ def test_add_opcode(fork):
       - Original test by Ori Pomerantz qbzzt1@gmail.com
     """
     env = Environment()
-    pre = {TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE)}
-    txs = []
-    post = {}
 
-    code_sums = Yul(
-        """
-        {
-            let calladdr := calldataload(0)
-            let x := 0
-            let y := 0
-            {
-            switch calladdr
-                // -1 + -1 = -2
-                case 0x100 {
-                    x := sub(0, 1)
-                    y := sub(0, 1)
-                }
-                // -1 + 4 = 3
-                case 0x101 {
-                    x := sub(0, 1)
-                    y := 4
-                }
-                // -1 + 1 = 0
-                case 0x102 {
-                    x := sub(0, 1)
-                    y := 1
-                }
-                // 0 + 0 = 0
-                case 0x103 {
-                    x := 0
-                    y := 0
-                }
-                // 1 + -1 = 0
-                case 0x104 {
-                    x := 1
-                    y := sub(0, 1)
-                }
-            }
-            sstore(0, add(x, y))
-        }
-        """
-    )
-
-    total_tests = 5
-    solutions = {
-        to_address(0x100): to_hash(-2),
-        to_address(0x101): 0x03,
-        to_address(0x102): 0x00,
-        to_address(0x103): 0x00,
-        to_address(0x104): 0x00,
+    pre = {
+        to_address(0x100): Account(
+            balance=0x0BA1A9CE0BA1A9CE,
+            code=Yul(
+                """
+               {
+                   // -1 + -1 = -2
+                   sstore(0x10, add(sub(0, 1), sub(0, 1)))
+                   // -1 + 4 = 3
+                   sstore(0x11, add(sub(0, 1), 4))
+                   // -1 + 1 = 0
+                   sstore(0x12, add(sub(0, 1), 1))
+                   // 0 + 0 = 0
+                   sstore(0x13, add(0, 0))
+                   // 1 + -1 = 0
+                   sstore(0x14, add(1, sub(0, 1)))
+               }
+               """
+            ),
+        ),
+        TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE),
     }
 
-    for i in range(0, total_tests):
-        account = to_address(0x100 + i)
-        pre[account] = Account(code=code_sums)
+    tx = Transaction(
+        nonce=0,
+        to=to_address(0x100),
+        gas_limit=500000,
+        gas_price=10,
+    )
 
-        tx = Transaction(
-            nonce=i,
-            data=to_hash(0x100 + i),
-            to=account,
-            gas_limit=500000,
-            gas_price=10,
+    post = {
+        to_address(0x100): Account(
+            storage={
+                0x10: to_hash(-2),
+                0x11: 0x03,
+                0x12: 0x00,
+                0x13: 0x00,
+                0x14: 0x00,
+            }
         )
+    }
 
-        txs.append(tx)
-        post[account] = Account(storage={0: solutions[account]})
-
-    yield StateTest(env=env, pre=pre, post=post, txs=txs)
+    yield StateTest(env=env, pre=pre, post=post, txs=[tx])
