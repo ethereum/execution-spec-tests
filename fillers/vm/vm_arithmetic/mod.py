@@ -1,4 +1,3 @@
-
 """
 Test Mod opcode
 """
@@ -55,7 +54,7 @@ def test_mod_opcode(fork):
                     sstore(0, mod(sub(0, 2), 3))
                 }
                 case 0x105 {
-                    // The original test was (3%0)-1, but since we're 
+                    // The original test was (3%0)-1, but since we're
                     // already checking 3%0 (contract 0...0103), I decided
                     // it would be better to check a different number
                     sstore(0, sub(mod(16, 0), 1))

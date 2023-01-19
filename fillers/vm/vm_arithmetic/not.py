@@ -1,4 +1,3 @@
-
 """
 Test not opcode
 """
@@ -31,7 +30,7 @@ def test_not_opcode(fork):
     code_not = Yul(
         """
         {
-            sstore(0, not(0x123456789abcdef))
+            sstore(0, not(0X123456789ABCDEF))
         }
         """
     )
@@ -47,10 +46,10 @@ def test_not_opcode(fork):
         gas_price=10,
     )
 
-    post[account] = Account(
-            storage={
-                0: 0xfffffffffffffffffffffffffffffffffffffffffffffffffedcba9876543210
-                }
-            )
+    not_solution = (
+        0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEDCBA9876543210
+    )
+
+    post[account] = Account(storage={0: not_solution})
 
     yield StateTest(env=env, pre=pre, post=post, txs=[tx])

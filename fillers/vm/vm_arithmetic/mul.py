@@ -47,7 +47,7 @@ def test_mul_opcode(fork):
                     sstore(0, mul(23, 1))
                 }
                 case 0x104 {
-                    // 2^255 * -1 (the expected answer is 2^255, 
+                    // 2^255 * -1 (the expected answer is 2^255,
                     // because -2^255 = 2^256-2^255 in evm arithmetic)
                     sstore(0, mul(exp(2, 255), sub(0, 1)))
                 }
@@ -62,14 +62,15 @@ def test_mul_opcode(fork):
                     sstore(0, mul(sub(exp(2, 255), 1), sub(exp(2, 255), 1)))
                 }
                 case 0x107 {
-                    sstore(0, mul(mul(0x1234567890abcdef0fedcba0987654321, 0x1234567890abcdef0fedcba0987654321), 0x1234567890abcdef0fedcba0987654321))
+                    let large_num := 0X1234567890ABCDEF0FEDCBA0987654321
+                    sstore(0, mul(mul(large_num, large_num), large_num))
                 }
             }
         }
         """
     )
 
-    code_underflow = ( # case 0x108
+    code_underflow = (  # noqa: case 0x108
         # Do a mul underflow, see that the transaction is reverted
         # so the test will fail if there is no revert
         # 00 PUSH1 01
@@ -82,23 +83,29 @@ def test_mul_opcode(fork):
         "0x600160005560010200"
     )
 
-    total_tests = 9 
+    total_tests = 9
     solutions = {
         to_address(0x100): 0x06,
         to_address(0x101): 0x01,
         to_address(0x102): 0x00,
         to_address(0x103): 0x17,
-        to_address(0x104): 0x8000000000000000000000000000000000000000000000000000000000000000,
+        to_address(
+            0x104
+        ): 0x8000000000000000000000000000000000000000000000000000000000000000,
         to_address(0x105): 0x00,
         to_address(0x106): 0x01,
-        to_address(0x107): 0x47D0817E4167B1EB4F9FC722B133EF9D7D9A6FB4C2C1C442D000107A5E419561,
+        to_address(
+            0x107
+        ): 0x47D0817E4167B1EB4F9FC722B133EF9D7D9A6FB4C2C1C442D000107A5E419561,
         to_address(0x108): 0x00,  # Its 1 unless the tx is reverted.
     }
 
     for i in range(0, total_tests):
         account = to_address(0x100 + i)
-        # Use code_mul until lat address, i.e use code_underflow for 0x108
-        pre[account] = Account(code=code_mul) if (i < 8) else Account(code=code_underflow)
+        # noqa: Use code_mul until lat address, i.e use code_underflow for 0x108
+        pre[account] = (
+            Account(code=code_mul) if (i < 8) else Account(code=code_underflow)
+        )
 
         tx = Transaction(
             nonce=i,
