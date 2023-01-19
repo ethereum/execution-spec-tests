@@ -36,6 +36,7 @@ u256
 utils
 validator
 vm
+0x10
 gwei
 wei
 0x10
