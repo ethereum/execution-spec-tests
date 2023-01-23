@@ -321,19 +321,3 @@ def test_sdiv_opcode(fork):
     }
 
     yield StateTest(env=env, pre=pre, post=post, txs=[tx_1, tx_2])
-
-
-@test_from("istanbul")
-def test_div_by_zero(fork):
-    """
-    Test division by zero.
-    Port from ethereum/tests:
-      - GeneralStateTestsFiller/VMTests/vmTest/divByZeroFiller.yml
-      - Original test by Ori Pomerantz qbzzt1@gmail.com
-    """
-    env = Environment()
-    pre = {TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE)}
-    txs = []
-    post = {}
-
-    yield StateTest(env=env, pre=pre, post=post, txs=txs)
