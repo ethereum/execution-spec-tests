@@ -1,20 +1,15 @@
-.. Ethereum Execution Spec Tests documentation master file, created by
-   sphinx-quickstart on Mon Jan 23 12:14:03 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. _ethereum_execution-spec-tests:
 
-Welcome to Ethereum Execution Spec Tests's documentation!
-=========================================================
+=============================
+Ethereum Execution Spec Tests
+=============================
+
+| A new set of tests for ethereum execution clients to test against. The `git repo <https://github.com/ethereum/execution-spec-tests>`_ is updated regulary with new tests. 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 3
+   :caption: Getting Started
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   quick_start.rst
+   package_overview.rst
+   writing_tests.rst
