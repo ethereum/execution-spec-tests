@@ -27,10 +27,10 @@ from .types import (
     Storage,
     Transaction,
     Withdrawal,
+    alloc_to_accounts,
     str_or_none,
     to_json,
     to_json_or_none,
-    alloc_to_accounts,
 )
 
 __all__ = (
@@ -49,6 +49,7 @@ __all__ = (
     "TestPrivateKey",
     "Transaction",
     "Withdrawal",
+    "alloc_to_accounts",
     "ceiling_division",
     "compute_create2_address",
     "compute_create_address",
@@ -58,5 +59,4 @@ __all__ = (
     "to_hash",
     "to_json",
     "to_json_or_none",
-    "alloc_to_accounts",
 )

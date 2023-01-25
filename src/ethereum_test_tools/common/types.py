@@ -424,6 +424,7 @@ class Account:
         """
         return Account(nonce=1, code=code)
 
+
 def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
     """
     Converts the post state alloc returned from t8n to a mapping of accounts.
@@ -431,13 +432,41 @@ def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
     accounts = {}
     for address, value in got_alloc.items():
         account = Account(
-            nonce = int(value.get("nonce", None), 16) if "nonce" in value else None,
-            balance = int(value["balance"], 16) if "balance" in value else None,
-            code = value.get("code", None),
-            storage = value.get("storage", None)
+            nonce=int(value.get("nonce", None), 16)
+            if "nonce" in value
+            else None,
+            balance=int(value["balance"], 16) if "balance" in value else None,
+            code=value.get("code", None),
+            storage=value.get("storage", None),
         )
         accounts[address] = account
     return accounts
+
+
+def pad_account(input: Dict) -> Dict:
+    """
+    Adds the correct level of padding to each field in the input input.
+    """
+    if len(input["nonce"]) % 2 == 1:
+        input["nonce"] = "0x0" + input["nonce"][2:]
+    if len(input["balance"]) % 2 == 1:
+        input["balance"] = "0x0" + input["balance"][2:]
+    if len(input["code"]) % 2 == 1:
+        input["code"] = "0x0" + input["code"][2:]
+
+    new_storage = {}
+    for key, value in input["storage"].items():
+        new_key = key.lstrip("0x").lstrip("0")
+        new_value = value.lstrip("0x").lstrip("0")
+        if len(new_key) % 2 == 1:
+            new_key = "0x0" + new_key
+        if len(new_value) % 2 == 1:
+            new_value = "0x0" + new_value
+        new_storage[new_key] = new_value
+    input["storage"] = new_storage
+
+    return input
+
 
 ACCOUNT_DEFAULTS = Account(nonce=0, balance=0, code=bytes(), storage={})
 
@@ -895,7 +924,8 @@ class JSONEncoder(json.JSONEncoder):
                 "code": code_or_none(obj.code, "0x"),
                 "storage": to_json_or_none(obj.storage, {}),
             }
-            return account
+            print(pad_account(account))
+            return pad_account(account)
         elif isinstance(obj, Transaction):
             tx = {
                 "type": hex(obj.ty),
