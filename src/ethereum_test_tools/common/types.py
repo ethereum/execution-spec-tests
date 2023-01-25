@@ -924,7 +924,6 @@ class JSONEncoder(json.JSONEncoder):
                 "code": code_or_none(obj.code, "0x"),
                 "storage": to_json_or_none(obj.storage, {}),
             }
-            print(pad_account(account))
             return pad_account(account)
         elif isinstance(obj, Transaction):
             tx = {
