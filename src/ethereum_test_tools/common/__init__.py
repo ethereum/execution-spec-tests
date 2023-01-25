@@ -30,6 +30,7 @@ from .types import (
     str_or_none,
     to_json,
     to_json_or_none,
+    alloc_to_accounts,
 )
 
 __all__ = (
@@ -57,4 +58,5 @@ __all__ = (
     "to_hash",
     "to_json",
     "to_json_or_none",
+    "alloc_to_accounts",
 )

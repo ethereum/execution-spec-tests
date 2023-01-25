@@ -424,6 +424,20 @@ class Account:
         """
         return Account(nonce=1, code=code)
 
+def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
+    """
+    Converts the post state alloc returned from t8n to a mapping of accounts.
+    """
+    accounts = {}
+    for address, value in got_alloc.items():
+        account = Account(
+            nonce = int(value.get("nonce", None), 16) if "nonce" in value else None,
+            balance = int(value["balance"], 16) if "balance" in value else None,
+            code = value.get("code", None),
+            storage = value.get("storage", None)
+        )
+        accounts[address] = account
+    return accounts
 
 ACCOUNT_DEFAULTS = Account(nonce=0, balance=0, code=bytes(), storage={})
 
