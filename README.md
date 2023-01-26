@@ -10,7 +10,11 @@ Ethereum tests.
 The following are required to either generate or develop tests:
 
 1. Python `3.10.0`.
-2. [`go-ethereum`](https://github.com/ethereum/go-ethereum) `v1.10.13` for `geth`'s `evm` utility which must be accessible in the `PATH`. See https://github.com/ethereum/go-ethereum#building-the-source for information on how to build go-ethereum utilities.
+2. [`go-ethereum`](https://github.com/ethereum/go-ethereum) `geth`'s `evm` utility must be accessible in the `PATH`, typically at the latest version. To get it:
+   1. Install [the Go programming language](https://go.dev/doc/install) on your computer.
+   2. Clone [the Geth repository](https://go.dev/doc/install).
+   3. Run `make all`.
+   4. Copy `build/bin/evm` to a directory on the path.
 3. [`solc`](https://github.com/ethereum/solidity) >= `v0.8.17`; `solc` must be in accessible in the `PATH`.
 
 ### Generating the Execution Spec Tests For Use With Clients
