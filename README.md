@@ -17,7 +17,7 @@ The following are required to either generate or develop tests:
    4. Copy `build/bin/evm` to a directory on the path.
 3. [`solc`](https://github.com/ethereum/solidity) >= `v0.8.17`; `solc` must be in accessible in the `PATH`.
 
-### Generating the Execution Spec Tests For Use With Clients
+### Installation
 
 To generate tests from the test "fillers", it's necessary to install the Python packages provided by `execution-spec-tests` (it's recommended to use a virtual environment for the installation):
 
@@ -28,6 +28,17 @@ python -m venv ./venv/
 source ./venv/bin/activate
 pip install -e .
 ```
+
+After the installation, run this sanity check to ensure tests are generated.
+If everything is OK, you will see the beginning of the JSON format filled test.
+
+```console
+tf --output="fixtures" --test-case yul
+head fixtures/example/example/yul.json
+```
+
+
+### Generating the Execution Spec Tests For Use With Clients
 
 To generate all the tests defined in the `./fillers` sub-directory, run the `tf` command:
 
@@ -62,6 +73,7 @@ source ./venv/bin/activate
 pip install tox
 tox -e py3
 ```
+
 
 ## Execution Spec Tests Package Overview 
 
