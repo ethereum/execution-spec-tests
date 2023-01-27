@@ -457,12 +457,16 @@ def pad_account(input: Dict) -> Dict:
     new_storage = {}
     for key, value in input["storage"].items():
         new_key = key.lstrip("0x").lstrip("0")
+        new_key = "00" if new_key == "" else new_key
+        if len(new_key) % 2 == 1:  # odd length
+            new_key = "0" + new_key
+
         new_value = value.lstrip("0x").lstrip("0")
-        if len(new_key) % 2 == 1:
-            new_key = "0x0" + new_key
-        if len(new_value) % 2 == 1:
-            new_value = "0x0" + new_value
-        new_storage[new_key] = new_value
+        new_value = "00" if new_value == "" else new_value
+        if len(new_value) % 2 == 1:  # odd length
+            new_value = "0" + new_value
+
+        new_storage["0x" + new_key] = "0x" + new_value
     input["storage"] = new_storage
 
     return input
