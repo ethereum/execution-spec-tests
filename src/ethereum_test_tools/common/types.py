@@ -260,6 +260,29 @@ class Storage:
                 raise Storage.KeyValueMismatch(key, 0, other.data[key])
 
 
+def storage_padding(storage: Dict) -> Dict:
+    """
+    Adds even padding to each storage element.
+    """
+    new_storage = {}
+    for addr, value in storage.items():
+        new_addr = addr.lstrip("0x").lstrip("0")
+        new_addr = "00" if new_addr == "" else new_addr
+        if len(new_addr) % 2 == 1:
+            new_addr = "0" + new_addr
+
+        new_value = value.lstrip("0x").lstrip("0")
+        new_value = "00" if new_value == "" else new_value
+        if len(new_value) % 2 == 1:
+            new_value = "0" + new_value
+
+        addr = "0x" + new_addr
+        value = "0x" + new_value
+        new_storage[addr] = value
+
+    return new_storage
+
+
 @dataclass(kw_only=True)
 class Account:
     """
@@ -441,35 +464,6 @@ def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
         )
         accounts[address] = account
     return accounts
-
-
-def pad_account(input: Dict) -> Dict:
-    """
-    Adds the correct level of padding to each field in the input input.
-    """
-    if len(input["nonce"]) % 2 == 1:
-        input["nonce"] = "0x0" + input["nonce"][2:]
-    if len(input["balance"]) % 2 == 1:
-        input["balance"] = "0x0" + input["balance"][2:]
-    if len(input["code"]) % 2 == 1:
-        input["code"] = "0x0" + input["code"][2:]
-
-    new_storage = {}
-    for key, value in input["storage"].items():
-        new_key = key.lstrip("0x").lstrip("0")
-        new_key = "00" if new_key == "" else new_key
-        if len(new_key) % 2 == 1:  # odd length
-            new_key = "0" + new_key
-
-        new_value = value.lstrip("0x").lstrip("0")
-        new_value = "00" if new_value == "" else new_value
-        if len(new_value) % 2 == 1:  # odd length
-            new_value = "0" + new_value
-
-        new_storage["0x" + new_key] = "0x" + new_value
-    input["storage"] = new_storage
-
-    return input
 
 
 ACCOUNT_DEFAULTS = Account(nonce=0, balance=0, code=bytes(), storage={})
@@ -926,9 +920,9 @@ class JSONEncoder(json.JSONEncoder):
                     obj.balance, hex(ACCOUNT_DEFAULTS.balance)
                 ),
                 "code": code_or_none(obj.code, "0x"),
-                "storage": to_json_or_none(obj.storage, {}),
+                "storage": storage_padding(to_json_or_none(obj.storage, {})),
             }
-            return pad_account(account)
+            return even_padding(account, ["storage"])
         elif isinstance(obj, Transaction):
             tx = {
                 "type": hex(obj.ty),
@@ -959,12 +953,13 @@ class JSONEncoder(json.JSONEncoder):
 
             return {k: v for (k, v) in tx.items() if v is not None}
         elif isinstance(obj, Withdrawal):
-            return {
+            withdrawal = {
                 "index": hex(obj.index),
                 "validatorIndex": hex(obj.validator),
                 "address": obj.address,
                 "amount": hex(obj.amount),
             }
+            return withdrawal
         elif isinstance(obj, Environment):
             env = {
                 "currentCoinbase": obj.coinbase,
@@ -1052,3 +1047,19 @@ class JSONEncoder(json.JSONEncoder):
             return f
         else:
             return super().default(obj)
+
+
+def even_padding(input: Dict, excluded: List[Any | None]) -> Dict:
+    """
+    Adds even padding to each field in the input (nested) dictionary.
+    """
+    for key, value in input.items():
+        if key not in excluded:
+            if isinstance(value, dict):
+                even_padding(value, excluded)
+            elif value != "0x":
+                strip = value.lstrip("0x")
+                new_value = "0" if strip == "" else strip
+                if len(new_value) % 2:
+                    input[key] = "0x0" + new_value
+    return input
