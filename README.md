@@ -1,7 +1,6 @@
 # Execution Spec Tests
 
-This repository provides tools and libraries for generating cross-client
-Ethereum tests.
+This repository provides tools and libraries for generating cross-client Ethereum tests.
 
 ## Quick Start
 
@@ -15,6 +14,9 @@ The following are required to either generate or develop tests:
    2. Clone [the Geth repository](https://go.dev/doc/install).
    3. Run `make all`.
    4. Copy `build/bin/evm` to a directory on the path.
+   
+   **Note:** To update to a different Geth branch (for example one that supports a specific IEP) all you need to do is to change the `evm` in the path.
+   
 3. [`solc`](https://github.com/ethereum/solidity) >= `v0.8.17`; `solc` must be in accessible in the `PATH`.
 
 ### Installation
