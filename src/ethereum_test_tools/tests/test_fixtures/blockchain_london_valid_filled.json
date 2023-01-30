@@ -95,9 +95,9 @@
             }
         ],
         "genesisBlockHeader": {
-            "parentHash": "0x00",
+            "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "uncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
-            "coinbase": "0x00",
+            "coinbase": "0x0000000000000000000000000000000000000000",
             "stateRoot": "0x89a5be1d3306f6f05b42678ef13ac3dbc37bef9a2a80862c21eb22eee29194c2",
             "transactionsTrie": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
             "receiptTrie": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",

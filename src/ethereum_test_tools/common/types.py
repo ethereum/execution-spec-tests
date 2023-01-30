@@ -1009,7 +1009,18 @@ class JSONEncoder(json.JSONEncoder):
                 header["hash"] = obj.hash
             if obj.withdrawals_root is not None:
                 header["withdrawalsRoot"] = obj.withdrawals_root
-            return even_padding(header, ["nonce", "mixHash"])
+            return even_padding(
+                header,
+                [
+                    "parentHash",
+                    "uncleHash",
+                    "coinbase",
+                    "nonce",
+                    "mixHash",
+                    "hash",
+                    "withdrawalsRoot",
+                ],
+            )
         elif isinstance(obj, FixtureBlock):
             b = {
                 "rlp": obj.rlp,
