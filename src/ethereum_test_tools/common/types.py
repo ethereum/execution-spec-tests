@@ -1025,7 +1025,6 @@ class JSONEncoder(json.JSONEncoder):
             if obj.chain_name is not None:
                 b["chainname"] = obj.chain_name
             return b
-            # return even_padding(b, ["nonce", "mixHash"])
         elif isinstance(obj, Fixture):
             f = {
                 "_info": obj.info,
