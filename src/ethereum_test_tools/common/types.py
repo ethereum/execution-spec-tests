@@ -874,6 +874,9 @@ class FixtureBlock:
     expected_exception: Optional[str] = None
     block_number: Optional[int] = None
     chain_name: Optional[str] = None
+    txs: Optional[List[Transaction]] = None
+    ommers: Optional[List[Header]] = None
+    withdrawals: Optional[List[Withdrawal]] = None
 
 
 @dataclass(kw_only=True)
@@ -1038,6 +1041,12 @@ class JSONEncoder(json.JSONEncoder):
                 b["blocknumber"] = str(obj.block_number)
             if obj.chain_name is not None:
                 b["chainname"] = obj.chain_name
+            if obj.txs is not None:
+                b["transactions"] = obj.txs
+            if obj.ommers is not None:
+                b["uncleHeaders"] = obj.ommers
+            if obj.withdrawals is not None:
+                b["withdrawals"] = obj.withdrawals
             return b
         elif isinstance(obj, Fixture):
             f = {
