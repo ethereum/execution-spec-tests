@@ -922,7 +922,7 @@ class JSONEncoder(json.JSONEncoder):
                 "code": code_or_none(obj.code, "0x"),
                 "storage": storage_padding(to_json_or_none(obj.storage, {})),
             }
-            return even_padding(account, ["storage"])
+            return even_padding(account, excluded=["storage"])
         elif isinstance(obj, Transaction):
             tx = {
                 "type": hex(obj.ty),
@@ -1011,10 +1011,13 @@ class JSONEncoder(json.JSONEncoder):
                 header["withdrawalsRoot"] = obj.withdrawals_root
             return even_padding(
                 header,
-                [
+                excluded=[
                     "parentHash",
                     "uncleHash",
                     "coinbase",
+                    "transactionsTrie",
+                    "receiptTrie",
+                    "bloom",
                     "nonce",
                     "mixHash",
                     "hash",
