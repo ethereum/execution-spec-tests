@@ -50,8 +50,3 @@ pip-delete-this-directory.txt
 # misc
 
 *.code-workspace
-
-#docs
-docs/_build
-docs/_static
-docs/_templates
