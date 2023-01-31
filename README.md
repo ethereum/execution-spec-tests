@@ -1,7 +1,7 @@
 # Execution Spec Tests
 
 This repository provides tools and libraries for generating cross-client
-Ethereum tests.
+Ethereum tests. [Further documentation](https://execution-spec-tests.readthedocs.io/)
 
 ## Quick Start
 
