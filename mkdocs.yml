@@ -14,13 +14,15 @@ nav:
 - Tutorials:
   - State Transition Tests: 'tutorials/01_state_transition.md'
 
-theme: darkly
 plugins:
   - glightbox
 
+theme: readthedocs
+
 markdown_extensions:
-    - toc:
-        toc_depth: 2 
-        permalink: "#"
-    - attr_list
-    - md_in_html
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: "#"
+      toc_depth: 4 
+  - admonition

@@ -6,10 +6,10 @@ The following are required to either generate or develop tests:
 
 1. Python `3.10.0`.
 2. [`go-ethereum`](https://github.com/ethereum/go-ethereum) `geth`'s `evm` utility must be accessible in the `PATH`, typically at the latest version. To get it:
-   1. Install [the Go programming language](https://go.dev/doc/install) on your computer.
-   2. Clone [the Geth repository](https://github.com/ethereum/go-ethereum).
-   3. Run `make all`.
-   4. Copy `build/bin/evm` to a directory on the path.
+     1. Install [the Go programming language](https://go.dev/doc/install) on your computer.
+     2. Clone [the Geth repository](https://github.com/ethereum/go-ethereum).
+     3. Run `make all`.
+     4. Copy `build/bin/evm` to a directory on the path.
    
    **Note:** To update to a different Geth branch (for example one that supports a specific EIP) all you need to do is to change the `evm` in the path.
    
