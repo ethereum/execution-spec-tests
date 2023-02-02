@@ -15,7 +15,7 @@ mkdocs:
 
 python:
    install:
-   - requirements: docs/requirements.txt
+   - requirements: docs/rtdio_requirements.txt
 
 formats:
   - epub
