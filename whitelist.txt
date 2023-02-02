@@ -21,10 +21,13 @@ evm
 fn
 geth
 hash32
+inps
 ispkg
 listdir
+nops
 ommer
 ommers
+opc
 pathlib
 petersburg
 randao
