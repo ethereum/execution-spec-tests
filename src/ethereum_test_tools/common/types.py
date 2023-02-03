@@ -455,10 +455,10 @@ def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
     accounts = {}
     for address, value in got_alloc.items():
         account = Account(
-            nonce=int(value.get("nonce", None), 16)
-            if "nonce" in value
+            nonce=int_or_none(value["nonce"]) if "nonce" in value else None,
+            balance=int_or_none(value["balance"])
+            if "balance" in value
             else None,
-            balance=int(value["balance"], 16) if "balance" in value else None,
             code=value.get("code", None),
             storage=value.get("storage", None),
         )
@@ -873,7 +873,6 @@ class FixtureBlock:
     block_header: Optional[FixtureHeader] = None
     expected_exception: Optional[str] = None
     block_number: Optional[int] = None
-    chain_name: Optional[str] = None
     txs: Optional[List[Transaction]] = None
     ommers: Optional[List[Header]] = None
     withdrawals: Optional[List[Withdrawal]] = None
@@ -1028,6 +1027,25 @@ class JSONEncoder(json.JSONEncoder):
                 ],
             )
         elif isinstance(obj, FixtureBlock):
+            b_txs = (
+                [
+                    {
+                        "nonce": hex(tx.nonce),
+                        "to": tx.to,
+                        "value": hex(tx.value),
+                        "data": code_to_hex(tx.data),
+                        "gasLimit": hex_or_none(tx.gas_limit),
+                        "gasPrice": hex_or_none(tx.gas_price),
+                        "secretKey": tx.secret_key,
+                    }
+                    for tx in obj.txs
+                ]
+                if obj.txs is not None
+                else []
+            )
+            for i, tx in enumerate(b_txs):
+                b_txs[i] = even_padding(to_json(tx), excluded=["to"])
+
             b = {
                 "rlp": obj.rlp,
             }
@@ -1039,10 +1057,8 @@ class JSONEncoder(json.JSONEncoder):
                 b["expectException"] = obj.expected_exception
             if obj.block_number is not None:
                 b["blocknumber"] = str(obj.block_number)
-            if obj.chain_name is not None:
-                b["chainname"] = obj.chain_name
             if obj.txs is not None:
-                b["transactions"] = obj.txs
+                b["transactions"] = b_txs
             if obj.ommers is not None:
                 b["uncleHeaders"] = obj.ommers
             if obj.withdrawals is not None:
@@ -1080,9 +1096,11 @@ def even_padding(input: Dict, excluded: List[Any | None]) -> Dict:
         if key not in excluded:
             if isinstance(value, dict):
                 even_padding(value, excluded)
-            elif value != "0x":
+            elif value != "0x" and value is not None:
                 strip = value.lstrip("0x")
                 new_value = "0" if strip == "" else strip
                 if len(new_value) % 2:
                     input[key] = "0x0" + new_value
+                else:
+                    value = "0x"
     return input

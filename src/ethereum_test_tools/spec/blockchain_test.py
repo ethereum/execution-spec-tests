@@ -194,7 +194,6 @@ class BlockchainTest(BaseTest):
                         rlp=rlp,
                         block_header=header,
                         block_number=header.number,
-                        chain_name="default",
                         txs=block.txs,
                         ommers=[],
                         withdrawals=env.withdrawals,
