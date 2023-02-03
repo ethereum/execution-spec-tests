@@ -455,10 +455,8 @@ def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
     accounts = {}
     for address, value in got_alloc.items():
         account = Account(
-            nonce=int_or_none(value["nonce"]) if "nonce" in value else None,
-            balance=int_or_none(value["balance"])
-            if "balance" in value
-            else None,
+            nonce=int_or_none(value.get("nonce", None)),
+            balance=int_or_none(value.get("balance", None)),
             code=value.get("code", None),
             storage=value.get("storage", None),
         )
@@ -1027,28 +1025,36 @@ class JSONEncoder(json.JSONEncoder):
                 ],
             )
         elif isinstance(obj, FixtureBlock):
-            b_txs = (
-                [
-                    {
-                        "nonce": hex(tx.nonce),
-                        "to": tx.to,
-                        "value": hex(tx.value),
-                        "data": code_to_hex(tx.data),
-                        "gasLimit": hex_or_none(tx.gas_limit),
-                        "gasPrice": hex_or_none(tx.gas_price),
-                        "secretKey": tx.secret_key,
-                    }
-                    for tx in obj.txs
-                ]
-                if obj.txs is not None
-                else []
-            )
-            for i, tx in enumerate(b_txs):
-                b_txs[i] = even_padding(to_json(tx), excluded=["to"])
+            # Format Fixture Block Txs
+            b_txs = [
+                even_padding(
+                    to_json(
+                        {
+                            "nonce": hex(tx.nonce),
+                            "to": tx.to if tx.to is not None else "",
+                            "value": hex(tx.value),
+                            "data": code_to_hex(tx.data),
+                            "gasLimit": hex_or_none(tx.gas_limit),
+                            "gasPrice": hex(tx.gas_price)
+                            if tx.gas_price is not None
+                            else "0x0A",
+                            "secretKey": tx.secret_key,
+                        }
+                    ),
+                    excluded=["to"],
+                )
+                for tx in obj.txs or []
+            ]
 
-            b = {
-                "rlp": obj.rlp,
-            }
+            # Format Fixture Block Withdrawals
+            b_wds = []
+            if obj.withdrawals:
+                b_wds = [
+                    even_padding(to_json(wd), excluded=["address"])
+                    for wd in obj.withdrawals
+                ]
+
+            b = {"rlp": obj.rlp}
             if obj.block_header is not None:
                 b["blockHeader"] = json.loads(
                     json.dumps(obj.block_header, cls=JSONEncoder)
@@ -1062,7 +1068,7 @@ class JSONEncoder(json.JSONEncoder):
             if obj.ommers is not None:
                 b["uncleHeaders"] = obj.ommers
             if obj.withdrawals is not None:
-                b["withdrawals"] = obj.withdrawals
+                b["withdrawals"] = b_wds
             return b
         elif isinstance(obj, Fixture):
             f = {
