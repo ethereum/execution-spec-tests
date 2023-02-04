@@ -3,6 +3,7 @@ Python wrapper for the `evm b11r` tool.
 """
 
 import json
+import os
 import subprocess
 from abc import abstractmethod
 from pathlib import Path
@@ -48,6 +49,15 @@ class EvmBlockBuilder(BlockBuilder):
     cached_version: Optional[str] = None
 
     def __init__(self, binary: Optional[Path] = None):
+        # Which EVM binary to use?
+        # 1. If specified as a parameter to __init__, use that.
+        # 2. If not, read $EVM from the environment. Can you use it?
+        # 3. If not, use `which evm` to get the EVM to use
+        # 4. If there is still no usable evm, raise an exception 
+        if binary is None:
+            which_path = os.getenv('EVM')
+            if which_path is not None:
+                binary = Path(which_path)               
         if binary is None:
             which_path = which("evm")
             if which_path is not None:
