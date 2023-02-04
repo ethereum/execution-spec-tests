@@ -53,11 +53,11 @@ class EvmBlockBuilder(BlockBuilder):
         # 1. If specified as a parameter to __init__, use that.
         # 2. If not, read $EVM from the environment. Can you use it?
         # 3. If not, use `which evm` to get the EVM to use
-        # 4. If there is still no usable evm, raise an exception 
+        # 4. If there is still no usable evm, raise an exception
         if binary is None:
-            which_path = os.getenv('EVM')
+            which_path = os.getenv("EVM")
             if which_path is not None:
-                binary = Path(which_path)               
+                binary = Path(which_path)
         if binary is None:
             which_path = which("evm")
             if which_path is not None:
