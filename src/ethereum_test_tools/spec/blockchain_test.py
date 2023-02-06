@@ -196,9 +196,7 @@ class BlockchainTest(BaseTest):
                         block_number=header.number,
                         txs=block.txs if block.txs is not None else [],
                         ommers=[],
-                        withdrawals=env.withdrawals
-                        if env.withdrawals is not None
-                        else [],
+                        withdrawals=env.withdrawals,
                     ),
                     env.apply_new_parent(header),
                     next_alloc,

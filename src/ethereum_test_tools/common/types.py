@@ -264,23 +264,9 @@ def storage_padding(storage: Dict) -> Dict:
     """
     Adds even padding to each storage element.
     """
-    new_storage = {}
-    for addr, value in storage.items():
-        new_addr = addr.lstrip("0x").lstrip("0")
-        new_addr = "00" if new_addr == "" else new_addr
-        if len(new_addr) % 2 == 1:
-            new_addr = "0" + new_addr
-
-        new_value = value.lstrip("0x").lstrip("0")
-        new_value = "00" if new_value == "" else new_value
-        if len(new_value) % 2 == 1:
-            new_value = "0" + new_value
-
-        addr = "0x" + new_addr
-        value = "0x" + new_value
-        new_storage[addr] = value
-
-    return new_storage
+    return {
+        key_value_padding(k): key_value_padding(v) for k, v in storage.items()
+    }
 
 
 @dataclass(kw_only=True)
@@ -1103,10 +1089,21 @@ def even_padding(input: Dict, excluded: List[Any | None]) -> Dict:
             if isinstance(value, dict):
                 even_padding(value, excluded)
             elif value != "0x" and value is not None:
-                strip = value.lstrip("0x")
-                new_value = "0" if strip == "" else strip
-                if len(new_value) % 2:
-                    input[key] = "0x0" + new_value
-                else:
-                    value = "0x"
+                input[key] = key_value_padding(value)
+            else:
+                input[key] = "0x"
     return input
+
+
+def key_value_padding(value: str) -> str:
+    """
+    Adds even padding to a dictionary key or value string.
+    """
+    if value is not None:
+        new_value = value.lstrip("0x").lstrip("0")
+        new_value = "00" if new_value == "" else new_value
+        if len(new_value) % 2 == 1:
+            new_value = "0" + new_value
+        return "0x" + new_value
+    else:
+        return "0x"
