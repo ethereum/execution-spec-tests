@@ -14,7 +14,7 @@ Before proceeding with this tutorial, it is assumed that you have prior knowledg
 
 ## Example Tests
 
-The most effective method to learn how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [test_block_number](../../fillers/example/block_example.py#L19).
+In this tutorial we will go over [test_block_number](../../fillers/example/block_example.py#L19).
 
 I assume you've already gone through the state transition test tutorial, so I will only explain the parts that are new.
 
@@ -54,7 +54,7 @@ def tx_generator():
     while True:
 ```
 
-This looks like an endless loop, but it isn't because this is a [generator](https://wiki.python.org/moin/Generators) function. When generator encounters the `yield` keyword it returns the value and stops execution, keeping a copy of all the local variables.
+This looks like an infinite loop, but it isn't because this is a [generator](https://wiki.python.org/moin/Generators) function. When generator encounters the `yield` keyword it returns the value and stops execution, keeping a copy of all the local variables, until it is called again. So infinite loops inside a generator are not a problem as long as they include `yield`.
 
 ```python
         tx = Transaction(
@@ -109,13 +109,13 @@ We use [`lambda` notation](https://www.w3schools.com/python/python_lambda.asp) t
 range(len)
 ```
 
-Python uses [`range(n)`](https://www.w3schools.com/python/ref_func_range.asp) to create a list of numbers, by default from 0 to `n-1`. Among other things, it's a simple way to create a list of `n` values.
+Python uses [`range(n)`](https://www.w3schools.com/python/ref_func_range.asp) to create a list of numbers from `0` to `n-1`. Among other things, it's a simple way to create a list of `n` values.
 
 ```python
 list(map(lambda x: next(tx_generator), range(len)))
 ```
 
-The [`map` function](https://www.w3schools.com/python/ref_func_map.asp) runs the function (the first parameter) on every element of the list (the second parameter). Putting together what we know, it means that it runs `next(tx_generator)` `len` times, giving us `len` transactions. We then use [`list`](https://www.w3schools.com/python/python_lists.asp) to turn the transactions into a list that we can provide as a parameter.
+The [`map` function](https://www.w3schools.com/python/ref_func_map.asp) runs the function (the first parameter) on every element of the list (the second parameter). Putting together what we know, it means that it runs `next(tx_generator)` `len` times, giving us `len` transactions. We then use [`list`](https://www.w3schools.com/python/python_lists.asp) to turn the transactions into a list that we can provide as the `txs` parameter to the `Block` constructor.
 
 ```python
 blocks = map(
@@ -126,15 +126,15 @@ blocks = map(
 )
 ```
 
-The outer `lambda` function takes an integer, `len`, and creates a `Block` object whose transactions are `len` transactions. This function is then run on every value of `tx_per_block` to generate the blocks.
+The outer `lambda` function takes an integer, `len`, and creates a `Block` object with `len` transactions. This function is then run on every value of `tx_per_block` to generate the blocks.
 
 For example, if we had `tx_per_block = [2,0,4]`, we'd get this result:
 
 ```python
 blocks = [
-    Blocks(tx=[next(tx_generator), next(tx_generator)]),   # len=2, so two transactions
-    Blocks(tx=[]),   # len = 0, so it's an empty list
-    Blocks(tx=[next(tx_generator), next(tx_generator), next(tx_generator), next(tx_generator)])        
+    Blocks(txs=[next(tx_generator), next(tx_generator)]),   # len=2, so two transactions
+    Blocks(txs=[]),   # len = 0, so it's an empty list
+    Blocks(txs=[next(tx_generator), next(tx_generator), next(tx_generator), next(tx_generator)])        
 ]
 ```
 
