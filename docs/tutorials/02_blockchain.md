@@ -145,7 +145,7 @@ For every block and transaction within the block, we write the block number and 
 ```python
 next_slot = 1
 for blocknum in range(len(tx_per_block)):
-    for i in range(tx_per_block[blocknum]):
+    for _ in range(tx_per_block[blocknum]):
         storage[next_slot] = blocknum + 1
         next_slot = next_slot + 1
 ``` 
