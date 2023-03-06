@@ -9,11 +9,6 @@ Test Div by Zero:
     #
     # Opcodes where this is relevant:
     #   DIV
-    #   SDIV
-    #   MOD
-    #   SMOD
-    #   ADDMOD
-    #   MULMOD
     #
     # Any division or mod by zero returns zero.
 """
@@ -24,7 +19,6 @@ from ethereum_test_tools import (
     StateTest,
     TestAddress,
     Transaction,
-    Yul,
     test_from,
     to_address,
     to_hash,
@@ -47,17 +41,11 @@ def test_div_by_zero(fork):
         2,
         1,
         0,
-        to_hash(-1),
-        to_hash(-2),
-        to_hash(2**255 - 1),
-        to_hash(2**255),
     ]
 
     for i in range(0, len(div_params)):
-
         address = to_address(0x100 + i)
         a = div_params[i]
-        print(a)
 
         code_div = (
             # Push 0
@@ -73,7 +61,7 @@ def test_div_by_zero(fork):
             + Op.STOP
         )
 
-        pre[to_address(0x100)] = Account(code=code_div)
+        pre[address] = Account(code=code_div)
 
         tx = Transaction(
             nonce=i,

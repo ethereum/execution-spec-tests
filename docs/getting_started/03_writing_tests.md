@@ -1,116 +1,6 @@
-# Execution Spec Tests
+# Writing Tests
 
-This repository provides tools and libraries for generating cross-client
-Ethereum tests. [Further documentation](https://execution-spec-tests.readthedocs.io/).
-
-## Quick Start
-
-### Prerequisites
-
-The following are required to either generate or develop tests:
-
-1. Python >=`3.10.0`.
-   - For dists. with the `apt` package manager ensure you have python `-dev` & `-venv` packages installed.
-2. [`go-ethereum`](https://github.com/ethereum/go-ethereum) `geth`'s `evm` utility must be accessible in the `PATH`, typically at the latest version. To get it:
-   1. Install [the Go programming language](https://go.dev/doc/install) on your computer.
-   2. Clone [the Geth repository](https://github.com/ethereum/go-ethereum).
-   3. Run `make all`.
-   4. Copy `build/bin/evm` to a directory on the path.
-   
-   **Note:** To update to a different Geth branch (for example one that supports a specific EIP) all you need to do is to change the `evm` in the path.
-   
-3. [`solc`](https://github.com/ethereum/solidity) >= `v0.8.17`; `solc` must be in accessible in the `PATH`.
-
-### Installation
-
-To generate tests from the test "fillers", it's necessary to install the Python packages provided by `execution-spec-tests` (it's recommended to use a virtual environment for the installation):
-
-```console
-git clone https://github.com/ethereum/execution-spec-tests
-cd execution-spec-tests
-python -m venv ./venv/
-source ./venv/bin/activate
-pip install -e .
-```
-
-After the installation, run this sanity check to ensure tests are generated.
-If everything is OK, you will see the beginning of the JSON format filled test.
-
-```console
-tf --test-case yul
-head fixtures/example/example/yul.json
-```
-
-
-### Generating the Execution Spec Tests For Use With Clients
-
-To generate all the tests defined in the `./fillers` sub-directory, run the `tf` command:
-
-```console
-tf --filler-path="fillers" --output="fixtures" 
-```
-
-This is equivalent to running `tf` with no arguments. The paths`fillers/` and `fixtures/` are both defaults for the respective command.
-
-Note that the test `post` conditions are tested against the output of the `geth` `evm` utility during test generation.
-
-To generate all the tests in the `./fillers/vm` sub-directory (category), for example, run:
-```console
-tf --output="fixtures" --test-categories vm
-```
-
-To generate all the tests in the `./fillers/*/dup.py` modules, for example, run:
-```console
-tf --test-module dup
-```
-
-To generate specific tests, such as `./fillers/*/*.py::test_dup`, for example, run (remove the `test_` prefix from the test case's function name):
-```console
-tf --test-case dup
-```
-
-### Testing the Execution Spec Tests Framework
-
-The Python packages provided by the execution spec tests framework have their own test suite that can be ran via `tox`:
-
-```console
-python -m venv ./venv/
-source ./venv/bin/activate
-pip install tox
-tox -e py3
-```
-
-
-## Execution Spec Tests Package Overview 
-
-### `ethereum_test_tools`
-
-The `ethereum_test_tools` package provides primitives and helpers to allow
-developers to easily test the consensus logic of Ethereum clients. 
-
-### `ethereum_test_filling_tool`
-
-The `ethereum_test_filling_tool` package is a CLI application that recursively
-searches a given directory for Python modules that export test filler functions
-generated using `ethereum_test_tools`.
-It then processes the fillers using the transition tool and the block builder
-tool, and writes the resulting fixture to file.
-
-### `evm_block_builder`
-
-This is a wrapper around the [block builder][b11r] (b11r) tool.
-
-### `evm_transition_tool`
-
-This is a wrapper around the [transaction][t8n] (t8n) tool.
-
-### `fillers`
-
-Contains all the Ethereum consensus tests available in this repository.
-
-## Writing Tests
-
-### Purpose of test specs in this repository
+## Purpose of test specs in this repository
 
 The goal of the test specs included in this repository is to generate test vectors that can be consumed by any Execution client, and to verify that all of the clients agree on the same output after executing each test.
 
@@ -119,7 +9,7 @@ Consensus is the most important aspect of any blockchain network, therefore, any
 The tests focus on the EVM execution, therefore before being able to properly write a test, it is important to understand what the Ethereum Virtual Machine is and how it works.
 
 
-### Types of tests
+## Types of tests
 
 At the moment there are only two types of tests that can be produced by each test spec:
 
@@ -141,7 +31,7 @@ The Blockchain tests span multiple blocks which may or may not contain transacti
 - Verify fork transitions
 - Verify blocks with invalid transactions/properties are rejected
 
-### Adding a New Test
+## Adding a New Test
 
 All currently implemented tests can be found in the `fillers`
 directory, which is composed of many subdirectories, and each one represents a
@@ -162,8 +52,7 @@ A new test can be added by either:
     - Tests within multiple sub-directories must have a `__init__.py` file
       within each directory above it (and it own), to ensure the test is found by the test filler `tf`.
 
-
-### Test Spec Generator Functions
+## Test Spec Generator Functions
 
 Every test spec is a python generator function which can perform a single or
 multiple `yield` operations during its runtime to each time yield a single
@@ -183,7 +72,7 @@ fill the tests.
 
 The test vector function must take only one `str` parameter: the fork name.
 
-### `StateTest` Object
+## `StateTest` Object
 
 The `StateTest` object represents a single test vector, and contains the
 following attributes:
@@ -196,7 +85,7 @@ following attributes:
     created or modified after all transactions are executed.
 - txs: All transactions to be executed during the test vector runtime.
 
-### `BlockchainTest` Object
+## `BlockchainTest` Object
 
 The `BlockchainTest` object represents a single test vector that evaluates the
 Ethereum VM by attempting to append multiple blocks to the chain:
@@ -208,7 +97,7 @@ Ethereum VM by attempting to append multiple blocks to the chain:
 - blocks: All blocks to be appended to the blockchain during the test.
 
 
-### Pre/Post State of the Test
+## Pre/Post State of the Test
 
 The `pre` and `post` states are elemental to setup and then verify the outcome
 of the state test.
@@ -232,7 +121,7 @@ of each transaction, and any differences are considered a failure
 When designing a test, all the changes must be ideally saved into the contract's
 storage to be able to verify them in the post-state.
 
-### Test Transactions
+## Test Transactions
 
 Transactions can be crafted by sending them with specific `data` or to a
 specific account, which contains the code to be executed
@@ -244,7 +133,7 @@ Transactions can be designed to fail, and a verification must be made that the
 transaction fails with the specific error that matches what is expected by the
 test.
 
-### Writing code for the accounts in the test
+## Writing code for the accounts in the test
 
 Account bytecode can be embedded in the test accounts by adding it to the `code`
 field of the `account` object, or the `data` field of the `tx` object if the
@@ -261,7 +150,7 @@ Currently supported built-in compilable objects are:
 
 `Code` objects can be concatenated together by using the `+` operator.
 
-### Verifying the Accounts' Post State
+## Verifying the Accounts' Post State
 
 The state of the accounts after all blocks/transactions have been executed is
 the way of verifying that the execution client actually behaves like the test
@@ -283,12 +172,12 @@ Within the `post` dictionary object, an account address can be:
   test wants to verify that the address where the contract was supposed to be
   created is indeed empty.
 
-### The `Account` object
+## The `Account` object
 
 The `Account` object is used to specify the properties of an account to be
 verified in the post state.
 
-The python representation can be found in [src/ethereum_test_tools/common/types.py](src/ethereum_test_tools/common/types.py).
+The python representation can be found in [src/ethereum_test_tools/common/types.py](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py).
 
 It can verify the following properties of an account:
 - `nonce`: the scalar value equal to a) the number of transactions sent by
@@ -311,7 +200,7 @@ It can verify the following properties of an account:
 All account's properties are optional, and they can be skipped or set to `None`,
 which means that no check will be performed on that specific account property.
 
-### Verifying correctness of the new test
+## Verifying correctness of the new test
 
 A well written test performs a single verification output at a time.
 
@@ -336,7 +225,7 @@ check that test is effective. E.g. when a transaction is supposed to fail, it
 is necessary to check that the failure error is actually the one expected by
 the test.
 
-### Failing or invalid transactions
+## Failing or invalid transactions
 
 Transactions included in a StateTest are expected to be intrinsically valid,
 i.e. the account sending the transaction must have enough funds to cover the

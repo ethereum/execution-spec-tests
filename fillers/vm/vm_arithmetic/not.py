@@ -30,7 +30,7 @@ def test_not_opcode(fork):
     code_not = Yul(
         """
         {
-            sstore(0, not(0X123456789ABCDEF))
+            sstore(0, not(0x123456789ABCDEF))
         }
         """
     )
