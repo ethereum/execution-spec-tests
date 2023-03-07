@@ -2,10 +2,9 @@
 Test Arith (basic)
 """
 
+from ethereum_test_tools import Account, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
-    Account,
-    Environment,
     StateTest,
     TestAddress,
     Transaction,
