@@ -145,7 +145,8 @@ class Filler:
             os.makedirs(output_dir, exist_ok=True)
             path = os.path.join(output_dir, f"{name}.json")
 
-            self.log.debug(f"filling {name}")
+            name = path[9 : len(path) - 5].replace("/", ".")
+            self.log.debug(f"filling - {name}")
             fixture = filler(t8n, b11r, "NoProof")
 
             with open(path, "w", encoding="utf-8") as f:
@@ -189,10 +190,9 @@ def recursive_iter_modules(root, package):
     """
     for info in iter_modules([os.path.join(root, package)]):
         if info.ispkg:
-            for sub_info in recursive_iter_modules(
+            yield from recursive_iter_modules(
                 root, os.path.join(package, info.name)
-            ):
-                yield sub_info
+            )
         else:
             package_path = package.replace("/", ".")
             yield info, package_path
