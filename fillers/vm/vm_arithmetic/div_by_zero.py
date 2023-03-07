@@ -21,7 +21,6 @@ from ethereum_test_tools import (
     Transaction,
     test_from,
     to_address,
-    to_hash,
 )
 
 
@@ -37,15 +36,10 @@ def test_div_by_zero(fork):
     pre = {TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE)}
     txs = []
 
-    div_params = [
-        2,
-        1,
-        0,
-    ]
-
-    for i in range(0, len(div_params)):
+    div_values = [2, 1, 0]
+    for i in range(0, len(div_values)):
         address = to_address(0x100 + i)
-        a = div_params[i]
+        a = div_values[i]
 
         code_div = (
             # Push 0

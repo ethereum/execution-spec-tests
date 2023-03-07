@@ -56,7 +56,7 @@ def test_mul_opcode(fork):
                     because -2^255 = 2^256-2^255 in evm arithmetic) */
                     sstore(0x14, mul(exp(2, 255), sub(0, 1)))
 
-                    /* 2^255 * 2^255 the expected answer is 0, 
+                    /* 2^255 * 2^255 the expected answer is 0,
                     because 2^510 % 2^256 = 0 */
                     sstore(0x15, mul(exp(2, 255), exp(2, 255)))
 
@@ -247,7 +247,7 @@ def test_sdiv_opcode(fork):
 
                     /* (-1)/1 = -1 */
                     sstore(0x19, sdiv(sub(0, 1), 1))
-                    
+
                     /* (-3)/0 = 0, x/0 = 0 in evm */
                     sstore(0x1A, sdiv(sub(0, 3), 0))
 
