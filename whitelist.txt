@@ -40,6 +40,8 @@ validator
 vm
 gwei
 wei
+arith
+0x10
 
 byteorder
 delitem
