@@ -631,7 +631,9 @@ def test_withdrawals_zero_amount(_):
     block.withdrawals.reverse()
     set_withdrawal_index(block.withdrawals)
 
-    yield BlockchainTest(pre=pre, post=post, blocks=[block])
+    yield BlockchainTest(
+        pre=pre, post=post, blocks=[block], tag="reverse_withdrawal_order"
+    )
 
 
 @test_from(WITHDRAWALS_FORK)
