@@ -24,7 +24,7 @@ from ethereum_test_tools import (
     Yul,
     fill_test,
 )
-from evm_transition_tool import EvmTransitionTool
+from evm_transition_tool import EvmOneTransitionTool, EvmTransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 
@@ -112,12 +112,26 @@ def pytest_configure(config):
     )
 
 
+def get_transition_tool_from_evm_bin(*, binary, collect_traces):
+    """
+    Returns an EvmTransitionTool instance from the evm_bin path.
+    """
+    transitionToolCls = EvmTransitionTool
+    if binary and binary == "evmone-t8n":
+        transitionToolCls = EvmOneTransitionTool
+
+    return transitionToolCls(
+        binary=binary,
+        trace=collect_traces,
+    )
+
+
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header"""
-    t8n = EvmTransitionTool(
+    t8n = get_transition_tool_from_evm_bin(
         binary=config.getoption("evm_bin"),
-        trace=config.getoption("evm_collect_traces"),
+        collect_traces=config.getoption("evm_collect_traces"),
     )
     solc_version_string = Yul("", binary=config.getoption("solc_bin")).version()
     return [f"{t8n.version()}, solc version {solc_version_string}"]
@@ -144,9 +158,8 @@ def t8n(request, evm_bin):
     """
     Returns the configured transition tool.
     """
-    t8n = EvmTransitionTool(
-        binary=evm_bin,
-        trace=request.config.getoption("evm_collect_traces"),
+    t8n = get_transition_tool_from_evm_bin(
+        binary=evm_bin, collect_traces=request.config.getoption("evm_collect_traces")
     )
     return t8n
 
