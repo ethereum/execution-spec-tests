@@ -86,7 +86,7 @@ def test_sub_opcode(fork):
             code=Yul(
                 """
                 {
-                    /* 23 - 1   = -22 */
+                    /* 23 - 1   = 22  */
                     sstore(0x10, sub(23, 1))
                     /* -2 - 3   =  -1 */
                     sstore(0x11, sub(2, 3))
