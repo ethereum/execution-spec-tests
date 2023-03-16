@@ -51,7 +51,9 @@ def test_div_by_zero(fork):
             # Push 0
             # sstore(0, div(a,0))
             + Op.PUSH1(i)
-            + Op.SSTORE(3, 1)
+            + Op.SSTORE()
+            + Op.PUSH1(3)
+            + Op.SSTORE()
             + Op.STOP
         )
 
