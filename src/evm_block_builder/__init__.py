@@ -43,7 +43,6 @@ class EvmBlockBuilder(BlockBuilder):
     """
     Go-ethereum `evm` Block builder frontend.
     """
-
     binary: Path
     cached_version: Optional[str] = None
 
@@ -73,6 +72,7 @@ class EvmBlockBuilder(BlockBuilder):
         """
         Executes `evm b11r` with the specified arguments.
         """
+
         args = [
             str(self.binary),
             "b11r",
@@ -81,6 +81,8 @@ class EvmBlockBuilder(BlockBuilder):
             "--input.ommers=stdin",
             "--seal.clique=stdin",
             "--output.block=stdout",
+            "--input.withdrawals=stdin"
+            if withdrawals is not None else "",
         ]
 
         if ethash:

@@ -80,7 +80,7 @@ class StateTest(BaseTest):
             else None,
         )
 
-        (genesis_rlp, h) = b11r.build(genesis.to_geth_dict(), "", [])
+        (genesis_rlp, h) = b11r.build(genesis.to_geth_dict(), "", [], env.withdrawals)
         genesis.hash = h
 
         return genesis_rlp, genesis
