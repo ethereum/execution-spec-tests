@@ -85,7 +85,7 @@ class BlockchainTest(BaseTest):
             header=genesis.to_geth_dict(),
             txs="",
             ommers=[],
-            withdrawals=env.withdrawals
+            withdrawals=env.withdrawals,
         )
         return genesis_rlp, genesis
 
