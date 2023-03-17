@@ -10,7 +10,7 @@ case within it, and write them to a file in a given output directory.
 import argparse
 import concurrent.futures
 import json
-import logging
+from logger import setup_logger
 import os
 import time
 
@@ -26,10 +26,9 @@ class Filler:
     A command line tool to process test fillers into full hydrated tests.
     """
 
-    log: logging.Logger
+    log = setup_logger(__name__)
 
     def __init__(self, options: argparse.Namespace) -> None:
-        self.log = logging.getLogger(__name__)
         self.options = options
 
     def fill(self) -> None:
@@ -41,6 +40,8 @@ class Filler:
 
         fillers = self.get_fillers()
         self.log.info(f"collected {len(fillers)} fillers")
+        self.log.warning(f"collected {len(fillers)} fillers")
+        self.log.error(f"collected {len(fillers)} fillers")
 
         os.makedirs(self.options.output, exist_ok=True)
 

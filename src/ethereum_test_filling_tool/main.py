@@ -6,7 +6,6 @@ Executes python test fillers to create "filled" tests (fixtures)
 that can be consumed by ethereum execution clients.
 """
 import argparse
-import logging
 from pathlib import Path
 
 from .filler import Filler
@@ -98,7 +97,6 @@ def main() -> None:
     """
     Fills the specified test definitions.
     """
-    logging.basicConfig(level=logging.DEBUG)
 
     filler = Filler(parse_arguments())
     filler.fill()
