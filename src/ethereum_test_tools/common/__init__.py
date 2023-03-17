@@ -16,6 +16,7 @@ from .helpers import (
     to_address,
     to_hash,
 )
+from .reference_spec import GitReferenceSpec, ReferenceSpec
 from .types import (
     AccessList,
     Account,
@@ -48,7 +49,9 @@ __all__ = (
     "Fixture",
     "FixtureBlock",
     "FixtureHeader",
+    "GitReferenceSpec",
     "JSONEncoder",
+    "ReferenceSpec",
     "Storage",
     "TestAddress",
     "TestPrivateKey",

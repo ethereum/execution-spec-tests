@@ -14,7 +14,7 @@ import logging
 import os
 import time
 
-from ethereum_test_tools import JSONEncoder
+from ethereum_test_tools import JSONEncoder, ReferenceSpec
 from evm_block_builder import EvmBlockBuilder
 from evm_transition_tool import EvmTransitionTool
 
@@ -81,6 +81,48 @@ class Filler:
             module_full_name = module_loader.name
             self.log.debug(f"searching {module_full_name} for fillers")
             module = module_loader.load_module()
+            module_spec: ReferenceSpec | None = None
+            if "REFERENCE_SPEC" in module.__dict__:
+                spec_obj = module.__dict__["REFERENCE_SPEC"]
+                if isinstance(spec_obj, ReferenceSpec):
+                    if not spec_obj.has_known_version():
+                        latest_version = spec_obj.latest_version()
+                        self.log.warn(
+                            f"""
+                            Filler {spec_obj.name()} has a spec configuration,
+                            but no latest known version.
+                            Current latest known version is: {latest_version}
+                            Please include this value in the filler .py file.
+                            """
+                        )
+                    else:
+                        module_spec = spec_obj
+                        try:
+                            if module_spec.is_outdated():
+                                latest_version = spec_obj.latest_version()
+                                self.log.warn(
+                                    f"""
+                                    There is newer version of the spec
+                                    referenced in filler {module_full_name},
+                                    tests might be outdated:
+                                    Spec: {module_spec.name()}
+                                    Referenced version:
+                                    {module_spec.known_version()}
+                                    Latest version:
+                                    {latest_version}
+                                    """
+                                )
+                        except Exception as e:
+                            self.log.warn(
+                                f"""Unable to check latest version of spec
+                                {module_spec.name()}: {e}"""
+                            )
+            else:
+                self.log.warn(
+                    f"""
+                    Filler {module_full_name} has no reference spec information
+                    """
+                )
             for obj in module.__dict__.values():
                 if callable(obj) and hasattr(obj, "__filler_metadata__"):
                     if (
@@ -93,6 +135,7 @@ class Filler:
                         package_name,
                         module_name,
                     ]
+                    obj.__filler_metadata__["spec"] = module_spec
                     fillers.append(obj)
         return fillers
 
@@ -103,6 +146,7 @@ class Filler:
         """
         name = filler.__filler_metadata__["name"]
         module_path = filler.__filler_metadata__["module_path"]
+        module_spec = filler.__filler_metadata__["spec"]
         output_dir = os.path.join(
             self.options.output,
             *(module_path if not self.options.no_output_structure else ""),
@@ -125,7 +169,7 @@ class Filler:
             self.log.debug(f"skipping - {full_name}")
             return
 
-        fixture = filler(t8n, b11r, "NoProof")
+        fixture = filler(t8n, b11r, "NoProof", module_spec)
         self.log.debug(f"filling - {full_name}")
         with open(path, "w", encoding="utf-8") as f:
             json.dump(

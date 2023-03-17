@@ -11,6 +11,7 @@ from evm_transition_tool import TransitionTool
 
 from ..code import Code, code_to_hex
 from .constants import AddrAA, TestPrivateKey
+from .reference_spec import ReferenceSpec
 
 
 def code_or_none(input: str | bytes | Code, default=None) -> str | None:
@@ -893,12 +894,19 @@ class Fixture:
     name: str = ""
     index: int = 0
 
-    def fill_info(self, t8n: TransitionTool, b11r: BlockBuilder):
+    def fill_info(
+        self,
+        t8n: TransitionTool,
+        b11r: BlockBuilder,
+        ref_spec: ReferenceSpec | None,
+    ):
         """
         Fill the info field for this fixture
         """
         self.info["filling-transition-tool"] = t8n.version()
         self.info["filling-block-build-tool"] = b11r.version()
+        if ref_spec is not None:
+            ref_spec.write_info(self.info)
 
 
 class JSONEncoder(json.JSONEncoder):
