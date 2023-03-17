@@ -2,6 +2,8 @@
 Test Exponentiation opcode
 """
 
+from string import Template
+
 from ethereum_test_tools import (
     Account,
     Environment,
@@ -34,31 +36,36 @@ def test_exp_opcode(fork):
     txs = []
     post = {}
 
-    expressions = {
-        to_address(0x100): (Yul("""{sstore(0, exp(2, 2))}"""), 0x04),
-        to_address(0x101): (
-            Yul("""{sstore(0, exp(sub(0, 1), sub(0, 2)))}"""),
-            0x01,
-        ),
-        to_address(0x102): (
-            Yul("""{sstore(0, exp(2147483647, 2147483647))}"""),
+    base_exp_result = [
+        ("2, 2", 0x04),
+        ("sub(0, 1), sub(0, 2)", 0x01),
+        (
+            "2147483647, 2147483647",
             0xBC8CCCCCCCC888888880000000AAAAAAB00000000FFFFFFFFFFFFFFF7FFFFFFF,
         ),
-        to_address(0x103): (Yul("""{sstore(0, exp(0, 2147483647))}"""), 0x00),
-        to_address(0x104): (Yul("""{sstore(0, exp(2147483647, 0))}"""), 0x01),
-        to_address(0x105): (Yul("""{sstore(0, exp(257, 1))}"""), 0x0101),
-        to_address(0x106): (Yul("""{sstore(0, exp(1, 257))}"""), 0x01),
-        to_address(0x107): (Yul("""{sstore(0, exp(2, 257))}"""), 0x00),
-        to_address(0x108): (Yul("""{sstore(0, exp(0, 0))}"""), 0x01),
-        to_address(0x109): (
-            Yul("""{sstore(0, exp(2, 0x0100000000000f))}"""),
-            0x00,
-        ),
-        to_address(0x10A): (Yul("""{sstore(0, exp(2, 15))}"""), 0x8000),
-    }
+        ("0, 2147483647", 0x00),
+        ("2147483647, 0", 0x01),
+        ("257, 1", 0x0101),
+        ("1, 257", 0x01),
+        ("2, 257", 0x00),
+        ("0, 0", 0x01),
+        ("2, 0x0100000000000f", 0x00),
+        ("2, 15", 0x8000),
+    ]
+    expressions = {}
+    for i, (b_e, result) in enumerate(base_exp_result):
+        address = to_address(0x100 + i)
+        yul_code = Template(
+            """
+            {
+                sstore(${address}, exp(${b_e}))
+            }
+            """
+        ).substitute(b_e=b_e, address=address)
+        expressions[address] = (Yul(yul_code), result)
 
-    for account, (code, storage_value) in expressions.items():
-        pre[account] = Account(code=code)
+    for account, (yul_code, result) in expressions.items():
+        pre[account] = Account(code=yul_code)
         tx = Transaction(
             nonce=int(account[-1], 16),
             to=account,
@@ -66,7 +73,7 @@ def test_exp_opcode(fork):
             gas_price=10,
         )
         txs.append(tx)
-        post[account] = Account(storage={0x00: storage_value})
+        post[account] = Account(storage={account: result})
 
     yield StateTest(env=env, pre=pre, post=post, txs=txs)
 
