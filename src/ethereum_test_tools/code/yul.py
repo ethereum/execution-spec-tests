@@ -2,6 +2,7 @@
 Yul frontend
 """
 
+from logger import setup_logger
 from pathlib import Path
 from subprocess import PIPE, run
 from typing import Optional
@@ -24,6 +25,7 @@ class Yul(Code):
 
     source: str
     compiled: Optional[bytes] = None
+    log = setup_logger(__name__)
 
     def __init__(self, source: str):
         self.source = source
@@ -42,7 +44,9 @@ class Yul(Code):
             )
 
             if result.returncode != 0:
-                raise Exception("failed to compile yul source: " + self.source)
+                stderr_lines = result.stderr.decode().split('\n')
+                stderr_message = '\n'.join(line.strip() for line in stderr_lines)
+                self.log.critical(f"failed to compile yul source:\n{stderr_message[7:]}")
 
             lines = result.stdout.decode().split("\n")
 
