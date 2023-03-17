@@ -52,7 +52,7 @@ def test_exp_opcode(fork):
         ("2, 0x0100000000000f", 0x00),
         ("2, 15", 0x8000),
     ]
-    expressions = {}
+
     for i, (b_e, result) in enumerate(base_exp_result):
         address = to_address(0x100 + i)
         yul_code = Template(
@@ -62,18 +62,16 @@ def test_exp_opcode(fork):
             }
             """
         ).substitute(b_e=b_e, address=address)
-        expressions[address] = (Yul(yul_code), result)
+        pre[address] = Account(code=Yul(yul_code))
 
-    for account, (yul_code, result) in expressions.items():
-        pre[account] = Account(code=yul_code)
         tx = Transaction(
-            nonce=int(account[-1], 16),
-            to=account,
+            nonce=i,
+            to=address,
             gas_limit=500000,
             gas_price=10,
         )
         txs.append(tx)
-        post[account] = Account(storage={account: result})
+        post[address] = Account(storage={address: result})
 
     yield StateTest(env=env, pre=pre, post=post, txs=txs)
 
