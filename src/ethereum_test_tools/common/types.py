@@ -538,6 +538,16 @@ class Environment:
 
 
 @dataclass(kw_only=True)
+class AccessList:
+    """
+    Access List for transactions.
+    """
+
+    address: str
+    storage_keys: List[str] = field(default_factory=list)
+
+
+@dataclass(kw_only=True)
 class Transaction:
     """
     Generic object that can represent all Ethereum transaction types.
@@ -553,7 +563,7 @@ class Transaction:
     value: int = 0
     data: bytes | str | Code = bytes()
     gas_limit: int = 21000
-    access_list: Optional[List[Tuple[str, List[str]]]] = None
+    access_list: Optional[List[AccessList]] = None
 
     gas_price: Optional[int] = None
     max_fee_per_gas: Optional[int] = None
@@ -909,6 +919,11 @@ class JSONEncoder(json.JSONEncoder):
                 "storage": storage_padding(to_json_or_none(obj.storage, {})),
             }
             return even_padding(account, excluded=["storage"])
+        elif isinstance(obj, AccessList):
+            access_list = {"address": obj.address}
+            if obj.storage_keys is not None:
+                access_list["storageKeys"] = obj.storage_keys
+            return access_list
         elif isinstance(obj, Transaction):
             tx = {
                 "type": hex(obj.ty),
@@ -1024,10 +1039,11 @@ class JSONEncoder(json.JSONEncoder):
                             "gasPrice": hex(tx.gas_price)
                             if tx.gas_price is not None
                             else "0x0A",
+                            "accessList": to_json_or_none(tx.access_list),
                             "secretKey": tx.secret_key,
                         }
                     ),
-                    excluded=["to"],
+                    excluded=["to", "accessList"],
                 )
                 for tx in obj.txs or []
             ]
