@@ -93,9 +93,11 @@ class Filler:
                             f"""
                             Filler {spec_obj.name()} has a spec configuration,
                             but no latest known version.
-                            Current latest known version is: {latest_version}
-                            Please include this value in the filler .py file
-                            as `REFERENCE_SPEC_VERSION = "{latest_version}"`
+                            Current version hash is: {latest_version}
+                            If this is a new test, and you are using the latest
+                            version, please include this value in the filler
+                            .py file as:
+                            `REFERENCE_SPEC_VERSION = "{latest_version}"`
                             """
                         )
                     else:
