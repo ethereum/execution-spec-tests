@@ -10,8 +10,8 @@ from evm_block_builder import BlockBuilder
 from evm_transition_tool import TransitionTool
 
 from ..code import Code, code_to_hex
+from ..reference_spec.reference_spec import ReferenceSpec
 from .constants import AddrAA, TestPrivateKey
-from .reference_spec import ReferenceSpec
 
 
 def code_or_none(input: str | bytes | Code, default=None) -> str | None:

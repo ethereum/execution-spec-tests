@@ -14,7 +14,7 @@ import logging
 import os
 import time
 
-from ethereum_test_tools import JSONEncoder, ReferenceSpec
+from ethereum_test_tools import JSONEncoder, ReferenceSpec, ReferenceSpecTypes
 from evm_block_builder import EvmBlockBuilder
 from evm_transition_tool import EvmTransitionTool
 
@@ -81,10 +81,12 @@ class Filler:
             module_full_name = module_loader.name
             self.log.debug(f"searching {module_full_name} for fillers")
             module = module_loader.load_module()
+            module_dict = module.__dict__
             module_spec: ReferenceSpec | None = None
-            if "REFERENCE_SPEC" in module.__dict__:
-                spec_obj = module.__dict__["REFERENCE_SPEC"]
-                if isinstance(spec_obj, ReferenceSpec):
+            has_reference_spec = False
+            for ref_spec_type in ReferenceSpecTypes:
+                if ref_spec_type.parseable_from_module(module_dict):
+                    spec_obj = ref_spec_type.parse_from_module(module_dict)
                     if not spec_obj.has_known_version():
                         latest_version = spec_obj.latest_version()
                         self.log.warn(
@@ -92,7 +94,8 @@ class Filler:
                             Filler {spec_obj.name()} has a spec configuration,
                             but no latest known version.
                             Current latest known version is: {latest_version}
-                            Please include this value in the filler .py file.
+                            Please include this value in the filler .py file
+                            as `REFERENCE_SPEC_VERSION = "{latest_version}"`
                             """
                         )
                     else:
@@ -117,13 +120,15 @@ class Filler:
                                 f"""Unable to check latest version of spec
                                 {module_spec.name()}: {e}"""
                             )
-            else:
+                    has_reference_spec = True
+                    break
+            if not has_reference_spec:
                 self.log.warn(
                     f"""
                     Filler {module_full_name} has no reference spec information
                     """
                 )
-            for obj in module.__dict__.values():
+            for obj in module_dict.values():
                 if callable(obj) and hasattr(obj, "__filler_metadata__"):
                     if (
                         self.options.test_case

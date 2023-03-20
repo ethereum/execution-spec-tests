@@ -4,7 +4,7 @@ Decorators for expanding filler definitions.
 from typing import Any, Callable, List, Mapping, Optional, cast
 
 from ..common import Fixture
-from ..common.reference_spec import ReferenceSpec
+from ..reference_spec.reference_spec import ReferenceSpec
 from ..spec import TestSpec
 from ..vm.fork import forks_from, forks_from_until
 from .fill import fill_test

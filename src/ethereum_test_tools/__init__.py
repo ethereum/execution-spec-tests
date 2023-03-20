@@ -9,9 +9,7 @@ from .common import (
     Account,
     Block,
     Environment,
-    GitReferenceSpec,
     JSONEncoder,
-    ReferenceSpec,
     TestAddress,
     Transaction,
     Withdrawal,
@@ -24,6 +22,7 @@ from .common import (
 )
 from .filling.decorators import test_from, test_from_until, test_only
 from .filling.fill import fill_test
+from .reference_spec import ReferenceSpec, ReferenceSpecTypes
 from .spec import BlockchainTest, StateTest
 from .vm import Opcode, Opcodes
 from .vm.fork import is_fork
@@ -36,12 +35,12 @@ __all__ = (
     "Code",
     "CodeGasMeasure",
     "Environment",
-    "GitReferenceSpec",
     "Initcode",
     "JSONEncoder",
     "Opcode",
     "Opcodes",
     "ReferenceSpec",
+    "ReferenceSpecTypes",
     "StateTest",
     "Storage",
     "TestAddress",

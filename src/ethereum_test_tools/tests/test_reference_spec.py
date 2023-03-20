@@ -8,7 +8,8 @@ import re
 
 import pytest
 
-from ..common.reference_spec import GitReferenceSpec, NoLatestKnownVersion
+from ..reference_spec.git_reference_spec import GitReferenceSpec
+from ..reference_spec.reference_spec import NoLatestKnownVersion
 
 
 def test_git_reference_spec():

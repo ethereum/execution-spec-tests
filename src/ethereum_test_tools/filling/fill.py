@@ -8,7 +8,7 @@ from evm_block_builder import BlockBuilder
 from evm_transition_tool import TransitionTool, map_fork
 
 from ..common import Fixture, alloc_to_accounts
-from ..common.reference_spec import ReferenceSpec
+from ..reference_spec.reference_spec import ReferenceSpec
 from ..spec import TestSpec
 from ..vm.fork import get_reward
 
