@@ -2,11 +2,11 @@
 Test Exponentiation opcode
 """
 
-from string import Template
+from typing import Callable, Dict, List, Tuple
 
+from ethereum_test_tools import Account, Environment, Opcode
+from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
-    Account,
-    Environment,
     StateTest,
     TestAddress,
     Transaction,
@@ -16,15 +16,47 @@ from ethereum_test_tools import (
 )
 
 
+def test_case_generator(
+    test_cases: List[Tuple[int, int]],
+    opcode: Opcode,
+    c: Callable[[int, int], int],
+) -> Tuple[bytes, Dict[str | int, str | int]]:
+    """
+    Generates a code that automatically checks all test cases requested for the
+    given opcode.
+    Takes a list of tuples of two values, where the values represent `a` and
+    `b` in expression `opcode(a, b)`.
+    Returns code and the dictionary of storage values expected for this code.
+    """
+    test_code = bytes()
+    results: Dict[str | int, str | int] = {}
+    for i, (a, b) in enumerate(test_cases):
+        # Push the values into the stack
+        test_code += Op.PUSH32(b)
+        test_code += Op.PUSH32(a)
+        # Execute opcode for test
+        test_code += opcode
+        # store the result
+        test_code += Op.PUSH32(i)
+        test_code += Op.SSTORE
+        # use `exp` to calculate the expected result, and save it to the dict
+        results[i] = c(a, b)
+    return test_code, results
+
+
 def exp(a: int, b: int) -> int:
     """
     Helper Exponential Function
     """
+    if a < 0:
+        a = 2**256 + a
+    if b < 0:
+        b = 2**256 + b
     return pow(a, b, 2**256)
 
 
 @test_from("istanbul")
-def test_exp_opcode(fork):
+def test_exp_opcode(_: str):
     """
     Test Exp Opcode.
     Port from ethereum/tests:
@@ -32,52 +64,43 @@ def test_exp_opcode(fork):
       - Original test by Ori Pomerantz qbzzt1@gmail.com
     """
     env = Environment()
-    pre = {TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE)}
-    txs = []
-    post = {}
 
-    base_exp_result = [
-        ("2, 2", 0x04),
-        ("sub(0, 1), sub(0, 2)", 0x01),
-        (
-            "2147483647, 2147483647",
-            0xBC8CCCCCCCC888888880000000AAAAAAB00000000FFFFFFFFFFFFFFF7FFFFFFF,
-        ),
-        ("0, 2147483647", 0x00),
-        ("2147483647, 0", 0x01),
-        ("257, 1", 0x0101),
-        ("1, 257", 0x01),
-        ("2, 257", 0x00),
-        ("0, 0", 0x01),
-        ("2, 0x0100000000000f", 0x00),
-        ("2, 15", 0x8000),
+    test_cases = [
+        (2, 2),
+        (-1, -2),
+        (2147483647, 2147483647),
+        (0, 2147483647),
+        (2147483647, 0),
+        (257, 1),
+        (1, 257),
+        (2, 257),
+        (0, 0),
+        (2, 0x0100000000000F),
+        (2, 15),
     ]
 
-    for i, (b_e, result) in enumerate(base_exp_result):
-        address = to_address(0x100 + i)
-        yul_code = Template(
-            """
-            {
-                sstore(${address}, exp(${b_e}))
-            }
-            """
-        ).substitute(b_e=b_e, address=address)
-        pre[address] = Account(code=Yul(yul_code))
+    # Fill all test cases
+    test_code, results = test_case_generator(test_cases, Op.EXP, exp)
 
-        tx = Transaction(
-            nonce=i,
-            to=address,
-            gas_limit=500000,
-            gas_price=10,
-        )
-        txs.append(tx)
-        post[address] = Account(storage={address: result})
+    test_code_address = to_address(0x100)
+    pre = {
+        TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE),
+        test_code_address: Account(code=test_code),
+    }
+    post = {test_code_address: Account(storage=results)}
 
-    yield StateTest(env=env, pre=pre, post=post, txs=txs)
+    tx = Transaction(
+        nonce=0,
+        to=test_code_address,
+        gas_limit=5000000,
+        gas_price=10,
+    )
+
+    yield StateTest(env=env, pre=pre, post=post, txs=[tx])
 
 
 @test_from("istanbul")
-def test_exp_power_2(fork):
+def test_exp_power_2(_: str):
     """
     Test Exp Opcode for 2^(2^(n)), 2^(2^(n-1)), 2^(2^(n+1)).
     Port from ethereum/tests:
@@ -86,41 +109,28 @@ def test_exp_power_2(fork):
     """
     env = Environment()
 
+    test_cases = [
+        (2, (exp(2, n) + j) % (2**256))
+        for n in range(1, 9)
+        for j in [0, -1, 1]
+    ]
+
+    # Fill all test cases
+    test_code, results = test_case_generator(test_cases, Op.EXP, exp)
+
+    test_code_address = to_address(0x100)
     pre = {
-        to_address(0x100): Account(
-            balance=0x0BA1A9CE0BA1A9CE,
-            code=Yul(
-                """
-                {
-                    let n := 1
-                    for { } lt(n, 9) { }
-                    {
-                        sstore(mul(0x10, n), exp(2, exp(2, n)))
-                        sstore(add(mul(0x10, n), 1), exp(2, sub(exp(2, n), 1)))
-                        sstore(add(mul(0x10, n), 2), exp(2, add(exp(2, n), 1)))
-                        n := add(n, 1)
-                    }
-                }
-                """
-            ),
-        ),
         TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE),
+        test_code_address: Account(code=test_code),
     }
+    post = {test_code_address: Account(storage=results)}
 
     tx = Transaction(
         nonce=0,
-        to=to_address(0x100),
+        to=test_code_address,
         gas_limit=5000000,
         gas_price=10,
     )
-
-    storage = {
-        (0x10 * n) + i: exp(2, exp(2, n) + j)
-        for n in range(1, 9)
-        for i, j in [(0, 0), (1, -1), (2, 1)]
-    }
-
-    post = {to_address(0x100): Account(storage=storage)}
 
     yield StateTest(env=env, pre=pre, post=post, txs=[tx])
 
