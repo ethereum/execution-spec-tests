@@ -9,7 +9,6 @@ from ethereum_test_tools import (
     Account,
     CodeGasMeasure,
     Environment,
-    GitReferenceSpec,
     StateTest,
     TestAddress,
     Transaction,
@@ -21,10 +20,8 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-REFERENCE_SPEC = GitReferenceSpec(
-    SpecPath="EIPS/eip-3651.md",
-    SpecVersion="cd7d6a465c03d86d852a1d6b5179bc78d760e658",
-)
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3651.md"
+REFERENCE_SPEC_VERSION = "cd7d6a465c03d86d852a1d6b5179bc78d760e658"
 
 
 @test_from(fork="shanghai")
