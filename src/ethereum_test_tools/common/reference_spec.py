@@ -14,6 +14,11 @@ import requests
 
 # Exceptions
 class NoLatestKnownVersion(Exception):
+    """
+    Exception used to signal that the reference specification does not have a
+    latest known version
+    """
+
     pass
 
 
@@ -68,7 +73,7 @@ class ReferenceSpec:
         pass
 
 
-def decode_base64_content(encoded_data: str) -> str:
+def _decode_base64_content(encoded_data: str) -> str:
     return base64.b64decode(encoded_data).decode("utf-8")
 
 
@@ -79,8 +84,8 @@ class GitReferenceSpec(ReferenceSpec):
     """
 
     SpecPath: str
-    RepoOwner: str = "ethereum"
-    RepoName: str = "EIPs"
+    RepositoryOwner: str = "ethereum"
+    RepositoryName: str = "EIPs"
     BranchName: str = "master"
     SpecVersion: str = ""
     _latest_spec: Dict | None = None
@@ -90,8 +95,8 @@ class GitReferenceSpec(ReferenceSpec):
         Returns the name of the spec.
         """
         return (
-            f"https://github.com/{self.RepoOwner}/"
-            + f"{self.RepoName}/blob/{self.BranchName}/{self.SpecPath}"
+            f"https://github.com/{self.RepositoryOwner}/"
+            + f"{self.RepositoryName}/blob/{self.BranchName}/{self.SpecPath}"
         )
 
     def known_version(self) -> str:
@@ -100,36 +105,41 @@ class GitReferenceSpec(ReferenceSpec):
         """
         return self.SpecVersion
 
-    def latest_known_spec(self) -> Dict | None:
+    def _get_latest_known_spec(self) -> Dict | None:
         response = requests.get(
-            f"https://api.github.com/repos/{self.RepoOwner}/"
-            + f"{self.RepoName}/git/blobs/{self.SpecVersion}"
+            f"https://api.github.com/repos/{self.RepositoryOwner}/"
+            + f"{self.RepositoryName}/git/blobs/{self.SpecVersion}"
         )
         if response.status_code != 200:
             return None
         content = json.loads(response.content)
-        content["content"] = decode_base64_content(content["content"])
+        content["content"] = _decode_base64_content(content["content"])
         return content
 
-    def latest_spec(self) -> Dict:
+    def _get_latest_spec(self) -> Dict | None:
         if self._latest_spec is not None:
             return self._latest_spec
         response = requests.get(
-            f"https://api.github.com/repos/{self.RepoOwner}/"
-            + f"{self.RepoName}/contents/{self.SpecPath}"
+            f"https://api.github.com/repos/{self.RepositoryOwner}/"
+            + f"{self.RepositoryName}/contents/{self.SpecPath}"
         )
         if response.status_code != 200:
             return None
         content = json.loads(response.content)
-        content["content"] = decode_base64_content(content["content"])
+        content["content"] = _decode_base64_content(content["content"])
         self._latest_spec = content
         return content
 
     def is_outdated(self) -> bool:
+        """
+        Checks whether the reference specification has been updated since the
+        test was last updated, by comparing the latest known `sha` value of
+        the file in the repository.
+        """
         if self.SpecVersion == "":
             raise NoLatestKnownVersion
         # Fetch the latest spec
-        latest = self.latest_spec()
+        latest = self._get_latest_spec()
         if latest is None:
             raise Exception("unable to get latest version")
         return latest["sha"].strip() != self.SpecVersion.strip()
@@ -138,7 +148,7 @@ class GitReferenceSpec(ReferenceSpec):
         """
         Returns the sha digest of the latest version of the spec.
         """
-        latest = self.latest_spec()
+        latest = self._get_latest_spec()
         if latest is None or "sha" not in latest:
             return ""
         return latest["sha"]

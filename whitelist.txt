@@ -1,6 +1,7 @@
 addr
 alloc
 b11r
+base64
 big0
 big1
 blockchain
