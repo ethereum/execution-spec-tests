@@ -6,6 +6,7 @@ from ethereum_test_tools import (
     AccessList,
     Account,
     Environment,
+    Opcodes as Op,
     StateTest,
     Transaction,
     test_from_until,
@@ -17,18 +18,12 @@ def test_access_list(fork):
     """
     Test type 1 transaction.
     """
-    env = Environment(
-        coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        difficulty=0x20000,
-        gas_limit=68719476736,
-        number=16777216,
-        timestamp=4,
-    )
+    env = Environment()
 
     pre = {
         "0x000000000000000000000000000000000000aaaa": Account(
             balance=0x03,
-            code="0x5854505854",
+            code=Op.PC + Op.SLOAD + Op.POP + Op.PC + Op.SLOAD,
             nonce=1,
         ),
         "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": Account(
