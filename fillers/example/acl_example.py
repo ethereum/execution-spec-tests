@@ -2,15 +2,9 @@
 Test ACL Transaction Source Code Examples
 """
 
-from ethereum_test_tools import (
-    AccessList,
-    Account,
-    Environment,
-    Opcodes as Op,
-    StateTest,
-    Transaction,
-    test_from_until,
-)
+from ethereum_test_tools import AccessList, Account, Environment
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTest, Transaction, test_from_until
 
 
 @test_from_until("berlin", "london")

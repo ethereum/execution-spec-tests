@@ -58,11 +58,14 @@ def to_json_or_none(input: Any, default=None) -> Dict[str, Any] | None:
     return json.loads(json.dumps(input, cls=JSONEncoder))
 
 
-def to_json(input: Any) -> Dict[str, Any]:
+def to_json(input: Any, remove_none: bool = False) -> Dict[str, Any]:
     """
     Converts a value to its json representation or returns a default (None).
     """
-    return json.loads(json.dumps(input, cls=JSONEncoder))
+    j = json.loads(json.dumps(input, cls=JSONEncoder))
+    if remove_none:
+        j = {k: v for (k, v) in j.items() if v is not None}
+    return j
 
 
 class Storage:
@@ -1030,7 +1033,7 @@ class JSONEncoder(json.JSONEncoder):
             b_txs = [
                 even_padding(
                     to_json(
-                        {
+                        input={
                             "nonce": hex(tx.nonce),
                             "to": tx.to if tx.to is not None else "",
                             "value": hex(tx.value),
@@ -1041,7 +1044,8 @@ class JSONEncoder(json.JSONEncoder):
                             else "0x0A",
                             "accessList": to_json_or_none(tx.access_list),
                             "secretKey": tx.secret_key,
-                        }
+                        },
+                        remove_none=True,
                     ),
                     excluded=["to", "accessList"],
                 )
