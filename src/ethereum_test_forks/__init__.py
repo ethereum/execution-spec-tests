@@ -47,6 +47,15 @@ class BaseFork:
         return False
 
     @classmethod
+    def header_excess_data_gas_required(
+        cls, block_number: int, timestamp: int
+    ) -> bool:
+        """
+        Returns true if the header must contain excess data gas
+        """
+        return False
+
+    @classmethod
     def get_reward(cls, block_number: int, timestamp: int) -> int:
         """
         Returns the expected reward amount in wei of a given fork
@@ -198,9 +207,22 @@ class Shanghai(Merge):
         return True
 
 
-LatestFork = Shanghai
+class ShardingFork(Shanghai):
+    """
+    ShardingFork fork
+    """
 
-# Upcoming forks
+    @classmethod
+    def header_excess_data_gas_required(
+        cls, block_number: int, timestamp: int
+    ) -> bool:
+        """
+        Excess data gas is required starting from ShardingFork.
+        """
+        return True
+
+
+LatestFork = ShardingFork
 
 
 # Transition Forks
@@ -225,7 +247,20 @@ class MergeToShanghaiAtTime15k(Merge):
     @classmethod
     def header_withdrawals_required(cls, _: int, timestamp: int) -> bool:
         """
-        Withdrawals are required starting from Shanghai.
+        Withdrawals are required if transitioning to Shanghai.
+        """
+        return timestamp >= 15_000
+
+
+class ShanghaiToShardingForkAtTime15k(Shanghai):
+    """
+    Shanghai to ShardingFork transition at Timestamp 15k fork
+    """
+
+    @classmethod
+    def header_excess_data_gas_required(cls, _: int, timestamp: int) -> bool:
+        """
+        Excess data gas is required if transitioning to ShardingFork.
         """
         return timestamp >= 15_000
 

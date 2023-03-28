@@ -23,6 +23,8 @@ fn
 geth
 hash32
 ispkg
+kzg
+kzgs
 listdir
 ommer
 ommers
@@ -126,6 +128,7 @@ prevrandao
 
 authcall
 callf
+datahash
 jumpdest
 jumpi
 mload
