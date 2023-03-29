@@ -3,6 +3,7 @@ Blockchain test filler.
 """
 
 from dataclasses import dataclass
+from pprint import pprint
 from typing import (
     Any,
     Callable,
@@ -144,9 +145,17 @@ class BlockchainTest(BaseTest):
                 reward=fork.get_reward(env.number, env.timestamp),
                 eips=eips,
             )
+            try:
+                rejected_txs = verify_transactions(block.txs, result)
+            except Exception as e:
+                print_traces(t8n.get_traces())
+                pprint(result)
+                pprint(previous_alloc)
+                pprint(next_alloc)
+                raise e
 
-            rejected_txs = verify_transactions(block.txs, result)
             if len(rejected_txs) > 0 and block.exception is None:
+                print_traces(t8n.get_traces())
                 raise Exception(
                     "one or more transactions in `BlockchainTest` are "
                     + "intrinsically invalid, but the block was not expected "

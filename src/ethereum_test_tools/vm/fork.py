@@ -48,6 +48,21 @@ def forks_from(fork: str) -> List[str]:
     return list(map(lambda x: x, out))
 
 
+def transition_from_to(fork_from: str, fork_to: str) -> List[str]:
+    """
+    Returns the specified fork transition from to, if possible.
+    """
+    if (
+        forks.index(fork_from.strip().lower())
+        != forks.index(fork_to.strip().lower()) - 1
+    ):
+        raise Exception(
+            f"Transition from {fork_from} to {fork_to} is not possible"
+        )
+
+    return [f"{fork_from} to {fork_to}"]
+
+
 def is_london(fork: str) -> bool:
     """
     Returns `True` if `fork` is London-compatible, `False` otherwise.

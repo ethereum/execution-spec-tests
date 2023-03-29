@@ -132,3 +132,47 @@ def test_only(
         return inner
 
     return decorator
+
+
+def test_transition_from_to(
+    fork_from: str,
+    fork_to: str,
+    eips: Optional[List[int]] = None,
+) -> Callable[
+    [TestSpec],
+    Callable[[Any, Any, str, ReferenceSpec | None], Mapping[str, Fixture]],
+]:
+    """
+    Decorator that takes a test generator and fills it for the specified fork
+    transition.
+    """
+    fork_from = fork_from.capitalize()
+    fork_to = fork_to.capitalize()
+
+    def decorator(
+        fn: TestSpec,
+    ) -> Callable[
+        [Any, Any, str, ReferenceSpec | None], Mapping[str, Fixture]
+    ]:
+        def inner(t8n, b11r, engine, spec) -> Mapping[str, Fixture]:
+            return fill_test(
+                t8n,
+                b11r,
+                fn,
+                forks_from_until(fork_from, fork_to),
+                engine,
+                spec,
+                eips=eips,
+            )
+
+        name = fn.__name__
+        assert name.startswith(TESTS_PREFIX)
+
+        cast(Any, inner).__filler_metadata__ = {
+            "fork": fork_from,
+            "name": name[TESTS_PREFIX_LEN:],
+        }
+
+        return inner
+
+    return decorator
