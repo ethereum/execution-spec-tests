@@ -442,7 +442,7 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
     pre = {
         TestAddress: Account(balance=10**40),
     }
-    dest = to_address(0x100)
+    destination_account = to_address(0x100)
 
     # Generate some blocks to reach Sharding fork
     FORK_TIMESTAMP = 15_000
@@ -457,7 +457,7 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
     ) != get_data_gasprice_from_blobs(BLOBS_TO_DATA_GAS_COST_INCREASE)
 
     parent_excess_data_gas = 0
-    dest_value = 0
+    destination_account_value = 0
     for i in range(
         BLOBS_TO_DATA_GAS_COST_INCREASE
         // (MAX_BLOBS_PER_BLOCK - TARGET_BLOBS_PER_BLOCK)
@@ -469,7 +469,7 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
                     Transaction(
                         ty=5,
                         nonce=i,
-                        to=dest,
+                        to=destination_account,
                         value=1,
                         gas_limit=3000000,
                         max_fee_per_gas=1000000,
@@ -486,14 +486,14 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
                 ],
             )
         )
-        dest_value += 1
+        destination_account_value += 1
         parent_excess_data_gas = calc_excess_data_gas(
             parent_excess_data_gas,
             MAX_BLOBS_PER_BLOCK,
         )
 
     post: Mapping[str, Account] = {
-        dest: Account(balance=dest_value),
+        destination_account: Account(balance=destination_account_value),
     }
 
     yield BlockchainTest(
@@ -615,7 +615,7 @@ def test_invalid_blob_txs(fork: Fork):
             InvalidBlobTransactionTestCase(
                 tag="insufficient_max_fee_per_data_gas",
                 parent_excess_blobs=15,  # data gas cost = 2
-                tx_max_data_gas_cost=1,  # less tha than minimum
+                tx_max_data_gas_cost=1,  # less than minimum
                 tx_error="insufficient max fee per data gas",
                 blobs_per_tx=1,
             ),
