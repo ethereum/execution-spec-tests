@@ -8,7 +8,7 @@ from typing import List, Mapping, Optional
 from ethereum_test_forks import (
     Fork,
     Shanghai,
-    ShanghaiToShardingForkAtTime15k,
+    ShanghaiToShardingAtTime15k,
     ShardingFork,
     is_fork,
 )
@@ -433,7 +433,7 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
         yield tc.generate()
 
 
-@test_only(fork=ShanghaiToShardingForkAtTime15k)
+@test_only(fork=ShanghaiToShardingAtTime15k)
 def test_fork_transition_excess_data_gas_in_header(_: Fork):
     """
     Test excess_data_gas calculation in the header when the fork is activated.

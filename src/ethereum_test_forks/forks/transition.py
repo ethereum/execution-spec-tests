@@ -35,6 +35,19 @@ class MergeToShanghaiAtTime15k(Merge):
         return timestamp >= 15_000
 
 
+class ShanghaiToShardingAtTime15k(Shanghai):
+    """
+    Shanghai to Sharding transition at Timestamp 15k
+    """
+
+    @classmethod
+    def header_excess_data_gas_required(cls, _: int, timestamp: int) -> bool:
+        """
+        Excess data gas is required if transitioning to Sharding.
+        """
+        return timestamp >= 15_000
+
+
 # Test-only transition forks
 
 
