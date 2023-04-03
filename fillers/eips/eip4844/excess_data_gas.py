@@ -5,7 +5,13 @@ EIP: https://eips.ethereum.org/EIPS/eip-4844
 from dataclasses import dataclass
 from typing import List, Mapping, Optional
 
-from ethereum_test_forks import Fork, ShardingFork
+from ethereum_test_forks import (
+    Fork,
+    Shanghai,
+    ShanghaiToShardingForkAtTime15k,
+    ShardingFork,
+    is_fork,
+)
 from ethereum_test_tools import (
     Account,
     Block,
@@ -15,6 +21,7 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     test_from,
+    test_only,
     to_address,
     to_hash_bytes,
 )
@@ -426,12 +433,33 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
         yield tc.generate()
 
 
-def ignore_test_fork_transition_excess_data_gas_in_header(_: Fork):
+@test_only(fork=ShanghaiToShardingForkAtTime15k)
+def test_fork_transition_excess_data_gas_in_header(_: Fork):
     """
     Test excess_data_gas calculation in the header when the fork is activated.
     """
-    # TODO!
-    pass
+    env = Environment()
+
+    # Generate some blocks to reach Sharding fork
+    FORK_TIMESTAMP = 15_000
+    blocks: List[Block] = []
+    for t in range(999, FORK_TIMESTAMP, 1_000):
+        blocks.append(Block(timestamp=t))
+
+    pre = {
+        TestAddress: Account(balance=10**40),
+    }
+    post: Mapping[str, Account] = {}
+
+    # Test N blocks until excess data gas after fork reaches data gas cost > 1
+
+    yield BlockchainTest(
+        pre=pre,
+        post=post,
+        blocks=blocks,
+        genesis_environment=env,
+        tag="correct_initial_data_gas_calc",
+    )
 
 
 @dataclass(kw_only=True)
@@ -446,10 +474,10 @@ class InvalidBlobTransactionTestCase:
     """
 
     tag: str
-    parent_excess_blobs: int
     blobs_per_tx: int
     tx_error: str
     tx_count: int = 1
+    parent_excess_blobs: Optional[int] = None
     tx_max_data_gas_cost: Optional[int] = None
     account_balance_modifier: int = 0
     block_base_fee: int = 7
@@ -458,14 +486,18 @@ class InvalidBlobTransactionTestCase:
         """
         Generate the test case.
         """
-        parent_excess_data_gas = self.parent_excess_blobs * DATA_GAS_PER_BLOB
-        env = Environment(excess_data_gas=parent_excess_data_gas)
-
+        env = Environment()
+        data_gasprice = 1
         destination_account = to_address(0x100)
 
-        data_gasprice = get_data_gasprice(
-            excess_data_gas=parent_excess_data_gas
-        )
+        if self.parent_excess_blobs is not None:
+            parent_excess_data_gas = (
+                self.parent_excess_blobs * DATA_GAS_PER_BLOB
+            )
+            env = Environment(excess_data_gas=parent_excess_data_gas)
+            data_gasprice = get_data_gasprice(
+                excess_data_gas=parent_excess_data_gas
+            )
 
         total_account_minimum_balance = 0
 
@@ -522,8 +554,8 @@ class InvalidBlobTransactionTestCase:
         )
 
 
-@test_from(fork=ShardingFork)
-def test_invalid_blob_txs(_: Fork):
+@test_from(fork=Shanghai)
+def test_invalid_blob_txs(fork: Fork):
     """
     Reject blocks with invalid blob txs due to:
         - The user cannot afford the data gas specified (but max_fee_per_gas
@@ -534,49 +566,71 @@ def test_invalid_blob_txs(_: Fork):
         - blob count > MAX_BLOBS_PER_BLOCK in type 5 transaction
         - block blob count > MAX_BLOBS_PER_BLOCK
     """
-    test_cases: List[InvalidBlobTransactionTestCase] = [
-        InvalidBlobTransactionTestCase(
-            tag="insufficient_max_fee_per_data_gas",
-            parent_excess_blobs=15,  # data gas cost = 2
-            tx_max_data_gas_cost=1,  # less than minimum
-            tx_error="insufficient max fee per data gas",
-            blobs_per_tx=1,
-        ),
-        InvalidBlobTransactionTestCase(
-            tag="insufficient_balance_sufficient_fee",
-            parent_excess_blobs=15,  # data gas cost = 1
-            tx_max_data_gas_cost=100,  # > data gas cost
-            account_balance_modifier=-1,
-            tx_error="insufficient max fee per data gas",
-            blobs_per_tx=1,
-        ),
-        InvalidBlobTransactionTestCase(
-            tag="zero_max_fee_per_data_gas",
-            parent_excess_blobs=0,  # data gas cost = 1
-            tx_max_data_gas_cost=0,  # invalid value
-            tx_error="insufficient max fee per data gas",
-            blobs_per_tx=1,
-        ),
-        InvalidBlobTransactionTestCase(
-            tag="blob_overflow",
-            parent_excess_blobs=10,  # data gas cost = 1
-            tx_error="too_many_blobs",
-            blobs_per_tx=5,
-        ),
-        InvalidBlobTransactionTestCase(
-            tag="multi_tx_blob_overflow",
-            parent_excess_blobs=10,  # data gas cost = 1
-            tx_error="too_many_blobs",
-            tx_count=5,
-            blobs_per_tx=1,
-        ),
-        # InvalidBlobTransactionTestCase(
-        #     tag="blob_underflow",
-        #     parent_excess_blobs=10,  # data gas cost = 1
-        #     tx_error="too_few_blobs",
-        #     blobs_per_tx=0,
-        # ),
-    ]
+    test_cases: List[InvalidBlobTransactionTestCase] = []
+    if is_fork(fork, ShardingFork):
+        test_cases = [
+            InvalidBlobTransactionTestCase(
+                tag="insufficient_max_fee_per_data_gas",
+                parent_excess_blobs=15,  # data gas cost = 2
+                tx_max_data_gas_cost=1,  # less tha than minimum
+                tx_error="insufficient max fee per data gas",
+                blobs_per_tx=1,
+            ),
+            InvalidBlobTransactionTestCase(
+                tag="insufficient_balance_sufficient_fee",
+                parent_excess_blobs=15,  # data gas cost = 1
+                tx_max_data_gas_cost=100,  # > data gas cost
+                account_balance_modifier=-1,
+                tx_error="insufficient max fee per data gas",
+                blobs_per_tx=1,
+            ),
+            InvalidBlobTransactionTestCase(
+                tag="zero_max_fee_per_data_gas",
+                parent_excess_blobs=0,  # data gas cost = 1
+                tx_max_data_gas_cost=0,  # invalid value
+                tx_error="insufficient max fee per data gas",
+                blobs_per_tx=1,
+            ),
+            InvalidBlobTransactionTestCase(
+                tag="blob_overflow",
+                parent_excess_blobs=10,  # data gas cost = 1
+                tx_error="too_many_blobs",
+                blobs_per_tx=5,
+            ),
+            InvalidBlobTransactionTestCase(
+                tag="multi_tx_blob_overflow",
+                parent_excess_blobs=10,  # data gas cost = 1
+                tx_error="too_many_blobs",
+                tx_count=5,
+                blobs_per_tx=1,
+            ),
+            # TODO: Enable, at the time of writing this test case, the EIP does not
+            # specify a minimum blob amount for the type 5 transaction.
+            # InvalidBlobTransactionTestCase(
+            #     tag="blob_underflow",
+            #     parent_excess_blobs=10,  # data gas cost = 1
+            #     tx_error="too_few_blobs",
+            #     blobs_per_tx=0,
+            # ),
+        ]
+    else:
+        # Pre-Sharding, blocks with type 5 txs must be rejected
+        test_cases = [
+            InvalidBlobTransactionTestCase(
+                tag="type_5_tx_pre_fork",
+                parent_excess_blobs=None,
+                tx_max_data_gas_cost=1,
+                tx_error="tx_type_5_not_allowed_yet",
+                blobs_per_tx=1,
+            ),
+            InvalidBlobTransactionTestCase(
+                tag="empty_type_5_tx_pre_fork",
+                parent_excess_blobs=None,
+                tx_max_data_gas_cost=1,
+                tx_error="tx_type_5_not_allowed_yet",
+                blobs_per_tx=0,
+            ),
+        ]
 
     for tc in test_cases:
         yield tc.generate()
