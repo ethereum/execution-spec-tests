@@ -439,6 +439,10 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
     Test excess_data_gas calculation in the header when the fork is activated.
     """
     env = Environment()
+    pre = {
+        TestAddress: Account(balance=10**40),
+    }
+    dest = to_address(0x100)
 
     # Generate some blocks to reach Sharding fork
     FORK_TIMESTAMP = 15_000
@@ -446,12 +450,51 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
     for t in range(999, FORK_TIMESTAMP, 1_000):
         blocks.append(Block(timestamp=t))
 
-    pre = {
-        TestAddress: Account(balance=10**40),
-    }
-    post: Mapping[str, Account] = {}
-
     # Test N blocks until excess data gas after fork reaches data gas cost > 1
+    BLOBS_TO_DATA_GAS_COST_INCREASE = 12
+    assert get_data_gasprice_from_blobs(
+        BLOBS_TO_DATA_GAS_COST_INCREASE - 1
+    ) != get_data_gasprice_from_blobs(BLOBS_TO_DATA_GAS_COST_INCREASE)
+
+    parent_excess_data_gas = 0
+    dest_value = 0
+    for i in range(
+        BLOBS_TO_DATA_GAS_COST_INCREASE
+        // (MAX_BLOBS_PER_BLOCK - TARGET_BLOBS_PER_BLOCK)
+        + 1
+    ):
+        blocks.append(
+            Block(
+                txs=[
+                    Transaction(
+                        ty=5,
+                        nonce=i,
+                        to=dest,
+                        value=1,
+                        gas_limit=3000000,
+                        max_fee_per_gas=1000000,
+                        max_priority_fee_per_gas=10,
+                        max_fee_per_data_gas=get_data_gasprice(
+                            excess_data_gas=parent_excess_data_gas
+                        ),
+                        access_list=[],
+                        blob_versioned_hashes=[
+                            to_hash_bytes(x)
+                            for x in range(MAX_BLOBS_PER_BLOCK)
+                        ],
+                    )
+                ],
+            )
+        )
+        dest_value += 1
+        parent_excess_data_gas = calc_excess_data_gas(
+            parent_excess_data_gas,
+            MAX_BLOBS_PER_BLOCK,
+        )
+
+    post: Mapping[str, Account] = {
+        dest: Account(balance=dest_value),
+    }
 
     yield BlockchainTest(
         pre=pre,
@@ -604,8 +647,9 @@ def test_invalid_blob_txs(fork: Fork):
                 tx_count=5,
                 blobs_per_tx=1,
             ),
-            # TODO: Enable, at the time of writing this test case, the EIP does not
-            # specify a minimum blob amount for the type 5 transaction.
+            # TODO: Enable, at the time of writing this test case, the EIP
+            # does not specify a minimum blob amount for the type 5
+            # transaction.
             # InvalidBlobTransactionTestCase(
             #     tag="blob_underflow",
             #     parent_excess_blobs=10,  # data gas cost = 1
