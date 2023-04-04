@@ -2,11 +2,16 @@
 Test EIP-4844: Shard Blob Transactions (DATAHASH Opcode)
 EIP: https://eips.ethereum.org/EIPS/eip-4844
 """
+
+import random
 from typing import Sequence
+from string import Template
 
 from ethereum_test_forks import ShardingFork
 from ethereum_test_tools import (
     Account,
+    Block,
+    BlockchainTest,
     CodeGasMeasure,
     Environment,
     StateTest,
@@ -25,10 +30,11 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4844.md"
 REFERENCE_SPEC_VERSION = "b33e063530f0a114635dd4f89d3cca90f8cac28f"
 
 DATAHASH_GAS_COST = 3
+MAX_BLOB_PER_BLOCK = 4
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_opcode(_: str):
+def test_datahash_contexts(_: str):
     """
     Test DATAHASH opcode called on different contexts.
     """
@@ -526,10 +532,11 @@ def test_datahash_opcode(_: str):
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_gas(_: str):
+def test_datahash_gas_cost(_: str):
     """
-    Test DATAHASH opcode gas cost.
+    Test DATAHASH opcode gas cost using a variety of indexes.
     """
+
     env = Environment(
         coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
@@ -538,118 +545,238 @@ def test_datahash_gas(_: str):
         timestamp=1000,
     )
 
-    datahash_zero_gas_measure_code = CodeGasMeasure(
-        code=(Op.PUSH1(0x00) + Op.DATAHASH),
-        overhead_cost=3,
-        extra_stack_items=1,
+    # Initial measures with zero, max and random
+    gas_measures = [0x00, 2**256 - 1]
+    gas_measures.extend(
+        [
+            random.randint(0, 2**256 - 1)
+            for _ in range(MAX_BLOB_PER_BLOCK * 10)
+        ]
     )
-    datahash_zero_gas_measure_code_address = to_address(0x100)
+    gas_measures_code = [
+        CodeGasMeasure(
+            code=getattr(Op, "PUSH32")(gas_measure) + Op.DATAHASH,
+            overhead_cost=3,
+            extra_stack_items=1,
+        )
+        for gas_measure in gas_measures
+    ]
 
-    datahash_max_gas_measure_code = CodeGasMeasure(
-        code=(Op.PUSH32(2**256 - 1) + Op.DATAHASH),
-        overhead_cost=3,
-        extra_stack_items=1,
-    )
-    datahash_max_gas_measure_code_address = to_address(0x200)
-
-    # Store all contracts in pre-state
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        datahash_zero_gas_measure_code_address: Account(
-            code=datahash_zero_gas_measure_code
-        ),
-        datahash_max_gas_measure_code_address: Account(
-            code=datahash_max_gas_measure_code
-        ),
     }
+    post = {}
 
-    # DATAHASH gas cost on tx type 5
-    tx1 = Transaction(
-        ty=5,
-        nonce=0,
-        data=to_hash_bytes(0),
-        to=datahash_zero_gas_measure_code_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=[to_hash_bytes(2**256 - 1)],
-    )
-    tx2 = Transaction(
-        ty=5,
-        nonce=1,
-        data=to_hash_bytes(0),
-        to=datahash_max_gas_measure_code_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=[to_hash_bytes(2**256 - 1)],
-    )
+    def create_tx(ty: int, to: str, nonce: int):
+        return Transaction(
+            ty=ty,
+            nonce=nonce,
+            data=to_hash_bytes(0),
+            to=to,
+            gas_limit=3000000,
+            max_fee_per_gas=10,
+            max_priority_fee_per_gas=10,
+            max_fee_per_data_gas=10,
+            access_list=[],
+            blob_versioned_hashes=[to_hash_bytes(2**256 - 1)]
+            if ty == 5
+            else None,
+        )
 
-    post = {
-        datahash_zero_gas_measure_code_address: Account(
-            storage={
-                0: DATAHASH_GAS_COST,
-            }
-        ),
-        datahash_max_gas_measure_code_address: Account(
-            storage={
-                0: DATAHASH_GAS_COST,
-            }
-        ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx1, tx2],
-        tag="cost_tx_type_5",
-    )
+    txs_ty2, txs_ty5 = [], []
+    for i, code_gas_measure in enumerate(gas_measures_code):
+        address = to_address(0x100 + i * 0x100)
+        pre[address] = Account(code=code_gas_measure)
+        txs_ty2.append(create_tx(ty=2, to=address, nonce=i))
+        txs_ty5.append(create_tx(ty=5, to=address, nonce=i))
+        post[address] = Account(storage={0: DATAHASH_GAS_COST})
 
     # DATAHASH gas cost on tx type 2
-    tx1 = Transaction(
-        ty=2,
-        nonce=0,
-        data=to_hash_bytes(0),
-        to=datahash_zero_gas_measure_code_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        access_list=[],
-    )
-
-    tx2 = Transaction(
-        ty=2,
-        nonce=1,
-        data=to_hash_bytes(0),
-        to=datahash_max_gas_measure_code_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        access_list=[],
-    )
-
-    post = {
-        datahash_zero_gas_measure_code_address: Account(
-            storage={
-                0: DATAHASH_GAS_COST,
-            }
-        ),
-        datahash_max_gas_measure_code_address: Account(
-            storage={
-                0: DATAHASH_GAS_COST,
-            }
-        ),
-    }
-
     yield StateTest(
         env=env,
         pre=pre,
         post=post,
-        txs=[tx1, tx2],
-        tag="cost_tx_type_2",
+        txs=txs_ty2,
+        tag="tx_type_2",
+    )
+
+    # DATAHASH gas cost on tx type 5
+    # Can only use 4 txs (max blobs) per block
+    num_blocks = (len(txs_ty5) + MAX_BLOB_PER_BLOCK - 1) // MAX_BLOB_PER_BLOCK
+    blocks = [
+        Block(
+            txs=txs_ty5[i * MAX_BLOB_PER_BLOCK : (i + 1) * MAX_BLOB_PER_BLOCK]
+        )
+        for i in range(num_blocks)
+    ]
+
+    yield BlockchainTest(
+        pre=pre,
+        post=post,
+        blocks=blocks,
+        tag="tx_type_5",
+    )
+
+
+@test_from(fork=ShardingFork)
+def test_datahash_blob_versioned_hash(_: str):
+    """
+    Tests that the `DATAHASH` opcode returns the correct versioned hash for
+    various valid indexes
+    """
+    NUM_BLOCKS = 10
+
+    pre = {
+        TestAddress: Account(balance=10000000000000000000000),
+    }
+    blocks = []
+    post = {}
+
+    datahash_verbatim = "verbatim_{}i_{}o".format(
+        Op.DATAHASH.popped_stack_items, Op.DATAHASH.pushed_stack_items
+    )
+
+    datahash_code = Yul(
+        f"""
+        {{
+            let pos := 0
+            let end := {MAX_BLOB_PER_BLOCK}
+            for {{}} lt(pos, end) {{ pos := add(pos, 1) }}
+            {{
+                let datahash := {datahash_verbatim}(
+                    hex"{Op.DATAHASH.hex()}",pos)
+                sstore(pos, datahash)
+            }}
+        }}
+        """
+    )
+
+    # Create a list of random blob hashes
+    blob_ver_hashes = [
+        to_hash_bytes(random.randint(MAX_BLOB_PER_BLOCK, 2**256 - 1))
+        for _ in range(MAX_BLOB_PER_BLOCK * NUM_BLOCKS)
+    ]
+
+    for i in range(NUM_BLOCKS):
+        address = to_address(0x100 + i * 0x100)
+        pre[address] = Account(code=datahash_code)
+        blocks.append(
+            Block(
+                txs=[  # Create tx with max blobs per block
+                    Transaction(
+                        ty=5,
+                        nonce=i,
+                        data=to_hash_bytes(0),
+                        to=address,
+                        gas_limit=3000000,
+                        max_fee_per_gas=10,
+                        max_priority_fee_per_gas=10,
+                        max_fee_per_data_gas=10,
+                        access_list=[],
+                        blob_versioned_hashes=blob_ver_hashes[
+                            (i * MAX_BLOB_PER_BLOCK) : (i + 1)
+                            * MAX_BLOB_PER_BLOCK
+                        ],
+                    )
+                ]
+            )
+        )
+        post[address] = Account(
+            storage={
+                index: blob_ver_hashes[i * MAX_BLOB_PER_BLOCK + index]
+                for index in range(MAX_BLOB_PER_BLOCK)
+            }
+        )
+
+    yield BlockchainTest(
+        pre=pre,
+        post=post,
+        blocks=blocks,
+    )
+
+
+@test_from(fork=ShardingFork)
+def test_datahash_invalid_blob_index(_: str):
+    """
+    Tests that the `DATAHASH` opcode returns a zeroed bytes32 value
+    for invalid indexes.
+    """
+
+    INVALID_DEPTH = 3
+    NUM_BLOCKS = 10
+
+    pre = {
+        TestAddress: Account(balance=10000000000000000000000),
+    }
+    blocks = []
+    post = {}
+
+    datahash_verbatim = "verbatim_{}i_{}o".format(
+        Op.DATAHASH.popped_stack_items, Op.DATAHASH.pushed_stack_items
+    )
+
+    # Start from -INVALID_DEPTH to (${num_blobs} + INVALID_DEPTH)
+    datahash_invalid_index_code = Template(
+        f"""
+        {{
+            let pos := 0
+            let relative_pos := sub(0, {INVALID_DEPTH})
+            let end := add(${{num_blobs}}, {INVALID_DEPTH})
+            for {{}} lt(pos, end) {{ pos := add(pos, 1) }}
+            {{
+                let adjusted_pos := add(pos, relative_pos)
+                let datahash := {datahash_verbatim}(
+                    hex"{Op.DATAHASH.hex()}", adjusted_pos
+                )
+                sstore(adjusted_pos, datahash)
+            }}
+        }}
+        """
+    )
+
+    for i in range(NUM_BLOCKS):
+        address = to_address(0x100 + i * 0x100)
+        rnd_blob_size = random.randint(0, MAX_BLOB_PER_BLOCK)
+        pre[address] = Account(
+            code=Yul(
+                datahash_invalid_index_code.substitute(num_blobs=rnd_blob_size)
+            )
+        )
+        blob_ver_hashes = [
+            to_hash_bytes(random.randint(MAX_BLOB_PER_BLOCK, 2**256 - 1))
+            for _ in range(rnd_blob_size)
+        ]
+        blocks.append(
+            Block(
+                txs=[  # Create tx with rnd num valid blobs per block
+                    Transaction(
+                        ty=5,
+                        nonce=i,
+                        data=to_hash_bytes(0),
+                        to=address,
+                        gas_limit=3000000,
+                        max_fee_per_gas=10,
+                        max_priority_fee_per_gas=10,
+                        max_fee_per_data_gas=10,
+                        access_list=[],
+                        blob_versioned_hashes=blob_ver_hashes,
+                    )
+                ]
+            )
+        )
+        post[address] = Account(
+            storage={
+                index: 0
+                if index < 0 or index >= rnd_blob_size
+                else blob_ver_hashes[index]
+                for index in range(
+                    -INVALID_DEPTH, rnd_blob_size + INVALID_DEPTH
+                )
+            }
+        )
+
+    yield BlockchainTest(
+        pre=pre,
+        post=post,
+        blocks=blocks,
     )
