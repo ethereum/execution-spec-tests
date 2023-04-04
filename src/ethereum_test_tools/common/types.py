@@ -588,6 +588,9 @@ class Environment:
         if fork.header_zero_difficulty_required(self.number, self.timestamp):
             res.difficulty = 0
 
+        if fork.header_excess_data_gas_required(self.number, self.timestamp):
+            res.excess_data_gas = 0
+
         return res
 
 
