@@ -710,6 +710,18 @@ class Transaction:
         tx.nonce = nonce
         return tx
 
+    def with_fields(self, **kwargs) -> "Transaction":
+        """
+        Create a copy of the transaction with modified fields.
+        """
+        tx = copy(self)
+        for key, value in kwargs.items():
+            if hasattr(tx, key):
+                setattr(tx, key, value)
+            else:
+                raise ValueError(f"Invalid field '{key}' for Transaction")
+        return tx
+
 
 @dataclass
 class FixtureTransaction:
