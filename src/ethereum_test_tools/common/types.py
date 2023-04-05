@@ -950,6 +950,18 @@ class Block(Header):
         new_block.rlp = rlp
         return new_block
 
+    def with_fields(self, **kwargs) -> "Block":
+        """
+        Create a copy of the block with modified fields.
+        """
+        new_block = copy(self)
+        for key, value in kwargs.items():
+            if hasattr(new_block, key):
+                setattr(new_block, key, value)
+            else:
+                raise ValueError(f"Invalid field '{key}' for Block")
+        return new_block
+
 
 @dataclass(kw_only=True)
 class FixtureBlock:
