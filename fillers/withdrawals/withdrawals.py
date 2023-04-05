@@ -88,7 +88,11 @@ def test_use_value_in_tx(_):
 
     blocks = [
         Block(
-            txs=[tx.with_error("intrinsic gas too low: have 0, want 21000")],
+            txs=[
+                tx.with_fields(
+                    error="intrinsic gas too low: have 0, want 21000"
+                )
+            ],
             withdrawals=[
                 withdrawal,
             ],
@@ -161,11 +165,13 @@ def test_use_value_in_contract(_):
 
     blocks = [
         Block(
-            txs=[tx.with_nonce(0)],
+            txs=[tx.with_fields(nonce=0)],
             withdrawals=[withdrawal],
         ),
         Block(
-            txs=[tx.with_nonce(1)],  # Same tx again, just increase nonce
+            txs=[
+                tx.with_fields(nonce=1)
+            ],  # Same tx again, just increase nonce
         ),
     ]
     post = {
@@ -492,7 +498,7 @@ def test_newly_created_contract(_):
 
     # Same test but include value in the contract creating transaction
 
-    tx.value = ONE_GWEI
+    block = block.with_fields(txs=[tx.with_fields(value=ONE_GWEI)])
     post[created_contract].balance = 2 * ONE_GWEI
 
     yield BlockchainTest(
