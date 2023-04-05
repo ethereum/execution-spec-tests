@@ -4,7 +4,17 @@ Useful types for generating Ethereum tests.
 import json
 from copy import copy, deepcopy
 from dataclasses import dataclass, field
-from typing import Any, ClassVar, Dict, List, Mapping, Optional, Tuple, Type
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+)
 
 from ethereum_test_forks import Fork
 from evm_block_builder import BlockBuilder
@@ -139,7 +149,7 @@ class Storage:
             )
 
     @staticmethod
-    def parse_key_value(input: str | int) -> int:
+    def parse_key_value(input: str | int | bytes) -> int:
         """
         Parses a key or value to a valid int key for storage.
         """
@@ -150,6 +160,8 @@ class Storage:
                 return int(input)
         elif type(input) is int:
             return input
+        elif type(input) is bytes:
+            return int.from_bytes(input, "big")
 
         raise Storage.InvalidType(input)
 
@@ -160,7 +172,7 @@ class Storage:
         """
         return "0x" + value.to_bytes(32, "big").hex()
 
-    def __init__(self, input: Dict[str | int, str | int]):
+    def __init__(self, input: Dict[str | int | bytes, str | int | bytes]):
         """
         Initializes the storage using a given mapping which can have
         keys and values either as string or int.
@@ -294,7 +306,7 @@ class Account:
     """
     Bytecode contained by the account.
     """
-    storage: Storage | Dict[str | int, str | int] | None = None
+    storage: Storage | Dict[str | int | bytes, str | int | bytes] | None = None
     """
     Storage within a contract.
     """
@@ -496,6 +508,8 @@ class Environment:
     parent_gas_limit: Optional[int] = None
     parent_ommers_hash: Optional[str] = None
     withdrawals: Optional[List[Withdrawal]] = None
+    excess_data_gas: Optional[int] = None
+    parent_excess_data_gas: Optional[int] = None
 
     @staticmethod
     def from_parent_header(parent: "FixtureHeader") -> "Environment":
@@ -506,6 +520,7 @@ class Environment:
             parent_difficulty=parent.difficulty,
             parent_timestamp=parent.timestamp,
             parent_base_fee=parent.base_fee,
+            parent_excess_data_gas=parent.excess_data_gas,
             parent_gas_used=parent.gas_used,
             parent_gas_limit=parent.gas_limit,
             parent_ommers_hash=parent.ommers_hash,
@@ -534,6 +549,7 @@ class Environment:
         env.parent_difficulty = new_parent.difficulty
         env.parent_timestamp = new_parent.timestamp
         env.parent_base_fee = new_parent.base_fee
+        env.parent_excess_data_gas = new_parent.excess_data_gas
         env.parent_gas_used = new_parent.gas_used
         env.parent_gas_limit = new_parent.gas_limit
         env.parent_ommers_hash = new_parent.ommers_hash
@@ -572,6 +588,9 @@ class Environment:
         if fork.header_zero_difficulty_required(self.number, self.timestamp):
             res.difficulty = 0
 
+        if fork.header_excess_data_gas_required(self.number, self.timestamp):
+            res.excess_data_gas = 0
+
         return res
 
 
@@ -606,6 +625,13 @@ class Transaction:
     gas_price: Optional[int] = None
     max_fee_per_gas: Optional[int] = None
     max_priority_fee_per_gas: Optional[int] = None
+
+    max_fee_per_data_gas: Optional[int] = None
+    blob_versioned_hashes: Optional[Sequence[str | bytes]] = None
+
+    blob_kzgs: Optional[Sequence[bytes]] = None
+    blobs: Optional[Sequence[Sequence[int]]] = None
+    kzg_aggregated_proof: Optional[str | bytes] = None
 
     signature: Optional[Tuple[str, str, str]] = None
     secret_key: Optional[str] = None
@@ -659,7 +685,9 @@ class Transaction:
 
         if self.ty is None:
             # Try to deduce transaction type from included fields
-            if self.max_fee_per_gas is not None:
+            if self.max_fee_per_data_gas is not None:
+                self.ty = 5
+            elif self.max_fee_per_gas is not None:
                 self.ty = 2
             elif self.access_list is not None:
                 self.ty = 1
@@ -681,6 +709,15 @@ class Transaction:
         tx = copy(self)
         tx.nonce = nonce
         return tx
+
+
+@dataclass
+class FixtureTransaction:
+    """
+    Representation of an Ethereum transaction within a test Fixture.
+    """
+
+    tx: Transaction
 
 
 @dataclass(kw_only=True)
@@ -705,6 +742,8 @@ class Header:
     mix_digest: Optional[str] = None
     nonce: Optional[str] = None
     base_fee: Optional[int] = None
+    withdrawals_root: Optional[str] = None
+    excess_data_gas: Optional[int] = None
     hash: Optional[str] = None
 
 
@@ -731,6 +770,7 @@ class FixtureHeader:
     nonce: str
     base_fee: Optional[int] = None
     withdrawals_root: Optional[str] = None
+    excess_data_gas: Optional[int] = None
     hash: Optional[str] = None
 
     @staticmethod
@@ -759,6 +799,7 @@ class FixtureHeader:
             nonce=source["nonce"],
             base_fee=int_or_none(source.get("baseFeePerGas")),
             withdrawals_root=str_or_none(source.get("withdrawalsRoot")),
+            excess_data_gas=int_or_none(source.get("excessDataGas")),
             hash=source.get("hash"),
         )
 
@@ -789,6 +830,8 @@ class FixtureHeader:
             header["baseFeePerGas"] = hex(self.base_fee)
         if self.withdrawals_root is not None:
             header["withdrawalsRoot"] = self.withdrawals_root
+        if self.excess_data_gas is not None:
+            header["excessDataGas"] = hex(self.excess_data_gas)
         return header
 
     def join(self, modifier: Header) -> "FixtureHeader":
@@ -864,6 +907,7 @@ class Block(Header):
         )
         new_env.base_fee = self.base_fee
         new_env.withdrawals = self.withdrawals
+        new_env.excess_data_gas = self.excess_data_gas
 
         """
         These values are required, but they depend on the previous environment,
@@ -986,7 +1030,25 @@ class JSONEncoder(json.JSONEncoder):
                 "accessList": obj.access_list,
                 "protected": obj.protected,
                 "secretKey": obj.secret_key,
+                "maxFeePerDataGas": hex_or_none(obj.max_fee_per_data_gas),
             }
+
+            if obj.blob_versioned_hashes is not None:
+                hashes: List[str] = []
+                for h in obj.blob_versioned_hashes:
+                    if type(h) is str:
+                        hashes.append(h)
+                    elif type(h) is bytes:
+                        if len(h) != 32:
+                            raise TypeError(
+                                "improper byte size for blob_versioned_hashes"
+                            )
+                        hashes.append("0x" + h.hex())
+                    else:
+                        raise TypeError(
+                            "improper type for blob_versioned_hashes"
+                        )
+                tx["blobVersionedHashes"] = hashes
 
             if obj.signature is None:
                 tx["v"] = hex(0x0)
@@ -1026,6 +1088,8 @@ class JSONEncoder(json.JSONEncoder):
                 "withdrawals": to_json_or_none(obj.withdrawals),
                 "parentUncleHash": obj.parent_ommers_hash,
                 "currentBaseFee": str_or_none(obj.base_fee),
+                "parentExcessDataGas": str_or_none(obj.parent_excess_data_gas),
+                "currentExcessDataGas": str_or_none(obj.excess_data_gas),
             }
 
             return {k: v for (k, v) in env.items() if v is not None}
@@ -1055,11 +1119,14 @@ class JSONEncoder(json.JSONEncoder):
                 header["hash"] = obj.hash
             if obj.withdrawals_root is not None:
                 header["withdrawalsRoot"] = obj.withdrawals_root
+            if obj.excess_data_gas is not None:
+                header["excessDataGas"] = hex(obj.excess_data_gas)
             return even_padding(
                 header,
                 excluded=[
                     "parentHash",
                     "uncleHash",
+                    "stateRoot",
                     "coinbase",
                     "transactionsTrie",
                     "receiptTrie",
@@ -1068,40 +1135,16 @@ class JSONEncoder(json.JSONEncoder):
                     "mixHash",
                     "hash",
                     "withdrawalsRoot",
+                    "extraData",
                 ],
             )
+        elif isinstance(obj, FixtureTransaction):
+            tx = obj.tx
+            return even_padding(
+                to_json(tx),
+                excluded=["to", "accessList"],
+            )
         elif isinstance(obj, FixtureBlock):
-            # Format Fixture Block Txs
-            b_txs = [
-                even_padding(
-                    to_json(
-                        input={
-                            "nonce": hex(tx.nonce),
-                            "to": tx.to if tx.to is not None else "",
-                            "value": hex(tx.value),
-                            "data": code_to_hex(tx.data),
-                            "gasLimit": hex_or_none(tx.gas_limit),
-                            "gasPrice": hex(tx.gas_price)
-                            if tx.gas_price is not None
-                            else "0x0A",
-                            "accessList": to_json_or_none(tx.access_list),
-                            "secretKey": tx.secret_key,
-                        },
-                        remove_none=True,
-                    ),
-                    excluded=["to", "data", "accessList"],
-                )
-                for tx in obj.txs or []
-            ]
-
-            # Format Fixture Block Withdrawals
-            b_wds = []
-            if obj.withdrawals:
-                b_wds = [
-                    even_padding(to_json(wd), excluded=["address"])
-                    for wd in obj.withdrawals
-                ]
-
             b = {"rlp": obj.rlp}
             if obj.block_header is not None:
                 b["blockHeader"] = json.loads(
@@ -1112,11 +1155,16 @@ class JSONEncoder(json.JSONEncoder):
             if obj.block_number is not None:
                 b["blocknumber"] = str(obj.block_number)
             if obj.txs is not None:
-                b["transactions"] = b_txs
+                b["transactions"] = [
+                    FixtureTransaction(tx=tx) for tx in obj.txs
+                ]
             if obj.ommers is not None:
                 b["uncleHeaders"] = obj.ommers
             if obj.withdrawals is not None:
-                b["withdrawals"] = b_wds
+                b["withdrawals"] = [
+                    even_padding(to_json(wd), excluded=["address"])
+                    for wd in obj.withdrawals
+                ]
             return b
         elif isinstance(obj, Fixture):
             f = {
@@ -1150,10 +1198,11 @@ def even_padding(input: Dict, excluded: List[Any | None]) -> Dict:
         if key not in excluded:
             if isinstance(value, dict):
                 even_padding(value, excluded)
-            elif value != "0x" and value is not None:
-                input[key] = key_value_padding(value)
-            else:
-                input[key] = "0x"
+            elif isinstance(value, str):
+                if value != "0x" and value is not None:
+                    input[key] = key_value_padding(value)
+                else:
+                    input[key] = "0x"
     return input
 
 
