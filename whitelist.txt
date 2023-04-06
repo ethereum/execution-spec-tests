@@ -33,6 +33,7 @@ pathlib
 petersburg
 randao
 rlp
+sharding
 t8n
 trie
 txs
