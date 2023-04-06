@@ -14,6 +14,7 @@ import logging
 import os
 import time
 
+import ethereum_test_forks
 from ethereum_test_tools import JSONEncoder, ReferenceSpec, ReferenceSpecTypes
 from evm_block_builder import EvmBlockBuilder
 from evm_transition_tool import EvmTransitionTool
@@ -38,6 +39,11 @@ class Filler:
         """
         if self.options.benchmark:
             start_time = time.time()
+
+        if self.options.latest_fork:
+            ethereum_test_forks.set_latest_fork_by_name(
+                self.options.latest_fork
+            )
 
         fillers = self.get_fillers()
         self.log.info(f"collected {len(fillers)} fillers")
@@ -138,8 +144,10 @@ class Filler:
                         not in obj.__filler_metadata__["name"]
                     ):
                         continue
+                    if len(obj.__filler_metadata__["forks"]) == 0:
+                        continue
                     obj.__filler_metadata__["module_path"] = [
-                        package_name,
+                        package_name.replace(".", "/"),
                         module_name,
                     ]
                     obj.__filler_metadata__["spec"] = module_spec
@@ -160,12 +168,13 @@ class Filler:
         )
         os.makedirs(output_dir, exist_ok=True)
         path = os.path.join(output_dir, f"{name}.json")
-        full_name = ".".join(module_path + [name])
+        full_name = "/".join(module_path + [name])
 
         # Only skip if the fixture file already exists, the module
         # has not been modified since the last test filler run, and
         # the user doesn't want to force a refill the
         # fixtures (--force-refill).
+
         if (
             os.path.exists(path)
             and not is_module_modified(
@@ -177,8 +186,11 @@ class Filler:
             return
 
         fixture = filler(t8n, b11r, "NoProof", module_spec)
-        self.log.debug(f"filling - {full_name}")
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(
-                fixture, f, ensure_ascii=False, indent=4, cls=JSONEncoder
-            )
+        if fixture is not None:
+            self.log.debug(f"filled - {full_name}")
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(
+                    fixture, f, ensure_ascii=False, indent=4, cls=JSONEncoder
+                )
+        else:
+            self.log.debug(f"skipping - {full_name}")

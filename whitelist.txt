@@ -23,6 +23,8 @@ fn
 geth
 hash32
 ispkg
+kzg
+kzgs
 listdir
 ommer
 ommers
@@ -31,6 +33,7 @@ pathlib
 petersburg
 randao
 rlp
+sharding
 t8n
 trie
 txs
@@ -126,6 +129,7 @@ prevrandao
 
 authcall
 callf
+datahash
 jumpdest
 jumpi
 mload
