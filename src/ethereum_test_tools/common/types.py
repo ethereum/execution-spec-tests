@@ -691,22 +691,6 @@ class Transaction:
             else:
                 self.ty = 0
 
-    def with_error(self, error: str) -> "Transaction":
-        """
-        Create a copy of the transaction with an added error.
-        """
-        tx = copy(self)
-        tx.error = error
-        return tx
-
-    def with_nonce(self, nonce: int) -> "Transaction":
-        """
-        Create a copy of the transaction with a modified nonce.
-        """
-        tx = copy(self)
-        tx.nonce = nonce
-        return tx
-
     def with_fields(self, **kwargs) -> "Transaction":
         """
         Create a copy of the transaction with modified fields.
@@ -1211,7 +1195,7 @@ class JSONEncoder(json.JSONEncoder):
             return super().default(obj)
 
 
-def even_padding(input: Dict, excluded: List[Any | None]) -> Dict:
+def even_padding(input: Dict, excluded: List[Any]) -> Dict:
     """
     Adds even padding to each field in the input (nested) dictionary.
     """
@@ -1219,7 +1203,7 @@ def even_padding(input: Dict, excluded: List[Any | None]) -> Dict:
         if key not in excluded:
             if isinstance(value, dict):
                 even_padding(value, excluded)
-            elif isinstance(value, str):
+            elif isinstance(value, str | None):
                 if value != "0x" and value is not None:
                     input[key] = key_value_padding(value)
                 else:
