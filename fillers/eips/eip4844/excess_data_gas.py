@@ -5,7 +5,7 @@ EIP: https://eips.ethereum.org/EIPS/eip-4844
 from dataclasses import dataclass
 from typing import List, Mapping, Optional
 
-from ethereum_test_forks import ShardingFork
+from ethereum_test_forks import Fork, ShardingFork
 from ethereum_test_tools import (
     Account,
     Block,
@@ -33,27 +33,41 @@ DATA_GASPRICE_UPDATE_FRACTION = 2225652
 
 
 def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
+    """
+    Used to calculate the data gas cost.
+    """
     i = 1
     output = 0
-    numerator_accum = factor * denominator
-    while numerator_accum > 0:
-        output += numerator_accum
-        numerator_accum = (numerator_accum * numerator) // (denominator * i)
+    numerator_accumulator = factor * denominator
+    while numerator_accumulator > 0:
+        output += numerator_accumulator
+        numerator_accumulator = (numerator_accumulator * numerator) // (
+            denominator * i
+        )
         i += 1
     return output // denominator
 
 
 def calc_data_fee(tx: Transaction, excess_data_gas: int) -> int:
+    """
+    Calculate the data fee for a transaction.
+    """
     return get_total_data_gas(tx) * get_data_gasprice(excess_data_gas)
 
 
 def get_total_data_gas(tx: Transaction) -> int:
+    """
+    Calculate the total data gas for a transaction.
+    """
     if tx.blob_versioned_hashes is None:
         return 0
     return DATA_GAS_PER_BLOB * len(tx.blob_versioned_hashes)
 
 
 def get_data_gasprice_from_blobs(excess_blobs: int) -> int:
+    """
+    Calculate the data gas price from the excess blob count.
+    """
     return fake_exponential(
         MIN_DATA_GASPRICE,
         excess_blobs * DATA_GAS_PER_BLOB,
@@ -62,6 +76,9 @@ def get_data_gasprice_from_blobs(excess_blobs: int) -> int:
 
 
 def get_data_gasprice(excess_data_gas: int) -> int:
+    """
+    Calculate the data gas price from the excess.
+    """
     return fake_exponential(
         MIN_DATA_GASPRICE,
         excess_data_gas,
@@ -70,6 +87,10 @@ def get_data_gasprice(excess_data_gas: int) -> int:
 
 
 def calc_excess_data_gas(parent_excess_data_gas: int, new_blobs: int) -> int:
+    """
+    Calculate the excess data gas for a block given the parent excess data gas
+    and the number of blobs in the block.
+    """
     consumed_data_gas = new_blobs * DATA_GAS_PER_BLOB
     if parent_excess_data_gas + consumed_data_gas < TARGET_DATA_GAS_PER_BLOCK:
         return 0
@@ -83,15 +104,22 @@ def calc_excess_data_gas(parent_excess_data_gas: int, new_blobs: int) -> int:
 
 @dataclass(kw_only=True)
 class ExcessDataGasCalcTestCase:
+    """
+    Test case generator class for the correct excess data gas calculation.
+    """
+
     parent_excess_blobs: int
     blobs: int
     block_base_fee: int = 7
 
     def generate(self) -> BlockchainTest:
+        """
+        Generate the test case.
+        """
         parent_excess_data_gas = self.parent_excess_blobs * DATA_GAS_PER_BLOB
         env = Environment(excess_data_gas=parent_excess_data_gas)
 
-        dest = to_address(0x100)
+        destination_account = to_address(0x100)
 
         excess_data_gas = calc_excess_data_gas(
             parent_excess_data_gas=parent_excess_data_gas,
@@ -113,7 +141,7 @@ class ExcessDataGasCalcTestCase:
             tx = Transaction(
                 ty=5,
                 nonce=0,
-                to=dest,
+                to=destination_account,
                 value=tx_value,
                 gas_limit=tx_gas,
                 max_fee_per_gas=fee_per_gas,
@@ -128,7 +156,7 @@ class ExcessDataGasCalcTestCase:
             tx = Transaction(
                 ty=2,
                 nonce=0,
-                to=dest,
+                to=destination_account,
                 value=tx_value,
                 gas_limit=tx_gas,
                 max_fee_per_gas=fee_per_gas,
@@ -138,7 +166,7 @@ class ExcessDataGasCalcTestCase:
 
         return BlockchainTest(
             pre=pre,
-            post={dest: Account(balance=1)},
+            post={destination_account: Account(balance=1)},
             blocks=[Block(txs=[tx])],
             genesis_environment=env,
             tag=f"start_excess_data_gas_{hex(parent_excess_data_gas)}"
@@ -148,12 +176,11 @@ class ExcessDataGasCalcTestCase:
 
 
 @test_from(fork=ShardingFork)
-def test_excess_data_gas_calc(_: str):
+def test_excess_data_gas_calc(_: Fork):
     """
     Test calculation of the excess_data_gas increase/decrease across multiple
     blocks with and without blobs.
     """
-
     test_cases: List[ExcessDataGasCalcTestCase] = [
         # Result excess data gas zero, included data blob txs cost > 0
         ExcessDataGasCalcTestCase(
@@ -213,12 +240,19 @@ def test_excess_data_gas_calc(_: str):
 
 @dataclass(kw_only=True)
 class InvalidExcessDataGasInHeaderTestCase:
+    """
+    Test case generator for invalid excess_data_gas in header.
+    """
+
     new_blobs: int
     header_excess_data_gas: Optional[int] = None
     header_excess_blobs_delta: Optional[int] = None
     parent_excess_blobs: int = 10
 
     def generate(self) -> BlockchainTest:
+        """
+        Generate the test case.
+        """
         env = Environment(
             excess_data_gas=self.parent_excess_blobs * DATA_GAS_PER_BLOB,
         )
@@ -298,11 +332,10 @@ class InvalidExcessDataGasInHeaderTestCase:
 
 
 @test_from(fork=ShardingFork)
-def test_invalid_excess_data_gas_in_header(_: str):
+def test_invalid_excess_data_gas_in_header(_: Fork):
     """
     Test rejection of a block with invalid excess_data_gas in the header.
     """
-
     test_cases: List[InvalidExcessDataGasInHeaderTestCase] = []
 
     """
@@ -393,8 +426,7 @@ def test_invalid_excess_data_gas_in_header(_: str):
         yield tc.generate()
 
 
-# @test_transition_from_to(fork_from="shanghai", fork_to="shardingfork")
-def ignore_test_fork_transition_excess_data_gas_in_header(_: str):
+def ignore_test_fork_transition_excess_data_gas_in_header(_: Fork):
     """
     Test excess_data_gas calculation in the header when the fork is activated.
     """
@@ -404,6 +436,15 @@ def ignore_test_fork_transition_excess_data_gas_in_header(_: str):
 
 @dataclass(kw_only=True)
 class InvalidBlobTransactionTestCase:
+    """
+    Test case generator for invalid blob transactions.
+
+    Transaction can be invalidated by modifying the following fields:
+    - blobs_per_tx: Number of blobs in the transaction exceeds max blobs
+    - tx_max_data_gas_cost: Transaction max_fee_per_data_gas is too low
+    - tx_count: Number of transactions times blobs_per_tx exceeds max blobs
+    """
+
     tag: str
     parent_excess_blobs: int
     blobs_per_tx: int
@@ -414,10 +455,13 @@ class InvalidBlobTransactionTestCase:
     block_base_fee: int = 7
 
     def generate(self) -> BlockchainTest:
+        """
+        Generate the test case.
+        """
         parent_excess_data_gas = self.parent_excess_blobs * DATA_GAS_PER_BLOB
         env = Environment(excess_data_gas=parent_excess_data_gas)
 
-        dest = to_address(0x100)
+        destination_account = to_address(0x100)
 
         data_gasprice = get_data_gasprice(
             excess_data_gas=parent_excess_data_gas
@@ -442,7 +486,7 @@ class InvalidBlobTransactionTestCase:
             tx = Transaction(
                 ty=5,
                 nonce=tx_i,
-                to=dest,
+                to=destination_account,
                 value=tx_value,
                 gas_limit=tx_gas,
                 max_fee_per_gas=fee_per_gas,
@@ -479,7 +523,7 @@ class InvalidBlobTransactionTestCase:
 
 
 @test_from(fork=ShardingFork)
-def test_invalid_blob_txs(_: str):
+def test_invalid_blob_txs(_: Fork):
     """
     Reject blocks with invalid blob txs due to:
         - The user cannot afford the data gas specified (but max_fee_per_gas
@@ -490,12 +534,11 @@ def test_invalid_blob_txs(_: str):
         - blob count > MAX_BLOBS_PER_BLOCK in type 5 transaction
         - block blob count > MAX_BLOBS_PER_BLOCK
     """
-
     test_cases: List[InvalidBlobTransactionTestCase] = [
         InvalidBlobTransactionTestCase(
             tag="insufficient_max_fee_per_data_gas",
             parent_excess_blobs=15,  # data gas cost = 2
-            tx_max_data_gas_cost=1,  # less tha than minimum
+            tx_max_data_gas_cost=1,  # less than minimum
             tx_error="insufficient max fee per data gas",
             blobs_per_tx=1,
         ),

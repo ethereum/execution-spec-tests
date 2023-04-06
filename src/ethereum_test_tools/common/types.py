@@ -1050,15 +1050,16 @@ class JSONEncoder(json.JSONEncoder):
                         )
                 tx["blobVersionedHashes"] = hashes
 
-            if obj.signature is None:
-                tx["v"] = hex(0x0)
-                tx["r"] = hex(0x0)
-                tx["s"] = hex(0x0)
-            else:
+            if obj.secret_key is None:
+                assert obj.signature is not None
+                assert len(obj.signature) == 3
                 tx["v"] = obj.signature[0]
                 tx["r"] = obj.signature[1]
                 tx["s"] = obj.signature[2]
-
+            else:
+                tx["v"] = ""
+                tx["r"] = ""
+                tx["s"] = ""
             return {k: v for (k, v) in tx.items() if v is not None}
         elif isinstance(obj, Withdrawal):
             withdrawal = {
@@ -1139,9 +1140,21 @@ class JSONEncoder(json.JSONEncoder):
                 ],
             )
         elif isinstance(obj, FixtureTransaction):
-            tx = obj.tx
+            json_tx = to_json(obj.tx)
+            if json_tx["v"] == "":
+                del json_tx["v"]
+                del json_tx["r"]
+                del json_tx["s"]
+            if "input" in json_tx:
+                json_tx["data"] = json_tx["input"]
+                del json_tx["input"]
+            if "gas" in json_tx:
+                json_tx["gasLimit"] = json_tx["gas"]
+                del json_tx["gas"]
+            if "protected" in json_tx:
+                del json_tx["protected"]
             return even_padding(
-                to_json(tx),
+                json_tx,
                 excluded=["to", "accessList"],
             )
         elif isinstance(obj, FixtureBlock):
@@ -1198,7 +1211,7 @@ def even_padding(input: Dict, excluded: List[Any | None]) -> Dict:
         if key not in excluded:
             if isinstance(value, dict):
                 even_padding(value, excluded)
-            elif isinstance(value, str):
+            elif isinstance(value, str | None):
                 if value != "0x" and value is not None:
                     input[key] = key_value_padding(value)
                 else:
