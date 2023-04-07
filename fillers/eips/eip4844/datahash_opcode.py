@@ -4,7 +4,7 @@ EIP: https://eips.ethereum.org/EIPS/eip-4844
 """
 from typing import Sequence
 
-from ethereum_test_forks import ShardingFork
+from ethereum_test_forks import Fork, ShardingFork
 from ethereum_test_tools import (
     Account,
     CodeGasMeasure,
@@ -28,7 +28,7 @@ DATAHASH_GAS_COST = 3
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_opcode(_: str):
+def test_datahash_opcode(_: Fork):
     """
     Test DATAHASH opcode called on different contexts.
     """
@@ -526,7 +526,7 @@ def test_datahash_opcode(_: str):
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_gas(_: str):
+def test_datahash_gas(_: Fork):
     """
     Test DATAHASH opcode gas cost.
     """
@@ -564,7 +564,7 @@ def test_datahash_gas(_: str):
     }
 
     # DATAHASH gas cost on tx type 5
-    tx1 = Transaction(
+    tx_1 = Transaction(
         ty=5,
         nonce=0,
         data=to_hash_bytes(0),
@@ -576,7 +576,7 @@ def test_datahash_gas(_: str):
         access_list=[],
         blob_versioned_hashes=[to_hash_bytes(2**256 - 1)],
     )
-    tx2 = Transaction(
+    tx_2 = Transaction(
         ty=5,
         nonce=1,
         data=to_hash_bytes(0),
@@ -606,12 +606,12 @@ def test_datahash_gas(_: str):
         env=env,
         pre=pre,
         post=post,
-        txs=[tx1, tx2],
+        txs=[tx_1, tx_2],
         tag="cost_tx_type_5",
     )
 
     # DATAHASH gas cost on tx type 2
-    tx1 = Transaction(
+    tx_1 = Transaction(
         ty=2,
         nonce=0,
         data=to_hash_bytes(0),
@@ -622,7 +622,7 @@ def test_datahash_gas(_: str):
         access_list=[],
     )
 
-    tx2 = Transaction(
+    tx_2 = Transaction(
         ty=2,
         nonce=1,
         data=to_hash_bytes(0),
@@ -650,6 +650,6 @@ def test_datahash_gas(_: str):
         env=env,
         pre=pre,
         post=post,
-        txs=[tx1, tx2],
+        txs=[tx_1, tx_2],
         tag="cost_tx_type_2",
     )
