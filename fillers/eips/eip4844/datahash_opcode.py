@@ -2,12 +2,12 @@
 Test EIP-4844: Shard Blob Transactions (DATAHASH Opcode)
 EIP: https://eips.ethereum.org/EIPS/eip-4844
 """
-
+import itertools
 import random
-from typing import Sequence
+from typing import List, Sequence
 from string import Template
 
-from ethereum_test_forks import ShardingFork
+from ethereum_test_forks import Fork, ShardingFork
 from ethereum_test_tools import (
     Account,
     Block,
@@ -34,7 +34,7 @@ MAX_BLOB_PER_BLOCK = 4
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_contexts(_: str):
+def test_datahash_contexts(_: Fork):
     """
     Test DATAHASH opcode called on different contexts.
     """
@@ -532,7 +532,7 @@ def test_datahash_contexts(_: str):
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_gas_cost(_: str):
+def test_datahash_gas_cost(_: Fork):
     """
     Test DATAHASH opcode gas cost using a variety of indexes.
     """
@@ -545,17 +545,24 @@ def test_datahash_gas_cost(_: str):
         timestamp=1000,
     )
 
-    # Initial measures with zero, max and random
-    gas_measures = [0x00, 2**256 - 1]
-    gas_measures.extend(
-        [
-            random.randint(0, 2**256 - 1)
-            for _ in range(MAX_BLOB_PER_BLOCK * 10)
-        ]
-    )
+    # Initial measures with zero, random and max values
+    gas_measures: List[int] = [
+        0x00,
+        2**3 - 1,
+        2**13,
+        2**51 - 1,
+        2**47,
+        2**82 - 1,
+        2**115,
+        2**152 - 1,
+        2**190,
+        2**229 - 1,
+        2**256 - 1,
+    ]
+
     gas_measures_code = [
         CodeGasMeasure(
-            code=getattr(Op, "PUSH32")(gas_measure) + Op.DATAHASH,
+            code=Op.PUSH32(gas_measure) + Op.DATAHASH,
             overhead_cost=3,
             extra_stack_items=1,
         )
@@ -567,41 +574,43 @@ def test_datahash_gas_cost(_: str):
     }
     post = {}
 
-    def create_tx(ty: int, to: str, nonce: int):
-        return Transaction(
-            ty=ty,
-            nonce=nonce,
-            data=to_hash_bytes(0),
-            to=to,
-            gas_limit=3000000,
-            max_fee_per_gas=10,
-            max_priority_fee_per_gas=10,
-            max_fee_per_data_gas=10,
-            access_list=[],
-            blob_versioned_hashes=[to_hash_bytes(2**256 - 1)]
-            if ty == 5
-            else None,
-        )
+    # Transaction template
+    tx = Transaction(
+        data=to_hash_bytes(0),
+        gas_limit=3000000,
+        max_fee_per_gas=10,
+        max_fee_per_data_gas=10,
+    )
 
-    txs_ty2, txs_ty5 = [], []
+    txs_ty0, txs_ty1, txs_ty2, txs_ty5 = ([] for _ in range(4))
     for i, code_gas_measure in enumerate(gas_measures_code):
         address = to_address(0x100 + i * 0x100)
         pre[address] = Account(code=code_gas_measure)
-        txs_ty2.append(create_tx(ty=2, to=address, nonce=i))
-        txs_ty5.append(create_tx(ty=5, to=address, nonce=i))
         post[address] = Account(storage={0: DATAHASH_GAS_COST})
+        txs_ty0.append(tx.with_fields(ty=0, to=address, nonce=i, gas_price=10))
+        txs_ty1.append(tx.with_fields(ty=1, to=address, nonce=i, gas_price=10))
+        txs_ty2.append(
+            tx.with_fields(
+                ty=2, to=address, nonce=i, max_priority_fee_per_gas=10
+            )
+        )
+        txs_ty5.append(
+            tx.with_fields(
+                ty=5,
+                to=address,
+                nonce=i,
+                max_priority_fee_per_gas=10,
+                blob_versioned_hashes=[to_hash_bytes(2**256 - 1)],
+            )
+        )
 
-    # DATAHASH gas cost on tx type 2
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=txs_ty2,
-        tag="tx_type_2",
-    )
+    # DATAHASH gas cost on tx type 0 to 2
+    for i, txs in enumerate([txs_ty0, txs_ty1, txs_ty2]):
+        yield StateTest(
+            env=env, pre=pre, post=post, txs=txs, tag=f"tx_type_{i}"
+        )
 
     # DATAHASH gas cost on tx type 5
-    # Can only use 4 txs (max blobs) per block
     num_blocks = (len(txs_ty5) + MAX_BLOB_PER_BLOCK - 1) // MAX_BLOB_PER_BLOCK
     blocks = [
         Block(
@@ -610,16 +619,11 @@ def test_datahash_gas_cost(_: str):
         for i in range(num_blocks)
     ]
 
-    yield BlockchainTest(
-        pre=pre,
-        post=post,
-        blocks=blocks,
-        tag="tx_type_5",
-    )
+    yield BlockchainTest(pre=pre, post=post, blocks=blocks, tag="tx_type_5")
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_blob_versioned_hash(_: str):
+def test_datahash_blob_versioned_hash(_: Fork):
     """
     Tests that the `DATAHASH` opcode returns the correct versioned hash for
     various valid indexes
@@ -629,37 +633,65 @@ def test_datahash_blob_versioned_hash(_: str):
     pre = {
         TestAddress: Account(balance=10000000000000000000000),
     }
-    blocks = []
+    pre_2 = pre
+
     post = {}
+    blocks = []
 
-    datahash_verbatim = "verbatim_{}i_{}o".format(
-        Op.DATAHASH.popped_stack_items, Op.DATAHASH.pushed_stack_items
+    # `DATAHASH` on valid index's: (0 -> MAX_BLOB_PER_BLOCK - 1)
+    datahash_valid_calls = b"".join(
+        [
+            Op.PUSH1(i) + Op.DATAHASH + Op.PUSH1(i) + Op.SSTORE()
+            for i in range(0, MAX_BLOB_PER_BLOCK)
+        ]
     )
 
-    datahash_code = Yul(
-        f"""
-        {{
-            let pos := 0
-            let end := {MAX_BLOB_PER_BLOCK}
-            for {{}} lt(pos, end) {{ pos := add(pos, 1) }}
-            {{
-                let datahash := {datahash_verbatim}(
-                    hex"{Op.DATAHASH.hex()}",pos)
-                sstore(pos, datahash)
-            }}
-        }}
-        """
+    # `DATAHASH` on valid then invalid (MAX_BLOB_PER_BLOCK) index's
+    datahash_valid_intervals = b"".join(
+        [
+            Op.PUSH1(i)
+            + Op.DATAHASH
+            + Op.PUSH1(i)
+            + Op.SSTORE()  # Valid index
+            + Op.PUSH1(MAX_BLOB_PER_BLOCK)
+            + Op.DATAHASH
+            + Op.PUSH1(MAX_BLOB_PER_BLOCK)
+            + Op.SSTORE()  # Invalid index
+            for i in range(0, MAX_BLOB_PER_BLOCK)
+        ]
     )
 
-    # Create a list of random blob hashes
-    blob_ver_hashes = [
-        to_hash_bytes(random.randint(MAX_BLOB_PER_BLOCK, 2**256 - 1))
-        for _ in range(MAX_BLOB_PER_BLOCK * NUM_BLOCKS)
-    ]
+    # Create an arbitrary repeated list of blob hashes
+    # with length MAX_BLOB_PER_BLOCK * NUM_BLOCKS
+    blob_ver_hashes = list(
+        itertools.islice(
+            itertools.cycle(
+                [
+                    to_hash_bytes(value)
+                    for value in [
+                        MAX_BLOB_PER_BLOCK,
+                        2**3 - 1,
+                        2**13,
+                        2**51 - 1,
+                        2**47,
+                        2**82 - 1,
+                        2**115,
+                        2**152 - 1,
+                        2**190,
+                        2**229 - 1,
+                        2**239,
+                        2**256 - 1,
+                    ]
+                ]
+            ),
+            MAX_BLOB_PER_BLOCK * NUM_BLOCKS,
+        )
+    )
 
     for i in range(NUM_BLOCKS):
         address = to_address(0x100 + i * 0x100)
-        pre[address] = Account(code=datahash_code)
+        pre[address] = Account(code=datahash_valid_calls)
+        pre_2[address] = Account(code=datahash_valid_intervals)
         blocks.append(
             Block(
                 txs=[  # Create tx with max blobs per block
@@ -688,21 +720,21 @@ def test_datahash_blob_versioned_hash(_: str):
             }
         )
 
+    yield BlockchainTest(pre=pre, post=post, blocks=blocks, tag="valid_calls")
+    \
     yield BlockchainTest(
-        pre=pre,
-        post=post,
-        blocks=blocks,
+        pre=pre_2, post=post, blocks=blocks, tag="valid_intervals"
     )
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_invalid_blob_index(_: str):
+def test_datahash_invalid_blob_index(_: Fork):
     """
     Tests that the `DATAHASH` opcode returns a zeroed bytes32 value
     for invalid indexes.
     """
 
-    INVALID_DEPTH = 3
+    INVALID_DEPTH = 5
     NUM_BLOCKS = 10
 
     pre = {
