@@ -535,7 +535,6 @@ def test_datahash_gas_cost(_: Fork):
     """
     Test DATAHASH opcode gas cost using a variety of indexes.
     """
-
     env = Environment(
         coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
@@ -574,13 +573,17 @@ def test_datahash_gas_cost(_: Fork):
         for index in datahash_index_measures
     ]
 
-    txs_ty0, txs_ty1, txs_ty2, txs_ty5 = ([] for _ in range(4))
+    txs_type_0, txs_type_1, txs_type_2, txs_type_5 = ([] for _ in range(4))
     for i, code in enumerate(gas_measures_code):
         address = to_address(0x100 + i * 0x100)
         pre[address] = Account(code=code)
-        txs_ty0.append(tx.with_fields(ty=0, to=address, nonce=i, gas_price=10))
-        txs_ty1.append(tx.with_fields(ty=1, to=address, nonce=i, gas_price=10))
-        txs_ty2.append(
+        txs_type_0.append(
+            tx.with_fields(ty=0, to=address, nonce=i, gas_price=10)
+        )
+        txs_type_1.append(
+            tx.with_fields(ty=1, to=address, nonce=i, gas_price=10)
+        )
+        txs_type_2.append(
             tx.with_fields(
                 ty=2,
                 to=address,
@@ -591,7 +594,7 @@ def test_datahash_gas_cost(_: Fork):
                 ],
             )
         )
-        txs_ty5.append(
+        txs_type_5.append(
             tx.with_fields(
                 ty=5,
                 to=address,
@@ -605,18 +608,22 @@ def test_datahash_gas_cost(_: Fork):
         post[address] = Account(storage={0: DATAHASH_GAS_COST})
 
     # DATAHASH gas cost on tx type 0, 1 & 2
-    for i, txs in enumerate([txs_ty0, txs_ty1, txs_ty2]):
+    for i, txs in enumerate([txs_type_0, txs_type_1, txs_type_2]):
         yield StateTest(
             env=env, pre=pre, post=post, txs=txs, tag=f"tx_type_{i}"
         )
 
     # DATAHASH gas cost on tx type 5
-    num_blocks = (len(txs_ty5) + MAX_BLOB_PER_BLOCK - 1) // MAX_BLOB_PER_BLOCK
+    total_blocks = (
+        len(txs_type_5) + MAX_BLOB_PER_BLOCK - 1
+    ) // MAX_BLOB_PER_BLOCK
     blocks = [
         Block(
-            txs=txs_ty5[i * MAX_BLOB_PER_BLOCK : (i + 1) * MAX_BLOB_PER_BLOCK]
+            txs=txs_type_5[
+                i * MAX_BLOB_PER_BLOCK : (i + 1) * MAX_BLOB_PER_BLOCK
+            ]
         )
-        for i in range(num_blocks)
+        for i in range(total_blocks)
     ]
 
     yield BlockchainTest(pre=pre, post=post, blocks=blocks, tag="tx_type_5")
@@ -628,7 +635,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
     Tests that the `DATAHASH` opcode returns the correct versioned hash for
     various valid index scenarios.
     """
-    NUM_BLOCKS = 10
+    TOTAL_BLOCKS = 10
 
     pre = {
         TestAddress: Account(balance=10000000000000000000000),
@@ -637,11 +644,11 @@ def test_datahash_blob_versioned_hash(_: Fork):
     blocks = []
 
     # Create an arbitrary repeated list of blob hashes
-    # with length MAX_BLOB_PER_BLOCK * NUM_BLOCKS
-    blob_ver_hashes = list(
+    # with length MAX_BLOB_PER_BLOCK * TOTAL_BLOCKS
+    blob_hashes = list(
         itertools.islice(
             itertools.cycle(BlobVersionedHashes),
-            MAX_BLOB_PER_BLOCK * NUM_BLOCKS,
+            MAX_BLOB_PER_BLOCK * TOTAL_BLOCKS,
         )
     )
 
@@ -673,7 +680,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
     )
     pre_datahash_valid_invalid_calls = pre
 
-    # `DATAHASH` on diffent valid indexes repeated:
+    # `DATAHASH` on different valid indexes repeated:
     # DATAHASH(i), DATAHASH(i+1), DATAHASH(i)
     datahash_varied_valid_calls = b"".join(
         datahash_sstore(i) + datahash_sstore(i + 1) + datahash_sstore(i)
@@ -681,7 +688,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
     )
     pre_datahash_varied_valid_calls = pre
 
-    for i in range(NUM_BLOCKS):
+    for i in range(TOTAL_BLOCKS):
         address = to_address(0x100 + i * 0x100)
         pre_single_valid_calls[address] = Account(
             code=datahash_single_valid_calls
@@ -708,7 +715,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
                         max_priority_fee_per_gas=10,
                         max_fee_per_data_gas=10,
                         access_list=[],
-                        blob_versioned_hashes=blob_ver_hashes[
+                        blob_versioned_hashes=blob_hashes[
                             (i * MAX_BLOB_PER_BLOCK) : (i + 1)
                             * MAX_BLOB_PER_BLOCK
                         ],
@@ -718,7 +725,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
         )
         post[address] = Account(
             storage={
-                index: blob_ver_hashes[i * MAX_BLOB_PER_BLOCK + index]
+                index: blob_hashes[i * MAX_BLOB_PER_BLOCK + index]
                 for index in range(MAX_BLOB_PER_BLOCK)
             }
         )
@@ -758,9 +765,8 @@ def test_datahash_invalid_blob_index(_: Fork):
     Tests that the `DATAHASH` opcode returns a zeroed bytes32 value
     for invalid indexes.
     """
-
     INVALID_DEPTH_FACTOR = 5
-    NUM_BLOCKS = 10
+    TOTAL_BLOCKS = 10
 
     pre = {
         TestAddress: Account(balance=10000000000000000000000),
@@ -776,11 +782,11 @@ def test_datahash_invalid_blob_index(_: Fork):
         )
     )
 
-    for i in range(NUM_BLOCKS):
+    for i in range(TOTAL_BLOCKS):
         address = to_address(0x100 + i * 0x100)
         pre[address] = Account(code=datahash_invalid_calls)
         blob_per_block = i % MAX_BLOB_PER_BLOCK
-        blob_ver_hashes = [
+        blob_hashes = [
             BlobVersionedHashes[blob] for blob in range(blob_per_block)
         ]
         blocks.append(
@@ -796,7 +802,7 @@ def test_datahash_invalid_blob_index(_: Fork):
                         max_priority_fee_per_gas=10,
                         max_fee_per_data_gas=10,
                         access_list=[],
-                        blob_versioned_hashes=blob_ver_hashes,
+                        blob_versioned_hashes=blob_hashes,
                     )
                 ]
             )
@@ -805,7 +811,7 @@ def test_datahash_invalid_blob_index(_: Fork):
             storage={
                 index: 0
                 if index < 0 or index >= blob_per_block
-                else blob_ver_hashes[index]
+                else blob_hashes[index]
                 for index in range(
                     -INVALID_DEPTH_FACTOR,
                     blob_per_block + INVALID_DEPTH_FACTOR,
@@ -826,7 +832,6 @@ def test_datahash_multiple_txs_in_block(_: Fork):
     Tests that the `DATAHASH` opcode returns the appropriate values
     when there is more than one blob tx type within a block.
     """
-
     datahash_valid_call = b"".join(
         [
             Op.PUSH1(i) + Op.DATAHASH + Op.PUSH1(i) + Op.SSTORE()
