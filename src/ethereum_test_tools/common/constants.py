@@ -12,7 +12,7 @@ AddrBB = "0x00000000000000000000000000000000000000bb"
 
 EmptyTrieRoot = "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421"  # noqa: E501
 
-BlobVersionedHashes = (
+BlobVersionedHashes = [
     "0x53b8c5b09810b5fc07355d3da42e2c3a3e200c1d9a678491b7e8e256fc50cc4f",
     "0x925b4c8cc4f86aa2d2cf9e9ce97fca704a11a6c20f6b1d6c00a6e15f6d60a6df",
     "0xf1878f80eaf10be1a6f618e6f8c071b10a6c14d9b89a3bf2a3f3cf2db6c5681d",
@@ -28,4 +28,4 @@ BlobVersionedHashes = (
     "0xb2b8d28b52c8927b999757991a2e8b8c9a9c7f0201b89357ce6ba1e6a3c7dabb",
     "0xdaf8a207f9c2fb7ab28c6c8536858d1e3f3d7f605d0cdddc79b15f9b2fb8627e",
     "0x89bb8a8f29cf63bdc422aa2df2f25a8fc6629e9a7d46d39158d30e74dc235274",
-)
+]
