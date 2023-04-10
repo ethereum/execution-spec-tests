@@ -557,34 +557,29 @@ def test_datahash_gas_cost(_: Fork):
     )
     post = {}
 
-    # Initial measures with zero, random and max values
-    gas_measures: List[int] = [
+    # Declare datahash indexes: zero, max & random values
+    datahash_index_measures: List[int] = [
         0x00,
-        2**3 - 1,
-        2**13,
-        2**51 - 1,
-        2**47,
-        2**82 - 1,
-        2**115,
-        2**152 - 1,
-        2**190,
-        2**229 - 1,
         2**256 - 1,
+        0x30a9b2a6c3f3f0675b768d49b5f5dc5b5d988f88d55766247ba9e40b125f16bb,
+        0x4fa4d4cde4aa01e57fb2c880d1d9c778c33bdf85e48ef4c4d4b4de51abccf4ed,
+        0x7871c9b8a0c72d38f5e5b5d08e5cb5ce5e23fb1bc5d75f9c29f7b94df0bceeb7,
+        0xa12c8b6a8b11410c7d98d790e1098f1ed6d93cb7a64711481aaab1848e13212f,
     ]
 
     gas_measures_code = [
         CodeGasMeasure(
-            code=Op.PUSH32(gas_measure) + Op.DATAHASH,
+            code=Op.PUSH32(index) + Op.DATAHASH,
             overhead_cost=3,
             extra_stack_items=1,
         )
-        for gas_measure in gas_measures
+        for index in datahash_index_measures
     ]
 
     txs_ty0, txs_ty1, txs_ty2, txs_ty5 = ([] for _ in range(4))
-    for i, code_gas_measure in enumerate(gas_measures_code):
+    for i, code in enumerate(gas_measures_code):
         address = to_address(0x100 + i * 0x100)
-        pre[address] = Account(code=code_gas_measure)
+        pre[address] = Account(code=code)
         txs_ty0.append(tx.with_fields(ty=0, to=address, nonce=i, gas_price=10))
         txs_ty1.append(tx.with_fields(ty=1, to=address, nonce=i, gas_price=10))
         txs_ty2.append(
@@ -603,7 +598,7 @@ def test_datahash_gas_cost(_: Fork):
         )
         post[address] = Account(storage={0: DATAHASH_GAS_COST})
 
-    # DATAHASH gas cost on tx type 0 to 2
+    # DATAHASH gas cost on tx type 0,1 & 2
     for i, txs in enumerate([txs_ty0, txs_ty1, txs_ty2]):
         yield StateTest(
             env=env, pre=pre, post=post, txs=txs, tag=f"tx_type_{i}"
