@@ -10,6 +10,7 @@ from string import Template
 from ethereum_test_forks import Fork, ShardingFork
 from ethereum_test_tools import (
     Account,
+    BlobVersionedHashes,
     Block,
     BlockchainTest,
     CodeGasMeasure,
@@ -544,6 +545,17 @@ def test_datahash_gas_cost(_: Fork):
         number=1,
         timestamp=1000,
     )
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+    }
+    # Transaction template
+    tx = Transaction(
+        data=to_hash_bytes(0),
+        gas_limit=3000000,
+        max_fee_per_gas=10,
+        max_fee_per_data_gas=10,
+    )
+    post = {}
 
     # Initial measures with zero, random and max values
     gas_measures: List[int] = [
@@ -569,24 +581,10 @@ def test_datahash_gas_cost(_: Fork):
         for gas_measure in gas_measures
     ]
 
-    pre = {
-        TestAddress: Account(balance=1000000000000000000000),
-    }
-    post = {}
-
-    # Transaction template
-    tx = Transaction(
-        data=to_hash_bytes(0),
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-    )
-
     txs_ty0, txs_ty1, txs_ty2, txs_ty5 = ([] for _ in range(4))
     for i, code_gas_measure in enumerate(gas_measures_code):
         address = to_address(0x100 + i * 0x100)
         pre[address] = Account(code=code_gas_measure)
-        post[address] = Account(storage={0: DATAHASH_GAS_COST})
         txs_ty0.append(tx.with_fields(ty=0, to=address, nonce=i, gas_price=10))
         txs_ty1.append(tx.with_fields(ty=1, to=address, nonce=i, gas_price=10))
         txs_ty2.append(
@@ -603,6 +601,7 @@ def test_datahash_gas_cost(_: Fork):
                 blob_versioned_hashes=[to_hash_bytes(2**256 - 1)],
             )
         )
+        post[address] = Account(storage={0: DATAHASH_GAS_COST})
 
     # DATAHASH gas cost on tx type 0 to 2
     for i, txs in enumerate([txs_ty0, txs_ty1, txs_ty2]):
@@ -640,25 +639,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
     # with length MAX_BLOB_PER_BLOCK * NUM_BLOCKS
     blob_ver_hashes = list(
         itertools.islice(
-            itertools.cycle(
-                [
-                    to_hash_bytes(value)
-                    for value in [
-                        MAX_BLOB_PER_BLOCK,
-                        2**3 - 1,
-                        2**13,
-                        2**51 - 1,
-                        2**47,
-                        2**82 - 1,
-                        2**115,
-                        2**152 - 1,
-                        2**190,
-                        2**229 - 1,
-                        2**239,
-                        2**256 - 1,
-                    ]
-                ]
-            ),
+            itertools.cycle(BlobVersionedHashes),
             MAX_BLOB_PER_BLOCK * NUM_BLOCKS,
         )
     )

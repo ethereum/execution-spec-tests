@@ -4,6 +4,7 @@ Common definitions and types.
 from .constants import (
     AddrAA,
     AddrBB,
+    BlobVersionedHashes,
     EmptyTrieRoot,
     TestAddress,
     TestPrivateKey,
@@ -44,6 +45,7 @@ __all__ = (
     "Account",
     "AddrAA",
     "AddrBB",
+    "BlobVersionedHashes",
     "Block",
     "EmptyTrieRoot",
     "Environment",
