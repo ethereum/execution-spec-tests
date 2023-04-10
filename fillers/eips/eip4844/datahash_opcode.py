@@ -626,40 +626,15 @@ def test_datahash_gas_cost(_: Fork):
 def test_datahash_blob_versioned_hash(_: Fork):
     """
     Tests that the `DATAHASH` opcode returns the correct versioned hash for
-    various valid indexes
+    various valid index scenarios.
     """
     NUM_BLOCKS = 10
 
     pre = {
         TestAddress: Account(balance=10000000000000000000000),
     }
-    pre_2 = pre
-
     post = {}
     blocks = []
-
-    # `DATAHASH` on valid index's: (0 -> MAX_BLOB_PER_BLOCK - 1)
-    datahash_valid_calls = b"".join(
-        [
-            Op.PUSH1(i) + Op.DATAHASH + Op.PUSH1(i) + Op.SSTORE()
-            for i in range(0, MAX_BLOB_PER_BLOCK)
-        ]
-    )
-
-    # `DATAHASH` on valid then invalid (MAX_BLOB_PER_BLOCK) index's
-    datahash_valid_intervals = b"".join(
-        [
-            Op.PUSH1(i)
-            + Op.DATAHASH
-            + Op.PUSH1(i)
-            + Op.SSTORE()  # Valid index
-            + Op.PUSH1(MAX_BLOB_PER_BLOCK)
-            + Op.DATAHASH
-            + Op.PUSH1(MAX_BLOB_PER_BLOCK)
-            + Op.SSTORE()  # Invalid index
-            for i in range(0, MAX_BLOB_PER_BLOCK)
-        ]
-    )
 
     # Create an arbitrary repeated list of blob hashes
     # with length MAX_BLOB_PER_BLOCK * NUM_BLOCKS
@@ -688,10 +663,56 @@ def test_datahash_blob_versioned_hash(_: Fork):
         )
     )
 
+    # `DATAHASH` sstore template helper
+    def datahash_sstore(index: int):
+        return Op.PUSH1(index) + Op.DATAHASH + Op.PUSH1(index) + Op.SSTORE()
+
+    # `DATAHASH` on valid indexes
+    datahash_single_valid_calls = b"".join(
+        datahash_sstore(i) for i in range(MAX_BLOB_PER_BLOCK)
+    )
+    pre_single_valid_calls = pre
+
+    # `DATAHASH` on valid index repeated:
+    # DATAHASH(i), DATAHASH(i), ...
+    datahash_repeated_valid_calls = b"".join(
+        b"".join([datahash_sstore(i) for _ in range(10)])
+        for i in range(MAX_BLOB_PER_BLOCK)
+    )
+    pre_datahash_repeated_valid_calls = pre
+
+    # `DATAHASH` on valid/invalid/valid:
+    # DATAHASH(i), DATAHASH(MAX_BLOB_PER_BLOCK), DATAHASH(i)
+    datahash_valid_invalid_calls = b"".join(
+        datahash_sstore(i)
+        + datahash_sstore(MAX_BLOB_PER_BLOCK)
+        + datahash_sstore(i)
+        for i in range(MAX_BLOB_PER_BLOCK)
+    )
+    pre_datahash_valid_invalid_calls = pre
+
+    # `DATAHASH` on diffent valid indexes repeated:
+    # DATAHASH(i), DATAHASH(i+1), DATAHASH(i)
+    datahash_varied_valid_calls = b"".join(
+        datahash_sstore(i) + datahash_sstore(i + 1) + datahash_sstore(i)
+        for i in range(MAX_BLOB_PER_BLOCK - 1)
+    )
+    pre_datahash_varied_valid_calls = pre
+
     for i in range(NUM_BLOCKS):
         address = to_address(0x100 + i * 0x100)
-        pre[address] = Account(code=datahash_valid_calls)
-        pre_2[address] = Account(code=datahash_valid_intervals)
+        pre_single_valid_calls[address] = Account(
+            code=datahash_single_valid_calls
+        )
+        pre_datahash_repeated_valid_calls[address] = Account(
+            code=datahash_repeated_valid_calls
+        )
+        pre_datahash_valid_invalid_calls[address] = Account(
+            code=datahash_valid_invalid_calls
+        )
+        pre_datahash_varied_valid_calls[address] = Account(
+            code=datahash_varied_valid_calls
+        )
         blocks.append(
             Block(
                 txs=[  # Create tx with max blobs per block
@@ -720,10 +741,32 @@ def test_datahash_blob_versioned_hash(_: Fork):
             }
         )
 
-    yield BlockchainTest(pre=pre, post=post, blocks=blocks, tag="valid_calls")
-    \
     yield BlockchainTest(
-        pre=pre_2, post=post, blocks=blocks, tag="valid_intervals"
+        pre=pre_single_valid_calls,
+        post=post,
+        blocks=blocks,
+        tag="valid_calls",
+    )
+
+    yield BlockchainTest(
+        pre=pre_datahash_repeated_valid_calls,
+        post=post,
+        blocks=blocks,
+        tag="repeated_calls",
+    )
+
+    yield BlockchainTest(
+        pre=pre_datahash_valid_invalid_calls,
+        post=post,
+        blocks=blocks,
+        tag="valid_invalid_calls",
+    )
+
+    yield BlockchainTest(
+        pre=pre_datahash_varied_valid_calls,
+        post=post,
+        blocks=blocks,
+        tag="valid_invalid_calls",
     )
 
 
