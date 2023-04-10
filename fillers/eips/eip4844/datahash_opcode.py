@@ -33,7 +33,7 @@ MAX_BLOB_PER_BLOCK = 4
 
 
 @test_from(fork=ShardingFork)
-def test_datahash_contexts(_: Fork):
+def test_datahash_opcode(_: Fork):
     """
     Test DATAHASH opcode called on different contexts.
     """
