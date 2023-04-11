@@ -3,7 +3,7 @@ Test EIP-4844: Shard Blob Transactions (DATAHASH Opcode)
 EIP: https://eips.ethereum.org/EIPS/eip-4844
 """
 import itertools
-from typing import List, Sequence
+from typing import Dict, List, Sequence
 
 from ethereum_test_forks import Fork, ShardingFork
 from ethereum_test_tools import (
@@ -31,20 +31,20 @@ REFERENCE_SPEC_VERSION = "b33e063530f0a114635dd4f89d3cca90f8cac28f"
 DATAHASH_GAS_COST = 3
 MAX_BLOB_PER_BLOCK = 4
 
+env = Environment(  # Global state test environment
+    coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+    difficulty=0x20000,
+    gas_limit=300000000,
+    number=1,
+    timestamp=1000,
+)
+
 
 @test_from(fork=ShardingFork)
-def test_datahash_opcode(_: Fork):
+def test_datahash_opcode_contexts(_: Fork):
     """
     Test DATAHASH opcode called on different contexts.
     """
-    env = Environment(
-        coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        difficulty=0x20000,
-        gas_limit=300000000,
-        number=1,
-        timestamp=1000,
-    )
-
     datahash_verbatim = "verbatim_{}i_{}o".format(
         Op.DATAHASH.popped_stack_items, Op.DATAHASH.pushed_stack_items
     )
@@ -91,7 +91,7 @@ def test_datahash_opcode(_: Fork):
         }}
         """
     )
-    tx_created_contract = compute_create_address(TestAddress, 0)
+    tx_created_contract_address = compute_create_address(TestAddress, 0)
 
     call_bytecode = Yul(
         """
@@ -187,59 +187,88 @@ def test_datahash_opcode(_: Fork):
         initcode_datahash_sstore_bytecode.assemble(),
     )
 
-    # Store all contracts in pre-state
-    pre = {
-        TestAddress: Account(balance=1000000000000000000000),
-        datahash_sstore_bytecode_address: Account(
-            code=datahash_sstore_bytecode
-        ),
-        call_bytecode_address: Account(code=call_bytecode),
-        delegatecall_bytecode_address: Account(code=delegatecall_bytecode),
-        create_bytecode_address: Account(code=create_bytecode),
-        create2_bytecode_address: Account(code=create2_bytecode),
-        datahash_return_bytecode_address: Account(
-            code=datahash_return_bytecode
-        ),
-        staticcall_bytecode_address: Account(code=staticcall_bytecode),
-        callcode_bytecode_address: Account(code=callcode_bytecode),
-    }
+    b_hashes: Sequence[bytes] = [
+        to_hash_bytes(1 << x) for x in range(MAX_BLOB_PER_BLOCK)
+    ]
 
-    b_hashes: Sequence[bytes] = [to_hash_bytes(1 << x) for x in range(4)]
+    tags = [
+        "at_top_level_call_stack",
+        "max_value",
+        "on_call",
+        "on_delegatecall",
+        "on_staticcall",
+        "on_callcode",
+        "on_initcode",
+        "on_create",
+        "on_create2",
+        "tx_type_2",
+        "tx_type_1",
+        "tx_type_0",
+    ]
 
-    # DATAHASH on top level of the call stack
-    tx = Transaction(
+    pre_states: List[Dict] = [
+        {  # DATAHASH on top level of the call stack
+            datahash_sstore_bytecode_address: Account(
+                code=datahash_sstore_bytecode
+            ),
+        },
+        {  # DATAHASH max value
+            datahash_sstore_bytecode_address: Account(
+                code=datahash_sstore_bytecode
+            ),
+        },
+        {  # DATAHASH on CALL
+            call_bytecode_address: Account(code=call_bytecode),
+            datahash_sstore_bytecode_address: Account(
+                code=datahash_sstore_bytecode
+            ),
+        },
+        {  # DATAHASH on DELEGATECALL
+            delegatecall_bytecode_address: Account(code=delegatecall_bytecode),
+            datahash_sstore_bytecode_address: Account(
+                code=datahash_sstore_bytecode
+            ),
+        },
+        {  # DATAHASH on STATICCALL
+            staticcall_bytecode_address: Account(code=staticcall_bytecode),
+            datahash_return_bytecode_address: Account(
+                code=datahash_return_bytecode
+            ),
+        },
+        {  # DATAHASH on CALLCODE
+            callcode_bytecode_address: Account(code=callcode_bytecode),
+            datahash_return_bytecode_address: Account(
+                code=datahash_return_bytecode
+            ),
+        },
+        {},  # DATAHASH on INITCODE
+        {  # DATAHASH on CREATE
+            create_bytecode_address: Account(code=create_bytecode),
+        },
+        {  # DATAHASH on CREATE2
+            create2_bytecode_address: Account(code=create2_bytecode),
+        },
+        {  # DATAHASH on type 2 tx
+            datahash_sstore_bytecode_address: Account(
+                code=datahash_sstore_bytecode
+            ),
+        },
+        {  # DATAHASH on type 1 tx
+            datahash_sstore_bytecode_address: Account(
+                code=datahash_sstore_bytecode
+            ),
+        },
+        {  # DATAHASH on type 0 tx
+            datahash_sstore_bytecode_address: Account(
+                code=datahash_sstore_bytecode
+            ),
+        },
+    ]
+
+    # Type 5 tx template
+    tx_type_5 = Transaction(
         ty=5,
         data=to_hash_bytes(0),
-        to=datahash_sstore_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes[:1],
-    )
-
-    post = {
-        datahash_sstore_bytecode_address: Account(
-            storage={
-                0: b_hashes[0],
-            }
-        ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="at_top_level_call_stack",
-    )
-
-    # DATAHASH on max value
-    tx = Transaction(
-        ty=5,
-        data=to_hash_bytes(2**256 - 1) + to_hash_bytes(2**256 - 1),
-        to=datahash_sstore_bytecode_address,
         gas_limit=3000000,
         max_fee_per_gas=10,
         max_priority_fee_per_gas=10,
@@ -248,286 +277,145 @@ def test_datahash_opcode(_: Fork):
         blob_versioned_hashes=b_hashes,
     )
 
-    post = {
-        datahash_sstore_bytecode_address: Account(storage={}),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="max_value",
-    )
-
-    # DATAHASH on CALL
-    tx = Transaction(
-        ty=5,
-        data=to_hash_bytes(1) + to_hash_bytes(1),
-        to=call_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes[:2],
-        protected=True,
-    )
-    post = {
-        datahash_sstore_bytecode_address: Account(
-            storage={
-                1: b_hashes[1],
-            }
+    txs = [
+        tx_type_5.with_fields(  # DATAHASH on top level of the call stack
+            to=datahash_sstore_bytecode_address,
+            blob_versioned_hashes=b_hashes[:1],
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_call",
-    )
-
-    # DATAHASH on DELEGATECALL
-    tx = Transaction(
-        ty=5,
-        data=to_hash_bytes(0) + to_hash_bytes(3),
-        to=delegatecall_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes,
-        protected=True,
-    )
-    post = {
-        delegatecall_bytecode_address: Account(
-            storage={k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)}
+        tx_type_5.with_fields(  # DATAHASH on max value
+            data=to_hash_bytes(2**256 - 1) + to_hash_bytes(2**256 - 1),
+            to=datahash_sstore_bytecode_address,
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_delegatecall",
-    )
-
-    # DATAHASH on STATICCALL
-    tx = Transaction(
-        ty=5,
-        data=to_hash_bytes(0) + to_hash_bytes(3),
-        to=staticcall_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes,
-        protected=True,
-    )
-    post = {
-        staticcall_bytecode_address: Account(
-            storage={k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)}
+        tx_type_5.with_fields(  # DATAHASH on CALL
+            data=to_hash_bytes(1) + to_hash_bytes(1),
+            to=call_bytecode_address,
+            blob_versioned_hashes=b_hashes[:2],
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_staticcall",
-    )
-
-    # DATAHASH on CALLCODE
-    tx = Transaction(
-        ty=5,
-        data=to_hash_bytes(0) + to_hash_bytes(3),
-        to=callcode_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes,
-        protected=True,
-    )
-    post = {
-        callcode_bytecode_address: Account(
-            storage={k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)}
+        tx_type_5.with_fields(  # DATAHASH on DELEGATECALL
+            data=to_hash_bytes(0) + to_hash_bytes(3),
+            to=delegatecall_bytecode_address,
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_staticcall",
-    )
-
-    # DATAHASH on Initcode
-    tx = Transaction(
-        ty=5,
-        data=initcode_datahash_sstore_bytecode,
-        to=None,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes,
-        protected=True,
-    )
-    post = {
-        tx_created_contract: Account(
-            storage={k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)}
+        tx_type_5.with_fields(  # DATAHASH on STATICCALL
+            data=to_hash_bytes(0) + to_hash_bytes(3),
+            to=staticcall_bytecode_address,
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_initcode",
-    )
-
-    # DATAHASH on CREATE
-    tx = Transaction(
-        ty=5,
-        data=initcode_datahash_sstore_bytecode,
-        to=create_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes,
-        protected=True,
-    )
-    post = {
-        create_opcode_created_contract: Account(
-            storage={k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)}
+        tx_type_5.with_fields(  # DATAHASH on CALLCODE
+            data=to_hash_bytes(0) + to_hash_bytes(3),
+            to=callcode_bytecode_address,
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_create",
-    )
-
-    # DATAHASH on CREATE2
-    tx = Transaction(
-        ty=5,
-        data=initcode_datahash_sstore_bytecode,
-        to=create2_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        max_fee_per_data_gas=10,
-        access_list=[],
-        blob_versioned_hashes=b_hashes,
-        protected=True,
-    )
-    post = {
-        create2_opcode_created_contract: Account(
-            storage={k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)}
+        tx_type_5.with_fields(  # DATAHASH on INITCODE
+            data=initcode_datahash_sstore_bytecode, to=None
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_create2",
-    )
-
-    # DATAHASH on tx type == 2
-    tx = Transaction(
-        ty=2,
-        data=to_hash_bytes(0),
-        to=datahash_sstore_bytecode_address,
-        gas_limit=3000000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=10,
-        access_list=[],
-    )
-
-    post = {
-        datahash_sstore_bytecode_address: Account(
-            storage={
-                0: 0,
-            }
+        tx_type_5.with_fields(  # DATAHASH on CREATE
+            data=initcode_datahash_sstore_bytecode,
+            to=create_bytecode_address,
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_tx_type_2",
-    )
-
-    # DATAHASH on tx type == 1
-    tx = Transaction(
-        ty=1,
-        data=to_hash_bytes(0),
-        to=datahash_sstore_bytecode_address,
-        gas_limit=3000000,
-        gas_price=10,
-        access_list=[],
-    )
-
-    post = {
-        datahash_sstore_bytecode_address: Account(
-            storage={
-                0: 0,
-            }
+        tx_type_5.with_fields(  # DATAHASH on CREATE2
+            data=initcode_datahash_sstore_bytecode,
+            to=create2_bytecode_address,
         ),
-    }
-
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_tx_type_1",
-    )
-
-    # DATAHASH on tx type == 0
-    tx = Transaction(
-        ty=0,
-        data=to_hash_bytes(0),
-        to=datahash_sstore_bytecode_address,
-        gas_limit=3000000,
-        gas_price=10,
-    )
-
-    post = {
-        datahash_sstore_bytecode_address: Account(
-            storage={
-                0: 0,
-            }
+        Transaction(  # DATAHASH on type 2 tx
+            ty=2,
+            data=to_hash_bytes(0),
+            to=datahash_sstore_bytecode_address,
+            gas_limit=3000000,
+            max_fee_per_gas=10,
+            max_priority_fee_per_gas=10,
+            access_list=[],
         ),
-    }
+        Transaction(  # DATAHASH on type 1 tx
+            ty=1,
+            data=to_hash_bytes(0),
+            to=datahash_sstore_bytecode_address,
+            gas_limit=3000000,
+            gas_price=10,
+            access_list=[],
+        ),
+        Transaction(  # DATAHASH on type 0 tx
+            ty=0,
+            data=to_hash_bytes(0),
+            to=datahash_sstore_bytecode_address,
+            gas_limit=3000000,
+            gas_price=10,
+        ),
+    ]
 
-    yield StateTest(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=[tx],
-        tag="on_tx_type_0",
-    )
+    post_states: List[Dict] = [
+        {  # DATAHASH on top level of the call stack
+            datahash_sstore_bytecode_address: Account(
+                storage={0: b_hashes[0]}
+            ),
+        },
+        {  # DATAHASH on max value
+            datahash_sstore_bytecode_address: Account(storage={}),
+        },
+        {  # DATAHASH on CALL
+            datahash_sstore_bytecode_address: Account(
+                storage={1: b_hashes[1]}
+            ),
+        },
+        {  # DATAHASH on DELEGATECALL
+            delegatecall_bytecode_address: Account(
+                storage={
+                    k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
+                }
+            ),
+        },
+        {  # DATAHASH on STATICCALL
+            staticcall_bytecode_address: Account(
+                storage={
+                    k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
+                }
+            ),
+        },
+        {  # DATAHASH on CALLCODE
+            callcode_bytecode_address: Account(
+                storage={
+                    k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
+                }
+            ),
+        },
+        {  # DATAHASH on INITCODE
+            tx_created_contract_address: Account(
+                storage={
+                    k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
+                }
+            ),
+        },
+        {  # DATAHASH on CREATE
+            create_opcode_created_contract: Account(
+                storage={
+                    k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
+                }
+            ),
+        },
+        {  # DATAHASH on CREATE2
+            create2_opcode_created_contract: Account(
+                storage={
+                    k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
+                }
+            ),
+        },
+        {  # DATAHASH on type 2 tx
+            datahash_sstore_bytecode_address: Account(storage={0: 0}),
+        },
+        {  # DATAHASH on type 1 tx
+            datahash_sstore_bytecode_address: Account(storage={0: 0}),
+        },
+        {  # DATAHASH on type 0 tx
+            datahash_sstore_bytecode_address: Account(storage={0: 0}),
+        },
+    ]
+
+    for pre, post, tag, tx in zip(pre_states, post_states, tags, txs):
+        pre[TestAddress] = Account(balance=1000000000000000000000)
+        yield StateTest(
+            env=env,
+            pre=pre,
+            post=post,
+            txs=[tx],
+            tag=tag,
+        )
 
 
 @test_from(fork=ShardingFork)
@@ -535,13 +423,6 @@ def test_datahash_gas_cost(_: Fork):
     """
     Test DATAHASH opcode gas cost using a variety of indexes.
     """
-    env = Environment(
-        coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        difficulty=0x20000,
-        gas_limit=300000000,
-        number=1,
-        timestamp=1000,
-    )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
     }
