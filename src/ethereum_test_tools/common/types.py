@@ -209,8 +209,11 @@ class Storage:
             input = int(input, 0)
         elif type(input) is int:
             pass
+        elif type(input) is bytes:
+            input = int.from_bytes(input, "big", signed=True)
         else:
             raise Storage.InvalidType(input)
+
         if input > MAX_STORAGE_KEY_VALUE or input < MIN_STORAGE_KEY_VALUE:
             raise Storage.InvalidValue(input)
         return input
