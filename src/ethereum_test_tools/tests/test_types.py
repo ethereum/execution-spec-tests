@@ -48,6 +48,19 @@ def test_storage():
     assert "0xa" not in s
     assert 10 not in s
 
+    s = Storage({-1: -1, -2: -2})
+    assert s.data[-1] == -1
+    assert s.data[-2] == -2
+    d = s.to_dict()
+    assert (
+        d["0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"]
+        == "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    )
+    assert (
+        d["0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"]
+        == "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"
+    )
+
 
 @pytest.mark.parametrize(
     ["account", "alloc", "should_pass"],
