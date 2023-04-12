@@ -622,6 +622,7 @@ def test_zero_amount(_):
     )
 
     post = {
+        to_address(0x100): Account.NONEXISTENT,
         to_address(0x200): Account(
             code="0x00",
             balance=0,
