@@ -117,24 +117,31 @@ class Storage:
         Key is represented twice in the storage.
         """
 
-        key1: Any
-        val1: Any
-        key2: Any
-        val2: Any
+        key_1: str | int
+        val_1: str | int
+        key_2: str | int
+        val_2: str | int
 
-        def __init__(self, key1: int, val1: int, key2: int, val2: int, *args):
+        def __init__(
+            self,
+            key_1: str | int,
+            val_1: str | int,
+            key_2: str | int,
+            val_2: str | int,
+            *args,
+        ):
             super().__init__(args)
-            self.key1 = key1
-            self.val1 = val1
-            self.key2 = key2
-            self.val2 = val2
+            self.key_1 = key_1
+            self.val_1 = val_1
+            self.key_2 = key_2
+            self.val_2 = val_2
 
         def __str__(self):
             """Print exception string"""
             return f"""
             Key is represented twice (due to negative numbers) with different
             values in storage:
-            s[{self.key1}] = {self.val1} and s[{self.key2}] = {self.val2}
+            s[{self.key_1}] = {self.val_1} and s[{self.key_2}] = {self.val_2}
             """
 
     class MissingKey(Exception):
@@ -250,14 +257,14 @@ class Storage:
         Converts the storage into a string dict with appropriate 32-byte
         hex string formatting.
         """
-        res = {}
+        res: Dict[str, str] = {}
         for key in self.data:
             key_repr = Storage.key_value_to_string(key)
             val_repr = Storage.key_value_to_string(self.data[key])
             if key_repr in res and val_repr != res[key_repr]:
                 raise Storage.AmbiguousKeyValue(
                     key_repr, res[key_repr], key, val_repr
-                    )
+                )
             res[key_repr] = val_repr
         return res
 
