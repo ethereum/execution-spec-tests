@@ -112,6 +112,31 @@ class Storage:
             """Print exception string"""
             return f"invalid value for key/value: {self.key_or_value}"
 
+    class AmbiguousKeyValue(Exception):
+        """
+        Key is represented twice in the storage.
+        """
+
+        key1: Any
+        val1: Any
+        key2: Any
+        val2: Any
+
+        def __init__(self, key1: int, val1: int, key2: int, val2: int, *args):
+            super().__init__(args)
+            self.key1 = key1
+            self.val1 = val1
+            self.key2 = key2
+            self.val2 = val2
+
+        def __str__(self):
+            """Print exception string"""
+            return f"""
+            Key is represented twice (due to negative numbers) with different
+            values in storage:
+            s[{self.key1}] = {self.val1} and s[{self.key2}] = {self.val2}
+            """
+
     class MissingKey(Exception):
         """
         Test expected to find a storage key set but key was missing.
@@ -227,9 +252,13 @@ class Storage:
         """
         res = {}
         for key in self.data:
-            res[
-                Storage.key_value_to_string(key)
-            ] = Storage.key_value_to_string(self.data[key])
+            key_repr = Storage.key_value_to_string(key)
+            val_repr = Storage.key_value_to_string(self.data[key])
+            if key_repr in res and val_repr != res[key_repr]:
+                raise Storage.AmbiguousKeyValue(
+                    key_repr, res[key_repr], key, val_repr
+                    )
+            res[key_repr] = val_repr
         return res
 
     def contains(self, other: "Storage") -> bool:

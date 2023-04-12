@@ -60,6 +60,15 @@ def test_storage():
         d["0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"]
         == "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"
     )
+    # Try to add a duplicate key (negative and positive number at the same
+    # time)
+    # same value, ok
+    s[2**256 - 1] = 2**256 - 1
+    s.to_dict()
+    # different value, not ok
+    s[2**256 - 1] = 0
+    with pytest.raises(Storage.AmbiguousKeyValue):
+        s.to_dict()
 
 
 @pytest.mark.parametrize(
