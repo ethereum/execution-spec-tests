@@ -7,7 +7,6 @@ from .code import Code, CodeGasMeasure, Initcode, Yul
 from .common import (
     AccessList,
     Account,
-    BlobVersionedHashes,
     Block,
     Environment,
     Header,
@@ -32,7 +31,6 @@ from .vm import Opcode, Opcodes
 __all__ = (
     "AccessList",
     "Account",
-    "BlobVersionedHashes",
     "Block",
     "BlockchainTest",
     "Code",

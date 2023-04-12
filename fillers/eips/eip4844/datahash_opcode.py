@@ -3,12 +3,12 @@ Test EIP-4844: Shard Blob Transactions (DATAHASH Opcode)
 EIP: https://eips.ethereum.org/EIPS/eip-4844
 """
 import itertools
+from copy import copy
 from typing import Dict, List, Sequence
 
 from ethereum_test_forks import Fork, ShardingFork
 from ethereum_test_tools import (
     Account,
-    BlobVersionedHashes,
     Block,
     BlockchainTest,
     CodeGasMeasure,
@@ -30,6 +30,18 @@ REFERENCE_SPEC_VERSION = "b33e063530f0a114635dd4f89d3cca90f8cac28f"
 
 DATAHASH_GAS_COST = 3
 MAX_BLOB_PER_BLOCK = 4
+BLOB_HASHES = [
+    "0x53b8c5b09810b5fc07355d3da42e2c3a3e200c1d9a678491b7e8e256fc50cc4f",
+    "0x925b4c8cc4f86aa2d2cf9e9ce97fca704a11a6c20f6b1d6c00a6e15f6d60a6df",
+    "0xf1878f80eaf10be1a6f618e6f8c071b10a6c14d9b89a3bf2a3f3cf2db6c5681d",
+    "0x604eb72b108d562c639faeb6f8c6f366a28b0381c7d30431117ec8c7bb89f834",
+    "0x30a9b2a6c3f3f0675b768d49b5f5dc5b5d988f88d55766247ba9e40b125f16bb",
+    "0x4fa4d4cde4aa01e57fb2c880d1d9c778c33bdf85e48ef4c4d4b4de51abccf4ed",
+    "0x7871c9b8a0c72d38f5e5b5d08e5cb5ce5e23fb1bc5d75f9c29f7b94df0bceeb7",
+    "0xa12c8b6a8b11410c7d98d790e1098f1ed6d93cb7a64711481aaab1848e13212f",
+    "0x68d78c25f8a1d6aa04d0e2e2a71cf8dfaa4239fa0f301eb57c249d1e6bfe3c3d",
+    "0x34c778eb1348a73b9c30c7b1d282a5f8b2c5b5a12d5c5e4a4a35f9c5f639b4a4",
+]
 
 env = Environment(  # Global state test environment
     coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -426,8 +438,7 @@ def test_datahash_gas_cost(_: Fork):
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
     }
-    # Transaction template
-    tx = Transaction(
+    tx = Transaction(  # Transaction template
         data=to_hash_bytes(0),
         gas_limit=3000000,
         max_fee_per_gas=10,
@@ -438,6 +449,9 @@ def test_datahash_gas_cost(_: Fork):
     # Declare datahash indexes: zero, max & random values
     datahash_index_measures: List[int] = [
         0x00,
+        0x01,
+        0x02,
+        0x03,
         2**256 - 1,
         0x30A9B2A6C3F3F0675B768D49B5F5DC5B5D988F88D55766247BA9E40B125F16BB,
         0x4FA4D4CDE4AA01E57FB2C880D1D9C778C33BDF85E48EF4C4D4B4DE51ABCCF4ED,
@@ -470,9 +484,7 @@ def test_datahash_gas_cost(_: Fork):
                 to=address,
                 nonce=i,
                 max_priority_fee_per_gas=10,
-                blob_versioned_hashes=[
-                    BlobVersionedHashes[i % MAX_BLOB_PER_BLOCK]
-                ],
+                blob_versioned_hashes=[BLOB_HASHES[i % MAX_BLOB_PER_BLOCK]],
             )
         )
         txs_type_5.append(
@@ -481,9 +493,7 @@ def test_datahash_gas_cost(_: Fork):
                 to=address,
                 nonce=i,
                 max_priority_fee_per_gas=10,
-                blob_versioned_hashes=[
-                    BlobVersionedHashes[i % MAX_BLOB_PER_BLOCK]
-                ],
+                blob_versioned_hashes=[BLOB_HASHES[i % MAX_BLOB_PER_BLOCK]],
             )
         )
         post[address] = Account(storage={0: DATAHASH_GAS_COST})
@@ -526,22 +536,22 @@ def test_datahash_blob_versioned_hash(_: Fork):
 
     # Create an arbitrary repeated list of blob hashes
     # with length MAX_BLOB_PER_BLOCK * TOTAL_BLOCKS
-    blob_hashes = list(
+    b_hashes = list(
         itertools.islice(
-            itertools.cycle(BlobVersionedHashes),
+            itertools.cycle(BLOB_HASHES),
             MAX_BLOB_PER_BLOCK * TOTAL_BLOCKS,
         )
     )
 
     # `DATAHASH` sstore template helper
     def datahash_sstore(index: int):
-        return Op.PUSH1(index) + Op.DATAHASH + Op.PUSH1(index) + Op.SSTORE()
+        return Op.SSTORE(index, Op.DATAHASH(index))
 
     # `DATAHASH` on valid indexes
     datahash_single_valid_calls = b"".join(
         datahash_sstore(i) for i in range(MAX_BLOB_PER_BLOCK)
     )
-    pre_single_valid_calls = pre
+    pre_single_valid_calls = copy(pre)
 
     # `DATAHASH` on valid index repeated:
     # DATAHASH(i), DATAHASH(i), ...
@@ -549,7 +559,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
         b"".join([datahash_sstore(i) for _ in range(10)])
         for i in range(MAX_BLOB_PER_BLOCK)
     )
-    pre_datahash_repeated_valid_calls = pre
+    pre_datahash_repeated_valid_calls = copy(pre)
 
     # `DATAHASH` on valid/invalid/valid:
     # DATAHASH(i), DATAHASH(MAX_BLOB_PER_BLOCK), DATAHASH(i)
@@ -559,7 +569,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
         + datahash_sstore(i)
         for i in range(MAX_BLOB_PER_BLOCK)
     )
-    pre_datahash_valid_invalid_calls = pre
+    pre_datahash_valid_invalid_calls = copy(pre)
 
     # `DATAHASH` on different valid indexes repeated:
     # DATAHASH(i), DATAHASH(i+1), DATAHASH(i)
@@ -567,7 +577,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
         datahash_sstore(i) + datahash_sstore(i + 1) + datahash_sstore(i)
         for i in range(MAX_BLOB_PER_BLOCK - 1)
     )
-    pre_datahash_varied_valid_calls = pre
+    pre_datahash_varied_valid_calls = copy(pre)
 
     for i in range(TOTAL_BLOCKS):
         address = to_address(0x100 + i * 0x100)
@@ -596,7 +606,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
                         max_priority_fee_per_gas=10,
                         max_fee_per_data_gas=10,
                         access_list=[],
-                        blob_versioned_hashes=blob_hashes[
+                        blob_versioned_hashes=b_hashes[
                             (i * MAX_BLOB_PER_BLOCK) : (i + 1)
                             * MAX_BLOB_PER_BLOCK
                         ],
@@ -606,7 +616,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
         )
         post[address] = Account(
             storage={
-                index: blob_hashes[i * MAX_BLOB_PER_BLOCK + index]
+                index: b_hashes[i * MAX_BLOB_PER_BLOCK + index]
                 for index in range(MAX_BLOB_PER_BLOCK)
             }
         )
@@ -647,7 +657,7 @@ def test_datahash_invalid_blob_index(_: Fork):
     for invalid indexes.
     """
     INVALID_DEPTH_FACTOR = 5
-    TOTAL_BLOCKS = 10
+    TOTAL_BLOCKS = 5
 
     pre = {
         TestAddress: Account(balance=10000000000000000000000),
@@ -657,7 +667,7 @@ def test_datahash_invalid_blob_index(_: Fork):
 
     # `DATAHASH` on invalid indexes: -ve invalid -> valid -> +ve invalid:
     datahash_invalid_calls = b"".join(
-        Op.PUSH1(i) + Op.DATAHASH + Op.PUSH1(i) + Op.SSTORE()
+        Op.SSTORE(i, Op.DATAHASH(i))
         for i in range(
             -INVALID_DEPTH_FACTOR, MAX_BLOB_PER_BLOCK + INVALID_DEPTH_FACTOR
         )
@@ -666,10 +676,8 @@ def test_datahash_invalid_blob_index(_: Fork):
     for i in range(TOTAL_BLOCKS):
         address = to_address(0x100 + i * 0x100)
         pre[address] = Account(code=datahash_invalid_calls)
-        blob_per_block = i % MAX_BLOB_PER_BLOCK
-        blob_hashes = [
-            BlobVersionedHashes[blob] for blob in range(blob_per_block)
-        ]
+        blob_per_block = (i % MAX_BLOB_PER_BLOCK) + 1
+        blob_hashes = [BLOB_HASHES[blob] for blob in range(blob_per_block)]
         blocks.append(
             Block(
                 txs=[
@@ -690,12 +698,15 @@ def test_datahash_invalid_blob_index(_: Fork):
         )
         post[address] = Account(
             storage={
-                index: 0
-                if index < 0 or index >= blob_per_block
-                else blob_hashes[index]
+                index: (
+                    0
+                    if index < 0 or index >= blob_per_block
+                    else blob_hashes[index]
+                )
                 for index in range(
                     -INVALID_DEPTH_FACTOR,
-                    blob_per_block + INVALID_DEPTH_FACTOR,
+                    blob_per_block
+                    + (INVALID_DEPTH_FACTOR - (i % MAX_BLOB_PER_BLOCK)),
                 )
             }
         )
@@ -714,21 +725,14 @@ def test_datahash_multiple_txs_in_block(_: Fork):
     when there is more than one blob tx type within a block.
     """
     datahash_valid_call = b"".join(
-        [
-            Op.PUSH1(i) + Op.DATAHASH + Op.PUSH1(i) + Op.SSTORE()
-            for i in range(MAX_BLOB_PER_BLOCK)
-        ]
+        [Op.SSTORE(i, Op.DATAHASH(i)) for i in range(MAX_BLOB_PER_BLOCK)]
     )
 
     pre = {
-        TestAddress: Account(balance=10000000000000000000000),
-        to_address(0x100): Account(
-            code=datahash_valid_call,
-        ),
-        to_address(0x200): Account(
-            code=datahash_valid_call,
-        ),
+        to_address(address): Account(code=datahash_valid_call)
+        for address in range(0x100, 0x500)
     }
+    pre[TestAddress] = Account(balance=10000000000000000000000)
 
     tx = Transaction(
         data=to_hash_bytes(0),
@@ -737,7 +741,7 @@ def test_datahash_multiple_txs_in_block(_: Fork):
         max_priority_fee_per_gas=10,
         max_fee_per_data_gas=10,
         access_list=[],
-        blob_versioned_hashes=BlobVersionedHashes[0:MAX_BLOB_PER_BLOCK],
+        blob_versioned_hashes=BLOB_HASHES[0:MAX_BLOB_PER_BLOCK],
     )
 
     blocks = [
@@ -753,17 +757,21 @@ def test_datahash_multiple_txs_in_block(_: Fork):
                 tx.with_fields(ty=5, nonce=3, to=to_address(0x200)),
             ]
         ),
+        Block(
+            txs=[
+                tx.with_fields(ty=2, nonce=4, to=to_address(0x300)),
+                tx.with_fields(ty=5, nonce=5, to=to_address(0x400)),
+            ]
+        ),
     ]
 
     post = {
-        to_address(0x100): Account(
-            storage={i: 0 for i in range(MAX_BLOB_PER_BLOCK)}
-        ),
-        to_address(0x200): Account(
-            storage={
-                i: BlobVersionedHashes[i] for i in range(MAX_BLOB_PER_BLOCK)
-            }
-        ),
+        to_address(address): Account(
+            storage={i: BLOB_HASHES[i] for i in range(MAX_BLOB_PER_BLOCK)}
+        )
+        if address in (0x200, 0x400)
+        else Account(storage={i: 0 for i in range(MAX_BLOB_PER_BLOCK)})
+        for address in range(0x100, 0x500)
     }
 
     yield BlockchainTest(
