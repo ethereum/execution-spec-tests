@@ -626,7 +626,7 @@ def test_zero_amount(_):
         to_address(0x200): Account(
             code="0x00",
             balance=0,
-        )
+        ),
     }
 
     yield BlockchainTest(pre=pre, post=post, blocks=[block])
