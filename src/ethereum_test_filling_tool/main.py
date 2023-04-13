@@ -103,6 +103,5 @@ def main() -> None:
     """
     Fills the specified test definitions.
     """
-
     filler = Filler(parse_arguments())
     filler.fill()

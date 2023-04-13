@@ -1,26 +1,25 @@
+"""
+Custom Logging Module
+^^^^^^^^^^^^^^^^^^^^^
+
+Provides a CustomLogger class and a setup_logger function
+to configure the logger using logger.cfg.
+"""
+import configparser
 import logging
 import logging.config
-import configparser
 import os
-import sys
-
-
-class CustomLogger(logging.Logger):
-    def error(self, message):
-        super().error(message)
-
-    def critical(self, message, exit_code=1):
-        super().critical(message)
-        sys.exit(exit_code)
 
 
 def setup_logger(name):
+    """
+    Set up a logger with the provided name using the 'logger.cfg' file.
+    """
     config = configparser.ConfigParser()
-    config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logger.cfg'))
+    config.read(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "logger.cfg")
+    )
     logging.config.fileConfig(config, disable_existing_loggers=False)
-
-    # Set the CustomLogger class as the loggerClass for the logging module
-    logging.setLoggerClass(CustomLogger)
 
     logger = logging.getLogger(name)
 
