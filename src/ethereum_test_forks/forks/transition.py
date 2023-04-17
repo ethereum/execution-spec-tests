@@ -3,7 +3,7 @@ List of all transition fork definitions.
 """
 from ..transition_base_fork import transition_fork
 from .forks import Berlin, London, Merge, Shanghai
-from .upcoming import TestOnlyUpcomingFork
+from .upcoming import ShardingFork, TestOnlyUpcomingFork
 
 
 # Transition Forks
@@ -35,6 +35,7 @@ class MergeToShanghaiAtTime15k(Merge):
         return timestamp >= 15_000
 
 
+@transition_fork(to_fork=ShardingFork)
 class ShanghaiToShardingAtTime15k(Shanghai):
     """
     Shanghai to Sharding transition at Timestamp 15k
