@@ -180,7 +180,7 @@ class EvmTransitionTool(TransitionTool):
         """
         Executes `evm t8n` with the specified arguments.
         """
-        fork_name = fork.__name__
+        fork_name = fork.name()
         if eips is not None:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
 
