@@ -210,7 +210,7 @@ class Storage:
         elif type(input) is int:
             pass
         elif type(input) is bytes:
-            input = int.from_bytes(input, "big", signed=True)
+            input = int.from_bytes(input, "big")
         else:
             raise Storage.InvalidType(input)
 

@@ -452,6 +452,7 @@ def test_datahash_gas_cost(_: Fork):
         0x01,
         0x02,
         0x03,
+        0x04,
         2**256 - 1,
         0x30A9B2A6C3F3F0675B768D49B5F5DC5B5D988F88D55766247BA9E40B125F16BB,
         0x4FA4D4CDE4AA01E57FB2C880D1D9C778C33BDF85E48EF4C4D4B4DE51ABCCF4ED,
@@ -461,7 +462,7 @@ def test_datahash_gas_cost(_: Fork):
 
     gas_measures_code = [
         CodeGasMeasure(
-            code=Op.PUSH32(index) + Op.DATAHASH,
+            code=Op.DATAHASH(index),
             overhead_cost=3,
             extra_stack_items=1,
         )
@@ -730,7 +731,7 @@ def test_datahash_multiple_txs_in_block(_: Fork):
 
     pre = {
         to_address(address): Account(code=datahash_valid_call)
-        for address in range(0x100, 0x500)
+        for address in range(0x100, 0x500, 0x100)
     }
     pre[TestAddress] = Account(balance=10000000000000000000000)
 
@@ -771,7 +772,7 @@ def test_datahash_multiple_txs_in_block(_: Fork):
         )
         if address in (0x200, 0x400)
         else Account(storage={i: 0 for i in range(MAX_BLOB_PER_BLOCK)})
-        for address in range(0x100, 0x500)
+        for address in range(0x100, 0x500, 0x100)
     }
 
     yield BlockchainTest(
