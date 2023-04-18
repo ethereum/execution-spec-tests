@@ -45,6 +45,7 @@ validator
 vm
 gwei
 wei
+islice
 
 getmtime
 byteorder
@@ -77,6 +78,7 @@ mulmod
 exp
 signextend
 
+ve
 lt
 gt
 slt
