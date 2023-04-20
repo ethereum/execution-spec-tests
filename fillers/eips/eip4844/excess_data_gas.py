@@ -146,7 +146,7 @@ class ExcessDataGasCalcTestCase:
 
         if self.blobs > 0:
             tx = Transaction(
-                ty=5,
+                ty=3,
                 nonce=0,
                 to=destination_account,
                 value=tx_value,
@@ -304,7 +304,7 @@ class InvalidExcessDataGasInHeaderTestCase:
             )
         else:
             tx = Transaction(
-                ty=5,
+                ty=3,
                 nonce=0,
                 to=to_address(0x100),
                 value=1,
@@ -467,7 +467,7 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
             Block(
                 txs=[
                     Transaction(
-                        ty=5,
+                        ty=3,
                         nonce=i,
                         to=destination_account,
                         value=1,
@@ -559,7 +559,7 @@ class InvalidBlobTransactionTestCase:
         txs: List[Transaction] = []
         for tx_i in range(self.tx_count):
             tx = Transaction(
-                ty=5,
+                ty=3,
                 nonce=tx_i,
                 to=destination_account,
                 value=tx_value,

@@ -279,7 +279,7 @@ def test_datahash_opcode_contexts(_: Fork):
 
     # Type 5 tx template
     tx_type_5 = Transaction(
-        ty=5,
+        ty=3,
         data=to_hash_bytes(0),
         gas_limit=3000000,
         max_fee_per_gas=10,
@@ -490,7 +490,7 @@ def test_datahash_gas_cost(_: Fork):
         )
         txs_type_5.append(
             tx.with_fields(
-                ty=5,
+                ty=3,
                 to=address,
                 nonce=i,
                 max_priority_fee_per_gas=10,
@@ -598,7 +598,7 @@ def test_datahash_blob_versioned_hash(_: Fork):
             Block(
                 txs=[  # Create tx with max blobs per block
                     Transaction(
-                        ty=5,
+                        ty=3,
                         nonce=i,
                         data=to_hash_bytes(0),
                         to=address,
@@ -683,7 +683,7 @@ def test_datahash_invalid_blob_index(_: Fork):
             Block(
                 txs=[
                     Transaction(
-                        ty=5,
+                        ty=3,
                         nonce=i,
                         data=to_hash_bytes(0),
                         to=address,
@@ -748,20 +748,20 @@ def test_datahash_multiple_txs_in_block(_: Fork):
     blocks = [
         Block(
             txs=[
-                tx.with_fields(ty=5, nonce=0, to=to_address(0x100)),
+                tx.with_fields(ty=3, nonce=0, to=to_address(0x100)),
                 tx.with_fields(ty=2, nonce=1, to=to_address(0x100)),
             ]
         ),
         Block(
             txs=[
                 tx.with_fields(ty=2, nonce=2, to=to_address(0x200)),
-                tx.with_fields(ty=5, nonce=3, to=to_address(0x200)),
+                tx.with_fields(ty=3, nonce=3, to=to_address(0x200)),
             ]
         ),
         Block(
             txs=[
                 tx.with_fields(ty=2, nonce=4, to=to_address(0x300)),
-                tx.with_fields(ty=5, nonce=5, to=to_address(0x400)),
+                tx.with_fields(ty=3, nonce=5, to=to_address(0x400)),
             ]
         ),
     ]
