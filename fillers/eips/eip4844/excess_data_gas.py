@@ -346,14 +346,14 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
     test_cases: List[InvalidExcessDataGasInHeaderTestCase] = []
 
     """
-    Test case 1:
-    - Initial excess of 10 blob data gas
-    - 0 through 4 new blobs
-    - Header excess data gas is either:
-        - Unchanged
-        - Reduced to zero
-        - Reduced too much (-1 * DATA_GAS_PER_BLOB)
-        - Increased too much (1 * DATA_GAS_PER_BLOB)
+    Header excess data gas is either:
+        - Reduced to zero by a value > TARGET_DATA_GAS_PER_BLOCK`
+        - Reduced too much (-1 * TARGET_DATA_GAS_PER_BLOCK)
+        - Increased too much (1 * TARGET_DATA_GAS_PER_BLOCK)
+        - Unchanged when it should be changed
+        - Changed when it should be unchanged
+        - Less than TARGET_DATA_GAS_PER_BLOCK
+        - A value greater than (2**256 - 1)
     """
     for blob_count in range(MAX_BLOBS_PER_BLOCK + 1):
         # Excess data gas cannot drop to zero because it can only decrease
@@ -530,7 +530,7 @@ class InvalidBlobTransactionTestCase:
         Generate the test case.
         """
         env = Environment()
-        data_gasprice = 1
+        data_gasprice = MIN_DATA_GASPRICE
         destination_account = to_address(0x100)
 
         if self.parent_excess_blobs is not None:
@@ -614,37 +614,37 @@ def test_invalid_blob_txs(fork: Fork):
         test_cases = [
             InvalidBlobTransactionTestCase(
                 tag="insufficient_max_fee_per_data_gas",
-                parent_excess_blobs=15,  # data gas cost = 2
-                tx_max_data_gas_cost=1,  # less than minimum
+                parent_excess_blobs=15,  # data_gasprice = 2
+                tx_max_data_gas_cost=1,  # < data_gasprice
                 tx_error="insufficient max fee per data gas",
                 blobs_per_tx=1,
             ),
             InvalidBlobTransactionTestCase(
                 tag="insufficient_balance_sufficient_fee",
-                parent_excess_blobs=15,  # data gas cost = 1
-                tx_max_data_gas_cost=100,  # > data gas cost
+                parent_excess_blobs=15,  # data_gasprice = 2
+                tx_max_data_gas_cost=100,  # > data_gasprice
                 account_balance_modifier=-1,
                 tx_error="insufficient max fee per data gas",
                 blobs_per_tx=1,
             ),
             InvalidBlobTransactionTestCase(
                 tag="zero_max_fee_per_data_gas",
-                parent_excess_blobs=0,  # data gas cost = 1
+                parent_excess_blobs=0,  # data_gasprice = 1
                 tx_max_data_gas_cost=0,  # invalid value
                 tx_error="insufficient max fee per data gas",
                 blobs_per_tx=1,
             ),
             InvalidBlobTransactionTestCase(
                 tag="blob_overflow",
-                parent_excess_blobs=10,  # data gas cost = 1
+                parent_excess_blobs=10,  # data_gasprice = 1
                 tx_error="too_many_blobs",
-                blobs_per_tx=5,
+                blobs_per_tx=MAX_BLOBS_PER_BLOCK + 1,
             ),
             InvalidBlobTransactionTestCase(
                 tag="multi_tx_blob_overflow",
-                parent_excess_blobs=10,  # data gas cost = 1
+                parent_excess_blobs=10,  # data_gasprice = 1
                 tx_error="too_many_blobs",
-                tx_count=5,
+                tx_count=MAX_BLOBS_PER_BLOCK + 1,
                 blobs_per_tx=1,
             ),
             # TODO: Enable, at the time of writing this test case, the EIP
@@ -652,7 +652,7 @@ def test_invalid_blob_txs(fork: Fork):
             # transaction.
             # InvalidBlobTransactionTestCase(
             #     tag="blob_underflow",
-            #     parent_excess_blobs=10,  # data gas cost = 1
+            #     parent_excess_blobs=10,  # data_gasprice= 1
             #     tx_error="too_few_blobs",
             #     blobs_per_tx=0,
             # ),
