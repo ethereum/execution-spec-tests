@@ -178,7 +178,7 @@ class ExcessDataGasCalcTestCase:
             genesis_environment=env,
             tag=f"start_excess_data_gas_{hex(parent_excess_data_gas)}"
             + f"_blobs_{self.blobs}_"
-            + f"expected_excess_data_gas_{excess_data_gas}",
+            + f"expected_excess_data_gas_{hex(excess_data_gas)}",
         )
 
 
@@ -209,37 +209,89 @@ def test_excess_data_gas_calc(_: Fork):
             parent_excess_blobs=0,
             blobs=MAX_BLOBS_PER_BLOCK,
         ),
-        # Included data blob txs cost = 2
+        # Data gas cost = 2
         ExcessDataGasCalcTestCase(
             parent_excess_blobs=12,
             blobs=1,
         ),
-        # Included data blob txs cost = 1
+        # Data gas cost = 1
         ExcessDataGasCalcTestCase(
             parent_excess_blobs=11,
             blobs=TARGET_BLOBS_PER_BLOCK + 1,
         ),
-        # Included data blob txs cost < 2^32
+        # Data tx wei cost < 2^32
+        ExcessDataGasCalcTestCase(
+            parent_excess_blobs=176,
+            blobs=TARGET_BLOBS_PER_BLOCK + 1,
+        ),
+        # Data tx wei cost > 2^32
+        ExcessDataGasCalcTestCase(
+            parent_excess_blobs=177,
+            blobs=TARGET_BLOBS_PER_BLOCK + 1,
+        ),
+        # Data gas cost < 2^32
         ExcessDataGasCalcTestCase(
             parent_excess_blobs=376,
             blobs=TARGET_BLOBS_PER_BLOCK + 1,
         ),
-        # Included data blob txs cost > 2^32
+        # Data gas cost > 2^32
         ExcessDataGasCalcTestCase(
             parent_excess_blobs=377,
             blobs=1,
         ),
-        # Included data blob txs cost < 2^64
+        # Data tx wei cost < 2^64
+        ExcessDataGasCalcTestCase(
+            parent_excess_blobs=553,
+            blobs=TARGET_BLOBS_PER_BLOCK + 1,
+        ),
+        # Data tx wei cost > 2^64
+        ExcessDataGasCalcTestCase(
+            parent_excess_blobs=554,
+            blobs=TARGET_BLOBS_PER_BLOCK + 1,
+        ),
+        # Data gas cost < 2^64
         ExcessDataGasCalcTestCase(
             parent_excess_blobs=753,
             blobs=TARGET_BLOBS_PER_BLOCK + 1,
         ),
-        # Included data blob txs cost > 2^64
+        # Data gas cost > 2^64
         ExcessDataGasCalcTestCase(
             parent_excess_blobs=754,
             blobs=1,
         ),
+        # Data tx wei cost > Main-net current total Ether supply
+        ExcessDataGasCalcTestCase(
+            parent_excess_blobs=820,
+            blobs=TARGET_BLOBS_PER_BLOCK + 1,
+        ),
     ]
+
+    # Test for calculation of a resulting excess data gas value that is
+    # lower than the target, but not zero.
+    for result_excess_blob_count in range(1, TARGET_BLOBS_PER_BLOCK):
+        # Excess data gas result is 1 data gas per blob
+        test_cases.append(
+            ExcessDataGasCalcTestCase(
+                parent_excess_blobs=TARGET_BLOBS_PER_BLOCK
+                + result_excess_blob_count,
+                blobs=0,
+            )
+        )
+        # Excess data gas result is 1 data gas per blob
+        test_cases.append(
+            ExcessDataGasCalcTestCase(
+                parent_excess_blobs=TARGET_BLOBS_PER_BLOCK,
+                blobs=TARGET_BLOBS_PER_BLOCK - result_excess_blob_count,
+            )
+        )
+        # Excess data gas result is 1 data gas per blob
+        test_cases.append(
+            ExcessDataGasCalcTestCase(
+                parent_excess_blobs=TARGET_BLOBS_PER_BLOCK
+                - result_excess_blob_count,
+                blobs=TARGET_BLOBS_PER_BLOCK,
+            )
+        )
 
     for tc in test_cases:
         yield tc.generate()
@@ -254,6 +306,7 @@ class InvalidExcessDataGasInHeaderTestCase:
     new_blobs: int
     header_excess_data_gas: Optional[int] = None
     header_excess_blobs_delta: Optional[int] = None
+    header_excess_data_gas_delta: Optional[int] = None
     parent_excess_blobs: int = 10
 
     def generate(self) -> BlockchainTest:
@@ -283,6 +336,12 @@ class InvalidExcessDataGasInHeaderTestCase:
                 raise Exception("test case is badly formatted")
             self.header_excess_data_gas = parent_excess_data_gas + (
                 self.header_excess_blobs_delta * DATA_GAS_PER_BLOB
+            )
+        elif self.header_excess_data_gas_delta is not None:
+            if self.header_excess_data_gas is not None:
+                raise Exception("test case is badly formatted")
+            self.header_excess_data_gas = parent_excess_data_gas + (
+                self.header_excess_data_gas_delta
             )
         if self.header_excess_data_gas is None:
             raise Exception("test case is badly formatted")
@@ -356,12 +415,16 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
         - A value greater than (2**256 - 1)
     """
     for blob_count in range(MAX_BLOBS_PER_BLOCK + 1):
+        # Start test cases with a excess blob value of a mid point between
+        # MAX_BLOBS_PER_BLOCK and TARGET_BLOBS_PER_BLOCK
+        START_BLOBS = (MAX_BLOBS_PER_BLOCK + TARGET_BLOBS_PER_BLOCK) // 2 + 1
+
         # Excess data gas cannot drop to zero because it can only decrease
         # TARGET_DATA_GAS_PER_BLOCK in one block
         test_cases.append(
             InvalidExcessDataGasInHeaderTestCase(
                 new_blobs=blob_count,
-                parent_excess_blobs=10,
+                parent_excess_blobs=START_BLOBS,
                 header_excess_data_gas=0,
             )
         )
@@ -370,7 +433,7 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
         test_cases.append(
             InvalidExcessDataGasInHeaderTestCase(
                 new_blobs=blob_count,
-                parent_excess_blobs=10,
+                parent_excess_blobs=START_BLOBS,
                 header_excess_blobs_delta=-(TARGET_BLOBS_PER_BLOCK + 1),
             )
         )
@@ -379,7 +442,7 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
         test_cases.append(
             InvalidExcessDataGasInHeaderTestCase(
                 new_blobs=blob_count,
-                parent_excess_blobs=10,
+                parent_excess_blobs=START_BLOBS,
                 header_excess_blobs_delta=(TARGET_BLOBS_PER_BLOCK + 1),
             )
         )
@@ -388,7 +451,7 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
             test_cases.append(
                 InvalidExcessDataGasInHeaderTestCase(
                     new_blobs=blob_count,
-                    parent_excess_blobs=10,
+                    parent_excess_blobs=START_BLOBS,
                     header_excess_blobs_delta=0,
                 )
             )
@@ -397,20 +460,19 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
             test_cases.append(
                 InvalidExcessDataGasInHeaderTestCase(
                     new_blobs=blob_count,
-                    parent_excess_blobs=10,
+                    parent_excess_blobs=START_BLOBS,
                     header_excess_blobs_delta=-1,
                 )
             )
             test_cases.append(
                 InvalidExcessDataGasInHeaderTestCase(
                     new_blobs=blob_count,
-                    parent_excess_blobs=10,
+                    parent_excess_blobs=START_BLOBS,
                     header_excess_blobs_delta=1,
                 )
             )
 
-    # Excess data gas cannot be a value lower than target, it must
-    # wrap down to zero
+    # Try to increase excess data gas to a value below target from zero
     for blob_count in range(1, TARGET_BLOBS_PER_BLOCK):
         test_cases.append(
             InvalidExcessDataGasInHeaderTestCase(
@@ -420,12 +482,43 @@ def test_invalid_excess_data_gas_in_header(_: Fork):
             )
         )
 
-    # New header excess data gas cannot be greater than 256-bits
+    # Try to reduce excess data gas to a negative value (two's complement)
     test_cases.append(
         InvalidExcessDataGasInHeaderTestCase(
             new_blobs=0,
-            parent_excess_blobs=4346,
-            header_excess_blobs_delta=TARGET_BLOBS_PER_BLOCK,
+            parent_excess_blobs=TARGET_BLOBS_PER_BLOCK - 1,
+            header_excess_data_gas=2**256 - DATA_GAS_PER_BLOB,
+        )
+    )
+
+    # Cannot change by anything that is not modulo zero of data gas per
+    # blob
+    test_cases.append(
+        InvalidExcessDataGasInHeaderTestCase(
+            new_blobs=TARGET_BLOBS_PER_BLOCK + 1,
+            parent_excess_blobs=TARGET_BLOBS_PER_BLOCK,
+            header_excess_data_gas_delta=1,
+        )
+    )
+    test_cases.append(
+        InvalidExcessDataGasInHeaderTestCase(
+            new_blobs=TARGET_BLOBS_PER_BLOCK + 1,
+            parent_excess_blobs=TARGET_BLOBS_PER_BLOCK,
+            header_excess_data_gas_delta=DATA_GAS_PER_BLOB - 1,
+        )
+    )
+    test_cases.append(
+        InvalidExcessDataGasInHeaderTestCase(
+            new_blobs=TARGET_BLOBS_PER_BLOCK - 1,
+            parent_excess_blobs=TARGET_BLOBS_PER_BLOCK,
+            header_excess_data_gas_delta=-1,
+        )
+    )
+    test_cases.append(
+        InvalidExcessDataGasInHeaderTestCase(
+            new_blobs=TARGET_BLOBS_PER_BLOCK - 1,
+            parent_excess_blobs=TARGET_BLOBS_PER_BLOCK,
+            header_excess_data_gas_delta=-(DATA_GAS_PER_BLOB - 1),
         )
     )
 
@@ -449,6 +542,38 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
     blocks: List[Block] = []
     for t in range(999, FORK_TIMESTAMP, 1_000):
         blocks.append(Block(timestamp=t))
+
+    # Try to append a block on the previous fork with excess data gas field set
+    yield BlockchainTest(
+        pre=pre,
+        post={},
+        blocks=blocks[:-1]
+        + [
+            Block(
+                timestamp=(FORK_TIMESTAMP - 1),
+                rlp_modifier=Header(excess_data_gas=0),
+                exception="invalid ExcessDataGas",
+            )
+        ],
+        genesis_environment=env,
+        tag="invalid_pre_fork_excess_data_gas",
+    )
+
+    # Try to append a post-fork block with excess data gas field removed
+    yield BlockchainTest(
+        pre=pre,
+        post={},
+        blocks=blocks
+        + [
+            Block(
+                timestamp=FORK_TIMESTAMP,
+                rlp_modifier=Header(excess_data_gas=Header.REMOVE_FIELD),
+                exception="missing ExcessDataGas",
+            )
+        ],
+        genesis_environment=env,
+        tag="excess_data_gas_missing_post_fork",
+    )
 
     # Test N blocks until excess data gas after fork reaches data gas cost > 1
     BLOBS_TO_DATA_GAS_COST_INCREASE = 12
@@ -624,14 +749,14 @@ def test_invalid_blob_txs(fork: Fork):
                 parent_excess_blobs=15,  # data_gasprice = 2
                 tx_max_data_gas_cost=100,  # > data_gasprice
                 account_balance_modifier=-1,
-                tx_error="insufficient max fee per data gas",
+                tx_error="insufficient account balance",
                 blobs_per_tx=1,
             ),
             InvalidBlobTransactionTestCase(
                 tag="zero_max_fee_per_data_gas",
                 parent_excess_blobs=0,  # data_gasprice = 1
                 tx_max_data_gas_cost=0,  # invalid value
-                tx_error="insufficient max fee per data gas",
+                tx_error="invalid max fee per data gas",
                 blobs_per_tx=1,
             ),
             InvalidBlobTransactionTestCase(
