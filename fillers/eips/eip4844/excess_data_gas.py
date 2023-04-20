@@ -605,8 +605,8 @@ def test_invalid_blob_txs(fork: Fork):
             would be enough for current block)
         - tx max_fee_per_data_gas is not enough
         - tx max_fee_per_data_gas is zero
-        - blob count = 0 in type 5 transaction
-        - blob count > MAX_BLOBS_PER_BLOCK in type 5 transaction
+        - blob count = 0 in type 3 transaction
+        - blob count > MAX_BLOBS_PER_BLOCK in type 3 transaction
         - block blob count > MAX_BLOBS_PER_BLOCK
     """
     test_cases: List[InvalidBlobTransactionTestCase] = []
@@ -648,7 +648,7 @@ def test_invalid_blob_txs(fork: Fork):
                 blobs_per_tx=1,
             ),
             # TODO: Enable, at the time of writing this test case, the EIP
-            # does not specify a minimum blob amount for the type 5
+            # does not specify a minimum blob amount for the type 3
             # transaction.
             # InvalidBlobTransactionTestCase(
             #     tag="blob_underflow",
@@ -658,20 +658,20 @@ def test_invalid_blob_txs(fork: Fork):
             # ),
         ]
     else:
-        # Pre-Sharding, blocks with type 5 txs must be rejected
+        # Pre-Sharding, blocks with type 3 txs must be rejected
         test_cases = [
             InvalidBlobTransactionTestCase(
-                tag="type_5_tx_pre_fork",
+                tag="type_3_tx_pre_fork",
                 parent_excess_blobs=None,
                 tx_max_data_gas_cost=1,
-                tx_error="tx_type_5_not_allowed_yet",
+                tx_error="tx_type_3_not_allowed_yet",
                 blobs_per_tx=1,
             ),
             InvalidBlobTransactionTestCase(
-                tag="empty_type_5_tx_pre_fork",
+                tag="empty_type_3_tx_pre_fork",
                 parent_excess_blobs=None,
                 tx_max_data_gas_cost=1,
-                tx_error="tx_type_5_not_allowed_yet",
+                tx_error="tx_type_3_not_allowed_yet",
                 blobs_per_tx=0,
             ),
         ]

@@ -277,8 +277,8 @@ def test_datahash_opcode_contexts(_: Fork):
         },
     ]
 
-    # Type 5 tx template
-    tx_type_5 = Transaction(
+    # Type 3 tx template
+    tx_type_3 = Transaction(
         ty=3,
         data=to_hash_bytes(0),
         gas_limit=3000000,
@@ -290,39 +290,39 @@ def test_datahash_opcode_contexts(_: Fork):
     )
 
     txs = [
-        tx_type_5.with_fields(  # DATAHASH on top level of the call stack
+        tx_type_3.with_fields(  # DATAHASH on top level of the call stack
             to=datahash_sstore_bytecode_address,
             blob_versioned_hashes=b_hashes[:1],
         ),
-        tx_type_5.with_fields(  # DATAHASH on max value
+        tx_type_3.with_fields(  # DATAHASH on max value
             data=to_hash_bytes(2**256 - 1) + to_hash_bytes(2**256 - 1),
             to=datahash_sstore_bytecode_address,
         ),
-        tx_type_5.with_fields(  # DATAHASH on CALL
+        tx_type_3.with_fields(  # DATAHASH on CALL
             data=to_hash_bytes(1) + to_hash_bytes(1),
             to=call_bytecode_address,
             blob_versioned_hashes=b_hashes[:2],
         ),
-        tx_type_5.with_fields(  # DATAHASH on DELEGATECALL
+        tx_type_3.with_fields(  # DATAHASH on DELEGATECALL
             data=to_hash_bytes(0) + to_hash_bytes(3),
             to=delegatecall_bytecode_address,
         ),
-        tx_type_5.with_fields(  # DATAHASH on STATICCALL
+        tx_type_3.with_fields(  # DATAHASH on STATICCALL
             data=to_hash_bytes(0) + to_hash_bytes(3),
             to=staticcall_bytecode_address,
         ),
-        tx_type_5.with_fields(  # DATAHASH on CALLCODE
+        tx_type_3.with_fields(  # DATAHASH on CALLCODE
             data=to_hash_bytes(0) + to_hash_bytes(3),
             to=callcode_bytecode_address,
         ),
-        tx_type_5.with_fields(  # DATAHASH on INITCODE
+        tx_type_3.with_fields(  # DATAHASH on INITCODE
             data=initcode_datahash_sstore_bytecode, to=None
         ),
-        tx_type_5.with_fields(  # DATAHASH on CREATE
+        tx_type_3.with_fields(  # DATAHASH on CREATE
             data=initcode_datahash_sstore_bytecode,
             to=create_bytecode_address,
         ),
-        tx_type_5.with_fields(  # DATAHASH on CREATE2
+        tx_type_3.with_fields(  # DATAHASH on CREATE2
             data=initcode_datahash_sstore_bytecode,
             to=create2_bytecode_address,
         ),
@@ -469,7 +469,7 @@ def test_datahash_gas_cost(_: Fork):
         for index in datahash_index_measures
     ]
 
-    txs_type_0, txs_type_1, txs_type_2, txs_type_5 = ([] for _ in range(4))
+    txs_type_0, txs_type_1, txs_type_2, txs_type_3 = ([] for _ in range(4))
     for i, code in enumerate(gas_measures_code):
         address = to_address(0x100 + i * 0x100)
         pre[address] = Account(code=code)
@@ -488,7 +488,7 @@ def test_datahash_gas_cost(_: Fork):
                 blob_versioned_hashes=[BLOB_HASHES[i % MAX_BLOB_PER_BLOCK]],
             )
         )
-        txs_type_5.append(
+        txs_type_3.append(
             tx.with_fields(
                 ty=3,
                 to=address,
@@ -505,20 +505,20 @@ def test_datahash_gas_cost(_: Fork):
             env=env, pre=pre, post=post, txs=txs, tag=f"tx_type_{i}"
         )
 
-    # DATAHASH gas cost on tx type 5
+    # DATAHASH gas cost on tx type 3
     total_blocks = (
-        len(txs_type_5) + MAX_BLOB_PER_BLOCK - 1
+        len(txs_type_3) + MAX_BLOB_PER_BLOCK - 1
     ) // MAX_BLOB_PER_BLOCK
     blocks = [
         Block(
-            txs=txs_type_5[
+            txs=txs_type_3[
                 i * MAX_BLOB_PER_BLOCK : (i + 1) * MAX_BLOB_PER_BLOCK
             ]
         )
         for i in range(total_blocks)
     ]
 
-    yield BlockchainTest(pre=pre, post=post, blocks=blocks, tag="tx_type_5")
+    yield BlockchainTest(pre=pre, post=post, blocks=blocks, tag="tx_type_3")
 
 
 @test_from(fork=ShardingFork)
