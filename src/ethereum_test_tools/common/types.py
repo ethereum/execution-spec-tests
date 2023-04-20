@@ -84,6 +84,15 @@ MAX_STORAGE_KEY_VALUE = 2**256 - 1
 MIN_STORAGE_KEY_VALUE = -(2**255)
 
 
+class REMOVABLE:
+    """
+    Sentinel class to detect if a parameter should be removed.
+    (`None` normally means "do not modify")
+    """
+
+    pass
+
+
 class Storage:
     """
     Definition of a storage in pre or post state of a test
@@ -813,10 +822,15 @@ class Header:
     extra_data: Optional[str] = None
     mix_digest: Optional[str] = None
     nonce: Optional[str] = None
-    base_fee: Optional[int] = None
-    withdrawals_root: Optional[str] = None
-    excess_data_gas: Optional[int] = None
+    base_fee: Optional[int | REMOVABLE] = None
+    withdrawals_root: Optional[str | REMOVABLE] = None
+    excess_data_gas: Optional[int | REMOVABLE] = None
     hash: Optional[str] = None
+
+    REMOVE_FIELD: ClassVar[REMOVABLE] = REMOVABLE()
+    """
+    Sentinel object used to specify that a header field should be removed.
+    """
 
 
 @dataclass(kw_only=True)
@@ -914,7 +928,10 @@ class FixtureHeader:
         for header_field in self.__dataclass_fields__:
             value = getattr(modifier, header_field)
             if value is not None:
-                setattr(new_fixture_header, header_field, value)
+                if value is Header.REMOVE_FIELD:
+                    setattr(new_fixture_header, header_field, None)
+                else:
+                    setattr(new_fixture_header, header_field, value)
         return new_fixture_header
 
 
@@ -977,9 +994,11 @@ class Block(Header):
             if self.gas_limit is not None
             else environment_default.gas_limit
         )
-        new_env.base_fee = self.base_fee
+        if not isinstance(self.base_fee, REMOVABLE):
+            new_env.base_fee = self.base_fee
         new_env.withdrawals = self.withdrawals
-        new_env.excess_data_gas = self.excess_data_gas
+        if not isinstance(self.excess_data_gas, REMOVABLE):
+            new_env.excess_data_gas = self.excess_data_gas
 
         """
         These values are required, but they depend on the previous environment,
