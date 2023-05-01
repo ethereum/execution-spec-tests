@@ -23,10 +23,6 @@ REFERENCE_SPEC_VERSION = "cd7d6a465c03d86d852a1d6b5179bc78d760e658"
 
 @test_from(fork=Shanghai)
 def test_eip6780_create_selfdestruct_same_tx(fork):
-	pass
-
-@test_from(fork=Shanghai)
-def test_eip6780_create_selfdestruct_same_tx(fork):
         env = Environment(
                 coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
                 difficulty=0x20000,
@@ -92,5 +88,50 @@ def test_eip6780_create_selfdestruct_same_tx(fork):
                 pre=pre,
                 post=post,
                 txs=[tx],
-                tag="6780",
+                tag="6780-create-inside-tx",
+        )
+
+@test_from(fork=Shanghai)
+def test_eip6780_selfdestruct_prev_created(fork):
+        env = Environment(
+                coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                difficulty=0x20000,
+                gas_limit=10000000000,
+                number=1,
+                timestamp=1000,
+        )
+        post: Dict[Any, Any] = {}
+
+        post['0x1111111111111111111111111111111111111111'] = Account(
+                        balance=0,
+                        code="0x60016000556000ff"
+        )
+        post['0x0000000000000000000000000000000000000000'] = Account(
+                        balance=1
+        )
+
+        pre = {
+                TestAddress: Account(balance=1000000000000000000000),
+                "0x1111111111111111111111111111111111111111": Account(
+                        balance=1,
+                        code="0x60016000556000ff"
+                )
+        }
+        tx = Transaction(
+                ty=0x0,
+                data="",
+                chain_id=0x0,
+                nonce=0,
+                to="0x1111111111111111111111111111111111111111",
+                gas_limit=100000000,
+                gas_price=10,
+                protected=False,
+        )
+
+        yield StateTest(
+                env=env,
+                pre=pre,
+                post=post,
+                txs=[tx],
+                tag="6780-create-inside-tx",
         )
