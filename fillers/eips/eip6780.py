@@ -23,6 +23,10 @@ REFERENCE_SPEC_VERSION = "cd7d6a465c03d86d852a1d6b5179bc78d760e658"
 
 @test_from(fork=Shanghai)
 def test_eip6780_create_selfdestruct_same_tx(fork):
+	pass
+
+@test_from(fork=Shanghai)
+def test_eip6780_create_selfdestruct_same_tx(fork):
         env = Environment(
                 coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
                 difficulty=0x20000,
@@ -65,6 +69,7 @@ def test_eip6780_create_selfdestruct_same_tx(fork):
                 # inner payload:
                 "60016000556000ff"
         ] 
+        test_ops = "".join(test_ops)
 
         post['0x5fef11c6545be552c986e9eaac3144ecf2258fd3'] = Account.NONEXISTENT
 
@@ -76,7 +81,7 @@ def test_eip6780_create_selfdestruct_same_tx(fork):
                 data=test_ops,
                 chain_id=0x0,
                 nonce=0,
-                to="",
+                to=None,
                 gas_limit=100000000,
                 gas_price=10,
                 protected=False,
@@ -87,5 +92,5 @@ def test_eip6780_create_selfdestruct_same_tx(fork):
                 pre=pre,
                 post=post,
                 txs=[tx],
-                tag=f"{initcode.name}",
+                tag="6780",
         )
