@@ -4,6 +4,8 @@ Test EIP-6780: remove selfdestruct
 from typing import Dict
 
 from ethereum_test_forks import Cancun, is_fork
+from ethereum_test_forks.forks.upcoming import Cancun
+
 from ethereum_test_tools import (
     Account,
     CodeGasMeasure,
@@ -19,7 +21,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
-REFERENCE_SPEC_VERSION = "cd7d6a465c03d86d852a1d6b5179bc78d760e658"
+REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 @test_from(fork=Cancun)
 def test_eip6780_create_selfdestruct_same_tx(fork):
