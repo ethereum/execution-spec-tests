@@ -3,8 +3,7 @@ Test EIP-6780: remove selfdestruct
 """
 from typing import Dict
 
-from ethereum_test_forks import Cancun, is_fork
-from ethereum_test_forks.forks.upcoming import Cancun
+from ethereum_test_forks import ShanghaiToCancunAtTime15k
 
 from ethereum_test_tools import (
     Account,
@@ -14,7 +13,7 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     Yul,
-    test_from,
+    test_only,
     to_address,
     to_hash,
 )
@@ -23,7 +22,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-@test_from(fork=Cancun)
+@test_only(fork=ShanghaiToCancunAtTime15k)
 def test_eip6780_create_selfdestruct_same_tx(fork):
         env = Environment(
                 coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -93,7 +92,7 @@ def test_eip6780_create_selfdestruct_same_tx(fork):
                 tag="6780-create-inside-tx",
         )
 
-@test_from(fork=Cancun)
+@test_only(fork=ShanghaiToCancunAtTime15k)
 def test_eip6780_selfdestruct_prev_created(fork):
         env = Environment(
                 coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
