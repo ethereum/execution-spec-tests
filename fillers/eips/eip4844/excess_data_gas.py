@@ -659,6 +659,7 @@ class InvalidBlobTransactionTestCase:
     tx_count: int = 1
     parent_excess_blobs: Optional[int] = None
     tx_max_data_gas_cost: Optional[int] = None
+    kzg_versioning: Optional[bool] = True
     account_balance_modifier: int = 0
     block_base_fee: int = 7
 
@@ -693,6 +694,12 @@ class InvalidBlobTransactionTestCase:
             else data_gasprice
         )
 
+        b_hashes = (
+            add_kzg_version([x for x in range(self.blobs_per_tx)])
+            if self.kzg_versioning
+            else [to_hash_bytes(x) for x in range(self.blobs_per_tx)]
+        )
+
         txs: List[Transaction] = []
         for tx_i in range(self.tx_count):
             tx = Transaction(
@@ -705,9 +712,7 @@ class InvalidBlobTransactionTestCase:
                 max_priority_fee_per_gas=0,
                 max_fee_per_data_gas=max_fee_per_data_gas,
                 access_list=[],
-                blob_versioned_hashes=add_kzg_version(
-                    [x for x in range(self.blobs_per_tx)]
-                ),
+                blob_versioned_hashes=b_hashes,
                 error=self.tx_error if tx_i == (self.tx_count - 1) else None,
             )
             txs.append(tx)
@@ -790,6 +795,14 @@ def test_invalid_blob_txs(fork: Fork):
                 tx_error="too_few_blobs",
                 blobs_per_tx=0,
             ),
+            # TODO: Uncomment after change added to geth evm
+            # InvalidBlobTransactionTestCase(
+            # tag="no_kzg_version",
+            # parent_excess_blobs=10,  # data_gasprice= 1
+            # tx_error="invalid_blob_hashes",
+            # blobs_per_tx=2,
+            # kzg_versioning=False,
+            # ),
         ]
     else:
         # Pre-Cancun, blocks with type 3 txs must be rejected
