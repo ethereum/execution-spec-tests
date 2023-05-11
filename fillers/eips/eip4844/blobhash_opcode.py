@@ -17,6 +17,7 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     Yul,
+    add_kzg_version,
     compute_create2_address,
     compute_create_address,
     test_from,
@@ -51,18 +52,6 @@ env = Environment(  # Global state test environment
     number=1,
     timestamp=1000,
 )
-
-
-def add_kzg_version(b_hashes):
-    """
-    Adds the Kzg Version to each blob hash.
-    """
-    version_hex = format(BLOB_COMMITMENT_VERSION_KZG, "01x")
-    versioned_hashes = [
-        bytes.fromhex(version_hex + to_hash_bytes(hash).hex()[1:])
-        for hash in b_hashes
-    ]
-    return versioned_hashes
 
 
 @test_from(fork=Cancun)
@@ -213,7 +202,8 @@ def test_blobhash_opcode_contexts(_: Fork):
     )
 
     b_hashes: Sequence[bytes] = add_kzg_version(
-        [(1 << x) for x in range(MAX_BLOB_PER_BLOCK)]
+        [(1 << x) for x in range(MAX_BLOB_PER_BLOCK)],
+        BLOB_COMMITMENT_VERSION_KZG,
     )
 
     tags = [
@@ -508,7 +498,8 @@ def test_blobhash_gas_cost(_: Fork):
                 nonce=i,
                 max_priority_fee_per_gas=10,
                 blob_versioned_hashes=add_kzg_version(
-                    [BLOB_HASHES[i % MAX_BLOB_PER_BLOCK]]
+                    [BLOB_HASHES[i % MAX_BLOB_PER_BLOCK]],
+                    BLOB_COMMITMENT_VERSION_KZG,
                 ),
             )
         )
@@ -558,7 +549,8 @@ def test_blobhash_blob_versioned_hash(_: Fork):
                 itertools.cycle(BLOB_HASHES),
                 MAX_BLOB_PER_BLOCK * TOTAL_BLOCKS,
             )
-        )
+        ),
+        BLOB_COMMITMENT_VERSION_KZG,
     )
 
     # `BLOBHASH` sstore template helper
@@ -696,7 +688,8 @@ def test_blobhash_invalid_blob_index(_: Fork):
         pre[address] = Account(code=blobhash_invalid_calls)
         blob_per_block = (i % MAX_BLOB_PER_BLOCK) + 1
         blob_hashes = add_kzg_version(
-            [BLOB_HASHES[blob] for blob in range(blob_per_block)]
+            [BLOB_HASHES[blob] for blob in range(blob_per_block)],
+            BLOB_COMMITMENT_VERSION_KZG,
         )
         blocks.append(
             Block(
@@ -754,7 +747,9 @@ def test_blobhash_multiple_txs_in_block(_: Fork):
     }
     pre[TestAddress] = Account(balance=10000000000000000000000)
 
-    b_hashes = add_kzg_version(BLOB_HASHES[0:MAX_BLOB_PER_BLOCK])
+    b_hashes = add_kzg_version(
+        BLOB_HASHES[0:MAX_BLOB_PER_BLOCK], BLOB_COMMITMENT_VERSION_KZG
+    )
 
     tx = Transaction(
         data=to_hash_bytes(0),
