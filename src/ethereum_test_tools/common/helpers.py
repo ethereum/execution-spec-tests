@@ -104,3 +104,26 @@ def to_hash(input: int | str) -> str:
     Converts an int or str into proper 32-byte hash hex string.
     """
     return "0x" + to_hash_bytes(input).hex()
+
+
+def add_kzg_version(b_hashes, kzg_version):
+    """
+    Adds the Kzg Version to each blob hash.
+    """
+    kzg_version_hex = format(kzg_version, "02x")
+    kzg_versioned_hashes = []
+
+    for hash in b_hashes:
+        if isinstance(hash, int) or isinstance(hash, str):
+            kzg_versioned_hashes.append(
+                bytes.fromhex(kzg_version_hex + to_hash_bytes(hash).hex()[2:])
+            )
+        elif isinstance(hash, bytes):
+            kzg_versioned_hashes.append(
+                bytes.fromhex(kzg_version_hex + hash.hex()[2:])
+            )
+        else:
+            raise TypeError(
+                "Blob hash must be either an integer, string or bytes"
+            )
+    return kzg_versioned_hashes

@@ -9,6 +9,7 @@ from .constants import (
     TestPrivateKey,
 )
 from .helpers import (
+    add_kzg_version,
     ceiling_division,
     compute_create2_address,
     compute_create_address,
@@ -57,6 +58,7 @@ __all__ = (
     "TestPrivateKey",
     "Transaction",
     "Withdrawal",
+    "add_kzg_version",
     "alloc_to_accounts",
     "even_padding",
     "ceiling_division",

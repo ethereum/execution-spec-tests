@@ -20,6 +20,7 @@ from ethereum_test_tools import (
     Header,
     TestAddress,
     Transaction,
+    add_kzg_version,
     test_from,
     test_only,
     to_address,
@@ -110,18 +111,6 @@ def calc_excess_data_gas(parent_excess_data_gas: int, new_blobs: int) -> int:
         )
 
 
-def add_kzg_version(b_hashes):
-    """
-    Adds the Kzg Version to each blob hash.
-    """
-    version_hex = format(BLOB_COMMITMENT_VERSION_KZG, "01x")
-    versioned_hashes = [
-        bytes.fromhex(version_hex + to_hash_bytes(hash).hex()[1:])
-        for hash in b_hashes
-    ]
-    return versioned_hashes
-
-
 @dataclass(kw_only=True)
 class ExcessDataGasCalcTestCase:
     """
@@ -169,7 +158,8 @@ class ExcessDataGasCalcTestCase:
                 max_fee_per_data_gas=data_gasprice,
                 access_list=[],
                 blob_versioned_hashes=add_kzg_version(
-                    [x for x in range(self.blobs)]
+                    [to_hash_bytes(x) for x in range(self.blobs)],
+                    BLOB_COMMITMENT_VERSION_KZG,
                 ),
             )
         else:
@@ -388,7 +378,8 @@ class InvalidExcessDataGasInHeaderTestCase:
                 ),
                 access_list=[],
                 blob_versioned_hashes=add_kzg_version(
-                    [x for x in range(self.new_blobs)]
+                    [to_hash_bytes(x) for x in range(self.new_blobs)],
+                    BLOB_COMMITMENT_VERSION_KZG,
                 ),
             )
 
@@ -617,7 +608,11 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
                         ),
                         access_list=[],
                         blob_versioned_hashes=add_kzg_version(
-                            [x for x in range(MAX_BLOBS_PER_BLOCK)]
+                            [
+                                to_hash_bytes(x)
+                                for x in range(MAX_BLOBS_PER_BLOCK)
+                            ],
+                            BLOB_COMMITMENT_VERSION_KZG,
                         ),
                     )
                 ],
@@ -659,7 +654,7 @@ class InvalidBlobTransactionTestCase:
     tx_count: int = 1
     parent_excess_blobs: Optional[int] = None
     tx_max_data_gas_cost: Optional[int] = None
-    kzg_versioning: Optional[bool] = True
+    total_kzg_versioning: int = MAX_BLOBS_PER_BLOCK
     account_balance_modifier: int = 0
     block_base_fee: int = 7
 
@@ -694,11 +689,12 @@ class InvalidBlobTransactionTestCase:
             else data_gasprice
         )
 
-        b_hashes = (
-            add_kzg_version([x for x in range(self.blobs_per_tx)])
-            if self.kzg_versioning
-            else [to_hash_bytes(x) for x in range(self.blobs_per_tx)]
-        )
+        b_hashes = [to_hash_bytes(x) for x in range(self.blobs_per_tx)]
+        if self.total_kzg_versioning > 0:
+            b_hashes[0 : self.total_kzg_versioning] = add_kzg_version(
+                b_hashes[0 : self.total_kzg_versioning],
+                BLOB_COMMITMENT_VERSION_KZG,
+            )
 
         txs: List[Transaction] = []
         for tx_i in range(self.tx_count):
@@ -795,14 +791,18 @@ def test_invalid_blob_txs(fork: Fork):
                 tx_error="too_few_blobs",
                 blobs_per_tx=0,
             ),
-            # TODO: Uncomment after change added to geth evm
-            # InvalidBlobTransactionTestCase(
-            # tag="no_kzg_version",
-            # parent_excess_blobs=10,  # data_gasprice= 1
-            # tx_error="invalid_blob_hashes",
-            # blobs_per_tx=2,
-            # kzg_versioning=False,
-            # ),
+            InvalidBlobTransactionTestCase(
+                tag="no_kzg_versioning",
+                tx_error="all_blob_hashes_unversioned",
+                blobs_per_tx=MAX_BLOBS_PER_BLOCK,
+                total_kzg_versioning=0,
+            ),
+            InvalidBlobTransactionTestCase(
+                tag="partial_kzg_versioning",
+                tx_error="some_blob_hashes_unversioned",
+                blobs_per_tx=MAX_BLOBS_PER_BLOCK,
+                total_kzg_versioning=2,
+            ),
         ]
     else:
         # Pre-Cancun, blocks with type 3 txs must be rejected
