@@ -29,6 +29,7 @@ from ethereum_test_tools import (
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4844.md"
 REFERENCE_SPEC_VERSION = "ac003985b9be74ff48bd897770e6d5f2e4318715"
 
+BLOB_COMMITMENT_VERSION_KZG = 1
 DATAHASH_GAS_COST = 3
 MIN_DATA_GASPRICE = 1
 DATA_GAS_PER_BLOB = 2**17
@@ -109,6 +110,18 @@ def calc_excess_data_gas(parent_excess_data_gas: int, new_blobs: int) -> int:
         )
 
 
+def add_kzg_version(b_hashes):
+    """
+    Adds the Kzg Version to each blob hash.
+    """
+    version_hex = format(BLOB_COMMITMENT_VERSION_KZG, "01x")
+    versioned_hashes = [
+        bytes.fromhex(version_hex + to_hash_bytes(hash).hex()[1:])
+        for hash in b_hashes
+    ]
+    return versioned_hashes
+
+
 @dataclass(kw_only=True)
 class ExcessDataGasCalcTestCase:
     """
@@ -155,9 +168,9 @@ class ExcessDataGasCalcTestCase:
                 max_priority_fee_per_gas=0,
                 max_fee_per_data_gas=data_gasprice,
                 access_list=[],
-                blob_versioned_hashes=[
-                    to_hash_bytes(x) for x in range(self.blobs)
-                ],
+                blob_versioned_hashes=add_kzg_version(
+                    [x for x in range(self.blobs)]
+                ),
             )
         else:
             tx = Transaction(
@@ -374,9 +387,9 @@ class InvalidExcessDataGasInHeaderTestCase:
                     excess_data_gas=parent_excess_data_gas
                 ),
                 access_list=[],
-                blob_versioned_hashes=[
-                    to_hash_bytes(x) for x in range(self.new_blobs)
-                ],
+                blob_versioned_hashes=add_kzg_version(
+                    [x for x in range(self.new_blobs)]
+                ),
             )
 
         return BlockchainTest(
@@ -603,10 +616,9 @@ def test_fork_transition_excess_data_gas_in_header(_: Fork):
                             excess_data_gas=parent_excess_data_gas
                         ),
                         access_list=[],
-                        blob_versioned_hashes=[
-                            to_hash_bytes(x)
-                            for x in range(MAX_BLOBS_PER_BLOCK)
-                        ],
+                        blob_versioned_hashes=add_kzg_version(
+                            [x for x in range(MAX_BLOBS_PER_BLOCK)]
+                        ),
                     )
                 ],
             )
@@ -693,9 +705,9 @@ class InvalidBlobTransactionTestCase:
                 max_priority_fee_per_gas=0,
                 max_fee_per_data_gas=max_fee_per_data_gas,
                 access_list=[],
-                blob_versioned_hashes=[
-                    to_hash_bytes(x) for x in range(self.blobs_per_tx)
-                ],
+                blob_versioned_hashes=add_kzg_version(
+                    [x for x in range(self.blobs_per_tx)]
+                ),
                 error=self.tx_error if tx_i == (self.tx_count - 1) else None,
             )
             txs.append(tx)
