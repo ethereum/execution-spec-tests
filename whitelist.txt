@@ -137,7 +137,7 @@ prevrandao
 
 authcall
 callf
-datahash
+blobhash
 jumpdest
 jumpi
 mload
