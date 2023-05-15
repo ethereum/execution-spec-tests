@@ -1,5 +1,5 @@
 """
-Test EIP-4844: Shard Blob Transactions (DATAHASH Opcode)
+Test EIP-4844: Shard Blob Transactions (BLOBHASH Opcode)
 EIP: https://eips.ethereum.org/EIPS/eip-4844
 """
 import itertools
@@ -28,7 +28,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4844.md"
 REFERENCE_SPEC_VERSION = "ac003985b9be74ff48bd897770e6d5f2e4318715"
 
-DATAHASH_GAS_COST = 3
+BLOBHASH_GAS_COST = 3
 MAX_BLOB_PER_BLOCK = 4
 BLOB_HASHES = [
     "0x53b8c5b09810b5fc07355d3da42e2c3a3e200c1d9a678491b7e8e256fc50cc4f",
@@ -53,51 +53,51 @@ env = Environment(  # Global state test environment
 
 
 @test_from(fork=Cancun)
-def test_datahash_opcode_contexts(_: Fork):
+def test_blobhash_opcode_contexts(_: Fork):
     """
-    Test DATAHASH opcode called on different contexts.
+    Test BLOBHASH opcode called on different contexts.
     """
-    datahash_verbatim = "verbatim_{}i_{}o".format(
-        Op.DATAHASH.popped_stack_items, Op.DATAHASH.pushed_stack_items
+    blobhash_verbatim = "verbatim_{}i_{}o".format(
+        Op.BLOBHASH.popped_stack_items, Op.BLOBHASH.pushed_stack_items
     )
 
-    datahash_sstore_bytecode = Yul(
+    blobhash_sstore_bytecode = Yul(
         f"""
         {{
            let pos := calldataload(0)
            let end := calldataload(32)
            for {{}} lt(pos, end) {{ pos := add(pos, 1) }}
            {{
-            let datahash := {datahash_verbatim}(hex"{Op.DATAHASH.hex()}", pos)
-            sstore(pos, datahash)
+            let blobhash := {blobhash_verbatim}(hex"{Op.BLOBHASH.hex()}", pos)
+            sstore(pos, blobhash)
            }}
-           let datahash := {datahash_verbatim}(hex"{Op.DATAHASH.hex()}", end)
-           sstore(end, datahash)
+           let blobhash := {blobhash_verbatim}(hex"{Op.BLOBHASH.hex()}", end)
+           sstore(end, blobhash)
            return(0, 0)
         }}
         """
     )
-    datahash_sstore_bytecode_address = to_address(0x100)
+    blobhash_sstore_bytecode_address = to_address(0x100)
 
-    datahash_return_bytecode = Yul(
+    blobhash_return_bytecode = Yul(
         f"""
         {{
            let pos := calldataload(0)
-           let datahash := {datahash_verbatim}(hex"{Op.DATAHASH.hex()}", pos)
-           mstore(0, datahash)
+           let blobhash := {blobhash_verbatim}(hex"{Op.BLOBHASH.hex()}", pos)
+           mstore(0, blobhash)
            return(0, 32)
         }}
         """
     )
-    datahash_return_bytecode_address = to_address(0x600)
+    blobhash_return_bytecode_address = to_address(0x600)
 
-    initcode_datahash_sstore_bytecode = Yul(
+    initcode_blobhash_sstore_bytecode = Yul(
         f"""
         {{
            for {{ let pos := 0 }} lt(pos, 10) {{ pos := add(pos, 1) }}
            {{
-            let datahash := {datahash_verbatim}(hex"{Op.DATAHASH.hex()}", pos)
-            sstore(pos, datahash)
+            let blobhash := {blobhash_verbatim}(hex"{Op.BLOBHASH.hex()}", pos)
+            sstore(pos, blobhash)
            }}
            return(0, 0)
         }}
@@ -133,15 +133,15 @@ def test_datahash_opcode_contexts(_: Fork):
     for {{ }} lt(pos, end) {{ pos := add(pos, 1) }}
     {{
     mstore(0, pos)
-    pop(callcode(gas(), {datahash_return_bytecode_address}, 0, 0, 32, 0, 32))
-    let datahash := mload(0)
-    sstore(pos, datahash)
+    pop(callcode(gas(), {blobhash_return_bytecode_address}, 0, 0, 32, 0, 32))
+    let blobhash := mload(0)
+    sstore(pos, blobhash)
     }}
 
     mstore(0, end)
-    pop(callcode(gas(), {datahash_return_bytecode_address}, 0, 0, 32, 0, 32))
-    let datahash := mload(0)
-    sstore(end, datahash)
+    pop(callcode(gas(), {blobhash_return_bytecode_address}, 0, 0, 32, 0, 32))
+    let blobhash := mload(0)
+    sstore(end, blobhash)
     return(0, 0)
 }}
         """
@@ -156,15 +156,15 @@ def test_datahash_opcode_contexts(_: Fork):
     for {{ }} lt(pos, end) {{ pos := add(pos, 1) }}
     {{
     mstore(0, pos)
-    pop(staticcall(gas(), {datahash_return_bytecode_address}, 0, 32, 0, 32))
-    let datahash := mload(0)
-    sstore(pos, datahash)
+    pop(staticcall(gas(), {blobhash_return_bytecode_address}, 0, 32, 0, 32))
+    let blobhash := mload(0)
+    sstore(pos, blobhash)
     }}
 
     mstore(0, end)
-    pop(staticcall(gas(), {datahash_return_bytecode_address}, 0, 32, 0, 32))
-    let datahash := mload(0)
-    sstore(end, datahash)
+    pop(staticcall(gas(), {blobhash_return_bytecode_address}, 0, 32, 0, 32))
+    let blobhash := mload(0)
+    sstore(end, blobhash)
     return(0, 0)
 }}
         """
@@ -196,7 +196,7 @@ def test_datahash_opcode_contexts(_: Fork):
     create2_opcode_created_contract = compute_create2_address(
         create2_bytecode_address,
         0,
-        initcode_datahash_sstore_bytecode.assemble(),
+        initcode_blobhash_sstore_bytecode.assemble(),
     )
 
     b_hashes: Sequence[bytes] = [
@@ -219,60 +219,60 @@ def test_datahash_opcode_contexts(_: Fork):
     ]
 
     pre_states: List[Dict] = [
-        {  # DATAHASH on top level of the call stack
-            datahash_sstore_bytecode_address: Account(
-                code=datahash_sstore_bytecode
+        {  # BLOBHASH on top level of the call stack
+            blobhash_sstore_bytecode_address: Account(
+                code=blobhash_sstore_bytecode
             ),
         },
-        {  # DATAHASH max value
-            datahash_sstore_bytecode_address: Account(
-                code=datahash_sstore_bytecode
+        {  # BLOBHASH max value
+            blobhash_sstore_bytecode_address: Account(
+                code=blobhash_sstore_bytecode
             ),
         },
-        {  # DATAHASH on CALL
+        {  # BLOBHASH on CALL
             call_bytecode_address: Account(code=call_bytecode),
-            datahash_sstore_bytecode_address: Account(
-                code=datahash_sstore_bytecode
+            blobhash_sstore_bytecode_address: Account(
+                code=blobhash_sstore_bytecode
             ),
         },
-        {  # DATAHASH on DELEGATECALL
+        {  # BLOBHASH on DELEGATECALL
             delegatecall_bytecode_address: Account(code=delegatecall_bytecode),
-            datahash_sstore_bytecode_address: Account(
-                code=datahash_sstore_bytecode
+            blobhash_sstore_bytecode_address: Account(
+                code=blobhash_sstore_bytecode
             ),
         },
-        {  # DATAHASH on STATICCALL
+        {  # BLOBHASH on STATICCALL
             staticcall_bytecode_address: Account(code=staticcall_bytecode),
-            datahash_return_bytecode_address: Account(
-                code=datahash_return_bytecode
+            blobhash_return_bytecode_address: Account(
+                code=blobhash_return_bytecode
             ),
         },
-        {  # DATAHASH on CALLCODE
+        {  # BLOBHASH on CALLCODE
             callcode_bytecode_address: Account(code=callcode_bytecode),
-            datahash_return_bytecode_address: Account(
-                code=datahash_return_bytecode
+            blobhash_return_bytecode_address: Account(
+                code=blobhash_return_bytecode
             ),
         },
-        {},  # DATAHASH on INITCODE
-        {  # DATAHASH on CREATE
+        {},  # BLOBHASH on INITCODE
+        {  # BLOBHASH on CREATE
             create_bytecode_address: Account(code=create_bytecode),
         },
-        {  # DATAHASH on CREATE2
+        {  # BLOBHASH on CREATE2
             create2_bytecode_address: Account(code=create2_bytecode),
         },
-        {  # DATAHASH on type 2 tx
-            datahash_sstore_bytecode_address: Account(
-                code=datahash_sstore_bytecode
+        {  # BLOBHASH on type 2 tx
+            blobhash_sstore_bytecode_address: Account(
+                code=blobhash_sstore_bytecode
             ),
         },
-        {  # DATAHASH on type 1 tx
-            datahash_sstore_bytecode_address: Account(
-                code=datahash_sstore_bytecode
+        {  # BLOBHASH on type 1 tx
+            blobhash_sstore_bytecode_address: Account(
+                code=blobhash_sstore_bytecode
             ),
         },
-        {  # DATAHASH on type 0 tx
-            datahash_sstore_bytecode_address: Account(
-                code=datahash_sstore_bytecode
+        {  # BLOBHASH on type 0 tx
+            blobhash_sstore_bytecode_address: Account(
+                code=blobhash_sstore_bytecode
             ),
         },
     ]
@@ -290,132 +290,132 @@ def test_datahash_opcode_contexts(_: Fork):
     )
 
     txs = [
-        tx_type_3.with_fields(  # DATAHASH on top level of the call stack
-            to=datahash_sstore_bytecode_address,
+        tx_type_3.with_fields(  # BLOBHASH on top level of the call stack
+            to=blobhash_sstore_bytecode_address,
             blob_versioned_hashes=b_hashes[:1],
         ),
-        tx_type_3.with_fields(  # DATAHASH on max value
+        tx_type_3.with_fields(  # BLOBHASH on max value
             data=to_hash_bytes(2**256 - 1) + to_hash_bytes(2**256 - 1),
-            to=datahash_sstore_bytecode_address,
+            to=blobhash_sstore_bytecode_address,
         ),
-        tx_type_3.with_fields(  # DATAHASH on CALL
+        tx_type_3.with_fields(  # BLOBHASH on CALL
             data=to_hash_bytes(1) + to_hash_bytes(1),
             to=call_bytecode_address,
             blob_versioned_hashes=b_hashes[:2],
         ),
-        tx_type_3.with_fields(  # DATAHASH on DELEGATECALL
+        tx_type_3.with_fields(  # BLOBHASH on DELEGATECALL
             data=to_hash_bytes(0) + to_hash_bytes(3),
             to=delegatecall_bytecode_address,
         ),
-        tx_type_3.with_fields(  # DATAHASH on STATICCALL
+        tx_type_3.with_fields(  # BLOBHASH on STATICCALL
             data=to_hash_bytes(0) + to_hash_bytes(3),
             to=staticcall_bytecode_address,
         ),
-        tx_type_3.with_fields(  # DATAHASH on CALLCODE
+        tx_type_3.with_fields(  # BLOBHASH on CALLCODE
             data=to_hash_bytes(0) + to_hash_bytes(3),
             to=callcode_bytecode_address,
         ),
-        tx_type_3.with_fields(  # DATAHASH on INITCODE
-            data=initcode_datahash_sstore_bytecode, to=None
+        tx_type_3.with_fields(  # BLOBHASH on INITCODE
+            data=initcode_blobhash_sstore_bytecode, to=None
         ),
-        tx_type_3.with_fields(  # DATAHASH on CREATE
-            data=initcode_datahash_sstore_bytecode,
+        tx_type_3.with_fields(  # BLOBHASH on CREATE
+            data=initcode_blobhash_sstore_bytecode,
             to=create_bytecode_address,
         ),
-        tx_type_3.with_fields(  # DATAHASH on CREATE2
-            data=initcode_datahash_sstore_bytecode,
+        tx_type_3.with_fields(  # BLOBHASH on CREATE2
+            data=initcode_blobhash_sstore_bytecode,
             to=create2_bytecode_address,
         ),
-        Transaction(  # DATAHASH on type 2 tx
+        Transaction(  # BLOBHASH on type 2 tx
             ty=2,
             data=to_hash_bytes(0),
-            to=datahash_sstore_bytecode_address,
+            to=blobhash_sstore_bytecode_address,
             gas_limit=3000000,
             max_fee_per_gas=10,
             max_priority_fee_per_gas=10,
             access_list=[],
         ),
-        Transaction(  # DATAHASH on type 1 tx
+        Transaction(  # BLOBHASH on type 1 tx
             ty=1,
             data=to_hash_bytes(0),
-            to=datahash_sstore_bytecode_address,
+            to=blobhash_sstore_bytecode_address,
             gas_limit=3000000,
             gas_price=10,
             access_list=[],
         ),
-        Transaction(  # DATAHASH on type 0 tx
+        Transaction(  # BLOBHASH on type 0 tx
             ty=0,
             data=to_hash_bytes(0),
-            to=datahash_sstore_bytecode_address,
+            to=blobhash_sstore_bytecode_address,
             gas_limit=3000000,
             gas_price=10,
         ),
     ]
 
     post_states: List[Dict] = [
-        {  # DATAHASH on top level of the call stack
-            datahash_sstore_bytecode_address: Account(
+        {  # BLOBHASH on top level of the call stack
+            blobhash_sstore_bytecode_address: Account(
                 storage={0: b_hashes[0]}
             ),
         },
-        {  # DATAHASH on max value
-            datahash_sstore_bytecode_address: Account(storage={}),
+        {  # BLOBHASH on max value
+            blobhash_sstore_bytecode_address: Account(storage={}),
         },
-        {  # DATAHASH on CALL
-            datahash_sstore_bytecode_address: Account(
+        {  # BLOBHASH on CALL
+            blobhash_sstore_bytecode_address: Account(
                 storage={1: b_hashes[1]}
             ),
         },
-        {  # DATAHASH on DELEGATECALL
+        {  # BLOBHASH on DELEGATECALL
             delegatecall_bytecode_address: Account(
                 storage={
                     k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
                 }
             ),
         },
-        {  # DATAHASH on STATICCALL
+        {  # BLOBHASH on STATICCALL
             staticcall_bytecode_address: Account(
                 storage={
                     k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
                 }
             ),
         },
-        {  # DATAHASH on CALLCODE
+        {  # BLOBHASH on CALLCODE
             callcode_bytecode_address: Account(
                 storage={
                     k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
                 }
             ),
         },
-        {  # DATAHASH on INITCODE
+        {  # BLOBHASH on INITCODE
             tx_created_contract_address: Account(
                 storage={
                     k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
                 }
             ),
         },
-        {  # DATAHASH on CREATE
+        {  # BLOBHASH on CREATE
             create_opcode_created_contract: Account(
                 storage={
                     k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
                 }
             ),
         },
-        {  # DATAHASH on CREATE2
+        {  # BLOBHASH on CREATE2
             create2_opcode_created_contract: Account(
                 storage={
                     k: v for (k, v) in zip(range(len(b_hashes)), b_hashes)
                 }
             ),
         },
-        {  # DATAHASH on type 2 tx
-            datahash_sstore_bytecode_address: Account(storage={0: 0}),
+        {  # BLOBHASH on type 2 tx
+            blobhash_sstore_bytecode_address: Account(storage={0: 0}),
         },
-        {  # DATAHASH on type 1 tx
-            datahash_sstore_bytecode_address: Account(storage={0: 0}),
+        {  # BLOBHASH on type 1 tx
+            blobhash_sstore_bytecode_address: Account(storage={0: 0}),
         },
-        {  # DATAHASH on type 0 tx
-            datahash_sstore_bytecode_address: Account(storage={0: 0}),
+        {  # BLOBHASH on type 0 tx
+            blobhash_sstore_bytecode_address: Account(storage={0: 0}),
         },
     ]
 
@@ -431,9 +431,9 @@ def test_datahash_opcode_contexts(_: Fork):
 
 
 @test_from(fork=Cancun)
-def test_datahash_gas_cost(_: Fork):
+def test_blobhash_gas_cost(_: Fork):
     """
-    Test DATAHASH opcode gas cost using a variety of indexes.
+    Test BLOBHASH opcode gas cost using a variety of indexes.
     """
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
@@ -446,8 +446,8 @@ def test_datahash_gas_cost(_: Fork):
     )
     post = {}
 
-    # Declare datahash indexes: zero, max & random values
-    datahash_index_measures: List[int] = [
+    # Declare blobhash indexes: zero, max & random values
+    blobhash_index_measures: List[int] = [
         0x00,
         0x01,
         0x02,
@@ -462,11 +462,11 @@ def test_datahash_gas_cost(_: Fork):
 
     gas_measures_code = [
         CodeGasMeasure(
-            code=Op.DATAHASH(index),
+            code=Op.BLOBHASH(index),
             overhead_cost=3,
             extra_stack_items=1,
         )
-        for index in datahash_index_measures
+        for index in blobhash_index_measures
     ]
 
     txs_type_0, txs_type_1, txs_type_2, txs_type_3 = ([] for _ in range(4))
@@ -497,15 +497,15 @@ def test_datahash_gas_cost(_: Fork):
                 blob_versioned_hashes=[BLOB_HASHES[i % MAX_BLOB_PER_BLOCK]],
             )
         )
-        post[address] = Account(storage={0: DATAHASH_GAS_COST})
+        post[address] = Account(storage={0: BLOBHASH_GAS_COST})
 
-    # DATAHASH gas cost on tx type 0, 1 & 2
+    # BLOBHASH gas cost on tx type 0, 1 & 2
     for i, txs in enumerate([txs_type_0, txs_type_1, txs_type_2]):
         yield StateTest(
             env=env, pre=pre, post=post, txs=txs, tag=f"tx_type_{i}"
         )
 
-    # DATAHASH gas cost on tx type 3
+    # BLOBHASH gas cost on tx type 3
     total_blocks = (
         len(txs_type_3) + MAX_BLOB_PER_BLOCK - 1
     ) // MAX_BLOB_PER_BLOCK
@@ -522,9 +522,9 @@ def test_datahash_gas_cost(_: Fork):
 
 
 @test_from(fork=Cancun)
-def test_datahash_blob_versioned_hash(_: Fork):
+def test_blobhash_blob_versioned_hash(_: Fork):
     """
-    Tests that the `DATAHASH` opcode returns the correct versioned hash for
+    Tests that the `BLOBHASH` opcode returns the correct versioned hash for
     various valid index scenarios.
     """
     TOTAL_BLOCKS = 10
@@ -544,55 +544,55 @@ def test_datahash_blob_versioned_hash(_: Fork):
         )
     )
 
-    # `DATAHASH` sstore template helper
-    def datahash_sstore(index: int):
-        return Op.SSTORE(index, Op.DATAHASH(index))
+    # `BLOBHASH` sstore template helper
+    def blobhash_sstore(index: int):
+        return Op.SSTORE(index, Op.BLOBHASH(index))
 
-    # `DATAHASH` on valid indexes
-    datahash_single_valid_calls = b"".join(
-        datahash_sstore(i) for i in range(MAX_BLOB_PER_BLOCK)
+    # `BLOBHASH` on valid indexes
+    blobhash_single_valid_calls = b"".join(
+        blobhash_sstore(i) for i in range(MAX_BLOB_PER_BLOCK)
     )
     pre_single_valid_calls = copy(pre)
 
-    # `DATAHASH` on valid index repeated:
-    # DATAHASH(i), DATAHASH(i), ...
-    datahash_repeated_valid_calls = b"".join(
-        b"".join([datahash_sstore(i) for _ in range(10)])
+    # `BLOBHASH` on valid index repeated:
+    # BLOBHASH(i), BLOBHASH(i), ...
+    blobhash_repeated_valid_calls = b"".join(
+        b"".join([blobhash_sstore(i) for _ in range(10)])
         for i in range(MAX_BLOB_PER_BLOCK)
     )
-    pre_datahash_repeated_valid_calls = copy(pre)
+    pre_blobhash_repeated_valid_calls = copy(pre)
 
-    # `DATAHASH` on valid/invalid/valid:
-    # DATAHASH(i), DATAHASH(MAX_BLOB_PER_BLOCK), DATAHASH(i)
-    datahash_valid_invalid_calls = b"".join(
-        datahash_sstore(i)
-        + datahash_sstore(MAX_BLOB_PER_BLOCK)
-        + datahash_sstore(i)
+    # `BLOBHASH` on valid/invalid/valid:
+    # BLOBHASH(i), BLOBHASH(MAX_BLOB_PER_BLOCK), BLOBHASH(i)
+    blobhash_valid_invalid_calls = b"".join(
+        blobhash_sstore(i)
+        + blobhash_sstore(MAX_BLOB_PER_BLOCK)
+        + blobhash_sstore(i)
         for i in range(MAX_BLOB_PER_BLOCK)
     )
-    pre_datahash_valid_invalid_calls = copy(pre)
+    pre_blobhash_valid_invalid_calls = copy(pre)
 
-    # `DATAHASH` on different valid indexes repeated:
-    # DATAHASH(i), DATAHASH(i+1), DATAHASH(i)
-    datahash_varied_valid_calls = b"".join(
-        datahash_sstore(i) + datahash_sstore(i + 1) + datahash_sstore(i)
+    # `BLOBHASH` on different valid indexes repeated:
+    # BLOBHASH(i), BLOBHASH(i+1), BLOBHASH(i)
+    blobhash_varied_valid_calls = b"".join(
+        blobhash_sstore(i) + blobhash_sstore(i + 1) + blobhash_sstore(i)
         for i in range(MAX_BLOB_PER_BLOCK - 1)
     )
-    pre_datahash_varied_valid_calls = copy(pre)
+    pre_blobhash_varied_valid_calls = copy(pre)
 
     for i in range(TOTAL_BLOCKS):
         address = to_address(0x100 + i * 0x100)
         pre_single_valid_calls[address] = Account(
-            code=datahash_single_valid_calls
+            code=blobhash_single_valid_calls
         )
-        pre_datahash_repeated_valid_calls[address] = Account(
-            code=datahash_repeated_valid_calls
+        pre_blobhash_repeated_valid_calls[address] = Account(
+            code=blobhash_repeated_valid_calls
         )
-        pre_datahash_valid_invalid_calls[address] = Account(
-            code=datahash_valid_invalid_calls
+        pre_blobhash_valid_invalid_calls[address] = Account(
+            code=blobhash_valid_invalid_calls
         )
-        pre_datahash_varied_valid_calls[address] = Account(
-            code=datahash_varied_valid_calls
+        pre_blobhash_varied_valid_calls[address] = Account(
+            code=blobhash_varied_valid_calls
         )
         blocks.append(
             Block(
@@ -630,21 +630,21 @@ def test_datahash_blob_versioned_hash(_: Fork):
     )
 
     yield BlockchainTest(
-        pre=pre_datahash_repeated_valid_calls,
+        pre=pre_blobhash_repeated_valid_calls,
         post=post,
         blocks=blocks,
         tag="repeated_calls",
     )
 
     yield BlockchainTest(
-        pre=pre_datahash_valid_invalid_calls,
+        pre=pre_blobhash_valid_invalid_calls,
         post=post,
         blocks=blocks,
         tag="valid_invalid_calls",
     )
 
     yield BlockchainTest(
-        pre=pre_datahash_varied_valid_calls,
+        pre=pre_blobhash_varied_valid_calls,
         post=post,
         blocks=blocks,
         tag="varied_valid_calls",
@@ -652,9 +652,9 @@ def test_datahash_blob_versioned_hash(_: Fork):
 
 
 @test_from(fork=Cancun)
-def test_datahash_invalid_blob_index(_: Fork):
+def test_blobhash_invalid_blob_index(_: Fork):
     """
-    Tests that the `DATAHASH` opcode returns a zeroed bytes32 value
+    Tests that the `BLOBHASH` opcode returns a zeroed bytes32 value
     for invalid indexes.
     """
     INVALID_DEPTH_FACTOR = 5
@@ -666,9 +666,9 @@ def test_datahash_invalid_blob_index(_: Fork):
     blocks = []
     post = {}
 
-    # `DATAHASH` on invalid indexes: -ve invalid -> valid -> +ve invalid:
-    datahash_invalid_calls = b"".join(
-        Op.SSTORE(i, Op.DATAHASH(i))
+    # `BLOBHASH` on invalid indexes: -ve invalid -> valid -> +ve invalid:
+    blobhash_invalid_calls = b"".join(
+        Op.SSTORE(i, Op.BLOBHASH(i))
         for i in range(
             -INVALID_DEPTH_FACTOR, MAX_BLOB_PER_BLOCK + INVALID_DEPTH_FACTOR
         )
@@ -676,7 +676,7 @@ def test_datahash_invalid_blob_index(_: Fork):
 
     for i in range(TOTAL_BLOCKS):
         address = to_address(0x100 + i * 0x100)
-        pre[address] = Account(code=datahash_invalid_calls)
+        pre[address] = Account(code=blobhash_invalid_calls)
         blob_per_block = (i % MAX_BLOB_PER_BLOCK) + 1
         blob_hashes = [BLOB_HASHES[blob] for blob in range(blob_per_block)]
         blocks.append(
@@ -720,17 +720,17 @@ def test_datahash_invalid_blob_index(_: Fork):
 
 
 @test_from(fork=Cancun)
-def test_datahash_multiple_txs_in_block(_: Fork):
+def test_blobhash_multiple_txs_in_block(_: Fork):
     """
-    Tests that the `DATAHASH` opcode returns the appropriate values
+    Tests that the `BLOBHASH` opcode returns the appropriate values
     when there is more than one blob tx type within a block.
     """
-    datahash_valid_call = b"".join(
-        [Op.SSTORE(i, Op.DATAHASH(i)) for i in range(MAX_BLOB_PER_BLOCK)]
+    blobhash_valid_call = b"".join(
+        [Op.SSTORE(i, Op.BLOBHASH(i)) for i in range(MAX_BLOB_PER_BLOCK)]
     )
 
     pre = {
-        to_address(address): Account(code=datahash_valid_call)
+        to_address(address): Account(code=blobhash_valid_call)
         for address in range(0x100, 0x500, 0x100)
     }
     pre[TestAddress] = Account(balance=10000000000000000000000)
