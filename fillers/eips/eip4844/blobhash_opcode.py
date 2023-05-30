@@ -26,11 +26,11 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4844.md"
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-484k4.md"
 REFERENCE_SPEC_VERSION = "ac003985b9be74ff48bd897770e6d5f2e4318715"
 
 BLOB_COMMITMENT_VERSION_KZG = 1
-DATAHASH_GAS_COST = 3
+BLOBHASH_GAS_COST = 3
 MAX_BLOB_PER_BLOCK = 4
 BLOB_HASHES = [
     "0x53b8c5b09810b5fc07355d3da42e2c3a3e200c1d9a678491b7e8e256fc50cc4f",
