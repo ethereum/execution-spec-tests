@@ -8,7 +8,7 @@ to @ThreeHrSleep for integrating it in the docstrings.
 """
 
 from enum import Enum
-from typing import List, Union
+from typing import Any, Callable, List, Optional, Union
 
 from ..common.base_types import FixedSizeBytes
 
@@ -96,6 +96,7 @@ class Opcode(OpcodeMacroBase):
     pushed_stack_items: int
     min_stack_height: int
     data_portion_length: int
+    data_portion_parser: Optional[Callable[[Any], bytes]]
 
     def __new__(
         cls,
@@ -105,6 +106,7 @@ class Opcode(OpcodeMacroBase):
         pushed_stack_items: int = 0,
         min_stack_height: int = 0,
         data_portion_length: int = 0,
+        data_portion_parser=None,
     ):
         """
         Creates a new opcode instance.
@@ -119,6 +121,7 @@ class Opcode(OpcodeMacroBase):
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
             obj.data_portion_length = data_portion_length
+            obj.data_portion_parser = data_portion_parser
             return obj
         raise TypeError("Opcode constructor '__new__' didn't return an instance!")
 
@@ -260,6 +263,12 @@ class Macro(OpcodeMacroBase):
 
 
 OpcodeCallArg = Union[int, bytes, Opcode]
+
+
+def _rjumpv_encoder(*args: int) -> bytes:
+    return b"".join(
+        [len(args).to_bytes(1, "big")] + [i.to_bytes(2, "big", signed=True) for i in args]
+    )
 
 
 class Opcodes(Opcode, Enum):
@@ -2152,6 +2161,34 @@ class Opcodes(Opcode, Enum):
     2
 
     Source: [evm.codes/#5A](https://www.evm.codes/#5A)
+    """
+
+    NOOP = Opcode(0x5B)
+    """
+    NOOP()
+    ----
+
+    Description
+    ----
+    Synonym for JUMPDEST. Performs no operation.
+
+    Inputs
+    ----
+    - None
+
+    Outputs
+    ----
+    - None
+
+    Fork
+    ----
+    Frontier
+
+    Gas
+    ----
+    1
+
+    Source: [evm.codes/#5B](https://www.evm.codes/#5B)
     """
 
     JUMPDEST = Opcode(0x5B)
@@ -4539,7 +4576,11 @@ class Opcodes(Opcode, Enum):
     Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
     """
 
-    RJUMPV = Opcode(0xE2)
+    RJUMPV = Opcode(
+        0xE2,
+        popped_stack_items=1,
+        # variable_immediate_length=(1, 2),
+    )
     """
     !!! Note: This opcode is under development
 
@@ -4563,6 +4604,33 @@ class Opcodes(Opcode, Enum):
     ----
 
     Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
+    """
+
+    CALLF = Opcode(0xE3, data_portion_length=2)
+    """
+    !!! Note: This opcode is under development
+
+    CALLF()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+    EOF Fork
+
+    Gas
+    ----
+    3
+
+    Source: [eips.ethereum.org/EIPS/eip-4750](https://eips.ethereum.org/EIPS/eip-4750)
     """
 
     RETF = Opcode(0xE4)
@@ -4590,6 +4658,223 @@ class Opcodes(Opcode, Enum):
     3
 
     Source: [eips.ethereum.org/EIPS/eip-4750](https://eips.ethereum.org/EIPS/eip-4750)
+    """
+    DATALOAD = Opcode(0xB7, popped_stack_items=1, pushed_stack_items=1)
+    """
+    !!! Note: This opcode is under development
+
+    DATALOAD()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    DATALOADN = Opcode(0xB8, pushed_stack_items=1, data_portion_length=2)
+    """
+    !!! Note: This opcode is under development
+
+    DATALOADN()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    DATASIZE = Opcode(0xB9, pushed_stack_items=1)
+    """
+    !!! Note: This opcode is under development
+
+    DATASIZE()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    DATACOPY = Opcode(0xBA, popped_stack_items=3)
+    """
+    !!! Note: This opcode is under development
+
+    DATACOPY()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    JUMPF = Opcode(0xB1, data_portion_length=2)
+    """
+    !!! Note: This opcode is under development
+
+    JUMPF()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    DUPN = Opcode(0xE6, pushed_stack_items=1, data_portion_length=1)
+    """
+    !!! Note: This opcode is under development
+
+    DUPN()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    SWAPN = Opcode(0xE7, data_portion_length=1)
+    """
+    !!! Note: This opcode is under development
+
+    SWAPN()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    CREATE3 = Opcode(0xEC, popped_stack_items=4, pushed_stack_items=1, data_portion_length=1)
+    """
+    !!! Note: This opcode is under development
+
+    CREATE3()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
+    RETURNCONTRACT = Opcode(
+        0xEE, popped_stack_items=2, pushed_stack_items=1, data_portion_length=1
+    )
+    """
+    !!! Note: This opcode is under development
+
+    RETURNCONTRACT()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
     """
 
     CREATE = Opcode(0xF0, popped_stack_items=3, pushed_stack_items=1)
@@ -4853,6 +5138,30 @@ class Opcodes(Opcode, Enum):
     - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
 
     Source: [evm.codes/#FA](https://www.evm.codes/#FA)
+    """
+
+    CREATE4 = Opcode(0xF7, popped_stack_items=5, pushed_stack_items=1)
+    """
+    !!! Note: This opcode is under development
+
+    CREATE4()
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
     """
 
     REVERT = Opcode(0xFD, popped_stack_items=2)
