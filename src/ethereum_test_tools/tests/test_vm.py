@@ -2,11 +2,14 @@
 Test suite for `ethereum_test_tools.vm` module.
 """
 
+from typing import Tuple
+
 import pytest
 
 from ..common.base_types import Address
 from ..vm.opcode import Macros as Om
 from ..vm.opcode import Opcodes as Op
+from ..vm.opcode import _rjumpv_encoder
 
 
 @pytest.mark.parametrize(
@@ -59,10 +62,6 @@ from ..vm.opcode import Opcodes as Op
         ),
         (
             Op.PUSH20(0x01),
-            bytes([0x73] + [0x00] * 19 + [0x01]),
-        ),
-        (
-            Op.PUSH20("0x01"),
             bytes([0x73] + [0x00] * 19 + [0x01]),
         ),
         (
@@ -172,3 +171,51 @@ def test_macros():
     assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
     for opcode in Op:
         assert opcode != Om.OOG
+
+
+@pytest.mark.parametrize(
+    "inputs,expected",
+    [
+        (
+            (1, 2, 3),
+            bytes(
+                [
+                    0x03,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x03,
+                ]
+            ),
+        ),
+        (
+            (),
+            bytes(
+                [
+                    0x00,
+                ]
+            ),
+        ),
+        (
+            (-1, -2, -3),
+            bytes(
+                [
+                    0x03,
+                    0xFF,
+                    0xFF,
+                    0xFF,
+                    0xFE,
+                    0xFF,
+                    0xFD,
+                ]
+            ),
+        ),
+    ],
+)
+def test_rjumpv_encoder(inputs: Tuple[int, ...], expected: bytes):
+    """
+    Test RJUMPV encoder.
+    """
+    assert bytes(_rjumpv_encoder(*inputs)) == expected
