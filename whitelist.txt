@@ -65,6 +65,10 @@ Customizations
 danceratopz
 dao
 dataclasses
+dataload
+dataloadn
+datasize
+datacopy
 datastructures
 delitem
 deserialized
@@ -236,6 +240,7 @@ repo's
 repos
 returndatacopy
 returndatasize
+returncontract
 rlp
 rpc
 runtime
@@ -445,6 +450,7 @@ sload
 sstore
 jump
 jumpi
+jumpf
 pc
 msize
 gas
@@ -452,6 +458,7 @@ jumpdest
 rjump
 rjumpi
 rjumpv
+RJUMPV
 callf
 retf
 push0
@@ -503,6 +510,7 @@ dup13
 dup14
 dup15
 dup16
+dupn
 swap1
 swap2
 swap3
@@ -519,6 +527,7 @@ swap13
 swap14
 swap15
 swap16
+swapn
 log0
 log1
 log2
@@ -527,11 +536,13 @@ log4
 tload
 tstore
 create
+create2
+create3
+create4
 call
 callcode
 return
 delegatecall
-create2
 staticcall
 revert
 selfdestruct
