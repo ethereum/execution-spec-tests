@@ -2,7 +2,7 @@
 
 An Ethereum Improvement Proposal (from [ethereum/EIPs](https://github.com/ethereum/EIPs/tree/master/EIPS)) and its SHA digest can be directly referenced within a python test module in order to check whether the test implementation could be out-dated. If the SHA of the file in the remote repo changes, the test framework will issue a warning in its summary section.
 
-Test cases located underneath `./fillers/eips/` _must_ define a reference spec version.
+Test cases located underneath `./tests/eips/` _must_ define a reference spec version.
 
 <figure markdown>
  ![Examples of warnings in the test framework's console output when an EIP is outdated or not specified](./img/reference_spec_warning_console_output.png){ width=auto align=center}
@@ -35,7 +35,7 @@ This check accomplished by adding the following two global variables anywhere in
 
 ## Example
 
-Here is an example from [./fillers/eips/test_eip3651.py](../fillers/EIPs/eip3651.md):
+Here is an example from [./tests/eips/test_eip3651.py](../tests/EIPs/test_eip3651.md):
 
 ```python
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3651.md"

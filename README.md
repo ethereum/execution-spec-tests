@@ -28,8 +28,8 @@ flowchart LR
   end
 
   subgraph "ethereum/execution-spec-tests"
-    A(<code>./fillers/**/*.py</code>\nPython Test Cases)
-    B([<code>$ pytest ./fillers/</code>\nPython Framework])
+    A(<code>./tests/**/*.py</code>\nPython Test Cases)
+    B([<code>$ fill ./tests/</code>\nPython Framework])
   end
 
   subgraph Test Fixture Consumers
@@ -88,16 +88,16 @@ This guide installs stable versions of the required external `evm` and `solc` ex
 3. Verify installation:
     1. Explore test cases:
        ```console
-       pytest --collect-only
+       fill --collect-only
        ```
        Expected console output:
        <figure markdown>
          ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_collect_only.png){align=center}
        </figure>
        
-    2. Execute the test cases (verbosely) in the `./fillers/example/test_acl_example.py` module:
+    2. Execute the test cases (verbosely) in the `./tests/example/test_acl_example.py` module:
         ```console
-        pytest -v fillers/example/test_acl_example.py
+        fill -v tests/example/test_acl_example.py
         ```
         Expected console output:
         <figure markdown>

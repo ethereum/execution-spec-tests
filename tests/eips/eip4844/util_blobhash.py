@@ -1,6 +1,6 @@
 """
 Utility Module: BLOBHASH Opcode
-Tests: fillers/eips/eip4844/
+Tests: tests/eips/eip4844/
     > test_blobhash_opcode_contexts.py
     > test_blobhash_opcode.py
 """
