@@ -246,9 +246,12 @@ invalid
 selfdestruct
 
 addoption
+addinivalue
 argname
 autouse
 callspec
+collectonly
+dedent
 dest
 fixturenames
 funcargs
@@ -256,14 +259,19 @@ getgroup
 getoption
 hookimpl
 hookwrapper
+makepyfile
+metafunc
 modifyitems
 originalname
 parametrized
 param
 params
 parametrize
+pytester
 pytestmark
+runpytest
 runtest
+tryfirst
 trylast
 
 mkdocs

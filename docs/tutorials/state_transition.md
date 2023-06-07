@@ -13,11 +13,11 @@ Before proceeding with this tutorial, it is assumed that you have prior knowledg
 
 ## Example Tests
 
-The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/example/yul_example.py#L17) state test.
+The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/example/test_yul_example.py#L17) state test.
 
 ### Yul Test
 
-You can find the source code for the Yul test [here](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/example/example.py).
+You can find the source code for the Yul test [here](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/example/test_example.py).
 It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml). 
 
 Lets examine each section.
@@ -119,7 +119,7 @@ This field is the balance: the amount of Wei that the account has. It usually do
 
 Here we define the [Yul](https://docs.soliditylang.org/en/v0.8.17/yul.html) code for the contract. It is defined as a multi-line string and starts and ends with curly braces (`{ <yul> }`).
 
-When running the test filler `tf` the solidity compiler `solc` will automatically translate the Yul to EVM opcode at runtime. 
+When running the test filler `fill`, the solidity compiler `solc` will automatically translate the Yul to EVM opcode at runtime.
 
 !!! note
     Currently Yul and direct EVM opcode are supported in execution spec tests. LLL and Solidity may be supported in the future.

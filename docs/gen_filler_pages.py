@@ -15,8 +15,8 @@ import mkdocs_gen_files
 
 logger = logging.getLogger("mkdocs")
 
-source_directory = "fillers"
-target_dir = Path("fillers")
+source_directory = "tests"
+target_dir = Path("tests")
 navigation_file = "navigation.md"
 
 
@@ -123,7 +123,7 @@ for root, _, files in sorted(os.walk(source_directory)):
     python_files = [filename for filename in files if filename.endswith(".py")]
 
     root_filtered = apply_name_filters(root)
-    relative_filler_path = Path(root_filtered).relative_to("fillers")
+    relative_filler_path = Path(root_filtered).relative_to("tests")
     output_directory = target_dir / relative_filler_path
 
     # Process Markdown files first, then Python files for nav section ordering

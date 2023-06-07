@@ -10,7 +10,7 @@ copyright: 'Copyright: 2023, Ethereum Community'
 plugins:
   - git-authors:
       exclude:
-        - fillers/*
+        - tests/*
         - navigation.md
   - glightbox
   - mkdocstrings:
@@ -29,7 +29,7 @@ plugins:
 
 watch:
   - src/
-  - fillers/
+  - tests/
 
 theme: 
   name: material
