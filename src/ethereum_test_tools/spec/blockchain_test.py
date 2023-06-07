@@ -13,6 +13,7 @@ from typing import (
     Mapping,
     Optional,
     Tuple,
+    Type,
 )
 
 from ethereum_test_forks import Fork
@@ -45,6 +46,13 @@ class BlockchainTest(BaseTest):
     blocks: List[Block]
     genesis_environment: Environment = Environment()
     tag: str = ""
+
+    @classmethod
+    def pytest_parameter_name(cls) -> str:
+        """
+        Returns the parameter name used to identify this filler in a test.
+        """
+        return "blockchain_test"
 
     def make_genesis(
         self,
@@ -285,3 +293,4 @@ class BlockchainTest(BaseTest):
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]
+BlockchainTestFiller = Type[BlockchainTest]

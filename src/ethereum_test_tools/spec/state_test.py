@@ -11,6 +11,7 @@ from typing import (
     Mapping,
     Optional,
     Tuple,
+    Type,
 )
 
 from ethereum_test_forks import Fork
@@ -43,6 +44,13 @@ class StateTest(BaseTest):
     post: Mapping[str, Account]
     txs: List[Transaction]
     tag: str = ""
+
+    @classmethod
+    def pytest_parameter_name(cls) -> str:
+        """
+        Returns the parameter name used to identify this filler in a test.
+        """
+        return "state_test"
 
     def make_genesis(
         self,
@@ -176,3 +184,4 @@ class StateTest(BaseTest):
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]
+StateTestFiller = Type[StateTest]

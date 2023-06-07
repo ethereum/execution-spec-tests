@@ -44,6 +44,7 @@ wd
 wds
 u256
 utils
+util
 validator
 vm
 gwei
@@ -61,6 +62,8 @@ getitem
 metaclass
 radd
 setitem
+splitext
+textwrap
 zfill
 
 lll
@@ -137,7 +140,7 @@ prevrandao
 
 authcall
 callf
-datahash
+blobhash
 jumpdest
 jumpi
 mload
@@ -241,3 +244,37 @@ staticcall
 revert
 invalid
 selfdestruct
+
+addoption
+addinivalue
+argname
+autouse
+callspec
+collectonly
+dedent
+dest
+fixturenames
+funcargs
+getgroup
+getoption
+hookimpl
+hookwrapper
+makepyfile
+metafunc
+modifyitems
+originalname
+parametrized
+param
+params
+parametrize
+pytester
+pytestmark
+runpytest
+runtest
+tryfirst
+trylast
+
+mkdocs
+nav
+
+evaluatable

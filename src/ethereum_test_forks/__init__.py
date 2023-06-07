@@ -7,6 +7,7 @@ from .forks.forks import (
     ArrowGlacier,
     Berlin,
     Byzantium,
+    Cancun,
     Constantinople,
     ConstantinopleFix,
     Frontier,
@@ -23,14 +24,17 @@ from .forks.transition import (
     MergeToShanghaiAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
-from .forks.upcoming import Cancun
 from .helpers import (
-    fork_only,
+    InvalidForkError,
     forks_from,
     forks_from_until,
+    get_deployed_forks,
+    get_development_forks,
+    get_forks,
+    get_transition_forks,
     is_fork,
-    set_latest_fork,
-    set_latest_fork_by_name,
+    transition_fork_from_to,
+    transition_fork_to,
 )
 
 __all__ = [
@@ -44,6 +48,7 @@ __all__ = [
     "Frontier",
     "GrayGlacier",
     "Homestead",
+    "InvalidForkError",
     "Istanbul",
     "London",
     "Merge",
@@ -52,10 +57,13 @@ __all__ = [
     "Shanghai",
     "ShanghaiToCancunAtTime15k",
     "Cancun",
-    "fork_only",
+    "get_transition_forks",
     "forks_from",
     "forks_from_until",
+    "get_deployed_forks",
+    "get_development_forks",
+    "get_forks",
     "is_fork",
-    "set_latest_fork",
-    "set_latest_fork_by_name",
+    "transition_fork_from_to",
+    "transition_fork_to",
 ]

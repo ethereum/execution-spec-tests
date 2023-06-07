@@ -9,6 +9,7 @@ __pycache__/
 *$py.class
 venv/
 /fixtures/
+/out/
 
 # C extensions
 *.so
@@ -53,4 +54,8 @@ pip-delete-this-directory.txt
 verify_kzg_proof
 
 # docs
+.cache
 _readthedocs
+site
+venv-docs/
+docs/_auto_gen_fillers/

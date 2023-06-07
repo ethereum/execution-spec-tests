@@ -7,8 +7,10 @@ from .code import Code, CodeGasMeasure, Initcode, Yul
 from .common import (
     AccessList,
     Account,
+    Auto,
     Block,
     Environment,
+    Fixture,
     Header,
     JSONEncoder,
     Storage,
@@ -26,20 +28,29 @@ from .common import (
     to_hash,
     to_hash_bytes,
 )
-from .filling.decorators import test_from, test_from_until, test_only
 from .filling.fill import fill_test
 from .reference_spec import ReferenceSpec, ReferenceSpecTypes
-from .spec import BlockchainTest, StateTest
+from .spec import (
+    BaseTest,
+    BlockchainTest,
+    BlockchainTestFiller,
+    StateTest,
+    StateTestFiller,
+)
 from .vm import Opcode, Opcodes
 
 __all__ = (
     "AccessList",
     "Account",
+    "Auto",
+    "BaseTest",
     "Block",
     "BlockchainTest",
+    "BlockchainTestFiller",
     "Code",
     "CodeGasMeasure",
     "Environment",
+    "Fixture",
     "Header",
     "Initcode",
     "JSONEncoder",
@@ -48,6 +59,7 @@ __all__ = (
     "ReferenceSpec",
     "ReferenceSpecTypes",
     "StateTest",
+    "StateTestFiller",
     "Storage",
     "TestAddress",
     "Transaction",
@@ -62,9 +74,6 @@ __all__ = (
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
     "fill_test",
-    "test_from_until",
-    "test_from",
-    "test_only",
     "to_address",
     "to_hash_bytes",
     "to_hash",
