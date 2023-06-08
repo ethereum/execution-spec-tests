@@ -61,7 +61,7 @@ The following requires a Python 3.10 installation.
 
 ## Quick Start
 
-This guide installs stable versions of the required external `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow this guide and then follow the additional steps in [available in the online doc here](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
+This guide installs stable versions of the required external `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
 1. Ensure go-ethereum's `evm` tool is in your path. Either build the required version, or alternatively:
 
@@ -85,7 +85,7 @@ This guide installs stable versions of the required external `evm` and `solc` ex
    source ./venv/bin/activate
    pip install -e .[docs,lint,test]
    ```
-4. Verify installation:
+4. Verify the installation:
     1. Explore test cases:
        ```console
        fill --collect-only
@@ -102,25 +102,28 @@ This guide installs stable versions of the required external `evm` and `solc` ex
         Check:
        
         1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
-        2. The fixture file `out/example/acl_example/test_access_list.json` has been generated.
+        2. The corresponding fixture file has been generated:
+
+           ```console
+           head fixtures/example/acl_example/test_access_list.json
+           ```
 
 ## Coverage
 
-The test cases implemented can be browsed in the [Test Case Reference doc](https://danceratopz.github.io/execution-spec-tests/tests/).
+The available test cases can be browsed in the [Test Case Reference doc](https://danceratopz.github.io/execution-spec-tests/tests/).
 
 ## Usage
 
 See the [online documentation](https://danceratopz.github.io/execution-spec-tests/) for further help with working with this codebase:
 1. Learn [useful command-line flags](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_command_line/).
-2. [Execute tests for features under development](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/) via the `--latest-fork` flag.
+2. [Execute tests for features under development](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
 3. _Optional:_ [Configure VS Code](https://danceratopz.github.io/execution-spec-tests/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_vs_code/#executing-and-debugging-test-cases).
 4. Implement a new test case, see [Writing Tests](https://danceratopz.github.io/execution-spec-tests/writing_tests/).
 
-
 ## Contributing
 
-Please see the [online documentation](https://danceratopz.github.io/execution-spec-tests/writing_tests/) for this repositories coding standards and help on how to implement new tests.
+Contributions and feedback are welcome. Please see the [online documentation](https://danceratopz.github.io/execution-spec-tests/writing_tests/) for this repository's coding standards and help on implementing new tests.
 
-## License 
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
