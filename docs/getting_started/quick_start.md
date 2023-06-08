@@ -78,7 +78,12 @@ The following requires a Python 3.10 installation.
         Check:
        
         1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
-        2. The fixture file `out/example/acl_example/test_access_list.json` has been generated.
+        2. The corresponding fixture file has been generated:
+
+           ```console
+           head fixtures/example/acl_example/test_access_list.json
+           ```
+
 
 ## Next Steps
 

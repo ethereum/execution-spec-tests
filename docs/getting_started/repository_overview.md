@@ -3,11 +3,11 @@
 The most relevant folders and file in the repo are:
 ```
 📁 execution-test-specs/
-├─╴📁 fillers/                   # test cases
+├─╴📁 tests/                     # test cases
 │   ├── 📁 eips/
 │   ├── 📁 vm/
 │   └── 📁 ...
-├─╴📁 out/                       # default fixture output dir
+├─╴📁 fixtures/                  # default fixture output dir
 │   ├── 📁 eips/
 │   ├── 📁 vm/
 │   └── 📁 ...
@@ -26,7 +26,7 @@ The most relevant folders and file in the repo are:
 └── 📄 whitelist.txt             # spellcheck dictionary
 ```
 
-#### `fillers/`
+#### `tests/`
 
 Contains the implementation of the Ethereum consensus tests available in this repository.
 

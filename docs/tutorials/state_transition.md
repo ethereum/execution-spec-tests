@@ -191,7 +191,8 @@ In this case, we look at the storage of the contract we called and add to it wha
     state_test(env=env, pre=pre, post=post, txs=[tx])
 ```
 
-This line calls the wrapper to the `StateTest` object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, `../out/example/yul_example/test_yul.json`).
+This line calls the wrapper to the `StateTest` object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, `./fixtures/example/yul_example/test_yul.json`).
+
 ## Conclusion
 
 At this point you should be able to state transition tests within a single block.
