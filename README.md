@@ -91,18 +91,14 @@ This guide installs stable versions of the required external `evm` and `solc` ex
        fill --collect-only
        ```
        Expected console output:
-       <figure markdown>
-         ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_collect_only.png){align=center}
-       </figure>
+         ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_collect_only.png)
        
     2. Execute the test cases (verbosely) in the `./tests/example/test_acl_example.py` module:
         ```console
         fill -v tests/example/test_acl_example.py
         ```
         Expected console output:
-        <figure markdown>
-          ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_run_example.png){align=center}
-        </figure>
+          ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_run_example.png)
         Check:
        
         1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
