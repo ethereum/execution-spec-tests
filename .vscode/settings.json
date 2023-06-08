@@ -10,7 +10,7 @@
         "internal-terms": false // Disable the `internal-terms` dictionary
     },
     "[python]": {
-        "editor.rulers": [80],
+        "editor.rulers": [100],
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.codeActionsOnSave": {
@@ -33,5 +33,9 @@
         // "pytest-framework.ini",
         "pytest.ini"
         // "-vv"
+    ],
+    "black-formatter.args": [
+        "--line-length",
+        "99"
     ]
 }

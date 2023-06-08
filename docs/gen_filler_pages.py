@@ -49,9 +49,7 @@ if os.environ.get("CI") != "true":  # always generate in ci/cd
             "disable filler doc generation"
         )
     else:
-        logger.warning(
-            f"{script_name}: skipping automatic generation of " "filler doc"
-        )
+        logger.warning(f"{script_name}: skipping automatic generation of " "filler doc")
         logger.info(
             f"{script_name}: set env var {enabled_env_var_name} "
             "to 'true' and re-run `mkdocs serve` or `mkdocs build` to "
@@ -92,9 +90,7 @@ def apply_name_filters(input_string: str):
     ]
 
     for pattern, replacement in regexes:
-        input_string = re.sub(
-            pattern, replacement, input_string, flags=re.IGNORECASE
-        )
+        input_string = re.sub(pattern, replacement, input_string, flags=re.IGNORECASE)
 
     return input_string
 
@@ -117,9 +113,7 @@ for root, _, files in sorted(os.walk(source_directory)):
     if "__pycache__" in root:
         continue
 
-    markdown_files = [
-        filename for filename in files if filename.endswith(".md")
-    ]
+    markdown_files = [filename for filename in files if filename.endswith(".md")]
     python_files = [filename for filename in files if filename.endswith(".py")]
 
     root_filtered = apply_name_filters(root)
@@ -134,15 +128,11 @@ for root, _, files in sorted(os.walk(source_directory)):
             # from the __init__.py. mkdocs seems to struggle when both
             # an index.md and a readme.md are present.
             output_file_path = output_directory / "test_cases.md"
-            nav_path = (
-                "Test Case Reference" / relative_filler_path / "Test Cases"
-            )
+            nav_path = "Test Case Reference" / relative_filler_path / "Test Cases"
         else:
             output_file_path = output_directory / file
             file_no_ext = os.path.splitext(file)[0]
-            nav_path = (
-                "Test Case Reference" / relative_filler_path / file_no_ext
-            )
+            nav_path = "Test Case Reference" / relative_filler_path / file_no_ext
         copy_file(source_file, output_file_path)
         nav_tuple = tuple(apply_name_filters(part) for part in nav_path.parts)
         nav[nav_tuple] = output_file_path
@@ -159,9 +149,7 @@ for root, _, files in sorted(os.walk(source_directory)):
         else:
             file_no_ext = os.path.splitext(file)[0]
             output_file_path = output_directory / f"{file_no_ext}.md"
-            nav_path = (
-                "Test Case Reference" / relative_filler_path / file_no_ext
-            )
+            nav_path = "Test Case Reference" / relative_filler_path / file_no_ext
             package_name = os.path.join(root, file_no_ext).replace(os.sep, ".")
             pytest_test_path = os.path.join(root, file)
 

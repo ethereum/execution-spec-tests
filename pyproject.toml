@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-line_length = 79
+line_length = 99
 
 [tool.black]
-line-length = 79
+line-length = 99

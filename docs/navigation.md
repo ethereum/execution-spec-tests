@@ -18,6 +18,7 @@
   * [Getting Help](getting_help/index.md)
   * [Developer Doc](dev/index.md)
     * [Documentation](dev/docs.md)
+    * [Coding Style](dev/coding_style.md)
   * [Library Reference](library/index.md)
     * [EVM Transition Tool Package](library/evm_transition_tool.md)
     * [EVM Block Builder Package](library/evm_block_builder.md)
