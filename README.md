@@ -63,21 +63,21 @@ The following requires a Python 3.10 installation.
 
 This guide installs stable versions of the required external `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow this guide and then follow the additional steps in [available in the online doc here](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
-1. Ensure go-ethereum's `evm` tool and `solc` are in your path. Either build the required versions, or alternatively:
+1. Ensure go-ethereum's `evm` tool is in your path. Either build the required version, or alternatively:
 
     ```console
     sudo add-apt-repository -y ppa:ethereum/ethereum
     sudo apt-get update
-    sudo apt-get install ethereum solc
+    sudo apt-get install ethereum
     ```
+
     More help:
 
     - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
-    - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
 
-    Help for other platforms is available in the [online doc](https://danceratopz.github.io/execution-spec-tests/getting_started/quick_start/).
+2. Ensure `solc` v0.8.17 is in your path, it can be downloaded [here](https://github.com/ethereum/solidity/releases/tag/v0.8.17). Support for more recent `solc` versions is pending, cf [execution-spec-tests#135](https://github.com/ethereum/execution-spec-tests/issues/135).
 
-2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its and dependencies (it's recommended to use a virtual environment for the installation):
+3. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its and dependencies (it's recommended to use a virtual environment for the installation):
    ```console
    git clone https://github.com/ethereum/execution-spec-tests
    cd execution-spec-tests
@@ -85,7 +85,7 @@ This guide installs stable versions of the required external `evm` and `solc` ex
    source ./venv/bin/activate
    pip install -e .[docs,lint,test]
    ```
-3. Verify installation:
+4. Verify installation:
     1. Explore test cases:
        ```console
        fill --collect-only
