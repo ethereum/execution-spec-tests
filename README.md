@@ -104,6 +104,10 @@ This guide installs stable versions of the required external `evm` and `solc` ex
         1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
         2. The fixture file `out/example/acl_example/test_access_list.json` has been generated.
 
+## Coverage
+
+The test cases implemented can be browsed in the [Test Case Reference doc](https://danceratopz.github.io/execution-spec-tests/tests/).
+
 ## Usage
 
 See the [online documentation](https://danceratopz.github.io/execution-spec-tests/) for further help with working with this codebase:
