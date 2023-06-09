@@ -103,6 +103,7 @@ shl
 shr
 sar
 rjust
+ljust
 
 keccak256
 
