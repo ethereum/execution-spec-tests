@@ -53,13 +53,13 @@ The generated test fixtures can be used:
 1. Directly by client teams' test frameworks, and,
 2. In the integration tests executed in the [ethereum/hive](https://github.com/ethereum/hive) framework.
 
-# Getting Started
+## Getting Started
 
-## Prerequisites
+### Prerequisites
 
 The following requires a Python 3.10 installation.
 
-## Quick Start
+### Quick Start
 
 This guide installs stable versions of the required external `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
@@ -122,6 +122,7 @@ The available test cases can be browsed in the [Test Case Reference doc](https:/
 ## Usage
 
 See the [online documentation](https://danceratopz.github.io/execution-spec-tests/) for further help with working with this codebase:
+
 1. Learn [useful command-line flags](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_command_line/).
 2. [Execute tests for features under development](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
 3. _Optional:_ [Configure VS Code](https://danceratopz.github.io/execution-spec-tests/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_vs_code/#executing-and-debugging-test-cases).
