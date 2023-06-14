@@ -18,9 +18,7 @@ All test cases are located in the `tests` directory, which is composed of many s
 │   └── 📁 ...
 ```
 
-Each category/sub-directory may have multiple Python test modules (`*.py`) which in turn may contain many test functions. The test functions themselves are always parametrized by fork, although when new tests are added for a feature under development, they will only be valid for the fork under active development.
-
-Look for a relevant test category and add new tests to this category, if appropriate.
+Each category/sub-directory may have multiple Python test modules (`*.py`) which in turn may contain many test functions. The test functions themselves are always parametrized by fork (by the framework).
 
 A new test can be added by either:
 

@@ -24,4 +24,17 @@ Blockchain tests span multiple blocks which may or may not contain transactions 
 
 ### Fork Transition Tests
 
-There is a special type of blockchain test that is used to test a fork transition. It's execution is not parametrized for all possible forks; it targets exactly the blocks at the point of transition from one evm implementation to the next. This type of test must be parametrized using a special fork, for example, [`ShanghaiToCancunAtTime15k`](../library/ethereum_test_forks.md#ethereum_test_forks.ShanghaiToCancunAtTime15k).
+There is a special type of blockchain test that is used to test a fork transition. It's not executed for all possible forks, rather it targets exactly the blocks at the point of transition from one evm implementation to the next. This type of test must be marked with the `valid_at_transition_to` marker, for example:
+
+```python
+@pytest.mark.valid_at_transition_to("Cancun")
+def test_blob_type_tx_pre_fork(
+    blockchain_test: BlockchainTestFiller,
+    pre: Dict,
+    env: Environment,
+    blocks: List[Block],
+):
+    """
+    Reject blocks with blobs before blobs fork
+    """
+```

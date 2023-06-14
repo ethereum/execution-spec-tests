@@ -2,47 +2,34 @@
 
 ## Test Functions
 
-Every test spec is a python function that defines a single `StateTest`/`BlockchainTest` object.
+Every test case is defined as a python function that defines a single `StateTest` or `BlockchainTest` by using one of the `state_test` or `blockchain_test` objects made available by the framework. Test cases, respectively test modules, must fulfil the following requirements:
 
-Every test function _must_:
+| Requirement                                                            | When                                        |
+| -----------------------------------------------------------------------|---------------------------------------------|
+| Be [decorated with validity markers](#specifying-which-forks-tests-are-valid-for) | If the test case is not valid for all forks |
+| Use one of `state_test` or `blockchain_test` [in its function arguments](#the-state_test-and-blockchain_test-test-function-arguments) | Always |
+| Call the `state_test` or `blockchain_test` in its test body                                                                           | Always |
+| Add a [reference version of the EIP spec](./reference_specification.md) under test | Test case located under `./tests/eips/`    |
 
-1. Use one of `state_test` or `blockchain_test` in its function arguments.
-2. Call the `state_test` respectively `blockchain_test` object within the test function body.
-3. Be parametrized by the forks for which it is to be tested.
+### Specifying which Forks Tests are Valid For
 
-If the test module is located underneath the `./tests/eips/` directory, the test module _must_ additionally:
+Test cases can (and it most cases should) be decorated with one or more "validity markers" that define which the forks the test is valid for. This is achieved by applying:
 
-4. Add a reference version of the EIP spec under test, see [Referencing an EIP Spec Version](./reference_specification.md).
+- `pytest.mark.valid_from(FORK)` and/or `pytest.mark.valid_until(FORK)`
 
-### The `state_test` and `blockchain_test` test function arguments.
+or
 
-The test function's signature _must_ contain exactly one of either a `state_test` or `blockchain_test` argument.
+- `pytest.mark.valid_at_transition_to(FORK)`
 
-For example, for state tests:
-```python
-def test_access_list(state_test: StateTestFiller):
-```
-and for blockchain tests:
-```python
-def test_contract_creating_tx(
-    blockchain_test: BlockchainTestFiller, fork: Fork, initcode: Initcode
-):
-```
-
-The `state_test` and `blockchain_test` objects are actually wrapper classes to the `StateTest`, respectively `BlockchainTest` objects, that once called actually instantiate a new instance of these objects and fill the test case using the `evm` tool according to the pre and post states and the transactions defined within the test.
-
-### Parametrization By Fork
-
-The test function must be parametrized by the forks for which it is to be tested. This is achieved by applying the `pytest.mark.parametrize` decorator on either the test function, test class or test module level:
+markers on either the test function, test class or test module level:
 
 === "Function"
 
     ```python
     import pytest
 
-    from ethereum_test_forks import forks_from_until, Berlin, London
-
-    @pytest.mark.parametrize("fork", forks_from_until(Berlin, London))
+    @pytest.mark.valid_from("Berlin")
+    @pytest.mark.valid_until("London")
     def test_access_list(state_test: StateTestFiller, fork: Fork):
     ```
 
@@ -51,9 +38,8 @@ The test function must be parametrized by the forks for which it is to be tested
     ```python
     import pytest
 
-    from ethereum_test_forks import ShanghaiToCancunAtTime15k
 
-    @pytest.mark.parametrize("fork", ShanghaiToCancunAtTime15k)
+    @pytest.mark.valid_from("Shanghai")
     class TestMultipleWithdrawalsSameAddress:
     ```
 
@@ -62,15 +48,33 @@ The test function must be parametrized by the forks for which it is to be tested
     ```python
     import pytest
 
-    from ethereum_test_forks import forks_from_until, Shanghai
-
-    pytestmark = pytest.mark.parametrize("fork", forks_from(Shanghai))
+    pytestmark = pytest.mark.valid_from("Shanghai")
     ```
 
 The [`ethereum_test_forks`](../library/ethereum_test_forks.md) package defines the available forks and provides the following helpers that return all forks within the specified range:
 
 - [forks_from](../library/ethereum_test_forks.md#ethereum_test_forks.forks_from)
 - [forks_from_until](../library/ethereum_test_forks.md#ethereum_test_forks.forks_from_until)
+
+### The `state_test` and `blockchain_test` Test Function Arguments
+
+The test function's signature _must_ contain exactly one of either a `state_test` or `blockchain_test` argument.
+
+For example, for state tests:
+
+```python
+def test_access_list(state_test: StateTestFiller):
+```
+
+and for blockchain tests:
+
+```python
+def test_contract_creating_tx(
+    blockchain_test: BlockchainTestFiller, fork: Fork, initcode: Initcode
+):
+```
+
+The `state_test` and `blockchain_test` objects are actually wrapper classes to the `StateTest`, respectively `BlockchainTest` objects, that once called actually instantiate a new instance of these objects and fill the test case using the `evm` tool according to the pre and post states and the transactions defined within the test.
 
 ## `StateTest` Object
 

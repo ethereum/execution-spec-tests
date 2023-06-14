@@ -31,7 +31,7 @@ Test Yul Source Code Examples
 In Python, multi-line strings are denoted using `"""`. As a convention, a file's purpose is often described in the opening string of the file.
 
 ```python
-from ethereum_test_forks import Berlin, Fork, forks_from
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Environment,
@@ -44,14 +44,23 @@ from ethereum_test_tools import (
 
 In this snippet the required constants, types and helper functions are imported from `ethereum_test_tools` and `ethereum_test_forks`. We will go over these as we come across them.
 
-
 ```python
-@pytest.mark.parametrize("fork", forks_from(Berlin))
+@pytest.mark.valid_from("Berlin")
 ```
 
 In Python this kind of definition is called a [*decorator*](https://docs.python.org/3/search.html?q=decorator).
 It modifies the action of the function after it.
-In this case, the decorator is a [pytest fixture](https://docs.pytest.org/en/latest/explanation/fixtures.html) that parametrizes the test for the [Berlin fork](https://ethereum.org/en/history/#berlin) and the forks after it.
+In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org/en/latest/explanation/fixtures.html) defined by the execution-specs-test framework that specifies that the test is valid for the [Berlin fork](https://ethereum.org/en/history/#berlin) and all forks after it. The framework will then execute this test case for all forks in the fork range specified by the command-line arguments.
+
+!!! info "Executing the test"
+    To execute this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
+    ```python
+    fill -k test_yul
+    ```
+    and to execute it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
+    ```python
+    fill -k test_yul --from London --until Merge
+    ```
 
 ```python
 def test_yul(state_test: StateTestFiller, fork: Fork):
@@ -63,17 +72,6 @@ def test_yul(state_test: StateTestFiller, fork: Fork):
 This is the format of a [Python function](https://docs.python.org/3/tutorial/controlflow.html#defining-functions).
 It starts with `def <function name>(<parameters>):`, and then has indented code for the function.
 The function definition ends when there is a line that is no longer indented. As with files, by convention functions start with a string that explains what the function does.
-
-
-!!! info
-    To execute this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
-    ```python
-    fill -k test_yul
-    ```
-    To execute it for a specific fork, the fork name can be combined in a Python evaluatable expression using `and` in the string:
-    ```python
-    fill -k "test_yul and Shanghai"
-    ```
 
 !!! note "The `state_test` function argument"
     This test defines a state test and, as such, _must_ include the `state_test` in its function arguments. This is a callable object (actually a wrapper class to the `StateTest`); we will see how it is called later.
