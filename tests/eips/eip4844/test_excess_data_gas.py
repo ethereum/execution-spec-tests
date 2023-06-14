@@ -3,7 +3,7 @@ Test EIP-4844: Shard Blob Transactions (Excess Data Tests)
 EIP: https://eips.ethereum.org/EIPS/eip-4844
 """
 import itertools
-from typing import List, Mapping, Optional
+from typing import Iterator, List, Mapping, Optional, Tuple
 
 import pytest
 
@@ -18,6 +18,16 @@ from ethereum_test_tools import (
     add_kzg_version,
     to_address,
     to_hash_bytes,
+)
+
+from .utils import (
+    BLOB_COMMITMENT_VERSION_KZG,
+    DATA_GAS_PER_BLOB,
+    MAX_BLOBS_PER_BLOCK,
+    TARGET_BLOBS_PER_BLOCK,
+    calc_excess_data_gas,
+    get_data_gasprice,
+    get_min_excess_data_blobs_for_data_gas_price,
 )
 
 # * Adding a new test *
@@ -44,80 +54,6 @@ REFERENCE_SPEC_VERSION = "ac003985b9be74ff48bd897770e6d5f2e4318715"
 # All tests run from Cancun fork
 pytestmark = pytest.mark.valid_from("Cancun")
 
-BLOB_COMMITMENT_VERSION_KZG = 1
-BLOBHASH_GAS_COST = 3
-MIN_DATA_GASPRICE = 1
-DATA_GAS_PER_BLOB = 2**17
-MAX_DATA_GAS_PER_BLOCK = 2**19
-TARGET_DATA_GAS_PER_BLOCK = 2**18
-MAX_BLOBS_PER_BLOCK = MAX_DATA_GAS_PER_BLOCK // DATA_GAS_PER_BLOB
-TARGET_BLOBS_PER_BLOCK = TARGET_DATA_GAS_PER_BLOCK // DATA_GAS_PER_BLOB
-DATA_GASPRICE_UPDATE_FRACTION = 2225652
-
-
-def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
-    """
-    Used to calculate the data gas cost.
-    """
-    i = 1
-    output = 0
-    numerator_accumulator = factor * denominator
-    while numerator_accumulator > 0:
-        output += numerator_accumulator
-        numerator_accumulator = (numerator_accumulator * numerator) // (denominator * i)
-        i += 1
-    return output // denominator
-
-
-def calc_data_fee(tx: Transaction, excess_data_gas: int) -> int:
-    """
-    Calculate the data fee for a transaction.
-    """
-    return get_total_data_gas(tx) * get_data_gasprice(excess_data_gas)
-
-
-def get_total_data_gas(tx: Transaction) -> int:
-    """
-    Calculate the total data gas for a transaction.
-    """
-    if tx.blob_versioned_hashes is None:
-        return 0
-    return DATA_GAS_PER_BLOB * len(tx.blob_versioned_hashes)
-
-
-def get_data_gasprice_from_blobs(excess_blobs: int) -> int:
-    """
-    Calculate the data gas price from the excess blob count.
-    """
-    return fake_exponential(
-        MIN_DATA_GASPRICE,
-        excess_blobs * DATA_GAS_PER_BLOB,
-        DATA_GASPRICE_UPDATE_FRACTION,
-    )
-
-
-def get_data_gasprice(excess_data_gas: int) -> int:
-    """
-    Calculate the data gas price from the excess.
-    """
-    return fake_exponential(
-        MIN_DATA_GASPRICE,
-        excess_data_gas,
-        DATA_GASPRICE_UPDATE_FRACTION,
-    )
-
-
-def calc_excess_data_gas(parent_excess_data_gas: int, new_blobs: int) -> int:
-    """
-    Calculate the excess data gas for a block given the parent excess data gas
-    and the number of blobs in the block.
-    """
-    consumed_data_gas = new_blobs * DATA_GAS_PER_BLOB
-    if parent_excess_data_gas + consumed_data_gas < TARGET_DATA_GAS_PER_BLOCK:
-        return 0
-    else:
-        return parent_excess_data_gas + consumed_data_gas - TARGET_DATA_GAS_PER_BLOCK
-
 
 @pytest.fixture
 def parent_excess_blobs() -> int:  # noqa: D103
@@ -135,11 +71,11 @@ def parent_excess_data_gas(parent_excess_blobs: int) -> int:  # noqa: D103
 @pytest.fixture
 def correct_excess_data_gas(  # noqa: D103
     parent_excess_data_gas: int,
-    new_blobs: int,
+    parent_blobs: int,
 ) -> int:
     return calc_excess_data_gas(
         parent_excess_data_gas=parent_excess_data_gas,
-        new_blobs=new_blobs,
+        parent_blobs=parent_blobs,
     )
 
 
@@ -155,29 +91,27 @@ def header_excess_data_gas_delta() -> Optional[int]:  # noqa: D103
 
 @pytest.fixture
 def header_excess_data_gas(  # noqa: D103
-    parent_excess_data_gas: int,
+    correct_excess_data_gas: int,
     header_excess_blobs_delta: Optional[int],
     header_excess_data_gas_delta: Optional[int],
 ) -> Optional[int]:
     if header_excess_blobs_delta is not None:
-        return parent_excess_data_gas + (header_excess_blobs_delta * DATA_GAS_PER_BLOB)
+        modified_excess_data_gas = correct_excess_data_gas + (
+            header_excess_blobs_delta * DATA_GAS_PER_BLOB
+        )
+        if modified_excess_data_gas < 0:
+            modified_excess_data_gas = 2**64 + (modified_excess_data_gas)
+        return modified_excess_data_gas
     if header_excess_data_gas_delta is not None:
-        return parent_excess_data_gas + header_excess_data_gas_delta
+        return correct_excess_data_gas + header_excess_data_gas_delta
     return None
 
 
 @pytest.fixture
-def fee_per_data_gas(  # noqa: D103
-    parent_excess_data_gas: int,
+def block_fee_per_data_gas(  # noqa: D103
+    correct_excess_data_gas: int,
 ) -> int:
-    return get_data_gasprice(excess_data_gas=parent_excess_data_gas)
-
-
-@pytest.fixture
-def tx_max_fee_per_data_gas(  # noqa: D103
-    fee_per_data_gas: int,
-) -> int:
-    return fee_per_data_gas
+    return get_data_gasprice(excess_data_gas=correct_excess_data_gas)
 
 
 @pytest.fixture
@@ -188,27 +122,36 @@ def block_base_fee() -> int:  # noqa: D103
 @pytest.fixture
 def env(  # noqa: D103
     parent_excess_data_gas: int,
+    parent_blobs: int,
     block_base_fee: int,
 ) -> Environment:
     return Environment(
         excess_data_gas=parent_excess_data_gas,
+        data_gas_used=parent_blobs * DATA_GAS_PER_BLOB,
         base_fee=block_base_fee,
     )
 
 
 @pytest.fixture
-def tx_max_fee(  # noqa: D103
+def tx_max_fee_per_gas(  # noqa: D103
     block_base_fee: int,
 ) -> int:
     return block_base_fee
 
 
 @pytest.fixture
+def tx_max_fee_per_data_gas(  # noqa: D103
+    block_fee_per_data_gas: int,
+) -> int:
+    return block_fee_per_data_gas
+
+
+@pytest.fixture
 def tx_data_cost(  # noqa: D103
-    fee_per_data_gas: int,
+    tx_max_fee_per_data_gas: int,
     new_blobs: int,
 ) -> int:
-    return fee_per_data_gas * DATA_GAS_PER_BLOB * new_blobs
+    return tx_max_fee_per_data_gas * DATA_GAS_PER_BLOB * new_blobs
 
 
 @pytest.fixture
@@ -217,9 +160,9 @@ def tx_value() -> int:  # noqa: D103
 
 
 @pytest.fixture
-def tx_exact_cost(tx_value: int, tx_max_fee: int, tx_data_cost: int) -> int:  # noqa: D103
+def tx_exact_cost(tx_value: int, tx_max_fee_per_gas: int, tx_data_cost: int) -> int:  # noqa: D103
     tx_gas = 21000
-    return (tx_gas * tx_max_fee) + tx_value + tx_data_cost
+    return (tx_gas * tx_max_fee_per_gas) + tx_value + tx_data_cost
 
 
 @pytest.fixture
@@ -244,8 +187,8 @@ def post(destination_account: str, tx_value: int) -> Mapping[str, Account]:  # n
 @pytest.fixture
 def tx(  # noqa: D103
     new_blobs: int,
-    tx_max_fee: int,
-    tx_data_cost: int,
+    tx_max_fee_per_gas: int,
+    tx_max_fee_per_data_gas: int,
     destination_account: str,
 ):
     if new_blobs == 0:
@@ -256,7 +199,7 @@ def tx(  # noqa: D103
             to=destination_account,
             value=1,
             gas_limit=21000,
-            max_fee_per_gas=tx_max_fee,
+            max_fee_per_gas=tx_max_fee_per_gas,
             max_priority_fee_per_gas=0,
             access_list=[],
         )
@@ -267,9 +210,9 @@ def tx(  # noqa: D103
             to=destination_account,
             value=1,
             gas_limit=21000,
-            max_fee_per_gas=tx_max_fee,
+            max_fee_per_gas=tx_max_fee_per_gas,
             max_priority_fee_per_gas=0,
-            max_fee_per_data_gas=tx_data_cost,
+            max_fee_per_data_gas=tx_max_fee_per_data_gas,
             access_list=[],
             blob_versioned_hashes=add_kzg_version(
                 [to_hash_bytes(x) for x in range(new_blobs)],
@@ -279,23 +222,42 @@ def tx(  # noqa: D103
 
 
 @pytest.fixture
+def header_data_gas_used() -> Optional[int]:  # noqa: D103
+    return None
+
+
+@pytest.fixture
 def blocks(  # noqa: D103
     tx: Transaction,
     header_excess_data_gas: Optional[int],
+    header_data_gas_used: Optional[int],
 ):
     if header_excess_data_gas is not None:
         return [
             Block(
                 txs=[tx],
-                rlp_modifier=Header(excess_data_gas=header_excess_data_gas),
+                rlp_modifier=Header(
+                    excess_data_gas=header_excess_data_gas,
+                ),
                 exception="invalid excess data gas",
+            )
+        ]
+    if header_data_gas_used is not None:
+        return [
+            Block(
+                txs=[tx],
+                rlp_modifier=Header(
+                    data_gas_used=header_data_gas_used,
+                ),
+                exception="invalid data gas used",
             )
         ]
     return [Block(txs=[tx])]
 
 
-@pytest.mark.parametrize("new_blobs", range(0, MAX_BLOBS_PER_BLOCK + 1))
+@pytest.mark.parametrize("parent_blobs", range(0, MAX_BLOBS_PER_BLOCK + 1))
 @pytest.mark.parametrize("parent_excess_blobs", range(0, TARGET_BLOBS_PER_BLOCK + 1))
+@pytest.mark.parametrize("new_blobs", [1])
 def test_correct_excess_data_gas_calculation(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -317,24 +279,27 @@ def test_correct_excess_data_gas_calculation(
     )
 
 
+DATA_GAS_COST_INCREASES = [
+    get_min_excess_data_blobs_for_data_gas_price(i)
+    for i in [
+        2,  # First data gas cost increase
+        2**32 // DATA_GAS_PER_BLOB,  # Data tx wei cost 2^32
+        2**32,  # Data gas cost 2^32
+        2**64 // DATA_GAS_PER_BLOB,  # Data tx wei cost 2^64
+        2**64,  # Data gas cost 2^64
+        (
+            120_000_000 * (10**18) // DATA_GAS_PER_BLOB
+        ),  # Data tx wei is current total Ether supply
+    ]
+]
+
+
 @pytest.mark.parametrize(
     "parent_excess_blobs",
-    [
-        # Data gas cost increase to 2
-        11,
-        # Data tx wei cost increase to 2^32
-        176,
-        # Data gas cost increase to 2^32
-        376,
-        # Data tx wei cost increase to 2^64
-        553,
-        # Data gas cost increase to 2^64
-        753,
-        # Data tx wei cost increase to main net current total Ether supply
-        820,
-    ],
+    [g - 1 for g in DATA_GAS_COST_INCREASES],
 )
-@pytest.mark.parametrize("new_blobs", [TARGET_BLOBS_PER_BLOCK + 1])
+@pytest.mark.parametrize("parent_blobs", [TARGET_BLOBS_PER_BLOCK + 1])
+@pytest.mark.parametrize("new_blobs", [1])
 def test_correct_increasing_data_gas_costs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -358,20 +323,10 @@ def test_correct_increasing_data_gas_costs(
 
 @pytest.mark.parametrize(
     "parent_excess_blobs",
-    [
-        # Data gas cost decrease to 1
-        12,
-        # Data tx wei cost decrease from 2^32
-        177,
-        # Data gas cost decrease from 2^32
-        377,
-        # Data tx wei cost decrease from 2^64
-        554,
-        # Data gas cost decrease from 2^64
-        754,
-    ],
+    [g for g in DATA_GAS_COST_INCREASES],
 )
-@pytest.mark.parametrize("new_blobs", [TARGET_BLOBS_PER_BLOCK - 1])
+@pytest.mark.parametrize("parent_blobs", [TARGET_BLOBS_PER_BLOCK - 1])
+@pytest.mark.parametrize("new_blobs", [1])
 def test_correct_decreasing_data_gas_costs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -394,7 +349,8 @@ def test_correct_decreasing_data_gas_costs(
 
 
 @pytest.mark.parametrize("header_excess_data_gas", [0])
-@pytest.mark.parametrize("new_blobs", range(0, MAX_BLOBS_PER_BLOCK + 1))
+@pytest.mark.parametrize("new_blobs", [0, 1])
+@pytest.mark.parametrize("parent_blobs", range(0, MAX_BLOBS_PER_BLOCK + 1))
 def test_invalid_zero_excess_data_gas_in_header(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -428,11 +384,56 @@ def test_invalid_zero_excess_data_gas_in_header(
     )
 
 
+def all_invalid_data_gas_used_combinations() -> Iterator[Tuple[int, int]]:
+    """
+    Returns all invalid data gas used combinations.
+    """
+    for new_blobs in range(0, MAX_BLOBS_PER_BLOCK + 1):
+        for header_data_gas_used in range(0, MAX_BLOBS_PER_BLOCK + 1):
+            if new_blobs != header_data_gas_used:
+                yield (new_blobs, header_data_gas_used * DATA_GAS_PER_BLOB)
+        yield (new_blobs, 2**64 - 1)
+
+
 @pytest.mark.parametrize(
-    "header_excess_blobs_delta",
-    [-(TARGET_BLOBS_PER_BLOCK + 1), (TARGET_BLOBS_PER_BLOCK + 1)],
+    "new_blobs,header_data_gas_used",
+    all_invalid_data_gas_used_combinations(),
 )
-@pytest.mark.parametrize("new_blobs", range(0, MAX_BLOBS_PER_BLOCK + 1))
+@pytest.mark.parametrize("parent_blobs", [0])
+def test_invalid_data_gas_used_in_header(
+    blockchain_test: BlockchainTestFiller,
+    env: Environment,
+    pre: Mapping[str, Account],
+    blocks: List[Block],
+    new_blobs: int,
+    header_data_gas_used: Optional[int],
+):
+    """
+    Test rejection of blocks where the data_gas_used in the header is zero in
+    a block with data blobs.
+    """
+    if header_data_gas_used is None:
+        raise Exception("test case is badly formatted")
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=blocks,
+        genesis_environment=env,
+        tag="-".join(
+            [
+                f"correct:{hex(new_blobs * DATA_GAS_PER_BLOB)}",
+                f"header:{hex(header_data_gas_used)}",
+            ]
+        ),
+    )
+
+
+@pytest.mark.parametrize(
+    "header_excess_blobs_delta,parent_blobs",
+    [(-1, 0), (1, MAX_BLOBS_PER_BLOCK)],
+    ids=["zero_blobs_decrease_more_than_expected", "max_blobs_increase_more_than_expected"],
+)
+@pytest.mark.parametrize("new_blobs", [1])
 def test_invalid_excess_data_gas_above_target_change(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -465,29 +466,26 @@ def test_invalid_excess_data_gas_above_target_change(
     )
 
 
-@pytest.mark.parametrize("header_excess_blobs_delta", [0])
 @pytest.mark.parametrize(
-    "new_blobs",
+    "parent_blobs",
     [b for b in range(0, MAX_BLOBS_PER_BLOCK + 1) if b != TARGET_BLOBS_PER_BLOCK],
 )
+@pytest.mark.parametrize("parent_excess_blobs", [1, TARGET_BLOBS_PER_BLOCK])
+@pytest.mark.parametrize("new_blobs", [1])
 def test_invalid_static_excess_data_gas(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
     pre: Mapping[str, Account],
     blocks: List[Block],
     correct_excess_data_gas: int,
-    header_excess_data_gas: Optional[int],
+    parent_excess_data_gas: int,
 ):
     """
     Test rejection of blocks where the excess_data_gas remains unchanged
-    but the blobs included are not TARGET_BLOBS_PER_BLOCK.
+    but the parent blobs included are not TARGET_BLOBS_PER_BLOCK.
     """
-    if header_excess_data_gas is None:
-        raise Exception("test case is badly formatted")
-
-    if header_excess_data_gas == correct_excess_data_gas:
-        raise Exception("invalid test case")
-
+    blocks[0].rlp_modifier = Header(excess_data_gas=parent_excess_data_gas)
+    blocks[0].exception = "invalid excessDataGas"
     blockchain_test(
         pre=pre,
         post={},
@@ -496,15 +494,16 @@ def test_invalid_static_excess_data_gas(
         tag="-".join(
             [
                 f"correct:{hex(correct_excess_data_gas)}",
-                f"header:{hex(header_excess_data_gas)}",
+                f"header:{hex(parent_excess_data_gas)}",
             ]
         ),
     )
 
 
 @pytest.mark.parametrize("header_excess_blobs_delta", range(1, MAX_BLOBS_PER_BLOCK))
-@pytest.mark.parametrize("new_blobs", range(0, TARGET_BLOBS_PER_BLOCK + 1))
+@pytest.mark.parametrize("parent_blobs", range(0, TARGET_BLOBS_PER_BLOCK + 1))
 @pytest.mark.parametrize("parent_excess_blobs", [0])  # Start at 0
+@pytest.mark.parametrize("new_blobs", [1])
 def test_invalid_excess_data_gas_target_blobs_increase_from_zero(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -537,9 +536,12 @@ def test_invalid_excess_data_gas_target_blobs_increase_from_zero(
     )
 
 
-@pytest.mark.parametrize("header_excess_blobs_delta", [0])
-@pytest.mark.parametrize("new_blobs", range(TARGET_BLOBS_PER_BLOCK + 1, MAX_BLOBS_PER_BLOCK + 1))
+@pytest.mark.parametrize("header_excess_data_gas", [0])
+@pytest.mark.parametrize(
+    "parent_blobs", range(TARGET_BLOBS_PER_BLOCK + 1, MAX_BLOBS_PER_BLOCK + 1)
+)
 @pytest.mark.parametrize("parent_excess_blobs", [0])  # Start at 0
+@pytest.mark.parametrize("new_blobs", [1])
 def test_invalid_static_excess_data_gas_from_zero_on_blobs_above_target(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -573,18 +575,15 @@ def test_invalid_static_excess_data_gas_from_zero_on_blobs_above_target(
 
 
 @pytest.mark.parametrize(
-    "new_blobs,header_excess_blobs_delta",
-    [
-        c
-        for c in itertools.product(
-            # new_blobs
-            range(0, MAX_BLOBS_PER_BLOCK + 1),
-            # header_excess_blobs_delta
-            range(-TARGET_BLOBS_PER_BLOCK, TARGET_BLOBS_PER_BLOCK + 1),
-        )
-        if c[1] != c[0] - TARGET_BLOBS_PER_BLOCK  # Only get incorrect combinations
-    ],
+    "parent_blobs,header_excess_blobs_delta",
+    itertools.product(
+        # parent_blobs
+        range(0, MAX_BLOBS_PER_BLOCK + 1),
+        # header_excess_blobs_delta (from correct value)
+        [x for x in range(-TARGET_BLOBS_PER_BLOCK, TARGET_BLOBS_PER_BLOCK + 1) if x != 0],
+    ),
 )
+@pytest.mark.parametrize("new_blobs", [1])
 def test_invalid_excess_data_gas_change(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -621,7 +620,8 @@ def test_invalid_excess_data_gas_change(
     "header_excess_data_gas",
     [(2**64 + (x * DATA_GAS_PER_BLOB)) for x in range(-TARGET_BLOBS_PER_BLOCK, 0)],
 )
-@pytest.mark.parametrize("new_blobs", range(TARGET_BLOBS_PER_BLOCK))
+@pytest.mark.parametrize("parent_blobs", range(TARGET_BLOBS_PER_BLOCK))
+@pytest.mark.parametrize("new_blobs", [1])
 @pytest.mark.parametrize("parent_excess_blobs", range(TARGET_BLOBS_PER_BLOCK))
 def test_invalid_negative_excess_data_gas(
     blockchain_test: BlockchainTestFiller,
@@ -656,7 +656,7 @@ def test_invalid_negative_excess_data_gas(
 
 
 @pytest.mark.parametrize(
-    "new_blobs,header_excess_data_gas_delta",
+    "parent_blobs,header_excess_data_gas_delta",
     [
         (TARGET_BLOBS_PER_BLOCK + 1, 1),
         (TARGET_BLOBS_PER_BLOCK + 1, DATA_GAS_PER_BLOB - 1),
@@ -664,6 +664,7 @@ def test_invalid_negative_excess_data_gas(
         (TARGET_BLOBS_PER_BLOCK - 1, -(DATA_GAS_PER_BLOB - 1)),
     ],
 )
+@pytest.mark.parametrize("new_blobs", [1])
 @pytest.mark.parametrize("parent_excess_blobs", [TARGET_BLOBS_PER_BLOCK + 1])
 def test_invalid_non_multiple_excess_data_gas(
     blockchain_test: BlockchainTestFiller,

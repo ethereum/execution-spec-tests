@@ -16,7 +16,7 @@ from ethereum_test_tools import (
     to_hash_bytes,
 )
 
-from .util_blobhash import BlobhashContext, simple_blob_hashes
+from .utils import MAX_BLOBS_PER_BLOCK, BlobhashContext, simple_blob_hashes
 
 pytestmark = pytest.mark.valid_from("Cancun")
 
@@ -136,7 +136,7 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(0) + to_hash_bytes(3),
+                data=to_hash_bytes(0) + to_hash_bytes(MAX_BLOBS_PER_BLOCK - 1),
                 to=BlobhashContext.address("delegatecall"),
             ),
             {
@@ -158,7 +158,7 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(0) + to_hash_bytes(3),
+                data=to_hash_bytes(0) + to_hash_bytes(MAX_BLOBS_PER_BLOCK - 1),
                 to=BlobhashContext.address("staticcall"),
             ),
             {
@@ -180,26 +180,11 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(0) + to_hash_bytes(3),
+                data=to_hash_bytes(0) + to_hash_bytes(MAX_BLOBS_PER_BLOCK - 1),
                 to=BlobhashContext.address("callcode"),
             ),
             {
                 BlobhashContext.address("callcode"): Account(
-                    storage={
-                        k: v for (k, v) in zip(range(len(simple_blob_hashes)), simple_blob_hashes)
-                    }
-                ),
-            },
-        )
-    elif test_case == "on_INITCODE":
-        return create_opcode_context(
-            {},
-            tx_type_3.with_fields(
-                data=BlobhashContext.code("initcode"),
-                to=None,
-            ),
-            {
-                BlobhashContext.created_contract("tx_created_contract"): Account(
                     storage={
                         k: v for (k, v) in zip(range(len(simple_blob_hashes)), simple_blob_hashes)
                     }

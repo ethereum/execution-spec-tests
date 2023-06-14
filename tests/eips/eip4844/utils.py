@@ -4,10 +4,13 @@ Tests: tests/eips/eip4844/
     > test_blobhash_opcode_contexts.py
     > test_blobhash_opcode.py
 """
-from typing import Union
+from hashlib import sha256
+from typing import Literal, Union
 
 from ethereum_test_tools import (
+    Auto,
     TestAddress,
+    Transaction,
     YulCompiler,
     add_kzg_version,
     compute_create2_address,
@@ -16,15 +19,113 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-BLOBHASH_GAS_COST = 3
-TARGET_BLOB_PER_BLOCK = 2
-MAX_BLOB_PER_BLOCK = 4
+auto = Auto()
+
+
+# Constants
 BLOB_COMMITMENT_VERSION_KZG = 1
+BLOBHASH_GAS_COST = 3
+BLS_MODULUS = 0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001
+BLS_MODULUS_BYTES = BLS_MODULUS.to_bytes(32, "big")
+DATA_GAS_PER_BLOB = 2**17
+DATA_GASPRICE_UPDATE_FRACTION = 3338477
+FIELD_ELEMENTS_PER_BLOB = 4096
+FIELD_ELEMENTS_PER_BLOB_BYTES = FIELD_ELEMENTS_PER_BLOB.to_bytes(32, "big")
+INF_POINT = (0xC0 << 376).to_bytes(48, byteorder="big")
+MAX_DATA_GAS_PER_BLOCK = 786432
+MAX_BLOBS_PER_BLOCK = MAX_DATA_GAS_PER_BLOCK // DATA_GAS_PER_BLOB
+MIN_DATA_GASPRICE = 1
+POINT_EVALUATION_PRECOMPILE_ADDRESS = 20
+POINT_EVALUATION_PRECOMPILE_GAS = 50_000
+TARGET_DATA_GAS_PER_BLOCK = 393216
+TARGET_BLOBS_PER_BLOCK = TARGET_DATA_GAS_PER_BLOCK // DATA_GAS_PER_BLOB
+Z = 0x623CE31CF9759A5C8DAF3A357992F9F3DD7F9339D8998BC8E68373E54F00B75E
+Z_Y_INVALID_ENDIANNESS: Literal["little", "big"] = "little"
+Z_Y_VALID_ENDIANNESS: Literal["little", "big"] = "big"
+
+
+def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
+    """
+    Used to calculate the data gas cost.
+    """
+    i = 1
+    output = 0
+    numerator_accumulator = factor * denominator
+    while numerator_accumulator > 0:
+        output += numerator_accumulator
+        numerator_accumulator = (numerator_accumulator * numerator) // (denominator * i)
+        i += 1
+    return output // denominator
+
+
+def get_total_data_gas(tx: Transaction) -> int:
+    """
+    Calculate the total data gas for a transaction.
+    """
+    if tx.blob_versioned_hashes is None:
+        return 0
+    return DATA_GAS_PER_BLOB * len(tx.blob_versioned_hashes)
+
+
+def get_data_gasprice(*, excess_data_gas: int) -> int:
+    """
+    Calculate the data gas price from the excess.
+    """
+    return fake_exponential(
+        MIN_DATA_GASPRICE,
+        excess_data_gas,
+        DATA_GASPRICE_UPDATE_FRACTION,
+    )
+
+
+def get_min_excess_data_gas_for_data_gas_price(data_gas_price: int) -> int:
+    """
+    Gets the minimum required excess data gas value to get a given data gas cost in a block
+    """
+    current_excess_data_gas = 0
+    current_data_gas_price = 1
+    while current_data_gas_price < data_gas_price:
+        current_excess_data_gas += DATA_GAS_PER_BLOB
+        current_data_gas_price = get_data_gasprice(excess_data_gas=current_excess_data_gas)
+    return current_excess_data_gas
+
+
+def get_min_excess_data_blobs_for_data_gas_price(data_gas_price: int) -> int:
+    """
+    Gets the minimum required excess data blobs to get a given data gas cost in a block
+    """
+    return get_min_excess_data_gas_for_data_gas_price(data_gas_price) // DATA_GAS_PER_BLOB
+
+
+def calc_excess_data_gas(*, parent_excess_data_gas: int, parent_blobs: int) -> int:
+    """
+    Calculate the excess data gas for a block given the parent excess data gas
+    and the number of blobs in the block.
+    """
+    parent_consumed_data_gas = parent_blobs * DATA_GAS_PER_BLOB
+    if parent_excess_data_gas + parent_consumed_data_gas < TARGET_DATA_GAS_PER_BLOCK:
+        return 0
+    else:
+        return parent_excess_data_gas + parent_consumed_data_gas - TARGET_DATA_GAS_PER_BLOCK
+
+
+def kzg_to_versioned_hash(
+    kzg_commitment: bytes | int,  # 48 bytes
+    blob_commitment_version_kzg: bytes | int = BLOB_COMMITMENT_VERSION_KZG,
+) -> bytes:
+    """
+    Calculates the versioned hash for a given KZG commitment.
+    """
+    if isinstance(kzg_commitment, int):
+        kzg_commitment = kzg_commitment.to_bytes(48, "big")
+    if isinstance(blob_commitment_version_kzg, int):
+        blob_commitment_version_kzg = blob_commitment_version_kzg.to_bytes(1, "big")
+    return blob_commitment_version_kzg + sha256(kzg_commitment).digest()[1:]
 
 
 # Simple list of blob versioned hashes ranging from bytes32(1 to 4)
 simple_blob_hashes: list[bytes] = add_kzg_version(
-    [(1 << x) for x in range(MAX_BLOB_PER_BLOCK)],
+    [(1 << x) for x in range(MAX_BLOBS_PER_BLOCK)],
     BLOB_COMMITMENT_VERSION_KZG,
 )
 
@@ -260,23 +361,23 @@ class BlobhashScenario:
     @staticmethod
     def create_blob_hashes_list(length: int) -> list[list[bytes]]:
         """
-        Creates a list of MAX_BLOB_PER_BLOCK blob hashes
+        Creates a list of MAX_BLOBS_PER_BLOCK blob hashes
         using `random_blob_hashes`.
 
         Cycle over random_blob_hashes to get a large list of
-        length: MAX_BLOB_PER_BLOCK * length
+        length: MAX_BLOBS_PER_BLOCK * length
         -> [0x01, 0x02, 0x03, 0x04, ..., 0x0A, 0x0B, 0x0C, 0x0D]
 
-        Then split list into smaller chunks of MAX_BLOB_PER_BLOCK
+        Then split list into smaller chunks of MAX_BLOBS_PER_BLOCK
         -> [[0x01, 0x02, 0x03, 0x04], ..., [0x0a, 0x0b, 0x0c, 0x0d]]
         """
         b_hashes = [
             random_blob_hashes[i % len(random_blob_hashes)]
-            for i in range(MAX_BLOB_PER_BLOCK * length)
+            for i in range(MAX_BLOBS_PER_BLOCK * length)
         ]
         return [
-            b_hashes[i : i + MAX_BLOB_PER_BLOCK]
-            for i in range(0, len(b_hashes), MAX_BLOB_PER_BLOCK)
+            b_hashes[i : i + MAX_BLOBS_PER_BLOCK]
+            for i in range(0, len(b_hashes), MAX_BLOBS_PER_BLOCK)
         ]
 
     @staticmethod
@@ -289,7 +390,7 @@ class BlobhashScenario:
         the BLOBHASH sstore.
         """
         invalidity_check = Op.SSTORE(index, 0x01)
-        if index < 0 or index >= MAX_BLOB_PER_BLOCK:
+        if index < 0 or index >= MAX_BLOBS_PER_BLOCK:
             return invalidity_check + Op.SSTORE(index, Op.BLOBHASH(index))
         return Op.SSTORE(index, Op.BLOBHASH(index))
 
@@ -299,23 +400,23 @@ class BlobhashScenario:
         Returns BLOBHASH bytecode for the given scenario.
         """
         scenarios = {
-            "single_valid": b"".join(cls.blobhash_sstore(i) for i in range(MAX_BLOB_PER_BLOCK)),
+            "single_valid": b"".join(cls.blobhash_sstore(i) for i in range(MAX_BLOBS_PER_BLOCK)),
             "repeated_valid": b"".join(
                 b"".join(cls.blobhash_sstore(i) for _ in range(10))
-                for i in range(MAX_BLOB_PER_BLOCK)
+                for i in range(MAX_BLOBS_PER_BLOCK)
             ),
             "valid_invalid": b"".join(
                 cls.blobhash_sstore(i)
-                + cls.blobhash_sstore(MAX_BLOB_PER_BLOCK)
+                + cls.blobhash_sstore(MAX_BLOBS_PER_BLOCK)
                 + cls.blobhash_sstore(i)
-                for i in range(MAX_BLOB_PER_BLOCK)
+                for i in range(MAX_BLOBS_PER_BLOCK)
             ),
             "varied_valid": b"".join(
                 cls.blobhash_sstore(i) + cls.blobhash_sstore(i + 1) + cls.blobhash_sstore(i)
-                for i in range(MAX_BLOB_PER_BLOCK - 1)
+                for i in range(MAX_BLOBS_PER_BLOCK - 1)
             ),
             "invalid_calls": b"".join(
-                cls.blobhash_sstore(i) for i in range(-5, MAX_BLOB_PER_BLOCK + 5)
+                cls.blobhash_sstore(i) for i in range(-5, MAX_BLOBS_PER_BLOCK + 5)
             ),
         }
         scenario = scenarios.get(scenario_name)
