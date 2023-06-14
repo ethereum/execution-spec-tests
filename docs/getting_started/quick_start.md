@@ -88,6 +88,6 @@ The following requires a Python 3.10 installation.
 ## Next Steps
 
 1. Learn [useful command-line flags](./executing_tests_command_line.md).
-2. [Execute tests for features under development](./executing_tests_dev_fork.md) via the `--latest-fork` flag.
+2. [Execute tests for features under development](./executing_tests_dev_fork.md) via the `--fork` flag.
 3. _Optional:_ [Configure VS Code](./setup_vs_code.md) to auto-format Python code and [execute tests within VS Code](./executing_tests_vs_code.md#executing-and-debugging-test-cases).
 4. Implement a new test case, see [Writing Tests](../writing_tests/index.md).

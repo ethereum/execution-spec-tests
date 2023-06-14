@@ -49,11 +49,11 @@ fill -k "test_warm_coinbase_call_out_of_gas and shanghai"
 !!! note ""
     By default, test cases are not executed with upcoming Ethereum forks so that they can be readily executed against the `evm` tool from the latest `geth` release.
 
-    In order to execute test cases for an upcoming fork, ensure that the `evm` tool used supports that fork and features under test and use the `--latest-fork` flag.
+    In order to execute test cases for an upcoming fork, ensure that the `evm` tool used supports that fork and features under test and use the `--until` or `--fork` flag.
     
     For example, as of May 2023, the current fork under active development is `Cancun`:
     ```console
-    fill --latest-fork Cancun
+    fill --until Cancun
     ```
 
     See: [Executing Tests for Features under Development](./executing_tests_dev_fork.md).
