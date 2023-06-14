@@ -1,5 +1,5 @@
 """
-Automatically generate markdown documentation for all filler modules
+Automatically generate markdown documentation for all test modules
 via mkdocstrings.
 """
 
@@ -27,33 +27,31 @@ def get_script_relative_path():  # noqa: D103
 
 
 """
-The following check that allows deactivation of filler doc generation
-is no longer strictly necessary - it was a workaround for a problem
-who's root cause has been solved. The code is left, however,
+The following check that allows deactivation of the Test Case Reference
+doc generation is no longer strictly necessary - it was a workaround for
+a problem who's root cause has been solved. The code is left, however,
 as it could still serve a purpose if we have many more test cases
-and filler doc gen is very time consuming.
+and test doc gen becomes very time consuming.
 
-If filler doc gen is disabled, then it will not appear at all in the
+If test doc gen is disabled, then it will not appear at all in the
 output doc and all incoming links to it will generate a warning.
-
-The filler doc is built by default.
 """
 if os.environ.get("CI") != "true":  # always generate in ci/cd
     enabled_env_var_name = "SPEC_TESTS_AUTO_GENERATE_FILES"
     script_name = get_script_relative_path()
     if os.environ.get(enabled_env_var_name) != "false":
-        logger.info(f"{script_name}: generating filler doc")
+        logger.info(f"{script_name}: generating 'Test Case Reference' doc")
         logger.info(
-            f"{script_name}: set env var {enabled_env_var_name} "
-            "to 'false' and re-run `mkdocs serve` or `mkdocs build` to "
-            "disable filler doc generation"
+            f"{script_name}: set env var {enabled_env_var_name} to 'false' and re-run "
+            "`mkdocs serve` or `mkdocs build` to  disable 'Test Case Reference' doc generation"
         )
     else:
-        logger.warning(f"{script_name}: skipping automatic generation of " "filler doc")
+        logger.warning(
+            f"{script_name}: skipping automatic generation of 'Test Case Reference' doc"
+        )
         logger.info(
-            f"{script_name}: set env var {enabled_env_var_name} "
-            "to 'true' and re-run `mkdocs serve` or `mkdocs build` to "
-            "generate filler doc"
+            f"{script_name}: set env var {enabled_env_var_name} to 'true' and re-run"
+            "`mkdocs serve` or `mkdocs build` to generate 'Test Case Reference' doc"
         )
         sys.exit(0)
 
@@ -67,7 +65,7 @@ MARKDOWN_TEMPLATE = Template(
 
         !!! example "Generate fixtures for these test cases with:"
             ```console
-            pytest -v $pytest_test_path
+            fill -v $pytest_test_path
             ```
 
         ::: $package_name
@@ -95,6 +93,10 @@ def apply_name_filters(input_string: str):
     return input_string
 
 
+def snake_to_capitalize(s):
+    return " ".join(word.capitalize() for word in s.split("_"))
+
+
 def copy_file(source_file, destination_file):
     """
     Copy a file by writing it's contents using mkdocs_gen_files.open()
@@ -105,7 +107,7 @@ def copy_file(source_file, destination_file):
                 destination.write(line)
 
 
-# The nav section for filler doc will get built here
+# The nav section for test doc will get built here
 nav = mkdocs_gen_files.Nav()
 
 for root, _, files in sorted(os.walk(source_directory)):
@@ -117,8 +119,8 @@ for root, _, files in sorted(os.walk(source_directory)):
     python_files = [filename for filename in files if filename.endswith(".py")]
 
     root_filtered = apply_name_filters(root)
-    relative_filler_path = Path(root_filtered).relative_to("tests")
-    output_directory = target_dir / relative_filler_path
+    test_dir_relative_path = Path(root_filtered).relative_to("tests")
+    output_directory = target_dir / test_dir_relative_path
 
     # Process Markdown files first, then Python files for nav section ordering
     for file in markdown_files:
@@ -128,14 +130,14 @@ for root, _, files in sorted(os.walk(source_directory)):
             # from the __init__.py. mkdocs seems to struggle when both
             # an index.md and a readme.md are present.
             output_file_path = output_directory / "test_cases.md"
-            nav_path = "Test Case Reference" / relative_filler_path / "Test Cases"
+            nav_path = "Test Case Reference" / test_dir_relative_path / "Test Cases"
         else:
             output_file_path = output_directory / file
             file_no_ext = os.path.splitext(file)[0]
-            nav_path = "Test Case Reference" / relative_filler_path / file_no_ext
+            nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
         copy_file(source_file, output_file_path)
         nav_tuple = tuple(apply_name_filters(part) for part in nav_path.parts)
-        nav[nav_tuple] = output_file_path
+        nav[nav_tuple] = str(output_file_path)
 
     for file in python_files:
         if file == "conftest.py":
@@ -143,13 +145,13 @@ for root, _, files in sorted(os.walk(source_directory)):
         output_file_path = Path("undefined")
         if file == "__init__.py":
             output_file_path = output_directory / "index.md"
-            nav_path = "Test Case Reference" / relative_filler_path
+            nav_path = "Test Case Reference" / test_dir_relative_path
             package_name = root.replace(os.sep, ".")
             pytest_test_path = root
         else:
             file_no_ext = os.path.splitext(file)[0]
             output_file_path = output_directory / f"{file_no_ext}.md"
-            nav_path = "Test Case Reference" / relative_filler_path / file_no_ext
+            nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
             package_name = os.path.join(root, file_no_ext).replace(os.sep, ".")
             pytest_test_path = os.path.join(root, file)
 
