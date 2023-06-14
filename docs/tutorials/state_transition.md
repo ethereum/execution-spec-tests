@@ -13,11 +13,11 @@ Before proceeding with this tutorial, it is assumed that you have prior knowledg
 
 ## Example Tests
 
-The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/fillers/example/test_yul_example.py#L17) state test.
+The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/tests/example/test_yul_example.py#L17) state test.
 
 ### Yul Test
 
-You can find the source code for the Yul test [here](https://github.com/ethereum/execution-spec-tests/tree/main/fillers/example/test_example.py).
+You can find the source code for the Yul test [here](https://github.com/ethereum/execution-spec-tests/tree/main/tests/example/test_example.py).
 It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml). 
 
 Lets examine each section.
@@ -68,11 +68,11 @@ The function definition ends when there is a line that is no longer indented. As
 !!! info
     To execute this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
     ```python
-    pytest -k test_yul
+    fill -k test_yul
     ```
     To execute it for a specific fork, the fork name can be combined in a Python evaluatable expression using `and` in the string:
     ```python
-    pytest -k "test_yul and Shanghai"
+    fill -k "test_yul and Shanghai"
     ```
 
 !!! note "The `state_test` function argument"
@@ -123,7 +123,6 @@ When running the test filler `fill`, the solidity compiler `solc` will automatic
 
 !!! note
     Currently Yul and direct EVM opcode are supported in execution spec tests. LLL and Solidity may be supported in the future.
-
 
 ```python
                 """

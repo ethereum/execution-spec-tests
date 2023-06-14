@@ -7,13 +7,13 @@ By default, execution-spec-tests only generates fixtures for forks that have bee
 1. A version of the `evm` and `solc` tools that implement the feature must be available (although, typically only a developer version of the `evm` tool is required, usually the latest stable release of `solc` is adequate), and,
 2. The development fork to test must be explicitly specified on the command-line when generating tests:
     ```console
-    pytest -v -k 4844 --latest-fork=Cancun
+    fill -k 4844 --fork=Cancun -v
     ```
 
 !!! note "Specifying the `evm` binary via `evm-bin`"
      It is possible to explicitly specify the `evm` binary used to generate fixtures via the `--evm-bin` flag, for example,
      ```console
-     pytest -v --latest-fork=Cancun --evm-bin=/opt/bin/evm
+     fill --fork=Cancun --evm-bin=/opt/bin/evm -v
      ```
 
 ## Further Help

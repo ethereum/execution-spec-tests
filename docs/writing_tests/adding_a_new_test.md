@@ -1,10 +1,10 @@
 # Adding a New Test
 
-All test cases are located in the `fillers` directory, which is composed of many subdirectories, each one represents a different test category. The sub-directories may contain sub-categories, if necessary.
+All test cases are located in the `tests` directory, which is composed of many subdirectories, each one represents a different test category. The sub-directories may contain sub-categories, if necessary.
 
 ```
 📁 execution-test-specs/
-├─╴📁 fillers/                   # test cases
+├─╴📁 tests/                   # test cases
 │   ├── 📁 eips/
 │   |    ├── 📁 eip4844/
 |   |    |    ├── 📄 test_blobhash_opcode.py
@@ -24,9 +24,6 @@ Look for a relevant test category and add new tests to this category, if appropr
 
 A new test can be added by either:
 
-- Adding a new `test_` python function to an existing file in any of the
-  existing category subdirectories within `fillers`.
-- Creating a new source file in an existing category, and populating it with
-  the new test function(s).
-- Creating an entirely new category by adding a subdirectory in
-  `fillers` with the appropriate source files and test functions.
+- Adding a new `test_` python function to an existing file in any of the existing category subdirectories within `tests`.
+- Creating a new source file in an existing category, and populating it with the new test function(s).
+- Creating an entirely new category by adding a subdirectory in `tests` with the appropriate source files and test functions.

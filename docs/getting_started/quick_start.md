@@ -60,16 +60,16 @@ The following requires a Python 3.10 installation.
 3. Verify installation:
     1. Explore test cases:
        ```console
-       pytest --collect-only
+       fill --collect-only
        ```
        Expected console output:
        <figure markdown>
          ![Screenshot of pytest test collection console output](./img/pytest_collect_only.png){align=center}
        </figure>
        
-    2. Execute the test cases (verbosely) in the `./fillers/example/test_acl_example.py` module:
+    2. Execute the test cases (verbosely) in the `./tests/example/test_acl_example.py` module:
         ```console
-        pytest -v fillers/example/test_acl_example.py
+        fill -v tests/example/test_acl_example.py
         ```
         Expected console output:
         <figure markdown>
