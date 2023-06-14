@@ -83,8 +83,9 @@ def apply_name_filters(input_string: str):
     """
     regexes = [
         (r"vm", "VM"),
+        (r"acl", "ACL"),
         (r"eips", "EIPs"),
-        (r"eip([1-9]{1,5})", r"EIP-\1"),
+        (r"eip-?([1-9]{1,5})", r"EIP-\1"),
     ]
 
     for pattern, replacement in regexes:
@@ -93,7 +94,7 @@ def apply_name_filters(input_string: str):
     return input_string
 
 
-def snake_to_capitalize(s):
+def snake_to_capitalize(s):  # noqa: D103
     return " ".join(word.capitalize() for word in s.split("_"))
 
 
@@ -118,8 +119,7 @@ for root, _, files in sorted(os.walk(source_directory)):
     markdown_files = [filename for filename in files if filename.endswith(".md")]
     python_files = [filename for filename in files if filename.endswith(".py")]
 
-    root_filtered = apply_name_filters(root)
-    test_dir_relative_path = Path(root_filtered).relative_to("tests")
+    test_dir_relative_path = Path(root).relative_to("tests")
     output_directory = target_dir / test_dir_relative_path
 
     # Process Markdown files first, then Python files for nav section ordering
@@ -136,10 +136,11 @@ for root, _, files in sorted(os.walk(source_directory)):
             file_no_ext = os.path.splitext(file)[0]
             nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
         copy_file(source_file, output_file_path)
-        nav_tuple = tuple(apply_name_filters(part) for part in nav_path.parts)
+        nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
+        nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
         nav[nav_tuple] = str(output_file_path)
 
-    for file in python_files:
+    for file in sorted(python_files):
         if file == "conftest.py":
             continue
         output_file_path = Path("undefined")
@@ -155,8 +156,9 @@ for root, _, files in sorted(os.walk(source_directory)):
             package_name = os.path.join(root, file_no_ext).replace(os.sep, ".")
             pytest_test_path = os.path.join(root, file)
 
-        nav_tuple = tuple(apply_name_filters(part) for part in nav_path.parts)
-        nav[nav_tuple] = output_file_path
+        nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
+        nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
+        nav[nav_tuple] = str(output_file_path)
         markdown_title = nav_tuple[-1]
 
         with mkdocs_gen_files.open(output_file_path, "w") as f:
