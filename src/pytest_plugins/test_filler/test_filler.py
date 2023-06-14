@@ -8,11 +8,11 @@ writes the generated fixtures to file.
 import json
 import os
 import re
-import subprocess
 from typing import Any, Dict, List, Tuple, Type
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     BaseTest,
     BlockchainTest,
@@ -21,6 +21,7 @@ from ethereum_test_tools import (
     JSONEncoder,
     StateTest,
     StateTestFiller,
+    Yul,
     fill_test,
 )
 from evm_block_builder import EvmBlockBuilder
@@ -37,7 +38,10 @@ def pytest_addoption(parser):
         action="store",
         dest="evm_bin",
         default=None,
-        help="Path to evm executable that provides `t8n` and `b11r` ",
+        help=(
+            "Path to an evm executable that provides `t8n` and `b11r.` "
+            "Default: First 'evm' entry in PATH"
+        ),
     )
     evm_group.addoption(
         "--traces",
@@ -45,6 +49,18 @@ def pytest_addoption(parser):
         dest="evm_collect_traces",
         default=None,
         help="Collect traces of the execution information from the " + "transition tool",
+    )
+
+    solc_group = parser.getgroup("solc", "Arguments defining the solc executable")
+    solc_group.addoption(
+        "--solc-bin",
+        action="store",
+        dest="solc_bin",
+        default=None,
+        help=(
+            "Path to a solc executable (for Yul source compilation). "
+            "Default: First 'solc' entry in PATH"
+        ),
     )
 
     test_group = parser.getgroup("tests", "Arguments defining filler location and output")
@@ -74,11 +90,19 @@ def pytest_configure(config):
     """
     config.addinivalue_line(
         "markers",
-        "state_test: test cases that implement a single state transition test",
+        "state_test: a test case that implement a single state transition test.",
     )
     config.addinivalue_line(
         "markers",
-        "blockchain_test: test cases that implement block transition tests",
+        "blockchain_test: a test case that implements a block transition test.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "yul_test: a test case that compiles Yul code.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
     )
 
 
@@ -89,21 +113,7 @@ def pytest_report_header(config, start_path):
         binary=config.getoption("evm_bin"),
         trace=config.getoption("evm_collect_traces"),
     )
-    result = subprocess.run(
-        ["solc", "--version"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    solc_output = result.stdout.decode().split("\n")
-
-    version_pattern = r"0\.\d+\.\d+\+\S+"
-    solc_version_string = None
-
-    for line in solc_output:
-        match = re.search(version_pattern, line)
-        if match:
-            solc_version_string = match.group(0)
-            break
+    solc_version_string = Yul("", binary=config.getoption("solc_bin")).version()
     return [f"{t8n.version()}, solc version {solc_version_string}"]
 
 
@@ -113,6 +123,14 @@ def evm_bin(request):
     Returns the configured evm tool binary path.
     """
     return request.config.getoption("evm_bin")
+
+
+@pytest.fixture(autouse=True, scope="session")
+def solc_bin(request):
+    """
+    Returns the configured solc binary path.
+    """
+    return request.config.getoption("solc_bin")
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -248,6 +266,34 @@ def eips():
     return []
 
 
+@pytest.fixture
+def yul(fork: Fork, request):
+    """
+    A fixture that allows contract code to be defined with Yul code.
+
+    This fixture defines a class that wraps the ::ethereum_test_tools.Yul
+    class so that upon instantiation within the test case, it provides the
+    test case's current fork parameter. The forks is then available for use
+    in solc's arguments for the Yul code compilation.
+
+    Test cases can override the default value by specifying a fixed version
+    with the @pytest.mark.compile_yul_with(FORK) marker.
+    """
+    marker = request.node.get_closest_marker("compile_yul_with")
+    if marker:
+        if not marker.args[0]:
+            pytest.fail(
+                f"{request.node.name}: Expected one argument in 'compile_yul_with' marker."
+            )
+        fork = request.config.fork_map[marker.args[0]]
+
+    class YulWrapper(Yul):
+        def __init__(self, *args, **kwargs):
+            super(YulWrapper, self).__init__(*args, **kwargs, fork=fork)
+
+    return YulWrapper
+
+
 SPEC_TYPES: List[Type[BaseTest]] = [StateTest, BlockchainTest]
 SPEC_TYPES_PARAMETERS: List[str] = [s.pytest_parameter_name() for s in SPEC_TYPES]
 
@@ -330,6 +376,9 @@ def pytest_collection_modifyitems(items, config):
             item.add_marker(marker)
         elif "blockchain_test" in item.fixturenames:
             marker = pytest.mark.blockchain_test()
+            item.add_marker(marker)
+        if "yul" in item.fixturenames:
+            marker = pytest.mark.yul_test()
             item.add_marker(marker)
 
 
