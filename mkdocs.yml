@@ -23,7 +23,7 @@ plugins:
   - social
   - gen-files:
       scripts:
-        - docs/gen_filler_pages.py
+        - docs/gen_test_case_reference.py
   - literate-nav:
       nav_file: navigation.md
 

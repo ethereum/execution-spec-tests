@@ -9,7 +9,7 @@ The Python code in execution-spec-tests is black formatted with a maximum line l
 The max line length was changed from 80 to 100 in Q2 2023. To ignore this bulk change commit in git blame output, use the `.git-blame-ignore-revs` file, for example:
 
 ```console
-git blame --ignore-revs-file .git-blame-ignore-revs docs/gen_filler_pages.py
+git blame --ignore-revs-file .git-blame-ignore-revs docs/gen_test_case_reference.py
 ```
 
 To use the revs file persistently with `git blame`, run
