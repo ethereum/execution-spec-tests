@@ -59,4 +59,3 @@ verify_kzg_proof
 _readthedocs
 site
 venv-docs/
-docs/_auto_gen_fillers/

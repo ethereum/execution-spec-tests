@@ -259,6 +259,7 @@ getgroup
 getoption
 hookimpl
 hookwrapper
+IGNORECASE
 makepyfile
 metafunc
 modifyitems
@@ -269,12 +270,17 @@ params
 parametrize
 pytester
 pytestmark
+regexes
 runpytest
 runtest
 tryfirst
 trylast
+usefixtures
+writelines
 
+docstrings
 mkdocs
+mkdocstrings
 nav
 
 evaluatable

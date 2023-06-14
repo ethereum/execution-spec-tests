@@ -35,10 +35,11 @@ This check accomplished by adding the following two global variables anywhere in
 
 ## Example
 
-Here is an example from [./tests/eips/test_eip3651.py](../tests/EIPs/test_eip3651.md):
+Here is an example from [./tests/eips/test_eip3651.py](../tests/eips/test_eip3651.md):
 
 ```python
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3651.md"
 REFERENCE_SPEC_VERSION = "d94c694c6f12291bb6626669c3e8587eef3adff1"
 ```
+
 The SHA digest was retrieved [from here](https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-3651.md).

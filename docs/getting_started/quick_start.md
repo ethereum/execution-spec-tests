@@ -60,16 +60,16 @@ The following requires a Python 3.10 installation.
 3. Verify installation:
     1. Explore test cases:
        ```console
-       pytest --collect-only
+       fill --collect-only
        ```
        Expected console output:
        <figure markdown>
          ![Screenshot of pytest test collection console output](./img/pytest_collect_only.png){align=center}
        </figure>
        
-    2. Execute the test cases (verbosely) in the `./fillers/example/test_acl_example.py` module:
+    2. Execute the test cases (verbosely) in the `./tests/example/test_acl_example.py` module:
         ```console
-        pytest -v fillers/example/test_acl_example.py
+        fill -v tests/example/test_acl_example.py
         ```
         Expected console output:
         <figure markdown>
@@ -88,6 +88,6 @@ The following requires a Python 3.10 installation.
 ## Next Steps
 
 1. Learn [useful command-line flags](./executing_tests_command_line.md).
-2. [Execute tests for features under development](./executing_tests_dev_fork.md) via the `--latest-fork` flag.
+2. [Execute tests for features under development](./executing_tests_dev_fork.md) via the `--fork` flag.
 3. _Optional:_ [Configure VS Code](./setup_vs_code.md) to auto-format Python code and [execute tests within VS Code](./executing_tests_vs_code.md#executing-and-debugging-test-cases).
 4. Implement a new test case, see [Writing Tests](../writing_tests/index.md).
