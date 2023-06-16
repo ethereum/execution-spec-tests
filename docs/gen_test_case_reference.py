@@ -70,10 +70,13 @@ MARKDOWN_TEMPLATE = Template(
 
         ::: $package_name
             options:
-              filters: ["!^_[^_]", "![A-Z]{2,}", "!pytestmark"]
+                filters: ["^[tT]est*"]
         """
     )
 )
+
+#            options:
+#              filters: ["!^_[^_]", "![A-Z]{2,}", "!pytestmark"]
 
 
 def apply_name_filters(input_string: str):
