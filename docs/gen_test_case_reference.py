@@ -85,7 +85,11 @@ def apply_name_filters(input_string: str):
     up nav title names.
     """
     regexes = [
+        (r"^Test ", ""),
         (r"vm", "VM"),
+        # TODO: enable standard formatting for all opcodes.
+        (r"Dup", "DUP"),
+        (r"Chainid", "CHAINID"),
         (r"acl", "ACL"),
         (r"eips", "EIPs"),
         (r"eip-?([1-9]{1,5})", r"EIP-\1"),
