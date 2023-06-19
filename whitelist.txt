@@ -272,6 +272,7 @@ parametrize
 pytester
 pytestmark
 regexes
+ret
 runpytest
 runtest
 tryfirst

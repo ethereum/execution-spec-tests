@@ -1,9 +1,11 @@
 """
 Pytest plugin to enable fork range configuration for the test session.
 """
+import sys
 import textwrap
 
 import pytest
+from pytest import Metafunc
 
 from ethereum_test_forks import (
     forks_from_until,
@@ -45,7 +47,7 @@ def pytest_addoption(parser):
         "--until",
         action="store",
         dest="forks_until",
-        default=get_deployed_forks()[-1].name(),
+        default=None,
         help="Fill tests until and including the specified fork.",
     )
 
@@ -100,9 +102,8 @@ def pytest_configure(config):
     dev_forks_help = textwrap.dedent(
         "To run tests for a fork under active development, it must be "
         "specified explicitly via --forks-until=FORK.\n"
-        "Tests are only "
-        f"ran for deployed mainnet forks by default, i.e., until "
-        f"{get_deployed_forks()[-1].name()}.\n"
+        "Tests are only ran for deployed mainnet forks by default, i.e., "
+        f"until {get_deployed_forks()[-1].name()}.\n"
     )
     if show_fork_help:
         print(available_forks_help)
@@ -110,13 +111,15 @@ def pytest_configure(config):
         pytest.exit("After displaying help.", returncode=0)
 
     if single_fork and single_fork not in config.fork_map.keys():
-        print("Error: Unsupported fork provided to --fork:", single_fork, "\n")
-        print(available_forks_help)
-        pytest.exit("Invalid command-line options.", returncode=1)
+        print("Error: Unsupported fork provided to --fork:", single_fork, "\n", file=sys.stderr)
+        print(available_forks_help, file=sys.stderr)
+        pytest.exit("Invalid command-line options.", returncode=pytest.ExitCode.USAGE_ERROR)
 
     if single_fork and (forks_from or forks_until):
-        print("Error: --fork cannot be used in combination with --forks-from or " "--forks-until")
-        pytest.exit("Invalid command-line options.", returncode=1)
+        print(
+            "Error: --fork cannot be used in combination with --from or --until", file=sys.stderr
+        )
+        pytest.exit("Invalid command-line options.", returncode=pytest.ExitCode.USAGE_ERROR)
 
     if single_fork:
         forks_from = single_fork
@@ -124,24 +127,18 @@ def pytest_configure(config):
     else:
         if not forks_from:
             forks_from = config.fork_names[0]
+        if not forks_until:
+            forks_until = get_deployed_forks()[-1].name()
 
     if forks_from not in config.fork_map.keys():
-        print(
-            "Error: Unsupported fork provided to --forks-from:",
-            forks_from,
-            "\n",
-        )
-        print(available_forks_help)
-        pytest.exit("Invalid command-line options.", returncode=1)
+        print(f"Error: Unsupported fork provided to --from: {forks_from}\n", file=sys.stderr)
+        print(available_forks_help, file=sys.stderr)
+        pytest.exit("Invalid command-line options.", returncode=pytest.ExitCode.USAGE_ERROR)
 
     if forks_until not in config.fork_map.keys():
-        print(
-            "Error: Unsupported fork provided to --forks-until:",
-            forks_until,
-            "\n",
-        )
-        print(available_forks_help)
-        pytest.exit("Invalid command-line options.", returncode=1)
+        print(f"Error: Unsupported fork provided to --until: {forks_until}\n", file=sys.stderr)
+        print(available_forks_help, file=sys.stderr)
+        pytest.exit("Invalid command-line options.", returncode=pytest.ExitCode.USAGE_ERROR)
 
     config.fork_range = config.fork_names[
         config.fork_names.index(forks_from) : config.fork_names.index(forks_until) + 1
@@ -149,10 +146,13 @@ def pytest_configure(config):
 
     if not config.fork_range:
         print(
-            f"Error: --forks-from {forks_from} --forks-until {forks_until} "
-            "creates an empty fork range."
+            f"Error: --from {forks_from} --until {forks_until} creates an empty fork range.",
+            file=sys.stderr,
         )
-        pytest.exit("Command-line options produce empty fork range.", returncode=1)
+        pytest.exit(
+            "Command-line options produce empty fork range.",
+            returncode=pytest.ExitCode.USAGE_ERROR,
+        )
 
     # with --collect-only, we don't have access to these config options
     if config.option.collectonly:
@@ -167,13 +167,17 @@ def pytest_configure(config):
     if unsupported_forks:
         print(
             "Error: The configured evm tool doesn't support the following "
-            f"forks: {', '.join(unsupported_forks)}."
+            f"forks: {', '.join(unsupported_forks)}.",
+            file=sys.stderr,
         )
         print(
             "\nPlease specify a version of the evm tool which supports these "
-            "forks or use --until FORK to specify a supported fork.\n"
+            "forks or use --until FORK to specify a supported fork.\n",
+            file=sys.stderr,
         )
-        pytest.exit("Incompatible evm tool with fork range.", returncode=1)
+        pytest.exit(
+            "Incompatible evm tool with fork range.", returncode=pytest.ExitCode.USAGE_ERROR
+        )
 
 
 @pytest.hookimpl(trylast=True)
@@ -204,63 +208,96 @@ def fork(request):
     pass
 
 
+def get_validity_marker_args(
+    metafunc: Metafunc,
+    validity_marker_name: str,
+    test_name: str,
+) -> str | None:
+    """Check and return the arguments specified to validity markers.
+
+    Check that the validity markers:
+
+    - `pytest.mark.valid_from`
+    - `pytest.mark.valid_until`
+    - `pytest.mark.valid_at_transition_to`
+
+    are applied at most once and have been provided with exactly one
+    argument which is a valid fork name.
+
+    Args:
+        metafunc: Pytest's metafunc object.
+        validity_marker_name: Name of the validity marker to validate
+            and return.
+        test_name: The name of the test being parametrized by
+            `pytest_generate_tests`.
+
+    Returns:
+        The name of the fork specified to the validity marker.
+    """
+    validity_markers = [
+        marker for marker in metafunc.definition.iter_markers(validity_marker_name)
+    ]
+    if not validity_markers:
+        return None
+    if len(validity_markers) > 1:
+        pytest.fail(f"'{test_name}': Too many '{validity_marker_name}' markers applied to test. ")
+    if len(validity_markers[0].args) == 0:
+        pytest.fail(f"'{test_name}': Missing fork argument with '{validity_marker_name}' marker. ")
+    if len(validity_markers[0].args) > 1:
+        pytest.fail(
+            f"'{test_name}': Too many arguments specified to '{validity_marker_name}' marker. "
+        )
+    fork_name = validity_markers[0].args[0]
+    if fork_name not in metafunc.config.fork_names:  # type: ignore
+        pytest.fail(
+            f"'{test_name}' specifies an invalid fork '{fork_name}' to the "
+            f"'{validity_marker_name}'. "
+            f"List of valid forks: {', '.join(metafunc.config.fork_names)}"  # type: ignore
+        )
+
+    return fork_name
+
+
 def pytest_generate_tests(metafunc):
     """
     Pytest hook used to dynamically generate test cases.
     """
-    valid_at_transition_to = [
-        marker.args[0]
-        for marker in metafunc.definition.iter_markers(name="valid_at_transition_to")
-    ]
-    valid_from = [marker.args[0] for marker in metafunc.definition.iter_markers(name="valid_from")]
-    valid_until = [
-        marker.args[0] for marker in metafunc.definition.iter_markers(name="valid_until")
-    ]
-    if valid_at_transition_to and (valid_from or valid_until):
+    test_name = metafunc.function.__name__
+    valid_at_transition_to = get_validity_marker_args(
+        metafunc, "valid_at_transition_to", test_name
+    )
+    valid_from = get_validity_marker_args(metafunc, "valid_from", test_name)
+    valid_until = get_validity_marker_args(metafunc, "valid_until", test_name)
+
+    if valid_at_transition_to and valid_from:
         pytest.fail(
-            "The test function "
-            f"{metafunc.function.__name__} specifies both a "
-            "pytest.mark.valid_at_transition_to and a pytest.mark.valid_from "
-            "or pytest.mark.valid_until marker. "
+            f"'{test_name}': "
+            "The markers 'valid_from' and 'valid_at_transition_to' can't be combined. "
+        )
+    if valid_at_transition_to and valid_until:
+        pytest.fail(
+            f"'{test_name}': "
+            "The markers 'valid_until' and 'valid_at_transition_to' can't be combined. "
         )
 
     intersection_range = []
 
     if valid_at_transition_to:
-        fork_to = valid_at_transition_to[0]
-        if fork_to not in metafunc.config.fork_names:
-            pytest.fail(
-                "The test function "
-                f"{metafunc.function.__name__} specifies an invalid fork "
-                f"{fork_to} to the pytest.mark.valid_at_transition_to marker. "
-            )
-        if fork_to in metafunc.config.fork_range:
-            to_fork = metafunc.config.fork_map[fork_to]
+        to_fork = metafunc.config.fork_map[valid_at_transition_to]
+        if to_fork in metafunc.config.fork_range:
             intersection_range = transition_fork_to(to_fork)
 
     else:
         if not valid_from:
-            valid_from = [metafunc.config.fork_names[0]]
+            valid_from = metafunc.config.fork_names[0]
 
-        if valid_from[0] not in metafunc.config.fork_names:
-            pytest.fail(
-                "The test function "
-                f"{metafunc.function.__name__} specifies an invalid fork "
-                f"{valid_from[0]} to the pytest.mark.valid_from marker. "
-            )
-        if valid_until and valid_until[0] not in metafunc.config.fork_names:
-            pytest.fail(
-                "The test function "
-                f"{metafunc.function.__name__} specifies an invalid fork "
-                f"{valid_until[0]} to the pytest.mark.valid_until marker. "
-            )
         if not valid_until:
-            valid_until = [metafunc.config.fork_names[-1]]
+            valid_until = metafunc.config.fork_names[-1]
 
         test_fork_range = set(
             metafunc.config.fork_names[
-                metafunc.config.fork_names.index(valid_from[0]) : metafunc.config.fork_names.index(
-                    valid_until[0]
+                metafunc.config.fork_names.index(valid_from) : metafunc.config.fork_names.index(
+                    valid_until
                 )
                 + 1
             ]
@@ -269,10 +306,10 @@ def pytest_generate_tests(metafunc):
         if not test_fork_range:
             pytest.fail(
                 "The test function's "
-                f"{metafunc.function.__name__} fork validity markers generate "
-                "an empty fork range. Please check the arguments to it's "
-                f"markers:  @pytest.mark.valid_from ({valid_from[0]}) and "
-                f"@pytest.mark.valid_until ({valid_until[0]})."
+                f"'{test_name}' fork validity markers generate "
+                "an empty fork range. Please check the arguments to its "
+                f"markers:  @pytest.mark.valid_from ({valid_from}) and "
+                f"@pytest.mark.valid_until ({valid_until})."
             )
 
         intersection_range = list(set(metafunc.config.fork_range) & test_fork_range)
@@ -280,8 +317,10 @@ def pytest_generate_tests(metafunc):
         intersection_range.sort(key=metafunc.config.fork_range.index)
         intersection_range = [metafunc.config.fork_map[fork] for fork in intersection_range]
 
-    # TODO: skip: test is not valid for any forks in the configured range
-    # (from, until).
-
     if "fork" in metafunc.fixturenames:
-        metafunc.parametrize("fork", intersection_range, scope="function")
+        if not intersection_range:
+            pytest.skip(  # this reason is not reported on the command-line
+                f"{test_name} is not valid for any any of forks specified on the command-line."
+            )
+        else:
+            metafunc.parametrize("fork", intersection_range, scope="function")
