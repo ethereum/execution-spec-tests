@@ -75,10 +75,14 @@ GENERATE_FIXTURES_DEVELOPMENT = Template(
     textwrap.dedent(
         """
         !!! example "Generate fixtures for these test cases for '$fork' with:"
+            $fork only:
             ```console
             fill -v $pytest_test_path --fork=$fork --evm-bin=/path/to/evm-tool-dev-version
             ```
-
+            For all forks up to and including $fork:
+            ```console
+            fill -v $pytest_test_path --until=$fork --evm-bin=/path/to/evm-tool-dev-version
+            ```
         """
     )
 )
