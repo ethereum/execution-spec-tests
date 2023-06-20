@@ -182,6 +182,8 @@ for root, _, files in sorted(os.walk(source_directory)):
             nav_path = "Test Case Reference" / test_dir_relative_path
             package_name = root.replace(os.sep, ".")
             pytest_test_path = root
+        elif not file.startswith("test_"):
+            continue
         else:
             file_no_ext = os.path.splitext(file)[0]
             output_file_path = output_directory / f"{file_no_ext}.md"
