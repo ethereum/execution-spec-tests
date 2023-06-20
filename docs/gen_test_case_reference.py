@@ -160,9 +160,16 @@ for root, _, files in sorted(os.walk(source_directory)):
     # Process Markdown files first, then Python files for nav section ordering
     for file in markdown_files:
         source_file = Path(root) / file
+        suffix = ""
+        if file.lower() == "readme.md":
+            # If there's a file called readme python-mkdocstrings will take this as the
+            # page's index.md. This will subsequently get overwritten by the `__init__.py`.
+            # Hack, add an underscore to differentiate the file and include it in the doc.
+            suffix = "_"
+        basename, extension = os.path.splitext(file)
+        file = f"{basename}{suffix}.{extension}"
         output_file_path = output_directory / file
-        file_no_ext = os.path.splitext(file)[0]
-        nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
+        nav_path = "Test Case Reference" / test_dir_relative_path / basename
         copy_file(source_file, output_file_path)
         nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
         nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
