@@ -13,6 +13,8 @@ from string import Template
 
 import mkdocs_gen_files
 
+from ethereum_test_forks import get_development_forks
+
 logger = logging.getLogger("mkdocs")
 
 source_directory = "tests"
@@ -55,6 +57,31 @@ if os.environ.get("CI") != "true":  # always generate in ci/cd
         )
         sys.exit(0)
 
+DEV_FORKS = [fork.name() for fork in get_development_forks()]
+
+GENERATE_FIXTURES_DEPLOYED = Template(
+    textwrap.dedent(
+        """
+        !!! example "Generate fixtures for these test cases $additional_title with:"
+            ```console
+            fill -v $pytest_test_path
+            ```
+
+        """
+    )
+)
+
+GENERATE_FIXTURES_DEVELOPMENT = Template(
+    textwrap.dedent(
+        """
+        !!! example "Generate fixtures for these test cases for '$fork' with:"
+            ```console
+            fill -v $pytest_test_path --fork=$fork --evm-bin=/path/to/evm-tool-dev-version
+            ```
+
+        """
+    )
+)
 
 # mkdocstrings filter doc:
 # https://mkdocstrings.github.io/python/usage/configuration/members/#filters
@@ -63,11 +90,8 @@ MARKDOWN_TEMPLATE = Template(
         """
         # $title
 
-        !!! example "Generate fixtures for these test cases with:"
-            ```console
-            fill -v $pytest_test_path
-            ```
-
+        $generate_fixtures_deployed
+        $generate_fixtures_development
         ::: $package_name
             options:
                 filters: ["^[tT]est*"]
@@ -159,12 +183,33 @@ for root, _, files in sorted(os.walk(source_directory)):
         nav[nav_tuple] = str(output_file_path)
         markdown_title = nav_tuple[-1]
 
+        if root == "tests":
+            generate_fixtures_deployed = GENERATE_FIXTURES_DEPLOYED.substitute(
+                pytest_test_path=pytest_test_path,
+                additional_title=" for all forks deployed to mainnet",
+            )
+            generate_fixtures_development = GENERATE_FIXTURES_DEVELOPMENT.substitute(
+                pytest_test_path=pytest_test_path, fork=DEV_FORKS[0]
+            )
+        elif dev_forks := [fork for fork in DEV_FORKS if fork.lower() in root.lower()]:
+            assert len(dev_forks) == 1
+            generate_fixtures_deployed = ""
+            generate_fixtures_development = GENERATE_FIXTURES_DEVELOPMENT.substitute(
+                pytest_test_path=pytest_test_path, fork=dev_forks[0]
+            )
+        else:
+            generate_fixtures_deployed = GENERATE_FIXTURES_DEPLOYED.substitute(
+                pytest_test_path=pytest_test_path, additional_title=""
+            )
+            generate_fixtures_development = ""
+
         with mkdocs_gen_files.open(output_file_path, "w") as f:
             f.write(
                 MARKDOWN_TEMPLATE.substitute(
                     title=markdown_title,
                     package_name=package_name,
-                    pytest_test_path=pytest_test_path,
+                    generate_fixtures_deployed=generate_fixtures_deployed,
+                    generate_fixtures_development=generate_fixtures_development,
                 )
             )
 with mkdocs_gen_files.open(navigation_file, "a") as nav_file:
