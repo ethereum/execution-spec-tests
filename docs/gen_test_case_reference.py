@@ -85,7 +85,7 @@ def apply_name_filters(input_string: str):
     up nav title names.
     """
     regexes = [
-        (r"^Test ", ""),
+        # (r"^Test ", ""),
         (r"vm", "VM"),
         # TODO: enable standard formatting for all opcodes.
         (r"Dup", "DUP"),
@@ -132,24 +132,15 @@ for root, _, files in sorted(os.walk(source_directory)):
     # Process Markdown files first, then Python files for nav section ordering
     for file in markdown_files:
         source_file = Path(root) / file
-        if file == "README.md":
-            # We already write an index.md that contains the docstrings
-            # from the __init__.py. mkdocs seems to struggle when both
-            # an index.md and a readme.md are present.
-            output_file_path = output_directory / "test_cases.md"
-            nav_path = "Test Case Reference" / test_dir_relative_path / "Test Cases"
-        else:
-            output_file_path = output_directory / file
-            file_no_ext = os.path.splitext(file)[0]
-            nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
+        output_file_path = output_directory / file
+        file_no_ext = os.path.splitext(file)[0]
+        nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
         copy_file(source_file, output_file_path)
         nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
         nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
         nav[nav_tuple] = str(output_file_path)
 
     for file in sorted(python_files):
-        if file == "conftest.py":
-            continue
         output_file_path = Path("undefined")
         if file == "__init__.py":
             output_file_path = output_directory / "index.md"
