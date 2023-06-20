@@ -13,6 +13,8 @@ from string import Template
 
 import mkdocs_gen_files
 
+from ethereum_test_forks import get_development_forks
+
 logger = logging.getLogger("mkdocs")
 
 source_directory = "tests"
@@ -55,6 +57,35 @@ if os.environ.get("CI") != "true":  # always generate in ci/cd
         )
         sys.exit(0)
 
+DEV_FORKS = [fork.name() for fork in get_development_forks()]
+
+GENERATE_FIXTURES_DEPLOYED = Template(
+    textwrap.dedent(
+        """
+        !!! example "Generate fixtures for these test cases $additional_title with:"
+            ```console
+            fill -v $pytest_test_path
+            ```
+
+        """
+    )
+)
+
+GENERATE_FIXTURES_DEVELOPMENT = Template(
+    textwrap.dedent(
+        """
+        !!! example "Generate fixtures for these test cases for '$fork' with:"
+            $fork only:
+            ```console
+            fill -v $pytest_test_path --fork=$fork --evm-bin=/path/to/evm-tool-dev-version
+            ```
+            For all forks up to and including $fork:
+            ```console
+            fill -v $pytest_test_path --until=$fork --evm-bin=/path/to/evm-tool-dev-version
+            ```
+        """
+    )
+)
 
 # mkdocstrings filter doc:
 # https://mkdocstrings.github.io/python/usage/configuration/members/#filters
@@ -63,17 +94,17 @@ MARKDOWN_TEMPLATE = Template(
         """
         # $title
 
-        !!! example "Generate fixtures for these test cases with:"
-            ```console
-            fill -v $pytest_test_path
-            ```
-
+        $generate_fixtures_deployed
+        $generate_fixtures_development
         ::: $package_name
             options:
-              filters: ["!^_[^_]", "![A-Z]{2,}", "!pytestmark"]
+                filters: ["^[tT]est*"]
         """
     )
 )
+
+#            options:
+#              filters: ["!^_[^_]", "![A-Z]{2,}", "!pytestmark"]
 
 
 def apply_name_filters(input_string: str):
@@ -82,7 +113,11 @@ def apply_name_filters(input_string: str):
     up nav title names.
     """
     regexes = [
+        # (r"^Test ", ""),
         (r"vm", "VM"),
+        # TODO: enable standard formatting for all opcodes.
+        (r"Dup", "DUP"),
+        (r"Chainid", "CHAINID"),
         (r"acl", "ACL"),
         (r"eips", "EIPs"),
         (r"eip-?([1-9]{1,5})", r"EIP-\1"),
@@ -125,30 +160,30 @@ for root, _, files in sorted(os.walk(source_directory)):
     # Process Markdown files first, then Python files for nav section ordering
     for file in markdown_files:
         source_file = Path(root) / file
-        if file == "README.md":
-            # We already write an index.md that contains the docstrings
-            # from the __init__.py. mkdocs seems to struggle when both
-            # an index.md and a readme.md are present.
-            output_file_path = output_directory / "test_cases.md"
-            nav_path = "Test Case Reference" / test_dir_relative_path / "Test Cases"
-        else:
-            output_file_path = output_directory / file
-            file_no_ext = os.path.splitext(file)[0]
-            nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
+        suffix = ""
+        if file.lower() == "readme.md":
+            # If there's a file called readme python-mkdocstrings will take this as the
+            # page's index.md. This will subsequently get overwritten by the `__init__.py`.
+            # Hack, add an underscore to differentiate the file and include it in the doc.
+            suffix = "_"
+        basename, extension = os.path.splitext(file)
+        file = f"{basename}{suffix}.{extension}"
+        output_file_path = output_directory / file
+        nav_path = "Test Case Reference" / test_dir_relative_path / basename
         copy_file(source_file, output_file_path)
         nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
         nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
         nav[nav_tuple] = str(output_file_path)
 
     for file in sorted(python_files):
-        if file == "conftest.py":
-            continue
         output_file_path = Path("undefined")
         if file == "__init__.py":
             output_file_path = output_directory / "index.md"
             nav_path = "Test Case Reference" / test_dir_relative_path
             package_name = root.replace(os.sep, ".")
             pytest_test_path = root
+        elif not file.startswith("test_"):
+            continue
         else:
             file_no_ext = os.path.splitext(file)[0]
             output_file_path = output_directory / f"{file_no_ext}.md"
@@ -161,12 +196,33 @@ for root, _, files in sorted(os.walk(source_directory)):
         nav[nav_tuple] = str(output_file_path)
         markdown_title = nav_tuple[-1]
 
+        if root == "tests":
+            generate_fixtures_deployed = GENERATE_FIXTURES_DEPLOYED.substitute(
+                pytest_test_path=pytest_test_path,
+                additional_title=" for all forks deployed to mainnet",
+            )
+            generate_fixtures_development = GENERATE_FIXTURES_DEVELOPMENT.substitute(
+                pytest_test_path=pytest_test_path, fork=DEV_FORKS[0]
+            )
+        elif dev_forks := [fork for fork in DEV_FORKS if fork.lower() in root.lower()]:
+            assert len(dev_forks) == 1
+            generate_fixtures_deployed = ""
+            generate_fixtures_development = GENERATE_FIXTURES_DEVELOPMENT.substitute(
+                pytest_test_path=pytest_test_path, fork=dev_forks[0]
+            )
+        else:
+            generate_fixtures_deployed = GENERATE_FIXTURES_DEPLOYED.substitute(
+                pytest_test_path=pytest_test_path, additional_title=""
+            )
+            generate_fixtures_development = ""
+
         with mkdocs_gen_files.open(output_file_path, "w") as f:
             f.write(
                 MARKDOWN_TEMPLATE.substitute(
                     title=markdown_title,
                     package_name=package_name,
-                    pytest_test_path=pytest_test_path,
+                    generate_fixtures_deployed=generate_fixtures_deployed,
+                    generate_fixtures_development=generate_fixtures_development,
                 )
             )
 with mkdocs_gen_files.open(navigation_file, "a") as nav_file:
