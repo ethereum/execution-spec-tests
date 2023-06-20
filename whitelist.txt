@@ -239,6 +239,8 @@ callcode
 return
 delegatecall
 create2
+address2
+key2
 
 staticcall
 
