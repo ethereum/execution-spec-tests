@@ -35,7 +35,7 @@ This check accomplished by adding the following two global variables anywhere in
 
 ## Example
 
-Here is an example from [./tests/eips/test_eip3651.py](../tests/eips/test_eip3651.md):
+Here is an example from [./tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py](../tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.md):
 
 ```python
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3651.md"
