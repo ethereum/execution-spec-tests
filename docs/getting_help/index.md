@@ -9,7 +9,7 @@ Write to:
 
 - Dan on [Discord](https://discordapp.com/users/danceratopz) or [Telegram](https://t.me/danceratopz) (`danceratopz`).
 - Spencer on [Discord](https://discordapp.com/users/spencertaylorbrown) or [Telegram](https://t.me/spencertb) (`spencertaylorbrown`/`@spencertb`).
-- Mario on [Discord](https://discordapp.com/users/Mario Vega#7267) or [Telegram](https://t.me/marioevz) (`Mario Vega#7267`/`@marioevz`).
+- Mario on [Discord](https://discordapp.com/users/marioevz) or [Telegram](https://t.me/marioevz) (`marioevz`/`@marioevz`).
 
 <figure markdown>
  ![ukiyo-e style design of 3 furry happy pandas playfully doing experiments on ethereum in a laboratory](img/testing_pandas.png){ width="400" align=right}
