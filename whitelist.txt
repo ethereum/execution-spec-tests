@@ -286,9 +286,11 @@ usefixtures
 writelines
 
 docstrings
+hexsha
 mkdocs
 mkdocstrings
 nav
+repo
 
 evaluatable
 
