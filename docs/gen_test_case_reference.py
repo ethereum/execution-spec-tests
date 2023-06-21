@@ -16,6 +16,7 @@ from typing import Tuple
 
 import mkdocs_gen_files
 import pytest
+from git import Repo
 
 from ethereum_test_forks import get_development_forks, get_forks
 
@@ -98,6 +99,8 @@ MARKDOWN_TEMPLATE = Template(
         """
         # $title
 
+        Documentation for test cases from [`$pytest_test_path`]($module_github_url).
+
         $generate_fixtures_deployed
         $generate_fixtures_development
         ::: $package_name
@@ -113,7 +116,7 @@ MARKDOWN_TEST_CASES_TEMPLATE = Template(
         # $title
 
         !!! example "Test cases generated from `$pytest_test_path`"
-            Parametrized test cases generated from the test module `$pytest_test_path`:
+            Parametrized test cases generated from the test module [`$pytest_test_path`]($module_github_url):
 
             ```
             $collect_only_output
@@ -124,7 +127,7 @@ MARKDOWN_TEST_CASES_TEMPLATE = Template(
             ```console
             $collect_only_command
             ```
-        """
+        """  # noqa: E501
     )
 )
 
@@ -195,7 +198,27 @@ def run_collect_only(test_path: Path = source_directory) -> Tuple[str, str]:
     return collect_only_command, collect_only_output
 
 
-##
+def generate_github_url(file_path, branch_or_commit_or_tag="main"):
+    """
+    Generate a link to a source file in Github.
+    """
+    base_url = "https://github.com"
+    username = "ethereum"
+    repository = "execution-spec-tests"
+    return f"{base_url}/{username}/{repository}/blob/{branch_or_commit_or_tag}/{file_path}"
+
+
+def get_current_commit_hash(repo_path="."):
+    """
+    Get the latest commit hash from the clone where doc is being built.
+    """
+    repo = Repo(repo_path)
+    return repo.head.commit.hexsha
+
+
+COMMIT_HASH = get_current_commit_hash()
+
+
 def non_recursive_os_walk(top_dir):
     """
     Return the output of os.walk for the top-level directory.
@@ -282,6 +305,9 @@ for directory in all_directories:
                         MARKDOWN_TEST_CASES_TEMPLATE.substitute(
                             title=f"{markdown_title} - Test Cases",
                             pytest_test_path=pytest_test_path,
+                            module_github_url=generate_github_url(
+                                pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH
+                            ),
                             collect_only_command=collect_only_command,
                             collect_only_output=collect_only_output,
                         )
@@ -314,6 +340,9 @@ for directory in all_directories:
                         package_name=package_name,
                         generate_fixtures_deployed=generate_fixtures_deployed,
                         generate_fixtures_development=generate_fixtures_development,
+                        module_github_url=generate_github_url(
+                            pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH
+                        ),
                         pytest_test_path=pytest_test_path,
                     )
                 )
