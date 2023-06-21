@@ -257,6 +257,7 @@ collectonly
 dedent
 dest
 fixturenames
+fspath
 funcargs
 getgroup
 getoption
@@ -266,6 +267,7 @@ IGNORECASE
 makepyfile
 metafunc
 modifyitems
+nodeid
 originalname
 parametrized
 param
@@ -274,6 +276,7 @@ parametrize
 pytester
 pytestmark
 regexes
+reportinfo
 ret
 runpytest
 runtest
