@@ -235,10 +235,14 @@ fork_directories.reverse()
 all_directories = [directory for directory in fork_directories if os.path.exists(directory)]
 all_directories.insert(0, source_directory)
 
+# Loop over directories here instead of walking tests/ to ensure we
+# get a reverse chronological listing of forks in the nav bar.
 for directory in all_directories:
     if directory is source_directory:
+        # Process files within tests/ but don't walk it recursively.
         walk_directory_output = non_recursive_os_walk(directory)
     else:
+        # Walk each tests/fork/ directory recursively.
         # sorted() is a bit of a hack to order nav content for each fork
         walk_directory_output = sorted(os.walk(directory))
     for root, _, files in walk_directory_output:
