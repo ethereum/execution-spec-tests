@@ -79,6 +79,13 @@ def pytest_addoption(parser):
         default="./fixtures/",
         help="Directory to store the generated test fixtures. Can be deleted.",
     )
+    test_group.addoption(
+        "--no-output-structure",
+        action="store_true",
+        dest="no_output_structure",
+        default=False,
+        help="Output each test case in the directory without the folder structure.",
+    )
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -172,10 +179,12 @@ class FixtureCollector:
 
     all_fixtures: Dict[str, List[Tuple[str, Any]]]
     output_dir: str
+    no_output_structure: bool
 
-    def __init__(self, output_dir: str) -> None:
+    def __init__(self, output_dir: str, no_output_structure: bool) -> None:
         self.all_fixtures = {}
         self.output_dir = output_dir
+        self.no_output_structure = no_output_structure
 
     def add_fixture(self, item, fixture: Fixture) -> None:
         """
@@ -196,9 +205,13 @@ class FixtureCollector:
             )
             return module_dir
 
-        module_dir = os.path.join(
-            get_module_dir(item),
-            strip_test_prefix(item.originalname),
+        module_dir = (
+            strip_test_prefix(item.originalname)
+            if self.no_output_structure
+            else os.path.join(
+                get_module_dir(item),
+                strip_test_prefix(item.originalname),
+            )
         )
         if module_dir not in self.all_fixtures:
             self.all_fixtures[module_dir] = []
@@ -222,7 +235,8 @@ class FixtureCollector:
                 name = str(index).zfill(3) + "-" + name
                 output_json[name] = fixture
             file_path = os.path.join(self.output_dir, module_file + ".json")
-            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            if not self.no_output_structure:
+                os.makedirs(os.path.dirname(file_path), exist_ok=True)
             with open(file_path, "w") as f:
                 json.dump(output_json, f, indent=4)
 
@@ -233,7 +247,10 @@ def fixture_collector(request):
     Returns the configured fixture collector instance used for all tests
     in one test module.
     """
-    fixture_collector = FixtureCollector(output_dir=request.config.getoption("output"))
+    fixture_collector = FixtureCollector(
+        output_dir=request.config.getoption("output"),
+        no_output_structure=request.config.getoption("no_output_structure"),
+    )
     yield fixture_collector
     fixture_collector.dump_fixtures()
 
