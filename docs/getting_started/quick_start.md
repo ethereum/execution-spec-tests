@@ -59,31 +59,31 @@ The following requires a Python 3.10 installation.
    ```
 3. Verify installation:
     1. Explore test cases:
-       ```console
-       fill --collect-only
-       ```
+    2. ```console
+        fill --collect-only
+        ```
+
        Expected console output:
        <figure markdown>
          ![Screenshot of pytest test collection console output](./img/pytest_collect_only.png){align=center}
        </figure>
-       
-    2. Execute the test cases (verbosely) in the `./tests/example/test_acl_example.py` module:
-        ```console
-        fill -v tests/example/test_acl_example.py
-        ```
-        Expected console output:
-        <figure markdown>
-          ![Screenshot of pytest test collection console output](./img/pytest_run_example.png){align=center}
-        </figure>
-        Check:
-       
-        1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
-        2. The corresponding fixture file has been generated:
+    3. Execute the test cases (verbosely) in the `./tests/berlin/eip2930_access_list/test_acl.py` module:
+       ```console
+       fill -v tests/berlin/eip2930_access_list/test_acl.py
+       ```
+       Expected console output:
 
-           ```console
-           head fixtures/example/acl_example/test_access_list.json
-           ```
+       <figure markdown>
+        ![Screenshot of pytest test collection console output](./img/pytest_run_example.png){align=center}
+       </figure>
+       Check:
 
+       1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
+       2. The corresponding fixture file has been generated:
+
+          ```
+          head fixtures/berlin/eip2930_access_list/acl/access_list.json
+          ```
 
 ## Next Steps
 

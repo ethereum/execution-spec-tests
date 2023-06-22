@@ -1,20 +1,27 @@
 # Adding a New Test
 
-All test cases are located in the `tests` directory, which is composed of many subdirectories, each one represents a different test category. The sub-directories may contain sub-categories, if necessary.
+All test cases are located underneath the `tests` directory, which are then organized by fork. Each fork contains sub-directories containing test sub-categories.
 
 ```
 📁 execution-test-specs/
-├─╴📁 tests/                   # test cases
-│   ├── 📁 eips/
-│   |    ├── 📁 eip4844/
-|   |    |    ├── 📄 test_blobhash_opcode.py
-|   |    |    └── 📄 test_excess_data_gas.py
-|   |    ├── 📄 test_eip3855.py
-|   |    └── 📄 test_eip3860.py
-│   ├── 📁 example/
-│   ├── 📁 security/
-│   ├── 📁 vm/
-│   ├── 📁 withdrawals/
+├─╴📁 tests/
+|   ├── 📄 __init__.py
+│   ├── 📁 cancun/
+|   |    ├── 📄 __init__.py
+│   |    └── 📁 eip4844_blobs/
+|   |        ├── 📄 __init__.py
+|   |        ├── 📄 test_blobhash_opcode.py
+|   |        ├── 📄 test_excess_data_gas.py
+|   |        └── 📄 ...
+|   ├── 📁 shanghai
+|   |    ├── 📁 eip3651_warm_coinbase
+|   |    |   ├── 📄 __init__.py
+|   |    |   └── 📄 test_warm_coinbase.py
+|   |    ├── 📁 eip3855_push0
+|   |    |   ├── 📄 __init__.py
+|   |    |   └── 📄 test_push0.py
+|   |    ├── 📁...
+|   |    ...
 │   └── 📁 ...
 ```
 
