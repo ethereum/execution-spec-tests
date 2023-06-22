@@ -97,10 +97,10 @@ This guide installs stable versions of the required external `evm` and `solc` ex
        Expected console output:
          ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_collect_only.png)
 
-    2. Execute the test cases (verbosely) in the `./tests/example/test_acl_example.py` module:
+    2. Execute the test cases (verbosely) in the `./tests/berlin/eip2930_access_list/test_acl.py` module:
 
         ```console
-        fill -v tests/example/test_acl_example.py
+        fill -v tests/berlin/eip2930_access_list/test_acl.py
         ```
 
         Expected console output:
@@ -111,7 +111,7 @@ This guide installs stable versions of the required external `evm` and `solc` ex
         2. The corresponding fixture file has been generated:
 
            ```console
-           head fixtures/example/acl_example/test_access_list.json
+           head fixtures/berlin/eip2930_access_list/acl/access_list.json
            ```
 
 ## Coverage
