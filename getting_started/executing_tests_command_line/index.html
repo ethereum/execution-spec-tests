@@ -3217,55 +3217,60 @@
 
 
 <h1 id="executing-tests-at-a-prompt">Executing Tests at a Prompt<a class="headerlink" href="#executing-tests-at-a-prompt" title="Permanent link">&para;</a></h1>
+<p>The execution-spec-tests repo uses <a href="https://docs.pytest.org/en/latest/">pytest</a> as its test framework. The <code>fill</code> command is essentially an alias for <code>pytest</code>.</p>
 <h2 id="collection-test-exploration">Collection - Test Exploration<a class="headerlink" href="#collection-test-exploration" title="Permanent link">&para;</a></h2>
-<p>The test cases implemented in the <code>./tests</code> sub-directory can be listed in the console using:
+<p>The test cases implemented in the <code>./tests</code> sub-directory can be listed in the console using:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only</span>
 </code></pre></div>
-and can be filtered (by test path, function and parameter substring):
+<p>and can be filtered (by test path, function and parameter substring):</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -k warm_coinbase</span>
 </code></pre></div>
-Docstrings are additionally displayed when ran verbosely:
+<p>Docstrings are additionally displayed when ran verbosely:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -k warm_coinbase -vv</span>
-</code></pre></div></p>
+</code></pre></div>
 <h2 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h2>
-<p>To generate all the test fixtures defined in the <code>./tests</code> sub-directory and write them to the <code>./fixtures</code> directory, run <code>fill</code> in the top-level directory as:
-<div class="highlight"><pre><span></span><code><span class="go">fill --output=&quot;fixtures&quot;</span>
-</code></pre></div></p>
+<p>By default, all test cases are executed for all forks deployed to mainnet, but not for forks still under active development, i.e.,</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill</span>
+</code></pre></div>
+<p>will generate fixtures for test cases from Frontier to Shanghai (as of time of writing, Q2 2023).</p>
+<p>To generate all the test fixtures defined in the <code>./tests/shanghai</code> sub-directory and write them to the <code>./fixtures-shanghai</code> directory, run <code>fill</code> in the top-level directory as:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill ./tests/shanghai --output=&quot;fixtures-shanghai&quot;</span>
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Test case verification</p>
-<p>Note, that the test <code>post</code> conditions are tested against the output of the <code>evm t8n</code> command for transition tests, respectively <code>evm b11r</code> command for blockchain tests, during test generation.</p>
+<p>Note, that the (limited set of) test <code>post</code> conditions are tested against the output of the <code>evm t8n</code> command for transition tests, respectively <code>evm b11r</code> command for blockchain tests, during test generation.</p>
 </div>
-<p>To generate all the test fixtures in the <code>./tests/eips/</code> sub-directory (category), for example, run:
-<div class="highlight"><pre><span></span><code><span class="go">fill tests/eips</span>
-</code></pre></div></p>
-<p>To generate all the test fixtures in the <code>./tests/eips/test_eip3651.py</code> module, for example, run:
-<div class="highlight"><pre><span></span><code><span class="go">fill ./tests/eips/test_eip3651.py</span>
-</code></pre></div></p>
-<p>To generate specific test fixtures, such as those from the test function <code>test_warm_coinbase_call_out_of_gas()</code>, for example, run:
-<div class="highlight"><pre><span></span><code><span class="go">fill -k &quot;test_warm_coinbase_call_out_of_gas&quot;</span>
+<p>To generate all the test fixtures in the <code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code> module, for example, run:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</span>
 </code></pre></div>
-or, additionally, only for the for Shanghai fork:
-<div class="highlight"><pre><span></span><code><span class="go">fill -k &quot;test_warm_coinbase_call_out_of_gas and shanghai&quot;</span>
-</code></pre></div></p>
+<p>To generate specific test fixtures from a specific test function or even test function and parameter set, obtain the corresponding test ID using:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q -k test_warm_coinbase</span>
+</code></pre></div>
+<p>This filters the tests by <code>test_warm_coinbase</code>. Then find the relevant test ID in the console output and provide it to fill, for example, for a test function:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage</span>
+</code></pre></div>
+<p>or, for a test function and specific parameter combination:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage[fork=Merge-DELEGATECALL]</span>
+</code></pre></div>
 <h2 id="execution-for-development-forks">Execution for Development Forks<a class="headerlink" href="#execution-for-development-forks" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
 <p>By default, test cases are not executed with upcoming Ethereum forks so that they can be readily executed against the <code>evm</code> tool from the latest <code>geth</code> release.</p>
 <p>In order to execute test cases for an upcoming fork, ensure that the <code>evm</code> tool used supports that fork and features under test and use the <code>--until</code> or <code>--fork</code> flag.</p>
-<p>For example, as of May 2023, the current fork under active development is <code>Cancun</code>:
+<p>For example, as of Q2 2023, the current fork under active development is <code>Cancun</code>:
 <div class="highlight"><pre><span></span><code><span class="go">fill --until Cancun</span>
 </code></pre></div></p>
 <p>See: <a href="../executing_tests_dev_fork/">Executing Tests for Features under Development</a>.</p>
 </div>
 <h2 id="useful-pytestfill-command-line-options">Useful pytest/fill Command-Line Options<a class="headerlink" href="#useful-pytestfill-command-line-options" title="Permanent link">&para;</a></h2>
-<p>Custom <code>fill</code> command-line options:
+<p>Custom <code>fill</code> command-line options:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --traces       # Collect traces of the execution information from the transition tool</span>
 <span class="go">fill --evm=EVM_BIN  # Specify the evm executable to generate fixtures with</span>
-</code></pre></div></p>
-<p>Pytest command-line options:
+</code></pre></div>
+<p>Pytest command-line options:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -vv            # More verbose output</span>
 <span class="go">fill -x             # Exit instantly on first error or failed test case</span>
 <span class="go">fill --pdb          # drop into the debugger upon error in a test case</span>
-</code></pre></div></p>
+</code></pre></div>
 
 
 

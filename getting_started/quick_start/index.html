@@ -3236,29 +3236,27 @@
 <li>
 <p>Verify installation:</p>
 <ol>
-<li>
-<p>Explore test cases:
-   <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only</span>
-</code></pre></div>
-   Expected console output:
+<li>Explore test cases:</li>
+<li><code>console
+    fill --collect-only</code></li>
+</ol>
+<p>Expected console output:
    <figure markdown>
      <a class="glightbox" href="../img/pytest_collect_only.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_collect_only.png" /></a>
-   </figure></p>
-</li>
-<li>
-<p>Execute the test cases (verbosely) in the <code>./tests/example/test_acl_example.py</code> module:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/example/test_acl_example.py</span>
+   </figure>
+3. Execute the test cases (verbosely) in the <code>./tests/berlin/eip2930_access_list/test_acl.py</code> module:
+   <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py</span>
 </code></pre></div>
-    Expected console output:
-    <figure markdown>
-      <a class="glightbox" href="../img/pytest_run_example.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_run_example.png" /></a>
-    </figure>
-    Check:</p>
+   Expected console output:</p>
+<p><figure markdown>
+    <a class="glightbox" href="../img/pytest_run_example.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_run_example.png" /></a>
+   </figure>
+   Check:</p>
 <ol>
 <li>The versions of the <code>evm</code> and <code>solc</code> tools are as expected (your versions may differ from those in the highlighted box).</li>
-<li>The corresponding fixture file has been generated:</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="go">head fixtures/example/acl_example/test_access_list.json</span>
+<li>
+<p>The corresponding fixture file has been generated:</p>
+<div class="highlight"><pre><span></span><code>head fixtures/berlin/eip2930_access_list/acl/access_list.json
 </code></pre></div>
 </li>
 </ol>
