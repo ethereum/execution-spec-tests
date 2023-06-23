@@ -1,8 +1,9 @@
 """
 Common constants, classes & functions local to EIP-4844 tests.
 """
+from dataclasses import dataclass
 from hashlib import sha256
-from typing import Literal, Union
+from typing import Literal, List, Tuple, Union
 
 from ethereum_test_tools import (
     TestAddress,
@@ -26,6 +27,7 @@ BLS_MODULUS = 0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001
 BLS_MODULUS_BYTES = BLS_MODULUS.to_bytes(32, "big")
 DATA_GAS_PER_BLOB = 2**17
 DATA_GASPRICE_UPDATE_FRACTION = 3338477
+BYTES_PER_FIELD_ELEMENT = 32
 FIELD_ELEMENTS_PER_BLOB = 4096
 FIELD_ELEMENTS_PER_BLOB_BYTES = FIELD_ELEMENTS_PER_BLOB.to_bytes(32, "big")
 INF_POINT = (0xC0 << 376).to_bytes(48, byteorder="big")
@@ -119,6 +121,37 @@ def kzg_to_versioned_hash(
     if isinstance(blob_commitment_version_kzg, int):
         blob_commitment_version_kzg = blob_commitment_version_kzg.to_bytes(1, "big")
     return blob_commitment_version_kzg + sha256(kzg_commitment).digest()[1:]
+
+
+@dataclass(kw_only=True)
+class Blob:
+    blob: bytes
+    kzg_commitment: bytes
+    kzg_proof: bytes
+
+    def versioned_hash(self) -> bytes:
+        """
+        Calculates the versioned hash for a given blob.
+        """
+        return kzg_to_versioned_hash(self.kzg_commitment)
+
+    @staticmethod
+    def blobs_to_transaction_input(
+        input_blobs: List["Blob"],
+    ) -> Tuple[List[bytes], List[bytes], List[bytes]]:
+        """
+        Returns a tuple of lists of blobs, kzg commitments formatted to be added to a network blob
+        type transaction.
+        """
+        blobs: List[bytes] = []
+        kzg_commitments: List[bytes] = []
+        kzg_proofs: List[bytes] = []
+
+        for blob in input_blobs:
+            blobs.append(blob.blob)
+            kzg_commitments.append(blob.kzg_commitment)
+            kzg_proofs.append(blob.kzg_proof)
+        return (blobs, kzg_commitments, kzg_proofs)
 
 
 # Simple list of blob versioned hashes ranging from bytes32(1 to 4)
