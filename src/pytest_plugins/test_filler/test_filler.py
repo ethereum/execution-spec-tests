@@ -228,6 +228,7 @@ class FixtureCollector:
         """
         Dumps all collected fixtures to their respective files.
         """
+        os.makedirs(self.output_dir, exist_ok=True)
         for module_file, fixtures in self.all_fixtures.items():
             output_json = {}
             for index, name_fixture in enumerate(fixtures):
