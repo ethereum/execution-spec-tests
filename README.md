@@ -60,7 +60,7 @@ The following requires a Python 3.10 installation.
 
 ### Quick Start
 
-This guide installs stable versions of the required external `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
+This guide installs stable versions of the required external `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
 1. Ensure go-ethereum's `evm` tool and `solc` are in your path. Either build the required versions, or alternatively:
 
@@ -75,7 +75,7 @@ This guide installs stable versions of the required external `evm` and `solc` ex
     - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
     - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
 
-    Help for other platforms is available in the [online doc](https://danceratopz.github.io/execution-spec-tests/getting_started/quick_start/).
+    Help for other platforms is available in the [online doc](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
 
 2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its and dependencies (it's recommended to use a virtual environment for the installation):
 
@@ -116,20 +116,20 @@ This guide installs stable versions of the required external `evm` and `solc` ex
 
 ## Coverage
 
-The available test cases can be browsed in the [Test Case Reference doc](https://danceratopz.github.io/execution-spec-tests/tests/).
+The available test cases can be browsed in the [Test Case Reference doc](https://ethereum.github.io/execution-spec-tests/tests/).
 
 ## Usage
 
-See the [online documentation](https://danceratopz.github.io/execution-spec-tests/) for further help with working with this codebase:
+See the [online documentation](https://ethereum.github.io/execution-spec-tests/) for further help with working with this codebase:
 
-1. Learn [useful command-line flags](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_command_line/).
-2. [Execute tests for features under development](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
-3. _Optional:_ [Configure VS Code](https://danceratopz.github.io/execution-spec-tests/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://danceratopz.github.io/execution-spec-tests/getting_started/executing_tests_vs_code/#executing-and-debugging-test-cases).
-4. Implement a new test case, see [Writing Tests](https://danceratopz.github.io/execution-spec-tests/writing_tests/).
+1. Learn [useful command-line flags](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_command_line/).
+2. [Execute tests for features under development](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
+3. _Optional:_ [Configure VS Code](https://ethereum.github.io/execution-spec-tests/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_vs_code/#executing-and-debugging-test-cases).
+4. Implement a new test case, see [Writing Tests](https://ethereum.github.io/execution-spec-tests/writing_tests/).
 
 ## Contributing
 
-Contributions and feedback are welcome. Please see the [online documentation](https://danceratopz.github.io/execution-spec-tests/writing_tests/) for this repository's coding standards and help on implementing new tests.
+Contributions and feedback are welcome. Please see the [online documentation](https://ethereum.github.io/execution-spec-tests/writing_tests/) for this repository's coding standards and help on implementing new tests.
 
 ## License
 

@@ -1,13 +1,15 @@
 # Documentation
 
-The `execution-spec-tests` documentation is generated via [`mkdocs`](https://www.mkdocs.org/) and hosted remotely on [readthedocs.io](https://execution-spec-tests.readthedocs.io/en/latest/).
+The `execution-spec-tests` documentation is generated via [`mkdocs`](https://www.mkdocs.org/) and hosted remotely on Github Pages at [ethereum.github.io/execution-spec-tests](https://ethereum.github.io/execution-spec-tests/).
 
 ## Prerequisites
+
 ```console
 pip install -e .[docs]
 ```
 
 ## Build the Documentation
+
 One time build:
 ```console
 mkdocs build
