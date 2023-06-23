@@ -9,7 +9,7 @@ Every test case is defined as a python function that defines a single `StateTest
 | Be [decorated with validity markers](#specifying-which-forks-tests-are-valid-for) | If the test case is not valid for all forks |
 | Use one of `state_test` or `blockchain_test` [in its function arguments](#the-state_test-and-blockchain_test-test-function-arguments) | Always |
 | Call the `state_test` or `blockchain_test` in its test body                                                                           | Always |
-| Add a [reference version of the EIP spec](./reference_specification.md) under test | Test case located under `./tests/eips/`    |
+| Add a [reference version of the EIP spec](./reference_specification.md) under test | Test path contains `eip`  |
 
 ### Specifying which Forks Tests are Valid For
 
