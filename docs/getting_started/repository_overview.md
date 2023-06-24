@@ -32,7 +32,7 @@ Contains the implementation of the Ethereum consensus tests available in this re
 
 #### `src/`
 
-Contains various packages that help to define test cases and to interface with the `evm t8n` and `evm b11r` commands. Additionally, it contains some packages that enable test case execution by customizing pytest which acts as the test framework.
+Contains various packages that help to define test cases and to interface with the `evm t8n` command. Additionally, it contains some packages that enable test case execution by customizing pytest which acts as the test framework.
 
 #### `docs/`
 

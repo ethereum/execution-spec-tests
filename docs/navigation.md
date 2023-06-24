@@ -21,7 +21,6 @@
     * [Coding Style](dev/coding_style.md)
   * [Library Reference](library/index.md)
     * [EVM Transition Tool Package](library/evm_transition_tool.md)
-    * [EVM Block Builder Package](library/evm_block_builder.md)
     * [Ethereum Test Tools Package](library/ethereum_test_tools.md)
     * [Ethereum Test Forks Package](library/ethereum_test_forks.md)
     * [Pytest Plugins](library/pytest_plugins/)
