@@ -80,9 +80,9 @@ def pytest_addoption(parser):
         help="Directory to store the generated test fixtures. Can be deleted.",
     )
     test_group.addoption(
-        "--no-output-structure",
+        "--flat-output",
         action="store_true",
-        dest="no_output_structure",
+        dest="flat_output",
         default=False,
         help="Output each test case in the directory without the folder structure.",
     )
@@ -179,12 +179,12 @@ class FixtureCollector:
 
     all_fixtures: Dict[str, List[Tuple[str, Any]]]
     output_dir: str
-    no_output_structure: bool
+    flat_output: bool
 
-    def __init__(self, output_dir: str, no_output_structure: bool) -> None:
+    def __init__(self, output_dir: str, flat_output: bool) -> None:
         self.all_fixtures = {}
         self.output_dir = output_dir
-        self.no_output_structure = no_output_structure
+        self.flat_output = flat_output
 
     def add_fixture(self, item, fixture: Fixture) -> None:
         """
@@ -207,7 +207,7 @@ class FixtureCollector:
 
         module_dir = (
             strip_test_prefix(item.originalname)
-            if self.no_output_structure
+            if self.flat_output
             else os.path.join(
                 get_module_dir(item),
                 strip_test_prefix(item.originalname),
@@ -236,7 +236,7 @@ class FixtureCollector:
                 name = str(index).zfill(3) + "-" + name
                 output_json[name] = fixture
             file_path = os.path.join(self.output_dir, module_file + ".json")
-            if not self.no_output_structure:
+            if not self.flat_output:
                 os.makedirs(os.path.dirname(file_path), exist_ok=True)
             with open(file_path, "w") as f:
                 json.dump(output_json, f, indent=4)
@@ -250,7 +250,7 @@ def fixture_collector(request):
     """
     fixture_collector = FixtureCollector(
         output_dir=request.config.getoption("output"),
-        no_output_structure=request.config.getoption("no_output_structure"),
+        flat_output=request.config.getoption("flat_output"),
     )
     yield fixture_collector
     fixture_collector.dump_fixtures()
