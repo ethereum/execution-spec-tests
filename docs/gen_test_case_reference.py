@@ -207,7 +207,27 @@ def generate_github_url(file_path, branch_or_commit_or_tag="main"):
     base_url = "https://github.com"
     username = "ethereum"
     repository = "execution-spec-tests"
-    return f"{base_url}/{username}/{repository}/blob/{branch_or_commit_or_tag}/{file_path}"
+    if re.match(
+        r"^v[0-9]{1,2}\.[0-9]{1,3}\.[0-9]{1,3}(a[0-9]+|b[0-9]+|rc[0-9]+)?$",
+        branch_or_commit_or_tag,
+    ):
+        return f"{base_url}/{username}/{repository}/tree/{branch_or_commit_or_tag}/{file_path}"
+    else:
+        return f"{base_url}/{username}/{repository}/blob/{branch_or_commit_or_tag}/{file_path}"
+
+
+def get_current_commit_hash_or_tag(repo_path="."):
+    """
+    Get the latest commit hash or tag from the clone where doc is being built.
+    """
+    repo = Repo(repo_path)
+    try:
+        # Get the tag that points to the current commit
+        current_tag = next((tag for tag in repo.tags if tag.commit == repo.head.commit))
+        return current_tag.name
+    except StopIteration:
+        # If there are no tags that point to the current commit, return the commit hash
+        return repo.head.commit.hexsha
 
 
 def get_current_commit_hash(repo_path="."):
@@ -218,7 +238,7 @@ def get_current_commit_hash(repo_path="."):
     return repo.head.commit.hexsha
 
 
-COMMIT_HASH = get_current_commit_hash()
+COMMIT_HASH_OR_TAG = get_current_commit_hash_or_tag()
 
 
 def non_recursive_os_walk(top_dir):
@@ -312,7 +332,7 @@ for directory in all_directories:
                             title=f"{markdown_title} - Test Cases",
                             pytest_test_path=pytest_test_path,
                             module_github_url=generate_github_url(
-                                pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH
+                                pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH_OR_TAG
                             ),
                             collect_only_command=collect_only_command,
                             collect_only_output=collect_only_output,
@@ -347,7 +367,7 @@ for directory in all_directories:
                         generate_fixtures_deployed=generate_fixtures_deployed,
                         generate_fixtures_development=generate_fixtures_development,
                         module_github_url=generate_github_url(
-                            pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH
+                            pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH_OR_TAG
                         ),
                         pytest_test_path=pytest_test_path,
                     )
