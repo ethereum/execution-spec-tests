@@ -190,7 +190,9 @@ def run_collect_only(test_path: Path = source_directory) -> Tuple[str, str]:
     collect_only_command = f"fill --collect-only -q --until {DEV_FORKS[-1]} {test_path}"
     # strip out the test module
     output_lines = [
-        line.split("::")[1] for line in output.split("\n") if line.startswith("tests/")
+        line.split("::")[1]
+        for line in output.split("\n")
+        if line.startswith("tests/") and "::" in line
     ]
     # prefix with required indent for admonition in MARKDOWN_TEST_CASES_TEMPLATE
     collect_only_output = "\n".join("    " + line for line in output_lines)
