@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -23,6 +25,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e .[docs]
 
-    - name: Build and deploy
+    - name: Setup doc deploy
       run: |
-        mike deploy --update-aliases --push --remote origin main latest
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email github-actions[bot]@users.noreply.github.com
+
+    - name: Build and deploy docs to gh-pages
+      run: |
+        mike deploy --update-aliases --push --remote origin main development
