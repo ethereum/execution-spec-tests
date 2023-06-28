@@ -1,11 +1,11 @@
 # Referencing an EIP Spec Version
 
-An Ethereum Improvement Proposal (from [ethereum/EIPs](https://github.com/ethereum/EIPs/tree/master/EIPS)) and its SHA digest can be directly referenced within a python test module in order to check whether the test implementation could be out-dated. If the SHA of the file in the remote repo changes, the test framework will issue a warning in its summary section.
-
-Test cases located underneath `./tests/eips/` _must_ define a reference spec version.
+An Ethereum Improvement Proposal ([ethereum/EIPs](https://github.com/ethereum/EIPs/tree/master/EIPS)) and its SHA digest can be directly referenced within a python test module in order to check whether the test implementation could be out-dated. The test framework automatically generates tests for every module that defines a spec version. If the spec is out-of-date because the SHA of the specified file in the remote repo changes, the corresponding `test_eip_spec_version()` test fails.
 
 <figure markdown>
- ![Examples of warnings in the test framework's console output when an EIP is outdated or not specified](./img/reference_spec_warning_console_output.png){ width=auto align=center}
+  ![Test framework summary for a failing EIP spec version test](./img/eip_reference_spec_console_output.png){ width=auto align=center}
+  `<-snip->`
+  ![EIP spec version test fail](./img/eip_reference_spec_console_output_fail.png){ width=auto align=center}
 </figure>
 
 !!! info ""
@@ -31,7 +31,7 @@ This check accomplished by adding the following two global variables anywhere in
 | Variable Name               | Explanation                                                                                                                                                        |
 |-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `REFERENCE_SPEC_GIT_PATH`   | The relative path of the EIP markdown file in the [ethereum/EIPs](https://github.com/ethereum/EIPs/) repository, e.g. "`EIPS/eip-1234.md`"                         |
-| `REFERENCE_SPEC_VERSION`    | The SHA hash of the latest version of the file retrieved from the Github API:<br>`https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-<EIP Number>.md` |
+| `REFERENCE_SPEC_VERSION`    | The SHA hash of the latest version of the file retrieved from the Github API:<br>`https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-<EIP Number>.md`    |
 
 ## Example
 
