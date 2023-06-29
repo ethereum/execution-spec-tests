@@ -19,7 +19,7 @@
         <link rel="next" href="../verifying_changes/">
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
     
     
       
@@ -3193,10 +3193,11 @@
 
 
 <h1 id="referencing-an-eip-spec-version">Referencing an EIP Spec Version<a class="headerlink" href="#referencing-an-eip-spec-version" title="Permanent link">&para;</a></h1>
-<p>An Ethereum Improvement Proposal (from <a href="https://github.com/ethereum/EIPs/tree/master/EIPS">ethereum/EIPs</a>) and its SHA digest can be directly referenced within a python test module in order to check whether the test implementation could be out-dated. If the SHA of the file in the remote repo changes, the test framework will issue a warning in its summary section.</p>
-<p>Test cases located underneath <code>./tests/eips/</code> <em>must</em> define a reference spec version.</p>
+<p>An Ethereum Improvement Proposal (<a href="https://github.com/ethereum/EIPs/tree/master/EIPS">ethereum/EIPs</a>) and its SHA digest can be directly referenced within a python test module in order to check whether the test implementation could be out-dated. The test framework automatically generates tests for every module that defines a spec version. If the spec is out-of-date because the SHA of the specified file in the remote repo changes, the corresponding <code>test_eip_spec_version()</code> test fails.</p>
 <figure>
-<p><a class="glightbox" href="../img/reference_spec_warning_console_output.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Examples of warnings in the test framework's console output when an EIP is outdated or not specified" src="../img/reference_spec_warning_console_output.png" width="auto" /></a></p>
+<p><a class="glightbox" href="../img/eip_reference_spec_console_output.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Test framework summary for a failing EIP spec version test" src="../img/eip_reference_spec_console_output.png" width="auto" /></a>
+  <code>&lt;-snip-&gt;</code>
+  <a class="glightbox" href="../img/eip_reference_spec_console_output_fail.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="EIP spec version test fail" src="../img/eip_reference_spec_console_output_fail.png" width="auto" /></a></p>
 </figure>
 <div class="admonition info">
 <p>The SHA value is the output from git's <code>hash-object</code> command, for example:
@@ -3284,7 +3285,7 @@ and can be retrieved from the remote repo via the Github API on the command-line
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.a51614de.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b425cdc4.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
