@@ -1,0 +1,33 @@
+matrix:
+- name: markdown
+  pipeline:
+  - pyspelling.filters.markdown:
+  - pyspelling.filters.html:
+      comments: false
+      attributes:
+      - title
+      - alt
+      ignores:
+      - code
+      - pre
+      - a
+  # pipeline:
+  # - pyspelling.filters.text
+  # - pyspelling.filters.markdown:
+  #     markdown_extensions:
+  #       - markdown.extensions.toc:
+  #         slugify: !!python/name:pymdownx.slugs.uslugify
+  #         permalink: "\ue157"
+  #       - markdown.extensions.admonition
+  #       - markdown.extensions.smarty
+  aspell:
+    lang: en
+    d: en_US
+  dictionary:
+    wordlists:
+      - .wordlist.txt
+      - .wordlist_opcodes.txt
+      - .wordlist_python_pytest.txt
+    output: .pyspelling_en.dict
+  sources:
+  - 'docs/**/*.md'
