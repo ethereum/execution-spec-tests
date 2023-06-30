@@ -893,9 +893,57 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remote-deployment-and-versioning" class="md-nav__link">
+    Remote Deployment and Versioning
+  </a>
+  
+    <nav class="md-nav" aria-label="Remote Deployment and Versioning">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
-  <a href="#test-remote-deployment" class="md-nav__link">
-    Test Remote Deployment
+  <a href="#aliases" class="md-nav__link">
+    Aliases
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd-doc-deployment-via-github-actions" class="md-nav__link">
+    CI/CD: Doc Deployment via Github Actions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-and-deployment-without-alias-update" class="md-nav__link">
+    Build and Deployment (without alias update)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-deploy-and-update-the-alias" class="md-nav__link">
+    Build, Deploy and Update the Alias
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewing-and-deleting-versions" class="md-nav__link">
+    Viewing and Deleting Versions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-default-version" class="md-nav__link">
+    Set Default Version
   </a>
   
 </li>
@@ -936,6 +984,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read-the-docs" class="md-nav__link">
+    Read the Docs
+  </a>
   
 </li>
       
@@ -3236,9 +3291,57 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remote-deployment-and-versioning" class="md-nav__link">
+    Remote Deployment and Versioning
+  </a>
+  
+    <nav class="md-nav" aria-label="Remote Deployment and Versioning">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
-  <a href="#test-remote-deployment" class="md-nav__link">
-    Test Remote Deployment
+  <a href="#aliases" class="md-nav__link">
+    Aliases
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd-doc-deployment-via-github-actions" class="md-nav__link">
+    CI/CD: Doc Deployment via Github Actions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-and-deployment-without-alias-update" class="md-nav__link">
+    Build and Deployment (without alias update)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-deploy-and-update-the-alias" class="md-nav__link">
+    Build, Deploy and Update the Alias
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewing-and-deleting-versions" class="md-nav__link">
+    Viewing and Deleting Versions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-default-version" class="md-nav__link">
+    Set Default Version
   </a>
   
 </li>
@@ -3282,6 +3385,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#read-the-docs" class="md-nav__link">
+    Read the Docs
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3306,19 +3416,74 @@
 <div class="highlight"><pre><span></span><code><span class="go">pip install -e .[docs]</span>
 </code></pre></div>
 <h2 id="build-the-documentation">Build the Documentation<a class="headerlink" href="#build-the-documentation" title="Permanent link">&para;</a></h2>
-<p>One time build:
+<p>One time build:</p>
 <div class="highlight"><pre><span></span><code><span class="go">mkdocs build</span>
-</code></pre></div></p>
+</code></pre></div>
+<p>Pre-commit check: One time build and lint/type checking:</p>
+<div class="highlight"><pre><span></span><code><span class="go">tox -e docs</span>
+</code></pre></div>
 <h3 id="local-deployment-and-test">Local Deployment and Test<a class="headerlink" href="#local-deployment-and-test" title="Permanent link">&para;</a></h3>
-<p>This runs continually and re-generates the documentation upon changes in the <code>./docs/</code> sub-director and deploys the site locally (<a href="http://127.0.0.1:8000/">127.0.0.1:8000</a>, by default):</p>
-<p><div class="highlight"><pre><span></span><code><span class="go">mkdocs serve</span>
+<p>This runs continually: Deploys the site locally and re-generates the site upon modifications to <code>docs/**/*.md</code> or <code>tests/**/*.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="go">mkdocs serve</span>
 </code></pre></div>
-Note: The <code>gen-files</code> plugin currently breaks the <code>serve</code> command by continually re-generating the documentation. Disable this config in mkdocs.yml to avoid this behaviour.</p>
-<h3 id="test-remote-deployment">Test Remote Deployment<a class="headerlink" href="#test-remote-deployment" title="Permanent link">&para;</a></h3>
-<p>This can be used to generate and deploy a local version of the documentation remotely on Github pages in order to share a preview with other developers. Note, as the documentation is generated locally, even changes that have not been pushed will be deployed:</p>
-<div class="highlight"><pre><span></span><code><span class="go">mkdocs gh-deploy</span>
+<h2 id="remote-deployment-and-versioning">Remote Deployment and Versioning<a class="headerlink" href="#remote-deployment-and-versioning" title="Permanent link">&para;</a></h2>
+<p>The execution-specs-test docs are hosted on Github pages at the <a href="https://ethereum.github.io/execution-spec-tests/">repo's Github pages</a>. Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.</p>
+<p>Our mkdocs configuration uses <a href="https://github.com/jimporter/mike">mike</a> as a version provider. All deployments should be made via <code>mike</code> (whether as part of CI/CD or executed locally).</p>
+<p>The deployed versions of the docs managed via <code>mike</code> are kept in the <a href="https://github.com/ethereum/execution-spec-tests/tree/gh-pages">gh-pages</a> branch. When you run <code>mike</code> it commits to this branch and optionally pushes the changes directly to remote.</p>
+<h3 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h3>
+<p>We currently use two aliases:</p>
+<ul>
+<li><a href="https://ethereum.github.io/execution-spec-tests/latest"><code>latest</code></a>: the latest stable release.</li>
+<li><a href="https://ethereum.github.io/execution-spec-tests/development"><code>development</code></a>: the current state of the main branch.</li>
+</ul>
+<p>These aliases point to specific versions, as configured below. It's possible to share links containing either of these aliases or to specific versions, i.e, the following are all valid links:</p>
+<ul>
+<li><a href="https://ethereum.github.io/execution-spec-tests/">https://ethereum.github.io/execution-spec-tests/</a> (redirects to latest/main)</li>
+<li><a href="https://ethereum.github.io/execution-spec-tests/latest">https://ethereum.github.io/execution-spec-tests/latest</a> (redirects to main)</li>
+<li><a href="https://ethereum.github.io/execution-spec-tests/development">https://ethereum.github.io/execution-spec-tests/development</a> (redirects to tagged version)</li>
+<li><a href="https://ethereum.github.io/execution-spec-tests/main">https://ethereum.github.io/execution-spec-tests/main</a></li>
+<li><a href="https://ethereum.github.io/execution-spec-tests/v1.0.0">https://ethereum.github.io/execution-spec-tests/v1.0.0</a></li>
+</ul>
+<h3 id="cicd-doc-deployment-via-github-actions">CI/CD: Doc Deployment via Github Actions<a class="headerlink" href="#cicd-doc-deployment-via-github-actions" title="Permanent link">&para;</a></h3>
+<p>There are two workflows that automatically deploy updated/new versions of the docs:</p>
+<p>| Workflow <code>yaml</code> File | What | When |
+|-----------------_____|------|------|
+| <code>docs_main.yaml</code>     | Update "main" version of docs | Push to 'main' branch, (e.g., on PR merge) |
+| <code>docs_tags.yaml</code>     | Deploy new version of docs; tag is used as version name | Upon creating a tag matching <code>v*</code> |</p>
+<h3 id="build-and-deployment-without-alias-update">Build and Deployment (without alias update)<a class="headerlink" href="#build-and-deployment-without-alias-update" title="Permanent link">&para;</a></h3>
+<p>Build a new version and deploy it to remote (this version will then show up in the version selector list):</p>
+<div class="highlight"><pre><span></span><code><span class="go">mike deploy --push v1.2.3</span>
 </code></pre></div>
-<p>It will be deployed to the Github pages of the repo's username (branch is ignored), e.g., <a href="https://danceratopz.github.io/execution-spec-tests">https://danceratopz.github.io/execution-spec-tests</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Local deployment</p>
+<p>If you deploy locally, the documentation will be built with any changes made in your local repository. Check out the tag to deploy tagged versions.</p>
+</div>
+<h3 id="build-deploy-and-update-the-alias">Build, Deploy and Update the Alias<a class="headerlink" href="#build-deploy-and-update-the-alias" title="Permanent link">&para;</a></h3>
+<p>Build, deploy and update the version an alias points to with:</p>
+<div class="highlight"><pre><span></span><code><span class="go">mike deploy --push --update-aliases v1.2.3 latest</span>
+</code></pre></div>
+<p>where <code>v1.2.3</code> indicates the version's name and <code>development</code> is the alias. This will overwrite the version if it already exists.  </p>
+<div class="admonition note">
+<p class="admonition-title">Updating the 'main' version locally</p>
+<p>"main" is just a version name (intended to reflect that it is build from the main branch). However, <code>mike</code> will build the docs site from the current local repository state (including local modifications). Therefore, make sure you're on the HEAD of the main branch before executing (unless you know what you're doing <img alt="😉" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f609.svg" title=":wink:" />)!</p>
+<div class="highlight"><pre><span></span><code><span class="go">mike deploy --push main</span>
+</code></pre></div>
+<p>If the alias accidentally go change:</p>
+<div class="highlight"><pre><span></span><code><span class="go">mike deploy --push --update-aliases main development</span>
+</code></pre></div>
+</div>
+<h3 id="viewing-and-deleting-versions">Viewing and Deleting Versions<a class="headerlink" href="#viewing-and-deleting-versions" title="Permanent link">&para;</a></h3>
+<p>List versions:</p>
+<div class="highlight"><pre><span></span><code><span class="go">mike list</span>
+</code></pre></div>
+<p>Delete a version:</p>
+<div class="highlight"><pre><span></span><code><span class="go">mike delete v1.2.3a1-eof</span>
+</code></pre></div>
+<h3 id="set-default-version">Set Default Version<a class="headerlink" href="#set-default-version" title="Permanent link">&para;</a></h3>
+<p>Set the default version of the docs to open upon loading the page:</p>
+<div class="highlight"><pre><span></span><code><span class="go">mike set-default --push latest</span>
+</code></pre></div>
+<p>Typically, this must only be executed once for a repo.</p>
 <h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h2>
 <h3 id="plugins">Plugins<a class="headerlink" href="#plugins" title="Permanent link">&para;</a></h3>
 <p>The documentation flow uses <code>mkdocs</code> and the following additional plugins:</p>
@@ -3328,8 +3493,7 @@ Note: The <code>gen-files</code> plugin currently breaks the <code>serve</code> 
 <li><a href="https://mkdocstrings.github.io/">mkdocstrings</a> and <a href="https://mkdocstrings.github.io/python/">mkdocstrings-python</a>: To generate documentation from Python docstrings.</li>
 <li><a href="https://oprypin.github.io/mkdocs-gen-files">mkdocs-gen-files</a>: To generate markdown files automatically for each test case Python module. See <a href="https://mkdocstrings.github.io/crystal/quickstart/migrate.html">this page</a> for example usage. This plugin is used to <a href="https://oprypin.github.io/mkdocs-gen-files/extras.html">programmatically generate the nav section</a> for the generated test case reference documentation.</li>
 <li><a href="https://oprypin.github.io/mkdocs-literate-nav/index.html">mkdocs-literate-nav</a>: Is used to define the navigation layout for non-generated content and was created to work well with <code>mkdocs-gen-files</code> to add nav content for generated content.</li>
-<li><a href="https://timvink.github.io/mkdocs-git-authors-plugin/">mkdocs-git-authors-plugin</a>: To display doc contributors in the page footer.</li>
-<li><a href="https://github.com/blueswen/mkdocs-glightbox">mkdocs-glightbox</a> - for improved image and inline content display.</li>
+<li><a class="magiclink magiclink-github magiclink-repository" href="https://github.com/blueswen/mkdocs-glightbox" title="GitHub Repository: blueswen/mkdocs-glightbox">blueswen/mkdocs-glightbox</a> - for improved image and inline content display.</li>
 </ul>
 <h3 id="the-test-case-reference-section">The "Test Case Reference" Section<a class="headerlink" href="#the-test-case-reference-section" title="Permanent link">&para;</a></h3>
 <p>This section is auto-generated via a combination of:</p>
@@ -3361,6 +3525,8 @@ Note: The <code>gen-files</code> plugin currently breaks the <code>serve</code> 
 </ul>
 <p>and create an arbitrary ordering in the Test Case Reference doc gen script. But this is untested.</p>
 </div>
+<h2 id="read-the-docs">Read the Docs<a class="headerlink" href="#read-the-docs" title="Permanent link">&para;</a></h2>
+<p>Originally, documentation was hosted at [readthedocs.io]. Currently, <a href="https://execution-spec-tests.readthedocs.io">execution-spec-tests.readthedocs.io</a> is configured to redirect to the Github Pages site. This is achieved by following the steps listed in the second half of <a href="https://stackoverflow.com/a/69928404">this answer</a> on stackoverflow. A public repo with dummy Sphinx project is required to achieve this: <a href="https://github.com/danceratopz/est-docs-redirect">danceratopz/est-docs-redirect</a>.</p>
 
 
 

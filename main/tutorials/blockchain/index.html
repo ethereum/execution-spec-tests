@@ -3189,7 +3189,7 @@
 <li>Understand how to write an execution spec <a href="../state_transition/">state transition test</a>.</li>
 </ul>
 <h2 id="example-tests">Example Tests<a class="headerlink" href="#example-tests" title="Permanent link">&para;</a></h2>
-<p>In this tutorial we will go over [test_block_number] in <code>test_block_example.py</code>(https://github.com/ethereum/execution-spec-tests/tree/main/tests/example/test_block_example.py#L19).</p>
+<p>In this tutorial we will go over [test_block_number] in <code>test_block_example.py</code>(<a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/example/test_block_example.py#L19">https://github.com/ethereum/execution-spec-tests/tree/main/tests/example/test_block_example.py#L19</a>).</p>
 <p>It is assumed you have already gone through the state transition test tutorial. Only new concepts will be discussed.</p>
 <h3 id="smart-contract">Smart Contract<a class="headerlink" href="#smart-contract" title="Permanent link">&para;</a></h3>
 <p>A smart contract is defined that is called by each transaction in the test. It stores a pointer to storage at <code>storage[0]</code>. When it is called storage cell <code>0</code> gets the current block <a href="https://www.evm.codes/#43?fork=merge">number</a>, and the pointer is incremented to the next value.</p>
