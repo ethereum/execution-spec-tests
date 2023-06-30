@@ -53,14 +53,14 @@ These aliases point to specific versions, as configured below. It's possible to 
 - https://ethereum.github.io/execution-spec-tests/main
 - https://ethereum.github.io/execution-spec-tests/v1.0.0
 
-### Doc Deployment via Github Actions, CI/CD
+### CI/CD: Doc Deployment via Github Actions
 
 There are two workflows that automatically deploy updated/new versions of the docs:
 
-| Workflow `yaml` | What | When |
-|-----------------|------|------|
-| `docs_main`     | Update "main" version of docs | Push to 'main' branch, (e.g., on PR merge) |
-| `docs_tags`     | Deploy new version of do; tag is used as version name | Upon creating a tag matching `v*` |
+| Workflow `yaml` File | What | When |
+|-----------------_____|------|------|
+| `docs_main.yaml`     | Update "main" version of docs | Push to 'main' branch, (e.g., on PR merge) |
+| `docs_tags.yaml`     | Deploy new version of docs; tag is used as version name | Upon creating a tag matching `v*` |
 
 ### Build and Deployment (without alias update)
 
