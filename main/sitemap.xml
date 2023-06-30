@@ -71,11 +71,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/library/evm_block_builder/</loc>
-         <lastmod>2023-06-30</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/library/evm_transition_tool/</loc>
          <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>

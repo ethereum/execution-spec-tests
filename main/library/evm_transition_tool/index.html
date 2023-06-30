@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../evm_block_builder/">
+        <link rel="next" href="../ethereum_test_tools/">
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
@@ -895,8 +895,6 @@
         
           
         
-          
-        
       
       
         
@@ -1083,20 +1081,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../evm_block_builder/" class="md-nav__link">
-        EVM Block Builder Package
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../ethereum_test_tools/" class="md-nav__link">
         Ethereum Test Tools Package
       </a>
@@ -1130,7 +1114,7 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_6" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5" >
       
       
         
@@ -1151,14 +1135,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../pytest_plugins/">Pytest Plugins</a>
           
-            <label for="__nav_7_6">
+            <label for="__nav_7_5">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_6_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_6">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_5">
           <span class="md-nav__icon md-icon"></span>
           Pytest Plugins
         </label>
@@ -3546,7 +3530,9 @@
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">:</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transition tool frontend.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3563,7 +3549,7 @@
         <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Simulate a state transition with specified parameters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3603,7 +3589,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">traces</span>
 
-    <span class="k">def</span> <span class="nf">calc_state_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alloc</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">calc_state_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alloc</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the state root for the given `alloc`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3624,19 +3610,21 @@
         <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_withdrawals_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;withdrawals&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">alloc</span><span class="p">,</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">alloc</span><span class="p">,</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
         <span class="n">state_root</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;stateRoot&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">state_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state_root</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to calculate state root&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">state_root</span>
+        <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">state_root</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 
-    <span class="k">def</span> <span class="nf">calc_withdrawals_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">withdrawals</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">calc_withdrawals_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">withdrawals</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the state root for the given `alloc`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">withdrawals</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># Optimize returning the empty root immediately</span>
-            <span class="k">return</span> <span class="s2">&quot;0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421&quot;</span>
+            <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span>
+                <span class="s2">&quot;56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">env</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;currentCoinbase&quot;</span><span class="p">:</span> <span class="s2">&quot;0x0000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
@@ -3656,7 +3644,7 @@
         <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_data_gas_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentExcessDataGas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
-        <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">({},</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">({},</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
         <span class="n">withdrawals_root</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;withdrawalsRoot&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">withdrawals_root</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
@@ -3668,7 +3656,7 @@
                 <span class="o">+</span> <span class="s2">&quot;incorrect type returned from transition tool: &quot;</span>
                 <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">withdrawals_root</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">withdrawals_root</span>
+        <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">withdrawals_root</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 </code></pre></div></td></tr></table></div>
         </details>
 
@@ -3726,7 +3714,7 @@
     <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulate a state transition with specified parameters</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3979,7 +3967,7 @@
 <span class="normal">96</span>
 <span class="normal">97</span>
 <span class="normal">98</span>
-<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_state_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alloc</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_state_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alloc</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the state root for the given `alloc`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4000,11 +3988,11 @@
     <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_withdrawals_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
         <span class="n">env</span><span class="p">[</span><span class="s2">&quot;withdrawals&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">alloc</span><span class="p">,</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">alloc</span><span class="p">,</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
     <span class="n">state_root</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;stateRoot&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">state_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state_root</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to calculate state root&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">state_root</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">state_root</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -4070,13 +4058,17 @@
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_withdrawals_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">withdrawals</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_withdrawals_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">withdrawals</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the state root for the given `alloc`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">withdrawals</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># Optimize returning the empty root immediately</span>
-        <span class="k">return</span> <span class="s2">&quot;0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421&quot;</span>
+        <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span>
+            <span class="s2">&quot;56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">env</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;currentCoinbase&quot;</span><span class="p">:</span> <span class="s2">&quot;0x0000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
@@ -4096,7 +4088,7 @@
     <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_data_gas_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
         <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentExcessDataGas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
-    <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">({},</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">({},</span> <span class="p">[],</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
     <span class="n">withdrawals_root</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;withdrawalsRoot&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">withdrawals_root</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
@@ -4108,7 +4100,7 @@
             <span class="o">+</span> <span class="s2">&quot;incorrect type returned from transition tool: &quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">withdrawals_root</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="n">withdrawals_root</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">withdrawals_root</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -4150,9 +4142,7 @@
 
         <details class="quote">
           <summary>Source code in <code>src/evm_transition_tool/__init__.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
@@ -4286,8 +4276,7 @@
 <span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Go-ethereum `evm` Transition tool frontend.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4331,7 +4320,7 @@
         <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes `evm t8n` with the specified arguments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -4383,9 +4372,6 @@
         <span class="k">if</span> <span class="s2">&quot;alloc&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output</span> <span class="ow">or</span> <span class="s2">&quot;result&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;malformed result&quot;</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_dir</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;txs.rlp&quot;</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">txs_rlp_file</span><span class="p">:</span>
-            <span class="n">txs_rlp</span> <span class="o">=</span> <span class="n">txs_rlp_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace</span><span class="p">:</span>
             <span class="n">receipts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;receipts&quot;</span><span class="p">]</span>
             <span class="n">traces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -4401,7 +4387,7 @@
 
         <span class="n">temp_dir</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">],</span> <span class="n">txs_rlp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4454,9 +4440,7 @@
 
       <details class="quote">
         <summary>Source code in <code>src/evm_transition_tool/__init__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
@@ -4532,8 +4516,7 @@
 <span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">alloc</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -4542,7 +4525,7 @@
     <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Executes `evm t8n` with the specified arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4594,9 +4577,6 @@
     <span class="k">if</span> <span class="s2">&quot;alloc&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output</span> <span class="ow">or</span> <span class="s2">&quot;result&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;malformed result&quot;</span><span class="p">)</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_dir</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;txs.rlp&quot;</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">txs_rlp_file</span><span class="p">:</span>
-        <span class="n">txs_rlp</span> <span class="o">=</span> <span class="n">txs_rlp_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace</span><span class="p">:</span>
         <span class="n">receipts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;receipts&quot;</span><span class="p">]</span>
         <span class="n">traces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -4612,7 +4592,7 @@
 
     <span class="n">temp_dir</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">],</span> <span class="n">txs_rlp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -4640,7 +4620,8 @@
 
       <details class="quote">
         <summary>Source code in <code>src/evm_transition_tool/__init__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
+<span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
@@ -4654,8 +4635,7 @@
 <span class="normal">269</span>
 <span class="normal">270</span>
 <span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets `evm` binary version.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4698,11 +4678,11 @@
 
       <details class="quote">
         <summary>Source code in <code>src/evm_transition_tool/__init__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">275</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
+<span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
