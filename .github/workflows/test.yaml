@@ -43,3 +43,8 @@ jobs:
         run: pip install tox requests
       - name: Run Tox (CPython)
         run: tox
+      - uses: DavidAnson/markdownlint-cli2-action@v11
+        with:
+          globs: |
+            README.md
+            "docs/**/*.md"
