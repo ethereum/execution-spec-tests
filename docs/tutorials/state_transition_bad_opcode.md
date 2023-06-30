@@ -69,7 +69,7 @@ This is the syntax for Python comments, `# <rest of the line>`.
         # PUSH0 is only valid Shanghai and later
 ```
 
-Opcode 0x5F (`PUSH0`) is only valid starting with the Shangai fork.
+Opcode 0x5F (`PUSH0`) is only valid starting with the Shanghai fork.
 We don't know what will be the fork names after Shanghai, so it is easiest to specify that prior to Shanghai it is invalid.
 We don't need to worry about forks prior to London because the decorator for this test says it is only valid from London.
 
@@ -136,10 +136,10 @@ If we got here, then this is not a valid opcode.
         # End of opc_valid
 ```
 
-As this is the end of the function, the next code line is unindented (compared to the function definition code).
+As this is the end of the function, the next code line is no longer indented (compared to the function definition code).
 
 This is a [`for` loop](https://docs.python.org/3/tutorial/controlflow.html#for-statements).
-For loops iterate over a sequnce, and the [`range`](https://docs.python.org/3/tutorial/controlflow.html#the-range-function) function, in this case, gives us the range 0..255.
+For loops iterate over a sequence, and the [`range`](https://docs.python.org/3/tutorial/controlflow.html#the-range-function) function, in this case, gives us the range 0..255.
 As with functions and `if` statements, the `for` loop has a colon and includes the indented code.
 
 ```python

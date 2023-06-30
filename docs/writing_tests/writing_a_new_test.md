@@ -2,7 +2,7 @@
 
 ## Test Functions
 
-Every test case is defined as a python function that defines a single `StateTest` or `BlockchainTest` by using one of the `state_test` or `blockchain_test` objects made available by the framework. Test cases, respectively test modules, must fulfil the following requirements:
+Every test case is defined as a python function that defines a single `StateTest` or `BlockchainTest` by using one of the `state_test` or `blockchain_test` objects made available by the framework. Test cases, respectively test modules, must fulfill the following requirements:
 
 | Requirement                                                            | When                                        |
 | -----------------------------------------------------------------------|---------------------------------------------|
@@ -221,7 +221,7 @@ storage.
 A test can be written as a negative verification. E.g. a contract is not
 created, or a transaction fails to execute or runs out of gas.
 
-These verifications must be carefully crafted because it is possible to end up
+This kind of verification must be carefully crafted because it is possible to end up
 having a false positive result, which means that the test passed but the
 intended verification was never made.
 

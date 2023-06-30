@@ -142,7 +142,7 @@ for blocknum in range(len(tx_per_block)):
         next_slot = next_slot + 1
 ```
 
-Now that the expeced storage values are calculated, the post state can be defined and yielded within the `BlockchainTest`, synonymous to the state test example.
+Now that the expected storage values are calculated, the post state can be defined and yielded within the `BlockchainTest`, synonymous to the state test example.
 
 ```python
 post = {contract_addr: Account(storage=storage)}
