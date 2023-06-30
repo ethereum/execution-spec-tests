@@ -86,7 +86,15 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.keys
-  - pymdownx.mark
+  - pymdownx.magiclink:
+      repo_url_shortener: true
+      repo_url_shorthand: true
+      social_url_shorthand: true
+      social_url_shortener: true
+      user: ethereum
+      repo: execution-spec-tests
+      normalize_issue_symbols: true
+  - pymdownx.mark:
   - pymdownx.smartsymbols
   - pymdownx.superfences:
       custom_fences:

@@ -11,27 +11,114 @@ pip install -e .[docs]
 ## Build the Documentation
 
 One time build:
+
 ```console
 mkdocs build
 ```
 
+Pre-commit check: One time build and lint/type checking:
+
+```console
+tox -e docs
+```
+
 ### Local Deployment and Test
-This runs continually and re-generates the documentation upon changes in the `./docs/` sub-director and deploys the site locally ([127.0.0.1:8000](http://127.0.0.1:8000/), by default):
+
+This runs continually: Deploys the site locally and re-generates the site upon modifications to `docs/**/*.md` or `tests/**/*.py`:
 
 ```console
 mkdocs serve
 ```
-Note: The `gen-files` plugin currently breaks the `serve` command by continually re-generating the documentation. Disable this config in mkdocs.yml to avoid this behaviour.
 
-### Test Remote Deployment
+## Remote Deployment and Versioning
 
-This can be used to generate and deploy a local version of the documentation remotely on Github pages in order to share a preview with other developers. Note, as the documentation is generated locally, even changes that have not been pushed will be deployed:
+The execution-specs-test docs are hosted on Github pages at the [repo's Github pages](https://ethereum.github.io/execution-spec-tests/). Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.
+
+Our mkdocs configuration uses [mike](https://github.com/jimporter/mike) as a version provider. All deployments should be made via `mike` (whether as part of CI/CD or executed locally).
+
+The deployed versions of the docs managed via `mike` are kept in the [gh-pages](https://github.com/ethereum/execution-spec-tests/tree/gh-pages) branch. When you run `mike` it commits to this branch and optionally pushes the changes directly to remote.
+
+### Aliases
+
+We currently use two aliases:
+
+- [`latest`](https://ethereum.github.io/execution-spec-tests/latest): the latest stable release.
+- [`development`](https://ethereum.github.io/execution-spec-tests/development): the current state of the main branch.
+
+These aliases point to specific versions, as configured below. It's possible to share links containing either of these aliases or to specific versions, i.e, the following are all valid links:
+
+- https://ethereum.github.io/execution-spec-tests/ (redirects to latest/main)
+- https://ethereum.github.io/execution-spec-tests/latest (redirects to main)
+- https://ethereum.github.io/execution-spec-tests/development (redirects to tagged version)
+- https://ethereum.github.io/execution-spec-tests/main
+- https://ethereum.github.io/execution-spec-tests/v1.0.0
+
+### CI/CD: Doc Deployment via Github Actions
+
+There are two workflows that automatically deploy updated/new versions of the docs:
+
+| Workflow `yaml` File | What | When |
+|-----------------_____|------|------|
+| `docs_main.yaml`     | Update "main" version of docs | Push to 'main' branch, (e.g., on PR merge) |
+| `docs_tags.yaml`     | Deploy new version of docs; tag is used as version name | Upon creating a tag matching `v*` |
+
+### Build and Deployment (without alias update)
+
+Build a new version and deploy it to remote (this version will then show up in the version selector list):
 
 ```console
-mkdocs gh-deploy
+mike deploy --push v1.2.3
 ```
 
-It will be deployed to the Github pages of the repo's username (branch is ignored), e.g., [https://danceratopz.github.io/execution-spec-tests](https://danceratopz.github.io/execution-spec-tests).
+!!! note "Local deployment"
+    If you deploy locally, the documentation will be built with any changes made in your local repository. Check out the tag to deploy tagged versions.
+
+### Build, Deploy and Update the Alias
+
+Build, deploy and update the version an alias points to with:
+
+```console
+mike deploy --push --update-aliases v1.2.3 latest
+```
+
+where `v1.2.3` indicates the version's name and `development` is the alias. This will overwrite the version if it already exists.  
+
+!!! note "Updating the 'main' version locally"
+    "main" is just a version name (intended to reflect that it is build from the main branch). However, `mike` will build the docs site from the current local repository state (including local modifications). Therefore, make sure you're on the HEAD of the main branch before executing (unless you know what you're doing :wink:)!
+
+    ```console
+    mike deploy --push main
+    ```
+
+    If the alias accidentally go change:
+
+    ```console
+    mike deploy --push --update-aliases main development
+    ```
+
+### Viewing and Deleting Versions
+
+List versions:
+
+```console
+mike list
+```
+
+Delete a version:
+
+```console
+mike delete v1.2.3a1-eof
+```
+
+### Set Default Version
+
+Set the default version of the docs to open upon loading the page:
+
+```console
+mike set-default --push latest
+```
+
+Typically, this must only be executed once for a repo.
 
 ## Implementation
 
@@ -44,9 +131,7 @@ The documentation flow uses `mkdocs` and the following additional plugins:
 - [mkdocstrings](https://mkdocstrings.github.io/) and [mkdocstrings-python](https://mkdocstrings.github.io/python/): To generate documentation from Python docstrings.
 - [mkdocs-gen-files](https://oprypin.github.io/mkdocs-gen-files): To generate markdown files automatically for each test case Python module. See [this page](https://mkdocstrings.github.io/crystal/quickstart/migrate.html) for example usage. This plugin is used to [programmatically generate the nav section](https://oprypin.github.io/mkdocs-gen-files/extras.html) for the generated test case reference documentation.
 - [mkdocs-literate-nav](https://oprypin.github.io/mkdocs-literate-nav/index.html): Is used to define the navigation layout for non-generated content and was created to work well with `mkdocs-gen-files` to add nav content for generated content.
-- [mkdocs-git-authors-plugin](https://timvink.github.io/mkdocs-git-authors-plugin/): To display doc contributors in the page footer.
-- [mkdocs-glightbox](https://github.com/blueswen/mkdocs-glightbox) - for improved image and inline content display.
-
+- @blueswen/mkdocs-glightbox - for improved image and inline content display.
 
 ### The "Test Case Reference" Section
 
@@ -81,3 +166,6 @@ All pages that are to be included in the documentation and the navigation bar mu
 
     and create an arbitrary ordering in the Test Case Reference doc gen script. But this is untested.
 
+## Read the Docs
+
+Originally, documentation was hosted at [readthedocs.io]. Currently, [execution-spec-tests.readthedocs.io](https://execution-spec-tests.readthedocs.io) is configured to redirect to the Github Pages site. This is achieved by following the steps listed in the second half of [this answer](https://stackoverflow.com/a/69928404) on stackoverflow. A public repo with dummy Sphinx project is required to achieve this: [danceratopz/est-docs-redirect](https://github.com/danceratopz/est-docs-redirect).
