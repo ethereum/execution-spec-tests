@@ -1,6 +1,5 @@
 addr
 alloc
-b11r
 base64
 big0
 big1
@@ -12,6 +11,7 @@ bytes20
 bytes32
 calc
 coinbase
+coincurve
 crypto
 dao
 eip
@@ -23,6 +23,7 @@ evm
 fn
 geth
 hash32
+hasher
 ispkg
 kzg
 kzgs
@@ -35,6 +36,7 @@ petersburg
 precompile
 randao
 rlp
+secp256k1
 sharding
 cancun
 t8n

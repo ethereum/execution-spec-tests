@@ -246,5 +246,4 @@ in this case the block is expected to be completely rejected, along with all
 transactions in it, including other valid transactions.
 
 [t8n]: https://github.com/ethereum/go-ethereum/tree/master/cmd/evm
-[b11r]: https://github.com/ethereum/go-ethereum/pull/23843
 [yul]: https://docs.soliditylang.org/en/latest/yul.html
