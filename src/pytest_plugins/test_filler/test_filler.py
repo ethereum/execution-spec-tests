@@ -325,13 +325,6 @@ def state_test(
 
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
-            if (
-                "env" not in kwargs
-                or "pre" not in kwargs
-                or "post" not in kwargs
-                or "txs" not in kwargs
-            ):
-                raise Exception("Insufficient arguments for StateTestWrapper")
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
@@ -360,13 +353,6 @@ def blockchain_test(
 
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
-            if (
-                "genesis_environment" not in kwargs
-                or "pre" not in kwargs
-                or "post" not in kwargs
-                or "blocks" not in kwargs
-            ):
-                raise Exception("Insufficient arguments for BlockchainTestWrapper")
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
