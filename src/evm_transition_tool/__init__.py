@@ -166,12 +166,13 @@ class TransitionTool:
             )
         return bytes.fromhex(withdrawals_root[2:])
 
-    def write_json_file(self, data: Dict[str, Any], file_path: str) -> None:
-        """
-        Write a JSON file to the given path.
-        """
-        with open(file_path, "w") as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+
+def write_json_file(data: Dict[str, Any], file_path: str) -> None:
+    """
+    Write a JSON file to the given path.
+    """
+    with open(file_path, "w") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 
 class EvmTransitionTool(TransitionTool):
@@ -369,7 +370,7 @@ class EvmOneTransitionTool(TransitionTool):
         }
         for key, val in input_contents.items():
             file_path = os.path.join(temp_dir.name, f"input_{key}.json")
-            self.write_json_file(val, file_path)
+            write_json_file(val, file_path)
 
         # Construct args for evmone-t8n binary
         args = [
