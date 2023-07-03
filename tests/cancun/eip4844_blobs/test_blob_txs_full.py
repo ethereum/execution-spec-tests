@@ -8,8 +8,12 @@ from typing import Dict, List, Optional
 
 import pytest
 
-from ethereum_test_tools import Account, Block, BlockchainTestFiller, Environment, Header
 from ethereum_test_tools import (
+    Account,
+    Block,
+    BlockchainTestFiller,
+    Environment,
+    Header,
     TestAddress,
     Transaction,
     to_address,
@@ -17,9 +21,9 @@ from ethereum_test_tools import (
 
 from .common import (
     BYTES_PER_FIELD_ELEMENT,
+    DATA_GAS_PER_BLOB,
     FIELD_ELEMENTS_PER_BLOB,
     INF_POINT,
-    DATA_GAS_PER_BLOB,
     REF_SPEC_4844_GIT_PATH,
     REF_SPEC_4844_VERSION,
     Blob,
@@ -187,16 +191,16 @@ def txs(  # noqa: D103
     txs_versioned_hashes: List[List[bytes]],
     tx_error: Optional[str],
     txs_blobs: List[List[Blob]],
-    txs_network_version: List[bool],
+    txs_wrapped_blobs: List[bool],
 ) -> List[Transaction]:
     """
     Prepare the list of transactions that are sent during the test.
     """
-    if len(txs_blobs) != len(txs_versioned_hashes) or len(txs_blobs) != len(txs_network_version):
+    if len(txs_blobs) != len(txs_versioned_hashes) or len(txs_blobs) != len(txs_wrapped_blobs):
         raise ValueError("txs_blobs and txs_versioned_hashes should have the same length")
     txs: List[Transaction] = []
-    for tx_blobs, tx_versioned_hashes, tx_network_version in zip(
-        txs_blobs, txs_versioned_hashes, txs_network_version
+    for tx_blobs, tx_versioned_hashes, tx_wrapped_blobs in zip(
+        txs_blobs, txs_versioned_hashes, txs_wrapped_blobs
     ):
         blobs_info = Blob.blobs_to_transaction_input(tx_blobs)
         txs.append(
@@ -216,7 +220,7 @@ def txs(  # noqa: D103
                 blobs=blobs_info[0],
                 blob_kzg_commitments=blobs_info[1],
                 blob_kzg_proofs=blobs_info[2],
-                network_version=tx_network_version,
+                wrapped_blob_transaction=tx_wrapped_blobs,
             )
         )
     return txs
@@ -272,7 +276,7 @@ def blocks(
 
 
 @pytest.mark.parametrize(
-    "txs_blobs,txs_network_version",
+    "txs_blobs,txs_wrapped_blobs",
     [
         (
             [  # Txs
