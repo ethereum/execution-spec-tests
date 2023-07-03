@@ -9,7 +9,7 @@ import tempfile
 from abc import abstractmethod
 from pathlib import Path
 from shutil import which
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
 
@@ -20,6 +20,32 @@ class TransitionTool:
     """
 
     traces: List[List[List[Dict]]] | None = None
+
+    # Static methods
+
+    @staticmethod
+    def from_binary_path(*, binary_path: Optional[str]) -> Type["TransitionTool"]:
+        """
+        Returns the appropriate TransitionTool subclass derived from the binary path.
+        """
+        if binary_path and "evmone-t8n" in binary_path:
+            return EvmOneTransitionTool
+
+        return EvmTransitionTool
+
+    # Abstract methods that each tool must implement
+
+    @abstractmethod
+    def __init__(
+        self,
+        *,
+        binary: Optional[Path | str] = None,
+        trace: bool = False,
+    ):
+        """
+        Abstract initialization method that all subclasses must implement.
+        """
+        pass
 
     @abstractmethod
     def evaluate(
@@ -159,6 +185,7 @@ class EvmTransitionTool(TransitionTool):
 
     def __init__(
         self,
+        *,
         binary: Optional[Path | str] = None,
         trace: bool = False,
     ):
@@ -298,12 +325,13 @@ class EvmOneTransitionTool(TransitionTool):
 
     def __init__(
         self,
+        *,
         binary: Optional[Path | str] = None,
         trace: bool = False,
     ):
         if binary is None or type(binary) is str:
             if binary is None:
-                binary = "evm"
+                binary = "evmone-t8n"
             which_path = which(binary)
             if which_path is not None:
                 binary = Path(which_path)

@@ -24,7 +24,7 @@ from ethereum_test_tools import (
     Yul,
     fill_test,
 )
-from evm_transition_tool import EvmOneTransitionTool, EvmTransitionTool
+from evm_transition_tool import TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 
@@ -112,27 +112,14 @@ def pytest_configure(config):
     )
 
 
-def get_transition_tool_from_evm_bin(*, binary, collect_traces):
-    """
-    Returns an EvmTransitionTool instance from the evm_bin path.
-    """
-    transitionToolCls = EvmTransitionTool
-    if binary and binary == "evmone-t8n":
-        transitionToolCls = EvmOneTransitionTool
-
-    return transitionToolCls(
-        binary=binary,
-        trace=collect_traces,
-    )
-
-
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header"""
-    t8n = get_transition_tool_from_evm_bin(
-        binary=config.getoption("evm_bin"),
-        collect_traces=config.getoption("evm_collect_traces"),
+    binary_path = config.getoption("evm_bin")
+    t8nCls = TransitionTool.from_binary_path(
+        binary_path=binary_path,
     )
+    t8n = t8nCls(binary=binary_path)
     solc_version_string = Yul("", binary=config.getoption("solc_bin")).version()
     return [f"{t8n.version()}, solc version {solc_version_string}"]
 
@@ -158,9 +145,10 @@ def t8n(request, evm_bin):
     """
     Returns the configured transition tool.
     """
-    t8n = get_transition_tool_from_evm_bin(
-        binary=evm_bin, collect_traces=request.config.getoption("evm_collect_traces")
+    t8nCls = TransitionTool.from_binary_path(
+        binary_path=evm_bin,
     )
+    t8n = t8nCls(binary=evm_bin, trace=request.config.getoption("evm_collect_traces"))
     return t8n
 
 
@@ -337,6 +325,13 @@ def state_test(
 
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
+            if (
+                "env" not in kwargs
+                or "pre" not in kwargs
+                or "post" not in kwargs
+                or "txs" not in kwargs
+            ):
+                raise Exception("Insufficient arguments for StateTestWrapper")
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
@@ -365,6 +360,13 @@ def blockchain_test(
 
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
+            if (
+                "genesis_environment" not in kwargs
+                or "pre" not in kwargs
+                or "post" not in kwargs
+                or "blocks" not in kwargs
+            ):
+                raise Exception("Insufficient arguments for BlockchainTestWrapper")
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,

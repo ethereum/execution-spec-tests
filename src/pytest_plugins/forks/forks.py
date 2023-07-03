@@ -14,7 +14,7 @@ from ethereum_test_forks import (
     get_transition_forks,
     transition_fork_to,
 )
-from evm_transition_tool import EvmTransitionTool, EvmOneTransitionTool
+from evm_transition_tool import TransitionTool
 
 
 def pytest_addoption(parser):
@@ -157,12 +157,9 @@ def pytest_configure(config):
     # with --collect-only, we don't have access to these config options
     if config.option.collectonly:
         return
-    
-    transitionToolCls = EvmTransitionTool
+
     evm_bin = config.getoption("evm_bin")
-    if evm_bin:
-        if evm_bin == "evmone-t8n":
-            transitionToolCls = EvmOneTransitionTool
+    transitionToolCls = TransitionTool.from_binary_path(binary_path=evm_bin)
     t8n = transitionToolCls(
         binary=config.getoption("evm_bin"),
         trace=config.getoption("evm_collect_traces"),
