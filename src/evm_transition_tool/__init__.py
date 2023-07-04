@@ -149,6 +149,7 @@ class EvmTransitionTool(TransitionTool):
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
+    require_t8n: bool = True
 
     def __init__(
         self,
@@ -174,6 +175,10 @@ class EvmTransitionTool(TransitionTool):
             raise Exception("evm process unexpectedly returned a non-zero status code: " f"{e}.")
         except Exception as e:
             raise Exception(f"Unexpected exception calling evm tool: {e}.")
+        if not result.stdout.strip():
+            args = [str(self.binary), "--help"]
+            result = subprocess.run(args, capture_output=True, text=True)
+            self.require_t8n = False
         self.help_string = result.stdout
 
     def evaluate(
@@ -199,7 +204,6 @@ class EvmTransitionTool(TransitionTool):
             reward = -1
         args = [
             str(self.binary),
-            "t8n",
             "--input.alloc=stdin",
             "--input.txs=stdin",
             "--input.env=stdin",
@@ -211,6 +215,9 @@ class EvmTransitionTool(TransitionTool):
             f"--state.chainid={chain_id}",
             f"--state.reward={reward}",
         ]
+
+        if self.require_t8n:
+            args.insert(1, "t8n")
 
         if self.trace:
             args.append("--trace")
@@ -261,6 +268,12 @@ class EvmTransitionTool(TransitionTool):
         if self.cached_version is None:
             result = subprocess.run(
                 [str(self.binary), "-v"],
+                stdout=subprocess.PIPE,
+            )
+
+            if result.returncode != 0:
+                result = subprocess.run(
+                [str(self.binary), "--version"],
                 stdout=subprocess.PIPE,
             )
 
