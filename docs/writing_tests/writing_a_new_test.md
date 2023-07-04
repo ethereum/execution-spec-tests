@@ -149,7 +149,7 @@ The code can be in either of the following formats:
 
 Currently supported built-in compilable objects are:
 
-- `Yul` object containing [Yul source code][yul].
+- `Yul` object containing [Yul source code](https://docs.soliditylang.org/en/latest/yul.html).
 
 `Code` objects can be concatenated together by using the `+` operator.
 
@@ -242,6 +242,3 @@ An intrinsically valid transaction can still revert during its execution.
 Blocks in a BlockchainTest can contain intrinsically invalid transactions but
 in this case the block is expected to be completely rejected, along with all
 transactions in it, including other valid transactions.
-
-[t8n]: https://github.com/ethereum/go-ethereum/tree/master/cmd/evm
-[yul]: https://docs.soliditylang.org/en/latest/yul.html
