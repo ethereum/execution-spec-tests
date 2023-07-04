@@ -39,8 +39,11 @@ jobs:
           wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/linux-amd64/$RELEASE_NAME
           chmod a+x $GITHUB_WORKSPACE/bin/solc
           echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
+      - name: Install Aspell
+        run: |
+          sudo apt-get install aspell aspell-en
       - name: Install Tox and any other packages
-        run: pip install tox requests
+        run: pip install tox
       - name: Run Tox (CPython)
         run: tox
       - uses: DavidAnson/markdownlint-cli2-action@v11
