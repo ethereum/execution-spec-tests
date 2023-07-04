@@ -12,6 +12,7 @@ bytes8
 bytes20
 bytes32
 calc
+cli2
 coinbase
 crypto
 dao
@@ -208,6 +209,7 @@ prepend
 programmatically
 px
 py
+pyspelling
 pytest
 Pytest
 pytestArgs
@@ -255,6 +257,7 @@ visualstudio
 vscode
 vv
 wikipedia
+wordlist
 www
 xF
 xFA
