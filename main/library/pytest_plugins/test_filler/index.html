@@ -4155,7 +4155,7 @@ writes the generated fixtures to file.</p>
 
   <div class="doc doc-contents ">
       <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.spec.base_test.BaseTest" href="../../ethereum_test_tools/#ethereum_test_tools.BaseTest">BaseTest</a></code></p>
+        Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.spec.base_test.BaseTest" href="#pytest_plugins.test_filler.test_filler.BaseTest">BaseTest</a></code></p>
 
   
       <p>Filler type that tests transactions over the period of a single block.</p>
@@ -4837,7 +4837,7 @@ Raises exception on invalid test behavior.</p>
 
   <div class="doc doc-contents ">
       <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.spec.base_test.BaseTest" href="../../ethereum_test_tools/#ethereum_test_tools.BaseTest">BaseTest</a></code></p>
+        Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.spec.base_test.BaseTest" href="#pytest_plugins.test_filler.test_filler.BaseTest">BaseTest</a></code></p>
 
   
       <p>Filler type that tests multiple blocks (valid or invalid) in a chain.</p>
@@ -9200,8 +9200,7 @@ more readable test ids for the generated tests.</p>
 <span class="normal">1659</span>
 <span class="normal">1660</span>
 <span class="normal">1661</span>
-<span class="normal">1662</span>
-<span class="normal">1663</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">JSONEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+<span class="normal">1662</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">JSONEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Custom JSON encoder for `ethereum_test` types.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -9241,7 +9240,6 @@ more readable test ids for the generated tests.</p>
                 <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">code_to_hex</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
                 <span class="s2">&quot;to&quot;</span><span class="p">:</span> <span class="n">address_or_none</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">to</span><span class="p">),</span>
                 <span class="s2">&quot;accessList&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">access_list</span><span class="p">,</span>
-                <span class="s2">&quot;protected&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">protected</span><span class="p">,</span>
                 <span class="s2">&quot;secretKey&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">secret_key</span><span class="p">,</span>
                 <span class="s2">&quot;maxFeePerDataGas&quot;</span><span class="p">:</span> <span class="n">hex_or_none</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
                 <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="n">address_or_none</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">sender</span><span class="p">),</span>
@@ -9613,8 +9611,7 @@ more readable test ids for the generated tests.</p>
 <span class="normal">1659</span>
 <span class="normal">1660</span>
 <span class="normal">1661</span>
-<span class="normal">1662</span>
-<span class="normal">1663</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">JSONEncoderSupportedType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="normal">1662</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">JSONEncoderSupportedType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enocdes types defined in this module using basic python facilities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -9649,7 +9646,6 @@ more readable test ids for the generated tests.</p>
             <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">code_to_hex</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
             <span class="s2">&quot;to&quot;</span><span class="p">:</span> <span class="n">address_or_none</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">to</span><span class="p">),</span>
             <span class="s2">&quot;accessList&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">access_list</span><span class="p">,</span>
-            <span class="s2">&quot;protected&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">protected</span><span class="p">,</span>
             <span class="s2">&quot;secretKey&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">secret_key</span><span class="p">,</span>
             <span class="s2">&quot;maxFeePerDataGas&quot;</span><span class="p">:</span> <span class="n">hex_or_none</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
             <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="n">address_or_none</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">sender</span><span class="p">),</span>
