@@ -50,4 +50,4 @@ jobs:
         with:
           globs: |
             README.md
-            "docs/**/*.md"
+            docs/**/*.md
