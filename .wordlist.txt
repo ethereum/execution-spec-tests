@@ -1,7 +1,6 @@
 addr
 address2
 alloc
-b11r
 base64
 big0
 big1
@@ -14,6 +13,7 @@ bytes32
 calc
 cli2
 coinbase
+coincurve
 crypto
 dao
 dup
@@ -29,6 +29,7 @@ forkchoice
 geth
 hash32
 instantiation
+hasher
 ispkg
 keccak
 keccak256
@@ -44,6 +45,7 @@ petersburg
 precompile
 randao
 rlp
+secp256k1
 sharding
 cancun
 t8n
