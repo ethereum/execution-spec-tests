@@ -11,15 +11,6 @@ matrix:
       - code
       - pre
       - a
-  # pipeline:
-  # - pyspelling.filters.text
-  # - pyspelling.filters.markdown:
-  #     markdown_extensions:
-  #       - markdown.extensions.toc:
-  #         slugify: !!python/name:pymdownx.slugs.uslugify
-  #         permalink: "\ue157"
-  #       - markdown.extensions.admonition
-  #       - markdown.extensions.smarty
   aspell:
     lang: en
     d: en_US
