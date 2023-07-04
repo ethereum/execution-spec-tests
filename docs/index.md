@@ -1,7 +1,7 @@
 # Execution Spec Tests
 
-<figure markdown>
- ![Execution Spec Tests Logo](img/execution_spec_tests.png){ width="400" align=right}
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+  ![Execution Spec Tests Logo](img/execution_spec_tests.png){width="400"}
 </figure>
 
 @ethereum/execution-spec-tests is both a collection of test cases and a framework in Python to generate tests for Ethereum execution clients implemented.
@@ -55,7 +55,6 @@ The generated test fixtures can be used:
 
 1. Directly by client teams' test frameworks, and,
 2. In the integration tests executed in the @ethereum/hive framework.
-
 
 ## Relationship to ethereum/tests
 

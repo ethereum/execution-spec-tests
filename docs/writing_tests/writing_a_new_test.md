@@ -100,14 +100,12 @@ Ethereum VM by attempting to append multiple blocks to the chain:
     created or modified after all blocks are executed.
 - `blocks`: All blocks to be appended to the blockchain during the test.
 
-
 ## Pre/Post State of the Test
 
 The `pre` and `post` states are elemental to setup and then verify the outcome
 of the state test.
 
 Both `pre` and `post` are mappings of account addresses to `account` structures (see [more info](#the-account-object)).
-
 
 A single test vector can contain as many accounts in the `pre` and `post` states
 as required, and they can be also filled dynamically.
@@ -130,7 +128,7 @@ storage to be able to verify them in the post-state.
 Transactions can be crafted by sending them with specific `data` or to a
 specific account, which contains the code to be executed
 
-Transactions can also create more accounts, by setting the `to` field to an 
+Transactions can also create more accounts, by setting the `to` field to an
 empty string.
 
 Transactions can be designed to fail, and a verification must be made that the
@@ -190,7 +188,7 @@ It can verify the following properties of an account:
 - `nonce`: the scalar value equal to a) the number of transactions sent by
   an Externally Owned Account, b) the amount of contracts created by a contract.
   
-- `balance`: the amount of Wei (10<sup>-18</sup> Eth) the account has.
+- `balance`: the amount of Wei (10<sup>-18</sup> Eth) the account has.  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
 
 - `code`: Bytecode contained by the account. To verify that an account contains
   no code, this property needs to be set to "0x" or "".

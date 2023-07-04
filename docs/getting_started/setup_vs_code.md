@@ -15,7 +15,7 @@ Please refer to the [Visual Studio Code docs](https://code.visualstudio.com/docs
 
 The [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo includes configuration files for VS Code in the `.vscode/` sub-directory:
 
-```
+```text
 📁 execution-test-specs/
 └──📁 .vscode/
     ├── 📄 settings.recommended.json

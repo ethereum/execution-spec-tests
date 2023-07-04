@@ -25,9 +25,9 @@ By default, execution-spec-tests only generates fixtures for forks that have bee
           fill -k 4844 --until=Cancun -v
           ```
 
-
 !!! note "Specifying the `evm` binary via `evm-bin`"
      It is possible to explicitly specify the `evm` binary used to generate fixtures via the `--evm-bin` flag, for example,
+
      ```console
      fill --fork=Cancun --evm-bin=/opt/bin/evm -v
      ```
@@ -37,10 +37,9 @@ By default, execution-spec-tests only generates fixtures for forks that have bee
 1. [`geth`/`evm` build documentation](https://geth.ethereum.org/docs/getting-started/installing-geth#build-from-source).
 2. [`solc` build documentation](https://docs.soliditylang.org/en/v0.8.20/installing-solidity.html#building-from-source).
 
-
 !!! note "Verifying `evm` and `solc` versions used"
      The versions used to generate fixtures are displayed in the console output:
-     <figure markdown>
+     <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
           ![Screenshot of pytest test collection console output](./img/pytest_run_example.png){align=center}
      </figure>
 

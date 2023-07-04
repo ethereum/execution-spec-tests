@@ -1,3 +1,3 @@
-## Pytest Framework and Customizations
+# Pytest Framework and Customizations
 
 ::: pytest_plugins

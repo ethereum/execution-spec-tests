@@ -12,25 +12,31 @@ There are two tox environments available, one for the test cases (`tests`) and o
 ## Test Case Verification: `tests`
 
 Prerequisite:
+
 ```console
 python -m venv ./venv/
 source ./venv/bin/activate
 pip install tox
 ```
+
 Verify:
-```
+
+```console
 tox -e tests
 ```
 
 ## Framework Verification: `py3`
 
 Prerequisite:
+
 ```console
 python -m venv ./venv/
 source ./venv/bin/activate
 pip install tox
 ```
+
 Verify:
+
 ```console
 tox -e py3
 ```

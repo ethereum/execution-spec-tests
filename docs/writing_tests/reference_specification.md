@@ -2,7 +2,7 @@
 
 An Ethereum Improvement Proposal ([ethereum/EIPs](https://github.com/ethereum/EIPs/tree/master/EIPS)) and its SHA digest can be directly referenced within a python test module in order to check whether the test implementation could be out-dated. The test framework automatically generates tests for every module that defines a spec version. If the spec is out-of-date because the SHA of the specified file in the remote repo changes, the corresponding `test_eip_spec_version()` test fails.
 
-<figure markdown>
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
   ![Test framework summary for a failing EIP spec version test](./img/eip_reference_spec_console_output.png){ width=auto align=center}
   `<-snip->`
   ![EIP spec version test fail](./img/eip_reference_spec_console_output_fail.png){ width=auto align=center}
@@ -10,12 +10,15 @@ An Ethereum Improvement Proposal ([ethereum/EIPs](https://github.com/ethereum/EI
 
 !!! info ""
     The SHA value is the output from git's `hash-object` command, for example:
+
     ```console
     git clone git@github.com:ethereum/EIPs
     git hash-object EIPS/EIPS/eip-3651.md
     # output: d94c694c6f12291bb6626669c3e8587eef3adff1
     ```
+
     and can be retrieved from the remote repo via the Github API on the command-line as following:
+    
     ```console
     sudo apt install jq
     curl -s -H "Accept: application/vnd.github.v3+json" \
