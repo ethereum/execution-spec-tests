@@ -107,7 +107,8 @@ class Opcode(bytes):
                 raise ValueError("Opcode with data portion requires at least one argument")
             data = args.pop(0)
             if isinstance(data, bytes):
-                data_portion = data
+                assert len(data) <= self.data_portion_length
+                data_portion = data.rjust(self.data_portion_length, b"\x00")
             elif isinstance(data, int):
                 signed = data < 0
                 data_portion = data.to_bytes(
