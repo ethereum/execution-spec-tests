@@ -22,7 +22,7 @@ class TransitionToolNotFoundInPath(Exception):
 
     def __init__(self, message="The transition tool was not found in the path", binary=None):
         if binary:
-            message = f"{message (binary)}"
+            message = f"{message} ({binary})"
         super().__init__(message)
 
 
