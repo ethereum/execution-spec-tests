@@ -6,6 +6,7 @@ import os
 import shutil
 from abc import abstractmethod
 from pathlib import Path
+from re import Pattern
 from typing import Any, Dict, List, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
@@ -37,6 +38,8 @@ class TransitionTool:
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
     default_binary: Path
+    detect_binary_pattern: Pattern
+    version_flag: str = "-v"
 
     # Abstract methods that each tool must implement
 
@@ -92,18 +95,25 @@ class TransitionTool:
         if binary_path is None:
             return cls.default_tool(binary=binary_path, **kwargs)
 
-        for subclass in cls.registered_tools:
-            if subclass.matches_binary_path(binary_path):
-                return subclass(binary=binary_path, **kwargs)
+        binary = shutil.which(Path(os.path.expanduser(binary_path)).resolve())
+        if binary:
+            for subclass in cls.registered_tools:
+                if subclass.detect_binary(binary_path):
+                    return subclass(binary=binary_path, **kwargs)
 
         raise UnknownTransitionTool(f"Unknown transition tool binary: {binary_path}")
 
     @classmethod
-    def matches_binary_path(cls, binary_path: Path) -> bool:
+    def detect_binary(cls, binary_path: Path) -> bool:
         """
-        Returns True if the binary path matches the tool
+        Returns True if the binary matches the tool
         """
-        return binary_path.name == cls.default_binary.name
+        assert cls.detect_binary_pattern is not None
+
+        # Run the binary with the appropriate version flag
+        version = os.popen(f"{binary_path} {cls.version_flag}").read()
+
+        return cls.detect_binary_pattern.match(version) is not None
 
     @abstractmethod
     def evaluate(

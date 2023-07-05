@@ -7,6 +7,7 @@ import os
 import subprocess
 import tempfile
 from pathlib import Path
+from re import compile
 from typing import Any, Dict, List, Optional, Tuple
 
 from ethereum_test_forks import Fork
@@ -20,6 +21,8 @@ class GethTransitionTool(TransitionTool):
     """
 
     default_binary = Path("evm")
+    detect_binary_pattern = compile(r"^evm version\b")
+
     binary: Path
     cached_version: Optional[str] = None
     trace: bool

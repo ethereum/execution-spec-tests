@@ -276,6 +276,7 @@ parametrized
 param
 params
 parametrize
+popen
 pytester
 pytestmark
 regexes
