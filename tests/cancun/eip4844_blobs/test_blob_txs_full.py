@@ -24,6 +24,7 @@ from .common import (
     DATA_GAS_PER_BLOB,
     FIELD_ELEMENTS_PER_BLOB,
     INF_POINT,
+    MAX_BLOBS_PER_BLOCK,
     REF_SPEC_4844_GIT_PATH,
     REF_SPEC_4844_VERSION,
     Blob,
@@ -199,6 +200,7 @@ def txs(  # noqa: D103
     if len(txs_blobs) != len(txs_versioned_hashes) or len(txs_blobs) != len(txs_wrapped_blobs):
         raise ValueError("txs_blobs and txs_versioned_hashes should have the same length")
     txs: List[Transaction] = []
+    nonce = 0
     for tx_blobs, tx_versioned_hashes, tx_wrapped_blobs in zip(
         txs_blobs, txs_versioned_hashes, txs_wrapped_blobs
     ):
@@ -206,7 +208,7 @@ def txs(  # noqa: D103
         txs.append(
             Transaction(
                 ty=3,
-                nonce=0,
+                nonce=nonce,
                 to=destination_account,
                 value=tx_value,
                 gas_limit=tx_gas,
@@ -223,6 +225,7 @@ def txs(  # noqa: D103
                 wrapped_blob_transaction=tx_wrapped_blobs,
             )
         )
+        nonce += 1
     return txs
 
 
@@ -289,10 +292,38 @@ def blocks(
                 ]
             ],
             [True],
-        )
+        ),
+        (
+            [  # Txs
+                [  # Blobs per transaction
+                    Blob(
+                        blob=bytes(FIELD_ELEMENTS_PER_BLOB * BYTES_PER_FIELD_ELEMENT),
+                        kzg_commitment=INF_POINT,
+                        kzg_proof=INF_POINT,
+                    )
+                ]
+                for _ in range(MAX_BLOBS_PER_BLOCK)
+            ],
+            [True] + ([False] * (MAX_BLOBS_PER_BLOCK - 1)),
+        ),
+        (
+            [  # Txs
+                [  # Blobs per transaction
+                    Blob(
+                        blob=bytes(FIELD_ELEMENTS_PER_BLOB * BYTES_PER_FIELD_ELEMENT),
+                        kzg_commitment=INF_POINT,
+                        kzg_proof=INF_POINT,
+                    )
+                ]
+                for _ in range(MAX_BLOBS_PER_BLOCK)
+            ],
+            ([False] * (MAX_BLOBS_PER_BLOCK - 1)) + [True],
+        ),
     ],
     ids=[
         "one_full_blob_one_tx",
+        "one_full_blob_max_txs",
+        "one_full_blob_at_the_end_max_txs",
     ],
 )
 @pytest.mark.valid_from("Cancun")
