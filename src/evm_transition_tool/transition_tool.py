@@ -58,10 +58,10 @@ class TransitionTool:
             binary = self.default_binary
         else:
             # improve behavior of which by resolving the path: ~/relative paths don't work
-            try:
-                binary = Path(os.path.expanduser(binary)).resolve(strict=True)
-            except FileNotFoundError:
-                binary = shutil.which(binary)  # type: ignore
+            resolved_path = Path(os.path.expanduser(binary)).resolve()
+            if resolved_path.exists():
+                binary = resolved_path
+        binary = shutil.which(binary)  # type: ignore
         if not binary:
             raise TransitionToolNotFoundInPath(binary=binary)
         self.binary = Path(binary)
@@ -97,10 +97,11 @@ class TransitionTool:
 
         if binary_path is None:
             return cls.default_tool(binary=binary_path, **kwargs)
-        try:
-            binary = Path(os.path.expanduser(binary_path)).resolve(strict=True)
-        except FileNotFoundError:
-            binary = shutil.which(binary_path)  # type: ignore
+
+        resolved_path = Path(os.path.expanduser(binary_path)).resolve()
+        if resolved_path.exists():
+            binary = resolved_path
+        binary = shutil.which(binary_path)  # type: ignore
 
         if binary is not None:
             binary = Path(binary)
