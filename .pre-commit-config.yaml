@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: tox
+        name: tox
+        entry: tox
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: tox-docs
+        name: tox-docs
+        entry: tox -e docs
+        language: system
+        files: \.md$
+        pass_filenames: false
