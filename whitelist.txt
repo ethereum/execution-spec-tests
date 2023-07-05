@@ -264,6 +264,7 @@ fspath
 funcargs
 getgroup
 getoption
+groupby
 hookimpl
 hookwrapper
 IGNORECASE
@@ -284,6 +285,7 @@ reportinfo
 ret
 runpytest
 runtest
+subclasses
 tryfirst
 trylast
 usefixtures
