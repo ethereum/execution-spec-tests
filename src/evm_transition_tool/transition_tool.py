@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Tuple, Type
 from ethereum_test_forks import Fork
 
 
-class UnknownTransitionToolError(Exception):
+class UnknownTransitionTool(Exception):
     """Exception raised if an unknown t8n is encountered"""
 
     pass
@@ -96,7 +96,7 @@ class TransitionTool:
             if subclass.matches_binary_path(binary_path):
                 return subclass(binary=binary_path, **kwargs)
 
-        raise UnknownTransitionToolError(f"Unknown transition tool binary: {binary_path}")
+        raise UnknownTransitionTool(f"Unknown transition tool binary: {binary_path}")
 
     @classmethod
     def matches_binary_path(cls, binary_path: Path) -> bool:
