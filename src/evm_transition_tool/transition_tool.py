@@ -58,8 +58,10 @@ class TransitionTool:
             binary = self.default_binary
         else:
             # improve behavior of which by resolving the path: ~/relative paths don't work
-            binary = Path(os.path.expanduser(binary)).resolve()
-        binary = shutil.which(binary)  # type: ignore
+            try:
+                binary = Path(os.path.expanduser(binary)).resolve(strict=True)
+            except FileNotFoundError:
+                binary = shutil.which(binary)  # type: ignore
         if not binary:
             raise TransitionToolNotFoundInPath(binary=binary)
         self.binary = Path(binary)
@@ -95,23 +97,27 @@ class TransitionTool:
 
         if binary_path is None:
             return cls.default_tool(binary=binary_path, **kwargs)
+        try:
+            binary = Path(os.path.expanduser(binary_path)).resolve(strict=True)
+        except FileNotFoundError:
+            binary = shutil.which(binary_path)  # type: ignore
 
-        binary = shutil.which(Path(os.path.expanduser(binary_path)).resolve())
-        if binary:
+        if binary is not None:
+            binary = Path(binary)
             # Group the tools by version flag, so we only have to call the tool once for all the
             # classes that share the same version flag
             for version_flag, subclasses in groupby(
                 cls.registered_tools, key=lambda x: x.version_flag
             ):
                 try:
-                    binary_output = os.popen(f"{binary_path} {version_flag}").read()
+                    binary_output = os.popen(f"{binary} {version_flag}").read()
                 except Exception:
                     # If the tool doesn't support the version flag,
                     # we'll get an non-zero exit code.
                     continue
                 for subclass in subclasses:
                     if subclass.detect_binary(binary_output):
-                        return subclass(binary=binary_path, **kwargs)
+                        return subclass(binary=binary, **kwargs)
 
         raise UnknownTransitionTool(f"Unknown transition tool binary: {binary_path}")
 
