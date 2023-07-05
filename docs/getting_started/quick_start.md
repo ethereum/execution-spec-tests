@@ -7,7 +7,7 @@
     To test features under active development, start with this base configuration and then follow the steps in [executing tests for features under development](./executing_tests_dev_fork.md). 
 
 
-The following requires a Python 3.10 installation.
+The following requires a Python 3.10 or Python 3.11 installation.
 
 1. Ensure go-ethereum's `evm` tool and `solc` are in your path. Either build the required versions, or alternatively:
 

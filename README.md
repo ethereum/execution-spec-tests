@@ -56,7 +56,7 @@ The generated test fixtures can be used:
 
 ### Prerequisites
 
-The following requires a Python 3.10 installation.
+The following requires a Python 3.10 or Python 3.11 installation.
 
 ### Quick Start
 
