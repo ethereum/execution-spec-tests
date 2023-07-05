@@ -3,7 +3,7 @@ Common constants, classes & functions local to EIP-4844 tests.
 """
 from dataclasses import dataclass
 from hashlib import sha256
-from typing import Literal, List, Tuple, Union
+from typing import List, Literal, Tuple, Union
 
 from ethereum_test_tools import (
     TestAddress,
@@ -232,6 +232,8 @@ class BlobhashContext:
         """
         Maps an opcode context to bytecode that utilizes the BLOBHASH opcode.
         """
+        assert cls.yul_compiler is not None, "YulCompiler not set"
+
         blobhash_verbatim = cls._get_blobhash_verbatim()
 
         code = {
