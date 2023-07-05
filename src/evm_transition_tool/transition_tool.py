@@ -52,8 +52,10 @@ class TransitionTool:
         """
         if binary is None:
             binary = self.default_binary
-        # expanduser: tilde does not get expanded by shutil.which
-        binary = shutil.which(os.path.expanduser(binary))  # type: ignore
+        else:
+            # improve behavior of which by resolving the path: ~/relative paths don't work
+            binary = Path(os.path.expanduser(binary)).resolve()
+        binary = shutil.which(binary)  # type: ignore
         if not binary:
             raise TransitionToolNotFoundInPath(binary=binary)
         self.binary = Path(binary)
