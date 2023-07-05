@@ -116,10 +116,10 @@ def pytest_configure(config):
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header"""
     binary_path = config.getoption("evm_bin")
-    t8nCls = TransitionTool.from_binary_path(
+    t8n_tool_class = TransitionTool.from_binary_path(
         binary_path=binary_path,
     )
-    t8n = t8nCls(binary=binary_path)
+    t8n = t8n_tool_class(binary=binary_path)
     solc_version_string = Yul("", binary=config.getoption("solc_bin")).version()
     return [f"{t8n.version()}, solc version {solc_version_string}"]
 
@@ -145,10 +145,10 @@ def t8n(request, evm_bin):
     """
     Returns the configured transition tool.
     """
-    t8nCls = TransitionTool.from_binary_path(
+    t8n_tool_class = TransitionTool.from_binary_path(
         binary_path=evm_bin,
     )
-    t8n = t8nCls(binary=evm_bin, trace=request.config.getoption("evm_collect_traces"))
+    t8n = t8n_tool_class(binary=evm_bin, trace=request.config.getoption("evm_collect_traces"))
     return t8n
 
 
