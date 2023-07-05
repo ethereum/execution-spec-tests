@@ -8,10 +8,10 @@ from typing import Mapping, Tuple
 
 import pytest
 
-from .common import mcopy, REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
-from ethereum_test_tools import Account, StateTestFiller, Environment
+from ethereum_test_tools import Account, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
+    StateTestFiller,
     Storage,
     TestAddress,
     Transaction,
@@ -19,6 +19,8 @@ from ethereum_test_tools import (
     to_address,
     to_hash_bytes,
 )
+
+from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION, mcopy
 
 code_address = to_address(0x100)
 """
@@ -179,7 +181,7 @@ def test_valid_mcopy_operations(
 @pytest.mark.parametrize("dest", [0x00, 0x20])
 @pytest.mark.parametrize("src", [0x00, 0x20])
 @pytest.mark.parametrize("length", [0x00, 0x01])
-@pytest.mark.parametrize("initial_memory", [[bytes()]], ids=["empty_memory"])
+@pytest.mark.parametrize("initial_memory", [bytes()], ids=["empty_memory"])
 @pytest.mark.valid_from("Cancun")
 def test_mcopy_on_empty_memory(
     state_test: StateTestFiller,
