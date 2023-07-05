@@ -9,6 +9,12 @@ from typing import Any, Dict, List, Optional, Tuple, Type
 from ethereum_test_forks import Fork
 
 
+class UnknownTransitionToolError(Exception):
+    """Exception raised if an unknown t8n is encountered"""
+
+    pass
+
+
 class TransitionTool:
     """
     Transition tool abstract base class which should be inherited by all transition tool
@@ -55,20 +61,21 @@ class TransitionTool:
         cls.default_tool = tool_subclass
 
     @classmethod
-    def from_binary_path(cls, *, binary_path: Optional[str]) -> Type["TransitionTool"]:
+    def from_binary_path(cls, *, binary_path: Optional[str], **kwargs) -> "TransitionTool":
         """
-        Returns the appropriate TransitionTool subclass derived from the binary path.
+        Instantiates the appropriate TransitionTool subclass derived from the
+        tool's binary path.
         """
         assert cls.default_tool is not None, "default transition tool was never set"
 
         if binary_path is None:
-            return cls.default_tool
+            return cls.default_tool(binary=binary_path, **kwargs)
 
         for subclass in cls.registered_tools:
             if subclass.matches_binary_path(binary_path):
-                return subclass
+                return subclass(binary=binary_path, **kwargs)
 
-        return cls.default_tool
+        raise UnknownTransitionToolError(f"Unknown transition tool binary: {binary_path}")
 
     @staticmethod
     @abstractmethod

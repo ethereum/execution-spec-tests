@@ -159,11 +159,7 @@ def pytest_configure(config):
         return
 
     evm_bin = config.getoption("evm_bin")
-    transitionToolCls = TransitionTool.from_binary_path(binary_path=evm_bin)
-    t8n = transitionToolCls(
-        binary=config.getoption("evm_bin"),
-        trace=config.getoption("evm_collect_traces"),
-    )
+    t8n = TransitionTool.from_binary_path(binary_path=evm_bin)
     unsupported_forks = [
         fork for fork in config.fork_range if not t8n.is_fork_supported(config.fork_map[fork])
     ]
