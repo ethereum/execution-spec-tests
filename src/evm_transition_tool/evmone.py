@@ -3,15 +3,15 @@ Evmone Transition tool frontend.
 """
 import json
 import os
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
-from shutil import which
 from typing import Any, Dict, List, Optional, Tuple
 
 from ethereum_test_forks import Fork
 
-from .transition_tool import TransitionTool
+from .transition_tool import TransitionTool, TransitionToolNotFoundInPath
 
 
 def write_json_file(data: Dict[str, Any], file_path: str) -> None:
@@ -27,6 +27,7 @@ class EvmOneTransitionTool(TransitionTool):
     Evmone `evmone-t8n` Transition tool frontend wrapper class.
     """
 
+    default_binary = Path("evmone-t8n")
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
@@ -34,28 +35,25 @@ class EvmOneTransitionTool(TransitionTool):
     def __init__(
         self,
         *,
-        binary: Optional[Path | str] = None,
+        binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        if binary is None or type(binary) is str:
-            if binary is None:
-                binary = "evmone-t8n"
-            which_path = which(binary)
-            if which_path is not None:
-                binary = Path(which_path)
-        if binary is None or not Path(binary).exists():
-            raise Exception("""`evmone-t8n` binary executable is not accessible""")
+        if binary is None:
+            binary = self.default_binary
+        binary = shutil.which(os.path.expanduser(binary))  # type: ignore
+        if not binary:
+            raise TransitionToolNotFoundInPath(binary=binary)
         self.binary = Path(binary)
         if trace:
             raise Exception("`evmone-t8n` does not support tracing.")
         self.trace = trace
 
     @staticmethod
-    def matches_binary_path(binary_path: str) -> bool:
+    def matches_binary_path(binary_path: Path) -> bool:
         """
         Returns True if the binary path matches the tool
         """
-        return os.path.basename(binary_path) == "evmone-t8n"
+        return binary_path.name == "evmone-t8n"
 
     def evaluate(
         self,

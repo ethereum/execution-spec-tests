@@ -2,6 +2,7 @@
 Test the transition tool and subclasses.
 """
 
+import shutil
 from pathlib import Path
 
 import pytest
@@ -26,17 +27,17 @@ def test_from_binary(monkeypatch):
     Test that `from_binary` instantiates the correct subclass.
     """
 
-    def mock_exists(self):
-        return True
+    def mock_which(self):
+        return "evm"
 
-    # monkeypatch the exists method: the transition tools constructor raises
-    # an exception if the binary path does not exist
-    monkeypatch.setattr(Path, "exists", mock_exists)
+    # monkeypatch: the transition tools constructor raises an exception if the binary path does
+    # not exist
+    monkeypatch.setattr(shutil, "which", mock_which)
 
     assert isinstance(TransitionTool.from_binary_path(binary_path=None), GethTransitionTool)
-    assert isinstance(TransitionTool.from_binary_path(binary_path="evm"), GethTransitionTool)
+    assert isinstance(TransitionTool.from_binary_path(binary_path=Path("evm")), GethTransitionTool)
     assert isinstance(
-        TransitionTool.from_binary_path(binary_path="evmone-t8n"), EvmOneTransitionTool
+        TransitionTool.from_binary_path(binary_path=Path("evmone-t8n")), EvmOneTransitionTool
     )
 
 
@@ -46,4 +47,4 @@ def test_unknown_binary_path():
     binary paths.
     """
     with pytest.raises(UnknownTransitionToolError):
-        TransitionTool.from_binary_path(binary_path="unknown_binary_path")
+        TransitionTool.from_binary_path(binary_path=Path("unknown_binary_path"))

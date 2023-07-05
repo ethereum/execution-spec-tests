@@ -15,6 +15,15 @@ class UnknownTransitionToolError(Exception):
     pass
 
 
+class TransitionToolNotFoundInPath(Exception):
+    """Exception raised if an unknown t8n is encountered"""
+
+    def __init__(self, message="The transition tool was not found in the path", binary=None):
+        if binary:
+            message = f"{message (binary)}"
+        super().__init__(message)
+
+
 class TransitionTool:
     """
     Transition tool abstract base class which should be inherited by all transition tool
@@ -32,7 +41,7 @@ class TransitionTool:
     def __init__(
         self,
         *,
-        binary: Optional[Path | str] = None,
+        binary: Optional[Path] = None,
         trace: bool = False,
     ):
         """
@@ -61,7 +70,7 @@ class TransitionTool:
         cls.default_tool = tool_subclass
 
     @classmethod
-    def from_binary_path(cls, *, binary_path: Optional[str], **kwargs) -> "TransitionTool":
+    def from_binary_path(cls, *, binary_path: Optional[Path], **kwargs) -> "TransitionTool":
         """
         Instantiates the appropriate TransitionTool subclass derived from the
         tool's binary path.
@@ -79,7 +88,7 @@ class TransitionTool:
 
     @staticmethod
     @abstractmethod
-    def matches_binary_path(binary_path: str) -> bool:
+    def matches_binary_path(binary_path: Path) -> bool:
         """
         Returns True if the binary path matches the tool
         """

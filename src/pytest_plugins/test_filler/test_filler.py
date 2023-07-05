@@ -8,6 +8,7 @@ writes the generated fixtures to file.
 import json
 import os
 import re
+from pathlib import Path
 from typing import Any, Dict, List, Tuple, Type
 
 import pytest
@@ -37,6 +38,7 @@ def pytest_addoption(parser):
         "--evm-bin",
         action="store",
         dest="evm_bin",
+        type=Path,
         default=None,
         help=(
             "Path to an evm executable that provides `t8n`. " "Default: First 'evm' entry in PATH"
@@ -122,7 +124,7 @@ def pytest_report_header(config, start_path):
 
 
 @pytest.fixture(autouse=True, scope="session")
-def evm_bin(request):
+def evm_bin(request) -> Path:
     """
     Returns the configured evm tool binary path.
     """
@@ -138,7 +140,7 @@ def solc_bin(request):
 
 
 @pytest.fixture(autouse=True, scope="session")
-def t8n(request, evm_bin):
+def t8n(request, evm_bin: Path) -> TransitionTool:
     """
     Returns the configured transition tool.
     """
