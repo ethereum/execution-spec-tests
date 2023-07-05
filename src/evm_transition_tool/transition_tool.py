@@ -5,6 +5,7 @@ Transition tool abstract class.
 import os
 import shutil
 from abc import abstractmethod
+from itertools import groupby
 from pathlib import Path
 from re import Pattern
 from typing import Any, Dict, List, Optional, Tuple, Type
@@ -97,23 +98,31 @@ class TransitionTool:
 
         binary = shutil.which(Path(os.path.expanduser(binary_path)).resolve())
         if binary:
-            for subclass in cls.registered_tools:
-                if subclass.detect_binary(binary_path):
-                    return subclass(binary=binary_path, **kwargs)
+            # Group the tools by version flag, so we only have to call the tool once for all the
+            # classes that share the same version flag
+            for version_flag, subclasses in groupby(
+                cls.registered_tools, key=lambda x: x.version_flag
+            ):
+                try:
+                    binary_output = os.popen(f"{binary_path} {version_flag}").read()
+                except Exception:
+                    # If the tool doesn't support the version flag,
+                    # we'll get an non-zero exit code.
+                    continue
+                for subclass in subclasses:
+                    if subclass.detect_binary(binary_output):
+                        return subclass(binary=binary_path, **kwargs)
 
         raise UnknownTransitionTool(f"Unknown transition tool binary: {binary_path}")
 
     @classmethod
-    def detect_binary(cls, binary_path: Path) -> bool:
+    def detect_binary(cls, binary_output: str) -> bool:
         """
         Returns True if the binary matches the tool
         """
         assert cls.detect_binary_pattern is not None
 
-        # Run the binary with the appropriate version flag
-        version = os.popen(f"{binary_path} {cls.version_flag}").read()
-
-        return cls.detect_binary_pattern.match(version) is not None
+        return cls.detect_binary_pattern.match(binary_output) is not None
 
     @abstractmethod
     def evaluate(
