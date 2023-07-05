@@ -8,16 +8,18 @@ from typing import Mapping, Tuple
 
 import pytest
 
-from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
-from ethereum_test_tools import Account, StateTestFiller, Environment
+from ethereum_test_tools import Account, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
+    StateTestFiller,
     Storage,
     TestAddress,
     Transaction,
     cost_memory_bytes,
     to_address,
 )
+
+from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
 caller_address = 0x100
 """
@@ -95,22 +97,45 @@ def bytecode_storage(
     bytecode += Op.SSTORE(
         Op.CALL(subcall_gas, memory_expansion_address, 0, 0, Op.CALLDATASIZE(), 0, 0), 1
     )
-
-    if successful:
-        storage[1] = 1
-    else:
-        storage[0] = 1
+    storage[int(successful)] = 1
 
     return (bytecode, storage)
 
 
 @pytest.fixture
+def tx_max_fee_per_gas() -> int:  # noqa: D103
+    return 7
+
+
+@pytest.fixture
+def block_gas_limit() -> int:  # noqa: D103
+    return 100_000_000
+
+
+@pytest.fixture
+def tx_gas_limit(
+    subcall_exact_cost: int,
+    block_gas_limit: int,
+) -> int:  # noqa: D103
+    return min(max(500_000, subcall_exact_cost * 2), block_gas_limit)
+
+
+@pytest.fixture
+def env(
+    block_gas_limit: int,
+) -> Environment:  # noqa: D103
+    return Environment(gas_limit=block_gas_limit)
+
+
+@pytest.fixture
 def pre(
+    tx_max_fee_per_gas: int,
+    tx_gas_limit: int,
     bytecode_storage: Tuple[bytes, Storage.StorageDictType],
     callee_bytecode: bytes,
 ) -> Mapping[str, Account]:  # noqa: D103
     return {
-        TestAddress: Account(balance=10**40),
+        TestAddress: Account(balance=tx_max_fee_per_gas * tx_gas_limit),
         to_address(caller_address): Account(code=bytecode_storage[0]),
         to_address(memory_expansion_address): Account(code=callee_bytecode),
     }
@@ -118,13 +143,16 @@ def pre(
 
 @pytest.fixture
 def tx(
-    subcall_exact_cost: int,
     initial_memory: bytes,
+    tx_max_fee_per_gas: int,
+    tx_gas_limit: int,
 ) -> Transaction:  # noqa: D103
     return Transaction(
         to=to_address(caller_address),
         data=initial_memory,
-        gas_limit=max(500_000, subcall_exact_cost * 2),
+        gas_limit=tx_gas_limit,
+        max_fee_per_gas=tx_max_fee_per_gas,
+        max_priority_fee_per_gas=0,
     )
 
 
@@ -149,7 +177,6 @@ def post(
         (0x00, 0x00, 0x00),
         (2**256 - 1, 0x00, 0x00),
         (0x00, 2**256 - 1, 0x00),
-        (0x00, 2**256 - 1, 0x01),
         (2**256 - 1, 2**256 - 1, 0x00),
     ],
     ids=[
@@ -162,7 +189,6 @@ def post(
         "zero_length_expansion",
         "huge_dest_zero_length",
         "huge_src_zero_length",
-        "huge_src_one_byte_length",
         "huge_dest_huge_src_zero_length",
     ],
 )
@@ -187,6 +213,68 @@ def test_mcopy_memory_expansion(
 ):
     """
     Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.
+    """
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        post=post,
+        txs=[tx],
+    )
+
+
+@pytest.mark.parametrize(
+    "dest,src,length",
+    [
+        (2**256 - 1, 0x00, 0x01),
+        (2**256 - 2, 0x00, 0x01),
+        (2**255 - 1, 0x00, 0x01),
+        (0x00, 2**256 - 1, 0x01),
+        (0x00, 2**256 - 2, 0x01),
+        (0x00, 2**255 - 1, 0x01),
+        (0x00, 0x00, 2**256 - 1),
+        (0x00, 0x00, 2**256 - 2),
+        (0x00, 0x00, 2**255 - 1),
+    ],
+    ids=[
+        "max_dest_single_byte_expansion",
+        "max_dest_minus_one_single_byte_expansion",
+        "half_max_dest_single_byte_expansion",
+        "max_src_single_byte_expansion",
+        "max_src_minus_one_single_byte_expansion",
+        "half_max_src_single_byte_expansion",
+        "max_length_expansion",
+        "max_length_minus_one_expansion",
+        "half_max_length_expansion",
+    ],
+)
+@pytest.mark.parametrize(
+    "subcall_exact_cost",
+    [2**128 - 1],
+    ids=[""],
+)  # Limit subcall gas, otherwise it would be impossibly large
+@pytest.mark.parametrize("successful", [False])
+@pytest.mark.parametrize(
+    "initial_memory",
+    [
+        bytes(range(0x00, 0x100)),
+        bytes(),
+    ],
+    ids=[
+        "from_existent_memory",
+        "from_empty_memory",
+    ],
+)
+@pytest.mark.valid_from("Cancun")
+def test_mcopy_huge_memory_expansion(
+    state_test: StateTestFiller,
+    pre: Mapping[str, Account],
+    post: Mapping[str, Account],
+    tx: Transaction,
+):
+    """
+    Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly
+    runs out of gas.
     """
 
     state_test(
