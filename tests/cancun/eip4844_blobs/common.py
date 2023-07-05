@@ -125,6 +125,10 @@ def kzg_to_versioned_hash(
 
 @dataclass(kw_only=True)
 class Blob:
+    """
+    Class representing a full blob.
+    """
+
     blob: bytes
     kzg_commitment: bytes
     kzg_proof: bytes
