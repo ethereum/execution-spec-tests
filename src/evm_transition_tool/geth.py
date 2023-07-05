@@ -4,7 +4,6 @@ Go-ethereum Transition tool frontend.
 
 import json
 import os
-import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -12,7 +11,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from ethereum_test_forks import Fork
 
-from .transition_tool import TransitionTool, TransitionToolNotFoundInPath
+from .transition_tool import TransitionTool
 
 
 class GethTransitionTool(TransitionTool):
@@ -21,7 +20,7 @@ class GethTransitionTool(TransitionTool):
     """
 
     default_binary = Path("evm")
-    binary: Path | None
+    binary: Path
     cached_version: Optional[str] = None
     trace: bool
 
@@ -31,13 +30,7 @@ class GethTransitionTool(TransitionTool):
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        if binary is None:
-            binary = self.default_binary
-        binary = shutil.which(os.path.expanduser(binary))  # type: ignore
-        if not binary:
-            raise TransitionToolNotFoundInPath(binary=binary)
-        self.binary = Path(binary)
-        self.trace = trace
+        super().__init__(binary=binary, trace=trace)
         args = [str(self.binary), "t8n", "--help"]
         try:
             result = subprocess.run(args, capture_output=True, text=True)

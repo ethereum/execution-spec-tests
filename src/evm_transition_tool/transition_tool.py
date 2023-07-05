@@ -2,6 +2,8 @@
 Transition tool abstract class.
 """
 
+import os
+import shutil
 from abc import abstractmethod
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Type
@@ -34,6 +36,7 @@ class TransitionTool:
 
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
+    default_binary: Path | None = None
 
     # Abstract methods that each tool must implement
 
@@ -47,7 +50,14 @@ class TransitionTool:
         """
         Abstract initialization method that all subclasses must implement.
         """
-        pass
+        if binary is None:
+            binary = self.default_binary
+        # expanduser: tilde does not get expanded by shutil.which
+        binary = shutil.which(os.path.expanduser(binary))  # type: ignore
+        if not binary:
+            raise TransitionToolNotFoundInPath(binary=binary)
+        self.binary = Path(binary)
+        self.trace = trace
 
     def __init_subclass__(cls):
         """

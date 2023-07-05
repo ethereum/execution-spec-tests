@@ -3,7 +3,6 @@ Evmone Transition tool frontend.
 """
 import json
 import os
-import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -11,7 +10,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from ethereum_test_forks import Fork
 
-from .transition_tool import TransitionTool, TransitionToolNotFoundInPath
+from .transition_tool import TransitionTool
 
 
 def write_json_file(data: Dict[str, Any], file_path: str) -> None:
@@ -38,15 +37,9 @@ class EvmOneTransitionTool(TransitionTool):
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        if binary is None:
-            binary = self.default_binary
-        binary = shutil.which(os.path.expanduser(binary))  # type: ignore
-        if not binary:
-            raise TransitionToolNotFoundInPath(binary=binary)
-        self.binary = Path(binary)
-        if trace:
+        super().__init__(binary=binary, trace=trace)
+        if self.trace:
             raise Exception("`evmone-t8n` does not support tracing.")
-        self.trace = trace
 
     @staticmethod
     def matches_binary_path(binary_path: Path) -> bool:
