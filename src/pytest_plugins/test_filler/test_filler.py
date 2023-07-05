@@ -112,6 +112,11 @@ def pytest_configure(config):
         "markers",
         "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
     )
+    # Instantiate the transition tool here to check that the binary path/trace option is valid.
+    # This ensures we only raise an error once, if appropriate, instead of for every test.
+    TransitionTool.from_binary_path(
+        binary_path=config.getoption("evm_bin"), trace=config.getoption("evm_collect_traces")
+    )
 
 
 @pytest.hookimpl(trylast=True)
