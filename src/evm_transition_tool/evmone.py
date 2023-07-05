@@ -46,6 +46,8 @@ class EvmOneTransitionTool(TransitionTool):
         if binary is None or not Path(binary).exists():
             raise Exception("""`evmone-t8n` binary executable is not accessible""")
         self.binary = Path(binary)
+        if trace:
+            raise Exception("`evmone-t8n` does not support tracing.")
         self.trace = trace
 
     @staticmethod
