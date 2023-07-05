@@ -57,7 +57,7 @@ def bytecode_storage(
 
     # Fill memory with initial values
     for i in range(0, len(initial_memory), 0x20):
-        bytecode += Op.MSTORE(i, initial_memory[i : i + 0x20])
+        bytecode += Op.MSTORE(i, Op.PUSH32(initial_memory[i : i + 0x20]))
 
     # Perform the MCOPY according to calldata values
     bytecode += Op.MCOPY(
@@ -76,7 +76,9 @@ def bytecode_storage(
     if len(final_memory) > len(initial_memory):
         last_word = ceiling_division(len(final_memory), 0x20) - 1
         bytecode += Op.SSTORE(last_word, Op.MLOAD(last_word * 0x20))
-        storage[last_word] = final_memory[last_word * 0x20 : (last_word + 1) * 0x20]
+        storage[last_word] = final_memory[last_word * 0x20 : (last_word + 1) * 0x20].ljust(
+            32, b"\x00"
+        )
 
     # We could also keccak the memory and store the hash in storage for good measure ?
 
@@ -127,6 +129,9 @@ def post(
         (0x00, 0x10, 0x40),
         (0x0F, 0x10, 0x40),
         (0x100, 0x01, 0x01),
+        (0x100, 0x01, 0x20),
+        (0x100, 0x01, 0x1F),
+        (0x100, 0x01, 0x21),
         (0x00, 0x00, 0x100),
         (0x100, 0x00, 0x100),
         (0x200, 0x00, 0x100),
@@ -147,6 +152,9 @@ def post(
         "two_words_backward_overwrite",
         "two_words_backward_overwrite_single_byte_offset",
         "single_byte_memory_extension",
+        "single_word_memory_extension",
+        "single_word_minus_one_byte_memory_extension",
+        "single_word_plus_one_byte_memory_extension",
         "full_memory_rewrite",
         "full_memory_copy",
         "full_memory_copy_offset",

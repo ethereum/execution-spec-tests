@@ -7,17 +7,12 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
 from typing import List, Mapping, Tuple
 
 import pytest
-from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
-from ethereum_test_tools import Account, StateTestFiller, Environment
+from ethereum_test_tools import Account, Environment, OpcodeCallArg
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import (
-    OpcodeCallArg,
-    Storage,
-    TestAddress,
-    Transaction,
-    to_address,
-)
+from ethereum_test_tools import StateTestFiller, Storage, TestAddress, Transaction, to_address
+
+from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
 code_address = 0x100
 """
@@ -102,7 +97,7 @@ def bytecode_storage(
 
     # Fill memory with initial values
     for i in range(0, len(initial_memory), 0x20):
-        bytecode += Op.MSTORE(i, initial_memory[i : i + 0x20])
+        bytecode += Op.MSTORE(i, Op.PUSH32(initial_memory[i : i + 0x20]))
 
     # Perform the call to the contract that is going to perform mcopy
     bytecode += caller_bytecode
