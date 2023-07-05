@@ -36,7 +36,7 @@ class TransitionTool:
 
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
-    default_binary: Path | None = None
+    default_binary: Path
 
     # Abstract methods that each tool must implement
 
@@ -96,13 +96,12 @@ class TransitionTool:
 
         raise UnknownTransitionToolError(f"Unknown transition tool binary: {binary_path}")
 
-    @staticmethod
-    @abstractmethod
-    def matches_binary_path(binary_path: Path) -> bool:
+    @classmethod
+    def matches_binary_path(cls, binary_path: Path) -> bool:
         """
         Returns True if the binary path matches the tool
         """
-        pass
+        return binary_path.name == cls.default_binary.name
 
     @abstractmethod
     def evaluate(

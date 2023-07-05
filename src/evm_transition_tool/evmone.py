@@ -41,13 +41,6 @@ class EvmOneTransitionTool(TransitionTool):
         if self.trace:
             raise Exception("`evmone-t8n` does not support tracing.")
 
-    @staticmethod
-    def matches_binary_path(binary_path: Path) -> bool:
-        """
-        Returns True if the binary path matches the tool
-        """
-        return binary_path.name == "evmone-t8n"
-
     def evaluate(
         self,
         alloc: Any,

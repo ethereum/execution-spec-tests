@@ -40,13 +40,6 @@ class GethTransitionTool(TransitionTool):
             raise Exception(f"Unexpected exception calling evm tool: {e}.")
         self.help_string = result.stdout
 
-    @staticmethod
-    def matches_binary_path(binary_path: Path) -> bool:
-        """
-        Returns True if the binary path matches the tool
-        """
-        return binary_path.name == "evm"
-
     def evaluate(
         self,
         alloc: Any,
