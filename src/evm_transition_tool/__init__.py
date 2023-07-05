@@ -273,9 +273,9 @@ class EvmTransitionTool(TransitionTool):
 
             if result.returncode != 0:
                 result = subprocess.run(
-                [str(self.binary), "--version"],
-                stdout=subprocess.PIPE,
-            )
+                    [str(self.binary), "--version"],
+                    stdout=subprocess.PIPE,
+                )
 
             if result.returncode != 0:
                 raise Exception("failed to evaluate: " + result.stderr.decode())
