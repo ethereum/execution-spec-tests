@@ -111,7 +111,8 @@ class TransitionTool:
                 cls.registered_tools, key=lambda x: x.version_flag
             ):
                 try:
-                    binary_output = os.popen(f"{binary} {version_flag}").read()
+                    with os.popen(f"{binary} {version_flag}") as f:
+                        binary_output = f.read()
                 except Exception:
                     # If the tool doesn't support the version flag,
                     # we'll get an non-zero exit code.
