@@ -13,7 +13,7 @@ from evm_transition_tool import (
     EvmOneTransitionTool,
     GethTransitionTool,
     TransitionTool,
-    UnknownTransitionTool,
+    TransitionToolNotFoundInPath,
 )
 
 
@@ -86,5 +86,5 @@ def test_unknown_binary_path():
     Test that `from_binary_path` raises `UnknownTransitionTool` for unknown
     binary paths.
     """
-    with pytest.raises(UnknownTransitionTool):
+    with pytest.raises(TransitionToolNotFoundInPath):
         TransitionTool.from_binary_path(binary_path=Path("unknown_binary_path"))
