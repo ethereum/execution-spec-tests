@@ -1,6 +1,15 @@
 # Executing Tests at a Prompt
 
-The execution-spec-tests repo uses [pytest](https://docs.pytest.org/en/latest/) as its test framework. The `fill` command is essentially an alias for `pytest`.
+The execution-spec-tests test framework uses the [pytest framework](https://docs.pytest.org/en/latest/) for test case collection and execution. The `fill` command is essentially an alias for `pytest`, which uses several [custom pytest plugins](../library/pytest_plugins/index.md) to run transition tools against test cases and generate JSON fixtures.
+
+!!! note "Options specific to execution-spec-tests"
+    The command-line options specific to filling tests can be listed via:
+
+    ```console
+    fill --test-help
+    ```
+
+    See [Custom `fill` Command-Line Options](#custom-fill-command-line-options) for all options.
 
 ## Collection - Test Exploration
 
@@ -24,13 +33,13 @@ fill --collect-only -k warm_coinbase -vv
 
 ## Execution
 
-By default, all test cases are executed for all forks deployed to mainnet, but not for forks still under active development, i.e.,
+By default, test cases are executed for all forks already deployed to mainnet, but not for forks still under active development, i.e., as of time of writing, Q2 2023:
 
 ```console
 fill
 ```
 
-will generate fixtures for test cases from Frontier to Shanghai (as of time of writing, Q2 2023).
+will generate fixtures for test cases from Frontier to Shanghai.
 
 To generate all the test fixtures defined in the `./tests/shanghai` sub-directory and write them to the `./fixtures-shanghai` directory, run `fill` in the top-level directory as:
 
@@ -79,19 +88,62 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
 
     See: [Executing Tests for Features under Development](./executing_tests_dev_fork.md).
 
-## Useful pytest/fill Command-Line Options
-
-Custom `fill` command-line options:
-
-```console
-fill --traces       # Collect traces of the execution information from the transition tool
-fill --evm=EVM_BIN  # Specify the evm executable to generate fixtures with
-```
-
-Pytest command-line options:
+## Other Useful Pytest Command-Line Options
 
 ```console
 fill -vv            # More verbose output
 fill -x             # Exit instantly on first error or failed test case
-fill --pdb          # drop into the debugger upon error in a test case
+fill --pdb          # Drop into the debugger upon error in a test case
+```
+
+## Custom `fill` Command-Line Options
+
+Options added by the execution-spec-tests pytest plugins can be listed with:
+
+```console
+fill --test-help
+```
+
+Output:
+
+```console
+usage: fill [-h] [--evm-bin EVM_BIN] [--traces TRACES] [--solc-bin SOLC_BIN]
+            [--filler-path FILLER_PATH] [--output OUTPUT]
+            [--flat-output FLAT_OUTPUT] [--forks FORKS] [--fork FORK]
+            [--from FROM] [--until UNTIL] [--test-help TEST_HELP]
+
+options:
+  -h, --help            show this help message and exit
+
+Arguments defining evm executable behavior:
+  --evm-bin EVM_BIN     Path to an evm executable that provides `t8n` and
+                        `b11r.` Default: First 'evm' entry in PATH
+  --traces TRACES       Collect traces of the execution information from the
+                        transition tool
+
+Arguments defining the solc executable:
+  --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).
+                        Default: First 'solc' entry in PATH
+
+Arguments defining filler location and output:
+  --filler-path FILLER_PATH
+                        Path to filler directives
+  --output OUTPUT       Directory to store the generated test fixtures. Can be
+                        deleted.
+  --flat-output FLAT_OUTPUT
+                        Output each test case in the directory without the
+                        folder structure.
+
+Specify the fork range to generate fixtures for:
+  --forks FORKS         Display forks supported by the test framework and exit.
+  --fork FORK           Only fill tests for the specified fork.
+  --from FROM           Fill tests from and including the specified fork.
+  --until UNTIL         Fill tests until and including the specified fork.
+
+Arguments related to running execution-spec-tests:
+  --test-help TEST_HELP
+                        Only show help options specific to execution-spec-tests
+                        and exit.
+
+Exit: After displaying help.
 ```

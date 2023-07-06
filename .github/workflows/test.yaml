@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ['3.10']
+        python: ['3.10', '3.11']
         golang: ['1.20.5']
         solc: ['0.8.20']
     steps:

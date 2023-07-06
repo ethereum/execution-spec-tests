@@ -22,6 +22,7 @@ ethereum
 evm
 evmone
 fn
+forkchoice
 geth
 hash32
 hasher
@@ -272,6 +273,7 @@ makepyfile
 metafunc
 modifyitems
 nodeid
+optparser
 originalname
 parametrized
 param
@@ -286,6 +288,8 @@ ret
 runpytest
 runtest
 subclasses
+substring
+substrings
 tryfirst
 trylast
 usefixtures
