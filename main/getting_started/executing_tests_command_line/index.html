@@ -585,8 +585,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#useful-pytestfill-command-line-options" class="md-nav__link">
-    Useful pytest/fill Command-Line Options
+  <a href="#other-useful-pytest-command-line-options" class="md-nav__link">
+    Other Useful Pytest Command-Line Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-fill-command-line-options" class="md-nav__link">
+    Custom fill Command-Line Options
   </a>
   
 </li>
@@ -3246,8 +3253,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#useful-pytestfill-command-line-options" class="md-nav__link">
-    Useful pytest/fill Command-Line Options
+  <a href="#other-useful-pytest-command-line-options" class="md-nav__link">
+    Other Useful Pytest Command-Line Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-fill-command-line-options" class="md-nav__link">
+    Custom fill Command-Line Options
   </a>
   
 </li>
@@ -3271,7 +3285,14 @@
 
 
 <h1 id="executing-tests-at-a-prompt">Executing Tests at a Prompt<a class="headerlink" href="#executing-tests-at-a-prompt" title="Permanent link">&para;</a></h1>
-<p>The execution-spec-tests repo uses <a href="https://docs.pytest.org/en/latest/">pytest</a> as its test framework. The <code>fill</code> command is essentially an alias for <code>pytest</code>.</p>
+<p>The execution-spec-tests test framework uses the <a href="https://docs.pytest.org/en/latest/">pytest framework</a> for test case collection and execution. The <code>fill</code> command is essentially an alias for <code>pytest</code>, which uses several <a href="../../library/pytest_plugins/">custom pytest plugins</a> to run transition tools against test cases and generate JSON fixtures.</p>
+<div class="admonition note">
+<p class="admonition-title">Options specific to execution-spec-tests</p>
+<p>The command-line options specific to filling tests can be listed via:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --test-help</span>
+</code></pre></div>
+<p>See <a href="#custom-fill-command-line-options">Custom <code>fill</code> Command-Line Options</a> for all options.</p>
+</div>
 <h2 id="collection-test-exploration">Collection - Test Exploration<a class="headerlink" href="#collection-test-exploration" title="Permanent link">&para;</a></h2>
 <p>The test cases implemented in the <code>./tests</code> sub-directory can be listed in the console using:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only</span>
@@ -3283,10 +3304,10 @@
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -k warm_coinbase -vv</span>
 </code></pre></div>
 <h2 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h2>
-<p>By default, all test cases are executed for all forks deployed to mainnet, but not for forks still under active development, i.e.,</p>
+<p>By default, test cases are executed for all forks already deployed to mainnet, but not for forks still under active development, i.e., as of time of writing, Q2 2023:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill</span>
 </code></pre></div>
-<p>will generate fixtures for test cases from Frontier to Shanghai (as of time of writing, Q2 2023).</p>
+<p>will generate fixtures for test cases from Frontier to Shanghai.</p>
 <p>To generate all the test fixtures defined in the <code>./tests/shanghai</code> sub-directory and write them to the <code>./fixtures-shanghai</code> directory, run <code>fill</code> in the top-level directory as:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill ./tests/shanghai --output=&quot;fixtures-shanghai&quot;</span>
 </code></pre></div>
@@ -3315,15 +3336,55 @@
 </code></pre></div></p>
 <p>See: <a href="../executing_tests_dev_fork/">Executing Tests for Features under Development</a>.</p>
 </div>
-<h2 id="useful-pytestfill-command-line-options">Useful pytest/fill Command-Line Options<a class="headerlink" href="#useful-pytestfill-command-line-options" title="Permanent link">&para;</a></h2>
-<p>Custom <code>fill</code> command-line options:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --traces       # Collect traces of the execution information from the transition tool</span>
-<span class="go">fill --evm=EVM_BIN  # Specify the evm executable to generate fixtures with</span>
-</code></pre></div>
-<p>Pytest command-line options:</p>
+<h2 id="other-useful-pytest-command-line-options">Other Useful Pytest Command-Line Options<a class="headerlink" href="#other-useful-pytest-command-line-options" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="go">fill -vv            # More verbose output</span>
 <span class="go">fill -x             # Exit instantly on first error or failed test case</span>
-<span class="go">fill --pdb          # drop into the debugger upon error in a test case</span>
+<span class="go">fill --pdb          # Drop into the debugger upon error in a test case</span>
+</code></pre></div>
+<h2 id="custom-fill-command-line-options">Custom <code>fill</code> Command-Line Options<a class="headerlink" href="#custom-fill-command-line-options" title="Permanent link">&para;</a></h2>
+<p>Options added by the execution-spec-tests pytest plugins can be listed with:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --test-help</span>
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><span class="go">usage: fill [-h] [--evm-bin EVM_BIN] [--traces TRACES] [--solc-bin SOLC_BIN]</span>
+<span class="go">            [--filler-path FILLER_PATH] [--output OUTPUT]</span>
+<span class="go">            [--flat-output FLAT_OUTPUT] [--forks FORKS] [--fork FORK]</span>
+<span class="go">            [--from FROM] [--until UNTIL] [--test-help TEST_HELP]</span>
+
+<span class="go">options:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+
+<span class="go">Arguments defining evm executable behavior:</span>
+<span class="go">  --evm-bin EVM_BIN     Path to an evm executable that provides `t8n` and</span>
+<span class="go">                        `b11r.` Default: First &#39;evm&#39; entry in PATH</span>
+<span class="go">  --traces TRACES       Collect traces of the execution information from the</span>
+<span class="go">                        transition tool</span>
+
+<span class="go">Arguments defining the solc executable:</span>
+<span class="go">  --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).</span>
+<span class="go">                        Default: First &#39;solc&#39; entry in PATH</span>
+
+<span class="go">Arguments defining filler location and output:</span>
+<span class="go">  --filler-path FILLER_PATH</span>
+<span class="go">                        Path to filler directives</span>
+<span class="go">  --output OUTPUT       Directory to store the generated test fixtures. Can be</span>
+<span class="go">                        deleted.</span>
+<span class="go">  --flat-output FLAT_OUTPUT</span>
+<span class="go">                        Output each test case in the directory without the</span>
+<span class="go">                        folder structure.</span>
+
+<span class="go">Specify the fork range to generate fixtures for:</span>
+<span class="go">  --forks FORKS         Display forks supported by the test framework and exit.</span>
+<span class="go">  --fork FORK           Only fill tests for the specified fork.</span>
+<span class="go">  --from FROM           Fill tests from and including the specified fork.</span>
+<span class="go">  --until UNTIL         Fill tests until and including the specified fork.</span>
+
+<span class="go">Arguments related to running execution-spec-tests:</span>
+<span class="go">  --test-help TEST_HELP</span>
+<span class="go">                        Only show help options specific to execution-spec-tests</span>
+<span class="go">                        and exit.</span>
+
+<span class="go">Exit: After displaying help.</span>
 </code></pre></div>
 
 
