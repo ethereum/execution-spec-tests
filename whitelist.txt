@@ -271,6 +271,7 @@ makepyfile
 metafunc
 modifyitems
 nodeid
+optparser
 originalname
 parametrized
 param
@@ -283,6 +284,8 @@ reportinfo
 ret
 runpytest
 runtest
+substring
+substrings
 tryfirst
 trylast
 usefixtures
