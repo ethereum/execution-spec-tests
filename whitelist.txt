@@ -20,6 +20,7 @@ eth
 ethash
 ethereum
 evm
+evmone
 fn
 forkchoice
 geth
@@ -264,6 +265,7 @@ fspath
 funcargs
 getgroup
 getoption
+groupby
 hookimpl
 hookwrapper
 IGNORECASE
@@ -277,6 +279,7 @@ parametrized
 param
 params
 parametrize
+popen
 pytester
 pytestmark
 regexes
@@ -284,6 +287,7 @@ reportinfo
 ret
 runpytest
 runtest
+subclasses
 substring
 substrings
 tryfirst
@@ -303,3 +307,4 @@ evaluatable
 GHSA
 
 Pomerantz
+instantiation
