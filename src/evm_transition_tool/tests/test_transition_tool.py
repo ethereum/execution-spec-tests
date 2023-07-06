@@ -70,6 +70,12 @@ def test_from_binary(
         def read(self):
             return self.read_result
 
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
     def mock_popen(path):
         return ReadResult(read_result)
 
