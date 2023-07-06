@@ -100,7 +100,7 @@ class TransitionTool:
 
         resolved_path = Path(os.path.expanduser(binary_path)).resolve()
         if resolved_path.exists():
-            binary = resolved_path
+            binary_path = resolved_path
         binary = shutil.which(binary_path)  # type: ignore
 
         if binary is not None:
