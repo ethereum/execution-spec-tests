@@ -4,13 +4,21 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
     Test memory copy under different call contexts [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
 
 """  # noqa: E501
+from itertools import cycle, islice
 from typing import List, Mapping, Tuple
 
 import pytest
 
 from ethereum_test_tools import Account, Environment, OpcodeCallArg
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Storage, TestAddress, Transaction, to_address
+from ethereum_test_tools import (
+    StateTestFiller,
+    Storage,
+    TestAddress,
+    Transaction,
+    ceiling_division,
+    to_address,
+)
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
@@ -30,12 +38,15 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 
 
 @pytest.fixture
-def initial_memory() -> bytes:  # noqa: D103
-    return bytes(range(0x00, 0x100))
+def initial_memory_length() -> int:  # noqa: D103
+    return 0x400
 
 
 @pytest.fixture
-def callee_bytecode(initial_memory: bytes) -> bytes:
+def callee_bytecode(
+    initial_memory_length: int,
+    opcode: Op,
+) -> bytes:
     """
     Callee simply performs mcopy operations that should not have any effect on the
     caller context.
@@ -47,7 +58,14 @@ def callee_bytecode(initial_memory: bytes) -> bytes:
     bytecode += Op.MCOPY(0x01, 0x00, 0x01)
     bytecode += Op.MCOPY(0x01, 0x00, 0x20)
     # And a potential memory cleanup
-    bytecode += Op.MCOPY(0x00, len(initial_memory), len(initial_memory))
+    bytecode += Op.MCOPY(0x00, initial_memory_length, initial_memory_length)
+    # Also try to expand the memory
+    bytecode += Op.MCOPY(0x00, initial_memory_length * 2, 1)
+    bytecode += Op.MCOPY(initial_memory_length * 2, 0x00, 1)
+
+    if opcode != Op.STATICCALL:
+        # Simple sstore to make sure we actually ran the code
+        bytecode += Op.SSTORE(200_000, 1)
 
     # In case of initcode, return empty code
     bytecode += Op.RETURN(0x00, 0x00)
@@ -56,8 +74,26 @@ def callee_bytecode(initial_memory: bytes) -> bytes:
 
 
 @pytest.fixture
+def initial_memory(
+    callee_bytecode: bytes,
+    initial_memory_length: int,
+    opcode: Op,
+) -> bytes:  # noqa: D103
+    assert len(callee_bytecode) <= initial_memory_length
+
+    ret = bytes(list(islice(cycle(range(0x01, 0x100)), initial_memory_length)))
+
+    if opcode in [Op.CREATE, Op.CREATE2]:
+        # We also need to put the callee_bytecode as initcode in memory for create operations
+        ret = callee_bytecode + ret[len(callee_bytecode) :]
+
+    assert len(ret) == initial_memory_length
+    return ret
+
+
+@pytest.fixture
 def caller_bytecode(
-    initial_memory: bytes,
+    callee_bytecode: bytes,
     opcode: Op,
 ) -> bytes:
     """
@@ -65,22 +101,18 @@ def caller_bytecode(
     or execute initcode.
     """
     args: List[OpcodeCallArg] = []
-    bytecode = bytes()
     if opcode in [Op.CALL, Op.CALLCODE]:
         args = [Op.GAS(), callee_address, 0, 0, 0, 0, 0]
     elif opcode in [Op.DELEGATECALL, Op.STATICCALL]:
         args = [Op.GAS(), callee_address, 0, 0, 0, 0]
     elif opcode in [Op.CREATE, Op.CREATE2]:
         # First copy the initcode that uses mcopy
-        bytecode += Op.EXTCODECOPY(
-            callee_address, len(initial_memory), 0, Op.EXTCODESIZE(callee_address)
-        )
         if opcode == Op.CREATE:
-            args = [0, len(initial_memory), Op.EXTCODESIZE(callee_address)]
+            args = [0, 0, len(callee_bytecode)]
         else:
-            args = [0, len(initial_memory), Op.EXTCODESIZE(callee_address), 0]
+            args = [0, 0, len(callee_bytecode), 0]
 
-    return bytecode + opcode(*args)
+    return opcode(*args)
 
 
 @pytest.fixture
@@ -93,7 +125,7 @@ def bytecode_storage(
     memory that resulted from the copy.
     """
     bytecode = b""
-    storage = {}
+    storage: Storage.StorageDictType = {}
 
     # Fill memory with initial values
     for i in range(0, len(initial_memory), 0x20):
@@ -101,6 +133,10 @@ def bytecode_storage(
 
     # Perform the call to the contract that is going to perform mcopy
     bytecode += caller_bytecode
+
+    # First save msize
+    bytecode += Op.SSTORE(100_000, Op.MSIZE())
+    storage[100_000] = ceiling_division(len(initial_memory), 0x20) * 0x20
 
     # Store all memory in the initial range to verify the MCOPY in the subcall did not affect
     # this level's memory
@@ -133,10 +169,18 @@ def tx() -> Transaction:  # noqa: D103
 
 @pytest.fixture
 def post(
-    bytecode_storage: Tuple[bytes, Storage.StorageDictType]
+    bytecode_storage: Tuple[bytes, Storage.StorageDictType],
+    opcode: Op,
 ) -> Mapping[str, Account]:  # noqa: D103
+    caller_storage = bytecode_storage[1]
+    callee_storage: Storage.StorageDictType = {}
+    if opcode in [Op.DELEGATECALL, Op.CALLCODE]:
+        caller_storage[200_000] = 1
+    elif opcode in [Op.CALL]:
+        callee_storage[200_000] = 1
     return {
-        to_address(code_address): Account(storage=bytecode_storage[1]),
+        to_address(code_address): Account(storage=caller_storage),
+        to_address(callee_address): Account(storage=callee_storage),
     }
 
 

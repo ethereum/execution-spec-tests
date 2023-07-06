@@ -47,13 +47,16 @@ def final_memory(
 def bytecode_storage(
     initial_memory: bytes,
     final_memory: bytes,
+    dest: int,
+    src: int,
+    length: int,
 ) -> Tuple[bytes, Storage.StorageDictType]:
     """
     Prepares the bytecode and storage for the test, based on the starting memory and the final
     memory that resulted from the copy.
     """
     bytecode = b""
-    storage = {}
+    storage: Storage.StorageDictType = {}
 
     # Fill memory with initial values
     for i in range(0, len(initial_memory), 0x20):
@@ -65,6 +68,18 @@ def bytecode_storage(
         Op.CALLDATALOAD(0x20),
         Op.CALLDATALOAD(0x40),
     )
+
+    # First save msize:
+    # Basically, we need to save the word that was touched by the highest byte's index of the
+    # copy.
+    memory_size = ceiling_division(len(final_memory), 0x20) * 0x20
+    if length > 0:
+        # It is possible that the copy touched some higher place in memory than the final memory
+        memory_size_copy = ceiling_division(max(src, dest) + length, 0x20) * 0x20
+        memory_size = max(memory_size, memory_size_copy)
+
+    bytecode += Op.SSTORE(100_000, Op.MSIZE)
+    storage[100_000] = memory_size
 
     # Store all memory in the initial range to verify the MCOPY
     for w in range(0, len(initial_memory) // 0x20):
