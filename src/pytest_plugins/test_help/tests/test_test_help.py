@@ -1,10 +1,10 @@
 """
-Test the est_help plugin.
+Test the test_help plugin.
 """
 
 import pytest
 
-EST_ARGS = (
+TEST_ARGS = (
     "--evm-bin",
     "--traces",
     "--solc-bin",
@@ -14,11 +14,11 @@ EST_ARGS = (
     "--fork",
     "--from",
     "--until",
-    "--eth-help",
+    "--test-help",
 )
 
 
-@pytest.mark.parametrize("help_flag", ["--eth-help", "--est-help"])
+@pytest.mark.parametrize("help_flag", ["--test-help"])
 def test_local_arguments_present_in_est_help(pytester, help_flag):
     """
     Test that locally defined command-line flags appear in the help if
@@ -26,5 +26,5 @@ def test_local_arguments_present_in_est_help(pytester, help_flag):
     """
     pytester.copy_example(name="pytest.ini")
     result = pytester.runpytest(help_flag)
-    for est_arg in EST_ARGS:
-        assert est_arg in "\n".join(result.stdout.lines)
+    for test_arg in TEST_ARGS:
+        assert test_arg in "\n".join(result.stdout.lines)
