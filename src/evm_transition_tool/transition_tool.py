@@ -20,7 +20,7 @@ class UnknownTransitionTool(Exception):
 
 
 class TransitionToolNotFoundInPath(Exception):
-    """Exception raised if an unknown t8n is encountered"""
+    """Exception raised if the specified t8n tool is not found in the path"""
 
     def __init__(self, message="The transition tool was not found in the path", binary=None):
         if binary:
