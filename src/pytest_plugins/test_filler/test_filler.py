@@ -112,6 +112,8 @@ def pytest_configure(config):
         "markers",
         "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
     )
+    if config.option.collectonly:
+        return
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
     TransitionTool.from_binary_path(
@@ -122,6 +124,8 @@ def pytest_configure(config):
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header"""
+    if config.option.collectonly:
+        return
     binary_path = config.getoption("evm_bin")
     t8n = TransitionTool.from_binary_path(binary_path=binary_path)
     solc_version_string = Yul("", binary=config.getoption("solc_bin")).version()
