@@ -10,6 +10,7 @@ from typing import Any, Dict
 import pytest
 
 from ethereum_test_tools import Account, Environment, StateTestFiller, TestAddress, Transaction
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -18,7 +19,8 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 @pytest.mark.valid_from("Shanghai")
 def test_create_selfdestruct_same_tx(state_test: StateTestFiller):
     """
-    TODO Test selfdestruct in CREATE.
+    TODO test that if a contract is created and then selfdestructs in the same
+    transaction the contract should not be created.
     """
     env = Environment(
         coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -29,6 +31,12 @@ def test_create_selfdestruct_same_tx(state_test: StateTestFiller):
     )
     post: Dict[Any, Any] = {}
 
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+    }
+
+    """
+    original code
     test_ops = [
         "6032",
         "601c",
@@ -62,15 +70,36 @@ def test_create_selfdestruct_same_tx(state_test: StateTestFiller):
         # inner payload:
         "60016000556000ff",
     ]
+    """
+    code = Op.CODECOPY(0, 0x1C, 0x32)
+    # create account
+    code += Op.CREATE(0, 0, 0x32)
+    # TODO call created account
+    code += Op.PUSH0
+    code += Op.PUSH0
+    code += Op.PUSH0
+    code += Op.PUSH0
+    code += Op.PUSH0
+    code += Op.DUP6  # dup the returned address
+    code += Op.GASLIMIT
+    code += Op.CALL()
+    code += Op.STOP
+    # payload:
+    # copy inner payload to memory
+    code += Op.CODECOPY(0, 0x0C, 0x08)
+    # return payload
+    # inner payload:
+    code += Op.RETURN(0x00, 0x08)
+    code += Op.SSTORE(0, 1)
+    code += Op.PUSH0
+    code += Op.SELFDESTRUCT
 
     post["0x5fef11c6545be552c986e9eaac3144ecf2258fd3"] = Account.NONEXISTENT
 
-    pre = {
-        TestAddress: Account(balance=1000000000000000000000),
-    }
     tx = Transaction(
         ty=0x0,
-        data="".join(test_ops),
+        # data="".join(test_ops),
+        data=code,
         chain_id=0x0,
         nonce=0,
         to=None,
@@ -82,11 +111,14 @@ def test_create_selfdestruct_same_tx(state_test: StateTestFiller):
     state_test(env=env, pre=pre, post=post, txs=[tx], tag="6780-create-inside-tx")
 
 
-@pytest.mark.xfail(run=True, reason="Unknown, tbd")
+@pytest.mark.xfail(
+    run=True, reason="The account containing self-destruct is not present in the post-alloc."
+)
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_prev_created(state_test: StateTestFiller):
     """
-    TODO
+    Test that if a previously created account that contains a selfdestruct is
+    called, its balance is sent to the zero address.
     """
     env = Environment(
         coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -95,19 +127,20 @@ def test_selfdestruct_prev_created(state_test: StateTestFiller):
         number=1,
         timestamp=1000,
     )
-    post: Dict[Any, Any] = {}
 
-    post["0x1111111111111111111111111111111111111111"] = Account(
-        balance=0, code="0x60016000556000ff"
-    )
-    post["0x0000000000000000000000000000000000000000"] = Account(balance=1)
+    # original code: 0x60016000556000ff  # noqa: SC100
+    code = Op.SSTORE(0, 1) + Op.PUSH0 + Op.SELFDESTRUCT
 
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        "0x1111111111111111111111111111111111111111": Account(
-            balance=1, code="0x60016000556000ff"
-        ),
+        "0x1111111111111111111111111111111111111111": Account(balance=1, code=code),
     }
+
+    post = {
+        "0x1111111111111111111111111111111111111111": Account(balance=0, code=code),
+        "0x0000000000000000000000000000000000000000": Account(balance=1),
+    }
+
     tx = Transaction(
         ty=0x0,
         data="",
