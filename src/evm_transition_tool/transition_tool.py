@@ -119,7 +119,8 @@ class TransitionTool:
                 for subclass in subclasses:
                     if subclass.detect_binary(binary_output):
                         return subclass(binary=binary, **kwargs)
-                raise UnknownTransitionTool(f"Unknown transition tool binary: {binary_path}")
+
+            raise UnknownTransitionTool(f"Unknown transition tool binary: {binary_path}")
 
         raise TransitionToolNotFoundInPath(binary=binary)
 
