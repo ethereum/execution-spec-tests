@@ -122,7 +122,7 @@ class Opcode(bytes):
                     signed=signed,
                 )
             else:
-                raise TypeError("Opcode data portion must be either an int or a bytes")
+                raise TypeError("Opcode data portion must be either an int or bytes/hex string")
 
         # The rest of the arguments conform the stack.
         while len(args) > 0:
