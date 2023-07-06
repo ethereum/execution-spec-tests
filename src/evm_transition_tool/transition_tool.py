@@ -103,23 +103,26 @@ class TransitionTool:
             binary_path = resolved_path
         binary = shutil.which(binary_path)  # type: ignore
 
-        if binary is not None:
-            binary = Path(binary)
-            # Group the tools by version flag, so we only have to call the tool once for all the
-            # classes that share the same version flag
-            for version_flag, subclasses in groupby(
-                cls.registered_tools, key=lambda x: x.version_flag
-            ):
-                try:
-                    with os.popen(f"{binary} {version_flag}") as f:
-                        binary_output = f.read()
-                except Exception:
-                    # If the tool doesn't support the version flag,
-                    # we'll get an non-zero exit code.
-                    continue
-                for subclass in subclasses:
-                    if subclass.detect_binary(binary_output):
-                        return subclass(binary=binary, **kwargs)
+        if not binary:
+            raise TransitionToolNotFoundInPath(binary=binary)
+
+        binary = Path(binary)
+
+        # Group the tools by version flag, so we only have to call the tool once for all the
+        # classes that share the same version flag
+        for version_flag, subclasses in groupby(
+            cls.registered_tools, key=lambda x: x.version_flag
+        ):
+            try:
+                with os.popen(f"{binary} {version_flag}") as f:
+                    binary_output = f.read()
+            except Exception:
+                # If the tool doesn't support the version flag,
+                # we'll get an non-zero exit code.
+                continue
+            for subclass in subclasses:
+                if subclass.detect_binary(binary_output):
+                    return subclass(binary=binary, **kwargs)
 
             raise UnknownTransitionTool(f"Unknown transition tool binary: {binary_path}")
 
