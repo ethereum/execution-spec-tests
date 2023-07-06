@@ -22,7 +22,6 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.hookimpl(trylast=True)
 def pytest_configure(config):
     """
     Print execution-spec-tests help if specified on the command-line.
