@@ -94,6 +94,7 @@ class Opcode(bytes):
         automatically converted to PUSH operations, and negative numbers always
         use a PUSH32 operation.
 
+        Hex-strings will automatically be converted to bytes.
 
         """
         args: List[Union[int, bytes, str, "Opcode"]] = list(args_t)
