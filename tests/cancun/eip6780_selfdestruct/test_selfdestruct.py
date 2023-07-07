@@ -215,10 +215,6 @@ def test_recreate_selfdestructed_contract(
     recreate_times: int,  # Number of times to recreate the contract in different transactions
     call_times: int,  # Number of times to call the self-destructing contract in the same tx
 ):
-    """
-    TODO test that if a contract is created and then selfdestructs in the same
-    transaction the contract should not be created.
-    """
     assert create_opcode == Op.CREATE2, "cannot recreate contract using CREATE opcode"
 
     entry_code_address = to_address(
