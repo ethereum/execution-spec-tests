@@ -9,6 +9,7 @@ from itertools import count
 from typing import Dict, List
 
 import pytest
+from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
     Account,
@@ -48,6 +49,8 @@ SELFDESTRUCT_EIP_NUMBER = 6780
 #    try to self-destruct
 # - Create a contract using CREATE2 to an account that has some balance, and try to self-destruct
 #    it in the same tx
+# - Check balance after self-destruct using Op.BALANCE
+# - Check that the Op.SENDALL recipient does not execute code
 
 
 @pytest.fixture
@@ -83,10 +86,22 @@ def selfdestruct_code(
 
 
 @pytest.fixture
+def selfdestructing_initcode() -> bool:
+    """
+    Whether the contract shall self-destruct during initialization.
+    By default it does not.
+    """
+    return False
+
+
+@pytest.fixture
 def selfdestruct_contract_initcode(
     selfdestruct_code: bytes,
+    selfdestructing_initcode: bool,
 ) -> bytes:
     """Prepares an initcode that creates a self-destructing account."""
+    if selfdestructing_initcode:
+        return selfdestruct_code
     return Initcode(deploy_code=selfdestruct_code).assemble()
 
 
@@ -98,22 +113,21 @@ def selfdestruct_contract_initcode(
 def test_create_selfdestruct_same_tx(
     state_test: StateTestFiller,
     env: Environment,
+    selfdestruct_code: bytes,
     selfdestruct_contract_initcode: bytes,
     sendall_destination_address: int,
     create_opcode: Op,
     call_times: int,  # Number of times to call the self-destructing contract in the same tx
     prefunded_selfdestruct_address: bool,
 ):
-    """
-    TODO test that if a contract is created and then selfdestructs in the same
-    transaction the contract should not be created.
-    """
-
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_address = compute_create_address(TestAddress, 0)
+    entry_code_storage: Storage.StorageDictType = {}
+    storage_index = count()
+    sendall_amount = 0
 
     # Address of a pre-existing contract we use to simply copy initcode from
-    selfdestruct_code_address = to_address(0x200)
+    initcode_copy_from_address = to_address(0x200)
 
     # Calculate the address of the selfdestructing contract
     if create_opcode == Op.CREATE:
@@ -138,9 +152,9 @@ def test_create_selfdestruct_same_tx(
 
     # Entry code that will be executed, creates the contract and then calls it in the same tx
     entry_code = (
-        # Initcode is already deployed at `selfdestruct_code_address`, so just copy it
+        # Initcode is already deployed at `initcode_copy_from_address`, so just copy it
         Op.EXTCODECOPY(
-            Op.PUSH20(selfdestruct_code_address),
+            Op.PUSH20(initcode_copy_from_address),
             0,
             0,
             len(selfdestruct_contract_initcode),
@@ -151,21 +165,51 @@ def test_create_selfdestruct_same_tx(
             create_bytecode,
         )
     )
+    # Store the created address
+    entry_code_storage[next(storage_index)] = selfdestruct_contract_address
 
-    sendall_amount = 0
+    # Store the extcode* properties of the created address
+    current_index = next(storage_index)
+    entry_code += Op.SSTORE(
+        current_index,
+        Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
+    )
+    entry_code_storage[current_index] = len(selfdestruct_code)
+
+    current_index = next(storage_index)
+    entry_code += Op.SSTORE(
+        current_index,
+        Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
+    )
+    entry_code_storage[current_index] = bytes(keccak256(selfdestruct_code))
 
     # Call the self-destructing contract multiple times as required, incrementing the wei sent each
     # time
     for i in range(call_times):
-        entry_code += Op.CALL(
-            Op.GASLIMIT,  # Gas
-            Op.PUSH20(selfdestruct_contract_address),  # Address
-            i,  # Value
-            0,
-            0,
-            0,
-            0,
+        current_index = next(storage_index)
+        entry_code += Op.SSTORE(
+            current_index,
+            Op.CALL(
+                Op.GASLIMIT,  # Gas
+                Op.PUSH20(selfdestruct_contract_address),  # Address
+                i,  # Value
+                0,
+                0,
+                0,
+                0,
+            ),
         )
+        entry_code_storage[current_index] = 1
+
+        # TODO: Why is this correct ??
+        sendall_amount += i
+
+        current_index = next(storage_index)
+        entry_code += Op.SSTORE(
+            current_index,
+            Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
+        )
+        entry_code_storage[current_index] = 0
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
@@ -173,16 +217,24 @@ def test_create_selfdestruct_same_tx(
 
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        selfdestruct_code_address: Account(code=selfdestruct_contract_initcode),
+        initcode_copy_from_address: Account(code=selfdestruct_contract_initcode),
     }
+
     if prefunded_selfdestruct_address:
+        # Address where the contract is created already had some balance,
+        # which must be included in the send-all operation
         pre[selfdestruct_contract_address] = Account(balance=1000000000000000000000)
         sendall_amount += 1000000000000000000000
 
     post: Dict[str, Account] = {
-        entry_code_address: Account(code="0x00", storage={0: selfdestruct_contract_address}),
+        entry_code_address: Account(
+            code="0x00",
+            storage=entry_code_storage,
+        ),
         selfdestruct_contract_address: Account.NONEXISTENT,  # type: ignore
-        selfdestruct_code_address: Account(code=selfdestruct_contract_initcode),
+        initcode_copy_from_address: Account(
+            code=selfdestruct_contract_initcode,
+        ),
     }
     if sendall_amount > 0:
         post[to_address(sendall_destination_address)] = Account(balance=sendall_amount)
@@ -190,6 +242,154 @@ def test_create_selfdestruct_same_tx(
     nonce = count()
     tx = Transaction(
         ty=0x0,
+        value=100_000,
+        data=entry_code,
+        chain_id=0x0,
+        nonce=next(nonce),
+        to=None,
+        gas_limit=100000000,
+        gas_price=10,
+        protected=False,
+    )
+
+    state_test(env=env, pre=pre, post=post, txs=[tx])
+
+
+@pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
+@pytest.mark.parametrize("call_times", [0, 1])
+@pytest.mark.parametrize("prefunded_selfdestruct_address", [False, True])
+@pytest.mark.parametrize("selfdestructing_initcode", [True], ids=[""])
+@pytest.mark.parametrize("eip_enabled", [True, False])
+@pytest.mark.valid_from("Shanghai")
+def test_selfdestructing_initcode(
+    state_test: StateTestFiller,
+    env: Environment,
+    selfdestruct_contract_initcode: bytes,
+    sendall_destination_address: int,
+    create_opcode: Op,
+    call_times: int,  # Number of times to call the self-destructing contract in the same tx
+    prefunded_selfdestruct_address: bool,
+):
+    # Our entry point is an initcode that in turn creates a self-destructing contract
+    entry_code_address = compute_create_address(TestAddress, 0)
+    entry_code_storage: Storage.StorageDictType = {}
+    storage_index = count()
+    sendall_amount = 0
+
+    # Address of a pre-existing contract we use to simply copy initcode from
+    initcode_copy_from_address = to_address(0x200)
+
+    # Calculate the address of the selfdestructing contract
+    if create_opcode == Op.CREATE:
+        selfdestruct_contract_address = compute_create_address(entry_code_address, 1)
+    elif create_opcode == Op.CREATE2:
+        selfdestruct_contract_address = compute_create2_address(
+            entry_code_address, 0, selfdestruct_contract_initcode
+        )
+    else:
+        raise Exception("Invalid opcode")
+
+    # Bytecode used to create the contract, can be CREATE or CREATE2
+    op_args = [
+        0,  # Value
+        0,  # Offset
+        len(selfdestruct_contract_initcode),  # Length
+    ]
+    if create_opcode == Op.CREATE2:
+        # CREATE2 requires a salt argument
+        op_args.append(0)
+    create_bytecode = create_opcode(*op_args)
+
+    # Entry code that will be executed, creates the contract and then calls it in the same tx
+    entry_code = (
+        # Initcode is already deployed at `initcode_copy_from_address`, so just copy it
+        Op.EXTCODECOPY(
+            Op.PUSH20(initcode_copy_from_address),
+            0,
+            0,
+            len(selfdestruct_contract_initcode),
+        )
+        # And we store the created address for verification purposes
+        + Op.SSTORE(
+            0,
+            create_bytecode,
+        )
+    )
+    # Store the created address
+    entry_code_storage[next(storage_index)] = selfdestruct_contract_address
+
+    # Store the extcode* properties of the created address
+    current_index = next(storage_index)
+    entry_code += Op.SSTORE(
+        current_index,
+        Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
+    )
+    entry_code_storage[current_index] = 0
+
+    current_index = next(storage_index)
+    entry_code += Op.SSTORE(
+        current_index,
+        Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
+    )
+    entry_code_storage[current_index] = bytes(keccak256(bytes()))
+
+    # Call the self-destructing contract multiple times as required, incrementing the wei sent each
+    # time
+    for i in range(call_times):
+        current_index = next(storage_index)
+        entry_code += Op.SSTORE(
+            current_index,
+            Op.CALL(
+                Op.GASLIMIT,  # Gas
+                Op.PUSH20(selfdestruct_contract_address),  # Address
+                i,  # Value
+                0,
+                0,
+                0,
+                0,
+            ),
+        )
+        entry_code_storage[current_index] = 1
+
+        current_index = next(storage_index)
+        entry_code += Op.SSTORE(
+            current_index,
+            Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
+        )
+        entry_code_storage[current_index] = 0
+
+    # Lastly return "0x00" so the entry point contract is created and we can retain the stored
+    # values for verification.
+    entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
+
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+        initcode_copy_from_address: Account(code=selfdestruct_contract_initcode),
+    }
+
+    if prefunded_selfdestruct_address:
+        # Address where the contract is created already had some balance,
+        # which must be included in the send-all operation
+        pre[selfdestruct_contract_address] = Account(balance=1000000000000000000000)
+        sendall_amount += 1000000000000000000000
+
+    post: Dict[str, Account] = {
+        entry_code_address: Account(
+            code="0x00",
+            storage=entry_code_storage,
+        ),
+        selfdestruct_contract_address: Account.NONEXISTENT,  # type: ignore
+        initcode_copy_from_address: Account(
+            code=selfdestruct_contract_initcode,
+        ),
+    }
+    if sendall_amount > 0:
+        post[to_address(sendall_destination_address)] = Account(balance=sendall_amount)
+
+    nonce = count()
+    tx = Transaction(
+        ty=0x0,
+        value=100_000,
         data=entry_code,
         chain_id=0x0,
         nonce=next(nonce),
@@ -220,7 +420,9 @@ def test_recreate_selfdestructed_contract(
     entry_code_address = to_address(
         0x100
     )  # Needs to be constant to be able to recreate the contract
-    selfdestruct_code_address = to_address(0x200)
+    initcode_copy_from_address = to_address(0x200)
+    entry_code_storage: Storage.StorageDictType = {}
+    storage_index = count()
 
     # Calculate the address of the selfdestructing contract
     if create_opcode == Op.CREATE:
@@ -241,9 +443,9 @@ def test_recreate_selfdestructed_contract(
 
     # Entry code that will be executed, creates the contract and then calls it
     entry_code = (
-        # Initcode is already deployed at selfdestruct_code_address, so just copy it
+        # Initcode is already deployed at initcode_copy_from_address, so just copy it
         Op.EXTCODECOPY(
-            Op.PUSH20(selfdestruct_code_address),
+            Op.PUSH20(initcode_copy_from_address),
             0,
             0,
             len(selfdestruct_contract_initcode),
@@ -264,16 +466,15 @@ def test_recreate_selfdestructed_contract(
             0,
             0,
         )
+        # CHECK BALANCE HERE
 
     entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
 
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         entry_code_address: Account(code=entry_code),
-        selfdestruct_code_address: Account(code=selfdestruct_contract_initcode),
+        initcode_copy_from_address: Account(code=selfdestruct_contract_initcode),
     }
-
-    entry_code_storage: Storage.StorageDictType = {}
 
     txs: List[Transaction] = []
     nonce = count()
@@ -297,7 +498,7 @@ def test_recreate_selfdestructed_contract(
     post: Dict[str, Account] = {
         entry_code_address: Account(code=entry_address_expected_code, storage=entry_code_storage),
         selfdestruct_contract_address: Account.NONEXISTENT,  # type: ignore
-        selfdestruct_code_address: Account(code=selfdestruct_contract_initcode),
+        initcode_copy_from_address: Account(code=selfdestruct_contract_initcode),
     }
 
     blockchain_test(genesis_environment=env, pre=pre, post=post, blocks=[Block(txs=txs)])
@@ -329,6 +530,7 @@ def test_selfdestruct_prev_created(
         ),
         to_address(balance_destination_address): Account(balance=1),
     }
+    # CHECK BALANCE SOMEWHERE
 
     post: Dict[str, Account] = {
         to_address(balance_destination_address): Account(
