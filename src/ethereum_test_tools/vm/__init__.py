@@ -1,7 +1,7 @@
 """
 Ethereum Virtual Machine related definitions and utilities.
 """
-from .opcode import Opcode, Opcodes, OpcodeCallArg
+from .opcode import Opcode, OpcodeCallArg, Opcodes
 
 __all__ = (
     "Opcode",

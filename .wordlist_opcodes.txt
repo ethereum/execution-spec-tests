@@ -146,3 +146,4 @@ revert
 selfdestruct
 sendall
 blobhash
+mcopy

@@ -5,7 +5,6 @@ Common procedures to test
 
 from copy import copy
 
-
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-5656.md"
 REFERENCE_SPEC_VERSION = ""
 
