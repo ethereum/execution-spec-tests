@@ -211,6 +211,23 @@ def test_create_selfdestruct_same_tx(
         )
         entry_code_storage[current_index] = 0
 
+    # Check the extcode* properties of the selfdestructing contract again
+    current_index = next(storage_index)
+    entry_code += Op.SSTORE(
+        current_index,
+        Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
+    )
+    entry_code_storage[current_index] = 0 if call_times > 0 else len(selfdestruct_code)
+
+    current_index = next(storage_index)
+    entry_code += Op.SSTORE(
+        current_index,
+        Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
+    )
+    entry_code_storage[current_index] = bytes(
+        keccak256(selfdestruct_code if call_times > 0 else b"")
+    )
+
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
     entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
