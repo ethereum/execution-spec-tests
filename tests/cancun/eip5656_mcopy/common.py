@@ -13,14 +13,15 @@ def mcopy(*, src: int, dest: int, length: int, memory: bytes) -> bytes:
     """
     Performs the mcopy routine as the EVM would do it.
     """
+    if length == 0:
+        return memory
+
     res = bytearray(copy(memory))
 
-    if length == 0:
-        return bytes(res)
-
-    # If the destination is larger than the memory, we need to extend the memory
-    if dest + length > len(memory):
-        res.extend(b"\x00" * (dest + length - len(memory)))
+    # If the destination or source are larger than the memory, we need to extend the memory
+    max_byte_index = max(src, dest) + length
+    if max_byte_index > len(memory):
+        res.extend(b"\x00" * (max_byte_index - len(memory)))
 
     for i in range(length):
         if (src + i) >= len(memory):

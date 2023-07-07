@@ -73,17 +73,9 @@ def bytecode_storage(
         Op.CALLDATALOAD(0x40),
     )
 
-    # First save msize:
-    # Basically, we need to save the word that was touched by the highest byte's index of the
-    # copy.
-    memory_size = ceiling_division(len(final_memory), 0x20) * 0x20
-    if length > 0:
-        # It is possible that the copy touched some higher place in memory than the final memory
-        memory_size_copy = ceiling_division(max(src, dest) + length, 0x20) * 0x20
-        memory_size = max(memory_size, memory_size_copy)
-
+    # First save msize
     bytecode += Op.SSTORE(100_000, Op.MSIZE)
-    storage[100_000] = memory_size
+    storage[100_000] = ceiling_division(len(final_memory), 0x20) * 0x20
 
     # Store all memory in the initial range to verify the MCOPY
     for w in range(0, len(initial_memory) // 0x20):
