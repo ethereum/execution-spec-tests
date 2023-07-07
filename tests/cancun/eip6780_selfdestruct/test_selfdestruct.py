@@ -341,7 +341,7 @@ def test_selfdestruct_prev_created(
     }
 
     if eip_enabled:
-        post[selfdestruct_contract_address] = Account(balance=0, code=code)
+        post[selfdestruct_contract_address] = Account(balance=0, code=code, storage={0: 1})
     else:
         post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
 
