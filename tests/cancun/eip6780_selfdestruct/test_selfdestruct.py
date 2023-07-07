@@ -35,15 +35,25 @@ SELFDESTRUCT_EIP_NUMBER = 6780
 
 # TODO:
 
-# Destroy and re-create multiple times in the same tx
-# Create and destroy multiple contracts in the same tx
-# Create multiple contracts in a tx and destroy only one of them, but attempt to destroy the other one in a subsequent tx
-# Create contract, attempt to destroy it in a subsequent tx in the same block
-# Create a contract and try to destroy using another calltype (e.g. Delegatecall then destroy)
-# Create a contract that creates another contract, then selfdestruct only the parent (or vice versa)
-# Test selfdestructing using all types of create
-# Create a contract using CREATE2, then in a subsequent tx do CREATE2 to the same address, and try to self-destruct
-# Create a contract using CREATE2 to an account that has some balance, and try to self-destruct it in the same tx
+# - Destroy and re-create multiple times in the same tx
+# - Create and destroy multiple contracts in the same tx
+# - Create multiple contracts in a tx and destroy only one of them, but attempt to destroy the
+#    other one in a subsequent tx
+# - Create contract, attempt to destroy it in a subsequent tx in the same block
+# - Create a contract and try to destroy using another calltype (e.g. Delegatecall then destroy)
+# - Create a contract that creates another contract, then selfdestruct only the parent
+#    (or vice versa)
+# - Test selfdestructing using all types of create
+# - Create a contract using CREATE2, then in a subsequent tx do CREATE2 to the same address, and
+#    try to self-destruct
+# - Create a contract using CREATE2 to an account that has some balance, and try to self-destruct
+#    it in the same tx
+
+
+@pytest.fixture
+def eips(eip_enabled: bool) -> List[int]:
+    """Prepares the list of EIPs depending on the test that enables it or not."""
+    return [SELFDESTRUCT_EIP_NUMBER] if eip_enabled else []
 
 
 @pytest.fixture
@@ -83,18 +93,10 @@ def selfdestruct_contract_initcode(
 @pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
 @pytest.mark.parametrize("call_times", [1, 40])
 @pytest.mark.parametrize("prefunded_selfdestruct_address", [False, True])
-@pytest.mark.parametrize(
-    "eips",
-    [
-        [SELFDESTRUCT_EIP_NUMBER],
-        [],
-    ],
-    ids=["eip-enabled", "eip-disabled"],
-)
+@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_create_selfdestruct_same_tx(
     state_test: StateTestFiller,
-    eips: List[int],
     env: Environment,
     selfdestruct_contract_initcode: bytes,
     sendall_destination_address: int,
@@ -106,7 +108,6 @@ def test_create_selfdestruct_same_tx(
     TODO test that if a contract is created and then selfdestructs in the same
     transaction the contract should not be created.
     """
-    eip_enabled = SELFDESTRUCT_EIP_NUMBER in eips
 
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_address = compute_create_address(TestAddress, 0)
@@ -204,14 +205,7 @@ def test_create_selfdestruct_same_tx(
 @pytest.mark.parametrize("create_opcode", [Op.CREATE2])  # Can only recreate using CREATE2
 @pytest.mark.parametrize("recreate_times", [1])
 @pytest.mark.parametrize("call_times", [1])
-@pytest.mark.parametrize(
-    "eips",
-    [
-        [SELFDESTRUCT_EIP_NUMBER],
-        [],
-    ],
-    ids=["eip-enabled", "eip-disabled"],
-)
+@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_recreate_selfdestructed_contract(
     blockchain_test: BlockchainTestFiller,
@@ -314,18 +308,11 @@ def test_recreate_selfdestructed_contract(
 
 
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
-@pytest.mark.parametrize(
-    "eips",
-    [
-        [SELFDESTRUCT_EIP_NUMBER],
-        [],
-    ],
-    ids=["eip-enabled", "eip-disabled"],
-)
+@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_prev_created(
     state_test: StateTestFiller,
-    eips: List[int],
+    eip_enabled: bool,
     env: Environment,
     selfdestruct_contract_initial_balance: int,
 ):
@@ -333,7 +320,6 @@ def test_selfdestruct_prev_created(
     Test that if a previously created account that contains a selfdestruct is
     called, its balance is sent to the zero address.
     """
-    eip_enabled = SELFDESTRUCT_EIP_NUMBER in eips
 
     # original code: 0x60016000556000ff  # noqa: SC100
     balance_destination_address = 0x200
@@ -386,18 +372,11 @@ def test_selfdestruct_prev_created(
         "prefunded-in-tx-before-create-tx",
     ],
 )
-@pytest.mark.parametrize(
-    "eips",
-    [
-        [SELFDESTRUCT_EIP_NUMBER],
-        [],
-    ],
-    ids=["eip-enabled", "eip-disabled"],
-)
+@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_prev_created_same_block(
     blockchain_test: BlockchainTestFiller,
-    eips: List[int],
+    eip_enabled: bool,
     env: Environment,
     selfdestruct_code: bytes,
     prefunding_tx: bool,
@@ -409,7 +388,6 @@ def test_selfdestruct_prev_created_same_block(
     Test that if an account created in the same block that contains a selfdestruct is
     called, its balance is sent to the zero address.
     """
-    eip_enabled = SELFDESTRUCT_EIP_NUMBER in eips
 
     selfdestruct_contract_address = compute_create_address(TestAddress, 1 if prefunding_tx else 0)
 
