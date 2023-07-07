@@ -32,15 +32,19 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 
 
 @pytest.fixture
-def initial_memory() -> bytes:  # noqa: D103
+def initial_memory() -> bytes:
+    """
+    Initial memory for the test.
+    """
     return bytes(range(0x00, 0x100))
 
 
 @pytest.fixture
-def final_memory(
-    *, dest: int, src: int, length: int, initial_memory: bytes
-) -> bytes:  # noqa: D103
-    return mcopy(dest=dest, src=src, length=length, mem=initial_memory)
+def final_memory(*, dest: int, src: int, length: int, initial_memory: bytes) -> bytes:
+    """
+    Memory after the MCOPY operation.
+    """
+    return mcopy(dest=dest, src=src, length=length, memory=initial_memory)
 
 
 @pytest.fixture
@@ -101,9 +105,9 @@ def bytecode_storage(
 
 
 @pytest.fixture
-def pre(
+def pre(  # noqa: D103
     bytecode_storage: Tuple[bytes, Storage.StorageDictType]
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     return {
         TestAddress: Account(balance=10**40),
         code_address: Account(code=bytecode_storage[0]),
@@ -120,9 +124,9 @@ def tx(dest: int, src: int, length: int) -> Transaction:  # noqa: D103
 
 
 @pytest.fixture
-def post(
+def post(  # noqa: D103
     bytecode_storage: Tuple[bytes, Storage.StorageDictType]
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     return {
         code_address: Account(storage=bytecode_storage[1]),
     }
@@ -192,7 +196,6 @@ def test_valid_mcopy_operations(
     - Memory extensions (copy to a location that is out of bounds)
     - Memory clear (copy from a location that is out of bounds)
     """
-
     state_test(
         env=Environment(),
         pre=pre,
@@ -215,7 +218,6 @@ def test_mcopy_on_empty_memory(
     """
     Perform MCOPY operations on an empty memory, using different offsets and lengths.
     """
-
     state_test(
         env=Environment(),
         pre=pre,

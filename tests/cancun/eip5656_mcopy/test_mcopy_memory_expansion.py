@@ -62,6 +62,9 @@ def subcall_exact_cost(
     dest: int,
     length: int,
 ) -> int:
+    """
+    Returns the exact cost of the subcall, based on the initial memory and the length of the copy.
+    """
     mcopy_cost = 3
     mcopy_cost += 3 * ((length + 31) // 32)
     if length > 0 and dest + length > len(initial_memory):
@@ -113,27 +116,27 @@ def block_gas_limit() -> int:  # noqa: D103
 
 
 @pytest.fixture
-def tx_gas_limit(
+def tx_gas_limit(  # noqa: D103
     subcall_exact_cost: int,
     block_gas_limit: int,
-) -> int:  # noqa: D103
+) -> int:
     return min(max(500_000, subcall_exact_cost * 2), block_gas_limit)
 
 
 @pytest.fixture
-def env(
+def env(  # noqa: D103
     block_gas_limit: int,
-) -> Environment:  # noqa: D103
+) -> Environment:
     return Environment(gas_limit=block_gas_limit)
 
 
 @pytest.fixture
-def pre(
+def pre(  # noqa: D103
     tx_max_fee_per_gas: int,
     tx_gas_limit: int,
     bytecode_storage: Tuple[bytes, Storage.StorageDictType],
     callee_bytecode: bytes,
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     return {
         TestAddress: Account(balance=tx_max_fee_per_gas * tx_gas_limit),
         to_address(caller_address): Account(code=bytecode_storage[0]),
@@ -142,11 +145,11 @@ def pre(
 
 
 @pytest.fixture
-def tx(
+def tx(  # noqa: D103
     initial_memory: bytes,
     tx_max_fee_per_gas: int,
     tx_gas_limit: int,
-) -> Transaction:  # noqa: D103
+) -> Transaction:
     return Transaction(
         to=to_address(caller_address),
         data=initial_memory,
@@ -157,9 +160,9 @@ def tx(
 
 
 @pytest.fixture
-def post(
+def post(  # noqa: D103
     bytecode_storage: Tuple[bytes, Storage.StorageDictType]
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     return {
         to_address(caller_address): Account(storage=bytecode_storage[1]),
     }
@@ -214,7 +217,6 @@ def test_mcopy_memory_expansion(
     """
     Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.
     """
-
     state_test(
         env=Environment(),
         pre=pre,
@@ -276,7 +278,6 @@ def test_mcopy_huge_memory_expansion(
     Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly
     runs out of gas.
     """
-
     state_test(
         env=Environment(),
         pre=pre,

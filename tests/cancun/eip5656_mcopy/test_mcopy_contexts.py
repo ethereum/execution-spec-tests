@@ -78,7 +78,10 @@ def initial_memory(
     callee_bytecode: bytes,
     initial_memory_length: int,
     opcode: Op,
-) -> bytes:  # noqa: D103
+) -> bytes:
+    """
+    Initial memory for the test.
+    """
     assert len(callee_bytecode) <= initial_memory_length
 
     ret = bytes(list(islice(cycle(range(0x01, 0x100)), initial_memory_length)))
@@ -148,10 +151,10 @@ def bytecode_storage(
 
 
 @pytest.fixture
-def pre(
+def pre(  # noqa: D103
     bytecode_storage: Tuple[bytes, Storage.StorageDictType],
     callee_bytecode: bytes,
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     return {
         TestAddress: Account(balance=10**40),
         to_address(code_address): Account(code=bytecode_storage[0]),
@@ -168,10 +171,10 @@ def tx() -> Transaction:  # noqa: D103
 
 
 @pytest.fixture
-def post(
+def post(  # noqa: D103
     bytecode_storage: Tuple[bytes, Storage.StorageDictType],
     opcode: Op,
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     caller_storage = bytecode_storage[1]
     callee_storage: Storage.StorageDictType = {}
     if opcode in [Op.DELEGATECALL, Op.CALLCODE]:
@@ -212,7 +215,6 @@ def test_no_memory_corruption_on_upper_call_stack_levels(
     - CREATE
     - CREATE2
     """
-
     state_test(
         env=Environment(),
         pre=pre,
