@@ -3198,7 +3198,7 @@
 
 
 <h1 id="test-blobhash-opcode-contexts">Test Blobhash Opcode Contexts<a class="headerlink" href="#test-blobhash-opcode-contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for test cases from <a href="https://github.com/ethereum/execution-spec-tests/blob/ace89a1e4af4394f1d1e3346fa5d5f43cb6c6edf/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py</code></a>.</p>
+<p>Documentation for test cases from <a href="https://github.com/ethereum/execution-spec-tests/blob/08876580c1660380362efb10b40034af8e330f67/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -3257,7 +3257,8 @@ contexts including:</p>
 
       <details class="quote">
         <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">297</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">296</span>
+<span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span>
 <span class="normal">300</span>
@@ -3273,8 +3274,7 @@ contexts including:</p>
 <span class="normal">310</span>
 <span class="normal">311</span>
 <span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">compile_yul_with</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
+<span class="normal">313</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">compile_yul_with</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blobhash_opcode_contexts</span><span class="p">(</span><span class="n">opcode_context</span><span class="p">,</span> <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests that the `BLOBHASH` opcode functions correctly when called in different</span>
