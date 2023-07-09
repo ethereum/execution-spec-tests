@@ -258,27 +258,27 @@ class Storage:
         """Returns number of elements in the storage"""
         return len(self.data)
 
-    def __contains__(self, key: str | int) -> bool:
+    def __contains__(self, key: str | int | bytes) -> bool:
         """Checks for an item in the storage"""
         key = Storage.parse_key_value(key)
         return key in self.data
 
-    def __getitem__(self, key: str | int) -> int:
+    def __getitem__(self, key: str | int | bytes) -> int:
         """Returns an item from the storage"""
         key = Storage.parse_key_value(key)
         if key not in self.data:
             raise KeyError()
         return self.data[key]
 
-    def __setitem__(self, key: str | int, value: str | int):  # noqa: SC200
+    def __setitem__(self, key: str | int | bytes, value: str | int | bytes):  # noqa: SC200
         """Sets an item in the storage"""
         self.data[Storage.parse_key_value(key)] = Storage.parse_key_value(value)
 
-    def __delitem__(self, key: str | int):
+    def __delitem__(self, key: str | int | bytes):
         """Deletes an item from the storage"""
         del self.data[Storage.parse_key_value(key)]
 
-    def store_next(self, value: str | int) -> int:
+    def store_next(self, value: str | int | bytes) -> int:
         """
         Stores a value in the storage and returns the key where the value is stored.
 
