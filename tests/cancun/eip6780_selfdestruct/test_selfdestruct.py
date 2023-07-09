@@ -185,8 +185,7 @@ def test_create_selfdestruct_same_tx(
 ):
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_address = compute_create_address(TestAddress, 0)
-    entry_code_storage: Storage.StorageDictType = {}
-    storage_index = count()
+    entry_code_storage = Storage()
     sendall_amount = 0
 
     # Bytecode used to create the contract, can be CREATE or CREATE2
@@ -211,34 +210,27 @@ def test_create_selfdestruct_same_tx(
         )
         # And we store the created address for verification purposes
         + Op.SSTORE(
-            0,
+            entry_code_storage.store_next(selfdestruct_contract_address),
             create_bytecode,
         )
     )
-    # Store the created address
-    entry_code_storage[next(storage_index)] = selfdestruct_contract_address
 
     # Store the extcode* properties of the created address
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
     )
-    entry_code_storage[current_index] = len(selfdestruct_code)
 
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(keccak256(selfdestruct_code)),
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
-    entry_code_storage[current_index] = bytes(keccak256(selfdestruct_code))
 
     # Call the self-destructing contract multiple times as required, incrementing the wei sent each
     # time
     for i in range(call_times):
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(1),
             Op.CALL(
                 Op.GASLIMIT,  # Gas
                 Op.PUSH20(selfdestruct_contract_address),  # Address
@@ -249,33 +241,24 @@ def test_create_selfdestruct_same_tx(
                 0,
             ),
         )
-        entry_code_storage[current_index] = 1
 
         # TODO: Why is this correct ??
         sendall_amount += i
 
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(0),
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
-        entry_code_storage[current_index] = 0
 
     # Check the extcode* properties of the selfdestructing contract again
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
     )
-    entry_code_storage[current_index] = len(selfdestruct_code)
 
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(keccak256(selfdestruct_code if call_times > 0 else b"")),
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
-    )
-    entry_code_storage[current_index] = bytes(
-        keccak256(selfdestruct_code if call_times > 0 else b"")
     )
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
@@ -336,8 +319,7 @@ def test_selfdestructing_initcode(
 ):
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_address = compute_create_address(TestAddress, 0)
-    entry_code_storage: Storage.StorageDictType = {}
-    storage_index = count()
+    entry_code_storage = Storage()
     sendall_amount = 0
 
     # Bytecode used to create the contract, can be CREATE or CREATE2
@@ -362,34 +344,27 @@ def test_selfdestructing_initcode(
         )
         # And we store the created address for verification purposes
         + Op.SSTORE(
-            0,
+            entry_code_storage.store_next(selfdestruct_contract_address),
             create_bytecode,
         )
     )
-    # Store the created address
-    entry_code_storage[next(storage_index)] = selfdestruct_contract_address
 
     # Store the extcode* properties of the created address
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(0),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
     )
-    entry_code_storage[current_index] = 0
 
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(keccak256(bytes())),
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
-    entry_code_storage[current_index] = bytes(keccak256(bytes()))
 
     # Call the self-destructing contract multiple times as required, incrementing the wei sent each
     # time
     for i in range(call_times):
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(1),
             Op.CALL(
                 Op.GASLIMIT,  # Gas
                 Op.PUSH20(selfdestruct_contract_address),  # Address
@@ -400,14 +375,11 @@ def test_selfdestructing_initcode(
                 0,
             ),
         )
-        entry_code_storage[current_index] = 1
 
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(0),
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
-        entry_code_storage[current_index] = 0
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
@@ -466,7 +438,7 @@ def test_recreate_selfdestructed_contract(
         0x100
     )  # Needs to be constant to be able to recreate the contract
     initcode_copy_from_address = to_address(0x200)
-    entry_code_storage: Storage.StorageDictType = {}
+    entry_code_storage = Storage()
 
     # Calculate the address of the selfdestructing contract
     if create_opcode == Op.CREATE:
@@ -569,8 +541,7 @@ def test_selfdestruct_pre_existing(
     called, its balance is sent to the destination address.
     """
     entry_code_address = compute_create_address(TestAddress, 0)
-    entry_code_storage: Storage.StorageDictType = {}
-    storage_index = count()
+    entry_code_storage = Storage()
     sendall_amount = selfdestruct_contract_initial_balance
     entry_code = b""
 
@@ -580,9 +551,8 @@ def test_selfdestruct_pre_existing(
     # Call the self-destructing contract multiple times as required, incrementing the wei sent each
     # time
     for i in range(call_times):
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(1),
             Op.CALL(
                 Op.GASLIMIT,  # Gas
                 Op.PUSH20(selfdestruct_contract_address),  # Address
@@ -593,33 +563,27 @@ def test_selfdestruct_pre_existing(
                 0,
             ),
         )
-        entry_code_storage[current_index] = 1
 
         sendall_amount += i
 
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(0),
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
-        entry_code_storage[current_index] = 0
 
     # Check the extcode* properties of the selfdestructing contract
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
     )
-    entry_code_storage[current_index] = len(selfdestruct_code)
 
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        # entry_code_storage.store_next(keccak256(selfdestruct_code if eip_enabled else b""))
+        # TODO: Don't really understand why this works. It should be empty if EIP is disabled,
+        #       but it works if it's not
+        entry_code_storage.store_next(keccak256(selfdestruct_code)),
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
-    # entry_code_storage[current_index] = bytes(keccak256(selfdestruct_code if eip_enabled else b""))
-    # TODO: Don't really understand why this works. It should be empty if EIP is disabled, but it works if it's not
-    entry_code_storage[current_index] = bytes(keccak256(selfdestruct_code))
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
@@ -681,8 +645,7 @@ def test_selfdestruct_created_same_block_different_tx(
     called, its balance is sent to the zero address.
     """
     entry_code_address = compute_create_address(TestAddress, 1)
-    entry_code_storage: Storage.StorageDictType = {}
-    storage_index = count()
+    entry_code_storage = Storage()
     sendall_amount = selfdestruct_contract_initial_balance
     entry_code = b""
 
@@ -692,9 +655,8 @@ def test_selfdestruct_created_same_block_different_tx(
     # Call the self-destructing contract multiple times as required, incrementing the wei sent each
     # time
     for i in range(call_times):
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(1),
             Op.CALL(
                 Op.GASLIMIT,  # Gas
                 Op.PUSH20(selfdestruct_contract_address),  # Address
@@ -705,33 +667,27 @@ def test_selfdestruct_created_same_block_different_tx(
                 0,
             ),
         )
-        entry_code_storage[current_index] = 1
 
         sendall_amount += i
 
-        current_index = next(storage_index)
         entry_code += Op.SSTORE(
-            current_index,
+            entry_code_storage.store_next(0),
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
-        entry_code_storage[current_index] = 0
 
     # Check the extcode* properties of the selfdestructing contract
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
     )
-    entry_code_storage[current_index] = len(selfdestruct_code)
 
-    current_index = next(storage_index)
     entry_code += Op.SSTORE(
-        current_index,
+        # entry_code_storage.store_next(keccak256(selfdestruct_code if eip_enabled else b""))
+        # TODO: Don't really understand why this works. It should be empty if EIP is disabled,
+        #       but it works if it's not
+        entry_code_storage.store_next(keccak256(selfdestruct_code)),
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
-    # entry_code_storage[current_index] = bytes(keccak256(selfdestruct_code if eip_enabled else b""))
-    # TODO: Don't really understand why this works. It should be empty if EIP is disabled, but it works if it's not
-    entry_code_storage[current_index] = bytes(keccak256(selfdestruct_code))
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
