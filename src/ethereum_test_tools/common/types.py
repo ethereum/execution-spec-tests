@@ -240,7 +240,7 @@ class Storage:
             hex_str = "0" + hex_str
         return "0x" + hex_str
 
-    def __init__(self, input: StorageDictType, start_slot: int = 0):
+    def __init__(self, input: StorageDictType = {}, start_slot: int = 0):
         """
         Initializes the storage using a given mapping which can have
         keys and values either as string or int.
