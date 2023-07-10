@@ -24,7 +24,6 @@ from ethereum_test_tools import (
     compute_create2_address,
     compute_create_address,
     to_address,
-    to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -202,15 +201,15 @@ def test_create_selfdestruct_same_tx(
     sendall_amount = 0
 
     # Bytecode used to create the contract, can be CREATE or CREATE2
-    op_args = [
+    create_args = [
         0,  # Value
         0,  # Offset
         len(selfdestruct_contract_initcode),  # Length
     ]
     if create_opcode == Op.CREATE2:
         # CREATE2 requires a salt argument
-        op_args.append(0)
-    create_bytecode = create_opcode(*op_args)
+        create_args.append(0)
+    create_bytecode = create_opcode(*create_args)
 
     # Entry code that will be executed, creates the contract and then calls it in the same tx
     entry_code = (
@@ -270,7 +269,7 @@ def test_create_selfdestruct_same_tx(
     )
 
     entry_code += Op.SSTORE(
-        entry_code_storage.store_next(keccak256(selfdestruct_code if call_times > 0 else b"")),
+        entry_code_storage.store_next(keccak256(selfdestruct_code)),
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
@@ -335,15 +334,15 @@ def test_selfdestructing_initcode(
     sendall_amount = 0
 
     # Bytecode used to create the contract, can be CREATE or CREATE2
-    op_args = [
+    create_args = [
         0,  # Value
         0,  # Offset
         len(selfdestruct_contract_initcode),  # Length
     ]
     if create_opcode == Op.CREATE2:
         # CREATE2 requires a salt argument
-        op_args.append(0)
-    create_bytecode = create_opcode(*op_args)
+        create_args.append(0)
+    create_bytecode = create_opcode(*create_args)
 
     # Entry code that will be executed, creates the contract and then calls it in the same tx
     entry_code = (
@@ -478,40 +477,34 @@ def test_selfdestructing_initcode_create_tx(
 
 
 @pytest.mark.parametrize("create_opcode", [Op.CREATE2])  # Can only recreate using CREATE2
+@pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("recreate_times", [1])
 @pytest.mark.parametrize("call_times", [1])
 @pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
-def test_recreate_selfdestructed_contract(
+def test_recreate_selfdestructed_contract_different_txs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
+    pre: Dict[str, Account],
     entry_code_address: str,
     selfdestruct_contract_initcode: bytes,
+    selfdestruct_contract_address: str,
+    selfdestruct_contract_initial_balance: int,
+    sendall_recipient_address: int,
+    initcode_copy_from_address: str,
     create_opcode: Op,
     recreate_times: int,  # Number of times to recreate the contract in different transactions
     call_times: int,  # Number of times to call the self-destructing contract in the same tx
 ):
-    assert create_opcode == Op.CREATE2, "cannot recreate contract using CREATE opcode"
-
-    initcode_copy_from_address = to_address(0x200)
+    """
+    Test that a contract can be recreated after it has self-destructed.
+    """
     entry_code_storage = Storage()
-
-    # Calculate the address of the selfdestructing contract
-    if create_opcode == Op.CREATE:
-        selfdestruct_contract_address = compute_create_address(entry_code_address, 1)
-    elif create_opcode == Op.CREATE2:
-        selfdestruct_contract_address = compute_create2_address(
-            entry_code_address, 0, selfdestruct_contract_initcode
-        )
-    else:
-        raise Exception("Invalid opcode")
+    sendall_amount = selfdestruct_contract_initial_balance
 
     # Bytecode used to create the contract
-    op_args = [0, 0, len(selfdestruct_contract_initcode)]
-    if create_opcode == Op.CREATE2:
-        op_args.append(0)
-
-    create_bytecode = create_opcode(*op_args)
+    assert create_opcode == Op.CREATE2, "cannot recreate contract using CREATE opcode"
+    create_bytecode = Op.CREATE2(0, 0, len(selfdestruct_contract_initcode), 0)
 
     # Entry code that will be executed, creates the contract and then calls it
     entry_code = (
@@ -523,7 +516,7 @@ def test_recreate_selfdestructed_contract(
             len(selfdestruct_contract_initcode),
         )
         + Op.SSTORE(
-            Op.CALLDATALOAD(0),
+            Op.ADD(Op.SLOAD(0), 1),
             create_bytecode,
         )
     )
@@ -538,15 +531,9 @@ def test_recreate_selfdestructed_contract(
             0,
             0,
         )
-        # CHECK BALANCE HERE
+        sendall_amount += i
 
     entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
-
-    pre = {
-        TestAddress: Account(balance=10_000_000_00000000000000),
-        entry_code_address: Account(code=entry_code),
-        initcode_copy_from_address: Account(code=selfdestruct_contract_initcode),
-    }
 
     txs: List[Transaction] = []
     nonce = count()
@@ -554,7 +541,8 @@ def test_recreate_selfdestructed_contract(
         txs.append(
             Transaction(
                 ty=0x0,
-                data=to_hash_bytes(i),
+                # The number of the call is sent as parameter, and this is also the storage key
+                data=entry_code,
                 chain_id=0x0,
                 nonce=next(nonce),
                 to=entry_code_address if i > 0 else None,  # First call creates the contract
@@ -563,14 +551,17 @@ def test_recreate_selfdestructed_contract(
                 protected=False,
             )
         )
-        entry_code_storage[i] = selfdestruct_contract_address
-
-    entry_address_expected_code = entry_code
 
     post: Dict[str, Account] = {
-        entry_code_address: Account(code=entry_address_expected_code, storage=entry_code_storage),
+        entry_code_address: Account(
+            code="0x00",
+            storage=entry_code_storage,
+        ),
         selfdestruct_contract_address: Account.NONEXISTENT,  # type: ignore
-        initcode_copy_from_address: Account(code=selfdestruct_contract_initcode),
+        initcode_copy_from_address: Account(
+            code=selfdestruct_contract_initcode,
+        ),
+        to_address(sendall_recipient_address): Account(balance=sendall_amount, storage={0: 1}),
     }
 
     blockchain_test(genesis_environment=env, pre=pre, post=post, blocks=[Block(txs=txs)])
