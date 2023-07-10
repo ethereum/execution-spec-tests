@@ -541,7 +541,6 @@ def test_recreate_selfdestructed_contract_different_txs(
         txs.append(
             Transaction(
                 ty=0x0,
-                # The number of the call is sent as parameter, and this is also the storage key
                 data=entry_code,
                 chain_id=0x0,
                 nonce=next(nonce),
