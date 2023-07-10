@@ -48,10 +48,6 @@ PRE_EXISTING_SELFDESTRUCT_ADDRESS = "0x1111111111111111111111111111111111111111"
 # - Test selfdestructing using all types of create
 # - Create a contract using CREATE2, then in a subsequent tx do CREATE2 to the same address, and
 #    try to self-destruct
-# - Create a contract using CREATE2 to an account that has some balance, and try to self-destruct
-#    it in the same tx
-# - Check balance after self-destruct using Op.BALANCE
-# - Check that the Op.SENDALL recipient does not execute code
 # - Delegate call to a contract that contains self-destruct and was created in the current tx
 #    from a contract that was created in a previous tx
 
@@ -182,6 +178,7 @@ def test_create_selfdestruct_same_tx(
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict[str, Account],
+    entry_code_address: str,
     selfdestruct_code: bytes,
     selfdestruct_contract_initcode: bytes,
     selfdestruct_contract_address: str,
@@ -192,7 +189,6 @@ def test_create_selfdestruct_same_tx(
     selfdestruct_contract_initial_balance: int,
 ):
     # Our entry point is an initcode that in turn creates a self-destructing contract
-    entry_code_address = compute_create_address(TestAddress, 0)
     entry_code_storage = Storage()
     sendall_amount = 0
 
@@ -316,6 +312,7 @@ def test_selfdestructing_initcode(
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict[str, Account],
+    entry_code_address: str,
     selfdestruct_contract_initcode: bytes,
     selfdestruct_contract_address: str,
     sendall_recipient_address: int,
@@ -325,7 +322,6 @@ def test_selfdestructing_initcode(
     selfdestruct_contract_initial_balance: int,
 ):
     # Our entry point is an initcode that in turn creates a self-destructing contract
-    entry_code_address = compute_create_address(TestAddress, 0)
     entry_code_storage = Storage()
     sendall_amount = 0
 
@@ -425,6 +421,53 @@ def test_selfdestructing_initcode(
     state_test(env=env, pre=pre, post=post, txs=[tx])
 
 
+@pytest.mark.parametrize("tx_value", [0, 100_000])
+@pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
+@pytest.mark.parametrize("selfdestructing_initcode", [True], ids=[""])
+@pytest.mark.parametrize("selfdestruct_contract_address", [compute_create_address(TestAddress, 0)])
+@pytest.mark.parametrize("eip_enabled", [True, False])
+@pytest.mark.valid_from("Shanghai")
+def test_selfdestructing_initcode_create_tx(
+    state_test: StateTestFiller,
+    env: Environment,
+    pre: Dict[str, Account],
+    tx_value: int,
+    entry_code_address: str,
+    selfdestruct_contract_initcode: bytes,
+    selfdestruct_contract_address: str,
+    sendall_recipient_address: int,
+    initcode_copy_from_address: str,
+    selfdestruct_contract_initial_balance: int,
+):
+    assert entry_code_address == selfdestruct_contract_address
+
+    # Our entry point is an initcode that in turn creates a self-destructing contract
+    sendall_amount = selfdestruct_contract_initial_balance + tx_value
+
+    post: Dict[str, Account] = {
+        selfdestruct_contract_address: Account.NONEXISTENT,  # type: ignore
+        initcode_copy_from_address: Account(
+            code=selfdestruct_contract_initcode,
+        ),
+        to_address(sendall_recipient_address): Account(balance=sendall_amount, storage={0: 1}),
+    }
+
+    nonce = count()
+    tx = Transaction(
+        ty=0x0,
+        value=tx_value,
+        data=selfdestruct_contract_initcode,
+        chain_id=0x0,
+        nonce=next(nonce),
+        to=None,
+        gas_limit=100_000_000,
+        gas_price=10,
+        protected=False,
+    )
+
+    state_test(env=env, pre=pre, post=post, txs=[tx])
+
+
 @pytest.mark.parametrize("create_opcode", [Op.CREATE2])  # Can only recreate using CREATE2
 @pytest.mark.parametrize("recreate_times", [1])
 @pytest.mark.parametrize("call_times", [1])
@@ -433,6 +476,7 @@ def test_selfdestructing_initcode(
 def test_recreate_selfdestructed_contract(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
+    entry_code_address: str,
     selfdestruct_contract_initcode: bytes,
     create_opcode: Op,
     recreate_times: int,  # Number of times to recreate the contract in different transactions
@@ -440,9 +484,6 @@ def test_recreate_selfdestructed_contract(
 ):
     assert create_opcode == Op.CREATE2, "cannot recreate contract using CREATE opcode"
 
-    entry_code_address = to_address(
-        0x100
-    )  # Needs to be constant to be able to recreate the contract
     initcode_copy_from_address = to_address(0x200)
     entry_code_storage = Storage()
 
@@ -507,7 +548,7 @@ def test_recreate_selfdestructed_contract(
                 data=to_hash_bytes(i),
                 chain_id=0x0,
                 nonce=next(nonce),
-                to=entry_code_address,
+                to=entry_code_address if i > 0 else None,  # First call creates the contract
                 gas_limit=100_000_000,
                 gas_price=10,
                 protected=False,
@@ -536,6 +577,7 @@ def test_selfdestruct_pre_existing(
     eip_enabled: bool,
     env: Environment,
     pre: Dict[str, Account],
+    entry_code_address: str,
     selfdestruct_contract_address: str,
     selfdestruct_code: bytes,
     selfdestruct_contract_initial_balance: int,
@@ -546,7 +588,6 @@ def test_selfdestruct_pre_existing(
     Test that if a previously created account that contains a selfdestruct is
     called, its balance is sent to the destination address.
     """
-    entry_code_address = compute_create_address(TestAddress, 0)
     entry_code_storage = Storage()
     sendall_amount = selfdestruct_contract_initial_balance
     entry_code = b""
@@ -628,7 +669,10 @@ def test_selfdestruct_pre_existing(
 
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
 @pytest.mark.parametrize("call_times", [1, 10])
-@pytest.mark.parametrize("selfdestruct_contract_address", [compute_create_address(TestAddress, 0)])
+@pytest.mark.parametrize(
+    "selfdestruct_contract_address,entry_code_address",
+    [(compute_create_address(TestAddress, 0), compute_create_address(TestAddress, 1))],
+)
 @pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_created_same_block_different_tx(
@@ -636,6 +680,7 @@ def test_selfdestruct_created_same_block_different_tx(
     eip_enabled: bool,
     env: Environment,
     pre: Dict[str, Account],
+    entry_code_address: str,
     selfdestruct_contract_address: str,
     selfdestruct_code: bytes,
     selfdestruct_contract_initcode: bytes,
@@ -647,7 +692,6 @@ def test_selfdestruct_created_same_block_different_tx(
     Test that if an account created in the same block that contains a selfdestruct is
     called, its balance is sent to the zero address.
     """
-    entry_code_address = compute_create_address(TestAddress, 1)
     entry_code_storage = Storage()
     sendall_amount = selfdestruct_contract_initial_balance
     entry_code = b""
