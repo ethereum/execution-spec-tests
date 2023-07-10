@@ -72,20 +72,20 @@ def env() -> Environment:
 
 
 @pytest.fixture
-def sendall_destination_address() -> int:
+def sendall_recipient_address() -> int:
     """Account that receives the balance from the self-destructed account."""
     return 0x1234
 
 
 @pytest.fixture
 def selfdestruct_code(
-    sendall_destination_address: int,
+    sendall_recipient_address: int,
 ) -> bytes:
     """Bytecode that self-destructs."""
     return Op.SSTORE(
         0,
         Op.ADD(Op.SLOAD(0), 1),  # Add to the SSTORE'd value each time we enter the contract
-    ) + Op.SELFDESTRUCT(sendall_destination_address)
+    ) + Op.SELFDESTRUCT(sendall_recipient_address)
 
 
 @pytest.fixture
@@ -143,6 +143,7 @@ def pre(
     selfdestruct_code: bytes,
     selfdestruct_contract_address: str,
     selfdestruct_contract_initial_balance: int,
+    sendall_recipient_address: int,
 ) -> Dict[str, Account]:
     """Pre-state of all tests"""
     pre = {
@@ -162,6 +163,13 @@ def pre(
         balance=selfdestruct_contract_initial_balance,
     )
 
+    # Send-all recipient account contains code that unconditionally resets an storage key upon
+    # entry, so we can check that it was not executed
+    pre[to_address(sendall_recipient_address)] = Account(
+        code=Op.SSTORE(0, 0),
+        storage={0: 1},
+    )
+
     return pre
 
 
@@ -177,7 +185,7 @@ def test_create_selfdestruct_same_tx(
     selfdestruct_code: bytes,
     selfdestruct_contract_initcode: bytes,
     selfdestruct_contract_address: str,
-    sendall_destination_address: int,
+    sendall_recipient_address: int,
     initcode_copy_from_address: str,
     create_opcode: Op,
     call_times: int,
@@ -279,9 +287,8 @@ def test_create_selfdestruct_same_tx(
         initcode_copy_from_address: Account(
             code=selfdestruct_contract_initcode,
         ),
+        to_address(sendall_recipient_address): Account(balance=sendall_amount, storage={0: 1}),
     }
-    if sendall_amount > 0:
-        post[to_address(sendall_destination_address)] = Account(balance=sendall_amount)
 
     nonce = count()
     tx = Transaction(
@@ -311,7 +318,7 @@ def test_selfdestructing_initcode(
     pre: Dict[str, Account],
     selfdestruct_contract_initcode: bytes,
     selfdestruct_contract_address: str,
-    sendall_destination_address: int,
+    sendall_recipient_address: int,
     initcode_copy_from_address: str,
     create_opcode: Op,
     call_times: int,  # Number of times to call the self-destructing contract in the same tx
@@ -399,9 +406,8 @@ def test_selfdestructing_initcode(
         initcode_copy_from_address: Account(
             code=selfdestruct_contract_initcode,
         ),
+        to_address(sendall_recipient_address): Account(balance=sendall_amount, storage={0: 1}),
     }
-    if sendall_amount > 0:
-        post[to_address(sendall_destination_address)] = Account(balance=sendall_amount)
 
     nonce = count()
     tx = Transaction(
@@ -533,7 +539,7 @@ def test_selfdestruct_pre_existing(
     selfdestruct_contract_address: str,
     selfdestruct_code: bytes,
     selfdestruct_contract_initial_balance: int,
-    sendall_destination_address: int,
+    sendall_recipient_address: int,
     call_times: int,
 ):
     """
@@ -589,11 +595,13 @@ def test_selfdestruct_pre_existing(
     # values for verification.
     entry_code += Op.RETURN(0, 1)
 
-    post: Dict[str, Account] = {}
-    if sendall_amount > 0:
-        post[to_address(sendall_destination_address)] = Account(balance=sendall_amount)
-    else:
-        post[to_address(sendall_destination_address)] = Account.NONEXISTENT  # type: ignore
+    post: Dict[str, Account] = {
+        entry_code_address: Account(
+            code="0x00",
+            storage=entry_code_storage,
+        ),
+        to_address(sendall_recipient_address): Account(balance=sendall_amount, storage={0: 1}),
+    }
 
     if eip_enabled:
         post[selfdestruct_contract_address] = Account(
@@ -601,11 +609,6 @@ def test_selfdestruct_pre_existing(
         )
     else:
         post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
-
-    post[entry_code_address] = Account(
-        code="0x00",
-        storage=entry_code_storage,
-    )
 
     nonce = count()
     tx = Transaction(
@@ -637,7 +640,7 @@ def test_selfdestruct_created_same_block_different_tx(
     selfdestruct_code: bytes,
     selfdestruct_contract_initcode: bytes,
     selfdestruct_contract_initial_balance: int,
-    sendall_destination_address: int,
+    sendall_recipient_address: int,
     call_times: int,
 ):
     """
@@ -693,11 +696,13 @@ def test_selfdestruct_created_same_block_different_tx(
     # values for verification.
     entry_code += Op.RETURN(0, 1)
 
-    post: Dict[str, Account] = {}
-    if sendall_amount > 0:
-        post[to_address(sendall_destination_address)] = Account(balance=sendall_amount)
-    else:
-        post[to_address(sendall_destination_address)] = Account.NONEXISTENT  # type: ignore
+    post: Dict[str, Account] = {
+        entry_code_address: Account(
+            code="0x00",
+            storage=entry_code_storage,
+        ),
+        to_address(sendall_recipient_address): Account(balance=sendall_amount, storage={0: 1}),
+    }
 
     if eip_enabled:
         post[selfdestruct_contract_address] = Account(
@@ -705,11 +710,6 @@ def test_selfdestruct_created_same_block_different_tx(
         )
     else:
         post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
-
-    post[entry_code_address] = Account(
-        code="0x00",
-        storage=entry_code_storage,
-    )
 
     nonce = count()
     txs = [
