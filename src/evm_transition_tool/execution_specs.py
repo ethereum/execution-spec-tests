@@ -7,9 +7,11 @@ https://github.com/ethereum/execution-specs
 from pathlib import Path
 from re import compile
 
-from ethereum_test_forks import Fork
+from ethereum_test_forks import ConstantinopleFix, Fork
 
 from .geth import GethTransitionTool
+
+UNSUPPORTED_FORKS = (ConstantinopleFix,)
 
 
 class ExecSpecsTransitionTool(GethTransitionTool):
@@ -27,4 +29,4 @@ class ExecSpecsTransitionTool(GethTransitionTool):
         Returns True if the fork is supported by the tool.
         Currently, ethereum-spec-evm provides no way to determine supported forks.
         """
-        return True
+        return fork not in UNSUPPORTED_FORKS
