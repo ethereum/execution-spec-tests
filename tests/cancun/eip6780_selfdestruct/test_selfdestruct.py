@@ -36,7 +36,6 @@ PRE_EXISTING_SELFDESTRUCT_ADDRESS = "0x1111111111111111111111111111111111111111"
 
 # TODO:
 
-# - Destroy and re-create multiple times in the same tx
 # - Create and destroy multiple contracts in the same tx
 # - Create multiple contracts in a tx and destroy only one of them, but attempt to destroy the
 #    other one in a subsequent tx
@@ -49,6 +48,9 @@ PRE_EXISTING_SELFDESTRUCT_ADDRESS = "0x1111111111111111111111111111111111111111"
 #    try to self-destruct
 # - Delegate call to a contract that contains self-destruct and was created in the current tx
 #    from a contract that was created in a previous tx
+# - SENDALL to multiple different contracts in a single tx, from a single or multiple contracts,
+#   all of which would not self destruct (or perhaps some of them would and some others won't)
+# Recursive contract creation and self-destruction
 
 
 @pytest.fixture
@@ -76,10 +78,15 @@ def selfdestruct_code_preset(
     sendall_recipient_address: int,
 ) -> bytes:
     """Return a bytecode that self-destructs."""
-    return Op.SSTORE(
-        0,
-        Op.ADD(Op.SLOAD(0), 1),  # Add to the SSTORE'd value each time we enter the contract
-    ) + Op.SELFDESTRUCT(sendall_recipient_address)
+    return (
+        Op.SSTORE(
+            0,
+            Op.ADD(Op.SLOAD(0), 1),  # Add to the SSTORE'd value each time we enter the contract
+        )
+        + Op.SELFDESTRUCT(sendall_recipient_address)
+        # This should never be reached, even when the contract is not self-destructed
+        + Op.SSTORE(0, 0)
+    )
 
 
 @pytest.fixture
