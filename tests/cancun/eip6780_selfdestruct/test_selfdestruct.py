@@ -39,15 +39,9 @@ PRE_EXISTING_SELFDESTRUCT_ADDRESS = "0x1111111111111111111111111111111111111111"
 # - Create and destroy multiple contracts in the same tx
 # - Create multiple contracts in a tx and destroy only one of them, but attempt to destroy the
 #    other one in a subsequent tx
-# - Create contract, attempt to destroy it in a subsequent tx in the same block
 # - Create a contract and try to destroy using another calltype (e.g. Delegatecall then destroy)
 # - Create a contract that creates another contract, then selfdestruct only the parent
 #    (or vice versa)
-# - Test selfdestructing using all types of create
-# - Create a contract using CREATE2, then in a subsequent tx do CREATE2 to the same address, and
-#    try to self-destruct
-# - Delegate call to a contract that contains self-destruct and was created in the current tx
-#    from a contract that was created in a previous tx
 # - SENDALL to multiple different contracts in a single tx, from a single or multiple contracts,
 #   all of which would not self destruct (or perhaps some of them would and some others won't)
 # Recursive contract creation and self-destruction
@@ -77,9 +71,9 @@ def sendall_recipient_address() -> int:
 @pytest.fixture
 def sendall_recipient_addresses(
     sendall_recipient_address: int,
-) -> List[int]:
+) -> List[str]:
     """List of possible addresses that can receive a SENDALL operation."""
-    return [sendall_recipient_address]
+    return [to_address(sendall_recipient_address)]
 
 
 def selfdestruct_code_preset(
@@ -174,7 +168,7 @@ def pre(
     selfdestruct_contract_address: str,
     selfdestruct_contract_initial_balance: int,
     sendall_recipient_address: Optional[int],
-    sendall_recipient_addresses: List[int],
+    sendall_recipient_addresses: List[str],
 ) -> Dict[str, Account]:
     """Pre-state of all tests"""
     pre = {
@@ -198,9 +192,9 @@ def pre(
 
     # Send-all recipient accounts contain code that unconditionally resets an storage key upon
     # entry, so we can check that it was not executed
-    for sendall_recipient_address in sendall_recipient_addresses:
-        assert sendall_recipient_address is not None, "None send-all recipient address"
-        pre[to_address(sendall_recipient_address)] = Account(
+    for address in sendall_recipient_addresses:
+        assert address is not None, "None send-all recipient address"
+        pre[address] = Account(
             code=Op.SSTORE(0, 0),
             storage={0: 1},
         )
@@ -601,18 +595,24 @@ def test_recreate_selfdestructed_contract_different_txs(
 @pytest.mark.parametrize(
     "call_times,sendall_recipient_addresses",
     [
-        (1, [0x1000]),
-        (10, [0x1000]),
-        (10, [0x1000, 0x2000, 0x3000]),
+        (1, [to_address(0x1000)]),
+        (10, [to_address(0x1000)]),
+        (10, [to_address(0x1000), to_address(0x2000), to_address(0x3000)]),
+        (10, [PRE_EXISTING_SELFDESTRUCT_ADDRESS, to_address(0x2000), to_address(0x3000)]),
+        (10, [to_address(0x2000), to_address(0x3000), PRE_EXISTING_SELFDESTRUCT_ADDRESS]),
     ],
     ids=[
         "single_call",
         "multiple_calls_single_sendall_recipient",
         "multiple_calls_multiple_sendall_recipients",
+        "multiple_calls_multiple_sendall_recipients_including_self",
+        "multiple_calls_multiple_sendall_recipients_including_self_different_order",
     ],
 )
 @pytest.mark.parametrize("sendall_recipient_address", [None])  # Calldata sendall recipient
-@pytest.mark.parametrize("selfdestruct_contract_address", [PRE_EXISTING_SELFDESTRUCT_ADDRESS])
+@pytest.mark.parametrize(
+    "selfdestruct_contract_address", [PRE_EXISTING_SELFDESTRUCT_ADDRESS], ids=["pre_existing"]
+)
 @pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_pre_existing(
@@ -624,7 +624,7 @@ def test_selfdestruct_pre_existing(
     selfdestruct_contract_address: str,
     selfdestruct_code: bytes,
     selfdestruct_contract_initial_balance: int,
-    sendall_recipient_addresses: List[int],
+    sendall_recipient_addresses: List[str],
     call_times: int,
 ):
     """
@@ -694,8 +694,9 @@ def test_selfdestruct_pre_existing(
     }
 
     # Check the balances of the sendall recipients
+    # TODO: This is incorrect if the recipient is self
     for address, balance in sendall_final_balances.items():
-        post[to_address(address)] = Account(balance=balance, storage={0: 1})
+        post[address] = Account(balance=balance, storage={0: 1})
 
     if eip_enabled:
         post[selfdestruct_contract_address] = Account(
