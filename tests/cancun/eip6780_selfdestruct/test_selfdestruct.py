@@ -75,18 +75,28 @@ def sendall_recipient_address() -> int:
 
 
 def selfdestruct_code_preset(
+    *,
     sendall_recipient_address: int,
+    recipient_from_calldata: bool,
 ) -> bytes:
     """Return a bytecode that self-destructs."""
-    return (
-        Op.SSTORE(
-            0,
-            Op.ADD(Op.SLOAD(0), 1),  # Add to the SSTORE'd value each time we enter the contract
-        )
-        + Op.SELFDESTRUCT(sendall_recipient_address)
-        # This should never be reached, even when the contract is not self-destructed
-        + Op.SSTORE(0, 0)
+
+    # First save into store the count of how many times we've re-entered the contract
+    bytecode = Op.SSTORE(
+        0,
+        Op.ADD(Op.SLOAD(0), 1),  # Add to the SSTORE'd value each time we enter the contract
     )
+
+    # Do the self-destruct, either using the recipient address from calldata or a preset one
+    if recipient_from_calldata:
+        bytecode += Op.SELFDESTRUCT(Op.CALLDATALOAD(0))
+    else:
+        bytecode += Op.SELFDESTRUCT(sendall_recipient_address)
+
+    # This should never be reached, even when the contract is not self-destructed
+    bytecode += Op.SSTORE(0, 0)
+
+    return bytecode
 
 
 @pytest.fixture
@@ -97,7 +107,9 @@ def selfdestruct_code(
     Creates the default self-destructing bytecode,
     which can be modified by each test if necessary.
     """
-    return selfdestruct_code_preset(sendall_recipient_address)
+    return selfdestruct_code_preset(
+        sendall_recipient_address=sendall_recipient_address, recipient_from_calldata=False
+    )
 
 
 @pytest.fixture
@@ -170,7 +182,10 @@ def pre(
 
     # Also put a pre-existing copy of the self-destruct contract in a known place
     pre[PRE_EXISTING_SELFDESTRUCT_ADDRESS] = Account(
-        code=selfdestruct_code_preset(sendall_recipient_address),
+        code=selfdestruct_code_preset(
+            sendall_recipient_address=sendall_recipient_address,
+            recipient_from_calldata=False,
+        ),
         balance=selfdestruct_contract_initial_balance,
     )
 
