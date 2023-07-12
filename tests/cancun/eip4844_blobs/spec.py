@@ -1,5 +1,5 @@
 """
-Defines EIP-4844 spec constants and functions.
+Defines EIP-4844 specification constants and functions.
 """
 from dataclasses import dataclass
 from enum import Enum, IntEnum
@@ -95,8 +95,8 @@ class Spec(IntEnum):
     @classmethod
     def calc_excess_data_gas(cls, parent: BlockHeaderDataGasFields) -> int:
         """
-        Calculate the excess data gas for a block given the parent excess data gas
-        and the number of blobs in the block.
+        Calculate the excess data gas for a block given the excess data gas
+        and data gas used from the parent block header.
         """
         if parent.excess_data_gas + parent.data_gas_used < cls.TARGET_DATA_GAS_PER_BLOCK:
             return 0
