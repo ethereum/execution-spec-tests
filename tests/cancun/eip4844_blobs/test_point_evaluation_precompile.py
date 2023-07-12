@@ -270,7 +270,7 @@ def test_valid_precompile_calls(
     Test valid sanity precompile calls that are expected to succeed.
 
     - `kzg_commitment` and `kzg_proof` are set to values such that `p(z)==0` for all values of `z`,
-    hence `y` is tested to be zero, and call to be succesful.
+    hence `y` is tested to be zero, and call to be successful.
     """
     blockchain_test(
         pre=pre,

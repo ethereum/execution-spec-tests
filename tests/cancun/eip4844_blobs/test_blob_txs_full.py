@@ -96,7 +96,7 @@ def parent_excess_data_gas(
     parent_excess_blobs: int,
 ) -> int:
     """
-    Calculates the excess data gas of the paraent block from the excess blobs.
+    Calculates the excess data gas of the parent block from the excess blobs.
     """
     return parent_excess_blobs * DATA_GAS_PER_BLOB
 

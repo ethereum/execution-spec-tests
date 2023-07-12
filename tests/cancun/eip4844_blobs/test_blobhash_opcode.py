@@ -226,7 +226,7 @@ def test_blobhash_invalid_blob_index(
     exceeds the maximum number of `blob_versioned_hash` values stored:
     (`index >= len(tx.message.blob_versioned_hashes)`).
 
-    It confirms that the returned value is a zeroed `bytes32 for each case.
+    It confirms that the returned value is a zeroed `bytes32` for each case.
     """
     TOTAL_BLOCKS = 5
     blobhash_calls = BlobhashScenario.generate_blobhash_bytecode(scenario)

@@ -16,7 +16,7 @@ note: Adding a new test
 
     The following arguments *need* to be parametrized or the test will not be generated:
 
-     - new_blobs
+    - new_blobs
 
     All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
     cases.
@@ -549,7 +549,7 @@ def test_invalid_excess_data_gas_target_blobs_increase_from_zero(
     Test rejection of blocks where the `excessDataGas` increases from zero,
     even when the included blobs are on or below target.
 
-    Test is parametrized according to `[0, TARGET_BLOBS_PER_BLOCK]` new blobs.
+    Test is parametrized according to `[0, TARGET_BLOBS_PER_BLOCK` new blobs.
     """
     if header_excess_data_gas is None:
         raise Exception("test case is badly formatted")
