@@ -20,7 +20,7 @@ class ExecSpecsTransitionTool(GethTransitionTool):
 
     The behavior of this tool is almost identical to go-ethereum's `evm t8n` command.
 
-    note: How to use the `ethereum-spec-evm tool`
+    note: How to use the `ethereum-spec-evm` tool:
 
         1. Create a virtual environment and activate it:
             ```
