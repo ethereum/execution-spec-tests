@@ -156,27 +156,14 @@ def pytest_configure(config):
 
     # with --collect-only, we don't have access to these config options
     if config.option.collectonly:
+        config.unsupported_forks = []
         return
 
     evm_bin = config.getoption("evm_bin")
     t8n = TransitionTool.from_binary_path(binary_path=evm_bin)
-    unsupported_forks = [
+    config.unsupported_forks = [
         fork for fork in config.fork_range if not t8n.is_fork_supported(config.fork_map[fork])
     ]
-    if unsupported_forks:
-        print(
-            "Error: The configured evm tool doesn't support the following "
-            f"forks: {', '.join(unsupported_forks)}.",
-            file=sys.stderr,
-        )
-        print(
-            "\nPlease specify a version of the evm tool which supports these "
-            "forks or use --until FORK to specify a supported fork.\n",
-            file=sys.stderr,
-        )
-        pytest.exit(
-            "Incompatible evm tool with fork range.", returncode=pytest.ExitCode.USAGE_ERROR
-        )
 
 
 @pytest.hookimpl(trylast=True)
@@ -322,4 +309,20 @@ def pytest_generate_tests(metafunc):
                 f"{test_name} is not valid for any any of forks specified on the command-line."
             )
         else:
-            metafunc.parametrize("fork", intersection_range, scope="function")
+            pytest_params = [
+                pytest.param(
+                    fork,
+                    marks=[
+                        pytest.mark.skip(
+                            reason=(
+                                f"Fork '{fork}' unsupported by "
+                                f"'{metafunc.config.getoption('evm_bin')}'."
+                            )
+                        )
+                    ],
+                )
+                if fork.name() in metafunc.config.unsupported_forks
+                else pytest.param(fork)
+                for fork in intersection_range
+            ]
+            metafunc.parametrize("fork", pytest_params, scope="function")
