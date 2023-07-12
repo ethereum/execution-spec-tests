@@ -143,29 +143,29 @@ class BlobhashContext:
             "blobhash_sstore": cls.yul_compiler(
                 f"""
                 {{
-                   let pos := calldataload(0)
-                   let end := calldataload(32)
-                   for {{}} lt(pos, end) {{ pos := add(pos, 1) }}
-                   {{
+                    let pos := calldataload(0)
+                    let end := calldataload(32)
+                    for {{}} lt(pos, end) {{ pos := add(pos, 1) }}
+                    {{
                     let blobhash := {blobhash_verbatim}
                         (hex"{Op.BLOBHASH.hex()}", pos)
                     sstore(pos, blobhash)
-                   }}
-                   let blobhash := {blobhash_verbatim}
+                    }}
+                    let blobhash := {blobhash_verbatim}
                         (hex"{Op.BLOBHASH.hex()}", end)
-                   sstore(end, blobhash)
-                   return(0, 0)
+                    sstore(end, blobhash)
+                    return(0, 0)
                 }}
                 """
             ),
             "blobhash_return": cls.yul_compiler(
                 f"""
                 {{
-                   let pos := calldataload(0)
-                   let blobhash := {blobhash_verbatim}
+                    let pos := calldataload(0)
+                    let blobhash := {blobhash_verbatim}
                         (hex"{Op.BLOBHASH.hex()}", pos)
-                   mstore(0, blobhash)
-                   return(0, 32)
+                    mstore(0, blobhash)
+                    return(0, 32)
                 }}
                 """
             ),
@@ -250,13 +250,13 @@ class BlobhashContext:
             "initcode": cls.yul_compiler(
                 f"""
                 {{
-                   for {{ let pos := 0 }} lt(pos, 10) {{ pos := add(pos, 1) }}
-                   {{
+                    for {{ let pos := 0 }} lt(pos, 10) {{ pos := add(pos, 1) }}
+                    {{
                     let blobhash := {blobhash_verbatim}
                         (hex"{Op.BLOBHASH.hex()}", pos)
                     sstore(pos, blobhash)
-                   }}
-                   return(0, 0)
+                    }}
+                    return(0, 0)
                 }}
                 """
             ),
