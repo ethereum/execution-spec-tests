@@ -396,3 +396,8 @@ class Cancun(Shanghai):
         Starting at Cancun, payloads must have a parent beacon block root.
         """
         return True
+
+class Prague(Cancun):
+    """
+    Prague fork
+    """
