@@ -1,5 +1,5 @@
 """
-Ethereum Specs EVM Transition tool frontend.
+Ethereum Specs EVM Transition tool interface.
 
 https://github.com/ethereum/execution-specs
 """
@@ -16,7 +16,7 @@ UNSUPPORTED_FORKS = (ConstantinopleFix,)
 
 class ExecutionSpecsTransitionTool(GethTransitionTool):
     """
-    Ethereum Specs `ethereum-spec-evm` Transition tool frontend wrapper class.
+    Ethereum Specs `ethereum-spec-evm` Transition tool interface wrapper class.
 
     The behavior of this tool is almost identical to go-ethereum's `evm t8n` command.
 
