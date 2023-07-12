@@ -14,7 +14,7 @@ from .geth import GethTransitionTool
 UNSUPPORTED_FORKS = (ConstantinopleFix,)
 
 
-class ExecSpecsTransitionTool(GethTransitionTool):
+class ExecutionSpecsTransitionTool(GethTransitionTool):
     """
     Ethereum Specs `ethereum-spec-evm` Transition tool frontend wrapper class.
 
