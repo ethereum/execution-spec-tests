@@ -6,7 +6,7 @@ abstract: Tests [EIP-6780: SELFDESTRUCT only in same transaction](https://eips.e
 """  # noqa: E501
 
 from itertools import count, cycle
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import pytest
 from ethereum.crypto.hash import keccak256
@@ -47,7 +47,7 @@ Sentinel object to indicate that the self-destructing contract address should be
 # - Create and destroy multiple contracts in the same tx
 # - Create multiple contracts in a tx and destroy only one of them, but attempt to destroy the
 #    other one in a subsequent tx
-# - Create a contract and try to destroy using another calltype (e.g. Delegatecall then destroy)
+# - Create a contract and try to destroy using another call type (e.g. Delegatecall then destroy)
 # - Create a contract that creates another contract, then selfdestruct only the parent
 #    (or vice versa)
 # - SENDALL to multiple different contracts in a single tx, from a single or multiple contracts,
@@ -81,11 +81,10 @@ def selfdestruct_code_preset(
     sendall_recipient_addresses: List[str],
 ) -> bytes:
     """Return a bytecode that self-destructs."""
-
     # First save into store the count of how many times we've re-entered the contract
     bytecode = Op.SSTORE(
         0,
-        Op.ADD(Op.SLOAD(0), 1),  # Add to the SSTORE'd value each time we enter the contract
+        Op.ADD(Op.SLOAD(0), 1),  # Add to the SSTORE value each time we enter the contract
     )
 
     # Do the self-destruct, either using the recipient address from calldata or a preset one
@@ -93,7 +92,7 @@ def selfdestruct_code_preset(
         len(sendall_recipient_addresses) != 1
         or SELFDESTRUCT_CONTRACT_ADDRESS in sendall_recipient_addresses
     ):
-        # Load the recipient address from calldata, each test case needs to pass the adresses as
+        # Load the recipient address from calldata, each test case needs to pass the addresses as
         # calldata
         bytecode += Op.SELFDESTRUCT(Op.CALLDATALOAD(0))
     else:
@@ -120,7 +119,7 @@ def selfdestruct_code(
 
 
 @pytest.fixture
-def selfdestructing_initcode() -> bool:
+def self_destructing_initcode() -> bool:
     """
     Whether the contract shall self-destruct during initialization.
     By default it does not.
@@ -131,10 +130,10 @@ def selfdestructing_initcode() -> bool:
 @pytest.fixture
 def selfdestruct_contract_initcode(
     selfdestruct_code: bytes,
-    selfdestructing_initcode: bool,
+    self_destructing_initcode: bool,
 ) -> bytes:
     """Prepares an initcode that creates a self-destructing account."""
-    if selfdestructing_initcode:
+    if self_destructing_initcode:
         return selfdestruct_code
     return Initcode(deploy_code=selfdestruct_code).assemble()
 
@@ -248,6 +247,17 @@ def test_create_selfdestruct_same_tx(
     call_times: int,
     selfdestruct_contract_initial_balance: int,
 ):
+    """
+    Use CREATE or CREATE2 to create a self-destructing contract, and call it in the same
+    transaction.
+
+    Behavior should be the same before and after EIP-6780.
+
+    Test using:
+        - Different send-all recipient addresses: single, multiple, including self
+        - Different initial balances for the self-destructing contract
+        - Different opcodes: CREATE, CREATE2
+    """
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_storage = Storage()
 
@@ -285,7 +295,7 @@ def test_create_selfdestruct_same_tx(
         )
     )
 
-    # Store the extcode* properties of the created address
+    # Store the EXTCODE* properties of the created address
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
@@ -296,7 +306,7 @@ def test_create_selfdestruct_same_tx(
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
-    # Call the self-destructing contract multiple times as required, incrementing the wei sent each
+    # Call the self-destructing contract multiple times as required, increasing the wei sent each
     # time
     for i, sendall_recipient in zip(range(call_times), cycle(sendall_recipient_addresses)):
         entry_code += Op.MSTORE(0, Op.PUSH20(sendall_recipient))
@@ -320,7 +330,7 @@ def test_create_selfdestruct_same_tx(
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
 
-    # Check the extcode* properties of the selfdestructing contract again
+    # Check the EXTCODE* properties of the self-destructing contract again
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
@@ -331,7 +341,7 @@ def test_create_selfdestruct_same_tx(
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
-    # Lastly return "0x00" so the entry point contract is created and we can retain the stored
+    # Lastly return zero so the entry point contract is created and we can retain the stored
     # values for verification.
     entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
@@ -370,10 +380,10 @@ def test_create_selfdestruct_same_tx(
 @pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
 @pytest.mark.parametrize("call_times", [0, 1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
-@pytest.mark.parametrize("selfdestructing_initcode", [True], ids=[""])
+@pytest.mark.parametrize("self_destructing_initcode", [True], ids=[""])
 @pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
-def test_selfdestructing_initcode(
+def test_self_destructing_initcode(
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict[str, Account],
@@ -386,6 +396,16 @@ def test_selfdestructing_initcode(
     call_times: int,  # Number of times to call the self-destructing contract in the same tx
     selfdestruct_contract_initial_balance: int,
 ):
+    """
+    Test that a contract can self-destruct in its initcode.
+
+    Behavior is the same before and after EIP-6780.
+
+    Test using:
+        - Different initial balances for the self-destructing contract
+        - Different opcodes: CREATE, CREATE2
+        - Different number of calls to the self-destructing contract in the same tx
+    """
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_storage = Storage()
     sendall_amount = 0
@@ -417,7 +437,7 @@ def test_selfdestructing_initcode(
         )
     )
 
-    # Store the extcode* properties of the created address
+    # Store the EXTCODE* properties of the created address
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(0),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
@@ -428,7 +448,7 @@ def test_selfdestructing_initcode(
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
-    # Call the self-destructing contract multiple times as required, incrementing the wei sent each
+    # Call the self-destructing contract multiple times as required, increasing the wei sent each
     # time
     for i in range(call_times):
         entry_code += Op.SSTORE(
@@ -449,7 +469,7 @@ def test_selfdestructing_initcode(
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
 
-    # Lastly return "0x00" so the entry point contract is created and we can retain the stored
+    # Lastly return zero so the entry point contract is created and we can retain the stored
     # values for verification.
     entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
@@ -488,11 +508,11 @@ def test_selfdestructing_initcode(
 
 @pytest.mark.parametrize("tx_value", [0, 100_000])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
-@pytest.mark.parametrize("selfdestructing_initcode", [True], ids=[""])
 @pytest.mark.parametrize("selfdestruct_contract_address", [compute_create_address(TestAddress, 0)])
+@pytest.mark.parametrize("self_destructing_initcode", [True], ids=[""])
 @pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
-def test_selfdestructing_initcode_create_tx(
+def test_self_destructing_initcode_create_tx(
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict[str, Account],
@@ -504,6 +524,15 @@ def test_selfdestructing_initcode_create_tx(
     initcode_copy_from_address: str,
     selfdestruct_contract_initial_balance: int,
 ):
+    """
+    Use a Create Transaction to execute a self-destructing initcode.
+
+    Behavior should be the same before and after EIP-6780.
+
+    Test using:
+        - Different initial balances for the self-destructing contract
+        - Different transaction value amounts
+    """
     assert entry_code_address == selfdestruct_contract_address
 
     # Our entry point is an initcode that in turn creates a self-destructing contract
@@ -539,7 +568,7 @@ def test_selfdestructing_initcode_create_tx(
 @pytest.mark.parametrize("call_times", [1])
 @pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
-def test_recreate_selfdestructed_contract_different_txs(
+def test_recreate_self_destructed_contract_different_txs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
     pre: Dict[str, Account],
@@ -554,7 +583,14 @@ def test_recreate_selfdestructed_contract_different_txs(
     call_times: int,  # Number of times to call the self-destructing contract in the same tx
 ):
     """
-    Test that a contract can be recreated after it has self-destructed.
+    Test that a contract can be recreated after it has self-destructed, over the lapse
+    of multiple transactions.
+
+    Behavior should be the same before and after EIP-6780.
+
+    Test using:
+        - Different initial balances for the self-destructing contract
+        - CREATE2 only
     """
     entry_code_storage = Storage()
     sendall_amount = selfdestruct_contract_initial_balance
@@ -661,8 +697,15 @@ def test_selfdestruct_pre_existing(
     call_times: int,
 ):
     """
-    Test that if a previously created account that contains a selfdestruct is
-    called, its balance is sent to the destination address.
+    Test calling a previously created account that contains a selfdestruct, and verify its balance
+    is sent to the destination address.
+
+    After EIP-6780, the balance should be sent to the send-all recipient address, similar to
+    the behavior before the EIP, but the account is not deleted.
+
+    Test using:
+        - Different send-all recipient addresses: single, multiple, including self
+        - Different initial balances for the self-destructing contract
     """
     entry_code_storage = Storage()
 
@@ -673,11 +716,11 @@ def test_selfdestruct_pre_existing(
     # Selfdestruct contract initial balance will be sent to the first sendall recipient
     sendall_final_balances[sendall_recipient_addresses[0]] = selfdestruct_contract_initial_balance
 
-    # Entry code in this case will simply call the pre-existing selfdestructing contract,
+    # Entry code in this case will simply call the pre-existing self-destructing contract,
     # as many times as required
     entry_code = b""
 
-    # Call the self-destructing contract multiple times as required, incrementing the wei sent each
+    # Call the self-destructing contract multiple times as required, increasing the wei sent each
     # time
     for i, sendall_recipient in zip(range(call_times), cycle(sendall_recipient_addresses)):
         entry_code += Op.MSTORE(0, Op.PUSH20(sendall_recipient))
@@ -701,7 +744,7 @@ def test_selfdestruct_pre_existing(
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
 
-    # Check the extcode* properties of the selfdestructing contract
+    # Check the EXTCODE* properties of the self-destructing contract
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
@@ -715,7 +758,7 @@ def test_selfdestruct_pre_existing(
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
-    # Lastly return "0x00" so the entry point contract is created and we can retain the stored
+    # Lastly return zero so the entry point contract is created and we can retain the stored
     # values for verification.
     entry_code += Op.RETURN(32, 1)
 
@@ -784,16 +827,16 @@ def test_selfdestruct_created_same_block_different_tx(
 ):
     """
     Test that if an account created in the same block that contains a selfdestruct is
-    called, its balance is sent to the zero address.
+    called, its balance is sent to the send-all address, but the account is not deleted.
     """
     entry_code_storage = Storage()
     sendall_amount = selfdestruct_contract_initial_balance
     entry_code = b""
 
-    # Entry code in this case will simply call the pre-existing selfdestructing contract,
+    # Entry code in this case will simply call the pre-existing self-destructing contract,
     # as many times as required
 
-    # Call the self-destructing contract multiple times as required, incrementing the wei sent each
+    # Call the self-destructing contract multiple times as required, increasing the wei sent each
     # time
     for i in range(call_times):
         entry_code += Op.SSTORE(
@@ -816,7 +859,7 @@ def test_selfdestruct_created_same_block_different_tx(
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
 
-    # Check the extcode* properties of the selfdestructing contract
+    # Check the EXTCODE* properties of the self-destructing contract
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
@@ -830,7 +873,7 @@ def test_selfdestruct_created_same_block_different_tx(
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
-    # Lastly return "0x00" so the entry point contract is created and we can retain the stored
+    # Lastly return zero so the entry point contract is created and we can retain the stored
     # values for verification.
     entry_code += Op.RETURN(32, 1)
 
@@ -920,6 +963,10 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
     call_times: int,
     selfdestruct_contract_initial_balance: int,
 ):
+    """
+    Test that if an account created in the current transaction delegate-call a previously created
+    account that executes self-destruct, the calling account is deleted.
+    """
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_storage = Storage()
     sendall_amount = 0
@@ -951,7 +998,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
         )
     )
 
-    # Store the extcode* properties of the created address
+    # Store the EXTCODE* properties of the created address
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
@@ -962,7 +1009,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
-    # Call the self-destructing contract multiple times as required, incrementing the wei sent each
+    # Call the self-destructing contract multiple times as required, increasing the wei sent each
     # time
     for i in range(call_times):
         entry_code += Op.SSTORE(
@@ -986,7 +1033,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
 
-    # Check the extcode* properties of the selfdestructing contract again
+    # Check the EXTCODE* properties of the self-destructing contract again
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(selfdestruct_contract_address)),
@@ -997,7 +1044,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
 
-    # Lastly return "0x00" so the entry point contract is created and we can retain the stored
+    # Lastly return zero so the entry point contract is created and we can retain the stored
     # values for verification.
     entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
@@ -1056,6 +1103,11 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
     call_times: int,
     selfdestruct_contract_initial_balance: int,
 ):
+    """
+    Test that if an account created in the current transaction contains a self-destruct and is
+    delegate-called by an account created before the current transaction, the calling account
+    is not deleted.
+    """
     # Add the contract that delegate calls to the newly created contract
     delegate_caller_address = "0x2222222222222222222222222222222222222222"
     call_args: List[int | bytes] = [
@@ -1103,7 +1155,7 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
         )
     )
 
-    # Store the extcode* properties of the pre-existing address
+    # Store the EXTCODE* properties of the pre-existing address
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(delegate_caller_code)),
         Op.EXTCODESIZE(Op.PUSH20(delegate_caller_address)),
@@ -1138,7 +1190,7 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
             Op.BALANCE(Op.PUSH20(delegate_caller_address)),
         )
 
-    # Check the extcode* properties of the pre-existing address again
+    # Check the EXTCODE* properties of the pre-existing address again
     entry_code += Op.SSTORE(
         entry_code_storage.store_next(len(selfdestruct_code)),
         Op.EXTCODESIZE(Op.PUSH20(delegate_caller_address)),
@@ -1149,7 +1201,7 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
         Op.EXTCODEHASH(Op.PUSH20(delegate_caller_address)),
     )
 
-    # Lastly return "0x00" so the entry point contract is created and we can retain the stored
+    # Lastly return zero so the entry point contract is created and we can retain the stored
     # values for verification.
     entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
