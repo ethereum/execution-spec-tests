@@ -25,6 +25,9 @@ logger = logging.getLogger("mkdocs")
 source_directory = Path("tests")
 target_dir = Path("tests")
 navigation_file = "navigation.md"
+non_test_files_to_include = [  # __init__.py is treated separately
+    "spec.py",
+]
 
 
 def get_script_relative_path():  # noqa: D103
@@ -99,13 +102,13 @@ MARKDOWN_TEMPLATE = Template(
         """
         # $title
 
-        Documentation for test cases from [`$pytest_test_path`]($module_github_url).
+        Documentation for [`$pytest_test_path`]($module_github_url).
 
         $generate_fixtures_deployed
         $generate_fixtures_development
         ::: $package_name
             options:
-                filters: ["^[tT]est*"]
+                filters: ["^[tT]est*|^Spec*"]
         """
     )
 )
@@ -297,19 +300,20 @@ for directory in all_directories:
 
         for file in sorted(python_files):
             output_file_path = Path("undefined")
+
             if file == "__init__.py":
                 output_file_path = output_directory / "index.md"
                 nav_path = "Test Case Reference" / test_dir_relative_path
                 package_name = root.replace(os.sep, ".")
                 pytest_test_path = root
-            elif not file.startswith("test_"):
-                continue
-            else:
+            elif file.startswith("test_") or file in non_test_files_to_include:
                 file_no_ext = os.path.splitext(file)[0]
                 output_file_path = output_directory / file_no_ext / "index.md"
                 nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
                 package_name = os.path.join(root, file_no_ext).replace(os.sep, ".")
                 pytest_test_path = os.path.join(root, file)
+            else:
+                continue
 
             nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
             nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
@@ -340,6 +344,7 @@ for directory in all_directories:
                     )
 
             if root == "tests":
+                # special case, the root tests/ directory
                 generate_fixtures_deployed = GENERATE_FIXTURES_DEPLOYED.substitute(
                     pytest_test_path=pytest_test_path,
                     additional_title=" for all forks deployed to mainnet",
@@ -347,6 +352,9 @@ for directory in all_directories:
                 generate_fixtures_development = GENERATE_FIXTURES_DEVELOPMENT.substitute(
                     pytest_test_path=pytest_test_path, fork=DEV_FORKS[0]
                 )
+            elif file in non_test_files_to_include:
+                generate_fixtures_deployed = ""
+                generate_fixtures_development = ""
             elif dev_forks := [fork for fork in DEV_FORKS if fork.lower() in root.lower()]:
                 assert len(dev_forks) == 1
                 generate_fixtures_deployed = ""
