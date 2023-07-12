@@ -162,7 +162,7 @@ def blob_hashes_per_tx(blobs_per_tx: List[int]) -> List[List[bytes]]:
     return [
         add_kzg_version(
             [to_hash_bytes(x) for x in range(blob_count)],
-            Spec.BLOB_COMMITMENT_VERSION_KZG.value,
+            Spec.BLOB_COMMITMENT_VERSION_KZG,
         )
         for blob_count in blobs_per_tx
     ]
@@ -255,7 +255,7 @@ def txs(  # noqa: D103
     """
     return [
         Transaction(
-            ty=Spec.BLOB_TX_TYPE.value,
+            ty=Spec.BLOB_TX_TYPE,
             nonce=tx_i,
             to=destination_account,
             value=tx_value,

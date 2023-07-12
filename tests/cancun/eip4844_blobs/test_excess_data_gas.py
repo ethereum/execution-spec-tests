@@ -202,7 +202,7 @@ def tx(  # noqa: D103
         )
     else:
         return Transaction(
-            ty=Spec.BLOB_TX_TYPE.value,
+            ty=Spec.BLOB_TX_TYPE,
             nonce=0,
             to=destination_account,
             value=1,

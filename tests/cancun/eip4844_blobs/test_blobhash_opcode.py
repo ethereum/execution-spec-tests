@@ -140,7 +140,7 @@ def test_blobhash_gas_cost(
                 ]
             )
         )
-        post[address] = Account(storage={0: Spec.HASH_GAS_COST.value})
+        post[address] = Account(storage={0: Spec.HASH_GAS_COST})
     blockchain_test(
         pre=pre,
         blocks=blocks,
@@ -182,7 +182,7 @@ def test_blobhash_scenarios(
             Block(
                 txs=[
                     template_tx.with_fields(
-                        ty=Spec.BLOB_TX_TYPE.value,
+                        ty=Spec.BLOB_TX_TYPE,
                         nonce=i,
                         to=address,
                         access_list=[],
@@ -241,7 +241,7 @@ def test_blobhash_invalid_blob_index(
             Block(
                 txs=[
                     template_tx.with_fields(
-                        ty=Spec.BLOB_TX_TYPE.value,
+                        ty=Spec.BLOB_TX_TYPE,
                         nonce=i,
                         to=address,
                         access_list=[],

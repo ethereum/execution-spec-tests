@@ -216,13 +216,13 @@ def post(
         # CALL operation success
         expected_storage[0] = 1
         # Success return values
-        expected_storage[1] = Spec.FIELD_ELEMENTS_PER_BLOB.value
-        expected_storage[2] = Spec.BLS_MODULUS.value
+        expected_storage[1] = Spec.FIELD_ELEMENTS_PER_BLOB
+        expected_storage[2] = Spec.BLS_MODULUS
         # Success return values size
         expected_storage[3] = 64
         # Success return values from RETURNDATACOPY
-        expected_storage[4] = Spec.FIELD_ELEMENTS_PER_BLOB.value
-        expected_storage[5] = Spec.BLS_MODULUS.value
+        expected_storage[4] = Spec.FIELD_ELEMENTS_PER_BLOB
+        expected_storage[5] = Spec.BLS_MODULUS
 
     else:
         # CALL operation failure
@@ -540,7 +540,7 @@ def test_point_evaluation_precompile_gas_tx_to(
         ty=2,
         nonce=0,
         data=precompile_input,
-        to=to_address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS.value),
+        to=to_address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS),
         value=0,
         gas_limit=call_gas + intrinsic_gas_cost,
         max_fee_per_gas=7,
@@ -622,7 +622,7 @@ def test_point_evaluation_precompile_before_fork(
             storage={b: 1 for b in range(1, len(PRE_FORK_BLOCK_RANGE) + 1)},
             # The tx in last block succeeds; storage 0 by default.
         ),
-        to_address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS.value): Account(
+        to_address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS): Account(
             balance=len(PRE_FORK_BLOCK_RANGE),
         ),
     }

@@ -183,8 +183,8 @@ def post(
     if proof == "correct":
         expected_gas_usage = (
             call_gas
-            if call_gas < Spec.POINT_EVALUATION_PRECOMPILE_GAS.value
-            else Spec.POINT_EVALUATION_PRECOMPILE_GAS.value
+            if call_gas < Spec.POINT_EVALUATION_PRECOMPILE_GAS
+            else Spec.POINT_EVALUATION_PRECOMPILE_GAS
         )
     else:
         expected_gas_usage = call_gas
@@ -204,9 +204,9 @@ def post(
 @pytest.mark.parametrize(
     "call_gas",
     [
-        Spec.POINT_EVALUATION_PRECOMPILE_GAS.value,
-        Spec.POINT_EVALUATION_PRECOMPILE_GAS.value - 1,
-        Spec.POINT_EVALUATION_PRECOMPILE_GAS.value + 1,
+        Spec.POINT_EVALUATION_PRECOMPILE_GAS,
+        Spec.POINT_EVALUATION_PRECOMPILE_GAS - 1,
+        Spec.POINT_EVALUATION_PRECOMPILE_GAS + 1,
     ],
     ids=["exact_gas", "insufficient_gas", "extra_gas"],
 )

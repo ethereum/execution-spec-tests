@@ -90,7 +90,7 @@ def post_fork_blocks(
         Block(
             txs=[
                 Transaction(
-                    ty=Spec.BLOB_TX_TYPE.value,
+                    ty=Spec.BLOB_TX_TYPE,
                     nonce=b,
                     to=destination_account,
                     value=1,

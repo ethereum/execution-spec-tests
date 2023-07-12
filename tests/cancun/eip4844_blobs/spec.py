@@ -2,7 +2,6 @@
 Defines EIP-4844 specification constants and functions.
 """
 from dataclasses import dataclass
-from enum import Enum, IntEnum
 from hashlib import sha256
 from typing import Optional
 
@@ -32,7 +31,7 @@ class BlockHeaderDataGasFields:
 
 # Constants
 @dataclass(frozen=True)
-class Spec(IntEnum):
+class Spec:
     """
     Parameters from the EIP-4844 specifications as defined at
     https://eips.ethereum.org/EIPS/eip-4844#parameters
@@ -111,7 +110,7 @@ class Spec(IntEnum):
     #     """
     #     if tx.blob_versioned_hashes is None:
     #         return 0
-    #     return cls.DATA_GAS_PER_BLOB.value * len(tx.blob_versioned_hashes)
+    #     return cls.DATA_GAS_PER_BLOB * len(tx.blob_versioned_hashes)
 
     @classmethod
     def get_data_gasprice(cls, *, excess_data_gas: int) -> int:
@@ -119,14 +118,14 @@ class Spec(IntEnum):
         Calculate the data gas price from the excess.
         """
         return cls.fake_exponential(
-            cls.MIN_DATA_GASPRICE.value,
+            cls.MIN_DATA_GASPRICE,
             excess_data_gas,
-            cls.DATA_GASPRICE_UPDATE_FRACTION.value,
+            cls.DATA_GASPRICE_UPDATE_FRACTION,
         )
 
 
 @dataclass(frozen=True)
-class SpecHelpers(Enum):
+class SpecHelpers:
     """
     Define parameters and helper functions that are tightly coupled to the 4844
     spec but not strictly part of it.
@@ -139,14 +138,14 @@ class SpecHelpers(Enum):
         """
         Returns the maximum number of blobs per block.
         """
-        return Spec.MAX_DATA_GAS_PER_BLOCK.value // Spec.DATA_GAS_PER_BLOB.value
+        return Spec.MAX_DATA_GAS_PER_BLOCK // Spec.DATA_GAS_PER_BLOB
 
     @classmethod
     def target_blobs_per_block(cls) -> int:
         """
         Returns the target number of blobs per block.
         """
-        return Spec.TARGET_DATA_GAS_PER_BLOCK.value // Spec.DATA_GAS_PER_BLOB.value
+        return Spec.TARGET_DATA_GAS_PER_BLOCK // Spec.DATA_GAS_PER_BLOB
 
     @classmethod
     def calc_excess_data_gas_from_blob_count(
@@ -156,7 +155,7 @@ class SpecHelpers(Enum):
         Calculate the excess data gas for a block given the parent excess data gas
         and the number of blobs in the block.
         """
-        parent_consumed_data_gas = parent_blob_count * Spec.DATA_GAS_PER_BLOB.value
+        parent_consumed_data_gas = parent_blob_count * Spec.DATA_GAS_PER_BLOB
         return Spec.calc_excess_data_gas(
             BlockHeaderDataGasFields(parent_excess_data_gas, parent_consumed_data_gas)
         )
@@ -169,7 +168,7 @@ class SpecHelpers(Enum):
         current_excess_data_gas = 0
         current_data_gas_price = 1
         while current_data_gas_price < data_gas_price:
-            current_excess_data_gas += Spec.DATA_GAS_PER_BLOB.value
+            current_excess_data_gas += Spec.DATA_GAS_PER_BLOB
             current_data_gas_price = Spec.get_data_gasprice(
                 excess_data_gas=current_excess_data_gas
             )
@@ -182,5 +181,5 @@ class SpecHelpers(Enum):
         """
         return (
             cls.get_min_excess_data_gas_for_data_gas_price(data_gas_price)
-            // Spec.DATA_GAS_PER_BLOB.value
+            // Spec.DATA_GAS_PER_BLOB
         )

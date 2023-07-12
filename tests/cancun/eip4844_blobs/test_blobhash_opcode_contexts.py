@@ -29,7 +29,7 @@ pytestmark = pytest.mark.valid_from("Cancun")
 
 # Blob transaction template
 tx_type_3 = Transaction(
-    ty=Spec.BLOB_TX_TYPE.value,
+    ty=Spec.BLOB_TX_TYPE,
     data=to_hash_bytes(0),
     gas_limit=3000000,
     max_fee_per_gas=10,

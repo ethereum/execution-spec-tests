@@ -197,7 +197,7 @@ def txs(  # noqa: D103
         blobs_info = Blob.blobs_to_transaction_input(tx_blobs)
         txs.append(
             Transaction(
-                ty=Spec.BLOB_TX_TYPE.value,
+                ty=Spec.BLOB_TX_TYPE,
                 nonce=nonce,
                 to=destination_account,
                 value=tx_value,
@@ -276,8 +276,7 @@ def blocks(
                 [  # Blobs per transaction
                     Blob(
                         blob=bytes(
-                            Spec.FIELD_ELEMENTS_PER_BLOB.value
-                            * SpecHelpers.BYTES_PER_FIELD_ELEMENT.value
+                            Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
                         ),
                         kzg_commitment=INF_POINT,
                         kzg_proof=INF_POINT,
@@ -291,8 +290,7 @@ def blocks(
                 [  # Blobs per transaction
                     Blob(
                         blob=bytes(
-                            Spec.FIELD_ELEMENTS_PER_BLOB.value
-                            * SpecHelpers.BYTES_PER_FIELD_ELEMENT.value
+                            Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
                         ),
                         kzg_commitment=INF_POINT,
                         kzg_proof=INF_POINT,
@@ -307,8 +305,7 @@ def blocks(
                 [  # Blobs per transaction
                     Blob(
                         blob=bytes(
-                            Spec.FIELD_ELEMENTS_PER_BLOB.value
-                            * SpecHelpers.BYTES_PER_FIELD_ELEMENT.value
+                            Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
                         ),
                         kzg_commitment=INF_POINT,
                         kzg_proof=INF_POINT,
