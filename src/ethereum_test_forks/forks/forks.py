@@ -270,3 +270,9 @@ class Cancun(Shanghai):
         Starting at Cancun, payloads must have blob hashes.
         """
         return True
+
+
+class Prague(Cancun):
+    """
+    Prague fork
+    """
