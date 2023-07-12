@@ -33,6 +33,14 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 SELFDESTRUCT_EIP_NUMBER = 6780
 
 PRE_EXISTING_SELFDESTRUCT_ADDRESS = "0x1111111111111111111111111111111111111111"
+"""
+Address of a pre-existing contract that self-destructs.
+"""
+
+SELFDESTRUCT_CONTRACT_ADDRESS = ""
+"""
+Sentinel object to indicate that the self-destructing contract address should be used.
+"""
 
 # TODO:
 
@@ -81,13 +89,16 @@ def selfdestruct_code_preset(
     )
 
     # Do the self-destruct, either using the recipient address from calldata or a preset one
-    if len(sendall_recipient_addresses) == 1:
-        # Hard-code the single only possible recipient address
-        bytecode += Op.SELFDESTRUCT(Op.PUSH20(sendall_recipient_addresses[0]))
-    else:
+    if (
+        len(sendall_recipient_addresses) != 1
+        or SELFDESTRUCT_CONTRACT_ADDRESS in sendall_recipient_addresses
+    ):
         # Load the recipient address from calldata, each test case needs to pass the adresses as
         # calldata
         bytecode += Op.SELFDESTRUCT(Op.CALLDATALOAD(0))
+    else:
+        # Hard-code the single only possible recipient address
+        bytecode += Op.SELFDESTRUCT(Op.PUSH20(sendall_recipient_addresses[0]))
 
     # This should never be reached, even when the contract is not self-destructed
     bytecode += Op.SSTORE(0, 0)
@@ -186,18 +197,40 @@ def pre(
 
     # Send-all recipient accounts contain code that unconditionally resets an storage key upon
     # entry, so we can check that it was not executed
-    for address in sendall_recipient_addresses:
-        assert address is not None, "None send-all recipient address"
-        pre[address] = Account(
-            code=Op.SSTORE(0, 0),
-            storage={0: 1},
-        )
+    for i in range(len(sendall_recipient_addresses)):
+        if sendall_recipient_addresses[i] == SELFDESTRUCT_CONTRACT_ADDRESS:
+            sendall_recipient_addresses[i] = selfdestruct_contract_address
+        address = sendall_recipient_addresses[i]
+        if (
+            address != PRE_EXISTING_SELFDESTRUCT_ADDRESS
+            and address != selfdestruct_contract_address
+        ):
+            pre[address] = Account(
+                code=Op.SSTORE(0, 0),
+                storage={0: 1},
+            )
 
     return pre
 
 
 @pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
-@pytest.mark.parametrize("call_times", [1, 40])
+@pytest.mark.parametrize(
+    "call_times,sendall_recipient_addresses",
+    [
+        (1, [to_address(0x1000)]),
+        (10, [to_address(0x1000)]),
+        (10, [to_address(0x1000), to_address(0x2000), to_address(0x3000)]),
+        (10, [SELFDESTRUCT_CONTRACT_ADDRESS, to_address(0x2000), to_address(0x3000)]),
+        (10, [to_address(0x1000), to_address(0x2000), SELFDESTRUCT_CONTRACT_ADDRESS]),
+    ],
+    ids=[
+        "single_call",
+        "multiple_calls_single_sendall_recipient",
+        "multiple_calls_multiple_sendall_recipients",
+        "multiple_calls_multiple_sendall_recipients_including_self",
+        "multiple_calls_multiple_sendall_recipients_including_self_different_order",
+    ],
+)
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
@@ -300,23 +333,23 @@ def test_create_selfdestruct_same_tx(
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
-    entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
+    entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
     post: Dict[str, Account] = {
         entry_code_address: Account(
             code="0x00",
             storage=entry_code_storage,
         ),
-        selfdestruct_contract_address: Account.NONEXISTENT,  # type: ignore
         initcode_copy_from_address: Account(
             code=selfdestruct_contract_initcode,
         ),
     }
 
     # Check the balances of the sendall recipients
-    # TODO: This is incorrect if the recipient is self
     for address, balance in sendall_final_balances.items():
         post[address] = Account(balance=balance, storage={0: 1})
+
+    post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
 
     nonce = count()
     tx = Transaction(
@@ -418,7 +451,7 @@ def test_selfdestructing_initcode(
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
-    entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
+    entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
     if selfdestruct_contract_initial_balance > 0:
         # Address where the contract is created already had some balance,
@@ -557,7 +590,7 @@ def test_recreate_selfdestructed_contract_different_txs(
         )
         sendall_amount += i
 
-    entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
+    entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
     txs: List[Transaction] = []
     nonce = count()
@@ -590,24 +623,26 @@ def test_recreate_selfdestructed_contract_different_txs(
     blockchain_test(genesis_environment=env, pre=pre, post=post, blocks=[Block(txs=txs)])
 
 
-@pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
 @pytest.mark.parametrize(
     "call_times,sendall_recipient_addresses",
     [
         (1, [to_address(0x1000)]),
+        (1, [PRE_EXISTING_SELFDESTRUCT_ADDRESS]),
         (10, [to_address(0x1000)]),
         (10, [to_address(0x1000), to_address(0x2000), to_address(0x3000)]),
         (10, [PRE_EXISTING_SELFDESTRUCT_ADDRESS, to_address(0x2000), to_address(0x3000)]),
-        (10, [to_address(0x2000), to_address(0x3000), PRE_EXISTING_SELFDESTRUCT_ADDRESS]),
+        (10, [to_address(0x1000), to_address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS]),
     ],
     ids=[
         "single_call",
+        "single_call_self_sendall_recipient",
         "multiple_calls_single_sendall_recipient",
         "multiple_calls_multiple_sendall_recipients",
         "multiple_calls_multiple_sendall_recipients_including_self",
         "multiple_calls_multiple_sendall_recipients_including_self_different_order",
     ],
 )
+@pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize(
     "selfdestruct_contract_address", [PRE_EXISTING_SELFDESTRUCT_ADDRESS], ids=["pre_existing"]
 )
@@ -682,7 +717,7 @@ def test_selfdestruct_pre_existing(
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
-    entry_code += Op.RETURN(0, 1)
+    entry_code += Op.RETURN(32, 1)
 
     post: Dict[str, Account] = {
         entry_code_address: Account(
@@ -697,8 +732,15 @@ def test_selfdestruct_pre_existing(
         post[address] = Account(balance=balance, storage={0: 1})
 
     if eip_enabled:
+        balance = (
+            sendall_final_balances[selfdestruct_contract_address]
+            if selfdestruct_contract_address in sendall_final_balances
+            else 0
+        )
         post[selfdestruct_contract_address] = Account(
-            balance=0, code=selfdestruct_code, storage={0: call_times}
+            balance=balance,
+            code=selfdestruct_code,
+            storage={0: call_times},
         )
     else:
         post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
@@ -790,7 +832,7 @@ def test_selfdestruct_created_same_block_different_tx(
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
-    entry_code += Op.RETURN(0, 1)
+    entry_code += Op.RETURN(32, 1)
 
     post: Dict[str, Account] = {
         entry_code_address: Account(
@@ -957,7 +999,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
-    entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
+    entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
     if selfdestruct_contract_initial_balance > 0:
         # Address where the contract is created already had some balance,
@@ -1109,7 +1151,7 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
 
     # Lastly return "0x00" so the entry point contract is created and we can retain the stored
     # values for verification.
-    entry_code += Op.RETURN(len(selfdestruct_contract_initcode), 1)
+    entry_code += Op.RETURN(max(len(selfdestruct_contract_initcode), 32), 1)
 
     post: Dict[str, Account] = {
         entry_code_address: Account(
