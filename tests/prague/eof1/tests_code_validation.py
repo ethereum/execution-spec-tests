@@ -5,7 +5,6 @@ from typing import Dict, List
 
 import pytest
 
-from ethereum_test_forks import Cancun, forks_from
 from ethereum_test_tools import (
     Account,
     Environment,
@@ -16,6 +15,8 @@ from ethereum_test_tools import (
     to_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Initcode
+
+from .constants import EOF_FORK_NAME
 
 # from .code_validation import INVALID as INVALID_CODE
 # from .code_validation import VALID as VALID_CODE
@@ -35,7 +36,7 @@ ALL_INVALID = INVALID_CONTAINERS
 # )
 # ALL_INVALID = INVALID_CONTAINERS + INVALID_CODE + INVALID_RJUMP + INVALID_FN
 
-pytestmark = pytest.mark.parametrize("fork", forks_from(Cancun))
+pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
 @pytest.fixture
@@ -107,9 +108,14 @@ def post(  # noqa: D103
     }
 
 
-container_name = (
-    lambda c: c.name if hasattr(c, "name") else c.__class__.__name__
-)
+def container_name(c: Container):
+    """
+    Return the name of the container for use in pytest ids.
+    """
+    if hasattr(c, "name"):
+        return c.name
+    else:
+        return c.__class__.__name__
 
 
 @pytest.mark.parametrize(
