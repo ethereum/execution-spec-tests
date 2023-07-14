@@ -16,7 +16,7 @@ from .spec import BlockHeaderDataGasFields, Spec
 
 
 @pytest.fixture
-def block_intermediate(  # TODO: Name this fixture more clearly given scope
+def non_zero_data_gas_used_genesis_block(
     parent_blobs: int,
     parent_excess_data_gas: int,
     tx_max_fee_per_gas: int,

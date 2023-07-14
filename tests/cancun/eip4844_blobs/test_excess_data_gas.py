@@ -228,9 +228,13 @@ def blocks(  # noqa: D103
     tx: Transaction,
     header_excess_data_gas: Optional[int],
     header_data_gas_used: Optional[int],
-    block_intermediate: Block,
+    non_zero_data_gas_used_genesis_block: Block,
 ):
-    blocks = [] if block_intermediate is None else [block_intermediate]
+    blocks = (
+        []
+        if non_zero_data_gas_used_genesis_block is None
+        else [non_zero_data_gas_used_genesis_block]
+    )
     if header_excess_data_gas is not None:
         blocks.append(
             Block(

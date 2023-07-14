@@ -441,7 +441,7 @@ def test_invalid_tx_max_fee_per_data_gas(
     env: Environment,
     blocks: List[Block],
     parent_blobs: int,
-    block_intermediate: Block,
+    non_zero_data_gas_used_genesis_block: Block,
 ):
     """
     Reject blocks with invalid blob txs due to:
@@ -451,7 +451,7 @@ def test_invalid_tx_max_fee_per_data_gas(
     """
     if parent_blobs:
         pre[TestAddress2] = Account(balance=10**9)
-        blocks.insert(0, block_intermediate)
+        blocks.insert(0, non_zero_data_gas_used_genesis_block)
         if env.excess_data_gas is not None:
             env.excess_data_gas += Spec.TARGET_DATA_GAS_PER_BLOCK
     blockchain_test(
