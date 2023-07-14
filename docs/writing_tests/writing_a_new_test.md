@@ -2,7 +2,7 @@
 
 ## Test Functions
 
-Every test case is defined as a python function that defines a single `StateTest` or `BlockchainTest` by using one of the `state_test` or `blockchain_test` objects made available by the framework. Test cases, respectively test modules, must fulfil the following requirements:
+Every test case is defined as a python function that defines a single `StateTest` or `BlockchainTest` by using one of the `state_test` or `blockchain_test` objects made available by the framework. Test cases, respectively test modules, must fulfill the following requirements:
 
 | Requirement                                                            | When                                        |
 | -----------------------------------------------------------------------|---------------------------------------------|
@@ -100,14 +100,12 @@ Ethereum VM by attempting to append multiple blocks to the chain:
     created or modified after all blocks are executed.
 - `blocks`: All blocks to be appended to the blockchain during the test.
 
-
 ## Pre/Post State of the Test
 
 The `pre` and `post` states are elemental to setup and then verify the outcome
 of the state test.
 
 Both `pre` and `post` are mappings of account addresses to `account` structures (see [more info](#the-account-object)).
-
 
 A single test vector can contain as many accounts in the `pre` and `post` states
 as required, and they can be also filled dynamically.
@@ -130,7 +128,7 @@ storage to be able to verify them in the post-state.
 Transactions can be crafted by sending them with specific `data` or to a
 specific account, which contains the code to be executed
 
-Transactions can also create more accounts, by setting the `to` field to an 
+Transactions can also create more accounts, by setting the `to` field to an
 empty string.
 
 Transactions can be designed to fail, and a verification must be made that the
@@ -151,7 +149,7 @@ The code can be in either of the following formats:
 
 Currently supported built-in compilable objects are:
 
-- `Yul` object containing [Yul source code][yul].
+- `Yul` object containing [Yul source code](https://docs.soliditylang.org/en/latest/yul.html).
 
 `Code` objects can be concatenated together by using the `+` operator.
 
@@ -190,7 +188,7 @@ It can verify the following properties of an account:
 - `nonce`: the scalar value equal to a) the number of transactions sent by
   an Externally Owned Account, b) the amount of contracts created by a contract.
   
-- `balance`: the amount of Wei (10<sup>-18</sup> Eth) the account has.
+- `balance`: the amount of Wei (10<sup>-18</sup> Eth) the account has.  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
 
 - `code`: Bytecode contained by the account. To verify that an account contains
   no code, this property needs to be set to "0x" or "".
@@ -223,7 +221,7 @@ storage.
 A test can be written as a negative verification. E.g. a contract is not
 created, or a transaction fails to execute or runs out of gas.
 
-These verifications must be carefully crafted because it is possible to end up
+This kind of verification must be carefully crafted because it is possible to end up
 having a false positive result, which means that the test passed but the
 intended verification was never made.
 
@@ -244,6 +242,3 @@ An intrinsically valid transaction can still revert during its execution.
 Blocks in a BlockchainTest can contain intrinsically invalid transactions but
 in this case the block is expected to be completely rejected, along with all
 transactions in it, including other valid transactions.
-
-[t8n]: https://github.com/ethereum/go-ethereum/tree/master/cmd/evm
-[yul]: https://docs.soliditylang.org/en/latest/yul.html

@@ -2,7 +2,6 @@
 
 This tutorial teaches you to create a blockchain execution specification test. These tests verify that a blockchain, starting from a defined pre-state, will process given blocks and arrive at a defined post-state.
 
-
 ## Pre-requisites
 
 Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:
@@ -13,18 +12,15 @@ Before proceeding with this tutorial, it is assumed that you have prior knowledg
 - Familiarity with [Python](https://docs.python.org/3/tutorial/).
 - Understand how to write an execution spec [state transition test](./state_transition.md).
 
-
 ## Example Tests
 
 In this tutorial we will go over [test_block_number] in `test_block_example.py`(https://github.com/ethereum/execution-spec-tests/tree/main/tests/example/test_block_example.py#L19).
 
 It is assumed you have already gone through the state transition test tutorial. Only new concepts will be discussed.
 
-
 ### Smart Contract
 
 A smart contract is defined that is called by each transaction in the test. It stores a pointer to storage at `storage[0]`. When it is called storage cell `0` gets the current block [number](https://www.evm.codes/#43?fork=merge), and the pointer is incremented to the next value.
-
 
 ```python
 contract_addr: Account(
@@ -44,10 +40,9 @@ contract_addr: Account(
 ),
 ```
 
-
 ### Transaction Generator
 
-The transactions used in this test are nearly identical. Their only different is the `nonce` value which needs to be incremented. 
+The transactions used in this test are nearly identical. Their only different is the `nonce` value which needs to be incremented.
 
 ```python
 def tx_generator():
@@ -69,9 +64,7 @@ tx_generator = tx_generator()
 
 This looks like an infinite loop but it isn't because this is a [generator function](https://wiki.python.org/moin/Generators). When generator encounters the `yield` keyword it returns the value and stops execution, keeping a copy of all the local variables, until it is called again. Hence infinite loops inside a generator are not a problem as long as they include `yield`. This code section is responsible for creating the `Transaction` object and incrementing the `nonce`.
 
-
 Every time the function `tx_generator()` is called, it returns a new generator with a `nonce` of zero. To increment the `nonce` we need to use the *same* generator. We assign this generator to `tx_generator`.
-
 
 ### Blocks
 
@@ -131,7 +124,6 @@ blocks = [
 ]
 ```
 
-
 ### Post State
 
 Recall that storage slot 0 retains the value of the next slot that the block number is written into. It starts at one and is incremented after each transaction. Hence it's the total number of transactions plus 1.
@@ -148,9 +140,9 @@ for blocknum in range(len(tx_per_block)):
     for _ in range(tx_per_block[blocknum]):
         storage[next_slot] = blocknum + 1
         next_slot = next_slot + 1
-``` 
+```
 
-Now that the expeced storage values are calculated, the post state can be defined and yielded within the `BlockchainTest`, synonymous to the state test example.
+Now that the expected storage values are calculated, the post state can be defined and yielded within the `BlockchainTest`, synonymous to the state test example.
 
 ```python
 post = {contract_addr: Account(storage=storage)}

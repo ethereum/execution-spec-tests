@@ -1,4 +1,4 @@
-### Bad Opcode Test
+# Bad Opcode Test
 
 The source code for this test is [here](https://github.com/ethereum/execution-spec-tests/tree/main/tests/vm/test_opcode_tests.py).
 We will only go over the parts that are new.
@@ -63,13 +63,13 @@ Python supports this, and it has two advantages:
         """
 ```
 
-This is the syntax for Python comments, `# <rest of the line>`. 
+This is the syntax for Python comments, `# <rest of the line>`.
 
 ```python
         # PUSH0 is only valid Shanghai and later
 ```
 
-Opcode 0x5F (`PUSH0`) is only valid starting with the Shangai fork.
+Opcode 0x5F (`PUSH0`) is only valid starting with the Shanghai fork.
 We don't know what will be the fork names after Shanghai, so it is easiest to specify that prior to Shanghai it is invalid.
 We don't need to worry about forks prior to London because the decorator for this test says it is only valid from London.
 
@@ -88,7 +88,6 @@ That is the general Python syntax.
 ```
 
 Boolean values in Python are either `True` or `False`.
-
 
 This test works by running an opcode and then does a [`SSTORE`](https://www.evm.codes/#55?fork=merge).
 Opcodes that terminate execution, such as [`STOP`](https://www.evm.codes/#00?fork=merge) and [`RETURN`](https://www.evm.codes/#f3?fork=merge) also cause the `SSTORE` not to happen, so they must be treated as invalid.
@@ -119,7 +118,6 @@ Next we return `True` for supported opcodes.
 
 In Python, as in math, you can use `a < b < c` for `a < b and b < c`.
 
-
 ```python
         # Arithmetic opcodes
         if 0x01 <= opc <= 0x0b:
@@ -138,10 +136,10 @@ If we got here, then this is not a valid opcode.
         # End of opc_valid
 ```
 
-As this is the end of the function, the next code line is unindented (compared to the function definition code).
+As this is the end of the function, the next code line is no longer indented (compared to the function definition code).
 
 This is a [`for` loop](https://docs.python.org/3/tutorial/controlflow.html#for-statements).
-For loops iterate over a sequnce, and the [`range`](https://docs.python.org/3/tutorial/controlflow.html#the-range-function) function, in this case, gives us the range 0..255.
+For loops iterate over a sequence, and the [`range`](https://docs.python.org/3/tutorial/controlflow.html#the-range-function) function, in this case, gives us the range 0..255.
 As with functions and `if` statements, the `for` loop has a colon and includes the indented code.
 
 ```python
@@ -149,10 +147,10 @@ As with functions and `if` statements, the `for` loop has a colon and includes t
     for opc in range(256):
 ```
 
-We have two post states. 
+We have two post states.
 One, `post_valid`, has the value of `1` in storage location `0`.
 The other, `post_invalid` has the value of `0` in storage location `0`.
-But `SELFDESTRUCT` destroys the contract so there is no longer an account at that address. 
+But `SELFDESTRUCT` destroys the contract so there is no longer an account at that address.
 Neither is valid, so we just skip that test case.
 
 ```python
@@ -161,7 +159,7 @@ Neither is valid, so we just skip that test case.
            continue
 ```
 
-We need the opcode in hexadecimal. 
+We need the opcode in hexadecimal.
 The function [`hex`](https://docs.python.org/3/library/functions.html#hex) gives us the hexadecimal number in hex.
 However, it also gives us a `0x` prefix, which we don't want, so we use a [slice](https://www.w3schools.com/python/gloss_python_string_slice.asp) to remove the first two characters.
 
@@ -239,19 +237,18 @@ Note the syntax `let <var> := <value>`. This is how you specify variables in Yul
 
 Replace `${opcode}` with the one byte hex code, and `${nop32}` with 32 copies of `5b` (for NOP).
 
-
 ```python
         """).substitute(opcode=opc_hex, nop32="5B"*32)
         pre = {
            TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE),
            codeAddr: Account(
-		balance=0,
-		nonce=1,
-		code=Yul(yul_code)
+  balance=0,
+  nonce=1,
+  code=Yul(yul_code)
            ),
 ```
 
-This is the account for `0x00..0060A7`. 
+This is the account for `0x00..0060A7`.
 It just returns data (all zeros).
 
 ```python
@@ -263,7 +260,7 @@ It just returns data (all zeros).
         }
 ```
 
-Every time the `for` loop gets here, it [`yields`](https://docs.python.org/3/reference/expressions.html#yieldexpr) a separate test. 
+Every time the `for` loop gets here, it [`yields`](https://docs.python.org/3/reference/expressions.html#yieldexpr) a separate test.
 Over the entire for loop, it yields 255 different tests.
 
 ```python

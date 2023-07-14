@@ -18,7 +18,7 @@ The most effective method of learning how to write tests is to study a couple of
 ### Yul Test
 
 You can find the source code for the Yul test in [tests/homestead/yul/test_yul_example.py](../tests/homestead/yul/test_yul_example/index.md).
-It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml). 
+It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml).
 
 Lets examine each section.
 
@@ -54,11 +54,14 @@ In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org
 
 !!! info "Executing the test"
     To execute this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
-    ```python
+
+    ```console
     fill -k test_yul
     ```
+
     and to execute it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
-    ```python
+
+    ```console
     fill -k test_yul --from London --until Merge
     ```
 
@@ -74,8 +77,7 @@ It starts with `def <function name>(<parameters>):`, and then has indented code 
 The function definition ends when there is a line that is no longer indented. As with files, by convention functions start with a string that explains what the function does.
 
 !!! note "The `state_test` function argument"
-    This test defines a state test and, as such, _must_ include the `state_test` in its function arguments. This is a callable object (actually a wrapper class to the `StateTest`); we will see how it is called later.
-
+    This test defines a state test and, as such, *must* include the `state_test` in its function arguments. This is a callable object (actually a wrapper class to the `StateTest`); we will see how it is called later.
 
 ```python
     env = Environment()
@@ -87,9 +89,7 @@ In most tests the defaults are good enough.
 
 For more information, [see the static test documentation](https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#env).
 
-
 #### Pre State
-
 
 ```python
     pre = {
@@ -103,7 +103,7 @@ It is a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dict
 ```
 
 The keys of the dictionary are addresses (as strings), and the values are [`Account`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L264) objects.
-You can read more about address fields [in the static test documentation](https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#address-fields). 
+You can read more about address fields [in the static test documentation](https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#address-fields).
 
 ```python
             balance=0x0BA1A9CE0BA1A9CE,
@@ -136,7 +136,7 @@ When running the test filler `fill`, the solidity compiler `solc` will automatic
         ),
 ```
 
-Within this example test Yul code we have a function definition, and inside it we are using the Yul `add` instruction. When compiled with `solc` it translates the instruction directly to the`ADD` opcode. For further Yul instructions [see here](https://docs.soliditylang.org/en/latest/yul.html#evm-dialect). Notice that function is utilised with the Yul `sstore` instruction, which stores the result of `add(1, 2)` to the storage address `0x00`.
+Within this example test Yul code we have a function definition, and inside it we are using the Yul `add` instruction. When compiled with `solc` it translates the instruction directly to the`ADD` opcode. For further Yul instructions [see here](https://docs.soliditylang.org/en/latest/yul.html#evm-dialect). Notice that function is utilized with the Yul `sstore` instruction, which stores the result of `add(1, 2)` to the storage address `0x00`.
 
 Generally for execution spec tests the `sstore` instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the Yul code has run successfully.
 

@@ -6,7 +6,7 @@ Prerequisite: [VS Code Setup](./setup_vs_code.md).
 
 Implemented test cases can be explored in VS Code's "Testing" View; click on the conical flask highlighted in the screenshot below.
 
-<figure markdown>
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
  ![VS Code Testing Tab](./img/vs_code_exploring_tests.png){ width=auto align=center}
 </figure>
 

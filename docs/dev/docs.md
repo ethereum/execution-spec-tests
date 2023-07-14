@@ -168,4 +168,4 @@ All pages that are to be included in the documentation and the navigation bar mu
 
 ## Read the Docs
 
-Originally, documentation was hosted at [readthedocs.io]. Currently, [execution-spec-tests.readthedocs.io](https://execution-spec-tests.readthedocs.io) is configured to redirect to the Github Pages site. This is achieved by following the steps listed in the second half of [this answer](https://stackoverflow.com/a/69928404) on stackoverflow. A public repo with dummy Sphinx project is required to achieve this: [danceratopz/est-docs-redirect](https://github.com/danceratopz/est-docs-redirect).
+Originally, documentation was hosted at readthedocs.io. Currently, this now defunct page ([execution-spec-tests.readthedocs.io](https://execution-spec-tests.readthedocs.io)) is configured to redirect to the Github Pages site. This is achieved by following the steps listed in the second half of [this answer](https://stackoverflow.com/a/69928404) on stackoverflow. A public repo with a dummy Sphinx project is required to achieve this: [danceratopz/est-docs-redirect](https://github.com/danceratopz/est-docs-redirect).

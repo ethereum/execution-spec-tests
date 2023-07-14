@@ -8,8 +8,12 @@
 		"ms-python.flake8",
 		"ms-python.black-formatter",
 		"esbenp.prettier-vscode",
+		"njpwerner.autodocstring",  // https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring
 		"streetsidesoftware.code-spell-checker",
 		"tamasfe.even-better-toml",
+		"bierner.markdown-mermaid",  // https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid
+		"bpruitt-goddard.mermaid-markdown-syntax-highlighting",  // https://marketplace.visualstudio.com/items?itemName=bpruitt-goddard.mermaid-markdown-syntax-highlighting
+		"DavidAnson.vscode-markdownlint",  // https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": []
