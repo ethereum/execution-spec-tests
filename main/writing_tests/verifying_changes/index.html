@@ -737,16 +737,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#executing-tox" class="md-nav__link">
+    Executing tox
+  </a>
+  
+    <nav class="md-nav" aria-label="Executing tox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution" class="md-nav__link">
+    Execution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executing-tox-environments-individually" class="md-nav__link">
+    Executing tox Environments Individually
+  </a>
+  
+    <nav class="md-nav" aria-label="Executing tox Environments Individually">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#test-case-verification-tests" class="md-nav__link">
     Test Case Verification: tests
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#framework-verification-py3" class="md-nav__link">
-    Framework Verification: py3
+        
+          <li class="md-nav__item">
+  <a href="#framework-verification-framework" class="md-nav__link">
+    Framework Verification: framework
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-verification-docs" class="md-nav__link">
+    Documentation Verification: docs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3211,16 +3258,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#executing-tox" class="md-nav__link">
+    Executing tox
+  </a>
+  
+    <nav class="md-nav" aria-label="Executing tox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution" class="md-nav__link">
+    Execution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executing-tox-environments-individually" class="md-nav__link">
+    Executing tox Environments Individually
+  </a>
+  
+    <nav class="md-nav" aria-label="Executing tox Environments Individually">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#test-case-verification-tests" class="md-nav__link">
     Test Case Verification: tests
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#framework-verification-py3" class="md-nav__link">
-    Framework Verification: py3
+        
+          <li class="md-nav__item">
+  <a href="#framework-verification-framework" class="md-nav__link">
+    Framework Verification: framework
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-verification-docs" class="md-nav__link">
+    Documentation Verification: docs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3243,31 +3337,63 @@
 
 
 <h1 id="verifying-changes">Verifying Changes<a class="headerlink" href="#verifying-changes" title="Permanent link">&para;</a></h1>
-<p>The <code>tox</code> tool can be used to lint, type check, test and verify that documentation is correctly generated. The <code>tox</code> tool can be executed locally to check that local changes won't cause Github Actions Checks to fail.</p>
-<p>There are two tox environments available, one for the test cases (<code>tests</code>) and one for the framework and libraries (<code>py3</code>).</p>
+<p>The <code>tox</code> tool can be executed locally to check that local changes won't cause Github Actions Checks to fail.</p>
+<div class="admonition note">
+<p class="admonition-title">Pre-commit</p>
+<p>Tox can be ran as a git pre-commit hook, see <a href="../../dev/precommit/">Enabling Pre-Commit Checks</a>.</p>
+</div>
+<h2 id="executing-tox">Executing <code>tox</code><a class="headerlink" href="#executing-tox" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="go">python -m venv ./venv/</span>
+<span class="go">source ./venv/bin/activate</span>
+<span class="go">pip install tox</span>
+</code></pre></div>
+<h3 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h3>
+<p>Run tox, as executed in Github Actions, with:</p>
+<div class="highlight"><pre><span></span><code><span class="go">tox</span>
+</code></pre></div>
+<p>This executes all the environments described in the next section.</p>
 <div class="admonition note">
 <p class="admonition-title">Tox Virtual Environment</p>
 <p>The checks performed by <code>tox</code> are sandboxed in their own virtual environments (which are created automatically in the <code>.tox/</code> subdirectory). These can be used to debug errors encountered during <code>tox</code> execution.</p>
-<p>Whilst we create a virtual environment in the code snippets below, they are only to install the tox tool itself.</p>
+<p>Whilst we create a virtual environment in the code snippet above, it's only to install the tox tool itself.</p>
 </div>
-<h2 id="test-case-verification-tests">Test Case Verification: <code>tests</code><a class="headerlink" href="#test-case-verification-tests" title="Permanent link">&para;</a></h2>
-<p>Prerequisite:
-<div class="highlight"><pre><span></span><code><span class="go">python -m venv ./venv/</span>
-<span class="go">source ./venv/bin/activate</span>
-<span class="go">pip install tox</span>
+<h2 id="executing-tox-environments-individually">Executing <code>tox</code> Environments Individually<a class="headerlink" href="#executing-tox-environments-individually" title="Permanent link">&para;</a></h2>
+<p>There are three tox environments available:</p>
+<ol>
+<li><code>framework</code>: Lint and test framework and libraries related code in <code>src/</code>.</li>
+<li><code>tests</code>: Lint and test the test cases in <code>tests/</code> (runs <code>fill</code> on all forks deployed to mainnet).</li>
+<li><code>docs</code>: Lint and spell-check markdown in <code>docs/</code>; build docs.</li>
+</ol>
+<p>For targeted tox runs locally, each environment can be ran separately as described below.</p>
+<h3 id="test-case-verification-tests">Test Case Verification: <code>tests</code><a class="headerlink" href="#test-case-verification-tests" title="Permanent link">&para;</a></h3>
+<p>Verify:</p>
+<div class="highlight"><pre><span></span><code><span class="go">tox -e tests</span>
 </code></pre></div>
-Verify:
-<div class="highlight"><pre><span></span><code>tox -e tests
-</code></pre></div></p>
-<h2 id="framework-verification-py3">Framework Verification: <code>py3</code><a class="headerlink" href="#framework-verification-py3" title="Permanent link">&para;</a></h2>
-<p>Prerequisite:
-<div class="highlight"><pre><span></span><code><span class="go">python -m venv ./venv/</span>
-<span class="go">source ./venv/bin/activate</span>
-<span class="go">pip install tox</span>
+<h3 id="framework-verification-framework">Framework Verification: <code>framework</code><a class="headerlink" href="#framework-verification-framework" title="Permanent link">&para;</a></h3>
+<p>Verify:</p>
+<div class="highlight"><pre><span></span><code><span class="go">tox -e framework</span>
 </code></pre></div>
-Verify:
-<div class="highlight"><pre><span></span><code><span class="go">tox -e py3</span>
-</code></pre></div></p>
+<h3 id="documentation-verification-docs">Documentation Verification: <code>docs</code><a class="headerlink" href="#documentation-verification-docs" title="Permanent link">&para;</a></h3>
+<p>This environment runs <code>pyspelling</code> and <code>markdownlint-cli2</code> in a "soft fail" mode because they require external (non-python) packages. This allows developers who aren't working on documentation to execute tox locally without additional overhead. These commands are, however, ran as part of the checks in Github Actions.</p>
+<p>Additional, optional prerequisites:</p>
+<ol>
+<li>
+<p><code>pyspelling</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo apt-get install aspell aspell-en</span>
+</code></pre></div>
+</li>
+<li>
+<p><code>markdownlint-cli2</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo apt install nodejs</span>
+<span class="go">sudo npm install markdownlint-cli2 --global</span>
+</code></pre></div>
+<p>Or use a specific node version using <code>nvm</code>, for example.</p>
+</li>
+</ol>
+<p>Verify:</p>
+<div class="highlight"><pre><span></span><code><span class="go">tox -e docs</span>
+</code></pre></div>
 
 
 

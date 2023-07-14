@@ -3211,7 +3211,7 @@
 <tr>
 <td>4</td>
 <td><code>flake8 tests</code></td>
-<td>Python lint checked.</td>
+<td>Python lint and spell-checked.</td>
 </tr>
 <tr>
 <td>5</td>
@@ -3228,12 +3228,22 @@
 <td><code>mkdocs build --strict</code></td>
 <td>Documentation generated without warnings.</td>
 </tr>
+<tr>
+<td>8</td>
+<td><code>pyspelling</code></td>
+<td>Markdown spell-check.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>markdownlint-cli2</code></td>
+<td>Markdown lint check.</td>
+</tr>
 </tbody>
 </table>
 <p>While this seems like a long list, a correctly configured editor (see <a href="../../getting_started/setup_vs_code/">VS Code Setup</a>) essentially assures:</p>
 <ol>
 <li>Points 2 and 3 are automatically covered.</li>
-<li>Points 1, 4 &amp; 5 are mostly covered. Additionally, if you skip type hints, they won't be checked; we can help you add these in the PR.</li>
+<li>Points 1, 4, 5, 8 &amp; 9 are mostly covered. Additionally, if you skip type hints, they won't be checked; we can help you add these in the PR.</li>
 </ol>
 <p>These checks must pass in order for the execution-spec-tests Github Actions to pass upon pushing to remote.</p>
 <div class="admonition info">

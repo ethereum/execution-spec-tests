@@ -3231,13 +3231,13 @@
 <h1 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Testing features under active development</p>
-<p>The EVM features under test must be implemented in the <code>evm</code> tool and <code>solc</code> executables that are used by the execution-spec-tests framework. The following guide installs stable versions of these tools. </p>
+<p>The EVM features under test must be implemented in the <code>evm</code> tool and <code>solc</code> executables that are used by the execution-spec-tests framework. The following guide installs stable versions of these tools.</p>
 <p>To test features under active development, start with this base configuration and then follow the steps in <a href="../executing_tests_dev_fork/">executing tests for features under development</a>. </p>
 </div>
 <p>The following requires a Python 3.10 or Python 3.11 installation.</p>
 <ol>
 <li>
-<p>Ensure go-ethereum's <code>evm</code> tool and <code>solc</code> are in your path. Either build the required versions, or alternatively:</p>
+<p>Ensure <code>go-ethereum</code>'s <code>evm</code> tool and <code>solc</code> are in your path. Either build the required versions, or alternatively:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Ubuntu</label><label for="__tabbed_1_2">macos</label><label for="__tabbed_1_3">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -3279,30 +3279,36 @@
 </div>
 </li>
 <li>
-<p>Clone the <a href="https://github.com/ethereum/execution-spec-tests">execution-spec-tests</a> repo and install its and dependencies (it's recommended to use a virtual environment for the installation):
-   <div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/ethereum/execution-spec-tests</span>
+<p>Clone the <a href="https://github.com/ethereum/execution-spec-tests">execution-spec-tests</a> repo and install its and dependencies (it's recommended to use a virtual environment for the installation):</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/ethereum/execution-spec-tests</span>
 <span class="go">cd execution-spec-tests</span>
 <span class="go">python3 -m venv ./venv/</span>
 <span class="go">source ./venv/bin/activate</span>
 <span class="go">pip install -e .[docs,lint,test]</span>
-</code></pre></div></p>
-</li>
+</code></pre></div>
+<ol>
 <li>
 <p>Verify installation:</p>
 <ol>
-<li>Explore test cases:</li>
-<li><code>console
-    fill --collect-only</code></li>
+<li>
+<p>Explore test cases:</p>
+</li>
+<li>
+<p><code>console
+    fill --collect-only</code></p>
+</li>
 </ol>
 <p>Expected console output:
-   <figure markdown>
+   <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
      <a class="glightbox" href="../img/pytest_collect_only.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_collect_only.png" /></a>
    </figure>
-3. Execute the test cases (verbosely) in the <code>./tests/berlin/eip2930_access_list/test_acl.py</code> module:
-   <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py</span>
+3. Execute the test cases (verbosely) in the <code>./tests/berlin/eip2930_access_list/test_acl.py</code> module:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py</span>
 </code></pre></div>
-   Expected console output:</p>
-<p><figure markdown>
+<p>Expected console output:
+   <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
     <a class="glightbox" href="../img/pytest_run_example.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_run_example.png" /></a>
    </figure>
    Check:</p>
@@ -3310,7 +3316,7 @@
 <li>The versions of the <code>evm</code> and <code>solc</code> tools are as expected (your versions may differ from those in the highlighted box).</li>
 <li>
 <p>The corresponding fixture file has been generated:</p>
-<div class="highlight"><pre><span></span><code>head fixtures/berlin/eip2930_access_list/acl/access_list.json
+<div class="highlight"><pre><span></span><code><span class="go">head fixtures/berlin/eip2930_access_list/acl/access_list.json</span>
 </code></pre></div>
 </li>
 </ol>

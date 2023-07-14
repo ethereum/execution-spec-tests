@@ -19,7 +19,7 @@
     
     
       
-        <title>State transition bad opcode - Ethereum Execution Spec Tests</title>
+        <title>Bad Opcode Test - Ethereum Execution Spec Tests</title>
       
     
     
@@ -53,7 +53,7 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="State transition bad opcode - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="Bad Opcode Test - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
@@ -69,7 +69,7 @@
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="State transition bad opcode - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="Bad Opcode Test - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
@@ -146,7 +146,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              State transition bad opcode
+              Bad Opcode Test
             
           </span>
         </div>
@@ -3145,21 +3145,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#bad-opcode-test" class="md-nav__link">
-    Bad Opcode Test
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -3177,9 +3164,7 @@
   
 
 
-  <h1>State transition bad opcode</h1>
-
-<h3 id="bad-opcode-test">Bad Opcode Test<a class="headerlink" href="#bad-opcode-test" title="Permanent link">&para;</a></h3>
+<h1 id="bad-opcode-test">Bad Opcode Test<a class="headerlink" href="#bad-opcode-test" title="Permanent link">&para;</a></h1>
 <p>The source code for this test is <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/vm/test_opcode_tests.py">here</a>.
 We will only go over the parts that are new.</p>
 <p>We use <a href="https://docs.python.org/3/library/string.html#template-strings">Python string templates</a>, so we need to import that library.</p>
@@ -3228,10 +3213,10 @@ Python supports this, and it has two advantages:</p>
 <span class="sd">        Note that some opcodes are evaluated as invalid because the way they act</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 </code></pre></div>
-<p>This is the syntax for Python comments, <code># &lt;rest of the line&gt;</code>. </p>
+<p>This is the syntax for Python comments, <code># &lt;rest of the line&gt;</code>.</p>
 <div class="highlight"><pre><span></span><code>        <span class="c1"># PUSH0 is only valid Shanghai and later</span>
 </code></pre></div>
-<p>Opcode 0x5F (<code>PUSH0</code>) is only valid starting with the Shangai fork.
+<p>Opcode 0x5F (<code>PUSH0</code>) is only valid starting with the Shanghai fork.
 We don't know what will be the fork names after Shanghai, so it is easiest to specify that prior to Shanghai it is invalid.
 We don't need to worry about forks prior to London because the decorator for this test says it is only valid from London.</p>
 <div class="highlight"><pre><span></span><code>        <span class="k">if</span> <span class="n">fork</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;london&quot;</span><span class="p">,</span> <span class="s2">&quot;merge&quot;</span><span class="p">}</span> <span class="ow">and</span> <span class="n">opc</span><span class="o">==</span><span class="mh">0x5F</span><span class="p">:</span>
@@ -3277,23 +3262,23 @@ If we got here, then this is not a valid opcode.</p>
 <div class="highlight"><pre><span></span><code>        <span class="k">return</span> <span class="kc">False</span>
         <span class="c1"># End of opc_valid</span>
 </code></pre></div>
-<p>As this is the end of the function, the next code line is unindented (compared to the function definition code).</p>
+<p>As this is the end of the function, the next code line is no longer indented (compared to the function definition code).</p>
 <p>This is a <a href="https://docs.python.org/3/tutorial/controlflow.html#for-statements"><code>for</code> loop</a>.
-For loops iterate over a sequnce, and the <a href="https://docs.python.org/3/tutorial/controlflow.html#the-range-function"><code>range</code></a> function, in this case, gives us the range 0..255.
+For loops iterate over a sequence, and the <a href="https://docs.python.org/3/tutorial/controlflow.html#the-range-function"><code>range</code></a> function, in this case, gives us the range 0..255.
 As with functions and <code>if</code> statements, the <code>for</code> loop has a colon and includes the indented code.</p>
 <div class="highlight"><pre><span></span><code>    <span class="c1"># For every possible opcode</span>
     <span class="k">for</span> <span class="n">opc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
 </code></pre></div>
-<p>We have two post states. 
+<p>We have two post states.
 One, <code>post_valid</code>, has the value of <code>1</code> in storage location <code>0</code>.
 The other, <code>post_invalid</code> has the value of <code>0</code> in storage location <code>0</code>.
-But <code>SELFDESTRUCT</code> destroys the contract so there is no longer an account at that address. 
+But <code>SELFDESTRUCT</code> destroys the contract so there is no longer an account at that address.
 Neither is valid, so we just skip that test case.</p>
 <div class="highlight"><pre><span></span><code>        <span class="c1"># We can&#39;t check SELFDESTRUCT using this technique</span>
         <span class="k">if</span> <span class="n">opc</span> <span class="ow">in</span> <span class="p">{</span><span class="mh">0xFF</span><span class="p">}:</span>
            <span class="k">continue</span>
 </code></pre></div>
-<p>We need the opcode in hexadecimal. 
+<p>We need the opcode in hexadecimal.
 The function <a href="https://docs.python.org/3/library/functions.html#hex"><code>hex</code></a> gives us the hexadecimal number in hex.
 However, it also gives us a <code>0x</code> prefix, which we don't want, so we use a <a href="https://www.w3schools.com/python/gloss_python_string_slice.asp">slice</a> to remove the first two characters.</p>
 <div class="highlight"><pre><span></span><code>        <span class="n">opc_hex</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">opc</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
@@ -3352,12 +3337,12 @@ If we do get here, write to storage cell <code>0x00</code> to record that fact.<
 <span class="s2">        pre = {</span>
 <span class="s2">           TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE),</span>
 <span class="s2">           codeAddr: Account(</span>
-<span class="s2">        balance=0,</span>
-<span class="s2">        nonce=1,</span>
-<span class="s2">        code=Yul(yul_code)</span>
+<span class="s2">  balance=0,</span>
+<span class="s2">  nonce=1,</span>
+<span class="s2">  code=Yul(yul_code)</span>
 <span class="s2">           ),</span>
 </code></pre></div>
-<p>This is the account for <code>0x00..0060A7</code>. 
+<p>This is the account for <code>0x00..0060A7</code>.
 It just returns data (all zeros).</p>
 <div class="highlight"><pre><span></span><code>           <span class="n">goat_addr</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -3366,7 +3351,7 @@ It just returns data (all zeros).</p>
            <span class="p">)</span>
         <span class="p">}</span>
 </code></pre></div>
-<p>Every time the <code>for</code> loop gets here, it <a href="https://docs.python.org/3/reference/expressions.html#yieldexpr"><code>yields</code></a> a separate test. 
+<p>Every time the <code>for</code> loop gets here, it <a href="https://docs.python.org/3/reference/expressions.html#yieldexpr"><code>yields</code></a> a separate test.
 Over the entire for loop, it yields 255 different tests.</p>
 <div class="highlight"><pre><span></span><code>    <span class="k">yield</span> <span class="n">StateTest</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> 

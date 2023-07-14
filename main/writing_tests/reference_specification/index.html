@@ -3245,23 +3245,24 @@
 <h1 id="referencing-an-eip-spec-version">Referencing an EIP Spec Version<a class="headerlink" href="#referencing-an-eip-spec-version" title="Permanent link">&para;</a></h1>
 <p>An Ethereum Improvement Proposal (<a href="https://github.com/ethereum/EIPs/tree/master/EIPS">ethereum/EIPs</a>) and its SHA digest can be directly referenced within a python test module in order to check whether the test implementation could be out-dated. The test framework automatically generates tests for every module that defines a spec version. If the spec is out-of-date because the SHA of the specified file in the remote repo changes, the corresponding <code>test_eip_spec_version()</code> test fails.</p>
 <figure>
-<p><a class="glightbox" href="../img/eip_reference_spec_console_output.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Test framework summary for a failing EIP spec version test" src="../img/eip_reference_spec_console_output.png" width="auto" /></a>
+<p><!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+  <a class="glightbox" href="../img/eip_reference_spec_console_output.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Test framework summary for a failing EIP spec version test" src="../img/eip_reference_spec_console_output.png" width="auto" /></a>
   <code>&lt;-snip-&gt;</code>
   <a class="glightbox" href="../img/eip_reference_spec_console_output_fail.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="EIP spec version test fail" src="../img/eip_reference_spec_console_output_fail.png" width="auto" /></a></p>
 </figure>
 <div class="admonition info">
-<p>The SHA value is the output from git's <code>hash-object</code> command, for example:
+<p>The SHA value is the output from git's <code>hash-object</code> command, for example:</p>
 <div class="highlight"><pre><span></span><code><span class="go">git clone git@github.com:ethereum/EIPs</span>
 <span class="go">git hash-object EIPS/EIPS/eip-3651.md</span>
 <span class="gp"># </span>output:<span class="w"> </span>d94c694c6f12291bb6626669c3e8587eef3adff1
 </code></pre></div>
-and can be retrieved from the remote repo via the Github API on the command-line as following:
+<p>and can be retrieved from the remote repo via the Github API on the command-line as following:</p>
 <div class="highlight"><pre><span></span><code><span class="go">sudo apt install jq</span>
 <span class="go">curl -s -H &quot;Accept: application/vnd.github.v3+json&quot; \</span>
 <span class="go">https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-3651.md |\</span>
 <span class="go">jq -r &#39;.sha&#39;</span>
 <span class="gp"># </span>output:<span class="w"> </span>d94c694c6f12291bb6626669c3e8587eef3adff1
-</code></pre></div></p>
+</code></pre></div>
 </div>
 <h2 id="how-to-add-a-spec-version-check">How to Add a Spec Version Check<a class="headerlink" href="#how-to-add-a-spec-version-check" title="Permanent link">&para;</a></h2>
 <p>This check accomplished by adding the following two global variables anywhere in the Python source file:</p>

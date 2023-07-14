@@ -3396,7 +3396,7 @@
 
 <h1 id="writing-a-new-test">Writing a New Test<a class="headerlink" href="#writing-a-new-test" title="Permanent link">&para;</a></h1>
 <h2 id="test-functions">Test Functions<a class="headerlink" href="#test-functions" title="Permanent link">&para;</a></h2>
-<p>Every test case is defined as a python function that defines a single <code>StateTest</code> or <code>BlockchainTest</code> by using one of the <code>state_test</code> or <code>blockchain_test</code> objects made available by the framework. Test cases, respectively test modules, must fulfil the following requirements:</p>
+<p>Every test case is defined as a python function that defines a single <code>StateTest</code> or <code>BlockchainTest</code> by using one of the <code>state_test</code> or <code>blockchain_test</code> objects made available by the framework. Test cases, respectively test modules, must fulfill the following requirements:</p>
 <table>
 <thead>
 <tr>
@@ -3515,7 +3515,7 @@ storage to be able to verify them in the post-state.</p>
 <h2 id="test-transactions">Test Transactions<a class="headerlink" href="#test-transactions" title="Permanent link">&para;</a></h2>
 <p>Transactions can be crafted by sending them with specific <code>data</code> or to a
 specific account, which contains the code to be executed</p>
-<p>Transactions can also create more accounts, by setting the <code>to</code> field to an 
+<p>Transactions can also create more accounts, by setting the <code>to</code> field to an
 empty string.</p>
 <p>Transactions can be designed to fail, and a verification must be made that the
 transaction fails with the specific error that matches what is expected by the
@@ -3566,7 +3566,7 @@ verified in the post state.</p>
   an Externally Owned Account, b) the amount of contracts created by a contract.</p>
 </li>
 <li>
-<p><code>balance</code>: the amount of Wei (10<sup>-18</sup> Eth) the account has.</p>
+<p><code>balance</code>: the amount of Wei (10<sup>-18</sup> Eth) the account has.  <!-- markdownlint-disable MD033 (MD033=no-inline-html) --></p>
 </li>
 <li>
 <p><code>code</code>: Bytecode contained by the account. To verify that an account contains
@@ -3594,7 +3594,7 @@ can be easily affected by gas cost changes in future EIPs.</p>
 storage.</p>
 <p>A test can be written as a negative verification. E.g. a contract is not
 created, or a transaction fails to execute or runs out of gas.</p>
-<p>These verifications must be carefully crafted because it is possible to end up
+<p>This kind of verification must be carefully crafted because it is possible to end up
 having a false positive result, which means that the test passed but the
 intended verification was never made.</p>
 <p>To avoid these scenarios, it is important to have a separate verification to

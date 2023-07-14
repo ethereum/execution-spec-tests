@@ -3364,7 +3364,7 @@
 <p>The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the <a href="https://github.com/ethereum/execution-spec-tests/blob/main/tests/example/test_yul_example.py#L17">Yul</a> state test.</p>
 <h3 id="yul-test">Yul Test<a class="headerlink" href="#yul-test" title="Permanent link">&para;</a></h3>
 <p>You can find the source code for the Yul test in <a href="../../tests/homestead/yul/test_yul_example/">tests/homestead/yul/test_yul_example.py</a>.
-It is the spec test equivalent of this <a href="https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml">static test</a>. </p>
+It is the spec test equivalent of this <a href="https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml">static test</a>.</p>
 <p>Lets examine each section.</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Test Yul Source Code Examples</span>
@@ -3389,12 +3389,12 @@ It modifies the action of the function after it.
 In this case, the decorator is a custom <a href="https://docs.pytest.org/en/latest/explanation/fixtures.html">pytest fixture</a> defined by the execution-specs-test framework that specifies that the test is valid for the <a href="https://ethereum.org/en/history/#berlin">Berlin fork</a> and all forks after it. The framework will then execute this test case for all forks in the fork range specified by the command-line arguments.</p>
 <div class="admonition info">
 <p class="admonition-title">Executing the test</p>
-<p>To execute this test for all the specified forks, we can specify pytest's <code>-k</code> flag that <a href="https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests">filters test cases by keyword expression</a>:
-<div class="highlight"><pre><span></span><code><span class="n">fill</span> <span class="o">-</span><span class="n">k</span> <span class="n">test_yul</span>
+<p>To execute this test for all the specified forks, we can specify pytest's <code>-k</code> flag that <a href="https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests">filters test cases by keyword expression</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill -k test_yul</span>
 </code></pre></div>
-and to execute it for a specific fork range, we can provide the <code>--from</code> and <code>--until</code> command-line arguments:
-<div class="highlight"><pre><span></span><code><span class="n">fill</span> <span class="o">-</span><span class="n">k</span> <span class="n">test_yul</span> <span class="o">--</span><span class="kn">from</span> <span class="nn">London</span> <span class="o">--</span><span class="n">until</span> <span class="n">Merge</span>
-</code></pre></div></p>
+<p>and to execute it for a specific fork range, we can provide the <code>--from</code> and <code>--until</code> command-line arguments:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill -k test_yul --from London --until Merge</span>
+</code></pre></div>
 </div>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">test_yul</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -3422,7 +3422,7 @@ It is a <a href="https://docs.python.org/3/tutorial/datastructures.html#dictiona
 <div class="highlight"><pre><span></span><code>        <span class="s2">&quot;0x1000000000000000000000000000000000000000&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
 </code></pre></div>
 <p>The keys of the dictionary are addresses (as strings), and the values are <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L264"><code>Account</code></a> objects.
-You can read more about address fields <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#address-fields">in the static test documentation</a>. </p>
+You can read more about address fields <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#address-fields">in the static test documentation</a>.</p>
 <div class="highlight"><pre><span></span><code>            <span class="n">balance</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">,</span>
 </code></pre></div>
 <p>This field is the balance: the amount of Wei that the account has. It usually doesn't matter what its value is in the case of state test contracts.</p>
@@ -3446,7 +3446,7 @@ You can read more about address fields <a href="https://ethereum-tests.readthedo
             <span class="p">),</span>
         <span class="p">),</span>
 </code></pre></div>
-<p>Within this example test Yul code we have a function definition, and inside it we are using the Yul <code>add</code> instruction. When compiled with <code>solc</code> it translates the instruction directly to the<code>ADD</code> opcode. For further Yul instructions <a href="https://docs.soliditylang.org/en/latest/yul.html#evm-dialect">see here</a>. Notice that function is utilised with the Yul <code>sstore</code> instruction, which stores the result of <code>add(1, 2)</code> to the storage address <code>0x00</code>.</p>
+<p>Within this example test Yul code we have a function definition, and inside it we are using the Yul <code>add</code> instruction. When compiled with <code>solc</code> it translates the instruction directly to the<code>ADD</code> opcode. For further Yul instructions <a href="https://docs.soliditylang.org/en/latest/yul.html#evm-dialect">see here</a>. Notice that function is utilized with the Yul <code>sstore</code> instruction, which stores the result of <code>add(1, 2)</code> to the storage address <code>0x00</code>.</p>
 <p>Generally for execution spec tests the <code>sstore</code> instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the Yul code has run successfully.</p>
 <div class="highlight"><pre><span></span><code>        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">),</span>
     <span class="p">}</span>
