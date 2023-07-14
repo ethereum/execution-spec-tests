@@ -10,25 +10,27 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_dup/index/test_cases/">
+        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/spec/">
       
       
-        <link rel="prev" href="../../">
+        <link rel="prev" href="../">
       
       
-      <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
+        <link rel="next" href="../test_blob_txs/">
+      
+      <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
-        <title>Test Cases - Ethereum Execution Spec Tests</title>
+        <title>Spec - Ethereum Execution Spec Tests</title>
       
     
     
-      <link rel="stylesheet" href="../../../../../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.26e3688c.min.css">
       
         
-        <link rel="stylesheet" href="../../../../../../assets/stylesheets/palette.ecc896b0.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -44,9 +46,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -55,11 +57,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Test Cases - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="Spec - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/frontier/opcodes/test_dup/index/test_cases.png" >
+        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/cancun/eip4844_blobs/spec/index.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -67,19 +69,19 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_dup/index/test_cases/" >
+        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/spec/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Test Cases - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="Spec - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/frontier/opcodes/test_dup/index/test_cases.png" >
+        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/cancun/eip4844_blobs/spec/index.png" >
       
     
     
-   <link href="../../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
@@ -90,7 +92,7 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../../../../../assets/javascripts/glightbox.min.js"></script></head>
+            </style> <script src="../../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -112,7 +114,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#test-dup-test-cases" class="md-skip">
+        <a href="#spec" class="md-skip">
           Skip to content
         </a>
       
@@ -130,9 +132,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../../../.." title="Ethereum Execution Spec Tests" class="md-header__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
+    <a href="../../../.." title="Ethereum Execution Spec Tests" class="md-header__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
       
-  <img src="../../../../../../img/Ethereum-logo-600px.png" alt="logo">
+  <img src="../../../../img/Ethereum-logo-600px.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -148,7 +150,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Test Cases
+              Spec
             
           </span>
         </div>
@@ -261,7 +263,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../../../.." class="md-tabs__link">
+    <a href="../../../.." class="md-tabs__link">
       Overview
     </a>
   </li>
@@ -276,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../../../getting_started/quick_start/" class="md-tabs__link">
+      <a href="../../../../getting_started/quick_start/" class="md-tabs__link">
         Getting Started
       </a>
     </li>
@@ -292,7 +294,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../../../writing_tests/" class="md-tabs__link">
+      <a href="../../../../writing_tests/" class="md-tabs__link">
         Writing Tests
       </a>
     </li>
@@ -308,7 +310,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../../../tutorials/state_transition/" class="md-tabs__link">
+      <a href="../../../../tutorials/state_transition/" class="md-tabs__link">
         Tutorials
       </a>
     </li>
@@ -321,7 +323,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../../../../getting_help/" class="md-tabs__link">
+    <a href="../../../../getting_help/" class="md-tabs__link">
       Getting Help
     </a>
   </li>
@@ -336,7 +338,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../../../dev/" class="md-tabs__link">
+      <a href="../../../../dev/" class="md-tabs__link">
         Developer Doc
       </a>
     </li>
@@ -352,7 +354,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../../../library/" class="md-tabs__link">
+      <a href="../../../../library/" class="md-tabs__link">
         Library Reference
       </a>
     </li>
@@ -370,7 +372,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../../" class="md-tabs__link md-tabs__link--active">
+      <a href="../../../" class="md-tabs__link md-tabs__link--active">
         Test case reference
       </a>
     </li>
@@ -398,9 +400,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../../../.." title="Ethereum Execution Spec Tests" class="md-nav__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
+    <a href="../../../.." title="Ethereum Execution Spec Tests" class="md-nav__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
       
-  <img src="../../../../../../img/Ethereum-logo-600px.png" alt="logo">
+  <img src="../../../../img/Ethereum-logo-600px.png" alt="logo">
 
     </a>
     Ethereum Execution Spec Tests
@@ -428,7 +430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         Overview
       </a>
     </li>
@@ -484,7 +486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../getting_started/quick_start/" class="md-nav__link">
+      <a href="../../../../getting_started/quick_start/" class="md-nav__link">
         Quick Start
       </a>
     </li>
@@ -498,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../getting_started/setup_vs_code/" class="md-nav__link">
+      <a href="../../../../getting_started/setup_vs_code/" class="md-nav__link">
         VS Code Setup
       </a>
     </li>
@@ -512,7 +514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../getting_started/repository_overview/" class="md-nav__link">
+      <a href="../../../../getting_started/repository_overview/" class="md-nav__link">
         Repository Overview
       </a>
     </li>
@@ -526,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../getting_started/executing_tests_command_line/" class="md-nav__link">
+      <a href="../../../../getting_started/executing_tests_command_line/" class="md-nav__link">
         Executing Tests at a Prompt
       </a>
     </li>
@@ -540,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../getting_started/executing_tests_vs_code/" class="md-nav__link">
+      <a href="../../../../getting_started/executing_tests_vs_code/" class="md-nav__link">
         Executing Tests in VS Code
       </a>
     </li>
@@ -554,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../getting_started/executing_tests_dev_fork/" class="md-nav__link">
+      <a href="../../../../getting_started/executing_tests_dev_fork/" class="md-nav__link">
         Executing Tests for Features Under Development
       </a>
     </li>
@@ -606,7 +608,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../../writing_tests/">Writing Tests</a>
+          <a href="../../../../writing_tests/">Writing Tests</a>
           
             <label for="__nav_3">
               <span class="md-nav__icon md-icon"></span>
@@ -629,7 +631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../writing_tests/code_standards/" class="md-nav__link">
+      <a href="../../../../writing_tests/code_standards/" class="md-nav__link">
         Code Standards
       </a>
     </li>
@@ -643,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../writing_tests/types_of_tests/" class="md-nav__link">
+      <a href="../../../../writing_tests/types_of_tests/" class="md-nav__link">
         Types of Test
       </a>
     </li>
@@ -657,7 +659,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../writing_tests/adding_a_new_test/" class="md-nav__link">
+      <a href="../../../../writing_tests/adding_a_new_test/" class="md-nav__link">
         Adding a New Test
       </a>
     </li>
@@ -671,7 +673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../writing_tests/writing_a_new_test/" class="md-nav__link">
+      <a href="../../../../writing_tests/writing_a_new_test/" class="md-nav__link">
         Writing a New Test
       </a>
     </li>
@@ -685,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../writing_tests/reference_specification/" class="md-nav__link">
+      <a href="../../../../writing_tests/reference_specification/" class="md-nav__link">
         Referencing an EIP Spec Version
       </a>
     </li>
@@ -699,7 +701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../writing_tests/verifying_changes/" class="md-nav__link">
+      <a href="../../../../writing_tests/verifying_changes/" class="md-nav__link">
         Verifying Changes Locally
       </a>
     </li>
@@ -752,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../tutorials/state_transition/" class="md-nav__link">
+      <a href="../../../../tutorials/state_transition/" class="md-nav__link">
         State Transition Tests
       </a>
     </li>
@@ -774,7 +776,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../getting_help/" class="md-nav__link">
+      <a href="../../../../getting_help/" class="md-nav__link">
         Getting Help
       </a>
     </li>
@@ -811,7 +813,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../../dev/">Developer Doc</a>
+          <a href="../../../../dev/">Developer Doc</a>
           
             <label for="__nav_6">
               <span class="md-nav__icon md-icon"></span>
@@ -834,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../dev/docs/" class="md-nav__link">
+      <a href="../../../../dev/docs/" class="md-nav__link">
         Documentation
       </a>
     </li>
@@ -848,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../dev/coding_style/" class="md-nav__link">
+      <a href="../../../../dev/coding_style/" class="md-nav__link">
         Coding Style
       </a>
     </li>
@@ -896,7 +898,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../../library/">Library Reference</a>
+          <a href="../../../../library/">Library Reference</a>
           
             <label for="__nav_7">
               <span class="md-nav__icon md-icon"></span>
@@ -919,7 +921,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../library/evm_transition_tool/" class="md-nav__link">
+      <a href="../../../../library/evm_transition_tool/" class="md-nav__link">
         EVM Transition Tool Package
       </a>
     </li>
@@ -933,7 +935,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../library/ethereum_test_tools/" class="md-nav__link">
+      <a href="../../../../library/ethereum_test_tools/" class="md-nav__link">
         Ethereum Test Tools Package
       </a>
     </li>
@@ -947,7 +949,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../library/ethereum_test_forks/" class="md-nav__link">
+      <a href="../../../../library/ethereum_test_forks/" class="md-nav__link">
         Ethereum Test Forks Package
       </a>
     </li>
@@ -985,7 +987,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../../library/pytest_plugins/">Pytest Plugins</a>
+          <a href="../../../../library/pytest_plugins/">Pytest Plugins</a>
           
             <label for="__nav_7_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1008,7 +1010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../library/pytest_plugins/forks/" class="md-nav__link">
+      <a href="../../../../library/pytest_plugins/forks/" class="md-nav__link">
         Forks
       </a>
     </li>
@@ -1022,7 +1024,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../library/pytest_plugins/test_filler/" class="md-nav__link">
+      <a href="../../../../library/pytest_plugins/test_filler/" class="md-nav__link">
         Test Filler
       </a>
     </li>
@@ -1036,7 +1038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../library/pytest_plugins/spec_version_checker/" class="md-nav__link">
+      <a href="../../../../library/pytest_plugins/spec_version_checker/" class="md-nav__link">
         Spec Version Checker
       </a>
     </li>
@@ -1099,7 +1101,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../">Test case reference</a>
+          <a href="../../../">Test case reference</a>
           
             <label for="__nav_8">
               <span class="md-nav__icon md-icon"></span>
@@ -1120,14 +1122,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" checked>
       
       
         
@@ -1142,7 +1146,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/">Cancun</a>
+          <a href="../../">Cancun</a>
           
             <label for="__nav_8_2">
               <span class="md-nav__icon md-icon"></span>
@@ -1150,7 +1154,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_8_2">
           <span class="md-nav__icon md-icon"></span>
           Cancun
@@ -1163,14 +1167,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_2" checked>
       
       
         
@@ -1205,7 +1211,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/">EIP-4844 Blobs</a>
+          <a href="../">EIP-4844 Blobs</a>
           
             <label for="__nav_8_2_2">
               <span class="md-nav__icon md-icon"></span>
@@ -1213,7 +1219,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_2_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_2_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_8_2_2">
           <span class="md-nav__icon md-icon"></span>
           EIP-4844 Blobs
@@ -1226,11 +1232,66 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/spec/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Spec
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Spec
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.spec" class="md-nav__link">
+    tests.cancun.eip4844_blobs.spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.spec.Spec" class="md-nav__link">
+    Spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.spec.SpecHelpers" class="md-nav__link">
+    SpecHelpers
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1262,7 +1323,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_blob_txs/">Test Blob Txs</a>
+          <a href="../test_blob_txs/">Test Blob Txs</a>
           
             <label for="__nav_8_2_2_3">
               <span class="md-nav__icon md-icon"></span>
@@ -1285,7 +1346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_blob_txs/index/test_cases/" class="md-nav__link">
+      <a href="../test_blob_txs/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1326,7 +1387,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_blob_txs_full/">Test Blob Txs Full</a>
+          <a href="../test_blob_txs_full/">Test Blob Txs Full</a>
           
             <label for="__nav_8_2_2_4">
               <span class="md-nav__icon md-icon"></span>
@@ -1349,7 +1410,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_blob_txs_full/index/test_cases/" class="md-nav__link">
+      <a href="../test_blob_txs_full/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1390,7 +1451,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_blobhash_opcode/">Test Blobhash Opcode</a>
+          <a href="../test_blobhash_opcode/">Test Blobhash Opcode</a>
           
             <label for="__nav_8_2_2_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1413,7 +1474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_blobhash_opcode/index/test_cases/" class="md-nav__link">
+      <a href="../test_blobhash_opcode/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1454,7 +1515,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_blobhash_opcode_contexts/">Test Blobhash Opcode Contexts</a>
+          <a href="../test_blobhash_opcode_contexts/">Test Blobhash Opcode Contexts</a>
           
             <label for="__nav_8_2_2_6">
               <span class="md-nav__icon md-icon"></span>
@@ -1477,7 +1538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_blobhash_opcode_contexts/index/test_cases/" class="md-nav__link">
+      <a href="../test_blobhash_opcode_contexts/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1518,7 +1579,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_excess_data_gas/">Test Excess Data Gas</a>
+          <a href="../test_excess_data_gas/">Test Excess Data Gas</a>
           
             <label for="__nav_8_2_2_7">
               <span class="md-nav__icon md-icon"></span>
@@ -1541,7 +1602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_excess_data_gas/index/test_cases/" class="md-nav__link">
+      <a href="../test_excess_data_gas/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1582,7 +1643,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_excess_data_gas_fork_transition/">Test Excess Data Gas Fork Transition</a>
+          <a href="../test_excess_data_gas_fork_transition/">Test Excess Data Gas Fork Transition</a>
           
             <label for="__nav_8_2_2_8">
               <span class="md-nav__icon md-icon"></span>
@@ -1605,7 +1666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_excess_data_gas_fork_transition/index/test_cases/" class="md-nav__link">
+      <a href="../test_excess_data_gas_fork_transition/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1646,7 +1707,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_point_evaluation_precompile/">Test Point Evaluation Precompile</a>
+          <a href="../test_point_evaluation_precompile/">Test Point Evaluation Precompile</a>
           
             <label for="__nav_8_2_2_9">
               <span class="md-nav__icon md-icon"></span>
@@ -1669,7 +1730,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_point_evaluation_precompile/index/test_cases/" class="md-nav__link">
+      <a href="../test_point_evaluation_precompile/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1710,7 +1771,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../cancun/eip4844_blobs/test_point_evaluation_precompile_gas/">Test Point Evaluation Precompile Gas</a>
+          <a href="../test_point_evaluation_precompile_gas/">Test Point Evaluation Precompile Gas</a>
           
             <label for="__nav_8_2_2_10">
               <span class="md-nav__icon md-icon"></span>
@@ -1733,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/test_point_evaluation_precompile_gas/index/test_cases/" class="md-nav__link">
+      <a href="../test_point_evaluation_precompile_gas/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1785,7 +1846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../cancun/eip4844_blobs/point_evaluation_vectors/README_./" class="md-nav__link">
+      <a href="../point_evaluation_vectors/README_./" class="md-nav__link">
         Readme
       </a>
     </li>
@@ -1846,7 +1907,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/">Shanghai</a>
+          <a href="../../../shanghai/">Shanghai</a>
           
             <label for="__nav_8_3">
               <span class="md-nav__icon md-icon"></span>
@@ -1889,7 +1950,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip3651_warm_coinbase/">EIP-3651 Warm Coinbase</a>
+          <a href="../../../shanghai/eip3651_warm_coinbase/">EIP-3651 Warm Coinbase</a>
           
             <label for="__nav_8_3_2">
               <span class="md-nav__icon md-icon"></span>
@@ -1932,7 +1993,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip3651_warm_coinbase/test_warm_coinbase/">Test Warm Coinbase</a>
+          <a href="../../../shanghai/eip3651_warm_coinbase/test_warm_coinbase/">Test Warm Coinbase</a>
           
             <label for="__nav_8_3_2_2">
               <span class="md-nav__icon md-icon"></span>
@@ -1955,7 +2016,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../shanghai/eip3651_warm_coinbase/test_warm_coinbase/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip3651_warm_coinbase/test_warm_coinbase/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2003,7 +2064,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip3855_push0/">EIP-3855 Push0</a>
+          <a href="../../../shanghai/eip3855_push0/">EIP-3855 Push0</a>
           
             <label for="__nav_8_3_3">
               <span class="md-nav__icon md-icon"></span>
@@ -2046,7 +2107,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip3855_push0/test_push0/">Test Push0</a>
+          <a href="../../../shanghai/eip3855_push0/test_push0/">Test Push0</a>
           
             <label for="__nav_8_3_3_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2069,7 +2130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../shanghai/eip3855_push0/test_push0/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip3855_push0/test_push0/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2117,7 +2178,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip3860_initcode/">EIP-3860 Initcode</a>
+          <a href="../../../shanghai/eip3860_initcode/">EIP-3860 Initcode</a>
           
             <label for="__nav_8_3_4">
               <span class="md-nav__icon md-icon"></span>
@@ -2160,7 +2221,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip3860_initcode/test_initcode/">Test Initcode</a>
+          <a href="../../../shanghai/eip3860_initcode/test_initcode/">Test Initcode</a>
           
             <label for="__nav_8_3_4_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2183,7 +2244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../shanghai/eip3860_initcode/test_initcode/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip3860_initcode/test_initcode/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2231,7 +2292,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip4895_withdrawals/">EIP-4895 Withdrawals</a>
+          <a href="../../../shanghai/eip4895_withdrawals/">EIP-4895 Withdrawals</a>
           
             <label for="__nav_8_3_5">
               <span class="md-nav__icon md-icon"></span>
@@ -2274,7 +2335,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../shanghai/eip4895_withdrawals/test_withdrawals/">Test Withdrawals</a>
+          <a href="../../../shanghai/eip4895_withdrawals/test_withdrawals/">Test Withdrawals</a>
           
             <label for="__nav_8_3_5_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2297,7 +2358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../shanghai/eip4895_withdrawals/test_withdrawals/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip4895_withdrawals/test_withdrawals/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2352,7 +2413,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../merge/">Merge</a>
+          <a href="../../../merge/">Merge</a>
           
             <label for="__nav_8_4">
               <span class="md-nav__icon md-icon"></span>
@@ -2395,7 +2456,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../merge/security/">Security</a>
+          <a href="../../../merge/security/">Security</a>
           
             <label for="__nav_8_4_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2438,7 +2499,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../merge/security/test_selfdestruct_balance_bug/">Test Selfdestruct Balance Bug</a>
+          <a href="../../../merge/security/test_selfdestruct_balance_bug/">Test Selfdestruct Balance Bug</a>
           
             <label for="__nav_8_4_2_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2461,7 +2522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../merge/security/test_selfdestruct_balance_bug/index/test_cases/" class="md-nav__link">
+      <a href="../../../merge/security/test_selfdestruct_balance_bug/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2516,7 +2577,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../berlin/">Berlin</a>
+          <a href="../../../berlin/">Berlin</a>
           
             <label for="__nav_8_5">
               <span class="md-nav__icon md-icon"></span>
@@ -2559,7 +2620,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../berlin/eip2930_access_list/">EIP-2930 Access List</a>
+          <a href="../../../berlin/eip2930_access_list/">EIP-2930 Access List</a>
           
             <label for="__nav_8_5_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2602,7 +2663,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../berlin/eip2930_access_list/test_acl/">Test ACL</a>
+          <a href="../../../berlin/eip2930_access_list/test_acl/">Test ACL</a>
           
             <label for="__nav_8_5_2_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2625,7 +2686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../berlin/eip2930_access_list/test_acl/index/test_cases/" class="md-nav__link">
+      <a href="../../../berlin/eip2930_access_list/test_acl/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2680,7 +2741,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../istanbul/">Istanbul</a>
+          <a href="../../../istanbul/">Istanbul</a>
           
             <label for="__nav_8_6">
               <span class="md-nav__icon md-icon"></span>
@@ -2723,7 +2784,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../istanbul/eip1344_chainid/">EIP-1344 CHAINID</a>
+          <a href="../../../istanbul/eip1344_chainid/">EIP-1344 CHAINID</a>
           
             <label for="__nav_8_6_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2766,7 +2827,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../istanbul/eip1344_chainid/test_chainid/">Test CHAINID</a>
+          <a href="../../../istanbul/eip1344_chainid/test_chainid/">Test CHAINID</a>
           
             <label for="__nav_8_6_2_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2789,7 +2850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../istanbul/eip1344_chainid/test_chainid/index/test_cases/" class="md-nav__link">
+      <a href="../../../istanbul/eip1344_chainid/test_chainid/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2844,7 +2905,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../homestead/">Homestead</a>
+          <a href="../../../homestead/">Homestead</a>
           
             <label for="__nav_8_7">
               <span class="md-nav__icon md-icon"></span>
@@ -2887,7 +2948,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../homestead/yul/">Yul</a>
+          <a href="../../../homestead/yul/">Yul</a>
           
             <label for="__nav_8_7_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2930,7 +2991,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../../homestead/yul/test_yul_example/">Test Yul Example</a>
+          <a href="../../../homestead/yul/test_yul_example/">Test Yul Example</a>
           
             <label for="__nav_8_7_2_2">
               <span class="md-nav__icon md-icon"></span>
@@ -2953,7 +3014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../homestead/yul/test_yul_example/index/test_cases/" class="md-nav__link">
+      <a href="../../../homestead/yul/test_yul_example/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2986,16 +3047,14 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_8" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_8" >
       
       
         
@@ -3010,7 +3069,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../">Frontier</a>
+          <a href="../../../frontier/">Frontier</a>
           
             <label for="__nav_8_8">
               <span class="md-nav__icon md-icon"></span>
@@ -3018,7 +3077,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_8_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_8">
           <span class="md-nav__icon md-icon"></span>
           Frontier
@@ -3031,16 +3090,14 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_8_2" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_8_2" >
       
       
         
@@ -3055,7 +3112,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../">Opcodes</a>
+          <a href="../../../frontier/opcodes/">Opcodes</a>
           
             <label for="__nav_8_8_2">
               <span class="md-nav__icon md-icon"></span>
@@ -3063,7 +3120,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_8_2_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_8_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_8_2">
           <span class="md-nav__icon md-icon"></span>
           Opcodes
@@ -3076,16 +3133,14 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_8_2_2" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_8_2_2" >
       
       
         
@@ -3100,7 +3155,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../">Test DUP</a>
+          <a href="../../../frontier/opcodes/test_dup/">Test DUP</a>
           
             <label for="__nav_8_8_2_2">
               <span class="md-nav__icon md-icon"></span>
@@ -3108,7 +3163,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_8_2_2_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_8_2_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_8_2_2">
           <span class="md-nav__icon md-icon"></span>
           Test DUP
@@ -3121,21 +3176,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../frontier/opcodes/test_dup/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
-      
     </li>
   
 
@@ -3188,6 +3233,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.spec" class="md-nav__link">
+    tests.cancun.eip4844_blobs.spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.spec.Spec" class="md-nav__link">
+    Spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.spec.SpecHelpers" class="md-nav__link">
+    SpecHelpers
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3201,25 +3275,424 @@
                   
 
 
-<h1 id="test-dup-test-cases">Test DUP - Test Cases<a class="headerlink" href="#test-dup-test-cases" title="Permanent link">&para;</a></h1>
-<div class="admonition example">
-<p class="admonition-title">Test cases generated from <code>tests/frontier/opcodes/test_dup.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/d61b176885c39bd6719e672fb31956895aa3e56d/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_dup[fork=Frontier]
-test_dup[fork=Homestead]
-test_dup[fork=Byzantium]
-test_dup[fork=Constantinople]
-test_dup[fork=ConstantinopleFix]
-test_dup[fork=Istanbul]
-test_dup[fork=Berlin]
-test_dup[fork=London]
-test_dup[fork=Merge]
-test_dup[fork=Shanghai]
-test_dup[fork=Cancun]
-</code></pre></div>
-<p>This output was extracted from the result of:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/frontier/opcodes/test_dup.py</span>
-</code></pre></div>
+<h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d61b176885c39bd6719e672fb31956895aa3e56d/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py</code></a>.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="tests.cancun.eip4844_blobs.spec"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Defines EIP-4844 specification constants and functions.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="tests.cancun.eip4844_blobs.spec.Spec" class="doc doc-heading">
+        <code>Spec</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#tests.cancun.eip4844_blobs.spec.Spec" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Parameters from the EIP-4844 specifications as defined at
+<a href="https://eips.ethereum.org/EIPS/eip-4844#parameters">https://eips.ethereum.org/EIPS/eip-4844#parameters</a></p>
+<p>If the parameter is not currently used within the tests, it is commented
+out.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters from the EIP-4844 specifications as defined at</span>
+<span class="sd">    https://eips.ethereum.org/EIPS/eip-4844#parameters</span>
+
+<span class="sd">    If the parameter is not currently used within the tests, it is commented</span>
+<span class="sd">    out.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">BLOB_TX_TYPE</span> <span class="o">=</span> <span class="mh">0x03</span>
+    <span class="n">FIELD_ELEMENTS_PER_BLOB</span> <span class="o">=</span> <span class="mi">4096</span>
+    <span class="n">BLS_MODULUS</span> <span class="o">=</span> <span class="mh">0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001</span>
+    <span class="n">BLOB_COMMITMENT_VERSION_KZG</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span> <span class="o">=</span> <span class="mi">50_000</span>
+    <span class="n">MAX_DATA_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">786432</span>
+    <span class="n">TARGET_DATA_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">393216</span>
+    <span class="n">MIN_DATA_GASPRICE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">DATA_GASPRICE_UPDATE_FRACTION</span> <span class="o">=</span> <span class="mi">3338477</span>
+    <span class="c1"># MAX_VERSIONED_HASHES_LIST_SIZE = 2**24</span>
+    <span class="c1"># MAX_CALLDATA_SIZE = 2**24</span>
+    <span class="c1"># MAX_ACCESS_LIST_SIZE = 2**24</span>
+    <span class="c1"># MAX_ACCESS_LIST_STORAGE_KEYS = 2**24</span>
+    <span class="c1"># MAX_TX_WRAP_COMMITMENTS = 2**12</span>
+    <span class="c1"># LIMIT_BLOBS_PER_TX = 2**12</span>
+    <span class="n">DATA_GAS_PER_BLOB</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">17</span>
+    <span class="n">HASH_OPCODE_BYTE</span> <span class="o">=</span> <span class="mh">0x49</span>
+    <span class="n">HASH_GAS_COST</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">kzg_to_versioned_hash</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">kzg_commitment</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>  <span class="c1"># 48 bytes</span>
+        <span class="n">blob_commitment_version_kzg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the versioned hash for a given KZG commitment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">blob_commitment_version_kzg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">blob_commitment_version_kzg</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kzg_commitment</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">kzg_commitment</span> <span class="o">=</span> <span class="n">kzg_commitment</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">blob_commitment_version_kzg</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">blob_commitment_version_kzg</span> <span class="o">=</span> <span class="n">blob_commitment_version_kzg</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">blob_commitment_version_kzg</span> <span class="o">+</span> <span class="n">sha256</span><span class="p">(</span><span class="n">kzg_commitment</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">fake_exponential</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used to calculate the data gas cost.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">numerator_accumulator</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">denominator</span>
+        <span class="k">while</span> <span class="n">numerator_accumulator</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="n">numerator_accumulator</span>
+            <span class="n">numerator_accumulator</span> <span class="o">=</span> <span class="p">(</span><span class="n">numerator_accumulator</span> <span class="o">*</span> <span class="n">numerator</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">denominator</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">output</span> <span class="o">//</span> <span class="n">denominator</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">calc_excess_data_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">BlockHeaderDataGasFields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the excess data gas for a block given the excess data gas</span>
+<span class="sd">        and data gas used from the parent block header.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">-</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span>
+
+    <span class="c1"># Note: Currently unused.</span>
+    <span class="c1"># @classmethod</span>
+    <span class="c1"># def get_total_data_gas(cls, tx: Transaction) -&gt; int:</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Calculate the total data gas for a transaction.</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     if tx.blob_versioned_hashes is None:</span>
+    <span class="c1">#         return 0</span>
+    <span class="c1">#     return cls.DATA_GAS_PER_BLOB * len(tx.blob_versioned_hashes)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_data_gasprice</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">excess_data_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the data gas price from the excess.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fake_exponential</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_DATA_GASPRICE</span><span class="p">,</span>
+            <span class="n">excess_data_gas</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">DATA_GASPRICE_UPDATE_FRACTION</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="tests.cancun.eip4844_blobs.spec.SpecHelpers" class="doc doc-heading">
+        <code>SpecHelpers</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#tests.cancun.eip4844_blobs.spec.SpecHelpers" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Define parameters and helper functions that are tightly coupled to the 4844
+spec but not strictly part of it.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define parameters and helper functions that are tightly coupled to the 4844</span>
+<span class="sd">    spec but not strictly part of it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">BYTES_PER_FIELD_ELEMENT</span> <span class="o">=</span> <span class="mi">32</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># MAX_BLOBS_PER_BLOCK =</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the maximum number of blobs per block.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_DATA_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the target number of blobs per block.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">calc_excess_data_gas_from_blob_count</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">parent_excess_data_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parent_blob_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the excess data gas for a block given the parent excess data gas</span>
+<span class="sd">        and the number of blobs in the block.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parent_consumed_data_gas</span> <span class="o">=</span> <span class="n">parent_blob_count</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
+        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">calc_excess_data_gas</span><span class="p">(</span>
+            <span class="n">BlockHeaderDataGasFields</span><span class="p">(</span><span class="n">parent_excess_data_gas</span><span class="p">,</span> <span class="n">parent_consumed_data_gas</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_min_excess_data_gas_for_data_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the minimum required excess data gas value to get a given data gas cost in a block</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">current_excess_data_gas</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">current_data_gas_price</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">current_data_gas_price</span> <span class="o">&lt;</span> <span class="n">data_gas_price</span><span class="p">:</span>
+            <span class="n">current_excess_data_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
+            <span class="n">current_data_gas_price</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">get_data_gasprice</span><span class="p">(</span>
+                <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">current_excess_data_gas</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">current_excess_data_gas</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_min_excess_data_blobs_for_data_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the minimum required excess data blobs to get a given data gas cost in a block</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">get_min_excess_data_gas_for_data_gas_price</span><span class="p">(</span><span class="n">data_gas_price</span><span class="p">)</span>
+            <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
 </div>
 
 
@@ -3264,10 +3737,10 @@ test_dup[fork=Cancun]
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../../../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
