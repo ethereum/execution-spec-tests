@@ -971,6 +971,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#evm_transition_tool.ExecutionSpecsTransitionTool" class="md-nav__link">
+    ExecutionSpecsTransitionTool
+  </a>
+  
+    <nav class="md-nav" aria-label="ExecutionSpecsTransitionTool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evm_transition_tool.execution_specs.ExecutionSpecsTransitionTool.is_fork_supported" class="md-nav__link">
+    is_fork_supported()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#evm_transition_tool.GethTransitionTool" class="md-nav__link">
     GethTransitionTool
   </a>
@@ -3411,6 +3431,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#evm_transition_tool.ExecutionSpecsTransitionTool" class="md-nav__link">
+    ExecutionSpecsTransitionTool
+  </a>
+  
+    <nav class="md-nav" aria-label="ExecutionSpecsTransitionTool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evm_transition_tool.execution_specs.ExecutionSpecsTransitionTool.is_fork_supported" class="md-nav__link">
+    is_fork_supported()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#evm_transition_tool.GethTransitionTool" class="md-nav__link">
     GethTransitionTool
   </a>
@@ -3647,6 +3687,10 @@
 
 
 
+
+
+
+
 <div class="doc doc-object doc-class">
 
 
@@ -3691,6 +3735,220 @@
 
 
 
+<h2 id="evm_transition_tool.ExecutionSpecsTransitionTool" class="doc doc-heading">
+        <code>ExecutionSpecsTransitionTool</code>
+
+
+<a href="#evm_transition_tool.ExecutionSpecsTransitionTool" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><a class="autorefs autorefs-internal" title="evm_transition_tool.geth.GethTransitionTool" href="#evm_transition_tool.GethTransitionTool">GethTransitionTool</a></code></p>
+
+  
+      <p>Ethereum Specs <code>ethereum-spec-evm</code> Transition tool interface wrapper class.</p>
+<p>The behavior of this tool is almost identical to go-ethereum's <code>evm t8n</code> command.</p>
+
+<details class="note" open>
+  <summary>How to use the <code>ethereum-spec-evm</code> tool:</summary>
+  <ol>
+<li>Create a virtual environment and activate it:
+    <div class="highlight"><pre><span></span><code>python -m venv venv
+source venv/bin/activate
+</code></pre></div></li>
+<li>Clone the ethereum/execution-specs repository and change working directory to it:
+    <div class="highlight"><pre><span></span><code>git clone git@github.com:ethereum/execution-specs.git
+cd execution-specs
+</code></pre></div></li>
+<li>Install the packages provided by the repository:
+    <div class="highlight"><pre><span></span><code>pip install -e .
+</code></pre></div>
+    Check that the <code>ethereum-spec-evm</code> command is available:
+    <div class="highlight"><pre><span></span><code>ethereum-spec-evm --help
+</code></pre></div></li>
+<li>Clone the ethereum/execution-specs-tests repository and change working directory to it:
+    <div class="highlight"><pre><span></span><code>cd ..
+git clone git@github.com:ethereum/execution-spec-tests.git
+cd execution-spec-tests
+</code></pre></div></li>
+<li>Install the packages provided by the ethereum/execution-spec-tests repository:
+    <div class="highlight"><pre><span></span><code>pip install -e .
+</code></pre></div></li>
+<li>Run the tests, specifying the <code>ethereum-spec-evm</code> command as the transition tool:
+    <div class="highlight"><pre><span></span><code>fill --evm-bin=ethereum-spec-evm
+</code></pre></div></li>
+</ol>
+</details>
+
+        <details class="quote">
+          <summary>Source code in <code>src/evm_transition_tool/execution_specs.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExecutionSpecsTransitionTool</span><span class="p">(</span><span class="n">GethTransitionTool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ethereum Specs `ethereum-spec-evm` Transition tool interface wrapper class.</span>
+
+<span class="sd">    The behavior of this tool is almost identical to go-ethereum&#39;s `evm t8n` command.</span>
+
+<span class="sd">    note: How to use the `ethereum-spec-evm` tool:</span>
+
+<span class="sd">        1. Create a virtual environment and activate it:</span>
+<span class="sd">            ```</span>
+<span class="sd">            python -m venv venv</span>
+<span class="sd">            source venv/bin/activate</span>
+<span class="sd">            ```</span>
+<span class="sd">        2. Clone the ethereum/execution-specs repository and change working directory to it:</span>
+<span class="sd">            ```</span>
+<span class="sd">            git clone git@github.com:ethereum/execution-specs.git</span>
+<span class="sd">            cd execution-specs</span>
+<span class="sd">            ```</span>
+<span class="sd">        3. Install the packages provided by the repository:</span>
+<span class="sd">            ```</span>
+<span class="sd">            pip install -e .</span>
+<span class="sd">            ```</span>
+<span class="sd">            Check that the `ethereum-spec-evm` command is available:</span>
+<span class="sd">            ```</span>
+<span class="sd">            ethereum-spec-evm --help</span>
+<span class="sd">            ```</span>
+<span class="sd">        4. Clone the ethereum/execution-specs-tests repository and change working directory to it:</span>
+<span class="sd">            ```</span>
+<span class="sd">            cd ..</span>
+<span class="sd">            git clone git@github.com:ethereum/execution-spec-tests.git</span>
+<span class="sd">            cd execution-spec-tests</span>
+<span class="sd">            ```</span>
+<span class="sd">        5. Install the packages provided by the ethereum/execution-spec-tests repository:</span>
+<span class="sd">            ```</span>
+<span class="sd">            pip install -e .</span>
+<span class="sd">            ```</span>
+<span class="sd">        6. Run the tests, specifying the `ethereum-spec-evm` command as the transition tool:</span>
+<span class="sd">            ```</span>
+<span class="sd">            fill --evm-bin=ethereum-spec-evm</span>
+<span class="sd">            ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_binary</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;ethereum-spec-evm&quot;</span><span class="p">)</span>
+    <span class="n">detect_binary_pattern</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^ethereum-spec-evm\b&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the fork is supported by the tool.</span>
+<span class="sd">        Currently, ethereum-spec-evm provides no way to determine supported forks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">fork</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">UNSUPPORTED_FORKS</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="evm_transition_tool.execution_specs.ExecutionSpecsTransitionTool.is_fork_supported" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">is_fork_supported</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span></code>
+
+<a href="#evm_transition_tool.execution_specs.ExecutionSpecsTransitionTool.is_fork_supported" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns True if the fork is supported by the tool.
+Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>src/evm_transition_tool/execution_specs.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns True if the fork is supported by the tool.</span>
+<span class="sd">    Currently, ethereum-spec-evm provides no way to determine supported forks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">fork</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">UNSUPPORTED_FORKS</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
 <h2 id="evm_transition_tool.GethTransitionTool" class="doc doc-heading">
         <code>GethTransitionTool</code>
 
@@ -3703,7 +3961,7 @@
         Bases: <code><a class="autorefs autorefs-internal" title="evm_transition_tool.transition_tool.TransitionTool" href="../pytest_plugins/forks/#pytest_plugins.forks.forks.TransitionTool">TransitionTool</a></code></p>
 
   
-      <p>Go-ethereum <code>evm</code> Transition tool frontend wrapper class.</p>
+      <p>Go-ethereum <code>evm</code> Transition tool interface wrapper class.</p>
 
 
         <details class="quote">
@@ -3837,7 +4095,7 @@
 <span class="normal">144</span>
 <span class="normal">145</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Go-ethereum `evm` Transition tool frontend wrapper class.</span>
+<span class="sd">    Go-ethereum `evm` Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">default_binary</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;evm&quot;</span><span class="p">)</span>
@@ -4331,7 +4589,7 @@
         Bases: <code><a class="autorefs autorefs-internal" title="evm_transition_tool.transition_tool.TransitionTool" href="../pytest_plugins/forks/#pytest_plugins.forks.forks.TransitionTool">TransitionTool</a></code></p>
 
   
-      <p>Evmone <code>evmone-t8n</code> Transition tool frontend wrapper class.</p>
+      <p>Evmone <code>evmone-t8n</code> Transition tool interface wrapper class.</p>
 
 
         <details class="quote">
@@ -4464,7 +4722,7 @@
 <span class="normal">150</span>
 <span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmOneTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Evmone `evmone-t8n` Transition tool frontend wrapper class.</span>
+<span class="sd">    Evmone `evmone-t8n` Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">default_binary</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;evmone-t8n&quot;</span><span class="p">)</span>
