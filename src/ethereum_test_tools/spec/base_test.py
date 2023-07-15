@@ -7,7 +7,7 @@ from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tupl
 from ethereum_test_forks import Fork
 from evm_transition_tool import TransitionTool
 
-from ..common import Account, FixtureBlock, FixtureHeader, Transaction
+from ..common import Account, Bytes, FixtureBlock, FixtureHeader, Hash, Transaction
 
 
 def normalize_address(address: str) -> str:
@@ -82,7 +82,7 @@ class BaseTest:
         self,
         t8n: TransitionTool,
         fork: Fork,
-    ) -> Tuple[bytes, FixtureHeader]:
+    ) -> Tuple[Bytes, FixtureHeader]:
         """
         Create a genesis block from the test definition.
         """
@@ -96,7 +96,7 @@ class BaseTest:
         fork: Fork,
         chain_id: int = 1,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[List[FixtureBlock], bytes, Dict[str, Any]]:
+    ) -> Tuple[List[FixtureBlock], Hash, Dict[str, Any]]:
         """
         Generate the blockchain that must be executed sequentially during test.
         """

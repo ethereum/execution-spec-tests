@@ -192,7 +192,7 @@ def test_transaction_signing(
     Test that transaction signing / serialization works as expected.
     """
     tx = tx.with_signature_and_sender()
-    signature = tx.signature
+    signature = (tx.v, tx.r, tx.s)
     assert signature is not None
 
     assert signature == expected_signature

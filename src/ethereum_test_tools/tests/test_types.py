@@ -2,12 +2,32 @@
 Test suite for `ethereum_test` module.
 """
 
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 import pytest
 
-from ..common import Account, Storage, even_padding
-from ..common.conversions import key_value_padding
+from ..common import (
+    AccessList,
+    Account,
+    EngineAPIError,
+    Environment,
+    Storage,
+    Transaction,
+    Withdrawal,
+    to_json,
+)
+from ..common.types import (
+    Address,
+    Bloom,
+    Bytes,
+    FixtureEngineNewPayload,
+    FixtureExecutionPayload,
+    FixtureHeader,
+    FixtureTransaction,
+    Hash,
+    HeaderNonce,
+    ZeroPaddedHexNumber,
+)
 
 
 def test_storage():
@@ -46,7 +66,7 @@ def test_storage():
     s = Storage({-1: -1, -2: -2})
     assert s.data[-1] == -1
     assert s.data[-2] == -2
-    d = s.to_dict()
+    d = s.__json__()
     assert (
         d["0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"]
         == "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
@@ -59,11 +79,11 @@ def test_storage():
     # time)
     # same value, ok
     s[2**256 - 1] = 2**256 - 1
-    s.to_dict()
+    s.__json__()
     # different value, not ok
     s[2**256 - 1] = 0
     with pytest.raises(Storage.AmbiguousKeyValue):
-        s.to_dict()
+        s.__json__()
 
     # Check store counter
     s = Storage({})
@@ -261,48 +281,663 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
             account.check_alloc("test", alloc)
 
 
-# Even Padding Test
 @pytest.mark.parametrize(
-    ["input", "excluded", "expected"],
+    ["obj", "expected_json"],
     [
         (
-            {"x": "0x12346", "y": "0xbcd", "z": {"a": "0x1"}},
-            [None],
-            {"x": "0x012346", "y": "0x0bcd", "z": {"a": "0x01"}},
+            Account(),
+            {
+                "nonce": "0x00",
+                "balance": "0x00",
+                "code": "0x",
+                "storage": {},
+            },
         ),
         (
-            {"a": "0x", "b": "0x", "c": None},
-            [None],
-            {"a": "0x", "b": "0x", "c": "0x"},
+            Account(
+                nonce=1,
+                balance=2,
+                code="0x1234",
+                storage={
+                    0: 0,
+                    1: 1,
+                },
+            ),
+            {
+                "nonce": "0x01",
+                "balance": "0x02",
+                "code": "0x1234",
+                "storage": {
+                    "0x00": "0x00",
+                    "0x01": "0x01",
+                },
+            },
         ),
         (
-            {"x": "0x12356", "y": "0xbed", "z": {"a": "0x1"}},
-            ["y", "z"],
-            {"x": "0x012356", "y": "0xbed", "z": {"a": "0x1"}},
+            AccessList(
+                address=0x1234,
+                storage_keys=[0, 1],
+            ),
+            {
+                "address": "0x0000000000000000000000000000000000001234",
+                "storageKeys": [
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    "0x0000000000000000000000000000000000000000000000000000000000000001",
+                ],
+            },
+        ),
+        (
+            Withdrawal(index=0, validator=1, address=0x1234, amount=2),
+            {
+                "index": "0x0",
+                "validatorIndex": "0x1",
+                "address": "0x0000000000000000000000000000000000001234",
+                "amount": "0x2",
+            },
+        ),
+        (
+            Environment(),
+            {
+                "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                "currentGasLimit": "100000000000000000",
+                "currentNumber": "1",
+                "currentTimestamp": "1000",
+                "blockHashes": {},
+                "ommers": [],
+                "parentUncleHash": (
+                    "0x0000000000000000000000000000000000000000000000000000000000000000"
+                ),
+            },
+        ),
+        (
+            Environment(
+                coinbase=0x1234,
+                difficulty=0x5,
+                prev_randao=0x6,
+                base_fee=0x7,
+                parent_difficulty=0x8,
+                parent_timestamp=0x9,
+                parent_base_fee=0xA,
+                parent_gas_used=0xB,
+                parent_gas_limit=0xC,
+                parent_ommers_hash=0xD,
+                withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+                parent_data_gas_used=0xE,
+                parent_excess_data_gas=0xF,
+                data_gas_used=0x10,
+                excess_data_gas=0x11,
+                block_hashes={1: 2, 3: 4},
+            ),
+            {
+                "currentCoinbase": "0x0000000000000000000000000000000000001234",
+                "currentGasLimit": "100000000000000000",
+                "currentNumber": "1",
+                "currentTimestamp": "1000",
+                "currentDifficulty": "5",
+                "currentRandom": "6",
+                "currentBaseFee": "7",
+                "parentDifficulty": "8",
+                "parentTimestamp": "9",
+                "parentBaseFee": "10",
+                "parentGasUsed": "11",
+                "parentGasLimit": "12",
+                "parentUncleHash": (
+                    "0x000000000000000000000000000000000000000000000000000000000000000d"
+                ),
+                "withdrawals": [
+                    {
+                        "index": "0x0",
+                        "validatorIndex": "0x1",
+                        "address": "0x0000000000000000000000000000000000001234",
+                        "amount": "0x2",
+                    },
+                ],
+                "parentDataGasUsed": "14",
+                "parentExcessDataGas": "15",
+                "currentDataGasUsed": "16",
+                "currentExcessDataGas": "17",
+                "blockHashes": {
+                    "1": "0x0000000000000000000000000000000000000000000000000000000000000002",
+                    "3": "0x0000000000000000000000000000000000000000000000000000000000000004",
+                },
+                "ommers": [],
+            },
+        ),
+        (
+            Transaction().with_signature_and_sender(),
+            {
+                "type": "0x0",
+                "chainId": "0x1",
+                "nonce": "0x0",
+                "to": "0x00000000000000000000000000000000000000aa",
+                "value": "0x0",
+                "input": "0x",
+                "gas": "0x5208",
+                "gasPrice": "0xa",
+                "v": "0x26",
+                "r": "0xcc61d852649c34cc0b71803115f38036ace257d2914f087bf885e6806a664fbd",
+                "s": "0x2020cb35f5d7731ab540d62614503a7f2344301a86342f67daf011c1341551ff",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+        ),
+        (
+            Transaction(
+                to=None,
+            ).with_signature_and_sender(),
+            {
+                "type": "0x0",
+                "chainId": "0x1",
+                "nonce": "0x0",
+                "value": "0x0",
+                "input": "0x",
+                "gas": "0x5208",
+                "gasPrice": "0xa",
+                "v": "0x25",
+                "r": "0x95a17303a5663d6d11268a9a8bf95687354102928d9233a997293c5dea84c328",
+                "s": "0xc52a0c819528677ed07cd6d7180c95af0a376bc091148ab872d40d524025901",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+        ),
+        (
+            Transaction(
+                to=0x1234,
+                data=b"\x01\x00",
+                access_list=[
+                    AccessList(
+                        address=0x1234,
+                        storage_keys=[0, 1],
+                    )
+                ],
+                max_priority_fee_per_gas=10,
+                max_fee_per_gas=20,
+                max_fee_per_data_gas=30,
+                blob_versioned_hashes=[0, 1],
+            ).with_signature_and_sender(),
+            {
+                "type": "0x3",
+                "chainId": "0x1",
+                "nonce": "0x0",
+                "to": "0x0000000000000000000000000000000000001234",
+                "accessList": [
+                    {
+                        "address": "0x0000000000000000000000000000000000001234",
+                        "storageKeys": [
+                            "0x0000000000000000000000000000000000000000000000000000000000000000",
+                            "0x0000000000000000000000000000000000000000000000000000000000000001",
+                        ],
+                    }
+                ],
+                "value": "0x0",
+                "input": "0x0100",
+                "gas": "0x5208",
+                "maxPriorityFeePerGas": "0xa",
+                "maxFeePerGas": "0x14",
+                "maxFeePerDataGas": "0x1e",
+                "blobVersionedHashes": [
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    "0x0000000000000000000000000000000000000000000000000000000000000001",
+                ],
+                "v": "0x0",
+                "r": "0x418bb557c43262375f80556cb09dac5e67396acf0eaaf2c2540523d1ce54b280",
+                "s": "0x4fa36090ea68a1138043d943ced123c0b0807d82ff3342a6977cbc09230e927c",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+        ),
+        (
+            FixtureTransaction.from_transaction(Transaction().with_signature_and_sender()),
+            {
+                "type": "0x00",
+                "chainId": "0x01",
+                "nonce": "0x00",
+                "to": "0x00000000000000000000000000000000000000aa",
+                "value": "0x00",
+                "data": "0x",
+                "gasLimit": "0x5208",
+                "gasPrice": "0x0a",
+                "v": "0x26",
+                "r": "0xcc61d852649c34cc0b71803115f38036ace257d2914f087bf885e6806a664fbd",
+                "s": "0x2020cb35f5d7731ab540d62614503a7f2344301a86342f67daf011c1341551ff",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+        ),
+        (
+            FixtureTransaction.from_transaction(
+                Transaction(
+                    to=None,
+                ).with_signature_and_sender()
+            ),
+            {
+                "type": "0x00",
+                "chainId": "0x01",
+                "to": "",
+                "nonce": "0x00",
+                "value": "0x00",
+                "data": "0x",
+                "gasLimit": "0x5208",
+                "gasPrice": "0x0a",
+                "v": "0x25",
+                "r": "0x95a17303a5663d6d11268a9a8bf95687354102928d9233a997293c5dea84c328",
+                "s": "0x0c52a0c819528677ed07cd6d7180c95af0a376bc091148ab872d40d524025901",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+        ),
+        (
+            FixtureTransaction.from_transaction(
+                Transaction(
+                    to=0x1234,
+                    data=b"\x01\x00",
+                    access_list=[
+                        AccessList(
+                            address=0x1234,
+                            storage_keys=[0, 1],
+                        )
+                    ],
+                    max_priority_fee_per_gas=10,
+                    max_fee_per_gas=20,
+                    max_fee_per_data_gas=30,
+                    blob_versioned_hashes=[0, 1],
+                ).with_signature_and_sender()
+            ),
+            {
+                "type": "0x03",
+                "chainId": "0x01",
+                "nonce": "0x00",
+                "to": "0x0000000000000000000000000000000000001234",
+                "accessList": [
+                    {
+                        "address": "0x0000000000000000000000000000000000001234",
+                        "storageKeys": [
+                            "0x0000000000000000000000000000000000000000000000000000000000000000",
+                            "0x0000000000000000000000000000000000000000000000000000000000000001",
+                        ],
+                    }
+                ],
+                "value": "0x00",
+                "data": "0x0100",
+                "gasLimit": "0x5208",
+                "maxPriorityFeePerGas": "0x0a",
+                "maxFeePerGas": "0x14",
+                "maxFeePerDataGas": "0x1e",
+                "blobVersionedHashes": [
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    "0x0000000000000000000000000000000000000000000000000000000000000001",
+                ],
+                "v": "0x00",
+                "r": "0x418bb557c43262375f80556cb09dac5e67396acf0eaaf2c2540523d1ce54b280",
+                "s": "0x4fa36090ea68a1138043d943ced123c0b0807d82ff3342a6977cbc09230e927c",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+        ),
+        (
+            FixtureHeader(
+                parent_hash=Hash(0),
+                ommers_hash=Hash(1),
+                coinbase=Address(2),
+                state_root=Hash(3),
+                transactions_root=Hash(4),
+                receipt_root=Hash(5),
+                bloom=Bloom(6),
+                difficulty=ZeroPaddedHexNumber(7),
+                number=ZeroPaddedHexNumber(8),
+                gas_limit=ZeroPaddedHexNumber(9),
+                gas_used=ZeroPaddedHexNumber(10),
+                timestamp=ZeroPaddedHexNumber(11),
+                extra_data=Bytes(bytes([12])),
+                mix_digest=Hash(13),
+                nonce=HeaderNonce(14),
+            ),
+            {
+                "parentHash": Hash(0).hex(),
+                "uncleHash": Hash(1).hex(),
+                "coinbase": Address(2).hex(),
+                "stateRoot": Hash(3).hex(),
+                "transactionsTrie": Hash(4).hex(),
+                "receiptTrie": Hash(5).hex(),
+                "bloom": Bloom(6).hex(),
+                "difficulty": ZeroPaddedHexNumber(7).hex(),
+                "number": ZeroPaddedHexNumber(8).hex(),
+                "gasLimit": ZeroPaddedHexNumber(9).hex(),
+                "gasUsed": ZeroPaddedHexNumber(10).hex(),
+                "timestamp": ZeroPaddedHexNumber(11).hex(),
+                "extraData": Bytes(bytes([12])).hex(),
+                "mixHash": Hash(13).hex(),
+                "nonce": HeaderNonce(14).hex(),
+            },
+        ),
+        (
+            FixtureHeader(
+                parent_hash=Hash(0),
+                ommers_hash=Hash(1),
+                coinbase=Address(2),
+                state_root=Hash(3),
+                transactions_root=Hash(4),
+                receipt_root=Hash(5),
+                bloom=Bloom(6),
+                difficulty=ZeroPaddedHexNumber(7),
+                number=ZeroPaddedHexNumber(8),
+                gas_limit=ZeroPaddedHexNumber(9),
+                gas_used=ZeroPaddedHexNumber(10),
+                timestamp=ZeroPaddedHexNumber(11),
+                extra_data=Bytes(bytes([12])),
+                mix_digest=Hash(13),
+                nonce=HeaderNonce(14),
+                base_fee=ZeroPaddedHexNumber(15),
+                withdrawals_root=Hash(16),
+                data_gas_used=ZeroPaddedHexNumber(17),
+                excess_data_gas=ZeroPaddedHexNumber(18),
+                hash=Hash(19),
+            ),
+            {
+                "parentHash": Hash(0).hex(),
+                "uncleHash": Hash(1).hex(),
+                "coinbase": Address(2).hex(),
+                "stateRoot": Hash(3).hex(),
+                "transactionsTrie": Hash(4).hex(),
+                "receiptTrie": Hash(5).hex(),
+                "bloom": Bloom(6).hex(),
+                "difficulty": ZeroPaddedHexNumber(7).hex(),
+                "number": ZeroPaddedHexNumber(8).hex(),
+                "gasLimit": ZeroPaddedHexNumber(9).hex(),
+                "gasUsed": ZeroPaddedHexNumber(10).hex(),
+                "timestamp": ZeroPaddedHexNumber(11).hex(),
+                "extraData": Bytes(bytes([12])).hex(),
+                "mixHash": Hash(13).hex(),
+                "nonce": HeaderNonce(14).hex(),
+                "baseFeePerGas": ZeroPaddedHexNumber(15).hex(),
+                "withdrawalsRoot": Hash(16).hex(),
+                "dataGasUsed": ZeroPaddedHexNumber(17).hex(),
+                "excessDataGas": ZeroPaddedHexNumber(18).hex(),
+                "hash": Hash(19).hex(),
+            },
+        ),
+        (
+            FixtureExecutionPayload.from_fixture_header(
+                header=FixtureHeader(
+                    parent_hash=Hash(0),
+                    ommers_hash=Hash(1),
+                    coinbase=Address(2),
+                    state_root=Hash(3),
+                    transactions_root=Hash(4),
+                    receipt_root=Hash(5),
+                    bloom=Bloom(6),
+                    difficulty=ZeroPaddedHexNumber(7),
+                    number=ZeroPaddedHexNumber(8),
+                    gas_limit=ZeroPaddedHexNumber(9),
+                    gas_used=ZeroPaddedHexNumber(10),
+                    timestamp=ZeroPaddedHexNumber(11),
+                    extra_data=Bytes(bytes([12])),
+                    mix_digest=Hash(13),
+                    nonce=HeaderNonce(14),
+                    base_fee=ZeroPaddedHexNumber(15),
+                    withdrawals_root=Hash(16),
+                    data_gas_used=ZeroPaddedHexNumber(17),
+                    excess_data_gas=ZeroPaddedHexNumber(18),
+                    hash=Hash(19),
+                ),
+                transactions=[
+                    Transaction(
+                        to=0x1234,
+                        data=b"\x01\x00",
+                        access_list=[
+                            AccessList(
+                                address=0x1234,
+                                storage_keys=[0, 1],
+                            )
+                        ],
+                        max_priority_fee_per_gas=10,
+                        max_fee_per_gas=20,
+                        max_fee_per_data_gas=30,
+                        blob_versioned_hashes=[0, 1],
+                    ).with_signature_and_sender(),
+                ],
+                withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+            ),
+            {
+                "parentHash": Hash(0).hex(),
+                "feeRecipient": Address(2).hex(),
+                "stateRoot": Hash(3).hex(),
+                "receiptsRoot": Hash(5).hex(),
+                "logsBloom": Bloom(6).hex(),
+                "blockNumber": ZeroPaddedHexNumber(8).hex(),
+                "gasLimit": ZeroPaddedHexNumber(9).hex(),
+                "gasUsed": ZeroPaddedHexNumber(10).hex(),
+                "timestamp": ZeroPaddedHexNumber(11).hex(),
+                "extraData": Bytes(bytes([12])).hex(),
+                "prevRandao": Hash(13).hex(),
+                "baseFeePerGas": ZeroPaddedHexNumber(15).hex(),
+                "dataGasUsed": ZeroPaddedHexNumber(17).hex(),
+                "excessDataGas": ZeroPaddedHexNumber(18).hex(),
+                "blockHash": Hash(19).hex(),
+                "transactions": [
+                    "0x"
+                    + Transaction(
+                        to=0x1234,
+                        data=b"\x01\x00",
+                        access_list=[
+                            AccessList(
+                                address=0x1234,
+                                storage_keys=[0, 1],
+                            )
+                        ],
+                        max_priority_fee_per_gas=10,
+                        max_fee_per_gas=20,
+                        max_fee_per_data_gas=30,
+                        blob_versioned_hashes=[0, 1],
+                    )
+                    .with_signature_and_sender()
+                    .serialized_bytes()
+                    .hex()
+                ],
+                "withdrawals": [
+                    to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
+                ],
+            },
+        ),
+        (
+            FixtureEngineNewPayload(
+                payload=FixtureExecutionPayload.from_fixture_header(
+                    header=FixtureHeader(
+                        parent_hash=Hash(0),
+                        ommers_hash=Hash(1),
+                        coinbase=Address(2),
+                        state_root=Hash(3),
+                        transactions_root=Hash(4),
+                        receipt_root=Hash(5),
+                        bloom=Bloom(6),
+                        difficulty=ZeroPaddedHexNumber(7),
+                        number=ZeroPaddedHexNumber(8),
+                        gas_limit=ZeroPaddedHexNumber(9),
+                        gas_used=ZeroPaddedHexNumber(10),
+                        timestamp=ZeroPaddedHexNumber(11),
+                        extra_data=Bytes(bytes([12])),
+                        mix_digest=Hash(13),
+                        nonce=HeaderNonce(14),
+                        base_fee=ZeroPaddedHexNumber(15),
+                        withdrawals_root=Hash(16),
+                        data_gas_used=ZeroPaddedHexNumber(17),
+                        excess_data_gas=ZeroPaddedHexNumber(18),
+                        hash=Hash(19),
+                    ),
+                    transactions=[
+                        Transaction(
+                            to=0x1234,
+                            data=b"\x01\x00",
+                            access_list=[
+                                AccessList(
+                                    address=0x1234,
+                                    storage_keys=[0, 1],
+                                )
+                            ],
+                            max_priority_fee_per_gas=10,
+                            max_fee_per_gas=20,
+                            max_fee_per_data_gas=30,
+                            blob_versioned_hashes=[0, 1],
+                        ).with_signature_and_sender(),
+                    ],
+                    withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+                ),
+                version=1,
+            ),
+            {
+                "payload": {
+                    "parentHash": Hash(0).hex(),
+                    "feeRecipient": Address(2).hex(),
+                    "stateRoot": Hash(3).hex(),
+                    "receiptsRoot": Hash(5).hex(),
+                    "logsBloom": Bloom(6).hex(),
+                    "blockNumber": ZeroPaddedHexNumber(8).hex(),
+                    "gasLimit": ZeroPaddedHexNumber(9).hex(),
+                    "gasUsed": ZeroPaddedHexNumber(10).hex(),
+                    "timestamp": ZeroPaddedHexNumber(11).hex(),
+                    "extraData": Bytes(bytes([12])).hex(),
+                    "prevRandao": Hash(13).hex(),
+                    "baseFeePerGas": ZeroPaddedHexNumber(15).hex(),
+                    "dataGasUsed": ZeroPaddedHexNumber(17).hex(),
+                    "excessDataGas": ZeroPaddedHexNumber(18).hex(),
+                    "blockHash": Hash(19).hex(),
+                    "transactions": [
+                        "0x"
+                        + Transaction(
+                            to=0x1234,
+                            data=b"\x01\x00",
+                            access_list=[
+                                AccessList(
+                                    address=0x1234,
+                                    storage_keys=[0, 1],
+                                )
+                            ],
+                            max_priority_fee_per_gas=10,
+                            max_fee_per_gas=20,
+                            max_fee_per_data_gas=30,
+                            blob_versioned_hashes=[0, 1],
+                        )
+                        .with_signature_and_sender()
+                        .serialized_bytes()
+                        .hex()
+                    ],
+                    "withdrawals": [
+                        to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
+                    ],
+                },
+                "version": "1",
+            },
+        ),
+        (
+            FixtureEngineNewPayload(
+                payload=FixtureExecutionPayload.from_fixture_header(
+                    header=FixtureHeader(
+                        parent_hash=Hash(0),
+                        ommers_hash=Hash(1),
+                        coinbase=Address(2),
+                        state_root=Hash(3),
+                        transactions_root=Hash(4),
+                        receipt_root=Hash(5),
+                        bloom=Bloom(6),
+                        difficulty=ZeroPaddedHexNumber(7),
+                        number=ZeroPaddedHexNumber(8),
+                        gas_limit=ZeroPaddedHexNumber(9),
+                        gas_used=ZeroPaddedHexNumber(10),
+                        timestamp=ZeroPaddedHexNumber(11),
+                        extra_data=Bytes(bytes([12])),
+                        mix_digest=Hash(13),
+                        nonce=HeaderNonce(14),
+                        base_fee=ZeroPaddedHexNumber(15),
+                        withdrawals_root=Hash(16),
+                        data_gas_used=ZeroPaddedHexNumber(17),
+                        excess_data_gas=ZeroPaddedHexNumber(18),
+                        hash=Hash(19),
+                    ),
+                    transactions=[
+                        Transaction(
+                            to=0x1234,
+                            data=b"\x01\x00",
+                            access_list=[
+                                AccessList(
+                                    address=0x1234,
+                                    storage_keys=[0, 1],
+                                )
+                            ],
+                            max_priority_fee_per_gas=10,
+                            max_fee_per_gas=20,
+                            max_fee_per_data_gas=30,
+                            blob_versioned_hashes=[0, 1],
+                        ).with_signature_and_sender(),
+                    ],
+                    withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+                ),
+                version=1,
+                blob_versioned_hashes=[bytes([0]), bytes([1])],
+                error_code=EngineAPIError.InvalidRequest,
+            ),
+            {
+                "payload": {
+                    "parentHash": Hash(0).hex(),
+                    "feeRecipient": Address(2).hex(),
+                    "stateRoot": Hash(3).hex(),
+                    "receiptsRoot": Hash(5).hex(),
+                    "logsBloom": Bloom(6).hex(),
+                    "blockNumber": ZeroPaddedHexNumber(8).hex(),
+                    "gasLimit": ZeroPaddedHexNumber(9).hex(),
+                    "gasUsed": ZeroPaddedHexNumber(10).hex(),
+                    "timestamp": ZeroPaddedHexNumber(11).hex(),
+                    "extraData": Bytes(bytes([12])).hex(),
+                    "prevRandao": Hash(13).hex(),
+                    "baseFeePerGas": ZeroPaddedHexNumber(15).hex(),
+                    "dataGasUsed": ZeroPaddedHexNumber(17).hex(),
+                    "excessDataGas": ZeroPaddedHexNumber(18).hex(),
+                    "blockHash": Hash(19).hex(),
+                    "transactions": [
+                        "0x"
+                        + Transaction(
+                            to=0x1234,
+                            data=b"\x01\x00",
+                            access_list=[
+                                AccessList(
+                                    address=0x1234,
+                                    storage_keys=[0, 1],
+                                )
+                            ],
+                            max_priority_fee_per_gas=10,
+                            max_fee_per_gas=20,
+                            max_fee_per_data_gas=30,
+                            blob_versioned_hashes=[0, 1],
+                        )
+                        .with_signature_and_sender()
+                        .serialized_bytes()
+                        .hex()
+                    ],
+                    "withdrawals": [
+                        to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
+                    ],
+                },
+                "version": "1",
+                "blobVersionedHashes": [
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    "0x0000000000000000000000000000000000000000000000000000000000000001",
+                ],
+                "errorCode": "-32600",
+            },
         ),
     ],
-)
-def test_even_padding(input: Dict, excluded: List[str | None], expected: Dict):
-    assert even_padding(input, excluded) == expected
-
-
-# Key Value Padding Test
-@pytest.mark.parametrize(
-    ["value", "expected"],
-    [
-        (
-            "0x0000000012346",
-            "0x012346",
-        ),
-        (
-            "0x",
-            "0x00",
-        ),
-        (
-            None,
-            "0x",
-        ),
+    ids=[
+        "account",
+        "account_2",
+        "access_list",
+        "withdrawal",
+        "environment_1",
+        "environment_2",
+        "transaction",
+        "transaction_2",
+        "transaction_3",
+        "fixture_transaction",
+        "fixture_transaction_2",
+        "fixture_transaction_3",
+        "fixture_header",
+        "fixture_header_2",
+        "fixture_execution_payload",
+        "fixture_engine_new_payload",
+        "fixture_engine_new_payload_2",
     ],
 )
-def test_key_value_padding(value: str, expected: str):
-    assert key_value_padding(value) == expected
+def test_json_conversions(obj: Any, expected_json: str | Dict[str, Any]):
+    assert to_json(obj) == expected_json
