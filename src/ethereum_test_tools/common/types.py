@@ -1313,7 +1313,7 @@ class Transaction:
 
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = Address(self.to if self.to is not None else bytes())
+        to = Address(self.to) if self.to is not None else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
@@ -1455,7 +1455,7 @@ class Transaction:
         """
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = Address(self.to if self.to is not None else bytes())
+        to = Address(self.to) if self.to is not None else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
