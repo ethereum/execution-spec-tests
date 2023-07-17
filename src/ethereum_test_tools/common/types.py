@@ -163,7 +163,7 @@ class Bytes(bytes):
 
     def hex(self, *args, **kwargs) -> str:
         """
-        Returns the hexadecimal representation of the address.
+        Returns the hexadecimal representation of the bytes.
         """
         return "0x" + super().hex(*args, **kwargs)
 
@@ -1077,6 +1077,34 @@ class Transaction:
             cast_type=HexNumber,
         ),
     )
+    gas_price: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="gasPrice",
+            cast_type=HexNumber,
+        ),
+    )
+    max_priority_fee_per_gas: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="maxPriorityFeePerGas",
+            cast_type=HexNumber,
+        ),
+    )
+    max_fee_per_gas: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="maxFeePerGas",
+            cast_type=HexNumber,
+        ),
+    )
+    gas_limit: int = field(
+        default=21000,
+        json_encoder=JSONEncoder.Field(
+            name="gas",
+            cast_type=HexNumber,
+        ),
+    )
     to: Optional[FixedSizeBytesConvertible] = field(
         default=AddrAA,
         json_encoder=JSONEncoder.Field(
@@ -1096,13 +1124,6 @@ class Transaction:
             cast_type=Bytes,
         ),
     )
-    gas_limit: int = field(
-        default=21000,
-        json_encoder=JSONEncoder.Field(
-            name="gas",
-            cast_type=HexNumber,
-        ),
-    )
     access_list: Optional[List[AccessList]] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -1110,30 +1131,6 @@ class Transaction:
             to_json=True,
         ),
     )
-
-    gas_price: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="gasPrice",
-            cast_type=HexNumber,
-        ),
-    )
-    max_fee_per_gas: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="maxFeePerGas",
-            cast_type=HexNumber,
-        ),
-    )
-
-    max_priority_fee_per_gas: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="maxPriorityFeePerGas",
-            cast_type=HexNumber,
-        ),
-    )
-
     max_fee_per_data_gas: Optional[int] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -1141,7 +1138,6 @@ class Transaction:
             cast_type=HexNumber,
         ),
     )
-
     blob_versioned_hashes: Optional[Sequence[FixedSizeBytesConvertible]] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -1150,33 +1146,6 @@ class Transaction:
             to_json=True,
         ),
     )
-
-    wrapped_blob_transaction: bool = field(
-        default=False,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-
-    blobs: Optional[Sequence[bytes]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    blob_kzg_commitments: Optional[Sequence[bytes]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    blob_kzg_proofs: Optional[Sequence[bytes]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-
     v: Optional[int] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -1195,18 +1164,41 @@ class Transaction:
             cast_type=HexNumber,
         ),
     )
-
-    secret_key: Optional[FixedSizeBytesConvertible] = field(
+    wrapped_blob_transaction: bool = field(
+        default=False,
+        json_encoder=JSONEncoder.Field(
+            skip=True,
+        ),
+    )
+    blobs: Optional[Sequence[bytes]] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
-            name="secretKey",
-            cast_type=Hash,
+            skip=True,
+        ),
+    )
+    blob_kzg_commitments: Optional[Sequence[bytes]] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            skip=True,
+        ),
+    )
+    blob_kzg_proofs: Optional[Sequence[bytes]] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            skip=True,
         ),
     )
     sender: Optional[FixedSizeBytesConvertible] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
             cast_type=Address,
+        ),
+    )
+    secret_key: Optional[FixedSizeBytesConvertible] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="secretKey",
+            cast_type=Hash,
         ),
     )
     protected: bool = field(
@@ -1671,6 +1663,34 @@ class FixtureTransaction(Transaction):
             cast_type=ZeroPaddedHexNumber,
         ),
     )
+    gas_price: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="gasPrice",
+            cast_type=ZeroPaddedHexNumber,
+        ),
+    )
+    max_priority_fee_per_gas: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="maxPriorityFeePerGas",
+            cast_type=ZeroPaddedHexNumber,
+        ),
+    )
+    max_fee_per_gas: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="maxFeePerGas",
+            cast_type=ZeroPaddedHexNumber,
+        ),
+    )
+    gas_limit: int = field(
+        default=21000,
+        json_encoder=JSONEncoder.Field(
+            name="gasLimit",
+            cast_type=ZeroPaddedHexNumber,
+        ),
+    )
     to: Optional[FixedSizeBytesConvertible] = field(
         default=AddrAA,
         json_encoder=JSONEncoder.Field(
@@ -1690,36 +1710,6 @@ class FixtureTransaction(Transaction):
             cast_type=Bytes,
         ),
     )
-    gas_limit: int = field(
-        default=21000,
-        json_encoder=JSONEncoder.Field(
-            name="gasLimit",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-    gas_price: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="gasPrice",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-    max_fee_per_gas: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="maxFeePerGas",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-
-    max_priority_fee_per_gas: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="maxPriorityFeePerGas",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-
     max_fee_per_data_gas: Optional[int] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -1727,7 +1717,6 @@ class FixtureTransaction(Transaction):
             cast_type=ZeroPaddedHexNumber,
         ),
     )
-
     v: Optional[int] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -2270,6 +2259,13 @@ class Fixture:
     Cross-client compatible Ethereum test fixture.
     """
 
+    info: Dict[str, str] = field(
+        default_factory=dict,
+        json_encoder=JSONEncoder.Field(
+            name="_info",
+            to_json=True,
+        ),
+    )
     blocks: List[FixtureBlock] = field(
         json_encoder=JSONEncoder.Field(
             name="blocks",
@@ -2303,11 +2299,6 @@ class Fixture:
             to_json=True,
         ),
     )
-    seal_engine: str = field(
-        json_encoder=JSONEncoder.Field(
-            name="sealEngine",
-        ),
-    )
     post_state: Optional[Mapping[str, Account]] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -2315,11 +2306,9 @@ class Fixture:
             to_json=True,
         ),
     )
-    info: Dict[str, str] = field(
-        default_factory=dict,
+    seal_engine: str = field(
         json_encoder=JSONEncoder.Field(
-            name="_info",
-            to_json=True,
+            name="sealEngine",
         ),
     )
     name: str = field(
