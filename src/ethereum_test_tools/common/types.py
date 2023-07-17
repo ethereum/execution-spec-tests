@@ -1802,25 +1802,32 @@ class FixtureHeader:
     transactions_root: Hash = field(json_encoder=JSONEncoder.Field(name="transactionsTrie"))
     receipt_root: Hash = field(json_encoder=JSONEncoder.Field(name="receiptTrie"))
     bloom: Bloom = field(json_encoder=JSONEncoder.Field())
-    difficulty: ZeroPaddedHexNumber = field(json_encoder=JSONEncoder.Field())
-    number: ZeroPaddedHexNumber = field(json_encoder=JSONEncoder.Field())
-    gas_limit: ZeroPaddedHexNumber = field(json_encoder=JSONEncoder.Field(name="gasLimit"))
-    gas_used: ZeroPaddedHexNumber = field(json_encoder=JSONEncoder.Field(name="gasUsed"))
-    timestamp: ZeroPaddedHexNumber = field(json_encoder=JSONEncoder.Field())
+    difficulty: int = field(json_encoder=JSONEncoder.Field(cast_type=ZeroPaddedHexNumber))
+    number: int = field(json_encoder=JSONEncoder.Field(cast_type=ZeroPaddedHexNumber))
+    gas_limit: int = field(
+        json_encoder=JSONEncoder.Field(name="gasLimit", cast_type=ZeroPaddedHexNumber)
+    )
+    gas_used: int = field(
+        json_encoder=JSONEncoder.Field(name="gasUsed", cast_type=ZeroPaddedHexNumber)
+    )
+    timestamp: int = field(json_encoder=JSONEncoder.Field(cast_type=ZeroPaddedHexNumber))
     extra_data: Bytes = field(json_encoder=JSONEncoder.Field(name="extraData"))
     mix_digest: Hash = field(json_encoder=JSONEncoder.Field(name="mixHash"))
     nonce: HeaderNonce = field(json_encoder=JSONEncoder.Field())
-    base_fee: Optional[ZeroPaddedHexNumber] = field(
-        default=None, json_encoder=JSONEncoder.Field(name="baseFeePerGas")
+    base_fee: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(name="baseFeePerGas", cast_type=ZeroPaddedHexNumber),
     )
     withdrawals_root: Optional[Hash] = field(
         default=None, json_encoder=JSONEncoder.Field(name="withdrawalsRoot")
     )
-    data_gas_used: Optional[ZeroPaddedHexNumber] = field(
-        default=None, json_encoder=JSONEncoder.Field(name="dataGasUsed")
+    data_gas_used: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(name="dataGasUsed", cast_type=ZeroPaddedHexNumber),
     )
-    excess_data_gas: Optional[ZeroPaddedHexNumber] = field(
-        default=None, json_encoder=JSONEncoder.Field(name="excessDataGas")
+    excess_data_gas: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(name="excessDataGas", cast_type=ZeroPaddedHexNumber),
     )
     hash: Optional[Hash] = field(default=None, json_encoder=JSONEncoder.Field())
 
@@ -2032,7 +2039,7 @@ class FixtureExecutionPayload(FixtureHeader):
             skip=True,
         ),
     )
-    difficulty: ZeroPaddedHexNumber = field(
+    difficulty: int = field(
         json_encoder=JSONEncoder.Field(
             skip=True,
         )
@@ -2065,11 +2072,6 @@ class FixtureExecutionPayload(FixtureHeader):
             name="logsBloom",
         )
     )
-    number: ZeroPaddedHexNumber = field(
-        json_encoder=JSONEncoder.Field(
-            name="blockNumber",
-        )
-    )
     mix_digest: Hash = field(
         json_encoder=JSONEncoder.Field(
             name="prevRandao",
@@ -2080,6 +2082,29 @@ class FixtureExecutionPayload(FixtureHeader):
         json_encoder=JSONEncoder.Field(
             name="blockHash",
         ),
+    )
+
+    # Fields with different formatting
+    number: int = field(
+        json_encoder=JSONEncoder.Field(
+            name="blockNumber",
+            cast_type=HexNumber,
+        )
+    )
+    gas_limit: int = field(json_encoder=JSONEncoder.Field(name="gasLimit", cast_type=HexNumber))
+    gas_used: int = field(json_encoder=JSONEncoder.Field(name="gasUsed", cast_type=HexNumber))
+    timestamp: int = field(json_encoder=JSONEncoder.Field(cast_type=HexNumber))
+    base_fee: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(name="baseFeePerGas", cast_type=HexNumber),
+    )
+    data_gas_used: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(name="dataGasUsed", cast_type=HexNumber),
+    )
+    excess_data_gas: Optional[int] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(name="excessDataGas", cast_type=HexNumber),
     )
 
     # Fields only used in the Engine API
