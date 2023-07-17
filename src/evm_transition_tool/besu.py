@@ -99,7 +99,7 @@ class BesuTransitionTool(TransitionTool):
         if self.trace:
             raise Exception("Besu `t8n-server` does not support tracing.")
 
-        output = requests.post(
+        response = requests.post(
             self.server_url,
             json={
                 "state": {
@@ -113,7 +113,10 @@ class BesuTransitionTool(TransitionTool):
                     "env": env,
                 },
             },
-        ).json()
+            timeout=5,
+        )
+        response.raise_for_status()  # exception visible in pytest failure output
+        output = response.json()
 
         return output["alloc"], output["result"]
 
