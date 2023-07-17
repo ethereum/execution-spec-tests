@@ -4,6 +4,7 @@ abstract: Test DUP
     Test the DUP opcodes.
 
 """
+from ethereum_test_forks import Frontier, Homestead
 from ethereum_test_tools import (
     Account,
     Environment,
@@ -14,7 +15,7 @@ from ethereum_test_tools import (
 )
 
 
-def test_dup(state_test: StateTestFiller):
+def test_dup(state_test: StateTestFiller, fork: str):
     """
     Test the DUP1-DUP16 opcodes.
 
@@ -63,13 +64,14 @@ def test_dup(state_test: StateTestFiller):
         The storage of each will only change by one item: storage[0]
         The value depends on the DUP opcode used.
         """
+
         tx = Transaction(
             ty=0x0,
             nonce=i,
             to=account,
             gas_limit=500000,
             gas_price=10,
-            protected=False,
+            protected=False if fork in [Frontier, Homestead] else True,
             data="",
         )
         txs.append(tx)
