@@ -2,9 +2,9 @@
 Common conversion methods.
 """
 from re import sub
-from typing import Any, Optional, SupportsBytes, TypeAlias
+from typing import Any, List, Optional, SupportsBytes, TypeAlias
 
-BytesConvertible: TypeAlias = str | bytes | SupportsBytes
+BytesConvertible: TypeAlias = str | bytes | SupportsBytes | List[int]
 FixedSizeBytesConvertible: TypeAlias = str | bytes | SupportsBytes | int
 NumberConvertible: TypeAlias = str | bytes | SupportsBytes | int
 
@@ -38,7 +38,7 @@ def to_bytes(input: BytesConvertible) -> bytes:
     if input is None:
         raise Exception("Cannot convert `None` input to bytes")
 
-    if isinstance(input, SupportsBytes) or isinstance(input, bytes):
+    if isinstance(input, SupportsBytes) or isinstance(input, bytes) or isinstance(input, list):
         return bytes(input)
 
     if isinstance(input, str):

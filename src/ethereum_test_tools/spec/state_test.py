@@ -78,7 +78,7 @@ class StateTest(BaseTest):
             gas_limit=ZeroPaddedHexNumber(env.gas_limit),
             gas_used=ZeroPaddedHexNumber(0),
             timestamp=ZeroPaddedHexNumber(0),
-            extra_data=Bytes(bytes([0])),
+            extra_data=Bytes([0]),
             mix_digest=Hash(0),
             nonce=HeaderNonce(0),
             base_fee=ZeroPaddedHexNumber.or_none(env.base_fee),
