@@ -241,9 +241,7 @@ def test_warm_coinbase_gas_usage(state_test, fork, opcode, code_gas_measure):
     measure_address = to_address(0x100)
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        measure_address: Account(
-            code=code_gas_measure,
-        ),
+        measure_address: Account(code=code_gas_measure, balance=1000000000000000000000),
     }
 
     if is_fork(fork, Shanghai):
