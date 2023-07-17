@@ -5,7 +5,7 @@ from re import sub
 from typing import Any, List, Optional, SupportsBytes, TypeAlias
 
 BytesConvertible: TypeAlias = str | bytes | SupportsBytes | List[int]
-FixedSizeBytesConvertible: TypeAlias = str | bytes | SupportsBytes | int
+FixedSizeBytesConvertible: TypeAlias = str | bytes | SupportsBytes | List[int] | int
 NumberConvertible: TypeAlias = str | bytes | SupportsBytes | int
 
 
