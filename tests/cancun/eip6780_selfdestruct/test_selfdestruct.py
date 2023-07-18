@@ -216,18 +216,31 @@ def pre(
 @pytest.mark.parametrize(
     "call_times,sendall_recipient_addresses",
     [
-        (1, [to_address(0x1000)]),
-        (10, [to_address(0x1000)]),
-        (10, [to_address(0x1000), to_address(0x2000), to_address(0x3000)]),
-        (10, [SELFDESTRUCT_CONTRACT_ADDRESS, to_address(0x2000), to_address(0x3000)]),
-        (10, [to_address(0x1000), to_address(0x2000), SELFDESTRUCT_CONTRACT_ADDRESS]),
-    ],
-    ids=[
-        "single_call",
-        "multiple_calls_single_sendall_recipient",
-        "multiple_calls_multiple_sendall_recipients",
-        "multiple_calls_multiple_sendall_recipients_including_self",
-        "multiple_calls_multiple_sendall_recipients_including_self_different_order",
+        pytest.param(
+            1,
+            [to_address(0x1000)],
+            id="single_call",
+        ),
+        pytest.param(
+            10,
+            [to_address(0x1000)],
+            id="multiple_calls_single_sendall_recipient",
+        ),
+        pytest.param(
+            10,
+            [to_address(0x1000), to_address(0x2000), to_address(0x3000)],
+            id="multiple_calls_multiple_sendall_recipients",
+        ),
+        pytest.param(
+            10,
+            [SELFDESTRUCT_CONTRACT_ADDRESS, to_address(0x2000), to_address(0x3000)],
+            id="multiple_calls_multiple_sendall_recipients_including_self",
+        ),
+        pytest.param(
+            10,
+            [to_address(0x1000), to_address(0x2000), SELFDESTRUCT_CONTRACT_ADDRESS],
+            id="multiple_calls_multiple_sendall_recipients_including_self_different_order",
+        ),
     ],
 )
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
@@ -261,7 +274,7 @@ def test_create_selfdestruct_same_tx(
     # Our entry point is an initcode that in turn creates a self-destructing contract
     entry_code_storage = Storage()
 
-    # Final balances of the sendall recipients
+    # Create a dict to record the expected final balances
     sendall_final_balances = dict(
         zip(sendall_recipient_addresses, [0] * len(sendall_recipient_addresses))
     )
@@ -662,20 +675,41 @@ def test_recreate_self_destructed_contract_different_txs(
 @pytest.mark.parametrize(
     "call_times,sendall_recipient_addresses",
     [
-        (1, [to_address(0x1000)]),
-        (1, [PRE_EXISTING_SELFDESTRUCT_ADDRESS]),
-        (10, [to_address(0x1000)]),
-        (10, [to_address(0x1000), to_address(0x2000), to_address(0x3000)]),
-        (10, [PRE_EXISTING_SELFDESTRUCT_ADDRESS, to_address(0x2000), to_address(0x3000)]),
-        (10, [to_address(0x1000), to_address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS]),
-    ],
-    ids=[
-        "single_call",
-        "single_call_self_sendall_recipient",
-        "multiple_calls_single_sendall_recipient",
-        "multiple_calls_multiple_sendall_recipients",
-        "multiple_calls_multiple_sendall_recipients_including_self",
-        "multiple_calls_multiple_sendall_recipients_including_self_different_order",
+        pytest.param(
+            1,
+            [to_address(0x1000)],
+            id="single_call",
+        ),
+        pytest.param(
+            1,
+            [PRE_EXISTING_SELFDESTRUCT_ADDRESS],
+            id="single_call_self_sendall_recipient",
+        ),
+        pytest.param(
+            10,
+            [to_address(0x1000)],
+            id="multiple_calls_single_sendall_recipient",
+        ),
+        pytest.param(
+            10,
+            [to_address(0x1000), to_address(0x2000), to_address(0x3000)],
+            id="multiple_calls_multiple_sendall_recipients",
+        ),
+        pytest.param(
+            10,
+            [PRE_EXISTING_SELFDESTRUCT_ADDRESS, to_address(0x2000), to_address(0x3000)],
+            id="multiple_calls_multiple_sendall_recipients_including_self",
+        ),
+        pytest.param(
+            10,
+            [to_address(0x1000), to_address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS],
+            id="multiple_calls_multiple_sendall_recipients_including_self_different_order",
+        ),
+        pytest.param(
+            3,
+            [to_address(0x1000), to_address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS],
+            id="multiple_calls_multiple_sendall_recipients_including_self_last",
+        ),
     ],
 )
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
@@ -709,7 +743,7 @@ def test_selfdestruct_pre_existing(
     """
     entry_code_storage = Storage()
 
-    # Final balances of the sendall recipients
+    # Create a dict to record the expected final balances
     sendall_final_balances = dict(
         zip(sendall_recipient_addresses, [0] * len(sendall_recipient_addresses))
     )
@@ -924,25 +958,30 @@ def test_selfdestruct_created_same_block_different_tx(
 @pytest.mark.parametrize(
     "selfdestruct_code",
     [
-        Op.DELEGATECALL(
-            Op.GAS,
-            Op.PUSH20(PRE_EXISTING_SELFDESTRUCT_ADDRESS),
-            0,
-            0,
-            0,
-            0,
+        pytest.param(
+            Op.DELEGATECALL(
+                Op.GAS,
+                Op.PUSH20(PRE_EXISTING_SELFDESTRUCT_ADDRESS),
+                0,
+                0,
+                0,
+                0,
+            ),
+            id="delegatecall",
         ),
-        Op.CALLCODE(
-            Op.GAS,
-            Op.PUSH20(PRE_EXISTING_SELFDESTRUCT_ADDRESS),
-            0,
-            0,
-            0,
-            0,
-            0,
+        pytest.param(
+            Op.CALLCODE(
+                Op.GAS,
+                Op.PUSH20(PRE_EXISTING_SELFDESTRUCT_ADDRESS),
+                0,
+                0,
+                0,
+                0,
+                0,
+            ),
+            id="callcode",
         ),
     ],
-    ids=["delegatecall", "callcode"],
 )  # The self-destruct code is delegatecall
 @pytest.mark.parametrize("call_times", [1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
