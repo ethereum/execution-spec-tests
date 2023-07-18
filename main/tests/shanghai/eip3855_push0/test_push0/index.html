@@ -19,7 +19,7 @@
         <link rel="next" href="index/test_cases/">
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ecc896b0.min.css">
@@ -3258,7 +3258,7 @@
 
 
 <h1 id="test-push0">Test Push0<a class="headerlink" href="#test-push0" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bc1fb172b258ec57c7aa4db35316ec9dd4abb055/tests/shanghai/eip3855_push0/test_push0.py"><code>tests/shanghai/eip3855_push0/test_push0.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb4dd7d48728787567679014431f8f035949cefd/tests/shanghai/eip3855_push0/test_push0.py"><code>tests/shanghai/eip3855_push0/test_push0.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3855_push0/test_push0.py</span>
@@ -3293,6 +3293,7 @@
 
 
 
+
 <div class="doc doc-object doc-function">
 
 
@@ -3307,9 +3308,9 @@
   
       <p>Use PUSH0 to set a key for SSTORE.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
@@ -3343,10 +3344,11 @@
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;key_sstore&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3367,9 +3369,9 @@
   
       <p>Fill stack with PUSH0, then OR all values and save using SSTORE.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
@@ -3407,10 +3409,11 @@
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;fill_stack&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3431,9 +3434,9 @@
   
       <p>Stack overflow by using PUSH0 1025 times.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
@@ -3469,10 +3472,11 @@
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;stack_overflow&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3493,9 +3497,9 @@
   
       <p>Update an already existing storage value.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
@@ -3529,10 +3533,11 @@
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;storage_overwrite&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3553,9 +3558,9 @@
   
       <p>Test PUSH0 during STATICCALL.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
@@ -3607,10 +3612,11 @@
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;during_staticcall&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3631,9 +3637,9 @@
   
       <p>Jump to a JUMPDEST next to a PUSH0, must succeed.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
@@ -3667,10 +3673,11 @@
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;before_jumpdest&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3691,9 +3698,9 @@
   
       <p>Test PUSH0 gas cost.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
@@ -3733,7 +3740,7 @@
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;gas_cost&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>

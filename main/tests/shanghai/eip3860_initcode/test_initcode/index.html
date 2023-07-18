@@ -19,7 +19,7 @@
         <link rel="next" href="index/test_cases/">
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ecc896b0.min.css">
@@ -3256,7 +3256,7 @@
 
 
 <h1 id="test-initcode">Test Initcode<a class="headerlink" href="#test-initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bc1fb172b258ec57c7aa4db35316ec9dd4abb055/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb4dd7d48728787567679014431f8f035949cefd/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py</span>
@@ -3292,6 +3292,7 @@
 
 
 
+
 <div class="doc doc-object doc-function">
 
 
@@ -3310,9 +3311,9 @@ on/over the max allowed limit.</p>
 <p>Generates a BlockchainTest based on the provided <code>initcode</code> and its
 length.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
@@ -3417,7 +3418,7 @@ length.</p>
 
     <span class="n">block</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">())</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
         <span class="c1"># Initcode is above the max size, tx inclusion in the block makes</span>
         <span class="c1"># it invalid.</span>
         <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>
@@ -3436,7 +3437,7 @@ length.</p>
         <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
@@ -3451,7 +3452,7 @@ length.</p>
 
 
 <h2 id="tests.shanghai.eip3860_initcode.test_initcode.TestContractCreationGasUsage" class="doc doc-heading">
-        <code>TestContractCreationGasUsage</code>
+          <code>TestContractCreationGasUsage</code>
 
 
 <a href="#tests.shanghai.eip3860_initcode.test_initcode.TestContractCreationGasUsage" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -3475,10 +3476,9 @@ contract creating transaction:</p>
 </ol>
 <p>Initcode must be within valid EIP-3860 length.</p>
 
-
-        <details class="quote">
-          <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
+            <details class="quote">
+              <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
@@ -3856,11 +3856,12 @@ contract creating transaction:</p>
             <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">gas_test_case</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-        </details>
+            </details>
 
   
 
   <div class="doc doc-children">
+
 
 
 
@@ -3883,9 +3884,9 @@ contract creating transaction:</p>
       <p>Test transaction and contract creation behavior for different gas
 limits.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">414</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">414</span>
 <span class="normal">415</span>
 <span class="normal">416</span>
 <span class="normal">417</span>
@@ -3949,7 +3950,7 @@ limits.</p>
         <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">gas_test_case</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
@@ -3973,7 +3974,7 @@ limits.</p>
 
 
 <h2 id="tests.shanghai.eip3860_initcode.test_initcode.TestCreateInitcode" class="doc doc-heading">
-        <code>TestCreateInitcode</code>
+          <code>TestCreateInitcode</code>
 
 
 <a href="#tests.shanghai.eip3860_initcode.test_initcode.TestCreateInitcode" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -3985,10 +3986,9 @@ limits.</p>
       <p>Test contract creation via the CREATE/CREATE2 opcodes that have an initcode
 that is on/over the max allowed limit.</p>
 
-
-        <details class="quote">
-          <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
+            <details class="quote">
+              <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
@@ -4223,7 +4223,7 @@ that is on/over the max allowed limit.</p>
             <span class="k">return</span> <span class="n">compute_create2_address</span><span class="p">(</span>
                 <span class="n">address</span><span class="o">=</span><span class="mh">0x100</span><span class="p">,</span>
                 <span class="n">salt</span><span class="o">=</span><span class="mh">0xDEADBEEF</span><span class="p">,</span>
-                <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">(),</span>
+                <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;invalid opcode for generator&quot;</span><span class="p">)</span>
 
@@ -4281,7 +4281,7 @@ that is on/over the max allowed limit.</p>
             <span class="c1"># Extra PUSH operation</span>
             <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">PUSH_DUP_OPCODE_GAS</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">())</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
             <span class="c1"># Call returns 0 as out of gas s[0]==1</span>
             <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -4309,12 +4309,12 @@ that is on/over the max allowed limit.</p>
             <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
                 <span class="c1"># CREATE2 hashing cost should only be deducted if the initcode</span>
                 <span class="c1"># does not exceed the max length</span>
-                <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_create2_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">()))</span>
+                <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_create2_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">eip_3860_active</span><span class="p">:</span>
                 <span class="c1"># Initcode word cost is only deducted if the length check</span>
                 <span class="c1"># succeeds</span>
-                <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">()))</span>
+                <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
 
             <span class="c1"># Call returns 1 as valid initcode length s[0]==1 &amp;&amp; s[1]==1</span>
             <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
@@ -4342,11 +4342,12 @@ that is on/over the max allowed limit.</p>
             <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">opcode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-        </details>
+            </details>
 
   
 
   <div class="doc doc-children">
+
 
 
 
@@ -4369,9 +4370,9 @@ that is on/over the max allowed limit.</p>
       <p>Test contract creation via the CREATE/CREATE2 opcodes that have an
 initcode that is on/over the max allowed limit.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
 <span class="normal">527</span>
@@ -4538,7 +4539,7 @@ initcode that is on/over the max allowed limit.</p>
         <span class="c1"># Extra PUSH operation</span>
         <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">PUSH_DUP_OPCODE_GAS</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">())</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
         <span class="c1"># Call returns 0 as out of gas s[0]==1</span>
         <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -4566,12 +4567,12 @@ initcode that is on/over the max allowed limit.</p>
         <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
             <span class="c1"># CREATE2 hashing cost should only be deducted if the initcode</span>
             <span class="c1"># does not exceed the max length</span>
-            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_create2_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">()))</span>
+            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_create2_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">eip_3860_active</span><span class="p">:</span>
             <span class="c1"># Initcode word cost is only deducted if the length check</span>
             <span class="c1"># succeeds</span>
-            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="o">.</span><span class="n">assemble</span><span class="p">()))</span>
+            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
 
         <span class="c1"># Call returns 1 as valid initcode length s[0]==1 &amp;&amp; s[1]==1</span>
         <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
@@ -4599,7 +4600,7 @@ initcode that is on/over the max allowed limit.</p>
         <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">opcode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>

@@ -19,7 +19,7 @@
         <link rel="next" href="index/test_cases/">
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ecc896b0.min.css">
@@ -3194,20 +3194,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tests.cancun.eip4844_blobs.test_blob_txs.Spec" class="md-nav__link">
-    Spec
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tests.cancun.eip4844_blobs.test_blob_txs.SpecHelpers" class="md-nav__link">
-    SpecHelpers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_valid_blob_tx_combinations" class="md-nav__link">
     test_valid_blob_tx_combinations()
   </a>
@@ -3321,7 +3307,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bc1fb172b258ec57c7aa4db35316ec9dd4abb055/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb4dd7d48728787567679014431f8f035949cefd/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -3365,394 +3351,9 @@ For all forks up to and including Cancun:
 
 
 
-<div class="doc doc-object doc-class">
 
 
 
-<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.Spec" class="doc doc-heading">
-        <code>Spec</code>
-
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span>
-
-<a href="#tests.cancun.eip4844_blobs.test_blob_txs.Spec" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-  <div class="doc doc-contents ">
-
-  
-      <p>Parameters from the EIP-4844 specifications as defined at
-<a href="https://eips.ethereum.org/EIPS/eip-4844#parameters">https://eips.ethereum.org/EIPS/eip-4844#parameters</a></p>
-<p>If the parameter is not currently used within the tests, it is commented
-out.</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 33</span>
-<span class="normal"> 34</span>
-<span class="normal"> 35</span>
-<span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
-<span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters from the EIP-4844 specifications as defined at</span>
-<span class="sd">    https://eips.ethereum.org/EIPS/eip-4844#parameters</span>
-
-<span class="sd">    If the parameter is not currently used within the tests, it is commented</span>
-<span class="sd">    out.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">BLOB_TX_TYPE</span> <span class="o">=</span> <span class="mh">0x03</span>
-    <span class="n">FIELD_ELEMENTS_PER_BLOB</span> <span class="o">=</span> <span class="mi">4096</span>
-    <span class="n">BLS_MODULUS</span> <span class="o">=</span> <span class="mh">0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001</span>
-    <span class="n">BLOB_COMMITMENT_VERSION_KZG</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span> <span class="o">=</span> <span class="mi">50_000</span>
-    <span class="n">MAX_DATA_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">786432</span>
-    <span class="n">TARGET_DATA_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">393216</span>
-    <span class="n">MIN_DATA_GASPRICE</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">DATA_GASPRICE_UPDATE_FRACTION</span> <span class="o">=</span> <span class="mi">3338477</span>
-    <span class="c1"># MAX_VERSIONED_HASHES_LIST_SIZE = 2**24</span>
-    <span class="c1"># MAX_CALLDATA_SIZE = 2**24</span>
-    <span class="c1"># MAX_ACCESS_LIST_SIZE = 2**24</span>
-    <span class="c1"># MAX_ACCESS_LIST_STORAGE_KEYS = 2**24</span>
-    <span class="c1"># MAX_TX_WRAP_COMMITMENTS = 2**12</span>
-    <span class="c1"># LIMIT_BLOBS_PER_TX = 2**12</span>
-    <span class="n">DATA_GAS_PER_BLOB</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">17</span>
-    <span class="n">HASH_OPCODE_BYTE</span> <span class="o">=</span> <span class="mh">0x49</span>
-    <span class="n">HASH_GAS_COST</span> <span class="o">=</span> <span class="mi">3</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">kzg_to_versioned_hash</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">kzg_commitment</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>  <span class="c1"># 48 bytes</span>
-        <span class="n">blob_commitment_version_kzg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the versioned hash for a given KZG commitment.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">blob_commitment_version_kzg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">blob_commitment_version_kzg</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kzg_commitment</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">kzg_commitment</span> <span class="o">=</span> <span class="n">kzg_commitment</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">blob_commitment_version_kzg</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">blob_commitment_version_kzg</span> <span class="o">=</span> <span class="n">blob_commitment_version_kzg</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">blob_commitment_version_kzg</span> <span class="o">+</span> <span class="n">sha256</span><span class="p">(</span><span class="n">kzg_commitment</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">fake_exponential</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Used to calculate the data gas cost.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">numerator_accumulator</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">denominator</span>
-        <span class="k">while</span> <span class="n">numerator_accumulator</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="n">numerator_accumulator</span>
-            <span class="n">numerator_accumulator</span> <span class="o">=</span> <span class="p">(</span><span class="n">numerator_accumulator</span> <span class="o">*</span> <span class="n">numerator</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">denominator</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">output</span> <span class="o">//</span> <span class="n">denominator</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">calc_excess_data_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">BlockHeaderDataGasFields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the excess data gas for a block given the excess data gas</span>
-<span class="sd">        and data gas used from the parent block header.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">-</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span>
-
-    <span class="c1"># Note: Currently unused.</span>
-    <span class="c1"># @classmethod</span>
-    <span class="c1"># def get_total_data_gas(cls, tx: Transaction) -&gt; int:</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Calculate the total data gas for a transaction.</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     if tx.blob_versioned_hashes is None:</span>
-    <span class="c1">#         return 0</span>
-    <span class="c1">#     return cls.DATA_GAS_PER_BLOB * len(tx.blob_versioned_hashes)</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_data_gasprice</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">excess_data_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the data gas price from the excess.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fake_exponential</span><span class="p">(</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_DATA_GASPRICE</span><span class="p">,</span>
-            <span class="n">excess_data_gas</span><span class="p">,</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">DATA_GASPRICE_UPDATE_FRACTION</span><span class="p">,</span>
-        <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.SpecHelpers" class="doc doc-heading">
-        <code>SpecHelpers</code>
-
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span>
-
-<a href="#tests.cancun.eip4844_blobs.test_blob_txs.SpecHelpers" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-  <div class="doc doc-contents ">
-
-  
-      <p>Define parameters and helper functions that are tightly coupled to the 4844
-spec but not strictly part of it.</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Define parameters and helper functions that are tightly coupled to the 4844</span>
-<span class="sd">    spec but not strictly part of it.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">BYTES_PER_FIELD_ELEMENT</span> <span class="o">=</span> <span class="mi">32</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># MAX_BLOBS_PER_BLOCK =</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the maximum number of blobs per block.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_DATA_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the target number of blobs per block.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">calc_excess_data_gas_from_blob_count</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">parent_excess_data_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parent_blob_count</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the excess data gas for a block given the parent excess data gas</span>
-<span class="sd">        and the number of blobs in the block.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parent_consumed_data_gas</span> <span class="o">=</span> <span class="n">parent_blob_count</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">calc_excess_data_gas</span><span class="p">(</span>
-            <span class="n">BlockHeaderDataGasFields</span><span class="p">(</span><span class="n">parent_excess_data_gas</span><span class="p">,</span> <span class="n">parent_consumed_data_gas</span><span class="p">)</span>
-        <span class="p">)</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_min_excess_data_gas_for_data_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the minimum required excess data gas value to get a given data gas cost in a block</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">current_excess_data_gas</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">current_data_gas_price</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">while</span> <span class="n">current_data_gas_price</span> <span class="o">&lt;</span> <span class="n">data_gas_price</span><span class="p">:</span>
-            <span class="n">current_excess_data_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-            <span class="n">current_data_gas_price</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">get_data_gasprice</span><span class="p">(</span>
-                <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">current_excess_data_gas</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="n">current_excess_data_gas</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_min_excess_data_blobs_for_data_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the minimum required excess data blobs to get a given data gas cost in a block</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">get_min_excess_data_gas_for_data_gas_price</span><span class="p">(</span><span class="n">data_gas_price</span><span class="p">)</span>
-            <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-        <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
 
 
 
@@ -3779,9 +3380,9 @@ most <code>MAX_BLOBS_PER_BLOCK</code>.</p>
 <p>This test is parametrized with all valid blob transaction combinations for a given block, and
 therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is automatically updated.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">387</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
@@ -3837,10 +3438,11 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3865,9 +3467,9 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <li>tx max_fee_per_data_gas is zero</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">417</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">417</span>
 <span class="normal">418</span>
 <span class="normal">419</span>
 <span class="normal">420</span>
@@ -3912,7 +3514,8 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">459</span>
 <span class="normal">460</span>
 <span class="normal">461</span>
-<span class="normal">462</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">462</span>
+<span class="normal">463</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_data_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># tx max_data_gas_cost of the transaction is not enough</span>
@@ -3951,6 +3554,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
         <span class="n">pre</span><span class="p">[</span><span class="n">TestAddress2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
         <span class="n">blocks</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">non_zero_data_gas_used_genesis_block</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
             <span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
@@ -3959,10 +3563,11 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -3986,10 +3591,9 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <li>Sufficient max fee per data gas, but insufficient max fee per gas</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">465</span>
-<span class="normal">466</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">466</span>
 <span class="normal">467</span>
 <span class="normal">468</span>
 <span class="normal">469</span>
@@ -4016,7 +3620,8 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
-<span class="normal">493</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">493</span>
+<span class="normal">494</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_max_fee_per_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># max data gas is ok, but max fee per gas is less than base fee per gas</span>
@@ -4046,10 +3651,11 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4074,10 +3680,9 @@ at <code>MAX_BLOBS_PER_BLOCK + 1</code>.</p>
 <code>MAX_BLOBS_PER_BLOCK</code> by one for a given block, and
 therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is automatically updated.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">496</span>
-<span class="normal">497</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">497</span>
 <span class="normal">498</span>
 <span class="normal">499</span>
 <span class="normal">500</span>
@@ -4101,7 +3706,8 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">518</span>
 <span class="normal">519</span>
 <span class="normal">520</span>
-<span class="normal">521</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">521</span>
+<span class="normal">522</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">invalid_blob_combinations</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -4128,10 +3734,11 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4159,10 +3766,9 @@ max_fee_per_gas would be enough for current block), including:</p>
 <li>Transactions with max fee per data gas lower or higher than the priority fee</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
-<span class="normal">525</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">525</span>
 <span class="normal">526</span>
 <span class="normal">527</span>
 <span class="normal">528</span>
@@ -4192,7 +3798,8 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="normal">552</span>
 <span class="normal">553</span>
 <span class="normal">554</span>
-<span class="normal">555</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="normal">555</span>
+<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_calldata&quot;</span><span class="p">,</span>
@@ -4225,10 +3832,11 @@ max_fee_per_gas would be enough for current block), including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4253,10 +3861,9 @@ max_fee_per_gas would be enough for current block), including:</p>
         transaction total cost</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">558</span>
-<span class="normal">559</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">559</span>
 <span class="normal">560</span>
 <span class="normal">561</span>
 <span class="normal">562</span>
@@ -4279,7 +3886,8 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="normal">579</span>
 <span class="normal">580</span>
 <span class="normal">581</span>
-<span class="normal">582</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">582</span>
+<span class="normal">583</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">all_valid_blob_combinations</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -4305,10 +3913,11 @@ max_fee_per_gas would be enough for current block), including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4333,10 +3942,9 @@ max_fee_per_gas would be enough for current block), including:</p>
 <li><code>blob count &gt; MAX_BLOBS_PER_BLOCK</code> in type 3 transaction</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">585</span>
-<span class="normal">586</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">586</span>
 <span class="normal">587</span>
 <span class="normal">588</span>
 <span class="normal">589</span>
@@ -4361,7 +3969,8 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="normal">608</span>
 <span class="normal">609</span>
 <span class="normal">610</span>
-<span class="normal">611</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">611</span>
+<span class="normal">612</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;zero_blob_tx&quot;</span><span class="p">),</span>
@@ -4389,10 +3998,11 @@ max_fee_per_gas would be enough for current block), including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4422,10 +4032,9 @@ version, including:</p>
 <li>Multiple blob transactions with multiple blobs only one with invalid version</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">614</span>
-<span class="normal">615</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">615</span>
 <span class="normal">616</span>
 <span class="normal">617</span>
 <span class="normal">618</span>
@@ -4491,7 +4100,8 @@ version, including:</p>
 <span class="normal">678</span>
 <span class="normal">679</span>
 <span class="normal">680</span>
-<span class="normal">681</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">681</span>
+<span class="normal">682</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blob_hashes_per_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">[[</span><span class="n">to_hash_bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">)]],</span>
@@ -4560,10 +4170,11 @@ version, including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4584,10 +4195,9 @@ version, including:</p>
   
       <p>Reject blocks that include blob transactions that have nil to value (contract creating).</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">684</span>
-<span class="normal">685</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">685</span>
 <span class="normal">686</span>
 <span class="normal">687</span>
 <span class="normal">688</span>
@@ -4604,7 +4214,8 @@ version, including:</p>
 <span class="normal">699</span>
 <span class="normal">700</span>
 <span class="normal">701</span>
-<span class="normal">702</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">702</span>
+<span class="normal">703</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;destination_account,tx_error&quot;</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;no_contract_creating_blob_txs&quot;</span><span class="p">)],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
@@ -4624,10 +4235,11 @@ version, including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4652,10 +4264,9 @@ version, including:</p>
 <li>CALLER</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">764</span>
-<span class="normal">765</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">765</span>
 <span class="normal">766</span>
 <span class="normal">767</span>
 <span class="normal">768</span>
@@ -4687,7 +4298,8 @@ version, including:</p>
 <span class="normal">794</span>
 <span class="normal">795</span>
 <span class="normal">796</span>
-<span class="normal">797</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">797</span>
+<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">],</span>
     <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">],</span>
@@ -4722,10 +4334,11 @@ version, including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4746,10 +4359,9 @@ version, including:</p>
   
       <p>Test the VALUE opcode with different blob type transaction value amounts.</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">800</span>
-<span class="normal">801</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">801</span>
 <span class="normal">802</span>
 <span class="normal">803</span>
 <span class="normal">804</span>
@@ -4777,7 +4389,8 @@ version, including:</p>
 <span class="normal">826</span>
 <span class="normal">827</span>
 <span class="normal">828</span>
-<span class="normal">829</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
+<span class="normal">829</span>
+<span class="normal">830</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e18</span><span class="p">)])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
@@ -4808,10 +4421,11 @@ version, including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4837,10 +4451,9 @@ version, including:</p>
 <li>CALLDATACOPY</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">832</span>
-<span class="normal">833</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">833</span>
 <span class="normal">834</span>
 <span class="normal">835</span>
 <span class="normal">836</span>
@@ -4886,7 +4499,8 @@ version, including:</p>
 <span class="normal">876</span>
 <span class="normal">877</span>
 <span class="normal">878</span>
-<span class="normal">879</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">879</span>
+<span class="normal">880</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">,</span>
@@ -4935,10 +4549,11 @@ version, including:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -4965,10 +4580,9 @@ its calculation:</p>
 <li>Priority fee above data fee</li>
 </ul>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">882</span>
-<span class="normal">883</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">883</span>
 <span class="normal">884</span>
 <span class="normal">885</span>
 <span class="normal">886</span>
@@ -5001,7 +4615,8 @@ its calculation:</p>
 <span class="normal">913</span>
 <span class="normal">914</span>
 <span class="normal">915</span>
-<span class="normal">916</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># always below data fee</span>
+<span class="normal">916</span>
+<span class="normal">917</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># always below data fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_data_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># normal and above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">])</span>  <span class="c1"># always above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">GASPRICE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -5037,10 +4652,11 @@ its calculation:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
+
 
 
 
@@ -5061,10 +4677,9 @@ its calculation:</p>
   
       <p>Reject blocks with blob type transactions before Cancun fork</p>
 
-      <details class="quote">
-        <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">919</span>
-<span class="normal">920</span>
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">920</span>
 <span class="normal">921</span>
 <span class="normal">922</span>
 <span class="normal">923</span>
@@ -5090,7 +4705,8 @@ its calculation:</p>
 <span class="normal">943</span>
 <span class="normal">944</span>
 <span class="normal">945</span>
-<span class="normal">946</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">946</span>
+<span class="normal">947</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
@@ -5119,7 +4735,7 @@ its calculation:</p>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>  <span class="c1"># `env` fixture has blob fields</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-      </details>
+          </details>
   </div>
 
 </div>
