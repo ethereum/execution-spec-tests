@@ -284,7 +284,7 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
 @pytest.mark.parametrize(
     ["obj", "expected_json"],
     [
-        (
+        pytest.param(
             Account(),
             {
                 "nonce": "0x00",
@@ -292,8 +292,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "code": "0x",
                 "storage": {},
             },
+            id="account_1",
         ),
-        (
+        pytest.param(
             Account(
                 nonce=1,
                 balance=2,
@@ -312,8 +313,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                     "0x01": "0x01",
                 },
             },
+            id="account_2",
         ),
-        (
+        pytest.param(
             AccessList(
                 address=0x1234,
                 storage_keys=[0, 1],
@@ -325,8 +327,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                     "0x0000000000000000000000000000000000000000000000000000000000000001",
                 ],
             },
+            id="access_list",
         ),
-        (
+        pytest.param(
             Withdrawal(index=0, validator=1, address=0x1234, amount=2),
             {
                 "index": "0x0",
@@ -334,8 +337,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "address": "0x0000000000000000000000000000000000001234",
                 "amount": "0x2",
             },
+            id="withdrawal",
         ),
-        (
+        pytest.param(
             Environment(),
             {
                 "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -348,8 +352,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                     "0x0000000000000000000000000000000000000000000000000000000000000000"
                 ),
             },
+            id="environment_1",
         ),
-        (
+        pytest.param(
             Environment(
                 coinbase=0x1234,
                 difficulty=0x5,
@@ -402,8 +407,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 },
                 "ommers": [],
             },
+            id="environment_2",
         ),
-        (
+        pytest.param(
             Transaction().with_signature_and_sender(),
             {
                 "type": "0x0",
@@ -419,8 +425,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "s": "0x2020cb35f5d7731ab540d62614503a7f2344301a86342f67daf011c1341551ff",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
+            id="transaction_1",
         ),
-        (
+        pytest.param(
             Transaction(
                 to=None,
             ).with_signature_and_sender(),
@@ -437,8 +444,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "s": "0xcbe2d029f52dbf93ade486625bed0603945d2c7358b31de99fe8786c00f13da",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
+            id="transaction_2",
         ),
-        (
+        pytest.param(
             Transaction(
                 to=0x1234,
                 data=b"\x01\x00",
@@ -482,8 +490,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "s": "0x4fa36090ea68a1138043d943ced123c0b0807d82ff3342a6977cbc09230e927c",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
+            id="transaction_3",
         ),
-        (
+        pytest.param(
             FixtureTransaction.from_transaction(Transaction().with_signature_and_sender()),
             {
                 "type": "0x00",
@@ -499,8 +508,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "s": "0x2020cb35f5d7731ab540d62614503a7f2344301a86342f67daf011c1341551ff",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
+            id="fixture_transaction_1",
         ),
-        (
+        pytest.param(
             FixtureTransaction.from_transaction(
                 Transaction(
                     to=None,
@@ -520,8 +530,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "s": "0x0cbe2d029f52dbf93ade486625bed0603945d2c7358b31de99fe8786c00f13da",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
+            id="fixture_transaction_2",
         ),
-        (
+        pytest.param(
             FixtureTransaction.from_transaction(
                 Transaction(
                     to=0x1234,
@@ -567,8 +578,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "s": "0x4fa36090ea68a1138043d943ced123c0b0807d82ff3342a6977cbc09230e927c",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
+            id="fixture_transaction_3",
         ),
-        (
+        pytest.param(
             FixtureHeader(
                 parent_hash=Hash(0),
                 ommers_hash=Hash(1),
@@ -603,8 +615,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "mixHash": Hash(13).hex(),
                 "nonce": HeaderNonce(14).hex(),
             },
+            id="fixture_header_1",
         ),
-        (
+        pytest.param(
             FixtureHeader(
                 parent_hash=Hash(0),
                 ommers_hash=Hash(1),
@@ -649,8 +662,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 "excessDataGas": ZeroPaddedHexNumber(18).hex(),
                 "hash": Hash(19).hex(),
             },
+            id="fixture_header_2",
         ),
-        (
+        pytest.param(
             FixtureExecutionPayload.from_fixture_header(
                 header=FixtureHeader(
                     parent_hash=Hash(0),
@@ -732,8 +746,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                     to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
                 ],
             },
+            id="fixture_execution_payload_1",
         ),
-        (
+        pytest.param(
             FixtureEngineNewPayload(
                 payload=FixtureExecutionPayload.from_fixture_header(
                     header=FixtureHeader(
@@ -821,8 +836,9 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 },
                 "version": "1",
             },
+            id="fixture_engine_new_payload_1",
         ),
-        (
+        pytest.param(
             FixtureEngineNewPayload(
                 payload=FixtureExecutionPayload.from_fixture_header(
                     header=FixtureHeader(
@@ -917,26 +933,8 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
                 ],
                 "errorCode": "-32600",
             },
+            id="fixture_engine_new_payload_2",
         ),
-    ],
-    ids=[
-        "account",
-        "account_2",
-        "access_list",
-        "withdrawal",
-        "environment_1",
-        "environment_2",
-        "transaction",
-        "transaction_2",
-        "transaction_3",
-        "fixture_transaction",
-        "fixture_transaction_2",
-        "fixture_transaction_3",
-        "fixture_header",
-        "fixture_header_2",
-        "fixture_execution_payload",
-        "fixture_engine_new_payload",
-        "fixture_engine_new_payload_2",
     ],
 )
 def test_json_conversions(obj: Any, expected_json: str | Dict[str, Any]):
