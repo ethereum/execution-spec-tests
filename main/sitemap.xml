@@ -226,6 +226,41 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip5656_mcopy/</loc>
+         <lastmod>2023-07-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip5656_mcopy/test_mcopy/</loc>
+         <lastmod>2023-07-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip5656_mcopy/test_mcopy/index/test_cases/</loc>
+         <lastmod>2023-07-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip5656_mcopy/test_mcopy_contexts/</loc>
+         <lastmod>2023-07-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip5656_mcopy/test_mcopy_contexts/index/test_cases/</loc>
+         <lastmod>2023-07-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion/</loc>
+         <lastmod>2023-07-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion/index/test_cases/</loc>
+         <lastmod>2023-07-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/</loc>
          <lastmod>2023-07-18</lastmod>
          <changefreq>daily</changefreq>
