@@ -10,8 +10,8 @@ from ethereum_test_forks import Fork
 from evm_transition_tool import TransitionTool
 
 from ..common import (
-    Account,
     Address,
+    Alloc,
     Block,
     Bloom,
     Bytes,
@@ -38,8 +38,8 @@ class BlockchainTest(BaseTest):
     Filler type that tests multiple blocks (valid or invalid) in a chain.
     """
 
-    pre: Mapping[str, Account]
-    post: Mapping[str, Account]
+    pre: Mapping
+    post: Mapping
     blocks: List[Block]
     genesis_environment: Environment = field(default_factory=Environment)
     tag: str = ""
@@ -67,7 +67,7 @@ class BlockchainTest(BaseTest):
             coinbase=Address(0),
             state_root=Hash(
                 t8n.calc_state_root(
-                    to_json(self.pre),
+                    to_json(Alloc(self.pre)),
                     fork,
                 )
             ),
@@ -272,7 +272,7 @@ class BlockchainTest(BaseTest):
         Performs checks against the expected behavior of the test.
         Raises exception on invalid test behavior.
         """
-        alloc = to_json(self.pre)
+        alloc = to_json(Alloc(self.pre))
         env = Environment.from_parent_header(genesis)
         blocks: List[FixtureBlock] = []
         head = genesis.hash if genesis.hash is not None else Hash(0)

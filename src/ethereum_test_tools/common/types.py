@@ -691,6 +691,18 @@ class Account:
         return Account(nonce=1, code=code)
 
 
+class Alloc(dict, Mapping[FixedSizeBytesConvertible, Account], SupportsJSON):
+    """
+    Allocation of accounts in the state, pre and post test execution.
+    """
+
+    def __json__(self, encoder: JSONEncoder) -> Mapping[str, Any]:
+        """
+        Returns the JSON representation of the allocation.
+        """
+        return encoder.default({Address(address): account for address, account in self.items()})
+
+
 def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
     """
     Converts the post state alloc returned from t8n to a mapping of accounts.
@@ -2296,6 +2308,7 @@ class Fixture:
     pre_state: Mapping[str, Account] = field(
         json_encoder=JSONEncoder.Field(
             name="pre",
+            cast_type=Alloc,
             to_json=True,
         ),
     )
@@ -2303,6 +2316,7 @@ class Fixture:
         default=None,
         json_encoder=JSONEncoder.Field(
             name="postState",
+            cast_type=Alloc,
             to_json=True,
         ),
     )

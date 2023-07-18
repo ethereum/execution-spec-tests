@@ -8,8 +8,8 @@ from ethereum_test_forks import Fork
 from evm_transition_tool import TransitionTool
 
 from ..common import (
-    Account,
     Address,
+    Alloc,
     Bloom,
     Bytes,
     EmptyTrieRoot,
@@ -37,8 +37,8 @@ class StateTest(BaseTest):
     """
 
     env: Environment
-    pre: Mapping[str, Account]
-    post: Mapping[str, Account]
+    pre: Mapping
+    post: Mapping
     txs: List[Transaction]
     engine_api_error_code: Optional[EngineAPIError] = None
     tag: str = ""
@@ -66,7 +66,7 @@ class StateTest(BaseTest):
             coinbase=Address(0),
             state_root=Hash(
                 t8n.calc_state_root(
-                    to_json(self.pre),
+                    to_json(Alloc(self.pre)),
                     fork,
                 )
             ),
@@ -118,7 +118,7 @@ class StateTest(BaseTest):
         txs = [tx.with_signature_and_sender() for tx in self.txs] if self.txs is not None else []
 
         alloc, result = t8n.evaluate(
-            alloc=to_json(self.pre),
+            alloc=to_json(Alloc(self.pre)),
             txs=to_json(txs),
             env=to_json(env),
             fork=fork,

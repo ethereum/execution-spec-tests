@@ -89,7 +89,7 @@ def test_fill_state_test(fork: Fork, expected_json_file: str):
     )
 
     pre = {
-        "0x1000000000000000000000000000000000000000": Account(code="0x4660015500"),
+        0x1000000000000000000000000000000000000000: Account(code="0x4660015500"),
         "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": Account(balance=1000000000000000000000),
     }
 
@@ -176,7 +176,7 @@ def test_fill_london_blockchain_test_valid_txs(fork: Fork):
                 fork=fork,
             ),
         ),
-        "0x000000000000000000000000000000000000c0de": Account(
+        0xC0DE: Account(
             balance=0,
             nonce=1,
             code=Yul(
@@ -365,7 +365,7 @@ def test_fill_london_blockchain_test_valid_txs(fork: Fork):
                 0x2004: 0x01FFFFFFD000,
             }
         ),
-        "0x000000000000000000000000000000000000C0DE": Account(
+        0xC0DE: Account(
             storage={
                 # Block 2
                 0x0002: 766,
@@ -465,7 +465,7 @@ def test_fill_london_blockchain_test_invalid_txs(fork: Fork):
                 fork=fork,
             ),
         ),
-        "0x000000000000000000000000000000000000c0de": Account(
+        0xC0DE: Account(
             balance=0,
             nonce=1,
             code=Yul(
@@ -700,7 +700,7 @@ def test_fill_london_blockchain_test_invalid_txs(fork: Fork):
                 0x2004: 0x01FFFFFFD000,
             }
         ),
-        "0x000000000000000000000000000000000000C0DE": Account(
+        0xC0DE: Account(
             storage={
                 # Block 2
                 0x0002: 766,

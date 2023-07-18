@@ -35,7 +35,7 @@ def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
     return list(rejected_txs.keys())
 
 
-def verify_post_alloc(expected_post: Mapping[str, Account], got_alloc: Mapping[str, Any]):
+def verify_post_alloc(expected_post: Mapping, got_alloc: Mapping):
     """
     Verify that an allocation matches the expected post in the test.
     Raises exception on unexpected values.
@@ -62,7 +62,7 @@ class BaseTest:
     blockchain.
     """
 
-    pre: Mapping[str, Account]
+    pre: Mapping
     tag: str = ""
 
     @abstractmethod
