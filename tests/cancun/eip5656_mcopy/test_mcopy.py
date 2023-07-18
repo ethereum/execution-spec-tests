@@ -7,6 +7,7 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
 from typing import Mapping, Tuple
 
 import pytest
+from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import Account, Environment
 from ethereum_test_tools import Opcodes as Op
@@ -16,16 +17,13 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     ceiling_division,
-    to_address,
     to_hash_bytes,
 )
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION, mcopy
 
-code_address = to_address(0x100)
-"""
-Code address used to call the test bytecode on every test case.
-"""
+# Code address used to call the test bytecode on every test case.
+code_address = 0x100
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
@@ -54,13 +52,13 @@ def bytecode_storage(
     dest: int,
     src: int,
     length: int,
-) -> Tuple[bytes, Storage.StorageDictType]:
+) -> Tuple[bytes, Storage]:
     """
     Prepares the bytecode and storage for the test, based on the starting memory and the final
     memory that resulted from the copy.
     """
     bytecode = b""
-    storage: Storage.StorageDictType = {}
+    storage = Storage()
 
     # Fill memory with initial values
     for i in range(0, len(initial_memory), 0x20):
@@ -73,33 +71,42 @@ def bytecode_storage(
         Op.CALLDATALOAD(0x40),
     )
 
+    final_byte_length = ceiling_division(len(final_memory), 0x20) * 0x20
     # First save msize
-    bytecode += Op.SSTORE(100_000, Op.MSIZE)
-    storage[100_000] = ceiling_division(len(final_memory), 0x20) * 0x20
+    bytecode += Op.SSTORE(
+        storage.store_next(final_byte_length),
+        Op.MSIZE,
+    )
+
+    # Then save the hash of the entire memory
+    bytecode += Op.SSTORE(
+        storage.store_next(keccak256(final_memory.ljust(final_byte_length, b"\x00"))),
+        Op.SHA3(0, Op.MSIZE),
+    )
 
     # Store all memory in the initial range to verify the MCOPY
     for w in range(0, len(initial_memory) // 0x20):
-        bytecode += Op.SSTORE(w, Op.MLOAD(w * 0x20))
-        storage[w] = final_memory[w * 0x20 : w * 0x20 + 0x20]
+        bytecode += Op.SSTORE(
+            storage.store_next(final_memory[w * 0x20 : w * 0x20 + 0x20]),
+            Op.MLOAD(w * 0x20),
+        )
 
     # If the memory was extended beyond the initial range, store the last word of the resulting
     # memory into storage too
     if len(final_memory) > len(initial_memory):
         last_word = ceiling_division(len(final_memory), 0x20) - 1
-        bytecode += Op.SSTORE(last_word, Op.MLOAD(last_word * 0x20))
-        storage[last_word] = final_memory[last_word * 0x20 : (last_word + 1) * 0x20].ljust(
-            32, b"\x00"
+        bytecode += Op.SSTORE(
+            storage.store_next(
+                final_memory[last_word * 0x20 : (last_word + 1) * 0x20].ljust(32, b"\x00")
+            ),
+            Op.MLOAD(last_word * 0x20),
         )
-
-    # We could also keccak the memory and store the hash in storage for good measure ?
 
     return (bytecode, storage)
 
 
 @pytest.fixture
-def pre(  # noqa: D103
-    bytecode_storage: Tuple[bytes, Storage.StorageDictType]
-) -> Mapping[str, Account]:
+def pre(bytecode_storage: Tuple[bytes, Storage]) -> Mapping:  # noqa: D103
     return {
         TestAddress: Account(balance=10**40),
         code_address: Account(code=bytecode_storage[0]),
@@ -116,9 +123,7 @@ def tx(dest: int, src: int, length: int) -> Transaction:  # noqa: D103
 
 
 @pytest.fixture
-def post(  # noqa: D103
-    bytecode_storage: Tuple[bytes, Storage.StorageDictType]
-) -> Mapping[str, Account]:
+def post(bytecode_storage: Tuple[bytes, Storage]) -> Mapping:  # noqa: D103
     return {
         code_address: Account(storage=bytecode_storage[1]),
     }
@@ -182,11 +187,11 @@ def test_valid_mcopy_operations(
 ):
     """
     Perform MCOPY operations using different offsets and lengths:
-    - Zero inputs
-    - Memory rewrites (copy from and to the same location)
-    - Memory overwrites (copy from and to different locations)
-    - Memory extensions (copy to a location that is out of bounds)
-    - Memory clear (copy from a location that is out of bounds)
+      - Zero inputs
+      - Memory rewrites (copy from and to the same location)
+      - Memory overwrites (copy from and to different locations)
+      - Memory extensions (copy to a location that is out of bounds)
+      - Memory clear (copy from a location that is out of bounds)
     """
     state_test(
         env=Environment(),

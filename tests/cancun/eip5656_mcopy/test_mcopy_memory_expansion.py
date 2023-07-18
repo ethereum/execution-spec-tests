@@ -2,6 +2,7 @@
 abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
 
     Test copy operations of [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
+    that produce a memory expansion, and potentially an out-of-gas error.
 
 """  # noqa: E501
 from typing import Mapping, Tuple
@@ -16,20 +17,15 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     cost_memory_bytes,
-    to_address,
 )
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
+# Code address used to call the test bytecode on every test case.
 caller_address = 0x100
-"""
-Code address used to call the test bytecode on every test case.
-"""
 
+# Code address used to perform the memory expansion.
 memory_expansion_address = 0x200
-"""
-Code address used to perform the memory expansion.
-"""
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
@@ -136,11 +132,11 @@ def pre(  # noqa: D103
     tx_gas_limit: int,
     bytecode_storage: Tuple[bytes, Storage.StorageDictType],
     callee_bytecode: bytes,
-) -> Mapping[str, Account]:
+) -> Mapping:
     return {
         TestAddress: Account(balance=tx_max_fee_per_gas * tx_gas_limit),
-        to_address(caller_address): Account(code=bytecode_storage[0]),
-        to_address(memory_expansion_address): Account(code=callee_bytecode),
+        caller_address: Account(code=bytecode_storage[0]),
+        memory_expansion_address: Account(code=callee_bytecode),
     }
 
 
@@ -151,7 +147,7 @@ def tx(  # noqa: D103
     tx_gas_limit: int,
 ) -> Transaction:
     return Transaction(
-        to=to_address(caller_address),
+        to=caller_address,
         data=initial_memory,
         gas_limit=tx_gas_limit,
         max_fee_per_gas=tx_max_fee_per_gas,
@@ -160,11 +156,9 @@ def tx(  # noqa: D103
 
 
 @pytest.fixture
-def post(  # noqa: D103
-    bytecode_storage: Tuple[bytes, Storage.StorageDictType]
-) -> Mapping[str, Account]:
+def post(bytecode_storage: Tuple[bytes, Storage.StorageDictType]) -> Mapping:  # noqa: D103
     return {
-        to_address(caller_address): Account(storage=bytecode_storage[1]),
+        caller_address: Account(storage=bytecode_storage[1]),
     }
 
 

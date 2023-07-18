@@ -17,20 +17,15 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     ceiling_division,
-    to_address,
 )
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
+# Code address used to call the test bytecode on every test case.
 code_address = 0x100
-"""
-Code address used to call the test bytecode on every test case.
-"""
 
+# Code address of the callee contract
 callee_address = 0x200
-"""
-Code address of the callee contract
-"""
 
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
@@ -154,18 +149,18 @@ def bytecode_storage(
 def pre(  # noqa: D103
     bytecode_storage: Tuple[bytes, Storage.StorageDictType],
     callee_bytecode: bytes,
-) -> Mapping[str, Account]:
+) -> Mapping:
     return {
         TestAddress: Account(balance=10**40),
-        to_address(code_address): Account(code=bytecode_storage[0]),
-        to_address(callee_address): Account(code=callee_bytecode),
+        code_address: Account(code=bytecode_storage[0]),
+        callee_address: Account(code=callee_bytecode),
     }
 
 
 @pytest.fixture
 def tx() -> Transaction:  # noqa: D103
     return Transaction(
-        to=to_address(code_address),
+        to=code_address,
         gas_limit=1_000_000,
     )
 
@@ -174,7 +169,7 @@ def tx() -> Transaction:  # noqa: D103
 def post(  # noqa: D103
     bytecode_storage: Tuple[bytes, Storage.StorageDictType],
     opcode: Op,
-) -> Mapping[str, Account]:
+) -> Mapping:
     caller_storage = bytecode_storage[1]
     callee_storage: Storage.StorageDictType = {}
     if opcode in [Op.DELEGATECALL, Op.CALLCODE]:
@@ -182,8 +177,8 @@ def post(  # noqa: D103
     elif opcode in [Op.CALL]:
         callee_storage[200_000] = 1
     return {
-        to_address(code_address): Account(storage=caller_storage),
-        to_address(callee_address): Account(storage=callee_storage),
+        code_address: Account(storage=caller_storage),
+        callee_address: Account(storage=callee_storage),
     }
 
 
@@ -208,12 +203,12 @@ def test_no_memory_corruption_on_upper_call_stack_levels(
     """
     Perform a subcall with any of the following opcodes, which uses MCOPY during its execution,
     and verify that the caller's memory is unaffected:
-    - CALL
-    - CALLCODE
-    - DELEGATECALL
-    - STATICCALL
-    - CREATE
-    - CREATE2
+      - `CALL`
+      - `CALLCODE`
+      - `DELEGATECALL`
+      - `STATICCALL`
+      - `CREATE`
+      - `CREATE2`
     """
     state_test(
         env=Environment(),

@@ -30,6 +30,7 @@ calldata
 calldatacopy
 calldataload
 calldatasize
+callee
 caller
 callvalue
 cancun
@@ -211,6 +212,7 @@ StateTestFiller
 stExample
 str
 streetsidesoftware
+subcall
 subdirectories
 subdirectory
 subgraph
