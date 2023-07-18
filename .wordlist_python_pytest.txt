@@ -43,3 +43,4 @@ tryfirst
 trylast
 usefixtures
 writelines
+xfail

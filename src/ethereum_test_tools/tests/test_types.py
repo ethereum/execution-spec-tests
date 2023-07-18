@@ -16,6 +16,7 @@ from ..common import (
     Withdrawal,
     to_json,
 )
+from ..common.constants import TestAddress2
 from ..common.types import (
     Address,
     Bloom,
@@ -281,9 +282,18 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
             account.check_alloc("test", alloc)
 
 
+CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
+
+
 @pytest.mark.parametrize(
     ["obj", "expected_json"],
     [
+        pytest.param(
+            Address(CHECKSUM_ADDRESS),
+            CHECKSUM_ADDRESS,
+            marks=pytest.mark.xfail,
+            id="address_with_checksum_address",
+        ),
         pytest.param(
             Account(),
             {
