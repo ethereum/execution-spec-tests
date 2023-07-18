@@ -968,7 +968,7 @@ class Environment:
 
     def parent_hash(self) -> bytes:
         """
-        Obtjains the latest hash according to the highest block number in
+        Obtains the latest hash according to the highest block number in
         `block_hashes`.
         """
         if len(self.block_hashes) == 0:
@@ -1542,7 +1542,7 @@ class Transaction:
                     Uint(self.value),
                     Bytes(self.data),
                 ]
-        raise NotImplementedError("sigining for transaction type {self.ty} not implemented")
+        raise NotImplementedError("signing for transaction type {self.ty} not implemented")
 
     def signing_bytes(self) -> bytes:
         """

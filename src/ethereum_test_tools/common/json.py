@@ -43,7 +43,7 @@ class JSONEncoder(json.JSONEncoder):
         """
         skip_string_convert: bool = False
         """
-        By default, the fields are converted to string after seralizing.
+        By default, the fields are converted to string after serializing.
         """
         to_json: bool = False
         """
@@ -102,7 +102,7 @@ class JSONEncoder(json.JSONEncoder):
 
     def default(self, obj: Any) -> Any:
         """
-        Enocdes types defined in this module using basic python facilities.
+        Encodes types defined in this module using basic python facilities.
         """
         if callable(getattr(obj, "__json__", False)):
             return obj.__json__(encoder=self)
