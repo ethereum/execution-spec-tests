@@ -15,6 +15,7 @@ groupby
 hookimpl
 hookwrapper
 IGNORECASE
+iterdir
 ljust
 makepyfile
 metafunc
