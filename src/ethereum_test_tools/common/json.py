@@ -150,8 +150,8 @@ def field(*args, json_encoder: Optional[JSONEncoder.Field] = None, **kwargs) -> 
     return dataclass_field(*args, **kwargs)
 
 
-def to_json(input: Any, remove_none: bool = False) -> Dict[str, Any]:
+def to_json(input: Any) -> Dict[str, Any]:
     """
-    Converts a value to its json representation or returns a default (None).
+    Converts a value to its json representation.
     """
     return JSONEncoder().default(input)
