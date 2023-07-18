@@ -367,7 +367,7 @@ def state_test(
 
 @pytest.fixture(scope="function")
 def blockchain_test(
-    request, t8n, fork, engine, reference_spec, eips, fixture_collector
+    request, t8n, fork, engine, reference_spec, eips, fixture_collector, base_test_config
 ) -> BlockchainTestFiller:
     """
     Fixture used to define an auto-fillable BlockchainTest analogous to the
@@ -377,6 +377,7 @@ def blockchain_test(
 
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
+            kwargs["base_test_config"] = base_test_config
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
