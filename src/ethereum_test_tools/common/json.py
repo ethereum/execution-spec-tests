@@ -2,10 +2,24 @@
 JSON encoding and decoding for Ethereum types.
 """
 import json
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from dataclasses import field as dataclass_field
 from dataclasses import fields, is_dataclass
 from typing import Any, Callable, Dict, Optional
+
+
+class SupportsJSON(ABC):
+    """
+    Interface for objects that can be converted to JSON.
+    """
+
+    @abstractmethod
+    def __json__(self, encoder: "JSONEncoder") -> Any:
+        """
+        Converts the object to JSON.
+        """
+        raise NotImplementedError()
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -91,7 +105,7 @@ class JSONEncoder(json.JSONEncoder):
         Enocdes types defined in this module using basic python facilities.
         """
         if callable(getattr(obj, "__json__", False)):
-            return obj.__json__()
+            return obj.__json__(encoder=self)
 
         elif is_dataclass(obj):
             result: Dict[str, Any] = {}
@@ -140,7 +154,4 @@ def to_json(input: Any, remove_none: bool = False) -> Dict[str, Any]:
     """
     Converts a value to its json representation or returns a default (None).
     """
-    j = json.loads(json.dumps(input, cls=JSONEncoder))
-    if remove_none:
-        j = {k: v for (k, v) in j.items() if v is not None}
-    return j
+    return JSONEncoder().default(input)

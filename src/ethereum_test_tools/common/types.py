@@ -40,7 +40,7 @@ from .conversions import (
     to_fixed_size_bytes,
     to_number,
 )
-from .json import JSONEncoder, field, to_json
+from .json import JSONEncoder, SupportsJSON, field, to_json
 
 
 # Sentinel classes
@@ -70,7 +70,7 @@ class Auto:
 N = TypeVar("N", bound="Number")
 
 
-class Number(int):
+class Number(int, SupportsJSON):
     """
     Class that helps represent numbers in tests.
     """
@@ -87,7 +87,7 @@ class Number(int):
         """
         return str(int(self))
 
-    def __json__(self) -> str:
+    def __json__(self, encoder: JSONEncoder) -> str:
         """
         Returns the JSON representation of the number.
         """
@@ -138,7 +138,7 @@ class ZeroPaddedHexNumber(HexNumber):
         return "0x" + hex_str
 
 
-class Bytes(bytes):
+class Bytes(bytes, SupportsJSON):
     """
     Class that helps represent bytes of variable length in tests.
     """
@@ -155,7 +155,7 @@ class Bytes(bytes):
         """
         return self.hex()
 
-    def __json__(self) -> str:
+    def __json__(self, encoder: JSONEncoder) -> str:
         """
         Returns the JSON representation of the bytes.
         """
@@ -249,7 +249,7 @@ MAX_STORAGE_KEY_VALUE = 2**256 - 1
 MIN_STORAGE_KEY_VALUE = -(2**255)
 
 
-class Storage:
+class Storage(SupportsJSON):
     """
     Definition of a storage in pre or post state of a test
     """
@@ -449,7 +449,7 @@ class Storage:
         self[slot := next(self.current_slot)] = value
         return slot
 
-    def __json__(self) -> Mapping[str, str]:
+    def __json__(self, encoder: JSONEncoder) -> Mapping[str, str]:
         """
         Converts the storage into a string dict with appropriate 32-byte
         hex string formatting.

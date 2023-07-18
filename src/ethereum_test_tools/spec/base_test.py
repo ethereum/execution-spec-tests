@@ -7,22 +7,7 @@ from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tupl
 from ethereum_test_forks import Fork
 from evm_transition_tool import TransitionTool
 
-from ..common import Account, Bytes, FixtureBlock, FixtureHeader, Hash, Transaction
-
-
-def normalize_address(address: str) -> str:
-    """
-    Normalizes an address to be able to look it up in the alloc that is
-    produced by the transition tool.
-    """
-    address = address.lower()
-    if address.startswith("0x"):
-        address = address[2:]
-    address.rjust(40, "0")
-    if len(address) > 40:
-        raise Exception("invalid address")
-
-    return "0x" + address
+from ..common import Account, Address, Bytes, FixtureBlock, FixtureHeader, Hash, Transaction
 
 
 def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
@@ -55,15 +40,18 @@ def verify_post_alloc(expected_post: Mapping[str, Account], got_alloc: Mapping[s
     Verify that an allocation matches the expected post in the test.
     Raises exception on unexpected values.
     """
+    got_alloc_normalized: Dict[str, Any] = {
+        Address(address).hex(): got_alloc[address] for address in got_alloc
+    }
     for address, account in expected_post.items():
-        address = normalize_address(address)
+        address = Address(address).hex()
         if account is not None:
             if account == Account.NONEXISTENT:
-                if address in got_alloc:
+                if address in got_alloc_normalized:
                     raise Exception(f"found unexpected account: {address}")
             else:
-                if address in got_alloc:
-                    account.check_alloc(address, got_alloc[address])
+                if address in got_alloc_normalized:
+                    account.check_alloc(address, got_alloc_normalized[address])
                 else:
                     raise Exception(f"expected account not found: {address}")
 

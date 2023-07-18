@@ -12,7 +12,7 @@ from ethereum_test_forks import Berlin, Fork, Istanbul, London
 from evm_transition_tool import GethTransitionTool
 
 from ..code import Yul
-from ..common import Account, Block, Environment, JSONEncoder, TestAddress, Transaction
+from ..common import Account, Block, Environment, TestAddress, Transaction, to_json
 from ..filling import fill_test
 from ..spec import BlockchainTest, StateTest
 
@@ -132,7 +132,7 @@ def test_fill_state_test(fork: Fork, expected_json_file: str):
         )
     ) as f:
         expected = json.load(f)
-    fixture_json = json.loads(json.dumps(fixture, cls=JSONEncoder))
+    fixture_json = to_json(fixture)
     remove_info(fixture_json)
     assert fixture_json == expected
 
@@ -421,13 +421,13 @@ def test_fill_london_blockchain_test_valid_txs(fork: Fork):
     ) as f:
         expected = json.load(f)
 
-    fixture_json = json.loads(json.dumps(fixture, cls=JSONEncoder))
+    fixture_json = to_json(fixture)
     remove_info(fixture_json)
     assert fixture_json == expected
 
 
 @pytest.mark.parametrize("fork", [London])
-def test_fill_london_blockchain_test_invalid_txs(fork):
+def test_fill_london_blockchain_test_invalid_txs(fork: Fork):
     """
     Test `ethereum_test.filler.fill_fixtures` with `BlockchainTest`.
     """
@@ -756,6 +756,6 @@ def test_fill_london_blockchain_test_invalid_txs(fork):
     ) as f:
         expected = json.load(f)
 
-    fixture_json = json.loads(json.dumps(fixture, cls=JSONEncoder))
+    fixture_json = to_json(fixture)
     remove_info(fixture_json)
     assert fixture_json == expected

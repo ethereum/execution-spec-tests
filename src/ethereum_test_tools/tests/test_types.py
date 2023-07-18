@@ -66,7 +66,7 @@ def test_storage():
     s = Storage({-1: -1, -2: -2})
     assert s.data[-1] == -1
     assert s.data[-2] == -2
-    d = s.__json__()
+    d = to_json(s)
     assert (
         d["0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"]
         == "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
@@ -79,18 +79,18 @@ def test_storage():
     # time)
     # same value, ok
     s[2**256 - 1] = 2**256 - 1
-    s.__json__()
+    to_json(s)
     # different value, not ok
     s[2**256 - 1] = 0
     with pytest.raises(Storage.AmbiguousKeyValue):
-        s.__json__()
+        to_json(s)
 
     # Check store counter
     s = Storage({})
     s.store_next(0x100)
     s.store_next("0x200")
     s.store_next(b"\x03\x00".rjust(32, b"\x00"))
-    d = s.__json__()
+    d = to_json(s)
     assert d == {
         "0x00": ("0x0100"),
         "0x01": ("0x0200"),
