@@ -123,9 +123,18 @@ def pytest_configure(config):
         return
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
-    TransitionTool.from_binary_path(
+    t8n = TransitionTool.from_binary_path(
         binary_path=config.getoption("evm_bin"), trace=config.getoption("evm_collect_traces")
     )
+    if (
+        isinstance(config.getoption("numprocesses"), int)
+        and config.getoption("numprocesses") > 0
+        and "Besu" in str(t8n.detect_binary_pattern)
+    ):
+        pytest.exit(
+            "The Besu t8n tool does not work well with the xdist plugin; use -n=0.",
+            returncode=pytest.ExitCode.USAGE_ERROR,
+        )
 
 
 @pytest.hookimpl(trylast=True)
