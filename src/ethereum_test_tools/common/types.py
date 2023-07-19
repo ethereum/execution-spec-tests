@@ -1249,10 +1249,10 @@ class Transaction:
         """
         Ensures the transaction has no conflicting properties.
         """
-        if (
-            self.gas_price is not None
-            and self.max_fee_per_gas is not None
-            and self.max_priority_fee_per_gas is not None
+        if self.gas_price is not None and (
+            self.max_fee_per_gas is not None
+            or self.max_priority_fee_per_gas is not None
+            or self.max_fee_per_data_gas is not None
         ):
             raise Transaction.InvalidFeePayment()
 
@@ -1260,6 +1260,7 @@ class Transaction:
             self.gas_price is None
             and self.max_fee_per_gas is None
             and self.max_priority_fee_per_gas is None
+            and self.max_fee_per_data_gas is None
         ):
             self.gas_price = 10
 
@@ -1279,6 +1280,13 @@ class Transaction:
                 self.ty = 1
             else:
                 self.ty = 0
+
+        # Set default values for fields that are required for certain tx types
+        if self.ty >= 1 and self.access_list is None:
+            self.access_list = []
+
+        if self.ty >= 2 and self.max_priority_fee_per_gas is None:
+            self.max_priority_fee_per_gas = 0
 
     def with_error(self, error: str) -> "Transaction":
         """
@@ -1329,6 +1337,8 @@ class Transaction:
                 raise ValueError("max_fee_per_data_gas must be set for type 3 tx")
             if self.blob_versioned_hashes is None:
                 raise ValueError("blob_versioned_hashes must be set for type 3 tx")
+            if self.access_list is None:
+                raise ValueError("access_list must be set for type 3 tx")
 
             if self.wrapped_blob_transaction:
                 if self.blobs is None:
@@ -1352,9 +1362,7 @@ class Transaction:
                         to,
                         Uint(self.value),
                         Bytes(self.data),
-                        [a.to_list() for a in self.access_list]
-                        if self.access_list is not None
-                        else [],
+                        [a.to_list() for a in self.access_list],
                         Uint(self.max_fee_per_data_gas),
                         [Hash(h) for h in self.blob_versioned_hashes],
                         Uint(self.v),
@@ -1375,9 +1383,7 @@ class Transaction:
                     to,
                     Uint(self.value),
                     Bytes(self.data),
-                    [a.to_list() for a in self.access_list]
-                    if self.access_list is not None
-                    else [],
+                    [a.to_list() for a in self.access_list],
                     Uint(self.max_fee_per_data_gas),
                     [Hash(h) for h in self.blob_versioned_hashes],
                     Uint(self.v),
@@ -1387,9 +1393,11 @@ class Transaction:
         elif self.ty == 2:
             # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
             if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
+                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
             if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 3 tx")
+                raise ValueError("max_fee_per_gas must be set for type 2 tx")
+            if self.access_list is None:
+                raise ValueError("access_list must be set for type 2 tx")
             return [
                 Uint(self.chain_id),
                 Uint(self.nonce),
@@ -1399,7 +1407,7 @@ class Transaction:
                 to,
                 Uint(self.value),
                 Bytes(self.data),
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
+                [a.to_list() for a in self.access_list],
                 Uint(self.v),
                 Uint(self.r),
                 Uint(self.s),
@@ -1408,6 +1416,8 @@ class Transaction:
             # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
             if self.gas_price is None:
                 raise ValueError("gas_price must be set for type 1 tx")
+            if self.access_list is None:
+                raise ValueError("access_list must be set for type 1 tx")
 
             return [
                 Uint(self.chain_id),
@@ -1417,7 +1427,7 @@ class Transaction:
                 to,
                 Uint(self.value),
                 Bytes(self.data),
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
+                [a.to_list() for a in self.access_list],
                 Uint(self.v),
                 Uint(self.r),
                 Uint(self.s),
