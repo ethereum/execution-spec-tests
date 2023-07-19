@@ -222,6 +222,11 @@ def pre(
             id="single_call",
         ),
         pytest.param(
+            1,
+            [SELFDESTRUCT_CONTRACT_ADDRESS],
+            id="single_call_self",
+        ),
+        pytest.param(
             10,
             [to_address(0x1000)],
             id="multiple_calls_single_sendall_recipient",
@@ -240,6 +245,11 @@ def pre(
             10,
             [to_address(0x1000), to_address(0x2000), SELFDESTRUCT_CONTRACT_ADDRESS],
             id="multiple_calls_multiple_sendall_recipients_including_self_different_order",
+        ),
+        pytest.param(
+            3,
+            [to_address(0x1000), to_address(0x2000), SELFDESTRUCT_CONTRACT_ADDRESS],
+            id="multiple_calls_multiple_sendall_recipients_including_self_last",
         ),
     ],
 )
