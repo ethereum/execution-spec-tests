@@ -107,42 +107,41 @@ fill --test-help
 Output:
 
 ```console
-usage: fill [-h] [--evm-bin EVM_BIN] [--traces TRACES] [--solc-bin SOLC_BIN]
-            [--filler-path FILLER_PATH] [--output OUTPUT]
-            [--flat-output FLAT_OUTPUT] [--forks FORKS] [--fork FORK]
-            [--from FROM] [--until UNTIL] [--test-help TEST_HELP]
+usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--solc-bin SOLC_BIN]
+            [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
+            [--disable-hive] [--forks] [--fork FORK] [--from FROM]
+            [--until UNTIL] [--test-help]
 
 options:
   -h, --help            show this help message and exit
 
 Arguments defining evm executable behavior:
-  --evm-bin EVM_BIN     Path to an evm executable that provides `t8n` and
-                        `b11r.` Default: First 'evm' entry in PATH
-  --traces TRACES       Collect traces of the execution information from the
-                        transition tool
+  --evm-bin EVM_BIN     Path to an evm executable that provides `t8n`. Default:
+                        First 'evm' entry in PATH.
+  --traces              Collect traces of the execution information from the
+                        transition tool.
 
 Arguments defining the solc executable:
   --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).
-                        Default: First 'solc' entry in PATH
+                        Default: First 'solc' entry in PATH.
 
 Arguments defining filler location and output:
   --filler-path FILLER_PATH
                         Path to filler directives
   --output OUTPUT       Directory to store the generated test fixtures. Can be
                         deleted.
-  --flat-output FLAT_OUTPUT
-                        Output each test case in the directory without the
+  --flat-output         Output each test case in the directory without the
                         folder structure.
+  --disable-hive        Output tests skipping hive-related properties.
 
 Specify the fork range to generate fixtures for:
-  --forks FORKS         Display forks supported by the test framework and exit.
+  --forks               Display forks supported by the test framework and exit.
   --fork FORK           Only fill tests for the specified fork.
   --from FROM           Fill tests from and including the specified fork.
   --until UNTIL         Fill tests until and including the specified fork.
 
 Arguments related to running execution-spec-tests:
-  --test-help TEST_HELP
-                        Only show help options specific to execution-spec-tests
+  --test-help           Only show help options specific to execution-spec-tests
                         and exit.
 
 Exit: After displaying help.
