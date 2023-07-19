@@ -3546,44 +3546,42 @@
 </li>
 <li>
 <p>Clone the <a href="https://github.com/ethereum/execution-spec-tests">execution-spec-tests</a> repo and install its and dependencies (it's recommended to use a virtual environment for the installation):</p>
-</li>
-</ol>
 <div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/ethereum/execution-spec-tests</span>
 <span class="go">cd execution-spec-tests</span>
 <span class="go">python3 -m venv ./venv/</span>
 <span class="go">source ./venv/bin/activate</span>
-<span class="go">pip install -e .[docs,lint,test]</span>
+<span class="go">pip install -e &#39;.[docs,lint,test]&#39;</span>
 </code></pre></div>
-<ol>
+</li>
 <li>
 <p>Verify installation:</p>
 <ol>
 <li>
 <p>Explore test cases:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only</span>
+</code></pre></div>
+<p>Expected console output:
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+    <a class="glightbox" href="../img/pytest_collect_only.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_collect_only.png" /></a>
+</figure></p>
 </li>
 <li>
-<p><code>console
-    fill --collect-only</code></p>
-</li>
-</ol>
-<p>Expected console output:
-   <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
-     <a class="glightbox" href="../img/pytest_collect_only.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_collect_only.png" /></a>
-   </figure>
-3. Execute the test cases (verbosely) in the <code>./tests/berlin/eip2930_access_list/test_acl.py</code> module:</p>
+<p>Execute the test cases (verbosely) in the <code>./tests/berlin/eip2930_access_list/test_acl.py</code> module:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py</span>
 </code></pre></div>
 <p>Expected console output:
-   <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
     <a class="glightbox" href="../img/pytest_run_example.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_run_example.png" /></a>
-   </figure>
-   Check:</p>
+</figure>
+Check:</p>
 <ol>
 <li>The versions of the <code>evm</code> and <code>solc</code> tools are as expected (your versions may differ from those in the highlighted box).</li>
 <li>
 <p>The corresponding fixture file has been generated:</p>
 <div class="highlight"><pre><span></span><code><span class="go">head fixtures/berlin/eip2930_access_list/acl/access_list.json</span>
 </code></pre></div>
+</li>
+</ol>
 </li>
 </ol>
 </li>
