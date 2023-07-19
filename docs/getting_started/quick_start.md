@@ -48,13 +48,13 @@ The following requires a Python 3.10 or Python 3.11 installation.
 
 2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its and dependencies (it's recommended to use a virtual environment for the installation):
 
-   ```console
-   git clone https://github.com/ethereum/execution-spec-tests
-   cd execution-spec-tests
-   python3 -m venv ./venv/
-   source ./venv/bin/activate
-   pip install -e .[docs,lint,test]
-   ```
+    ```console
+    git clone https://github.com/ethereum/execution-spec-tests
+    cd execution-spec-tests
+    python3 -m venv ./venv/
+    source ./venv/bin/activate
+    pip install -e '.[docs,lint,test]'
+    ```
 
 3. Verify installation:
     1. Explore test cases:
