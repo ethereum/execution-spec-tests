@@ -30,6 +30,7 @@ parametrize
 popen
 pytester
 pytestmark
+readline
 regexes
 reportinfo
 ret

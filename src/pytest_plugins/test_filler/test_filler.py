@@ -9,7 +9,7 @@ import json
 import os
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Type
+from typing import Any, Dict, Generator, List, Tuple, Type
 
 import pytest
 
@@ -156,13 +156,15 @@ def solc_bin(request):
 
 
 @pytest.fixture(autouse=True, scope="session")
-def t8n(request, evm_bin: Path) -> TransitionTool:
+def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     """
     Returns the configured transition tool.
     """
-    return TransitionTool.from_binary_path(
+    t8n = TransitionTool.from_binary_path(
         binary_path=evm_bin, trace=request.config.getoption("evm_collect_traces")
     )
+    yield t8n
+    t8n.shutdown()
 
 
 @pytest.fixture(autouse=True, scope="session")

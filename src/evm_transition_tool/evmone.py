@@ -149,3 +149,9 @@ class EvmOneTransitionTool(TransitionTool):
         Currently, evmone-t8n provides no way to determine supported forks.
         """
         return True
+
+    def shutdown(self):
+        """
+        Nothing to clean up
+        """
+        pass

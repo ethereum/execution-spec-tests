@@ -165,6 +165,13 @@ class TransitionTool:
         """
         pass
 
+    @abstractmethod
+    def shutdown(self) -> str:
+        """
+        Perform any cleanup tasks related to the tested tool.
+        """
+        pass
+
     def reset_traces(self):
         """
         Resets the internal trace storage for a new test to begin

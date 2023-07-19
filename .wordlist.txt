@@ -10,6 +10,7 @@ balance
 base64
 basefee
 bb
+besu
 big0
 big1
 blockchain
