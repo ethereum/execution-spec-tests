@@ -143,9 +143,3 @@ class GethTransitionTool(TransitionTool):
         Returns True if the fork is supported by the tool
         """
         return fork().name() in self.help_string
-
-    def shutdown(self):
-        """
-        Nothing to clean up
-        """
-        pass

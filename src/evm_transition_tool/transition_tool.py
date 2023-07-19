@@ -165,7 +165,6 @@ class TransitionTool:
         """
         pass
 
-    @abstractmethod
     def shutdown(self) -> str:
         """
         Perform any cleanup tasks related to the tested tool.
