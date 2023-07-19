@@ -16,7 +16,6 @@ from ..common import (
     Withdrawal,
     to_json,
 )
-from ..common.constants import TestAddress2
 from ..common.types import (
     Address,
     Bloom,
@@ -518,7 +517,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "s": "0x2020cb35f5d7731ab540d62614503a7f2344301a86342f67daf011c1341551ff",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
-            id="fixture_transaction_1",
+            id="fixture_transaction_type_0_default_values",
         ),
         pytest.param(
             FixtureTransaction.from_transaction(
@@ -540,7 +539,77 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "s": "0x0cbe2d029f52dbf93ade486625bed0603945d2c7358b31de99fe8786c00f13da",
                 "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             },
-            id="fixture_transaction_2",
+            id="fixture_transaction_type_0_contract_creation",
+        ),
+        pytest.param(
+            FixtureTransaction.from_transaction(Transaction(ty=1).with_signature_and_sender()),
+            {
+                "type": "0x01",
+                "chainId": "0x01",
+                "nonce": "0x00",
+                "to": "0x00000000000000000000000000000000000000aa",
+                "value": "0x00",
+                "data": "0x",
+                "gasLimit": "0x5208",
+                "gasPrice": "0x0a",
+                "accessList": [],
+                "v": "0x01",
+                "r": "0x58b4ddaa529492d32b6bc8327eb8ee0bc8b535c3bfc0f4f1db3d7c16b51d1851",
+                "s": "0x5ef19167661b14d06dfc785bf62693e6f9e5a44e7c11e0320efed27b27294970",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+            id="fixture_transaction_type_1_default_values",
+        ),
+        pytest.param(
+            FixtureTransaction.from_transaction(
+                Transaction(ty=2, max_fee_per_gas=7).with_signature_and_sender()
+            ),
+            {
+                "type": "0x02",
+                "chainId": "0x01",
+                "nonce": "0x00",
+                "to": "0x00000000000000000000000000000000000000aa",
+                "value": "0x00",
+                "data": "0x",
+                "gasLimit": "0x5208",
+                "maxPriorityFeePerGas": "0x00",
+                "maxFeePerGas": "0x07",
+                "accessList": [],
+                "v": "0x00",
+                "r": "0x33fc39081d01f8e7f0ce5426d4a00a7b07c2edea064d24a8cac8e4b1f0c08298",
+                "s": "0x4635e1c45238697db38e37070d4fce27fb5684f9dec4046466ea42a9834bad0a",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+            id="fixture_transaction_type_2_default_values",
+        ),
+        pytest.param(
+            FixtureTransaction.from_transaction(
+                Transaction(
+                    ty=3,
+                    max_fee_per_gas=7,
+                    max_fee_per_data_gas=1,
+                    blob_versioned_hashes=[],
+                ).with_signature_and_sender()
+            ),
+            {
+                "type": "0x03",
+                "chainId": "0x01",
+                "nonce": "0x00",
+                "to": "0x00000000000000000000000000000000000000aa",
+                "value": "0x00",
+                "data": "0x",
+                "gasLimit": "0x5208",
+                "maxPriorityFeePerGas": "0x00",
+                "maxFeePerGas": "0x07",
+                "maxFeePerDataGas": "0x01",
+                "accessList": [],
+                "blobVersionedHashes": [],
+                "v": "0x01",
+                "r": "0x8978475a00bf155bf5687dfda89c2df55ef6c341cdfd689aeaa6c519569a530a",
+                "s": "0x66fc34935cdd191441a12a2e7b1f224cb40b928afb9bc89c8ddb2b78c19342cc",
+                "sender": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            },
+            id="fixture_transaction_type_3_default_values",
         ),
         pytest.param(
             FixtureTransaction.from_transaction(
