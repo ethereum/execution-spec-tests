@@ -1493,6 +1493,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BaseTestConfig" class="md-nav__link">
+    BaseTestConfig
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseTestConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.spec.base_test.BaseTestConfig.disable_hive" class="md-nav__link">
+    disable_hive
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.copy_opcode_cost" class="md-nav__link">
+    copy_opcode_cost()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.BaseTest" class="md-nav__link">
     BaseTest
   </a>
@@ -1523,13 +1550,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_tools.copy_opcode_cost" class="md-nav__link">
-    copy_opcode_cost()
-  </a>
   
 </li>
       
@@ -5325,6 +5345,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BaseTestConfig" class="md-nav__link">
+    BaseTestConfig
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseTestConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.spec.base_test.BaseTestConfig.disable_hive" class="md-nav__link">
+    disable_hive
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.copy_opcode_cost" class="md-nav__link">
+    copy_opcode_cost()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.BaseTest" class="md-nav__link">
     BaseTest
   </a>
@@ -5355,13 +5402,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_tools.copy_opcode_cost" class="md-nav__link">
-    copy_opcode_cost()
-  </a>
   
 </li>
       
@@ -9754,7 +9794,9 @@ information.</p>
 <span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
-<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests transactions over the period of a single block.</span>
@@ -9891,13 +9933,15 @@ information.</p>
             <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-            <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
-            <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
-            <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
-            <span class="n">error_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">new_payload</span><span class="p">:</span> <span class="n">FixtureEngineNewPayload</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span><span class="p">:</span>
+            <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+                <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
+                <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+                <span class="n">error_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">[</span>
@@ -10200,7 +10244,9 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
-<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
@@ -10268,13 +10314,15 @@ Raises exception on invalid test behavior.</p>
         <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
-        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-        <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
-        <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
-        <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
-        <span class="n">error_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">new_payload</span><span class="p">:</span> <span class="n">FixtureEngineNewPayload</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span><span class="p">:</span>
+        <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+            <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
+            <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+            <span class="n">error_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span>
         <span class="p">[</span>
@@ -10597,7 +10645,9 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">295</span>
 <span class="normal">296</span>
 <span class="normal">297</span>
-<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
@@ -10777,13 +10827,15 @@ Raises exception on invalid test behavior.</p>
                 <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
-                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-                <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
-                <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
-                <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
-                <span class="n">error_code</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">new_payload</span><span class="p">:</span> <span class="n">FixtureEngineNewPayload</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span><span class="p">:</span>
+                <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
+                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                    <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+                    <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
+                    <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+                    <span class="n">error_code</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
+                <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># Return environment and allocation of the following block</span>
@@ -11228,7 +11280,9 @@ str: Hash of the head of the chain, only updated if the produced
 <span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
-<span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -11340,13 +11394,15 @@ str: Hash of the head of the chain, only updated if the produced
             <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-            <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
-            <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
-            <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
-            <span class="n">error_code</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">new_payload</span><span class="p">:</span> <span class="n">FixtureEngineNewPayload</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span><span class="p">:</span>
+            <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+                <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
+                <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+                <span class="n">error_code</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Return environment and allocation of the following block</span>
@@ -11416,9 +11472,7 @@ Raises exception on invalid test behavior.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
@@ -11452,7 +11506,9 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">295</span>
 <span class="normal">296</span>
 <span class="normal">297</span>
-<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
@@ -12227,9 +12283,146 @@ automatically calculated.</p>
 
 
 
+<h2 id="ethereum_test_tools.BaseTestConfig" class="doc doc-heading">
+          <code>BaseTestConfig</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.BaseTestConfig" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>General configuration that all tests must support.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">BaseTestConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    General configuration that all tests must support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">disable_hive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Disable any hive-related properties that the output could contain.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.spec.base_test.BaseTestConfig.disable_hive" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">disable_hive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.spec.base_test.BaseTestConfig.disable_hive" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Disable any hive-related properties that the output could contain.</p>
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ethereum_test_tools.copy_opcode_cost" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">copy_opcode_cost</span><span class="p">(</span><span class="n">length</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_tools.copy_opcode_cost" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Calculates the cost of the COPY opcodes, assuming memory expansion from
+empty memory, based on the costs specified in the yellow paper:
+<a href="https://ethereum.github.io/yellowpaper/paper.pdf">https://ethereum.github.io/yellowpaper/paper.pdf</a></p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/ethereum_test_tools/common/helpers.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_opcode_cost</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the cost of the COPY opcodes, assuming memory expansion from</span>
+<span class="sd">    empty memory, based on the costs specified in the yellow paper:</span>
+<span class="sd">    https://ethereum.github.io/yellowpaper/paper.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="n">ceiling_division</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">cost_memory_bytes</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
 <h2 id="ethereum_test_tools.BaseTest" class="doc doc-heading">
           <code>BaseTest</code>
 
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
 
 <a href="#ethereum_test_tools.BaseTest" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -12242,20 +12435,7 @@ blockchain.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
 <span class="normal"> 73</span>
 <span class="normal"> 74</span>
 <span class="normal"> 75</span>
@@ -12283,7 +12463,23 @@ blockchain.</p>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">:</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">BaseTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a base Ethereum test which must return a genesis and a</span>
 <span class="sd">    blockchain.</span>
@@ -12291,6 +12487,7 @@ blockchain.</p>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span>
     <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">base_test_config</span><span class="p">:</span> <span class="n">BaseTestConfig</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">BaseTestConfig</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
@@ -12359,16 +12556,16 @@ blockchain.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -12410,19 +12607,19 @@ blockchain.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -12469,14 +12666,14 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -12495,49 +12692,6 @@ spec type as filler for the test.</p>
 
   </div>
 
-  </div>
-
-</div>
-
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="ethereum_test_tools.copy_opcode_cost" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">copy_opcode_cost</span><span class="p">(</span><span class="n">length</span><span class="p">)</span></code>
-
-<a href="#ethereum_test_tools.copy_opcode_cost" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Calculates the cost of the COPY opcodes, assuming memory expansion from
-empty memory, based on the costs specified in the yellow paper:
-<a href="https://ethereum.github.io/yellowpaper/paper.pdf">https://ethereum.github.io/yellowpaper/paper.pdf</a></p>
-
-          <details class="quote">
-            <summary>Source code in <code>src/ethereum_test_tools/common/helpers.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_opcode_cost</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates the cost of the COPY opcodes, assuming memory expansion from</span>
-<span class="sd">    empty memory, based on the costs specified in the yellow paper:</span>
-<span class="sd">    https://ethereum.github.io/yellowpaper/paper.pdf</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="n">ceiling_division</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">cost_memory_bytes</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-          </details>
   </div>
 
 </div>
