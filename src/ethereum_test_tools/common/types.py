@@ -30,7 +30,7 @@ from ethereum_test_forks import Fork
 from evm_transition_tool import TransitionTool
 
 from ..reference_spec.reference_spec import ReferenceSpec
-from .constants import AddrAA, EmptyOmmersRoot, EmptyTrieRoot, EngineAPIError, TestPrivateKey
+from .constants import AddrAA, EmptyOmmersRoot, EngineAPIError, TestPrivateKey
 from .conversions import (
     BytesConvertible,
     FixedSizeBytesConvertible,
@@ -2031,7 +2031,6 @@ class FixtureHeader:
             transition_tool_source="currentBaseFee",
             environment_source="base_fee",
             cast_type=Number,
-            default=7,
         ),
         json_encoder=JSONEncoder.Field(name="baseFeePerGas", cast_type=ZeroPaddedHexNumber),
     )
@@ -2042,7 +2041,6 @@ class FixtureHeader:
             fork_requirement_check="header_withdrawals_required",
             transition_tool_source="withdrawalsRoot",
             cast_type=Hash,
-            default=EmptyTrieRoot,
         ),
         json_encoder=JSONEncoder.Field(name="withdrawalsRoot"),
     )
@@ -2053,7 +2051,6 @@ class FixtureHeader:
             fork_requirement_check="header_data_gas_used_required",
             transition_tool_source="dataGasUsed",
             cast_type=Number,
-            default=0,
         ),
         json_encoder=JSONEncoder.Field(name="dataGasUsed", cast_type=ZeroPaddedHexNumber),
     )
@@ -2064,7 +2061,6 @@ class FixtureHeader:
             fork_requirement_check="header_excess_data_gas_required",
             transition_tool_source="currentExcessDataGas",
             cast_type=Number,
-            default=0,
         ),
         json_encoder=JSONEncoder.Field(name="excessDataGas", cast_type=ZeroPaddedHexNumber),
     )
