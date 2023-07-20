@@ -81,8 +81,10 @@ class BaseTest:
     pre: Mapping
     tag: str = ""
     base_test_config: BaseTestConfig = field(default_factory=BaseTestConfig)
-    debug_transition_tool_dump_path: Optional[str] = ""
-    transition_tool_call_counter: Iterator[int] = field(init=False, default_factory=count)
+
+    # Transition tool specific fields
+    t8n_dump_dir: Optional[str] = ""
+    t8n_call_counter: Iterator[int] = field(init=False, default_factory=count)
 
     @abstractmethod
     def make_genesis(
@@ -122,11 +124,11 @@ class BaseTest:
         """
         Returns the path to the next transition tool output file.
         """
-        if not self.debug_transition_tool_dump_path:
+        if not self.t8n_dump_dir:
             return ""
         return path.join(
-            self.debug_transition_tool_dump_path,
-            str(next(self.transition_tool_call_counter)),
+            self.t8n_dump_dir,
+            str(next(self.t8n_call_counter)),
         )
 
 

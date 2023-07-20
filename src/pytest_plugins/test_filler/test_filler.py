@@ -365,9 +365,9 @@ def state_test(
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
             kwargs["base_test_config"] = base_test_config
-            if debug_transition_tool_dump_path := request.config.getoption("t8n_dump_dir"):
-                kwargs["debug_transition_tool_dump_path"] = os.path.join(
-                    debug_transition_tool_dump_path, convert_test_name_to_path(request.node.name)
+            if t8n_dump_dir := request.config.getoption("t8n_dump_dir"):
+                kwargs["t8n_dump_dir"] = os.path.join(
+                    t8n_dump_dir, convert_test_name_to_path(request.node.name)
                 )
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
