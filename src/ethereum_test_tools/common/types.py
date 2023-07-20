@@ -1851,12 +1851,16 @@ class HeaderField:
 
         if self.transition_tool_source is not None:
             if self.transition_tool_source in transition_tool_result:
-                value = transition_tool_result.get(self.transition_tool_source)
+                got_value = transition_tool_result.get(self.transition_tool_source)
+                if got_value is not None:
+                    value = got_value
 
         if self.environment_source is not None:
-            value = getattr(environment, self.environment_source, None)
-            if callable(value):
-                value = value()
+            got_value = getattr(environment, self.environment_source, None)
+            if callable(got_value):
+                got_value = got_value()
+            if got_value is not None:
+                value = got_value
 
         if required:
             if value is None:
