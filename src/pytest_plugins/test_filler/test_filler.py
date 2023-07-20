@@ -94,6 +94,15 @@ def pytest_addoption(parser):
         help="Output tests skipping hive-related properties.",
     )
 
+    debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
+    debug_group.addoption(
+        "--transition-tool-debug-dump-path",
+        action="store",
+        dest="transition_tool_debug_dump_path",
+        default="",
+        help="Path to dump the transition tool debug output.",
+    )
+
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
@@ -183,6 +192,13 @@ def strip_test_prefix(name: str) -> str:
     if name.startswith(TEST_PREFIX):
         return name[len(TEST_PREFIX) :]
     return name
+
+
+def test_name_to_path(name: str) -> str:
+    """
+    Converts a test name to a path.
+    """
+    return re.sub(r"[\[=\-]", "_", name).replace("]", "")
 
 
 class FixtureCollector:
@@ -349,6 +365,12 @@ def state_test(
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
             kwargs["base_test_config"] = base_test_config
+            if debug_transition_tool_dump_path := request.config.getoption(
+                "transition_tool_debug_dump_path"
+            ):
+                kwargs["debug_transition_tool_dump_path"] = os.path.join(
+                    debug_transition_tool_dump_path, test_name_to_path(request.node.name)
+                )
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
