@@ -194,7 +194,7 @@ def strip_test_prefix(name: str) -> str:
     return name
 
 
-def test_name_to_path(name: str) -> str:
+def convert_test_name_to_path(name: str) -> str:
     """
     Converts a test name to a path.
     """
@@ -369,7 +369,7 @@ def state_test(
                 "transition_tool_debug_dump_path"
             ):
                 kwargs["debug_transition_tool_dump_path"] = os.path.join(
-                    debug_transition_tool_dump_path, test_name_to_path(request.node.name)
+                    debug_transition_tool_dump_path, convert_test_name_to_path(request.node.name)
                 )
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
