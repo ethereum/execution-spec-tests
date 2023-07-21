@@ -12,7 +12,12 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from ethereum_test_forks import Fork
 
-from .transition_tool import TransitionTool, dump_files_to_directory
+from .transition_tool import (
+    ALWAYS_TRANSITIONED_BLOCK_NUMBER,
+    ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
+    TransitionTool,
+    dump_files_to_directory,
+)
 
 
 class GethTransitionTool(TransitionTool):
@@ -45,10 +50,13 @@ class GethTransitionTool(TransitionTool):
 
     def evaluate(
         self,
+        *,
         alloc: Any,
         txs: Any,
         env: Any,
         fork: Fork,
+        block_number: int,
+        block_timestamp: int,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
@@ -57,7 +65,7 @@ class GethTransitionTool(TransitionTool):
         """
         Executes `evm t8n` with the specified arguments.
         """
-        fork_name = fork.name()
+        fork_name = fork.fork(block_number, block_timestamp)
         if eips is not None:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
 
@@ -162,6 +170,11 @@ class GethTransitionTool(TransitionTool):
 
     def is_fork_supported(self, fork: Fork) -> bool:
         """
-        Returns True if the fork is supported by the tool
+        Returns True if the fork is supported by the tool.
+
+        If the fork is a transition fork, we want to check the fork it transitions to.
         """
-        return fork().name() in self.help_string
+        return (
+            fork.fork(ALWAYS_TRANSITIONED_BLOCK_NUMBER, ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP)
+            in self.help_string
+        )

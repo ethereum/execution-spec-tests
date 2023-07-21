@@ -13,6 +13,9 @@ from typing import Any, Dict, List, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
 
+ALWAYS_TRANSITIONED_BLOCK_NUMBER = 10_000
+ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP = 10_000_000
+
 
 class UnknownTransitionTool(Exception):
     """Exception raised if an unknown t8n is encountered"""
@@ -150,10 +153,13 @@ class TransitionTool:
     @abstractmethod
     def evaluate(
         self,
+        *,
         alloc: Any,
         txs: Any,
         env: Any,
         fork: Fork,
+        block_number: int,
+        block_timestamp: int,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
@@ -225,7 +231,15 @@ class TransitionTool:
         if fork.header_withdrawals_required(0, 0):
             env["withdrawals"] = []
 
-        _, result = self.evaluate(alloc, [], env, fork, debug_output_path=debug_output_path)
+        _, result = self.evaluate(
+            alloc=alloc,
+            txs=[],
+            env=env,
+            fork=fork,
+            block_number=0,
+            block_timestamp=0,
+            debug_output_path=debug_output_path,
+        )
         state_root = result.get("stateRoot")
         if state_root is None or not isinstance(state_root, str):
             raise Exception("Unable to calculate state root")
@@ -261,7 +275,15 @@ class TransitionTool:
         if fork.header_excess_data_gas_required(0, 0):
             env["currentExcessDataGas"] = "0"
 
-        _, result = self.evaluate({}, [], env, fork, debug_output_path=debug_output_path)
+        _, result = self.evaluate(
+            alloc={},
+            txs=[],
+            env=env,
+            fork=fork,
+            block_number=0,
+            block_timestamp=0,
+            debug_output_path=debug_output_path,
+        )
         withdrawals_root = result.get("withdrawalsRoot")
         if withdrawals_root is None:
             raise Exception(
