@@ -127,6 +127,8 @@ class StateTest(BaseTest):
             txs=to_json(txs),
             env=to_json(env),
             fork=fork,
+            block_number=Number(env.number),
+            block_timestamp=Number(env.timestamp),
             chain_id=chain_id,
             reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
             eips=eips,
