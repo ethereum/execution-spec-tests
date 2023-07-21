@@ -3485,7 +3485,7 @@
 
 
 <h1 id="test-blobhash-opcode">Test Blobhash Opcode<a class="headerlink" href="#test-blobhash-opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e67c6c9ce3ec97768a357a8a8e6fd9696db6a893/tests/cancun/eip4844_blobs/test_blobhash_opcode.py"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/382c4c422c2a51ba04e312f2b5f9f22221d5c0b7/tests/cancun/eip4844_blobs/test_blobhash_opcode.py"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -3610,7 +3610,8 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_blobhash_gas_cost</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">,</span>
     <span class="n">template_tx</span><span class="p">,</span>
@@ -3649,6 +3650,7 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
                         <span class="n">to</span><span class="o">=</span><span class="n">address</span><span class="p">,</span>
                         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">access_list</span><span class="o">=</span><span class="p">[]</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">max_fee_per_data_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">random_blob_hashes</span><span class="p">[</span>
@@ -3701,8 +3703,7 @@ the valid range <code>[0, 2**256-1]</code>.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
-<span class="normal">152</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
@@ -3756,7 +3757,8 @@ the valid range <code>[0, 2**256-1]</code>.</p>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
-<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">206</span>
+<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;scenario&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="s2">&quot;single_valid&quot;</span><span class="p">,</span>
@@ -3845,8 +3847,7 @@ exceeds the maximum number of <code>blob_versioned_hash</code> values stored:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
@@ -3904,7 +3905,8 @@ exceeds the maximum number of <code>blob_versioned_hash</code> values stored:
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;scenario&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="s2">&quot;invalid_calls&quot;</span><span class="p">,</span>
@@ -3995,8 +3997,7 @@ within a block, including the opposite.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
-<span class="normal">272</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
 <span class="normal">275</span>
@@ -4048,7 +4049,8 @@ within a block, including the opposite.</p>
 <span class="normal">321</span>
 <span class="normal">322</span>
 <span class="normal">323</span>
-<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_blobhash_multiple_txs_in_block</span><span class="p">(</span>
+<span class="normal">324</span>
+<span class="normal">325</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_blobhash_multiple_txs_in_block</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">,</span>
     <span class="n">blob_tx</span><span class="p">,</span>
     <span class="n">post</span><span class="p">,</span>
