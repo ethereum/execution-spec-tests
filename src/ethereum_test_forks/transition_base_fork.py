@@ -1,9 +1,9 @@
 """
 Base objects used to define transition forks.
 """
-from typing import Type
+from typing import List, Type
 
-from .base_fork import Fork
+from .base_fork import BaseFork, Fork
 
 
 class TransitionBaseClass:
@@ -26,24 +26,43 @@ class TransitionBaseClass:
         raise Exception("Not implemented")
 
 
-def transition_fork(to_fork: Fork):
+def base_fork_abstract_methods() -> List[str]:
+    """
+    Returns a list of all abstract methods that must be implemented by a fork.
+    """
+    return list(getattr(BaseFork, "__abstractmethods__"))
+
+
+def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
     """
     Decorator to mark a class as a transition fork.
     """
 
     def decorator(cls) -> Type[TransitionBaseClass]:
         transition_name = cls.__name__
+        from_fork = cls.__bases__[0]
+        assert issubclass(from_fork, BaseFork)
 
-        class NewTransitionClass(cls, TransitionBaseClass):  # type: ignore
-            @classmethod
-            def name(cls) -> str:
-                """
-                Returns the name of the transition fork.
-                """
-                return transition_name
+        class NewTransitionClass(cls, TransitionBaseClass, BaseFork):  # type: ignore
+            pass
+
+        NewTransitionClass.name = lambda: transition_name  # type: ignore
+
+        for method_name in base_fork_abstract_methods():
+
+            def _method(cls, block_number: int, timestamp: int, method_name=method_name):
+                if block_number >= at_block and timestamp >= at_timestamp:
+                    return getattr(to_fork, method_name)(block_number, timestamp)
+                return getattr(from_fork, method_name)(block_number, timestamp)
+
+            setattr(
+                NewTransitionClass,
+                method_name,
+                classmethod(_method),
+            )
 
         NewTransitionClass.transitions_to = lambda: to_fork  # type: ignore
-        NewTransitionClass.transitions_from = lambda: cls.__bases__[0]  # type: ignore
+        NewTransitionClass.transitions_from = lambda: from_fork  # type: ignore
 
         return NewTransitionClass
 

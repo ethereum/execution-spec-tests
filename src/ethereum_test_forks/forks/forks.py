@@ -13,6 +13,13 @@ class Frontier(BaseFork):
     """
 
     @classmethod
+    def fork(cls, block_number: int, timestamp: int) -> str:
+        """
+        Returns fork name as it's meant to be passed to the transition tool for execution.
+        """
+        return cls.name()
+
+    @classmethod
     def header_base_fee_required(cls, block_number: int, timestamp: int) -> bool:
         """
         At genesis, header must not contain base fee

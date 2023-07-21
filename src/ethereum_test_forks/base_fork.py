@@ -30,6 +30,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     Must contain all the methods used by every fork.
     """
 
+    @classmethod
+    @abstractmethod
+    def fork(cls, block_number: int, timestamp: int) -> str:
+        """
+        Returns fork name as it's meant to be passed to the transition tool for execution.
+        """
+        pass
+
     # Header information abstract methods
     @classmethod
     @abstractmethod
