@@ -59,7 +59,7 @@ Python supports this, and it has two advantages:
     def opc_valid(opc):
         """
         Return whether opc will be evaluated as valid by the test or not.
-        Note that some opcodes are evaluated as invalid because the way they act
+        Note that some opcodes are evaluated as invalid because of the way they act
         """
 ```
 
