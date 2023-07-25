@@ -3471,7 +3471,7 @@
 
 
 <h1 id="test-warm-coinbase">Test Warm Coinbase<a class="headerlink" href="#test-warm-coinbase" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/382c4c422c2a51ba04e312f2b5f9f22221d5c0b7/tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py"><code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62f574794124053ef39534d514d3a821ecbe4441/tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py"><code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</span>
@@ -3641,8 +3641,7 @@ of the following opcodes:</p>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;use_sufficient_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
@@ -3721,12 +3720,11 @@ of the following opcodes:</p>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">caller_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
@@ -3793,7 +3791,8 @@ of the following opcodes:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">214</span>
+<span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
@@ -3852,11 +3851,7 @@ of the following opcodes:</p>
 <span class="normal">271</span>
 <span class="normal">272</span>
 <span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Merge&quot;</span><span class="p">)</span>  <span class="c1"># these tests fill for fork &gt;= Berlin</span>
+<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Merge&quot;</span><span class="p">)</span>  <span class="c1"># these tests fill for fork &gt;= Berlin</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,code_gas_measure&quot;</span><span class="p">,</span>
     <span class="n">gas_measured_opcodes</span><span class="p">,</span>
@@ -3886,9 +3881,7 @@ of the following opcodes:</p>
     <span class="n">measure_address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">),</span>
-        <span class="n">measure_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">code_gas_measure</span><span class="p">,</span>
-        <span class="p">),</span>
+        <span class="n">measure_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code_gas_measure</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">is_fork</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">Shanghai</span><span class="p">):</span>
@@ -3905,12 +3898,11 @@ of the following opcodes:</p>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">measure_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">state_test</span><span class="p">(</span>

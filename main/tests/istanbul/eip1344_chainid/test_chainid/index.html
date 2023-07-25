@@ -3464,7 +3464,7 @@
 
 
 <h1 id="test-chainid">Test CHAINID<a class="headerlink" href="#test-chainid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/382c4c422c2a51ba04e312f2b5f9f22221d5c0b7/tests/istanbul/eip1344_chainid/test_chainid.py"><code>tests/istanbul/eip1344_chainid/test_chainid.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62f574794124053ef39534d514d3a821ecbe4441/tests/istanbul/eip1344_chainid/test_chainid.py"><code>tests/istanbul/eip1344_chainid/test_chainid.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip1344_chainid/test_chainid.py</span>
@@ -3541,8 +3541,7 @@
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_chainid</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test CHAINID opcode.</span>
@@ -3562,12 +3561,11 @@
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
