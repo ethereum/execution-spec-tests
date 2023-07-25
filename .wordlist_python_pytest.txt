@@ -6,6 +6,7 @@ callspec
 collectonly
 dedent
 dest
+exc
 fixturenames
 fspath
 funcargs
