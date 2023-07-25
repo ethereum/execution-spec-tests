@@ -11,6 +11,7 @@ from typing import Dict, List, SupportsBytes
 import pytest
 from ethereum.crypto.hash import keccak256
 
+from ethereum_test_forks import Cancun, Fork, is_fork
 from ethereum_test_tools import (
     Account,
     Block,
@@ -32,7 +33,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-SELFDESTRUCT_EIP_NUMBER = 6780
+SELFDESTRUCT_ENABLE_FORK = Cancun
 
 PRE_EXISTING_SELFDESTRUCT_ADDRESS = "0x1111111111111111111111111111111111111111"
 """
@@ -40,7 +41,7 @@ Address of a pre-existing contract that self-destructs.
 """
 
 # Sentinel value to indicate that the self-destructing contract address should be used, only for
-# use in parametrization, not for use within the test method itself.
+# use in `pytest.mark.parametrize`, not for use within the test method itself.
 SELF_ADDRESS = "0x1"
 # Sentinel value to indicate that the contract should not self-destruct.
 NO_SELFDESTRUCT = "0x0"
@@ -59,9 +60,9 @@ NO_SELFDESTRUCT = "0x0"
 
 
 @pytest.fixture
-def eips(eip_enabled: bool) -> List[int]:
-    """Prepares the list of EIPs depending on the test that enables it or not."""
-    return [SELFDESTRUCT_EIP_NUMBER] if eip_enabled else []
+def eip_enabled(fork: Fork) -> bool:
+    """Whether the EIP is enabled or not."""
+    return is_fork(fork, SELFDESTRUCT_ENABLE_FORK)
 
 
 @pytest.fixture
@@ -85,8 +86,6 @@ def selfdestruct_code_preset(
     yul: YulCompiler,
 ) -> SupportsBytes:
     """Return a bytecode that self-destructs."""
-
-    # Do the self-destruct, either using the recipient address from calldata or a preset one
     if len(sendall_recipient_addresses) != 1:
         # Load the recipient address from calldata, each test case needs to pass the addresses as
         # calldata
@@ -278,7 +277,6 @@ def pre(
     ],
 )
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_create_selfdestruct_same_tx(
     state_test: StateTestFiller,
@@ -312,8 +310,7 @@ def test_create_selfdestruct_same_tx(
     sendall_final_balances = dict(
         zip(sendall_recipient_addresses, [0] * len(sendall_recipient_addresses))
     )
-    # Selfdestruct contract initial balance will be sent to the first sendall recipient
-    sendall_final_balances[sendall_recipient_addresses[0]] = selfdestruct_contract_initial_balance
+    selfdestruct_contract_current_balance = selfdestruct_contract_initial_balance
 
     # Bytecode used to create the contract, can be CREATE or CREATE2
     create_args = [
@@ -369,8 +366,15 @@ def test_create_selfdestruct_same_tx(
                 0,
             ),
         )
+        selfdestruct_contract_current_balance += i
 
-        sendall_final_balances[sendall_recipient] += i
+        # Balance is always sent to other contracts
+        if sendall_recipient != selfdestruct_contract_address:
+            sendall_final_balances[sendall_recipient] += selfdestruct_contract_current_balance
+
+        # Self-destructing contract must always have zero balance after the call because the
+        # self-destruct always happens in the same transaction in this test
+        selfdestruct_contract_current_balance = 0
 
         entry_code += Op.SSTORE(
             entry_code_storage.store_next(0),
@@ -428,7 +432,6 @@ def test_create_selfdestruct_same_tx(
 @pytest.mark.parametrize("call_times", [0, 1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("self_destructing_initcode", [True], ids=[""])
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_self_destructing_initcode(
     state_test: StateTestFiller,
@@ -557,7 +560,6 @@ def test_self_destructing_initcode(
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("selfdestruct_contract_address", [compute_create_address(TestAddress, 0)])
 @pytest.mark.parametrize("self_destructing_initcode", [True], ids=[""])
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_self_destructing_initcode_create_tx(
     state_test: StateTestFiller,
@@ -626,7 +628,6 @@ def test_self_destructing_initcode_create_tx(
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("recreate_times", [1])
 @pytest.mark.parametrize("call_times", [1])
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_recreate_self_destructed_contract_different_txs(
     blockchain_test: BlockchainTestFiller,
@@ -766,7 +767,6 @@ def test_recreate_self_destructed_contract_different_txs(
 @pytest.mark.parametrize(
     "selfdestruct_contract_address", [PRE_EXISTING_SELFDESTRUCT_ADDRESS], ids=["pre_existing"]
 )
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_pre_existing(
     state_test: StateTestFiller,
@@ -797,8 +797,7 @@ def test_selfdestruct_pre_existing(
     sendall_final_balances = dict(
         zip(sendall_recipient_addresses, [0] * len(sendall_recipient_addresses))
     )
-    # Selfdestruct contract initial balance will be sent to the first sendall recipient
-    sendall_final_balances[sendall_recipient_addresses[0]] = selfdestruct_contract_initial_balance
+    selfdestruct_contract_current_balance = selfdestruct_contract_initial_balance
 
     # Entry code in this case will simply call the pre-existing self-destructing contract,
     # as many times as required
@@ -820,11 +819,19 @@ def test_selfdestruct_pre_existing(
                 0,
             ),
         )
+        selfdestruct_contract_current_balance += i
 
-        sendall_final_balances[sendall_recipient] += i
+        # Balance is always sent to other contracts
+        if sendall_recipient != selfdestruct_contract_address:
+            sendall_final_balances[sendall_recipient] += selfdestruct_contract_current_balance
+
+        # Balance is only kept by the self-destructing contract if we are sending to self and the
+        # EIP is activated, otherwise the balance is destroyed
+        if sendall_recipient != selfdestruct_contract_address or not eip_enabled:
+            selfdestruct_contract_current_balance = 0
 
         entry_code += Op.SSTORE(
-            entry_code_storage.store_next(0),
+            entry_code_storage.store_next(selfdestruct_contract_current_balance),
             Op.BALANCE(Op.PUSH20(selfdestruct_contract_address)),
         )
 
@@ -851,16 +858,12 @@ def test_selfdestruct_pre_existing(
     }
 
     # Check the balances of the sendall recipients
-    # TODO: This is incorrect if the recipient is self
     for address, balance in sendall_final_balances.items():
-        post[address] = Account(balance=balance, storage={0: 1})
+        if address != selfdestruct_contract_address:
+            post[address] = Account(balance=balance, storage={0: 1})
 
     if eip_enabled:
-        balance = (
-            sendall_final_balances[selfdestruct_contract_address]
-            if selfdestruct_contract_address in sendall_final_balances
-            else 0
-        )
+        balance = selfdestruct_contract_current_balance
         post[selfdestruct_contract_address] = Account(
             balance=balance,
             code=selfdestruct_code,
@@ -891,7 +894,6 @@ def test_selfdestruct_pre_existing(
     "selfdestruct_contract_address,entry_code_address",
     [(compute_create_address(TestAddress, 0), compute_create_address(TestAddress, 1))],
 )
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_created_same_block_different_tx(
     blockchain_test: BlockchainTestFiller,
@@ -1033,7 +1035,6 @@ def test_selfdestruct_created_same_block_different_tx(
 @pytest.mark.parametrize("call_times", [1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
 @pytest.mark.parametrize("create_opcode", [Op.CREATE])
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_delegatecall_from_new_contract_to_pre_existing_contract(
     state_test: StateTestFiller,
@@ -1171,7 +1172,6 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
 @pytest.mark.parametrize("call_opcode", [Op.DELEGATECALL, Op.CALLCODE])
 @pytest.mark.parametrize("call_times", [1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
-@pytest.mark.parametrize("eip_enabled", [True, False])
 @pytest.mark.valid_from("Shanghai")
 def test_delegatecall_from_pre_existing_contract_to_new_contract(
     state_test: StateTestFiller,
