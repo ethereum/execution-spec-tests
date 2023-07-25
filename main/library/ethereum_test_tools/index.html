@@ -1520,6 +1520,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.eip_2028_transaction_data_cost" class="md-nav__link">
+    eip_2028_transaction_data_cost()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.BaseTest" class="md-nav__link">
     BaseTest
   </a>
@@ -1548,15 +1555,15 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.spec.base_test.BaseTest.get_next_transition_tool_output_path" class="md-nav__link">
+    get_next_transition_tool_output_path()
+  </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_tools.eip_2028_transaction_data_cost" class="md-nav__link">
-    eip_2028_transaction_data_cost()
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5372,6 +5379,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.eip_2028_transaction_data_cost" class="md-nav__link">
+    eip_2028_transaction_data_cost()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.BaseTest" class="md-nav__link">
     BaseTest
   </a>
@@ -5400,15 +5414,15 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.spec.base_test.BaseTest.get_next_transition_tool_output_path" class="md-nav__link">
+    get_next_transition_tool_output_path()
+  </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_tools.eip_2028_transaction_data_cost" class="md-nav__link">
-    eip_2028_transaction_data_cost()
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -9796,7 +9810,13 @@ information.</p>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests transactions over the period of a single block.</span>
@@ -9832,8 +9852,9 @@ information.</p>
             <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
                 <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                    <span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                    <span class="n">fork</span><span class="p">,</span>
+                    <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                    <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
                 <span class="p">)</span>
             <span class="p">),</span>
             <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
@@ -9851,7 +9872,11 @@ information.</p>
             <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
             <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
             <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
-                <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+                <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
+                    <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                    <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+                <span class="p">)</span>
                 <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
@@ -9891,6 +9916,7 @@ information.</p>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
+            <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
         <span class="p">)</span>
 
         <span class="n">rejected_txs</span> <span class="o">=</span> <span class="n">verify_transactions</span><span class="p">(</span><span class="n">txs</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
@@ -10077,7 +10103,12 @@ information.</p>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -10093,8 +10124,9 @@ information.</p>
         <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
             <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                <span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                <span class="n">fork</span><span class="p">,</span>
+                <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="p">),</span>
         <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
@@ -10112,7 +10144,11 @@ information.</p>
         <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
         <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
         <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
-            <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+            <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
+                <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
@@ -10155,12 +10191,7 @@ Raises exception on invalid test behavior.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/state_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
@@ -10246,7 +10277,13 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
@@ -10272,6 +10309,7 @@ Raises exception on invalid test behavior.</p>
         <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
         <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
+        <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="n">rejected_txs</span> <span class="o">=</span> <span class="n">verify_transactions</span><span class="p">(</span><span class="n">txs</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
@@ -10647,7 +10685,13 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
@@ -10682,8 +10726,9 @@ Raises exception on invalid test behavior.</p>
             <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
                 <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                    <span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                    <span class="n">fork</span><span class="p">,</span>
+                    <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                    <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
                 <span class="p">)</span>
             <span class="p">),</span>
             <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
@@ -10701,7 +10746,11 @@ Raises exception on invalid test behavior.</p>
             <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
             <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
             <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
-                <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+                <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
+                    <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                    <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+                <span class="p">)</span>
                 <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
@@ -10773,6 +10822,7 @@ Raises exception on invalid test behavior.</p>
                 <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
                 <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
                 <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
+                <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
             <span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">rejected_txs</span> <span class="o">=</span> <span class="n">verify_transactions</span><span class="p">(</span><span class="n">txs</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
@@ -11033,7 +11083,12 @@ Raises exception on invalid test behavior.</p>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
-<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -11049,8 +11104,9 @@ Raises exception on invalid test behavior.</p>
         <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
             <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                <span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                <span class="n">fork</span><span class="p">,</span>
+                <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="p">),</span>
         <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
@@ -11068,7 +11124,11 @@ Raises exception on invalid test behavior.</p>
         <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
         <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
         <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
-            <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+            <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
+                <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
@@ -11123,12 +11183,7 @@ str: Hash of the head of the chain, only updated if the produced
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
@@ -11282,7 +11337,13 @@ str: Hash of the head of the chain, only updated if the produced
 <span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
-<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -11340,6 +11401,7 @@ str: Hash of the head of the chain, only updated if the produced
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
+            <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
         <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">rejected_txs</span> <span class="o">=</span> <span class="n">verify_transactions</span><span class="p">(</span><span class="n">txs</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
@@ -11472,13 +11534,7 @@ Raises exception on invalid test behavior.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">270</span>
 <span class="normal">271</span>
 <span class="normal">272</span>
 <span class="normal">273</span>
@@ -11508,7 +11564,13 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
@@ -12301,16 +12363,16 @@ automatically calculated.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BaseTestConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    General configuration that all tests must support.</span>
@@ -12412,6 +12474,58 @@ empty memory, based on the costs specified in the yellow paper:
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ethereum_test_tools.eip_2028_transaction_data_cost" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">eip_2028_transaction_data_cost</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_tools.eip_2028_transaction_data_cost" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Calculates the cost of a given data as part of a transaction, based on the
+costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">https://eips.ethereum.org/EIPS/eip-2028</a></p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/ethereum_test_tools/common/helpers.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eip_2028_transaction_data_cost</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the cost of a given data as part of a transaction, based on the</span>
+<span class="sd">    costs specified in EIP-2028: https://eips.ethereum.org/EIPS/eip-2028</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cost</span> <span class="o">+=</span> <span class="mi">4</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cost</span> <span class="o">+=</span> <span class="mi">16</span>
+    <span class="k">return</span> <span class="n">cost</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
 <div class="doc doc-object doc-class">
 
 
@@ -12435,9 +12549,7 @@ blockchain.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
 <span class="normal"> 75</span>
 <span class="normal"> 76</span>
 <span class="normal"> 77</span>
@@ -12478,7 +12590,24 @@ blockchain.</p>
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BaseTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a base Ethereum test which must return a genesis and a</span>
@@ -12488,6 +12617,10 @@ blockchain.</p>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span>
     <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">base_test_config</span><span class="p">:</span> <span class="n">BaseTestConfig</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">BaseTestConfig</span><span class="p">)</span>
+
+    <span class="c1"># Transition tool specific fields</span>
+    <span class="n">t8n_dump_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">t8n_call_counter</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
@@ -12522,6 +12655,17 @@ blockchain.</p>
 <span class="sd">        spec type as filler for the test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">get_next_transition_tool_output_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path to the next transition tool output file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">t8n_dump_dir</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t8n_dump_dir</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t8n_call_counter</span><span class="p">)),</span>
+        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -12556,16 +12700,16 @@ blockchain.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -12607,19 +12751,19 @@ blockchain.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -12666,14 +12810,14 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -12690,15 +12834,6 @@ spec type as filler for the test.</p>
 
 
 
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
 
 
 
@@ -12706,44 +12841,48 @@ spec type as filler for the test.</p>
 
 
 
-<h2 id="ethereum_test_tools.eip_2028_transaction_data_cost" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">eip_2028_transaction_data_cost</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+<h3 id="ethereum_test_tools.spec.base_test.BaseTest.get_next_transition_tool_output_path" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_next_transition_tool_output_path</span><span class="p">()</span></code>
 
-<a href="#ethereum_test_tools.eip_2028_transaction_data_cost" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#ethereum_test_tools.spec.base_test.BaseTest.get_next_transition_tool_output_path" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
   <div class="doc doc-contents ">
   
-      <p>Calculates the cost of a given data as part of a transaction, based on the
-costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">https://eips.ethereum.org/EIPS/eip-2028</a></p>
+      <p>Returns the path to the next transition tool output file.</p>
 
           <details class="quote">
-            <summary>Source code in <code>src/ethereum_test_tools/common/helpers.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eip_2028_transaction_data_cost</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_next_transition_tool_output_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates the cost of a given data as part of a transaction, based on the</span>
-<span class="sd">    costs specified in EIP-2028: https://eips.ethereum.org/EIPS/eip-2028</span>
+<span class="sd">    Returns the path to the next transition tool output file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">cost</span> <span class="o">+=</span> <span class="mi">4</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">cost</span> <span class="o">+=</span> <span class="mi">16</span>
-    <span class="k">return</span> <span class="n">cost</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">t8n_dump_dir</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t8n_dump_dir</span><span class="p">,</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t8n_call_counter</span><span class="p">)),</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
   </div>
 
 </div>
