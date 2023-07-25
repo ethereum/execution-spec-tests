@@ -13,9 +13,6 @@ from typing import Any, Dict, List, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
 
-ALWAYS_TRANSITIONED_BLOCK_NUMBER = 10_000
-ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP = 10_000_000
-
 
 class UnknownTransitionTool(Exception):
     """Exception raised if an unknown t8n is encountered"""
@@ -184,7 +181,7 @@ class TransitionTool:
         """
         pass
 
-    def shutdown(self) -> str:
+    def shutdown(self):
         """
         Perform any cleanup tasks related to the tested tool.
         """

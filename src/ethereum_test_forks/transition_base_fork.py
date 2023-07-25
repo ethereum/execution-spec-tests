@@ -5,6 +5,9 @@ from typing import List, Type
 
 from .base_fork import BaseFork, Fork
 
+ALWAYS_TRANSITIONED_BLOCK_NUMBER = 10_000
+ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP = 10_000_000
+
 
 class TransitionBaseClass:
     """
@@ -48,17 +51,28 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
 
         NewTransitionClass.name = lambda: transition_name  # type: ignore
 
+        def make_transition_method(from_fork_method, to_fork_method):
+            def transition_method(
+                cls,
+                block_number: int = ALWAYS_TRANSITIONED_BLOCK_NUMBER,
+                timestamp: int = ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
+            ):
+                return (
+                    to_fork_method(block_number, timestamp)
+                    if block_number >= at_block and timestamp >= at_timestamp
+                    else from_fork_method(block_number, timestamp)
+                )
+
+            return classmethod(transition_method)
+
         for method_name in base_fork_abstract_methods():
-
-            def _method(cls, block_number: int, timestamp: int, method_name=method_name):
-                if block_number >= at_block and timestamp >= at_timestamp:
-                    return getattr(to_fork, method_name)(block_number, timestamp)
-                return getattr(from_fork, method_name)(block_number, timestamp)
-
             setattr(
                 NewTransitionClass,
                 method_name,
-                classmethod(_method),
+                make_transition_method(
+                    getattr(from_fork, method_name),
+                    getattr(to_fork, method_name),
+                ),
             )
 
         NewTransitionClass.transitions_to = lambda: to_fork  # type: ignore

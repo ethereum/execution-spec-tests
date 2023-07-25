@@ -12,12 +12,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from ethereum_test_forks import Fork
 
-from .transition_tool import (
-    ALWAYS_TRANSITIONED_BLOCK_NUMBER,
-    ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
-    TransitionTool,
-    dump_files_to_directory,
-)
+from .transition_tool import TransitionTool, dump_files_to_directory
 
 
 class GethTransitionTool(TransitionTool):
@@ -174,7 +169,4 @@ class GethTransitionTool(TransitionTool):
 
         If the fork is a transition fork, we want to check the fork it transitions to.
         """
-        return (
-            fork.fork(ALWAYS_TRANSITIONED_BLOCK_NUMBER, ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP)
-            in self.help_string
-        )
+        return fork.fork() in self.help_string
