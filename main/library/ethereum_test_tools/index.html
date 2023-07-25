@@ -9912,7 +9912,7 @@ information.</p>
             <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
             <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
             <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -10305,7 +10305,7 @@ Raises exception on invalid test behavior.</p>
         <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
         <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
         <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
-        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+        <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
         <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -10691,7 +10691,9 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">303</span>
 <span class="normal">304</span>
 <span class="normal">305</span>
-<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
@@ -10818,7 +10820,9 @@ Raises exception on invalid test behavior.</p>
                 <span class="n">alloc</span><span class="o">=</span><span class="n">previous_alloc</span><span class="p">,</span>
                 <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
                 <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
-                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span>
+                    <span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+                <span class="p">),</span>
                 <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
                 <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
                 <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -11343,7 +11347,9 @@ str: Hash of the head of the chain, only updated if the produced
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -11397,7 +11403,9 @@ str: Hash of the head of the chain, only updated if the produced
             <span class="n">alloc</span><span class="o">=</span><span class="n">previous_alloc</span><span class="p">,</span>
             <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
             <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span>
+                <span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+            <span class="p">),</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -11534,9 +11542,7 @@ Raises exception on invalid test behavior.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
 <span class="normal">275</span>
@@ -11570,7 +11576,9 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">303</span>
 <span class="normal">304</span>
 <span class="normal">305</span>
-<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
