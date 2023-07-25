@@ -81,12 +81,11 @@ class BesuTransitionTool(TransitionTool):
         alloc: Any,
         txs: Any,
         env: Any,
-        fork: Fork,
-        block_number: int,
-        block_timestamp: int,
+        fork_name: str,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
+        debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Executes `evm t8n` with the specified arguments.
@@ -94,7 +93,6 @@ class BesuTransitionTool(TransitionTool):
         if not self.process:
             self.start_server()
 
-        fork_name = fork.fork(block_number, block_timestamp)
         if eips is not None:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
 

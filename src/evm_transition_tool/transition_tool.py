@@ -154,9 +154,7 @@ class TransitionTool:
         alloc: Any,
         txs: Any,
         env: Any,
-        fork: Fork,
-        block_number: int,
-        block_timestamp: int,
+        fork_name: str,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
@@ -232,9 +230,7 @@ class TransitionTool:
             alloc=alloc,
             txs=[],
             env=env,
-            fork=fork,
-            block_number=0,
-            block_timestamp=0,
+            fork_name=fork.fork(block_number=0, timestamp=0),
             debug_output_path=debug_output_path,
         )
         state_root = result.get("stateRoot")
@@ -276,9 +272,7 @@ class TransitionTool:
             alloc={},
             txs=[],
             env=env,
-            fork=fork,
-            block_number=0,
-            block_timestamp=0,
+            fork_name=fork.fork(block_number=0, timestamp=0),
             debug_output_path=debug_output_path,
         )
         withdrawals_root = result.get("withdrawalsRoot")
