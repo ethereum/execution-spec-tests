@@ -16,6 +16,7 @@ from ..common import (
     Withdrawal,
     to_json,
 )
+from ..common.constants import TestPrivateKey
 from ..common.types import (
     Address,
     Bloom,
@@ -1018,3 +1019,109 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
 )
 def test_json_conversions(obj: Any, expected_json: str | Dict[str, Any]):
     assert to_json(obj) == expected_json
+
+
+@pytest.mark.parametrize(
+    ["invalid_tx_args", "expected_exception", "expected_exception_substring"],
+    [
+        pytest.param(
+            {"gas_price": 1, "max_fee_per_gas": 2},
+            Transaction.InvalidFeePayment,
+            "only one type of fee payment field can be used",
+            id="gas-price-and-max-fee-per-gas",
+        ),
+        pytest.param(
+            {"gas_price": 1, "max_priority_fee_per_gas": 2},
+            Transaction.InvalidFeePayment,
+            "only one type of fee payment field can be used",
+            id="gas-price-and-max-priority-fee-per-gas",
+        ),
+        pytest.param(
+            {"gas_price": 1, "max_fee_per_data_gas": 2},
+            Transaction.InvalidFeePayment,
+            "only one type of fee payment field can be used",
+            id="gas-price-and-max-fee-per-data-gas",
+        ),
+        pytest.param(
+            {"ty": 0, "v": 1, "secret_key": 2},
+            Transaction.InvalidSignaturePrivateKey,
+            "can't define both 'signature' and 'private_key'",
+            id="type0-signature-and-secret-key",
+        ),
+    ],
+)
+def test_transaction_post_init_invalid_arg_combinations(  # noqa: D103
+    invalid_tx_args, expected_exception, expected_exception_substring
+):
+    """
+    Test that Transaction.__post_init__ raises the expected exceptions for
+    invalid constructor argument combinations.
+    """
+    with pytest.raises(expected_exception) as exc_info:
+        Transaction(**invalid_tx_args)
+    assert expected_exception_substring in str(exc_info.value)
+
+
+@pytest.mark.parametrize(
+    ["tx_args", "expected_attributes_and_values"],
+    [
+        pytest.param(
+            {"max_fee_per_data_gas": 10},
+            [
+                ("ty", 3),
+            ],
+            id="max_fee_per_data_gas-adds-ty-3",
+        ),
+        pytest.param(
+            {},
+            [
+                ("gas_price", 10),
+            ],
+            id="no-fees-adds-gas_price",
+        ),
+        pytest.param(
+            {},
+            [
+                ("secret_key", TestPrivateKey),
+            ],
+            id="no-signature-adds-secret_key",
+        ),
+        pytest.param(
+            {"max_fee_per_gas": 10},
+            [
+                ("ty", 2),
+            ],
+            id="max_fee_per_gas-adds-ty-2",
+        ),
+        pytest.param(
+            {"access_list": [AccessList(address=0x1234, storage_keys=[0, 1])]},
+            [
+                ("ty", 1),
+            ],
+            id="access_list-adds-ty-1",
+        ),
+        pytest.param(
+            {"ty": 1},
+            [
+                ("access_list", []),
+            ],
+            id="ty-1-adds-empty-access_list",
+        ),
+        pytest.param(
+            {"ty": 2},
+            [
+                ("max_priority_fee_per_gas", 0),
+            ],
+            id="ty-2-adds-max_priority_fee_per_gas",
+        ),
+    ],
+)
+def test_transaction_post_init_defaults(tx_args, expected_attributes_and_values):
+    """
+    Test that Transaction.__post_init__ sets the expected default values for
+    missing fields.
+    """
+    tx = Transaction(**tx_args)
+    for attr, val in expected_attributes_and_values:
+        assert hasattr(tx, attr)
+        assert getattr(tx, attr) == val
