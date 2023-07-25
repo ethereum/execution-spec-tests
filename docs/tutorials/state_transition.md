@@ -136,7 +136,7 @@ When running the test filler `fill`, the solidity compiler `solc` will automatic
         ),
 ```
 
-Within this example test Yul code we have a function definition, and inside it we are using the Yul `add` instruction. When compiled with `solc` it translates the instruction directly to the`ADD` opcode. For further Yul instructions [see here](https://docs.soliditylang.org/en/latest/yul.html#evm-dialect). Notice that function is utilized with the Yul `sstore` instruction, which stores the result of `add(1, 2)` to the storage address `0x00`.
+Within this example test Yul code we have a function definition, and inside it we are using the Yul `add` instruction. When compiled with `solc` it translates the instruction directly to the `ADD` opcode. For further Yul instructions [see here](https://docs.soliditylang.org/en/latest/yul.html#evm-dialect). Notice that function is utilized with the Yul `sstore` instruction, which stores the result of `add(1, 2)` to the storage address `0x00`.
 
 Generally for execution spec tests the `sstore` instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the Yul code has run successfully.
 

@@ -46,7 +46,7 @@ The following requires a Python 3.10 or Python 3.11 installation.
           - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#windows).
           - [solc static binaries doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#static-binaries).
 
-2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its and dependencies (it's recommended to use a virtual environment for the installation):
+2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies (it's recommended to use a virtual environment for the installation):
 
     ```console
     git clone https://github.com/ethereum/execution-spec-tests

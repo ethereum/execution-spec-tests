@@ -42,7 +42,7 @@ contract_addr: Account(
 
 ### Transaction Generator
 
-The transactions used in this test are nearly identical. Their only different is the `nonce` value which needs to be incremented.
+The transactions used in this test are nearly identical. Their only difference is the `nonce` value which needs to be incremented.
 
 ```python
 def tx_generator():

@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD001 (MD001=heading-increment due to #### usage below) -->
 # Repository Overview
 
-The most relevant folders and file in the repo are:
+The most relevant folders and files in the repo are:
 
 ```text
 📁 execution-test-specs/
