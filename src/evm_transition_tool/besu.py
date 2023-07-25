@@ -12,7 +12,11 @@ import requests
 
 from ethereum_test_forks import Fork
 
-from .transition_tool import TransitionTool
+from .transition_tool import (
+    ALWAYS_TRANSITIONED_BLOCK_NUMBER,
+    ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
+    TransitionTool,
+)
 
 
 class BesuTransitionTool(TransitionTool):
@@ -143,4 +147,7 @@ class BesuTransitionTool(TransitionTool):
         """
         Returns True if the fork is supported by the tool
         """
-        return fork().name() in self.help_string
+        return (
+            fork.fork(ALWAYS_TRANSITIONED_BLOCK_NUMBER, ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP)
+            in self.help_string
+        )
