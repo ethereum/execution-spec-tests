@@ -937,9 +937,6 @@ def test_selfdestruct_created_same_block_different_tx(
     )
 
     entry_code += Op.SSTORE(
-        # entry_code_storage.store_next(keccak256(selfdestruct_code if eip_enabled else b""))
-        # TODO: Don't really understand why this works. It should be empty if EIP is disabled,
-        #       but it works if it's not
         entry_code_storage.store_next(keccak256(bytes(selfdestruct_code))),
         Op.EXTCODEHASH(Op.PUSH20(selfdestruct_contract_address)),
     )
@@ -1100,7 +1097,6 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
             ),
         )
 
-        # TODO: Why is this correct ??
         sendall_amount += i
 
         entry_code += Op.SSTORE(
@@ -1256,7 +1252,6 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
             ),
         )
 
-        # TODO: Why is this correct ??
         sendall_amount += i
 
         entry_code += Op.SSTORE(
