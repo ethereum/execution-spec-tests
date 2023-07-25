@@ -3968,7 +3968,7 @@ writes the generated fixtures to file.</p>
         <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Path to an evm executable that provides `t8n`. &quot;</span> <span class="s2">&quot;Default: First &#39;evm&#39; entry in PATH&quot;</span>
+            <span class="s2">&quot;Path to an evm executable that provides `t8n`. Default: First &#39;evm&#39; entry in PATH.&quot;</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">evm_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
@@ -3976,7 +3976,7 @@ writes the generated fixtures to file.</p>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;evm_collect_traces&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Collect traces of the execution information from the &quot;</span> <span class="o">+</span> <span class="s2">&quot;transition tool&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Collect traces of the execution information from the transition tool.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">solc_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getgroup</span><span class="p">(</span><span class="s2">&quot;solc&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments defining the solc executable&quot;</span><span class="p">)</span>
@@ -3987,7 +3987,7 @@ writes the generated fixtures to file.</p>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s2">&quot;Path to a solc executable (for Yul source compilation). &quot;</span>
-            <span class="s2">&quot;Default: First &#39;solc&#39; entry in PATH&quot;</span>
+            <span class="s2">&quot;Default: First &#39;solc&#39; entry in PATH.&quot;</span>
         <span class="p">),</span>
     <span class="p">)</span>
 

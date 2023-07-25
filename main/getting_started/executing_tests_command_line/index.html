@@ -3612,42 +3612,41 @@
 <div class="highlight"><pre><span></span><code><span class="go">fill --test-help</span>
 </code></pre></div>
 <p>Output:</p>
-<div class="highlight"><pre><span></span><code><span class="go">usage: fill [-h] [--evm-bin EVM_BIN] [--traces TRACES] [--solc-bin SOLC_BIN]</span>
-<span class="go">            [--filler-path FILLER_PATH] [--output OUTPUT]</span>
-<span class="go">            [--flat-output FLAT_OUTPUT] [--forks FORKS] [--fork FORK]</span>
-<span class="go">            [--from FROM] [--until UNTIL] [--test-help TEST_HELP]</span>
+<div class="highlight"><pre><span></span><code><span class="go">usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--solc-bin SOLC_BIN]</span>
+<span class="go">            [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]</span>
+<span class="go">            [--disable-hive] [--forks] [--fork FORK] [--from FROM]</span>
+<span class="go">            [--until UNTIL] [--test-help]</span>
 
 <span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 
 <span class="go">Arguments defining evm executable behavior:</span>
-<span class="go">  --evm-bin EVM_BIN     Path to an evm executable that provides `t8n` and</span>
-<span class="go">                        `b11r.` Default: First &#39;evm&#39; entry in PATH</span>
-<span class="go">  --traces TRACES       Collect traces of the execution information from the</span>
-<span class="go">                        transition tool</span>
+<span class="go">  --evm-bin EVM_BIN     Path to an evm executable that provides `t8n`. Default:</span>
+<span class="go">                        First &#39;evm&#39; entry in PATH.</span>
+<span class="go">  --traces              Collect traces of the execution information from the</span>
+<span class="go">                        transition tool.</span>
 
 <span class="go">Arguments defining the solc executable:</span>
 <span class="go">  --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).</span>
-<span class="go">                        Default: First &#39;solc&#39; entry in PATH</span>
+<span class="go">                        Default: First &#39;solc&#39; entry in PATH.</span>
 
 <span class="go">Arguments defining filler location and output:</span>
 <span class="go">  --filler-path FILLER_PATH</span>
 <span class="go">                        Path to filler directives</span>
 <span class="go">  --output OUTPUT       Directory to store the generated test fixtures. Can be</span>
 <span class="go">                        deleted.</span>
-<span class="go">  --flat-output FLAT_OUTPUT</span>
-<span class="go">                        Output each test case in the directory without the</span>
+<span class="go">  --flat-output         Output each test case in the directory without the</span>
 <span class="go">                        folder structure.</span>
+<span class="go">  --disable-hive        Output tests skipping hive-related properties.</span>
 
 <span class="go">Specify the fork range to generate fixtures for:</span>
-<span class="go">  --forks FORKS         Display forks supported by the test framework and exit.</span>
+<span class="go">  --forks               Display forks supported by the test framework and exit.</span>
 <span class="go">  --fork FORK           Only fill tests for the specified fork.</span>
 <span class="go">  --from FROM           Fill tests from and including the specified fork.</span>
 <span class="go">  --until UNTIL         Fill tests until and including the specified fork.</span>
 
 <span class="go">Arguments related to running execution-spec-tests:</span>
-<span class="go">  --test-help TEST_HELP</span>
-<span class="go">                        Only show help options specific to execution-spec-tests</span>
+<span class="go">  --test-help           Only show help options specific to execution-spec-tests</span>
 <span class="go">                        and exit.</span>
 
 <span class="go">Exit: After displaying help.</span>
