@@ -46,18 +46,6 @@ SELF_ADDRESS = "0x1"
 # Sentinel value to indicate that the contract should not self-destruct.
 NO_SELFDESTRUCT = "0x0"
 
-# TODO:
-
-# - Create and destroy multiple contracts in the same tx
-# - Create multiple contracts in a tx and destroy only one of them, but attempt to destroy the
-#    other one in a subsequent tx
-# - Create a contract and try to destroy using another call type (e.g. Delegatecall then destroy)
-# - Create a contract that creates another contract, then selfdestruct only the parent
-#    (or vice versa)
-# - SENDALL to multiple different contracts in a single tx, from a single or multiple contracts,
-#   all of which would not self destruct (or perhaps some of them would and some others won't)
-# Recursive contract creation and self-destruction
-
 
 @pytest.fixture
 def eip_enabled(fork: Fork) -> bool:
