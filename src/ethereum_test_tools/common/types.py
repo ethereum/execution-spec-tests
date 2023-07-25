@@ -1496,9 +1496,9 @@ class Transaction:
         elif self.ty == 2:
             # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
             if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
+                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
             if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 3 tx")
+                raise ValueError("max_fee_per_gas must be set for type 2 tx")
             return [
                 Uint(self.chain_id),
                 Uint(self.nonce),
