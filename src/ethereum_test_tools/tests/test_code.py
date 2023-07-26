@@ -58,8 +58,6 @@ def fork(request: pytest.FixtureRequest):
 @pytest.fixture()
 def yul_code(request: pytest.FixtureRequest, fork: Fork, padding_before: str, padding_after: str):
     """Return the Yul code for the test."""
-    if "large" in request.node.name and fork == Shanghai:
-        pytest.xfail("See https://github.com/ethereum/execution-spec-tests/issues/148")
     yul_code_snippets = request.param
     if padding_before is not None:
         compiled_yul_code = Code(padding_before)
@@ -85,6 +83,8 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: str, fork: Fork
             raise Exception("Unsupported solc version: {}".format(solc_version))
         return bytes.fromhex(expected_bytes.substitute(solc_padding=solc_padding))
     if isinstance(expected_bytes, bytes):
+        if fork == Shanghai:
+            expected_bytes = bytes.fromhex("5f") + expected_bytes[2:]
         if solc_version == "0.8.20" or fork == Homestead:
             return expected_bytes
         elif solc_version == "0.8.21":
@@ -120,7 +120,7 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: str, fork: Fork
             ),
             None,
             "0x00",
-            bytes.fromhex("6002600155") + bytes.fromhex("00"),
+            Template("6002600155${solc_padding}00"),
             id="simple-with-padding",
         ),
         pytest.param(
@@ -133,7 +133,7 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: str, fork: Fork
             ),
             "0x00",
             None,
-            bytes.fromhex("006002600155"),
+            Template("006002600155${solc_padding}"),
             id="simple-with-padding-2",
         ),
         pytest.param(
