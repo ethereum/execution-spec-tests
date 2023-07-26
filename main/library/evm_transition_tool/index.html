@@ -4470,7 +4470,27 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BesuTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BesuTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Besu EvmTool Transition tool frontend wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4554,24 +4574,44 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Besu `t8n-server` does not support tracing.&quot;</span><span class="p">)</span>
 
+        <span class="n">input_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;alloc&quot;</span><span class="p">:</span> <span class="n">alloc</span><span class="p">,</span>
+            <span class="s2">&quot;txs&quot;</span><span class="p">:</span> <span class="n">txs</span><span class="p">,</span>
+            <span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">state_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;fork&quot;</span><span class="p">:</span> <span class="n">fork_name</span><span class="p">,</span>
+            <span class="s2">&quot;chainid&quot;</span><span class="p">:</span> <span class="n">chain_id</span><span class="p">,</span>
+            <span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="n">reward</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
+            <span class="n">dump_files_to_directory</span><span class="p">(</span>
+                <span class="n">debug_output_path</span><span class="p">,</span>
+                <span class="n">input_json</span>
+                <span class="o">|</span> <span class="p">{</span>
+                    <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state_json</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
             <span class="n">json</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;fork&quot;</span><span class="p">:</span> <span class="n">fork_name</span><span class="p">,</span>
-                    <span class="s2">&quot;chainid&quot;</span><span class="p">:</span> <span class="n">chain_id</span><span class="p">,</span>
-                    <span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="n">reward</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;alloc&quot;</span><span class="p">:</span> <span class="n">alloc</span><span class="p">,</span>
-                    <span class="s2">&quot;txs&quot;</span><span class="p">:</span> <span class="n">txs</span><span class="p">,</span>
-                    <span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">,</span>
-                <span class="p">},</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state_json</span><span class="p">,</span>
+                <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">input_json</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># exception visible in pytest failure output</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
+            <span class="n">dump_files_to_directory</span><span class="p">(</span>
+                <span class="n">debug_output_path</span><span class="p">,</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;output_alloc&quot;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;output_result&quot;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">],</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
 
@@ -4781,7 +4821,27 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">alloc</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -4804,24 +4864,44 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Besu `t8n-server` does not support tracing.&quot;</span><span class="p">)</span>
 
+    <span class="n">input_json</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;alloc&quot;</span><span class="p">:</span> <span class="n">alloc</span><span class="p">,</span>
+        <span class="s2">&quot;txs&quot;</span><span class="p">:</span> <span class="n">txs</span><span class="p">,</span>
+        <span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">state_json</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;fork&quot;</span><span class="p">:</span> <span class="n">fork_name</span><span class="p">,</span>
+        <span class="s2">&quot;chainid&quot;</span><span class="p">:</span> <span class="n">chain_id</span><span class="p">,</span>
+        <span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="n">reward</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
+        <span class="n">dump_files_to_directory</span><span class="p">(</span>
+            <span class="n">debug_output_path</span><span class="p">,</span>
+            <span class="n">input_json</span>
+            <span class="o">|</span> <span class="p">{</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state_json</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
     <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
         <span class="n">json</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;fork&quot;</span><span class="p">:</span> <span class="n">fork_name</span><span class="p">,</span>
-                <span class="s2">&quot;chainid&quot;</span><span class="p">:</span> <span class="n">chain_id</span><span class="p">,</span>
-                <span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="n">reward</span><span class="p">,</span>
-            <span class="p">},</span>
-            <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;alloc&quot;</span><span class="p">:</span> <span class="n">alloc</span><span class="p">,</span>
-                <span class="s2">&quot;txs&quot;</span><span class="p">:</span> <span class="n">txs</span><span class="p">,</span>
-                <span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">,</span>
-            <span class="p">},</span>
+            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state_json</span><span class="p">,</span>
+            <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">input_json</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># exception visible in pytest failure output</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
+        <span class="n">dump_files_to_directory</span><span class="p">(</span>
+            <span class="n">debug_output_path</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;output_alloc&quot;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;output_result&quot;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">],</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;alloc&quot;</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
@@ -4852,22 +4932,22 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/evm_transition_tool/besu.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets EVMTool binary version.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4911,11 +4991,11 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/evm_transition_tool/besu.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool</span>
 <span class="sd">    &quot;&quot;&quot;</span>

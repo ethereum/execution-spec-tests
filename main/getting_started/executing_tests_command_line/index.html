@@ -585,6 +585,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#debugging-the-t8n-command" class="md-nav__link">
+    Debugging the t8n Command
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-useful-pytest-command-line-options" class="md-nav__link">
     Other Useful Pytest Command-Line Options
   </a>
@@ -3519,6 +3526,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#debugging-the-t8n-command" class="md-nav__link">
+    Debugging the t8n Command
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-useful-pytest-command-line-options" class="md-nav__link">
     Other Useful Pytest Command-Line Options
   </a>
@@ -3602,6 +3616,39 @@
 </code></pre></div></p>
 <p>See: <a href="../executing_tests_dev_fork/">Executing Tests for Features under Development</a>.</p>
 </div>
+<h2 id="debugging-the-t8n-command">Debugging the <code>t8n</code> Command<a class="headerlink" href="#debugging-the-t8n-command" title="Permanent link">&para;</a></h2>
+<p>The <code>--t8n-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --t8n-dump-dir=/tmp/evm-t8n-dump</span>
+</code></pre></div>
+<p>For example, running:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin \</span>
+<span class="go">    --t8n-dump-dir=/tmp/evm-t8n-dump</span>
+</code></pre></div>
+<p>will produce the directory structure:</p>
+<div class="highlight"><pre><span></span><code><span class="go">/tmp/evm-t8n-dump/</span>
+<span class="go">└── test_access_list_fork_Berlin</span>
+<span class="go">    ├── 0</span>
+<span class="go">    │   ├── alloc</span>
+<span class="go">    │   ├── args</span>
+<span class="go">    │   ├── env</span>
+<span class="go">    │   ├── output_alloc</span>
+<span class="go">    │   ├── output_result</span>
+<span class="go">    │   ├── returncode</span>
+<span class="go">    │   ├── stderr</span>
+<span class="go">    │   ├── stdout</span>
+<span class="go">    │   └── txs</span>
+<span class="go">    └── 1</span>
+<span class="go">        ├── alloc</span>
+<span class="go">        ├── args</span>
+<span class="go">        ├── env</span>
+<span class="go">        ├── output_alloc</span>
+<span class="go">        ├── output_result</span>
+<span class="go">        ├── returncode</span>
+<span class="go">        ├── stderr</span>
+<span class="go">        ├── stdout</span>
+<span class="go">        └── txs</span>
+</code></pre></div>
+<p>where the directories <code>0</code> and <code>1</code> correspond to the different calls made to the <code>t8n</code> tool executed during the test. Each directory then contain files containing information corresponding to the call, for example, the <code>args</code> file contains the arguments passed to the <code>t8n</code> command and the <code>output_alloc</code> file contains the output of the <code>t8n</code> command's <code>--output-alloc</code> flag. Note, the first call is used to calculate the state root of the starting alloc and therefore has an empty transaction list.</p>
 <h2 id="other-useful-pytest-command-line-options">Other Useful Pytest Command-Line Options<a class="headerlink" href="#other-useful-pytest-command-line-options" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="go">fill -vv            # More verbose output</span>
 <span class="go">fill -x             # Exit instantly on first error or failed test case</span>
@@ -3638,6 +3685,10 @@
 <span class="go">  --flat-output         Output each test case in the directory without the</span>
 <span class="go">                        folder structure.</span>
 <span class="go">  --disable-hive        Output tests skipping hive-related properties.</span>
+
+<span class="go">Arguments defining debug behavior:</span>
+<span class="go">  --t8n-dump-dir T8N_DUMP_DIR</span>
+<span class="go">                        Path to dump the transition tool debug output.</span>
 
 <span class="go">Specify the fork range to generate fixtures for:</span>
 <span class="go">  --forks               Display forks supported by the test framework and exit.</span>
