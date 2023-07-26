@@ -1798,9 +1798,10 @@ class Header:
 
 
 @dataclass(kw_only=True)
-class HeaderField:
+class HeaderFieldSource:
     """
-    Block header field metadata, used to build the header, and to validate it.
+    Block header field metadata specifying the source used to populate the field when collecting
+    the block header from different sources, and to validate it.
     """
 
     required: bool = True
@@ -1816,17 +1817,17 @@ class HeaderField:
     Default value for the field if no value was provided by either the transition tool or the
     environment
     """
-    cast_type: Optional[Callable] = None
+    parse_type: Optional[Callable] = None
     """
-    The type or function to use to cast the field to before initializing the object.
+    The type or function to use to parse the field to before initializing the object.
     """
-    transition_tool_source: Optional[str] = None
+    source_environment: Optional[str] = None
+    """
+    Name of the field in the environment object, which can be a callable.
+    """
+    source_transition_tool: Optional[str] = None
     """
     Name of the field in the transition tool result dictionary.
-    """
-    environment_source: Optional[str] = None
-    """
-    Name of the field in the environment object.
     """
 
     def collect(
@@ -1849,14 +1850,14 @@ class HeaderField:
         if self.fork_requirement_check is not None:
             required = getattr(fork, self.fork_requirement_check)(number, timestamp)
 
-        if self.transition_tool_source is not None:
-            if self.transition_tool_source in transition_tool_result:
-                got_value = transition_tool_result.get(self.transition_tool_source)
+        if self.source_transition_tool is not None:
+            if self.source_transition_tool in transition_tool_result:
+                got_value = transition_tool_result.get(self.source_transition_tool)
                 if got_value is not None:
                     value = got_value
 
-        if self.environment_source is not None:
-            got_value = getattr(environment, self.environment_source, None)
+        if self.source_environment is not None:
+            got_value = getattr(environment, self.source_environment, None)
             if callable(got_value):
                 got_value = got_value()
             if got_value is not None:
@@ -1869,13 +1870,13 @@ class HeaderField:
                 else:
                     raise ValueError(f"missing required field '{field_name}'")
 
-        if value is not None and self.cast_type is not None:
-            value = self.cast_type(value)
+        if value is not None and self.parse_type is not None:
+            value = self.parse_type(value)
 
         target[field_name] = value
 
 
-def header_field(*args, header_field: Optional[HeaderField] = None, **kwargs) -> Any:
+def header_field(*args, source: Optional[HeaderFieldSource] = None, **kwargs) -> Any:
     """
     A wrapper around `dataclasses.field` that allows for json configuration info and header
     metadata.
@@ -1886,8 +1887,8 @@ def header_field(*args, header_field: Optional[HeaderField] = None, **kwargs) ->
         metadata = {}
     assert isinstance(metadata, dict)
 
-    if header_field is not None:
-        metadata["header_field"] = header_field
+    if source is not None:
+        metadata["source"] = source
 
     kwargs["metadata"] = metadata
     return field(*args, **kwargs)
@@ -1900,125 +1901,125 @@ class FixtureHeader:
     """
 
     parent_hash: Hash = header_field(
-        header_field=HeaderField(
-            cast_type=Hash,
-            environment_source="parent_hash",
+        source=HeaderFieldSource(
+            parse_type=Hash,
+            source_environment="parent_hash",
         ),
         json_encoder=JSONEncoder.Field(name="parentHash"),
     )
 
     ommers_hash: Hash = header_field(
-        header_field=HeaderField(
-            cast_type=Hash,
-            transition_tool_source="sha3Uncles",
+        source=HeaderFieldSource(
+            parse_type=Hash,
+            source_transition_tool="sha3Uncles",
             default=EmptyOmmersRoot,
         ),
         json_encoder=JSONEncoder.Field(name="uncleHash"),
     )
 
     coinbase: Address = header_field(
-        header_field=HeaderField(
-            cast_type=Address,
-            environment_source="coinbase",
+        source=HeaderFieldSource(
+            parse_type=Address,
+            source_environment="coinbase",
         ),
         json_encoder=JSONEncoder.Field(),
     )
 
     state_root: Hash = header_field(
-        header_field=HeaderField(
-            cast_type=Hash,
-            transition_tool_source="stateRoot",
+        source=HeaderFieldSource(
+            parse_type=Hash,
+            source_transition_tool="stateRoot",
         ),
         json_encoder=JSONEncoder.Field(name="stateRoot"),
     )
 
     transactions_root: Hash = header_field(
-        header_field=HeaderField(
-            cast_type=Hash,
-            transition_tool_source="txRoot",
+        source=HeaderFieldSource(
+            parse_type=Hash,
+            source_transition_tool="txRoot",
         ),
         json_encoder=JSONEncoder.Field(name="transactionsTrie"),
     )
 
     receipt_root: Hash = header_field(
-        header_field=HeaderField(
-            cast_type=Hash,
-            transition_tool_source="receiptsRoot",
+        source=HeaderFieldSource(
+            parse_type=Hash,
+            source_transition_tool="receiptsRoot",
         ),
         json_encoder=JSONEncoder.Field(name="receiptTrie"),
     )
 
     bloom: Bloom = header_field(
-        header_field=HeaderField(
-            cast_type=Bloom,
-            transition_tool_source="logsBloom",
+        source=HeaderFieldSource(
+            parse_type=Bloom,
+            source_transition_tool="logsBloom",
         ),
         json_encoder=JSONEncoder.Field(),
     )
 
     difficulty: int = header_field(
-        header_field=HeaderField(
-            cast_type=Number,
-            transition_tool_source="currentDifficulty",
-            environment_source="difficulty",
+        source=HeaderFieldSource(
+            parse_type=Number,
+            source_transition_tool="currentDifficulty",
+            source_environment="difficulty",
             default=0,
         ),
         json_encoder=JSONEncoder.Field(cast_type=ZeroPaddedHexNumber),
     )
 
     number: int = header_field(
-        header_field=HeaderField(
-            cast_type=Number,
-            environment_source="number",
+        source=HeaderFieldSource(
+            parse_type=Number,
+            source_environment="number",
         ),
         json_encoder=JSONEncoder.Field(cast_type=ZeroPaddedHexNumber),
     )
 
     gas_limit: int = header_field(
-        header_field=HeaderField(
-            cast_type=Number,
-            environment_source="gas_limit",
+        source=HeaderFieldSource(
+            parse_type=Number,
+            source_environment="gas_limit",
         ),
         json_encoder=JSONEncoder.Field(name="gasLimit", cast_type=ZeroPaddedHexNumber),
     )
 
     gas_used: int = header_field(
-        header_field=HeaderField(
-            cast_type=Number,
-            transition_tool_source="gasUsed",
+        source=HeaderFieldSource(
+            parse_type=Number,
+            source_transition_tool="gasUsed",
         ),
         json_encoder=JSONEncoder.Field(name="gasUsed", cast_type=ZeroPaddedHexNumber),
     )
 
     timestamp: int = header_field(
-        header_field=HeaderField(
-            cast_type=Number,
-            environment_source="timestamp",
+        source=HeaderFieldSource(
+            parse_type=Number,
+            source_environment="timestamp",
         ),
         json_encoder=JSONEncoder.Field(cast_type=ZeroPaddedHexNumber),
     )
 
     extra_data: Bytes = header_field(
-        header_field=HeaderField(
-            cast_type=Bytes,
-            environment_source="extra_data",
+        source=HeaderFieldSource(
+            parse_type=Bytes,
+            source_environment="extra_data",
             default=b"",
         ),
         json_encoder=JSONEncoder.Field(name="extraData"),
     )
 
     mix_digest: Hash = header_field(
-        header_field=HeaderField(
-            cast_type=Hash,
-            environment_source="prev_randao",
+        source=HeaderFieldSource(
+            parse_type=Hash,
+            source_environment="prev_randao",
             default=b"",
         ),
         json_encoder=JSONEncoder.Field(name="mixHash"),
     )
 
     nonce: HeaderNonce = header_field(
-        header_field=HeaderField(
-            cast_type=HeaderNonce,
+        source=HeaderFieldSource(
+            parse_type=HeaderNonce,
             default=b"",
         ),
         json_encoder=JSONEncoder.Field(),
@@ -2026,48 +2027,48 @@ class FixtureHeader:
 
     base_fee: Optional[int] = header_field(
         default=None,
-        header_field=HeaderField(
+        source=HeaderFieldSource(
+            parse_type=Number,
             fork_requirement_check="header_base_fee_required",
-            transition_tool_source="currentBaseFee",
-            environment_source="base_fee",
-            cast_type=Number,
+            source_transition_tool="currentBaseFee",
+            source_environment="base_fee",
         ),
         json_encoder=JSONEncoder.Field(name="baseFeePerGas", cast_type=ZeroPaddedHexNumber),
     )
 
     withdrawals_root: Optional[Hash] = header_field(
         default=None,
-        header_field=HeaderField(
+        source=HeaderFieldSource(
+            parse_type=Hash,
             fork_requirement_check="header_withdrawals_required",
-            transition_tool_source="withdrawalsRoot",
-            cast_type=Hash,
+            source_transition_tool="withdrawalsRoot",
         ),
         json_encoder=JSONEncoder.Field(name="withdrawalsRoot"),
     )
 
     data_gas_used: Optional[int] = header_field(
         default=None,
-        header_field=HeaderField(
+        source=HeaderFieldSource(
+            parse_type=Number,
             fork_requirement_check="header_data_gas_used_required",
-            transition_tool_source="dataGasUsed",
-            cast_type=Number,
+            source_transition_tool="dataGasUsed",
         ),
         json_encoder=JSONEncoder.Field(name="dataGasUsed", cast_type=ZeroPaddedHexNumber),
     )
 
     excess_data_gas: Optional[int] = header_field(
         default=None,
-        header_field=HeaderField(
+        source=HeaderFieldSource(
+            parse_type=Number,
             fork_requirement_check="header_excess_data_gas_required",
-            transition_tool_source="currentExcessDataGas",
-            cast_type=Number,
+            source_transition_tool="currentExcessDataGas",
         ),
         json_encoder=JSONEncoder.Field(name="excessDataGas", cast_type=ZeroPaddedHexNumber),
     )
 
     hash: Optional[Hash] = header_field(
         default=None,
-        header_field=HeaderField(
+        source=HeaderFieldSource(
             required=False,
         ),
         json_encoder=JSONEncoder.Field(),
@@ -2084,8 +2085,7 @@ class FixtureHeader:
         """
         Collects a FixedHeader object from multiple sources:
         - The transition tool result
-        - The test current environment
-        - The block object
+        - The test's current environment
         """
         # We depend on the environment to get the number and timestamp to check the fork
         # requirements
@@ -2097,8 +2097,8 @@ class FixtureHeader:
             field_name = header_field.name
             metadata = header_field.metadata
             assert metadata is not None, f"Field {field_name} has no header field metadata"
-            field_metadata = metadata.get("header_field")
-            assert isinstance(field_metadata, HeaderField), (
+            field_metadata = metadata.get("source")
+            assert isinstance(field_metadata, HeaderFieldSource), (
                 f"Field {field_name} has invalid header_field " f"metadata: {field_metadata}"
             )
             field_metadata.collect(
@@ -2111,6 +2111,7 @@ class FixtureHeader:
                 environment=environment,
             )
 
+        # Pass the collected fields as keyword arguments to the constructor
         return cls(**kwargs)
 
     def join(self, modifier: Header) -> "FixtureHeader":
