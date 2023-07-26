@@ -2083,7 +2083,7 @@ class FixtureHeader:
         environment: Environment,
     ) -> "FixtureHeader":
         """
-        Collects a FixedHeader object from multiple sources:
+        Collects a FixtureHeader object from multiple sources:
         - The transition tool result
         - The test's current environment
         """
