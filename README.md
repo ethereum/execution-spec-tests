@@ -62,7 +62,7 @@ The following requires a Python 3.10 or Python 3.11 installation.
 
 This guide installs stable versions of the required external `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
-1. Ensure go-ethereum's `evm` tool and `solc` are in your path. Either build the required versions, or alternatively:
+1. Ensure go-ethereum's `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20) or [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21)) are in your path. Either build the required versions, or alternatively:
 
     ```console
     sudo add-apt-repository -y ppa:ethereum/ethereum
@@ -77,7 +77,7 @@ This guide installs stable versions of the required external `evm` and `solc` ex
 
     Help for other platforms is available in the [online doc](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
 
-2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its and dependencies (it's recommended to use a virtual environment for the installation):
+2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies (it's recommended to use a virtual environment for the installation):
 
    ```console
    git clone https://github.com/ethereum/execution-spec-tests

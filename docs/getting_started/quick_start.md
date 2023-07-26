@@ -7,7 +7,7 @@
 
 The following requires a Python 3.10 or Python 3.11 installation.
 
-1. Ensure `go-ethereum`'s `evm` tool and `solc` are in your path. Either build the required versions, or alternatively:
+1. Ensure `go-ethereum`'s `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20) or [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21)) are in your path. Either build the required versions, or alternatively:
 
     === "Ubuntu"
 
