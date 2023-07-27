@@ -19,7 +19,7 @@
         <link rel="next" href="../ethereum_test_forks/">
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.20">
     
     
       
@@ -2923,7 +2923,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas/">Test Excess Data Gas</a>
+          <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/">Test Excess Blob Gas</a>
           
             <label for="__nav_8_2_2_7">
               <span class="md-nav__icon md-icon"></span>
@@ -2934,7 +2934,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_7">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas
+          Test Excess Blob Gas
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -2946,7 +2946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas/index/test_cases/" class="md-nav__link">
+      <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -2987,7 +2987,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas_fork_transition/">Test Excess Data Gas Fork Transition</a>
+          <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/">Test Excess Blob Gas Fork Transition</a>
           
             <label for="__nav_8_2_2_8">
               <span class="md-nav__icon md-icon"></span>
@@ -2998,7 +2998,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_8">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas Fork Transition
+          Test Excess Blob Gas Fork Transition
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -3010,7 +3010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas_fork_transition/index/test_cases/" class="md-nav__link">
+      <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -9857,8 +9857,8 @@ information.</p>
             <span class="n">mix_digest</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">nonce</span><span class="o">=</span><span class="n">HeaderNonce</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">base_fee</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee</span><span class="p">),</span>
-            <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
-            <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
+            <span class="n">blob_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">),</span>
+            <span class="n">excess_blob_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">),</span>
             <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
                 <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
                     <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
@@ -10117,8 +10117,8 @@ information.</p>
         <span class="n">mix_digest</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">nonce</span><span class="o">=</span><span class="n">HeaderNonce</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">base_fee</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee</span><span class="p">),</span>
-        <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
-        <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
+        <span class="n">blob_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">),</span>
+        <span class="n">excess_blob_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">),</span>
         <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
             <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
                 <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
@@ -10680,8 +10680,8 @@ Raises exception on invalid test behavior.</p>
             <span class="n">mix_digest</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">nonce</span><span class="o">=</span><span class="n">HeaderNonce</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">base_fee</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee</span><span class="p">),</span>
-            <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
-            <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
+            <span class="n">blob_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">),</span>
+            <span class="n">excess_blob_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">),</span>
             <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
                 <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
                     <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
@@ -11043,8 +11043,8 @@ Raises exception on invalid test behavior.</p>
         <span class="n">mix_digest</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">nonce</span><span class="o">=</span><span class="n">HeaderNonce</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">base_fee</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee</span><span class="p">),</span>
-        <span class="n">data_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">),</span>
-        <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">),</span>
+        <span class="n">blob_gas_used</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">),</span>
+        <span class="n">excess_blob_gas</span><span class="o">=</span><span class="n">ZeroPaddedHexNumber</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">),</span>
         <span class="n">withdrawals_root</span><span class="o">=</span><span class="n">Hash</span><span class="o">.</span><span class="n">or_none</span><span class="p">(</span>
             <span class="n">t8n</span><span class="o">.</span><span class="n">calc_withdrawals_root</span><span class="p">(</span>
                 <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
@@ -17196,31 +17196,31 @@ must be executed.</p>
             <span class="n">cast_type</span><span class="o">=</span><span class="n">Hash</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">parent_data_gas_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+    <span class="n">parent_blob_gas_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;parentDataGasUsed&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;parentBlobGasUsed&quot;</span><span class="p">,</span>
             <span class="n">cast_type</span><span class="o">=</span><span class="n">Number</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">parent_excess_data_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+    <span class="n">parent_excess_blob_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;parentExcessDataGas&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;parentExcessBlobGas&quot;</span><span class="p">,</span>
             <span class="n">cast_type</span><span class="o">=</span><span class="n">Number</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">data_gas_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+    <span class="n">blob_gas_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;currentDataGasUsed&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;currentBlobGasUsed&quot;</span><span class="p">,</span>
             <span class="n">cast_type</span><span class="o">=</span><span class="n">Number</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">excess_data_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+    <span class="n">excess_blob_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;currentExcessDataGas&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;currentExcessBlobGas&quot;</span><span class="p">,</span>
             <span class="n">cast_type</span><span class="o">=</span><span class="n">Number</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
@@ -17240,8 +17240,8 @@ must be executed.</p>
             <span class="n">parent_difficulty</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">difficulty</span><span class="p">,</span>
             <span class="n">parent_timestamp</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
             <span class="n">parent_base_fee</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">base_fee</span><span class="p">,</span>
-            <span class="n">parent_data_gas_used</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">,</span>
-            <span class="n">parent_excess_data_gas</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">,</span>
+            <span class="n">parent_blob_gas_used</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">,</span>
+            <span class="n">parent_excess_blob_gas</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">,</span>
             <span class="n">parent_gas_used</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">gas_used</span><span class="p">,</span>
             <span class="n">parent_gas_limit</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
             <span class="n">parent_ommers_hash</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">ommers_hash</span><span class="p">,</span>
@@ -17267,8 +17267,8 @@ must be executed.</p>
         <span class="n">env</span><span class="o">.</span><span class="n">parent_difficulty</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">difficulty</span>
         <span class="n">env</span><span class="o">.</span><span class="n">parent_timestamp</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">timestamp</span>
         <span class="n">env</span><span class="o">.</span><span class="n">parent_base_fee</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">base_fee</span>
-        <span class="n">env</span><span class="o">.</span><span class="n">parent_data_gas_used</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">data_gas_used</span>
-        <span class="n">env</span><span class="o">.</span><span class="n">parent_excess_data_gas</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">excess_data_gas</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">parent_blob_gas_used</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">blob_gas_used</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">parent_excess_blob_gas</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">excess_blob_gas</span>
         <span class="n">env</span><span class="o">.</span><span class="n">parent_gas_used</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">gas_used</span>
         <span class="n">env</span><span class="o">.</span><span class="n">parent_gas_limit</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">gas_limit</span>
         <span class="n">env</span><span class="o">.</span><span class="n">parent_ommers_hash</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">ommers_hash</span>
@@ -17299,18 +17299,18 @@ must be executed.</p>
             <span class="n">res</span><span class="o">.</span><span class="n">difficulty</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_data_gas_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_excess_data_gas</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_blob_gas_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_excess_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span>
         <span class="p">):</span>
-            <span class="n">res</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">fork</span><span class="o">.</span><span class="n">header_data_gas_used_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_data_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="n">fork</span><span class="o">.</span><span class="n">header_blob_gas_used_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_blob_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
         <span class="p">):</span>
-            <span class="n">res</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">return</span> <span class="n">res</span>
 </code></pre></div></td></tr></table></div>
@@ -17371,8 +17371,8 @@ must be executed.</p>
         <span class="n">parent_difficulty</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">difficulty</span><span class="p">,</span>
         <span class="n">parent_timestamp</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
         <span class="n">parent_base_fee</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">base_fee</span><span class="p">,</span>
-        <span class="n">parent_data_gas_used</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">,</span>
-        <span class="n">parent_excess_data_gas</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">,</span>
+        <span class="n">parent_blob_gas_used</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">,</span>
+        <span class="n">parent_excess_blob_gas</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">,</span>
         <span class="n">parent_gas_used</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">gas_used</span><span class="p">,</span>
         <span class="n">parent_gas_limit</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">parent_ommers_hash</span><span class="o">=</span><span class="n">parent</span><span class="o">.</span><span class="n">ommers_hash</span><span class="p">,</span>
@@ -17476,8 +17476,8 @@ must be executed.</p>
     <span class="n">env</span><span class="o">.</span><span class="n">parent_difficulty</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">difficulty</span>
     <span class="n">env</span><span class="o">.</span><span class="n">parent_timestamp</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">timestamp</span>
     <span class="n">env</span><span class="o">.</span><span class="n">parent_base_fee</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">base_fee</span>
-    <span class="n">env</span><span class="o">.</span><span class="n">parent_data_gas_used</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">data_gas_used</span>
-    <span class="n">env</span><span class="o">.</span><span class="n">parent_excess_data_gas</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">excess_data_gas</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">parent_blob_gas_used</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">blob_gas_used</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">parent_excess_blob_gas</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">excess_blob_gas</span>
     <span class="n">env</span><span class="o">.</span><span class="n">parent_gas_used</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">gas_used</span>
     <span class="n">env</span><span class="o">.</span><span class="n">parent_gas_limit</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">gas_limit</span>
     <span class="n">env</span><span class="o">.</span><span class="n">parent_ommers_hash</span> <span class="o">=</span> <span class="n">new_parent</span><span class="o">.</span><span class="n">ommers_hash</span>
@@ -17572,18 +17572,18 @@ must be executed.</p>
         <span class="n">res</span><span class="o">.</span><span class="n">difficulty</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">if</span> <span class="p">(</span>
-        <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_data_gas_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_excess_data_gas</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_blob_gas_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_excess_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span>
     <span class="p">):</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">if</span> <span class="p">(</span>
-        <span class="n">fork</span><span class="o">.</span><span class="n">header_data_gas_used_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
-        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_data_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">fork</span><span class="o">.</span><span class="n">header_blob_gas_used_required</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">parent_blob_gas_used</span> <span class="ow">is</span> <span class="kc">None</span>
     <span class="p">):</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">return</span> <span class="n">res</span>
 </code></pre></div></td></tr></table></div>
@@ -18390,10 +18390,10 @@ must be executed.</p>
             <span class="n">to_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">max_fee_per_data_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+    <span class="n">max_fee_per_blob_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;maxFeePerDataGas&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;maxFeePerBlobGas&quot;</span><span class="p">,</span>
             <span class="n">cast_type</span><span class="o">=</span><span class="n">HexNumber</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
@@ -18499,7 +18499,7 @@ must be executed.</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gas_price</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_priority_fee_per_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">):</span>
             <span class="k">raise</span> <span class="n">Transaction</span><span class="o">.</span><span class="n">InvalidFeePayment</span><span class="p">()</span>
 
@@ -18507,7 +18507,7 @@ must be executed.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">gas_price</span> <span class="ow">is</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_priority_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span>
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">gas_price</span> <span class="o">=</span> <span class="mi">10</span>
 
@@ -18519,7 +18519,7 @@ must be executed.</p>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Try to deduce transaction type from included fields</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">=</span> <span class="mi">3</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">=</span> <span class="mi">2</span>
@@ -18580,8 +18580,8 @@ must be executed.</p>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_priority_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_data_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_blob_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;blob_versioned_hashes must be set for type 3 tx&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -18610,7 +18610,7 @@ must be executed.</p>
                         <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
                         <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
                         <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span><span class="p">],</span>
-                        <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
+                        <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span><span class="p">),</span>
                         <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">],</span>
                         <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">),</span>
                         <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">),</span>
@@ -18631,7 +18631,7 @@ must be executed.</p>
                     <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
                     <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
                     <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span><span class="p">],</span>
-                    <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
+                    <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span><span class="p">),</span>
                     <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">],</span>
                     <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">),</span>
                     <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">),</span>
@@ -18724,8 +18724,8 @@ must be executed.</p>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_priority_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_data_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_blob_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;blob_versioned_hashes must be set for type 3 tx&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[</span>
@@ -18738,7 +18738,7 @@ must be executed.</p>
                 <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
                 <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
                 <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[],</span>
-                <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
+                <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span><span class="p">),</span>
                 <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">],</span>
             <span class="p">]</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -19145,7 +19145,7 @@ source account.</p>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gas_price</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_priority_fee_per_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="n">Transaction</span><span class="o">.</span><span class="n">InvalidFeePayment</span><span class="p">()</span>
 
@@ -19153,7 +19153,7 @@ source account.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">gas_price</span> <span class="ow">is</span> <span class="kc">None</span>
         <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span>
         <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_priority_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gas_price</span> <span class="o">=</span> <span class="mi">10</span>
 
@@ -19165,7 +19165,7 @@ source account.</p>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Try to deduce transaction type from included fields</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">=</span> <span class="mi">2</span>
@@ -19488,8 +19488,8 @@ source account.</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_priority_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_data_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_blob_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;blob_versioned_hashes must be set for type 3 tx&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -19518,7 +19518,7 @@ source account.</p>
                     <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
                     <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
                     <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span><span class="p">],</span>
-                    <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
+                    <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span><span class="p">),</span>
                     <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">],</span>
                     <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">),</span>
                     <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">),</span>
@@ -19539,7 +19539,7 @@ source account.</p>
                 <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
                 <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
                 <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span><span class="p">],</span>
-                <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
+                <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span><span class="p">),</span>
                 <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">],</span>
                 <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">),</span>
                 <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">),</span>
@@ -19787,8 +19787,8 @@ which is almost always RLP encoding.</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_priority_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_data_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_fee_per_blob_gas must be set for type 3 tx&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;blob_versioned_hashes must be set for type 3 tx&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span>
@@ -19801,7 +19801,7 @@ which is almost always RLP encoding.</p>
             <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
             <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
             <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[],</span>
-            <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_data_gas</span><span class="p">),</span>
+            <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fee_per_blob_gas</span><span class="p">),</span>
             <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">],</span>
         <span class="p">]</span>
     <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -20122,8 +20122,8 @@ which is almost always RLP encoding.</p>
     <span class="n">nonce</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixedSizeBytesConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">base_fee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span> <span class="o">|</span> <span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">withdrawals_root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixedSizeBytesConvertible</span> <span class="o">|</span> <span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">data_gas_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span> <span class="o">|</span> <span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">excess_data_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span> <span class="o">|</span> <span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">blob_gas_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span> <span class="o">|</span> <span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">excess_blob_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NumberConvertible</span> <span class="o">|</span> <span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="nb">hash</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixedSizeBytesConvertible</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">REMOVE_FIELD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="n">Removable</span><span class="p">()</span>
@@ -20357,10 +20357,10 @@ which is almost always RLP encoding.</p>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
             <span class="n">new_env</span><span class="o">.</span><span class="n">base_fee</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span>
         <span class="n">new_env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">withdrawals</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
-            <span class="n">new_env</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">excess_data_gas</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
-            <span class="n">new_env</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_gas_used</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
+            <span class="n">new_env</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">excess_blob_gas</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
+            <span class="n">new_env</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_gas_used</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        These values are required, but they depend on the previous environment,</span>
 <span class="sd">        so they can be calculated here.</span>
@@ -20680,10 +20680,10 @@ specific block.</p>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
         <span class="n">new_env</span><span class="o">.</span><span class="n">base_fee</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span>
     <span class="n">new_env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">withdrawals</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
-        <span class="n">new_env</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">excess_data_gas</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_gas_used</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
-        <span class="n">new_env</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_gas_used</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
+        <span class="n">new_env</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">excess_blob_gas</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blob_gas_used</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
+        <span class="n">new_env</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blob_gas_used</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    These values are required, but they depend on the previous environment,</span>
 <span class="sd">    so they can be calculated here.</span>

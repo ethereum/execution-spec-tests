@@ -19,7 +19,7 @@
         <link rel="next" href="../ethereum_test_tools/">
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.20">
     
     
       
@@ -1831,7 +1831,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas/">Test Excess Data Gas</a>
+          <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/">Test Excess Blob Gas</a>
           
             <label for="__nav_8_2_2_7">
               <span class="md-nav__icon md-icon"></span>
@@ -1842,7 +1842,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_7">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas
+          Test Excess Blob Gas
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1854,7 +1854,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas/index/test_cases/" class="md-nav__link">
+      <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1895,7 +1895,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas_fork_transition/">Test Excess Data Gas Fork Transition</a>
+          <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/">Test Excess Blob Gas Fork Transition</a>
           
             <label for="__nav_8_2_2_8">
               <span class="md-nav__icon md-icon"></span>
@@ -1906,7 +1906,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_8">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas Fork Transition
+          Test Excess Blob Gas Fork Transition
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1918,7 +1918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_excess_data_gas_fork_transition/index/test_cases/" class="md-nav__link">
+      <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -6907,8 +6907,8 @@ implementations.</p>
         <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_prev_randao_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentRandom&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
-        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_data_gas_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentExcessDataGas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_blob_gas_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentExcessBlobGas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
         <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
             <span class="n">alloc</span><span class="o">=</span><span class="p">{},</span>
@@ -7781,8 +7781,8 @@ tool's binary path.</p>
     <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_prev_randao_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
         <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentRandom&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
-    <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_data_gas_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentExcessDataGas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+    <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_excess_blob_gas_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">env</span><span class="p">[</span><span class="s2">&quot;currentExcessBlobGas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
     <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
         <span class="n">alloc</span><span class="o">=</span><span class="p">{},</span>

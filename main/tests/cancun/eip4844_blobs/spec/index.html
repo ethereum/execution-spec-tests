@@ -19,7 +19,7 @@
         <link rel="next" href="../test_blob_txs/">
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.20">
     
     
       
@@ -1581,7 +1581,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../test_excess_data_gas/">Test Excess Data Gas</a>
+          <a href="../test_excess_blob_gas/">Test Excess Blob Gas</a>
           
             <label for="__nav_8_2_2_7">
               <span class="md-nav__icon md-icon"></span>
@@ -1592,7 +1592,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_7">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas
+          Test Excess Blob Gas
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1604,7 +1604,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_excess_data_gas/index/test_cases/" class="md-nav__link">
+      <a href="../test_excess_blob_gas/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1645,7 +1645,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../test_excess_data_gas_fork_transition/">Test Excess Data Gas Fork Transition</a>
+          <a href="../test_excess_blob_gas_fork_transition/">Test Excess Blob Gas Fork Transition</a>
           
             <label for="__nav_8_2_2_8">
               <span class="md-nav__icon md-icon"></span>
@@ -1656,7 +1656,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_8">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas Fork Transition
+          Test Excess Blob Gas Fork Transition
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1668,7 +1668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_excess_data_gas_fork_transition/index/test_cases/" class="md-nav__link">
+      <a href="../test_excess_blob_gas_fork_transition/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -3524,7 +3524,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d5ec094fbf2ea5ce5a77a2901a03b5a713142a91/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7bddb5c8b57137a4db8c087d5f48d1551626bcc9/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -3677,17 +3677,17 @@ out.</p>
     <span class="n">BLOB_COMMITMENT_VERSION_KZG</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span> <span class="o">=</span> <span class="mi">50_000</span>
-    <span class="n">MAX_DATA_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">786432</span>
-    <span class="n">TARGET_DATA_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">393216</span>
-    <span class="n">MIN_DATA_GASPRICE</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">DATA_GASPRICE_UPDATE_FRACTION</span> <span class="o">=</span> <span class="mi">3338477</span>
+    <span class="n">MAX_BLOB_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">786432</span>
+    <span class="n">TARGET_BLOB_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">393216</span>
+    <span class="n">MIN_BLOB_GASPRICE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">BLOB_GASPRICE_UPDATE_FRACTION</span> <span class="o">=</span> <span class="mi">3338477</span>
     <span class="c1"># MAX_VERSIONED_HASHES_LIST_SIZE = 2**24</span>
     <span class="c1"># MAX_CALLDATA_SIZE = 2**24</span>
     <span class="c1"># MAX_ACCESS_LIST_SIZE = 2**24</span>
     <span class="c1"># MAX_ACCESS_LIST_STORAGE_KEYS = 2**24</span>
     <span class="c1"># MAX_TX_WRAP_COMMITMENTS = 2**12</span>
     <span class="c1"># LIMIT_BLOBS_PER_TX = 2**12</span>
-    <span class="n">DATA_GAS_PER_BLOB</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">17</span>
+    <span class="n">GAS_PER_BLOB</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">17</span>
     <span class="n">HASH_OPCODE_BYTE</span> <span class="o">=</span> <span class="mh">0x49</span>
     <span class="n">HASH_GAS_COST</span> <span class="o">=</span> <span class="mi">3</span>
 
@@ -3711,7 +3711,7 @@ out.</p>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">fake_exponential</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Used to calculate the data gas cost.</span>
+<span class="sd">        Used to calculate the blob gas cost.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">output</span> <span class="o">=</span> <span class="mi">0</span>
@@ -3723,35 +3723,35 @@ out.</p>
         <span class="k">return</span> <span class="n">output</span> <span class="o">//</span> <span class="n">denominator</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">calc_excess_data_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">BlockHeaderDataGasFields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">calc_excess_blob_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">BlockHeaderBlobGasFields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the excess data gas for a block given the excess data gas</span>
-<span class="sd">        and data gas used from the parent block header.</span>
+<span class="sd">        Calculate the excess blob gas for a block given the excess blob gas</span>
+<span class="sd">        and blob gas used from the parent block header.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">data_gas_used</span> <span class="o">-</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span>
+            <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">-</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span>
 
     <span class="c1"># Note: Currently unused.</span>
     <span class="c1"># @classmethod</span>
-    <span class="c1"># def get_total_data_gas(cls, tx: Transaction) -&gt; int:</span>
+    <span class="c1"># def get_total_blob_gas(cls, tx: Transaction) -&gt; int:</span>
     <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Calculate the total data gas for a transaction.</span>
+    <span class="c1">#     Calculate the total blob gas for a transaction.</span>
     <span class="c1">#     &quot;&quot;&quot;</span>
     <span class="c1">#     if tx.blob_versioned_hashes is None:</span>
     <span class="c1">#         return 0</span>
-    <span class="c1">#     return cls.DATA_GAS_PER_BLOB * len(tx.blob_versioned_hashes)</span>
+    <span class="c1">#     return cls.GAS_PER_BLOB * len(tx.blob_versioned_hashes)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_data_gasprice</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">excess_data_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_blob_gasprice</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the data gas price from the excess.</span>
+<span class="sd">        Calculate the blob gas price from the excess.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fake_exponential</span><span class="p">(</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_DATA_GASPRICE</span><span class="p">,</span>
-            <span class="n">excess_data_gas</span><span class="p">,</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">DATA_GASPRICE_UPDATE_FRACTION</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_BLOB_GASPRICE</span><span class="p">,</span>
+            <span class="n">excess_blob_gas</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">BLOB_GASPRICE_UPDATE_FRACTION</span><span class="p">,</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -3853,10 +3853,7 @@ spec but not strictly part of it.</p>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define parameters and helper functions that are tightly coupled to the 4844</span>
@@ -3870,51 +3867,48 @@ spec but not strictly part of it.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the maximum number of blobs per block.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_DATA_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
+        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_BLOB_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the target number of blobs per block.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
+        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">calc_excess_data_gas_from_blob_count</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">parent_excess_data_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parent_blob_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="k">def</span> <span class="nf">calc_excess_blob_gas_from_blob_count</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">parent_excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parent_blob_count</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the excess data gas for a block given the parent excess data gas</span>
+<span class="sd">        Calculate the excess blob gas for a block given the parent excess blob gas</span>
 <span class="sd">        and the number of blobs in the block.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parent_consumed_data_gas</span> <span class="o">=</span> <span class="n">parent_blob_count</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">calc_excess_data_gas</span><span class="p">(</span>
-            <span class="n">BlockHeaderDataGasFields</span><span class="p">(</span><span class="n">parent_excess_data_gas</span><span class="p">,</span> <span class="n">parent_consumed_data_gas</span><span class="p">)</span>
+        <span class="n">parent_consumed_blob_gas</span> <span class="o">=</span> <span class="n">parent_blob_count</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
+        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">calc_excess_blob_gas</span><span class="p">(</span>
+            <span class="n">BlockHeaderBlobGasFields</span><span class="p">(</span><span class="n">parent_excess_blob_gas</span><span class="p">,</span> <span class="n">parent_consumed_blob_gas</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_min_excess_data_gas_for_data_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the minimum required excess data gas value to get a given data gas cost in a block</span>
+<span class="sd">        Gets the minimum required excess blob gas value to get a given blob gas cost in a block</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">current_excess_data_gas</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">current_data_gas_price</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">while</span> <span class="n">current_data_gas_price</span> <span class="o">&lt;</span> <span class="n">data_gas_price</span><span class="p">:</span>
-            <span class="n">current_excess_data_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-            <span class="n">current_data_gas_price</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">get_data_gasprice</span><span class="p">(</span>
-                <span class="n">excess_data_gas</span><span class="o">=</span><span class="n">current_excess_data_gas</span>
+        <span class="n">current_excess_blob_gas</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">current_blob_gas_price</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">current_blob_gas_price</span> <span class="o">&lt;</span> <span class="n">blob_gas_price</span><span class="p">:</span>
+            <span class="n">current_excess_blob_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
+            <span class="n">current_blob_gas_price</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">get_blob_gasprice</span><span class="p">(</span>
+                <span class="n">excess_blob_gas</span><span class="o">=</span><span class="n">current_excess_blob_gas</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">current_excess_data_gas</span>
+        <span class="k">return</span> <span class="n">current_excess_blob_gas</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_min_excess_data_blobs_for_data_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the minimum required excess data blobs to get a given data gas cost in a block</span>
+<span class="sd">        Gets the minimum required excess blobs to get a given blob gas cost in a block</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">get_min_excess_data_gas_for_data_gas_price</span><span class="p">(</span><span class="n">data_gas_price</span><span class="p">)</span>
-            <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DATA_GAS_PER_BLOB</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span><span class="n">blob_gas_price</span><span class="p">)</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
 </code></pre></div></td></tr></table></div>
             </details>
 

@@ -19,7 +19,7 @@
         <link rel="next" href="index/test_cases/">
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.20">
     
     
       
@@ -1528,7 +1528,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../test_excess_data_gas/">Test Excess Data Gas</a>
+          <a href="../test_excess_blob_gas/">Test Excess Blob Gas</a>
           
             <label for="__nav_8_2_2_7">
               <span class="md-nav__icon md-icon"></span>
@@ -1539,7 +1539,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_7">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas
+          Test Excess Blob Gas
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1551,7 +1551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_excess_data_gas/index/test_cases/" class="md-nav__link">
+      <a href="../test_excess_blob_gas/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -1592,7 +1592,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../test_excess_data_gas_fork_transition/">Test Excess Data Gas Fork Transition</a>
+          <a href="../test_excess_blob_gas_fork_transition/">Test Excess Blob Gas Fork Transition</a>
           
             <label for="__nav_8_2_2_8">
               <span class="md-nav__icon md-icon"></span>
@@ -1603,7 +1603,7 @@
       <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8_2_2_8">
           <span class="md-nav__icon md-icon"></span>
-          Test Excess Data Gas Fork Transition
+          Test Excess Blob Gas Fork Transition
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1615,7 +1615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_excess_data_gas_fork_transition/index/test_cases/" class="md-nav__link">
+      <a href="../test_excess_blob_gas_fork_transition/index/test_cases/" class="md-nav__link">
         Test Cases
       </a>
     </li>
@@ -3449,8 +3449,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_data_gas" class="md-nav__link">
-    test_invalid_tx_max_fee_per_data_gas()
+  <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_blob_gas" class="md-nav__link">
+    test_invalid_tx_max_fee_per_blob_gas()
   </a>
   
 </li>
@@ -3555,7 +3555,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d5ec094fbf2ea5ce5a77a2901a03b5a713142a91/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7bddb5c8b57137a4db8c087d5f48d1551626bcc9/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -3701,18 +3701,18 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 
 
 
-<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_data_gas" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">test_invalid_tx_max_fee_per_data_gas</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">parent_blobs</span><span class="p">,</span> <span class="n">non_zero_data_gas_used_genesis_block</span><span class="p">)</span></code>
+<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_blob_gas" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">test_invalid_tx_max_fee_per_blob_gas</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">parent_blobs</span><span class="p">,</span> <span class="n">non_zero_blob_gas_used_genesis_block</span><span class="p">)</span></code>
 
-<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_data_gas" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_blob_gas" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-contents ">
   
       <p>Reject blocks with invalid blob txs due to:</p>
 <ul>
-<li>tx max_fee_per_data_gas is barely not enough</li>
-<li>tx max_fee_per_data_gas is zero</li>
+<li>tx max_fee_per_blob_gas is barely not enough</li>
+<li>tx max_fee_per_blob_gas is zero</li>
 </ul>
 
           <details class="quote">
@@ -3764,46 +3764,46 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_data_gas,tx_error&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="c1"># tx max_data_gas_cost of the transaction is not enough</span>
+        <span class="c1"># tx max_blob_gas_cost of the transaction is not enough</span>
         <span class="p">(</span>
-            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">get_min_excess_data_blobs_for_data_gas_price</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># data gas price is 1</span>
-            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># data gas cost increases to 2</span>
-            <span class="mi">1</span><span class="p">,</span>  <span class="c1"># tx max_data_gas_cost is 1</span>
-            <span class="s2">&quot;insufficient max fee per data gas&quot;</span><span class="p">,</span>
+            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># blob gas price is 1</span>
+            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># blob gas cost increases to 2</span>
+            <span class="mi">1</span><span class="p">,</span>  <span class="c1"># tx max_blob_gas_cost is 1</span>
+            <span class="s2">&quot;insufficient max fee per blob gas&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># tx max_data_gas_cost of the transaction is zero, which is invalid</span>
+        <span class="c1"># tx max_blob_gas_cost of the transaction is zero, which is invalid</span>
         <span class="p">(</span>
-            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># data gas price is 1</span>
-            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># data gas cost stays put at 1</span>
-            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># tx max_data_gas_cost is 0</span>
-            <span class="s2">&quot;invalid max fee per data gas&quot;</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># blob gas price is 1</span>
+            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># blob gas cost stays put at 1</span>
+            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># tx max_blob_gas_cost is 0</span>
+            <span class="s2">&quot;invalid max fee per blob gas&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;insufficient_max_fee_per_data_gas&quot;</span><span class="p">,</span> <span class="s2">&quot;invalid_max_fee_per_data_gas&quot;</span><span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;insufficient_max_fee_per_blob_gas&quot;</span><span class="p">,</span> <span class="s2">&quot;invalid_max_fee_per_blob_gas&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_invalid_tx_max_fee_per_data_gas</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_invalid_tx_max_fee_per_blob_gas</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
     <span class="n">parent_blobs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">non_zero_data_gas_used_genesis_block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
+    <span class="n">non_zero_blob_gas_used_genesis_block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reject blocks with invalid blob txs due to:</span>
 
-<span class="sd">    - tx max_fee_per_data_gas is barely not enough</span>
-<span class="sd">    - tx max_fee_per_data_gas is zero</span>
+<span class="sd">    - tx max_fee_per_blob_gas is barely not enough</span>
+<span class="sd">    - tx max_fee_per_blob_gas is zero</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">parent_blobs</span><span class="p">:</span>
         <span class="n">pre</span><span class="p">[</span><span class="n">TestAddress2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
-        <span class="n">blocks</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">non_zero_data_gas_used_genesis_block</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-            <span class="n">env</span><span class="o">.</span><span class="n">excess_data_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_DATA_GAS_PER_BLOCK</span>
+        <span class="n">blocks</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">non_zero_blob_gas_used_genesis_block</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -3836,7 +3836,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
   
       <p>Reject blocks with invalid blob txs due to:</p>
 <ul>
-<li>Sufficient max fee per data gas, but insufficient max fee per gas</li>
+<li>Sufficient max fee per blob gas, but insufficient max fee per gas</li>
 </ul>
 
           <details class="quote">
@@ -3872,7 +3872,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">494</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_max_fee_per_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="c1"># max data gas is ok, but max fee per gas is less than base fee per gas</span>
+        <span class="c1"># max blob gas is ok, but max fee per gas is less than base fee per gas</span>
         <span class="p">(</span>
             <span class="mi">6</span><span class="p">,</span>
             <span class="s2">&quot;insufficient max fee per gas&quot;</span><span class="p">,</span>
@@ -3890,7 +3890,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reject blocks with invalid blob txs due to:</span>
 
-<span class="sd">    - Sufficient max fee per data gas, but insufficient max fee per gas</span>
+<span class="sd">    - Sufficient max fee per blob gas, but insufficient max fee per gas</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
@@ -4005,13 +4005,13 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 
   <div class="doc doc-contents ">
   
-      <p>Reject blocks where user cannot afford the data gas specified (but
+      <p>Reject blocks where user cannot afford the blob gas specified (but
 max_fee_per_gas would be enough for current block), including:</p>
 <ul>
 <li>Transactions with and without priority fee</li>
 <li>Transactions with and without value</li>
 <li>Transactions with and without calldata</li>
-<li>Transactions with max fee per data gas lower or higher than the priority fee</li>
+<li>Transactions with max fee per blob gas lower or higher than the priority fee</li>
 </ul>
 
           <details class="quote">
@@ -4054,7 +4054,7 @@ max_fee_per_gas would be enough for current block), including:</p>
     <span class="p">[</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x01</span><span class="s2">&quot;</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_calldata&quot;</span><span class="p">,</span> <span class="s2">&quot;single_zero_calldata&quot;</span><span class="p">,</span> <span class="s2">&quot;single_one_calldata&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_data_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;account_balance_modifier&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;exact_balance_minus_1&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_error&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;insufficient_account_balance&quot;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
@@ -4065,13 +4065,13 @@ max_fee_per_gas would be enough for current block), including:</p>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reject blocks where user cannot afford the data gas specified (but</span>
+<span class="sd">    Reject blocks where user cannot afford the blob gas specified (but</span>
 <span class="sd">    max_fee_per_gas would be enough for current block), including:</span>
 
 <span class="sd">    - Transactions with and without priority fee</span>
 <span class="sd">    - Transactions with and without value</span>
 <span class="sd">    - Transactions with and without calldata</span>
-<span class="sd">    - Transactions with max fee per data gas lower or higher than the priority fee</span>
+<span class="sd">    - Transactions with max fee per blob gas lower or higher than the priority fee</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
@@ -4820,7 +4820,7 @@ version, including:</p>
 
   <div class="doc doc-contents ">
   
-      <p>Test GASPRICE opcode to sanity check that the data fee per gas does not affect
+      <p>Test GASPRICE opcode to sanity check that the blob gas fee does not affect
 its calculation:</p>
 <ul>
 <li>No priority fee</li>
@@ -4865,7 +4865,7 @@ its calculation:</p>
 <span class="normal">915</span>
 <span class="normal">916</span>
 <span class="normal">917</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># always below data fee</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_data_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># normal and above priority fee</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># normal and above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">])</span>  <span class="c1"># always above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">GASPRICE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
@@ -4879,7 +4879,7 @@ its calculation:</p>
     <span class="n">destination_account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test GASPRICE opcode to sanity check that the data fee per gas does not affect</span>
+<span class="sd">    Test GASPRICE opcode to sanity check that the blob gas fee does not affect</span>
 <span class="sd">    its calculation:</span>
 
 <span class="sd">    - No priority fee</span>
@@ -4958,7 +4958,7 @@ its calculation:</p>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;tx_max_fee_per_data_gas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tx_error&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="p">[</span>
