@@ -88,7 +88,7 @@ def parent_excess_blob_gas(
     """
     Calculates the excess blob gas of the parent block from the excess blobs.
     """
-    return parent_excess_blobs * Spec.BLOB_GAS_PER_BLOB
+    return parent_excess_blobs * Spec.GAS_PER_BLOB
 
 
 @pytest.fixture
@@ -261,7 +261,7 @@ def blocks(
                     if tx.blob_versioned_hashes is not None
                 ]
             )
-            * Spec.BLOB_GAS_PER_BLOB
+            * Spec.GAS_PER_BLOB
         )
     return [
         Block(txs=txs, exception=tx_error, rlp_modifier=Header(blob_gas_used=header_blob_gas_used))

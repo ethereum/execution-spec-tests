@@ -104,7 +104,7 @@ def parent_excess_blob_gas(
     """
     if parent_excess_blobs is None:
         return None
-    return parent_excess_blobs * Spec.BLOB_GAS_PER_BLOB
+    return parent_excess_blobs * Spec.GAS_PER_BLOB
 
 
 @pytest.fixture
@@ -184,7 +184,7 @@ def total_account_minimum_balance(  # noqa: D103
     """
     total_cost = 0
     for tx_blob_count in [len(x) for x in blob_hashes_per_tx]:
-        data_cost = tx_max_fee_per_blob_gas * Spec.BLOB_GAS_PER_BLOB * tx_blob_count
+        data_cost = tx_max_fee_per_blob_gas * Spec.GAS_PER_BLOB * tx_blob_count
         total_cost += (
             (tx_gas * (tx_max_fee_per_gas + tx_max_priority_fee_per_gas))
             + tx_value
@@ -330,7 +330,7 @@ def blocks(
                     if tx.blob_versioned_hashes is not None
                 ]
             )
-            * Spec.BLOB_GAS_PER_BLOB
+            * Spec.GAS_PER_BLOB
         )
     return [
         Block(txs=txs, exception=tx_error, rlp_modifier=Header(blob_gas_used=header_blob_gas_used))

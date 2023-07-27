@@ -56,7 +56,7 @@ class Spec:
     # MAX_ACCESS_LIST_STORAGE_KEYS = 2**24
     # MAX_TX_WRAP_COMMITMENTS = 2**12
     # LIMIT_BLOBS_PER_TX = 2**12
-    BLOB_GAS_PER_BLOB = 2**17
+    GAS_PER_BLOB = 2**17
     HASH_OPCODE_BYTE = 0x49
     HASH_GAS_COST = 3
 
@@ -110,7 +110,7 @@ class Spec:
     #     """
     #     if tx.blob_versioned_hashes is None:
     #         return 0
-    #     return cls.BLOB_GAS_PER_BLOB * len(tx.blob_versioned_hashes)
+    #     return cls.GAS_PER_BLOB * len(tx.blob_versioned_hashes)
 
     @classmethod
     def get_blob_gasprice(cls, *, excess_blob_gas: int) -> int:
@@ -138,14 +138,14 @@ class SpecHelpers:
         """
         Returns the maximum number of blobs per block.
         """
-        return Spec.MAX_BLOB_GAS_PER_BLOCK // Spec.BLOB_GAS_PER_BLOB
+        return Spec.MAX_BLOB_GAS_PER_BLOCK // Spec.GAS_PER_BLOB
 
     @classmethod
     def target_blobs_per_block(cls) -> int:
         """
         Returns the target number of blobs per block.
         """
-        return Spec.TARGET_BLOB_GAS_PER_BLOCK // Spec.BLOB_GAS_PER_BLOB
+        return Spec.TARGET_BLOB_GAS_PER_BLOCK // Spec.GAS_PER_BLOB
 
     @classmethod
     def calc_excess_blob_gas_from_blob_count(
@@ -155,7 +155,7 @@ class SpecHelpers:
         Calculate the excess blob gas for a block given the parent excess blob gas
         and the number of blobs in the block.
         """
-        parent_consumed_blob_gas = parent_blob_count * Spec.BLOB_GAS_PER_BLOB
+        parent_consumed_blob_gas = parent_blob_count * Spec.GAS_PER_BLOB
         return Spec.calc_excess_blob_gas(
             BlockHeaderBlobGasFields(parent_excess_blob_gas, parent_consumed_blob_gas)
         )
@@ -168,7 +168,7 @@ class SpecHelpers:
         current_excess_blob_gas = 0
         current_blob_gas_price = 1
         while current_blob_gas_price < blob_gas_price:
-            current_excess_blob_gas += Spec.BLOB_GAS_PER_BLOB
+            current_excess_blob_gas += Spec.GAS_PER_BLOB
             current_blob_gas_price = Spec.get_blob_gasprice(
                 excess_blob_gas=current_excess_blob_gas
             )
@@ -179,7 +179,4 @@ class SpecHelpers:
         """
         Gets the minimum required excess data blobs to get a given blob gas cost in a block
         """
-        return (
-            cls.get_min_excess_blob_gas_for_blob_gas_price(blob_gas_price)
-            // Spec.BLOB_GAS_PER_BLOB
-        )
+        return cls.get_min_excess_blob_gas_for_blob_gas_price(blob_gas_price) // Spec.GAS_PER_BLOB

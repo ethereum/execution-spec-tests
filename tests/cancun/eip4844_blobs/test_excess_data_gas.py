@@ -60,7 +60,7 @@ def parent_excess_blobs() -> int:  # noqa: D103
 
 @pytest.fixture
 def parent_excess_blob_gas(parent_excess_blobs: int) -> int:  # noqa: D103
-    return parent_excess_blobs * Spec.BLOB_GAS_PER_BLOB
+    return parent_excess_blobs * Spec.GAS_PER_BLOB
 
 
 @pytest.fixture
@@ -92,7 +92,7 @@ def header_excess_blob_gas(  # noqa: D103
 ) -> Optional[int]:
     if header_excess_blobs_delta is not None:
         modified_excess_blob_gas = correct_excess_blob_gas + (
-            header_excess_blobs_delta * Spec.BLOB_GAS_PER_BLOB
+            header_excess_blobs_delta * Spec.GAS_PER_BLOB
         )
         if modified_excess_blob_gas < 0:
             modified_excess_blob_gas = 2**64 + (modified_excess_blob_gas)
@@ -147,7 +147,7 @@ def tx_data_cost(  # noqa: D103
     tx_max_fee_per_blob_gas: int,
     new_blobs: int,
 ) -> int:
-    return tx_max_fee_per_blob_gas * Spec.BLOB_GAS_PER_BLOB * new_blobs
+    return tx_max_fee_per_blob_gas * Spec.GAS_PER_BLOB * new_blobs
 
 
 @pytest.fixture
@@ -291,12 +291,12 @@ BLOB_GAS_COST_INCREASES = [
     SpecHelpers.get_min_excess_data_blobs_for_blob_gas_price(i)
     for i in [
         2,  # First blob gas cost increase
-        2**32 // Spec.BLOB_GAS_PER_BLOB,  # Data tx wei cost 2^32
+        2**32 // Spec.GAS_PER_BLOB,  # Data tx wei cost 2^32
         2**32,  # blob gas cost 2^32
-        2**64 // Spec.BLOB_GAS_PER_BLOB,  # Data tx wei cost 2^64
+        2**64 // Spec.GAS_PER_BLOB,  # Data tx wei cost 2^64
         2**64,  # blob gas cost 2^64
         (
-            120_000_000 * (10**18) // Spec.BLOB_GAS_PER_BLOB
+            120_000_000 * (10**18) // Spec.GAS_PER_BLOB
         ),  # Data tx wei is current total Ether supply
     ]
 ]
@@ -408,7 +408,7 @@ def all_invalid_blob_gas_used_combinations() -> Iterator[Tuple[int, int]]:
     for new_blobs in range(0, SpecHelpers.max_blobs_per_block() + 1):
         for header_blob_gas_used in range(0, SpecHelpers.max_blobs_per_block() + 1):
             if new_blobs != header_blob_gas_used:
-                yield (new_blobs, header_blob_gas_used * Spec.BLOB_GAS_PER_BLOB)
+                yield (new_blobs, header_blob_gas_used * Spec.GAS_PER_BLOB)
         yield (new_blobs, 2**64 - 1)
 
 
@@ -440,7 +440,7 @@ def test_invalid_blob_gas_used_in_header(
         genesis_environment=env,
         tag="-".join(
             [
-                f"correct:{hex(new_blobs *Spec.BLOB_GAS_PER_BLOB)}",
+                f"correct:{hex(new_blobs *Spec.GAS_PER_BLOB)}",
                 f"header:{hex(header_blob_gas_used)}",
             ]
         ),
@@ -663,10 +663,7 @@ def test_invalid_excess_blob_gas_change(
 
 @pytest.mark.parametrize(
     "header_excess_blob_gas",
-    [
-        (2**64 + (x * Spec.BLOB_GAS_PER_BLOB))
-        for x in range(-SpecHelpers.target_blobs_per_block(), 0)
-    ],
+    [(2**64 + (x * Spec.GAS_PER_BLOB)) for x in range(-SpecHelpers.target_blobs_per_block(), 0)],
 )
 @pytest.mark.parametrize("parent_blobs", range(SpecHelpers.target_blobs_per_block()))
 @pytest.mark.parametrize("new_blobs", [1])
@@ -710,9 +707,9 @@ def test_invalid_negative_excess_blob_gas(
     "parent_blobs,header_excess_blob_gas_delta",
     [
         (SpecHelpers.target_blobs_per_block() + 1, 1),
-        (SpecHelpers.target_blobs_per_block() + 1, Spec.BLOB_GAS_PER_BLOB - 1),
+        (SpecHelpers.target_blobs_per_block() + 1, Spec.GAS_PER_BLOB - 1),
         (SpecHelpers.target_blobs_per_block() - 1, -1),
-        (SpecHelpers.target_blobs_per_block() - 1, -(Spec.BLOB_GAS_PER_BLOB - 1)),
+        (SpecHelpers.target_blobs_per_block() - 1, -(Spec.GAS_PER_BLOB - 1)),
     ],
 )
 @pytest.mark.parametrize("new_blobs", [1])
@@ -727,7 +724,7 @@ def test_invalid_non_multiple_excess_blob_gas(
 ):
     """
     Test rejection of blocks where the `excessBlobGas` changes to a value that
-    is not a multiple of Spec.BLOB_GAS_PER_BLOB`:
+    is not a multiple of Spec.GAS_PER_BLOB`:
 
     - Parent block contains `TARGET_BLOBS_PER_BLOCK + 1` blobs, but `excessBlobGas` is off by +/-1
     - Parent block contains `TARGET_BLOBS_PER_BLOCK - 1` blobs, but `excessBlobGas` is off by +/-1
