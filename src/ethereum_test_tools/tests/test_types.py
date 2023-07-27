@@ -588,7 +588,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 Transaction(
                     ty=3,
                     max_fee_per_gas=7,
-                    max_fee_per_data_gas=1,
+                    max_fee_per_blob_gas=1,
                     blob_versioned_hashes=[],
                 ).with_signature_and_sender()
             ),
@@ -602,7 +602,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "gasLimit": "0x5208",
                 "maxPriorityFeePerGas": "0x00",
                 "maxFeePerGas": "0x07",
-                "maxFeePerDataGas": "0x01",
+                "maxFeePerBlobGas": "0x01",
                 "accessList": [],
                 "blobVersionedHashes": [],
                 "v": "0x01",
@@ -1037,7 +1037,7 @@ def test_json_conversions(obj: Any, expected_json: str | Dict[str, Any]):
             id="gas-price-and-max-priority-fee-per-gas",
         ),
         pytest.param(
-            {"gas_price": 1, "max_fee_per_data_gas": 2},
+            {"gas_price": 1, "max_fee_per_blob_gas": 2},
             Transaction.InvalidFeePayment,
             "only one type of fee payment field can be used",
             id="gas-price-and-max-fee-per-data-gas",
@@ -1066,11 +1066,11 @@ def test_transaction_post_init_invalid_arg_combinations(  # noqa: D103
     ["tx_args", "expected_attributes_and_values"],
     [
         pytest.param(
-            {"max_fee_per_data_gas": 10},
+            {"max_fee_per_blob_gas": 10},
             [
                 ("ty", 3),
             ],
-            id="max_fee_per_data_gas-adds-ty-3",
+            id="max_fee_per_blob_gas-adds-ty-3",
         ),
         pytest.param(
             {},

@@ -1258,7 +1258,7 @@ class Transaction:
         if self.gas_price is not None and (
             self.max_fee_per_gas is not None
             or self.max_priority_fee_per_gas is not None
-            or self.max_fee_per_data_gas is not None
+            or self.max_fee_per_blob_gas is not None
         ):
             raise Transaction.InvalidFeePayment()
 
@@ -1266,7 +1266,7 @@ class Transaction:
             self.gas_price is None
             and self.max_fee_per_gas is None
             and self.max_priority_fee_per_gas is None
-            and self.max_fee_per_data_gas is None
+            and self.max_fee_per_blob_gas is None
         ):
             self.gas_price = 10
 
