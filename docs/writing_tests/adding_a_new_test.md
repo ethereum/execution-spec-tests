@@ -11,7 +11,7 @@ All test cases are located underneath the `tests` directory, which are then orga
 │   |    └── 📁 eip4844_blobs/
 |   |        ├── 📄 __init__.py
 |   |        ├── 📄 test_blobhash_opcode.py
-|   |        ├── 📄 test_excess_data_gas.py
+|   |        ├── 📄 test_excess_blob_gas.py
 |   |        └── 📄 ...
 |   ├── 📁 shanghai
 |   |    ├── 📁 eip3651_warm_coinbase
