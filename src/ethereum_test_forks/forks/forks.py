@@ -266,7 +266,7 @@ class Cancun(Shanghai):
     @classmethod
     def header_blob_gas_used_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
-        blob gas used is required starting from Cancun.
+        Blob gas used is required starting from Cancun.
         """
         return True
 
