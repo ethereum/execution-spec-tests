@@ -36,6 +36,7 @@ calldatacopy
 codesize
 codecopy
 gasprice
+extcode
 extcodesize
 extcodecopy
 returndatasize
