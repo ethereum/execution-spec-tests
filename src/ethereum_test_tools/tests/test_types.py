@@ -1040,7 +1040,7 @@ def test_json_conversions(obj: Any, expected_json: str | Dict[str, Any]):
             {"gas_price": 1, "max_fee_per_blob_gas": 2},
             Transaction.InvalidFeePayment,
             "only one type of fee payment field can be used",
-            id="gas-price-and-max-fee-per-data-gas",
+            id="gas-price-and-max-fee-per-blob-gas",
         ),
         pytest.param(
             {"ty": 0, "v": 1, "secret_key": 2},
