@@ -385,6 +385,7 @@ gas
 jumpdest
 rjump
 rjumpi
+rjumpv
 callf
 retf
 push0
