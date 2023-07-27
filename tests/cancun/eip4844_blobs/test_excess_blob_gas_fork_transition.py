@@ -59,7 +59,7 @@ def post_fork_block_count() -> int:
     """
     Amount of blocks to produce with the post-fork rules.
     """
-    return SpecHelpers.get_min_excess_data_blobs_for_blob_gas_price(2) // (
+    return SpecHelpers.get_min_excess_blobs_for_blob_gas_price(2) // (
         SpecHelpers.max_blobs_per_block() - SpecHelpers.target_blobs_per_block()
     )
 
@@ -217,7 +217,7 @@ def test_invalid_post_fork_block_without_blob_fields(
     "post_fork_block_count,blob_count_per_block",
     [
         (
-            SpecHelpers.get_min_excess_data_blobs_for_blob_gas_price(2)
+            SpecHelpers.get_min_excess_blobs_for_blob_gas_price(2)
             // (SpecHelpers.max_blobs_per_block() - SpecHelpers.target_blobs_per_block())
             + 2,
             SpecHelpers.max_blobs_per_block(),

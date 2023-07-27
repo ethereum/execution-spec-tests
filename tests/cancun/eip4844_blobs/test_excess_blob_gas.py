@@ -288,7 +288,7 @@ def test_correct_excess_blob_gas_calculation(
 
 
 BLOB_GAS_COST_INCREASES = [
-    SpecHelpers.get_min_excess_data_blobs_for_blob_gas_price(i)
+    SpecHelpers.get_min_excess_blobs_for_blob_gas_price(i)
     for i in [
         2,  # First blob gas cost increase
         2**32 // Spec.GAS_PER_BLOB,  # Data tx wei cost 2^32

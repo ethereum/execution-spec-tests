@@ -419,7 +419,7 @@ def test_valid_blob_tx_combinations(
     [
         # tx max_blob_gas_cost of the transaction is not enough
         (
-            SpecHelpers.get_min_excess_data_blobs_for_blob_gas_price(2) - 1,  # blob gas price is 1
+            SpecHelpers.get_min_excess_blobs_for_blob_gas_price(2) - 1,  # blob gas price is 1
             SpecHelpers.target_blobs_per_block() + 1,  # blob gas cost increases to 2
             1,  # tx max_blob_gas_cost is 1
             "insufficient max fee per blob gas",
@@ -895,7 +895,7 @@ def test_blob_tx_attribute_gasprice_opcode(
     destination_account: str,
 ):
     """
-    Test GASPRICE opcode to sanity check that the data fee per gas does not affect
+    Test GASPRICE opcode to sanity check that the blob gas fee does not affect
     its calculation:
 
     - No priority fee

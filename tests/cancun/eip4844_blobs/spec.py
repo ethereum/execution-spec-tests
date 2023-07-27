@@ -175,8 +175,8 @@ class SpecHelpers:
         return current_excess_blob_gas
 
     @classmethod
-    def get_min_excess_data_blobs_for_blob_gas_price(cls, blob_gas_price: int) -> int:
+    def get_min_excess_blobs_for_blob_gas_price(cls, blob_gas_price: int) -> int:
         """
-        Gets the minimum required excess data blobs to get a given blob gas cost in a block
+        Gets the minimum required excess blobs to get a given blob gas cost in a block
         """
         return cls.get_min_excess_blob_gas_for_blob_gas_price(blob_gas_price) // Spec.GAS_PER_BLOB
