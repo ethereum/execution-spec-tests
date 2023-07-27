@@ -19,7 +19,7 @@
         <link rel="next" href="../ethereum_test_forks/">
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.20">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.21">
     
     
       
@@ -20965,7 +20965,8 @@ sent using the block information.</p>
 <span class="normal">2459</span>
 <span class="normal">2460</span>
 <span class="normal">2461</span>
-<span class="normal">2462</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2462</span>
+<span class="normal">2463</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">FixtureEngineNewPayload</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Representation of the `engine_newPayloadVX` information to be</span>
@@ -20974,19 +20975,20 @@ sent using the block information.</p>
 
     <span class="n">payload</span><span class="p">:</span> <span class="n">FixtureExecutionPayload</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;executionPayload&quot;</span><span class="p">,</span>
             <span class="n">to_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
-        <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(),</span>
     <span class="p">)</span>
     <span class="n">blob_versioned_hashes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixedSizeBytesConvertible</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;blobVersionedHashes&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;expectedBlobVersionedHashes&quot;</span><span class="p">,</span>
             <span class="n">cast_type</span><span class="o">=</span><span class="k">lambda</span> <span class="n">hashes</span><span class="p">:</span> <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span> <span class="k">for</span> <span class="nb">hash</span> <span class="ow">in</span> <span class="n">hashes</span><span class="p">],</span>
             <span class="n">to_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(),</span>
     <span class="p">)</span>
     <span class="n">error_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EngineAPIError</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -21061,8 +21063,7 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2432</span>
-<span class="normal">2433</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2433</span>
 <span class="normal">2434</span>
 <span class="normal">2435</span>
 <span class="normal">2436</span>
@@ -21091,7 +21092,8 @@ sent using the block information.</p>
 <span class="normal">2459</span>
 <span class="normal">2460</span>
 <span class="normal">2461</span>
-<span class="normal">2462</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">2462</span>
+<span class="normal">2463</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_fixture_header</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -21164,8 +21166,7 @@ sent using the block information.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2528</span>
-<span class="normal">2529</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2529</span>
 <span class="normal">2530</span>
 <span class="normal">2531</span>
 <span class="normal">2532</span>
@@ -21262,7 +21263,8 @@ sent using the block information.</p>
 <span class="normal">2623</span>
 <span class="normal">2624</span>
 <span class="normal">2625</span>
-<span class="normal">2626</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2626</span>
+<span class="normal">2627</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Fixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cross-client compatible Ethereum test fixture.</span>
@@ -21391,11 +21393,11 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2602</span>
-<span class="normal">2603</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2603</span>
 <span class="normal">2604</span>
 <span class="normal">2605</span>
-<span class="normal">2606</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">2606</span>
+<span class="normal">2607</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Post init hook to convert to JSON after instantiation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -21428,13 +21430,13 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2608</span>
-<span class="normal">2609</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2609</span>
 <span class="normal">2610</span>
 <span class="normal">2611</span>
 <span class="normal">2612</span>
 <span class="normal">2613</span>
-<span class="normal">2614</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="normal">2614</span>
+<span class="normal">2615</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert to JSON.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -21469,8 +21471,7 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2616</span>
-<span class="normal">2617</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2617</span>
 <span class="normal">2618</span>
 <span class="normal">2619</span>
 <span class="normal">2620</span>
@@ -21479,7 +21480,8 @@ sent using the block information.</p>
 <span class="normal">2623</span>
 <span class="normal">2624</span>
 <span class="normal">2625</span>
-<span class="normal">2626</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
+<span class="normal">2626</span>
+<span class="normal">2627</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">ref_spec</span><span class="p">:</span> <span class="n">ReferenceSpec</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
