@@ -131,6 +131,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/</loc>
+         <lastmod>2023-08-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_precompile/</loc>
+         <lastmod>2023-08-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_precompile/index/test_cases/</loc>
+         <lastmod>2023-08-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/</loc>
          <lastmod>2023-08-01</lastmod>
          <changefreq>daily</changefreq>
