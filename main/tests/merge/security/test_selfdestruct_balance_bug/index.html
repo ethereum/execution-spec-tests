@@ -3580,7 +3580,7 @@
 
 
 <h1 id="test-selfdestruct-balance-bug">Test Selfdestruct Balance Bug<a class="headerlink" href="#test-selfdestruct-balance-bug" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/407d87441a0acbb80c90925c63b67511b4624ecf/tests/merge/security/test_selfdestruct_balance_bug.py"><code>tests/merge/security/test_selfdestruct_balance_bug.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fa19dfa7670330aed50711f27dacf1985072a05a/tests/merge/security/test_selfdestruct_balance_bug.py"><code>tests/merge/security/test_selfdestruct_balance_bug.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/merge/security/test_selfdestruct_balance_bug.py</span>
@@ -3664,9 +3664,7 @@
 
           <details class="quote">
             <summary>Source code in <code>tests/merge/security/test_selfdestruct_balance_bug.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
 <span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
@@ -3776,7 +3774,20 @@
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">compile_yul_with</span><span class="p">(</span><span class="s2">&quot;Merge&quot;</span><span class="p">)</span>  <span class="c1"># Shanghai refuses to compile SELFDESTRUCT</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">compile_yul_with</span><span class="p">(</span><span class="s2">&quot;Merge&quot;</span><span class="p">)</span>  <span class="c1"># Shanghai refuses to compile SELFDESTRUCT</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Constantinople&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_tx_selfdestruct_balance_bug</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">yul</span><span class="p">:</span> <span class="n">YulCompiler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -3803,8 +3814,9 @@
 <span class="sd">        - During tx 2, code in `0xaa` does not execute,</span>
 <span class="sd">            hence self-destruct mechanism does not trigger.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">aa_code</span> <span class="o">=</span> <span class="n">yul</span><span class="p">(</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">aa_code</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span>
+        <span class="n">deploy_code</span><span class="o">=</span><span class="n">yul</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        {</span>
 <span class="sd">            /* 1st entrance is self-destruct */</span>
 <span class="sd">            if eq(0, callvalue()) {</span>
@@ -3818,25 +3830,35 @@
 <span class="sd">            }</span>
 <span class="sd">        }</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">cc_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xCA1101</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="mh">0xAA</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
-        <span class="mi">100000</span><span class="p">,</span> <span class="mh">0xAA</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">aa_location</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">cc_code</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span>
+            <span class="mi">3</span><span class="p">,</span>  <span class="c1"># Initial balance of 3 wei</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xCA1101</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">aa_location</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">aa_location</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">balance_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xBA1AA</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">))</span>
+    <span class="n">balance_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xBA1AA</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">aa_location</span><span class="p">)))</span>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># sender</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">),</span>
         <span class="c1"># caller</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">cc_code</span><span class="p">),</span>
-        <span class="c1"># initial balance of 3 wei</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">aa_code</span><span class="p">),</span>
+        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">cc_code</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="c1"># stores balance of 0xaa after each tx 1</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">balance_code</span><span class="p">),</span>
         <span class="c1"># stores balance of 0xaa after each tx 2</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">balance_code</span><span class="p">),</span>
+        <span class="c1"># Initcode of the self-destruct contract</span>
+        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">aa_code</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
@@ -3860,7 +3882,7 @@
                 <span class="c1"># Sender calls 0xaa with 5 wei.</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">aa_location</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
                     <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                     <span class="n">value</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
@@ -3878,14 +3900,14 @@
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># Check call from caller has succeeded.</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xCA1101</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xCA1101</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
         <span class="c1"># Check balance of 0xaa after tx 1 is 0 wei, i.e self-destructed.</span>
         <span class="c1"># Vulnerable versions should return 1 wei.</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
         <span class="c1"># Check that 0xaa exists and balance after tx 2 is 5 wei.</span>
         <span class="c1"># Vulnerable versions should return 6 wei.</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">5</span><span class="p">}),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
+        <span class="n">aa_location</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
     <span class="p">}</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
