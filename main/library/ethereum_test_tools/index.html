@@ -19,7 +19,7 @@
         <link rel="next" href="../ethereum_test_forks/">
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.21">
+      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
     
     
       
@@ -1095,13 +1095,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ethereum_test_tools.EngineAPIError" class="md-nav__link">
-    EngineAPIError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#ethereum_test_tools.JSONEncoder" class="md-nav__link">
     JSONEncoder
   </a>
@@ -1194,6 +1187,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EngineAPIError" class="md-nav__link">
+    EngineAPIError
+  </a>
   
 </li>
       
@@ -5070,13 +5070,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ethereum_test_tools.EngineAPIError" class="md-nav__link">
-    EngineAPIError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#ethereum_test_tools.JSONEncoder" class="md-nav__link">
     JSONEncoder
   </a>
@@ -5169,6 +5162,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EngineAPIError" class="md-nav__link">
+    EngineAPIError
+  </a>
   
 </li>
       
@@ -7431,79 +7431,6 @@ Used by many of the EVM's formulas</p>
 
 
 
-<h2 id="ethereum_test_tools.EngineAPIError" class="doc doc-heading">
-          <code>EngineAPIError</code>
-
-
-<a href="#ethereum_test_tools.EngineAPIError" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><span title="enum.IntEnum">IntEnum</span></code></p>
-
-  
-      <p>List of Engine API errors</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_tools/common/constants.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EngineAPIError</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    List of Engine API errors</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">ParseError</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32700</span>
-    <span class="n">InvalidRequest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32600</span>
-    <span class="n">MethodNotFound</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32601</span>
-    <span class="n">InvalidParams</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32602</span>
-    <span class="n">InternalError</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32603</span>
-    <span class="n">ServerError</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32000</span>
-    <span class="n">UnknownPayload</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38001</span>
-    <span class="n">InvalidForkchoiceState</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38002</span>
-    <span class="n">InvalidPayloadAttributes</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38003</span>
-    <span class="n">TooLargeRequest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38004</span>
-    <span class="n">UnsupportedFork</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38005</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-class">
-
-
-
 <h2 id="ethereum_test_tools.JSONEncoder" class="doc doc-heading">
           <code>JSONEncoder</code>
 
@@ -8332,6 +8259,79 @@ This option and <code>JSON_SKIP_STRING_CONVERT</code> are mutually exclusive.</p
   </div>
 
 </div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_tools.EngineAPIError" class="doc doc-heading">
+          <code>EngineAPIError</code>
+
+
+<a href="#ethereum_test_tools.EngineAPIError" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="enum.IntEnum">IntEnum</span></code></p>
+
+  
+      <p>List of Engine API errors</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_tools/common/constants.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EngineAPIError</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List of Engine API errors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ParseError</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32700</span>
+    <span class="n">InvalidRequest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32600</span>
+    <span class="n">MethodNotFound</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32601</span>
+    <span class="n">InvalidParams</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32602</span>
+    <span class="n">InternalError</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32603</span>
+    <span class="n">ServerError</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32000</span>
+    <span class="n">UnknownPayload</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38001</span>
+    <span class="n">InvalidForkchoiceState</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38002</span>
+    <span class="n">InvalidPayloadAttributes</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38003</span>
+    <span class="n">TooLargeRequest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38004</span>
+    <span class="n">UnsupportedFork</span> <span class="o">=</span> <span class="o">-</span><span class="mi">38005</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
 
 
 
