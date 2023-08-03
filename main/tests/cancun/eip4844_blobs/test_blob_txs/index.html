@@ -3787,7 +3787,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cde9248145e9bf862f426ef0d81d2cafe25cd64d/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7244b2063c4f4aab3cadb5db6740070dd267ef76/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -4695,9 +4695,13 @@ version, including:</p>
 <span class="normal">700</span>
 <span class="normal">701</span>
 <span class="normal">702</span>
-<span class="normal">703</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">703</span>
+<span class="normal">704</span>
+<span class="normal">705</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;destination_account,tx_error&quot;</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;no_contract_creating_blob_txs&quot;</span><span class="p">)],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">)</span>
+<span class="c1"># TODO: Uncomment after #242 -&gt; https://github.com/ethereum/execution-spec-tests/issues/242</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Unable to fill due to invalid field in transaction&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_blob_tx_contract_creation</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -4746,9 +4750,7 @@ version, including:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">767</span>
 <span class="normal">768</span>
 <span class="normal">769</span>
 <span class="normal">770</span>
@@ -4779,7 +4781,9 @@ version, including:</p>
 <span class="normal">795</span>
 <span class="normal">796</span>
 <span class="normal">797</span>
-<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">],</span>
     <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">],</span>
@@ -4841,9 +4845,7 @@ version, including:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">803</span>
 <span class="normal">804</span>
 <span class="normal">805</span>
 <span class="normal">806</span>
@@ -4870,7 +4872,9 @@ version, including:</p>
 <span class="normal">827</span>
 <span class="normal">828</span>
 <span class="normal">829</span>
-<span class="normal">830</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e18</span><span class="p">)])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
@@ -4933,9 +4937,7 @@ version, including:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">833</span>
-<span class="normal">834</span>
-<span class="normal">835</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">835</span>
 <span class="normal">836</span>
 <span class="normal">837</span>
 <span class="normal">838</span>
@@ -4980,7 +4982,9 @@ version, including:</p>
 <span class="normal">877</span>
 <span class="normal">878</span>
 <span class="normal">879</span>
-<span class="normal">880</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">880</span>
+<span class="normal">881</span>
+<span class="normal">882</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">,</span>
@@ -5062,9 +5066,7 @@ its calculation:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">883</span>
-<span class="normal">884</span>
-<span class="normal">885</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">885</span>
 <span class="normal">886</span>
 <span class="normal">887</span>
 <span class="normal">888</span>
@@ -5096,7 +5098,9 @@ its calculation:</p>
 <span class="normal">914</span>
 <span class="normal">915</span>
 <span class="normal">916</span>
-<span class="normal">917</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># always below data fee</span>
+<span class="normal">917</span>
+<span class="normal">918</span>
+<span class="normal">919</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># always below data fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># normal and above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">])</span>  <span class="c1"># always above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">GASPRICE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -5159,9 +5163,7 @@ its calculation:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">920</span>
-<span class="normal">921</span>
-<span class="normal">922</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">922</span>
 <span class="normal">923</span>
 <span class="normal">924</span>
 <span class="normal">925</span>
@@ -5186,7 +5188,9 @@ its calculation:</p>
 <span class="normal">944</span>
 <span class="normal">945</span>
 <span class="normal">946</span>
-<span class="normal">947</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">947</span>
+<span class="normal">948</span>
+<span class="normal">949</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
