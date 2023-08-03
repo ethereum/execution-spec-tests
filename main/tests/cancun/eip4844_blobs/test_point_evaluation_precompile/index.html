@@ -3731,7 +3731,7 @@
 
 
 <h1 id="test-point-evaluation-precompile">Test Point Evaluation Precompile<a class="headerlink" href="#test-point-evaluation-precompile" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c9a4fefe73e12d886b5d3842223c9e9c11e573e/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b1b51864686e562550bdf0003d77afbf78f57869/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -3812,7 +3812,9 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">247</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
 <span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
@@ -3834,9 +3836,7 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;z,y,kzg_commitment,kzg_proof,versioned_hash&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">BLS_MODULUS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">auto</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;in_bounds_z&quot;</span><span class="p">),</span>
@@ -3896,7 +3896,9 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
@@ -3946,9 +3948,7 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
 <span class="normal">321</span>
 <span class="normal">322</span>
 <span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;z,y,kzg_commitment,kzg_proof,versioned_hash&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">BLS_MODULUS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">auto</span><span class="p">),</span>
@@ -4033,7 +4033,9 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">418</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
 <span class="normal">419</span>
 <span class="normal">420</span>
 <span class="normal">421</span>
@@ -4053,9 +4055,7 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
 <span class="normal">435</span>
 <span class="normal">436</span>
 <span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;z,y,kzg_commitment,kzg_proof,success&quot;</span><span class="p">,</span>
     <span class="n">all_external_vectors</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -4112,7 +4112,9 @@ and parameter configuration:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">443</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
 <span class="normal">444</span>
 <span class="normal">445</span>
 <span class="normal">446</span>
@@ -4152,9 +4154,7 @@ and parameter configuration:</p>
 <span class="normal">480</span>
 <span class="normal">481</span>
 <span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">483</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas,y,success&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
@@ -4230,7 +4230,9 @@ transaction entry point, and measure the gas consumption.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">488</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
 <span class="normal">491</span>
@@ -4303,10 +4305,7 @@ transaction entry point, and measure the gas consumption.</p>
 <span class="normal">558</span>
 <span class="normal">559</span>
 <span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">561</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span><span class="p">),</span>
@@ -4339,7 +4338,6 @@ transaction entry point, and measure the gas consumption.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">start_balance</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">HistoryStorageAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="n">start_balance</span><span class="p">,</span>
@@ -4411,7 +4409,10 @@ transaction entry point, and measure the gas consumption.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">567</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
 <span class="normal">568</span>
 <span class="normal">569</span>
 <span class="normal">570</span>
@@ -4479,11 +4480,7 @@ transaction entry point, and measure the gas consumption.</p>
 <span class="normal">632</span>
 <span class="normal">633</span>
 <span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">635</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;z,y,kzg_commitment,kzg_proof,versioned_hash&quot;</span><span class="p">,</span>
     <span class="p">[[</span><span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">auto</span><span class="p">]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;correct_proof&quot;</span><span class="p">],</span>
@@ -4512,7 +4509,6 @@ transaction entry point, and measure the gas consumption.</p>
     <span class="n">precompile_caller_address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)</span>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">HistoryStorageAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="mh">0x10</span><span class="o">**</span><span class="mi">18</span><span class="p">,</span>

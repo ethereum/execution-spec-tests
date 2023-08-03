@@ -3696,7 +3696,7 @@
 
 
 <h1 id="test-blob-txs-full">Test Blob Txs Full<a class="headerlink" href="#test-blob-txs-full" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c9a4fefe73e12d886b5d3842223c9e9c11e573e/tests/cancun/eip4844_blobs/test_blob_txs_full.py"><code>tests/cancun/eip4844_blobs/test_blob_txs_full.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b1b51864686e562550bdf0003d77afbf78f57869/tests/cancun/eip4844_blobs/test_blob_txs_full.py"><code>tests/cancun/eip4844_blobs/test_blob_txs_full.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -3755,7 +3755,9 @@ serialized version contain a full blob (network version) tx.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs_full.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">273</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
 <span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
@@ -3823,9 +3825,7 @@ serialized version contain a full blob (network version) tx.</p>
 <span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;txs_blobs,txs_wrapped_blobs&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span>

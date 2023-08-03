@@ -3703,7 +3703,7 @@
 
 
 <h1 id="test-mcopy-memory-expansion">Test Mcopy Memory Expansion<a class="headerlink" href="#test-mcopy-memory-expansion" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c9a4fefe73e12d886b5d3842223c9e9c11e573e/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b1b51864686e562550bdf0003d77afbf78f57869/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -3754,7 +3754,8 @@ that produce a memory expansion, and potentially an out-of-gas error.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">166</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+<span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
@@ -3807,8 +3808,7 @@ that produce a memory expansion, and potentially an out-of-gas error.</p>
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;dest,src,length&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">),</span>
@@ -3892,7 +3892,8 @@ runs out of gas.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">223</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
+<span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
@@ -3949,8 +3950,7 @@ runs out of gas.</p>
 <span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">280</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;dest,src,length&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">),</span>
