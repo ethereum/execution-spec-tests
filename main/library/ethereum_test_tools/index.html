@@ -1651,6 +1651,47 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Conditional" class="md-nav__link">
+    Conditional
+  </a>
+  
+    <nav class="md-nav" aria-label="Conditional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.condition" class="md-nav__link">
+    condition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.if_true" class="md-nav__link">
+    if_true
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.if_false" class="md-nav__link">
+    if_false
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.__post_init__" class="md-nav__link">
+    __post_init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Storage" class="md-nav__link">
     Storage
   </a>
@@ -5749,6 +5790,47 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Conditional" class="md-nav__link">
+    Conditional
+  </a>
+  
+    <nav class="md-nav" aria-label="Conditional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.condition" class="md-nav__link">
+    condition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.if_true" class="md-nav__link">
+    if_true
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.if_false" class="md-nav__link">
+    if_false
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.code.generators.Conditional.__post_init__" class="md-nav__link">
+    __post_init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Storage" class="md-nav__link">
     Storage
   </a>
@@ -7061,8 +7143,7 @@ costs.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 15</span>
-<span class="normal"> 16</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 16</span>
 <span class="normal"> 17</span>
 <span class="normal"> 18</span>
 <span class="normal"> 19</span>
@@ -7157,7 +7238,8 @@ costs.</p>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Initcode</span><span class="p">(</span><span class="n">Code</span><span class="p">):</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Initcode</span><span class="p">(</span><span class="n">Code</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate initcode for the specified deployment code.</span>
 
@@ -7285,8 +7367,7 @@ The initcode can be padded to a specified length for testing purposes.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 44</span>
-<span class="normal"> 45</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 45</span>
 <span class="normal"> 46</span>
 <span class="normal"> 47</span>
 <span class="normal"> 48</span>
@@ -7352,7 +7433,8 @@ The initcode can be padded to a specified length for testing purposes.</p>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">deploy_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">,</span>
@@ -13275,8 +13357,7 @@ By default, the result gas calculation is saved to storage key 0.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
@@ -13344,7 +13425,8 @@ By default, the result gas calculation is saved to storage key 0.</p>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">CodeGasMeasure</span><span class="p">(</span><span class="n">Code</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate bytecode that measures gas usage of a</span>
@@ -13553,8 +13635,7 @@ and to be popped at the end of the execution.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
@@ -13594,7 +13675,8 @@ and to be popped at the end of the execution.</p>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assemble the bytecode that measures gas usage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -14045,6 +14127,301 @@ if iteration is needed.</p>
 
   <div class="doc doc-children">
 
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_tools.Conditional" class="doc doc-heading">
+          <code>Conditional</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Conditional" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.code.code.Code" href="#ethereum_test_tools.Code">Code</a></code></p>
+
+  
+      <p>Helper class used to generate conditional bytecode.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Conditional</span><span class="p">(</span><span class="n">Code</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper class used to generate conditional bytecode.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">condition</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Condition bytecode which must return the true or false condition of the conditional statement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">if_true</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bytecode to execute if the condition is true.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">if_false</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bytecode to execute if the condition is false.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assemble the conditional bytecode by generating the necessary jumps and</span>
+<span class="sd">        jumpdests surrounding the condition and the two possible execution</span>
+<span class="sd">        paths.</span>
+
+<span class="sd">        In the future, PC usage should be replaced by using RJUMP and RJUMPI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">condition_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+        <span class="n">if_true_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">if_true</span><span class="p">)</span>
+        <span class="n">if_false_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">if_false</span><span class="p">)</span>
+
+        <span class="c1"># First we append a jumpdest to the start of the true branch</span>
+        <span class="n">if_true_bytes</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">if_true_bytes</span>
+
+        <span class="c1"># Then we append the unconditional jump to the end of the false branch, used to skip the</span>
+        <span class="c1"># true branch</span>
+        <span class="n">if_false_bytes</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_true_bytes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
+
+        <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
+        <span class="n">condition_bytes</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false_bytes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition_bytes</span><span class="p">)</span>
+
+        <span class="c1"># Finally we append the true and false branches, and the condition, plus the jumpdest at</span>
+        <span class="c1"># the very end</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition_bytes</span> <span class="o">+</span> <span class="n">if_false_bytes</span> <span class="o">+</span> <span class="n">if_true_bytes</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.code.generators.Conditional.condition" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">condition</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.code.generators.Conditional.condition" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Condition bytecode which must return the true or false condition of the conditional statement.</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.code.generators.Conditional.if_true" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">if_true</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.code.generators.Conditional.if_true" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Bytecode to execute if the condition is true.</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.code.generators.Conditional.if_false" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">if_false</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.code.generators.Conditional.if_false" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Bytecode to execute if the condition is false.</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ethereum_test_tools.code.generators.Conditional.__post_init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__post_init__</span><span class="p">()</span></code>
+
+<a href="#ethereum_test_tools.code.generators.Conditional.__post_init__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Assemble the conditional bytecode by generating the necessary jumps and
+jumpdests surrounding the condition and the two possible execution
+paths.</p>
+<p>In the future, PC usage should be replaced by using RJUMP and RJUMPI</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assemble the conditional bytecode by generating the necessary jumps and</span>
+<span class="sd">    jumpdests surrounding the condition and the two possible execution</span>
+<span class="sd">    paths.</span>
+
+<span class="sd">    In the future, PC usage should be replaced by using RJUMP and RJUMPI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+    <span class="n">if_true_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">if_true</span><span class="p">)</span>
+    <span class="n">if_false_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">if_false</span><span class="p">)</span>
+
+    <span class="c1"># First we append a jumpdest to the start of the true branch</span>
+    <span class="n">if_true_bytes</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">if_true_bytes</span>
+
+    <span class="c1"># Then we append the unconditional jump to the end of the false branch, used to skip the</span>
+    <span class="c1"># true branch</span>
+    <span class="n">if_false_bytes</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_true_bytes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
+    <span class="n">condition_bytes</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false_bytes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition_bytes</span><span class="p">)</span>
+
+    <span class="c1"># Finally we append the true and false branches, and the condition, plus the jumpdest at</span>
+    <span class="c1"># the very end</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition_bytes</span> <span class="o">+</span> <span class="n">if_false_bytes</span> <span class="o">+</span> <span class="n">if_true_bytes</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
 
 
 
