@@ -1040,6 +1040,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.fill_test" class="md-nav__link">
+    fill_test()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Initcode" class="md-nav__link">
     Initcode
   </a>
@@ -1077,13 +1084,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_tools.fill_test" class="md-nav__link">
-    fill_test()
-  </a>
   
 </li>
       
@@ -1967,6 +1967,13 @@
           <li class="md-nav__item">
   <a href="#ethereum_test_tools.common.types.Account.check_alloc" class="md-nav__link">
     check_alloc()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.common.types.Account.from_dict" class="md-nav__link">
+    from_dict()
   </a>
   
 </li>
@@ -5131,6 +5138,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.fill_test" class="md-nav__link">
+    fill_test()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Initcode" class="md-nav__link">
     Initcode
   </a>
@@ -5168,13 +5182,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_tools.fill_test" class="md-nav__link">
-    fill_test()
-  </a>
   
 </li>
       
@@ -6063,6 +6070,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.common.types.Account.from_dict" class="md-nav__link">
+    from_dict()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.common.types.Account.with_code" class="md-nav__link">
     with_code()
   </a>
@@ -6917,6 +6931,109 @@ Usually used to add extra information to a test case.</p>
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ethereum_test_tools.fill_test" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">fill_test</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">test_spec</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_tools.fill_test" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Fills fixtures for the specified fork.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/ethereum_test_tools/filling/fill.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_test</span><span class="p">(</span>
+    <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
+    <span class="n">test_spec</span><span class="p">:</span> <span class="n">BaseTest</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">ReferenceSpec</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fixture</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fills fixtures for the specified fork.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
+
+    <span class="n">pre</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="n">test_spec</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_spec</span><span class="o">.</span><span class="n">make_blocks</span><span class="p">(</span>
+        <span class="n">t8n</span><span class="p">,</span>
+        <span class="n">genesis</span><span class="p">,</span>
+        <span class="n">pre</span><span class="p">,</span>
+        <span class="n">fork</span><span class="p">,</span>
+        <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">fork_name</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+    <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+        <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
+        <span class="n">genesis_rlp</span><span class="o">=</span><span class="n">genesis_rlp</span><span class="p">,</span>
+        <span class="n">head</span><span class="o">=</span><span class="n">head</span><span class="p">,</span>
+        <span class="n">fork</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span> <span class="k">if</span> <span class="n">eips</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">fork_name</span><span class="p">,</span>
+        <span class="n">pre_state</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">post_state</span><span class="o">=</span><span class="n">alloc_to_accounts</span><span class="p">(</span><span class="n">alloc</span><span class="p">),</span>
+        <span class="n">seal_engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">test_spec</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fixture</span><span class="o">.</span><span class="n">fill_info</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fixture</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
 <div class="doc doc-object doc-class">
 
 
@@ -7393,107 +7510,6 @@ costs.</p>
 
   </div>
 
-  </div>
-
-</div>
-
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="ethereum_test_tools.fill_test" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">fill_test</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">test_spec</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
-
-<a href="#ethereum_test_tools.fill_test" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Fills fixtures for the specified fork.</p>
-
-          <details class="quote">
-            <summary>Source code in <code>src/ethereum_test_tools/filling/fill.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_test</span><span class="p">(</span>
-    <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
-    <span class="n">test_spec</span><span class="p">:</span> <span class="n">BaseTest</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">spec</span><span class="p">:</span> <span class="n">ReferenceSpec</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fixture</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Fills fixtures for the specified fork.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
-
-    <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="n">test_spec</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-
-    <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_spec</span><span class="o">.</span><span class="n">make_blocks</span><span class="p">(</span>
-        <span class="n">t8n</span><span class="p">,</span>
-        <span class="n">genesis</span><span class="p">,</span>
-        <span class="n">fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">fork_name</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
-    <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
-        <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
-        <span class="n">genesis_rlp</span><span class="o">=</span><span class="n">genesis_rlp</span><span class="p">,</span>
-        <span class="n">head</span><span class="o">=</span><span class="n">head</span><span class="p">,</span>
-        <span class="n">fork</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span> <span class="k">if</span> <span class="n">eips</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">fork_name</span><span class="p">,</span>
-        <span class="n">pre_state</span><span class="o">=</span><span class="n">copy</span><span class="p">(</span><span class="n">test_spec</span><span class="o">.</span><span class="n">pre</span><span class="p">),</span>
-        <span class="n">post_state</span><span class="o">=</span><span class="n">alloc_to_accounts</span><span class="p">(</span><span class="n">alloc</span><span class="p">),</span>
-        <span class="n">seal_engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">test_spec</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">fixture</span><span class="o">.</span><span class="n">fill_info</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">fixture</span>
-</code></pre></div></td></tr></table></div>
-          </details>
   </div>
 
 </div>
@@ -10043,7 +10059,8 @@ information.</p>
 <span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
-<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">194</span>
+<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests transactions over the period of a single block.</span>
@@ -10067,7 +10084,7 @@ information.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a genesis block from the state test definition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -10079,17 +10096,17 @@ information.</p>
 
         <span class="n">env</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
 
+        <span class="n">new_alloc</span><span class="p">,</span> <span class="n">state_root</span> <span class="o">=</span> <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
+            <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+        <span class="p">)</span>
+
         <span class="n">genesis</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="p">(</span>
             <span class="n">parent_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">ommers_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyOmmersRoot</span><span class="p">),</span>
             <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
-                <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                    <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-                    <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
-                <span class="p">)</span>
-            <span class="p">),</span>
+            <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">state_root</span><span class="p">),</span>
             <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
             <span class="n">receipt_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
             <span class="n">bloom</span><span class="o">=</span><span class="n">Bloom</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -10122,12 +10139,13 @@ information.</p>
             <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
+        <span class="k">return</span> <span class="n">Alloc</span><span class="p">(</span><span class="n">new_alloc</span><span class="p">),</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
 
     <span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
+        <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -10143,7 +10161,7 @@ information.</p>
         <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span> <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">txs</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">txs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
 
         <span class="n">alloc</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">t8n</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-            <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+            <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">),</span>
             <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
             <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
             <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
@@ -10341,7 +10359,7 @@ information.</p>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a genesis block from the state test definition.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -10353,17 +10371,17 @@ information.</p>
 
     <span class="n">env</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
 
+    <span class="n">new_alloc</span><span class="p">,</span> <span class="n">state_root</span> <span class="o">=</span> <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
+        <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+        <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+    <span class="p">)</span>
+
     <span class="n">genesis</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="p">(</span>
         <span class="n">parent_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">ommers_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyOmmersRoot</span><span class="p">),</span>
         <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
-            <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-                <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
-            <span class="p">)</span>
-        <span class="p">),</span>
+        <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">state_root</span><span class="p">),</span>
         <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
         <span class="n">receipt_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
         <span class="n">bloom</span><span class="o">=</span><span class="n">Bloom</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -10396,7 +10414,7 @@ information.</p>
         <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
+    <span class="k">return</span> <span class="n">Alloc</span><span class="p">(</span><span class="n">new_alloc</span><span class="p">),</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -10414,7 +10432,7 @@ information.</p>
 
 
 <h3 id="ethereum_test_tools.spec.state_test.StateTest.make_blocks" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">make_blocks</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">make_blocks</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_tools.spec.state_test.StateTest.make_blocks" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -10507,10 +10525,12 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
-<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">194</span>
+<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -10526,7 +10546,7 @@ Raises exception on invalid test behavior.</p>
     <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span> <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">txs</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">txs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
 
     <span class="n">alloc</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">t8n</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-        <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+        <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">),</span>
         <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
         <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
         <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
@@ -10912,23 +10932,22 @@ Raises exception on invalid test behavior.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a genesis block from the state test definition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
 
+        <span class="n">new_alloc</span><span class="p">,</span> <span class="n">state_root</span> <span class="o">=</span> <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
+            <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+        <span class="p">)</span>
         <span class="n">genesis</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="p">(</span>
             <span class="n">parent_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">ommers_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyOmmersRoot</span><span class="p">),</span>
             <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
-                <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                    <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-                    <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
-                <span class="p">)</span>
-            <span class="p">),</span>
+            <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">state_root</span><span class="p">),</span>
             <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
             <span class="n">receipt_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
             <span class="n">bloom</span><span class="o">=</span><span class="n">Bloom</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -10961,7 +10980,7 @@ Raises exception on invalid test behavior.</p>
             <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
+        <span class="k">return</span> <span class="n">Alloc</span><span class="p">(</span><span class="n">new_alloc</span><span class="p">),</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
 
     <span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -11114,6 +11133,7 @@ Raises exception on invalid test behavior.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
+        <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -11123,7 +11143,7 @@ Raises exception on invalid test behavior.</p>
 <span class="sd">        Performs checks against the expected behavior of the test.</span>
 <span class="sd">        Raises exception on invalid test behavior.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">))</span>
+        <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span>
         <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">head</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="k">if</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -11272,28 +11292,26 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a genesis block from the state test definition.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
 
+    <span class="n">new_alloc</span><span class="p">,</span> <span class="n">state_root</span> <span class="o">=</span> <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
+        <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
+        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+        <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
+    <span class="p">)</span>
     <span class="n">genesis</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="p">(</span>
         <span class="n">parent_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">ommers_hash</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyOmmersRoot</span><span class="p">),</span>
         <span class="n">coinbase</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span>
-            <span class="n">t8n</span><span class="o">.</span><span class="n">calc_state_root</span><span class="p">(</span>
-                <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">)),</span>
-                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-                <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
-            <span class="p">)</span>
-        <span class="p">),</span>
+        <span class="n">state_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">state_root</span><span class="p">),</span>
         <span class="n">transactions_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
         <span class="n">receipt_root</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyTrieRoot</span><span class="p">),</span>
         <span class="n">bloom</span><span class="o">=</span><span class="n">Bloom</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -11326,7 +11344,7 @@ Raises exception on invalid test behavior.</p>
         <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
+    <span class="k">return</span> <span class="n">Alloc</span><span class="p">(</span><span class="n">new_alloc</span><span class="p">),</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -11369,7 +11387,8 @@ str: Hash of the head of the chain, only updated if the produced
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
+<span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
@@ -11513,8 +11532,7 @@ str: Hash of the head of the chain, only updated if the produced
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
+<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -11677,7 +11695,7 @@ str: Hash of the head of the chain, only updated if the produced
 
 
 <h3 id="ethereum_test_tools.spec.blockchain_test.BlockchainTest.make_blocks" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">make_blocks</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">make_blocks</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_tools.spec.blockchain_test.BlockchainTest.make_blocks" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -11690,7 +11708,8 @@ Raises exception on invalid test behavior.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">255</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">254</span>
+<span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
 <span class="normal">258</span>
@@ -11730,6 +11749,7 @@ Raises exception on invalid test behavior.</p>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -11739,7 +11759,7 @@ Raises exception on invalid test behavior.</p>
 <span class="sd">    Performs checks against the expected behavior of the test.</span>
 <span class="sd">    Raises exception on invalid test behavior.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">Alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">))</span>
+    <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">head</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="k">if</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -12763,7 +12783,8 @@ blockchain.</p>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">132</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BaseTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a base Ethereum test which must return a genesis and a</span>
@@ -12783,7 +12804,7 @@ blockchain.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a genesis block from the test definition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -12794,6 +12815,7 @@ blockchain.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
+        <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -12870,7 +12892,7 @@ blockchain.</p>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">FixtureHeader</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a genesis block from the test definition.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12892,7 +12914,7 @@ blockchain.</p>
 
 
 <h3 id="ethereum_test_tools.spec.base_test.BaseTest.make_blocks" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">make_blocks</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">make_blocks</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
@@ -12919,11 +12941,13 @@ blockchain.</p>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">112</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -12966,14 +12990,14 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -13009,8 +13033,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/base_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
-<span class="normal">124</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
@@ -13018,7 +13041,8 @@ spec type as filler for the test.</p>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_next_transition_tool_output_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">132</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_next_transition_tool_output_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the path to the next transition tool output file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16037,7 +16061,16 @@ Raises detailed exception when a difference is found.</p>
 <span class="normal">688</span>
 <span class="normal">689</span>
 <span class="normal">690</span>
-<span class="normal">691</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Account</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    State associated with an address.</span>
@@ -16207,6 +16240,15 @@ Raises detailed exception when a difference is found.</p>
             <span class="p">)</span>
             <span class="n">actual_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span><span class="n">alloc</span><span class="p">[</span><span class="s2">&quot;storage&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="s2">&quot;storage&quot;</span> <span class="ow">in</span> <span class="n">alloc</span> <span class="k">else</span> <span class="n">Storage</span><span class="p">({})</span>
             <span class="n">expected_storage</span><span class="o">.</span><span class="n">must_be_equal</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="n">actual_storage</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="s2">&quot;Dict | Account&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Account&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create account from dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">with_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Account&quot;</span><span class="p">:</span>
@@ -16854,6 +16896,53 @@ Raises exception on failure.</p>
 
 
 
+<h3 id="ethereum_test_tools.common.types.Account.from_dict" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.common.types.Account.from_dict" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create account from dictionary.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="s2">&quot;Dict | Account&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Account&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create account from dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
 <h3 id="ethereum_test_tools.common.types.Account.with_code" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">with_code</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></code>
   
@@ -16870,12 +16959,12 @@ Raises exception on failure.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">with_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Account&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create account with provided `code` and nonce of `1`.</span>
@@ -16924,18 +17013,7 @@ the beacon chain.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">733</span>
 <span class="normal">734</span>
 <span class="normal">735</span>
 <span class="normal">736</span>
@@ -16963,7 +17041,18 @@ the beacon chain.</p>
 <span class="normal">758</span>
 <span class="normal">759</span>
 <span class="normal">760</span>
-<span class="normal">761</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Withdrawal</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Structure to represent a single withdrawal of a validator&#39;s balance from</span>
@@ -17034,17 +17123,17 @@ be serialized.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">751</span>
-<span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span>
-<span class="normal">759</span>
-<span class="normal">760</span>
-<span class="normal">761</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_serializable_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_serializable_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a list of the withdrawal&#39;s attributes in the order they should</span>
 <span class="sd">    be serialized.</span>
@@ -17098,18 +17187,7 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 800</span>
-<span class="normal"> 801</span>
-<span class="normal"> 802</span>
-<span class="normal"> 803</span>
-<span class="normal"> 804</span>
-<span class="normal"> 805</span>
-<span class="normal"> 806</span>
-<span class="normal"> 807</span>
-<span class="normal"> 808</span>
-<span class="normal"> 809</span>
-<span class="normal"> 810</span>
-<span class="normal"> 811</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 811</span>
 <span class="normal"> 812</span>
 <span class="normal"> 813</span>
 <span class="normal"> 814</span>
@@ -17347,7 +17425,18 @@ must be executed.</p>
 <span class="normal">1046</span>
 <span class="normal">1047</span>
 <span class="normal">1048</span>
-<span class="normal">1049</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">1049</span>
+<span class="normal">1050</span>
+<span class="normal">1051</span>
+<span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Structure used to keep track of the context in which a block</span>
@@ -17631,22 +17720,22 @@ must be executed.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">965</span>
-<span class="normal">966</span>
-<span class="normal">967</span>
-<span class="normal">968</span>
-<span class="normal">969</span>
-<span class="normal">970</span>
-<span class="normal">971</span>
-<span class="normal">972</span>
-<span class="normal">973</span>
-<span class="normal">974</span>
-<span class="normal">975</span>
-<span class="normal">976</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">976</span>
 <span class="normal">977</span>
 <span class="normal">978</span>
 <span class="normal">979</span>
-<span class="normal">980</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">980</span>
+<span class="normal">981</span>
+<span class="normal">982</span>
+<span class="normal">983</span>
+<span class="normal">984</span>
+<span class="normal">985</span>
+<span class="normal">986</span>
+<span class="normal">987</span>
+<span class="normal">988</span>
+<span class="normal">989</span>
+<span class="normal">990</span>
+<span class="normal">991</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">from_parent_header</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="s2">&quot;FixtureHeader&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Environment&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Instantiates a new environment with the provided header as parent.</span>
@@ -17691,16 +17780,16 @@ must be executed.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">982</span>
-<span class="normal">983</span>
-<span class="normal">984</span>
-<span class="normal">985</span>
-<span class="normal">986</span>
-<span class="normal">987</span>
-<span class="normal">988</span>
-<span class="normal">989</span>
-<span class="normal">990</span>
-<span class="normal">991</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parent_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
+<span class="normal"> 998</span>
+<span class="normal"> 999</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parent_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Obtains the latest hash according to the highest block number in</span>
 <span class="sd">    `block_hashes`.</span>
@@ -17738,21 +17827,21 @@ must be executed.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 993</span>
-<span class="normal"> 994</span>
-<span class="normal"> 995</span>
-<span class="normal"> 996</span>
-<span class="normal"> 997</span>
-<span class="normal"> 998</span>
-<span class="normal"> 999</span>
-<span class="normal">1000</span>
-<span class="normal">1001</span>
-<span class="normal">1002</span>
-<span class="normal">1003</span>
-<span class="normal">1004</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1004</span>
 <span class="normal">1005</span>
 <span class="normal">1006</span>
-<span class="normal">1007</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_new_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_parent</span><span class="p">:</span> <span class="s2">&quot;FixtureHeader&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Environment&quot;</span><span class="p">:</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
+<span class="normal">1014</span>
+<span class="normal">1015</span>
+<span class="normal">1016</span>
+<span class="normal">1017</span>
+<span class="normal">1018</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_new_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_parent</span><span class="p">:</span> <span class="s2">&quot;FixtureHeader&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Environment&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Applies a header as parent to a copy of this environment.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -17795,18 +17884,7 @@ must be executed.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1009</span>
-<span class="normal">1010</span>
-<span class="normal">1011</span>
-<span class="normal">1012</span>
-<span class="normal">1013</span>
-<span class="normal">1014</span>
-<span class="normal">1015</span>
-<span class="normal">1016</span>
-<span class="normal">1017</span>
-<span class="normal">1018</span>
-<span class="normal">1019</span>
-<span class="normal">1020</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1020</span>
 <span class="normal">1021</span>
 <span class="normal">1022</span>
 <span class="normal">1023</span>
@@ -17835,7 +17913,18 @@ must be executed.</p>
 <span class="normal">1046</span>
 <span class="normal">1047</span>
 <span class="normal">1048</span>
-<span class="normal">1049</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_fork_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Environment&quot;</span><span class="p">:</span>
+<span class="normal">1049</span>
+<span class="normal">1050</span>
+<span class="normal">1051</span>
+<span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_fork_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Environment&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fills the required fields in an environment depending on the fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -17918,18 +18007,7 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1052</span>
-<span class="normal">1053</span>
-<span class="normal">1054</span>
-<span class="normal">1055</span>
-<span class="normal">1056</span>
-<span class="normal">1057</span>
-<span class="normal">1058</span>
-<span class="normal">1059</span>
-<span class="normal">1060</span>
-<span class="normal">1061</span>
-<span class="normal">1062</span>
-<span class="normal">1063</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1063</span>
 <span class="normal">1064</span>
 <span class="normal">1065</span>
 <span class="normal">1066</span>
@@ -17942,7 +18020,18 @@ must be executed.</p>
 <span class="normal">1073</span>
 <span class="normal">1074</span>
 <span class="normal">1075</span>
-<span class="normal">1076</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">1076</span>
+<span class="normal">1077</span>
+<span class="normal">1078</span>
+<span class="normal">1079</span>
+<span class="normal">1080</span>
+<span class="normal">1081</span>
+<span class="normal">1082</span>
+<span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">AccessList</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Access List for transactions.</span>
@@ -17997,11 +18086,11 @@ must be executed.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1072</span>
-<span class="normal">1073</span>
-<span class="normal">1074</span>
-<span class="normal">1075</span>
-<span class="normal">1076</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]]:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the access list as a list of serializable elements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -18048,18 +18137,7 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1079</span>
-<span class="normal">1080</span>
-<span class="normal">1081</span>
-<span class="normal">1082</span>
-<span class="normal">1083</span>
-<span class="normal">1084</span>
-<span class="normal">1085</span>
-<span class="normal">1086</span>
-<span class="normal">1087</span>
-<span class="normal">1088</span>
-<span class="normal">1089</span>
-<span class="normal">1090</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1090</span>
 <span class="normal">1091</span>
 <span class="normal">1092</span>
 <span class="normal">1093</span>
@@ -18597,7 +18675,18 @@ must be executed.</p>
 <span class="normal">1625</span>
 <span class="normal">1626</span>
 <span class="normal">1627</span>
-<span class="normal">1628</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">1628</span>
+<span class="normal">1629</span>
+<span class="normal">1630</span>
+<span class="normal">1631</span>
+<span class="normal">1632</span>
+<span class="normal">1633</span>
+<span class="normal">1634</span>
+<span class="normal">1635</span>
+<span class="normal">1636</span>
+<span class="normal">1637</span>
+<span class="normal">1638</span>
+<span class="normal">1639</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Transaction</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic object that can represent all Ethereum transaction types.</span>
@@ -19207,14 +19296,14 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1245</span>
-<span class="normal">1246</span>
-<span class="normal">1247</span>
-<span class="normal">1248</span>
-<span class="normal">1249</span>
-<span class="normal">1250</span>
-<span class="normal">1251</span>
-<span class="normal">1252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidFeePayment</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1256</span>
+<span class="normal">1257</span>
+<span class="normal">1258</span>
+<span class="normal">1259</span>
+<span class="normal">1260</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidFeePayment</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction described more than one fee payment type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19252,9 +19341,9 @@ must be executed.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1250</span>
-<span class="normal">1251</span>
-<span class="normal">1252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;only one type of fee payment field can be used in a single tx&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -19298,15 +19387,15 @@ source account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1254</span>
-<span class="normal">1255</span>
-<span class="normal">1256</span>
-<span class="normal">1257</span>
-<span class="normal">1258</span>
-<span class="normal">1259</span>
-<span class="normal">1260</span>
-<span class="normal">1261</span>
-<span class="normal">1262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidSignaturePrivateKey</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1265</span>
+<span class="normal">1266</span>
+<span class="normal">1267</span>
+<span class="normal">1268</span>
+<span class="normal">1269</span>
+<span class="normal">1270</span>
+<span class="normal">1271</span>
+<span class="normal">1272</span>
+<span class="normal">1273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidSignaturePrivateKey</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction describes both the signature and private key of</span>
 <span class="sd">    source account.</span>
@@ -19345,9 +19434,9 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1260</span>
-<span class="normal">1261</span>
-<span class="normal">1262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1271</span>
+<span class="normal">1272</span>
+<span class="normal">1273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;can&#39;t define both &#39;signature&#39; and &#39;private_key&#39;&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -19387,18 +19476,7 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1264</span>
-<span class="normal">1265</span>
-<span class="normal">1266</span>
-<span class="normal">1267</span>
-<span class="normal">1268</span>
-<span class="normal">1269</span>
-<span class="normal">1270</span>
-<span class="normal">1271</span>
-<span class="normal">1272</span>
-<span class="normal">1273</span>
-<span class="normal">1274</span>
-<span class="normal">1275</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1275</span>
 <span class="normal">1276</span>
 <span class="normal">1277</span>
 <span class="normal">1278</span>
@@ -19428,7 +19506,18 @@ source account.</p>
 <span class="normal">1302</span>
 <span class="normal">1303</span>
 <span class="normal">1304</span>
-<span class="normal">1305</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">1305</span>
+<span class="normal">1306</span>
+<span class="normal">1307</span>
+<span class="normal">1308</span>
+<span class="normal">1309</span>
+<span class="normal">1310</span>
+<span class="normal">1311</span>
+<span class="normal">1312</span>
+<span class="normal">1313</span>
+<span class="normal">1314</span>
+<span class="normal">1315</span>
+<span class="normal">1316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ensures the transaction has no conflicting properties.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19498,13 +19587,13 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1307</span>
-<span class="normal">1308</span>
-<span class="normal">1309</span>
-<span class="normal">1310</span>
-<span class="normal">1311</span>
-<span class="normal">1312</span>
-<span class="normal">1313</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1318</span>
+<span class="normal">1319</span>
+<span class="normal">1320</span>
+<span class="normal">1321</span>
+<span class="normal">1322</span>
+<span class="normal">1323</span>
+<span class="normal">1324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a copy of the transaction with an added error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19539,13 +19628,13 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1315</span>
-<span class="normal">1316</span>
-<span class="normal">1317</span>
-<span class="normal">1318</span>
-<span class="normal">1319</span>
-<span class="normal">1320</span>
-<span class="normal">1321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nonce</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1326</span>
+<span class="normal">1327</span>
+<span class="normal">1328</span>
+<span class="normal">1329</span>
+<span class="normal">1330</span>
+<span class="normal">1331</span>
+<span class="normal">1332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nonce</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a copy of the transaction with a modified nonce.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19580,17 +19669,17 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1323</span>
-<span class="normal">1324</span>
-<span class="normal">1325</span>
-<span class="normal">1326</span>
-<span class="normal">1327</span>
-<span class="normal">1328</span>
-<span class="normal">1329</span>
-<span class="normal">1330</span>
-<span class="normal">1331</span>
-<span class="normal">1332</span>
-<span class="normal">1333</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1334</span>
+<span class="normal">1335</span>
+<span class="normal">1336</span>
+<span class="normal">1337</span>
+<span class="normal">1338</span>
+<span class="normal">1339</span>
+<span class="normal">1340</span>
+<span class="normal">1341</span>
+<span class="normal">1342</span>
+<span class="normal">1343</span>
+<span class="normal">1344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a deepcopy of the transaction with modified fields.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19629,18 +19718,7 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1335</span>
-<span class="normal">1336</span>
-<span class="normal">1337</span>
-<span class="normal">1338</span>
-<span class="normal">1339</span>
-<span class="normal">1340</span>
-<span class="normal">1341</span>
-<span class="normal">1342</span>
-<span class="normal">1343</span>
-<span class="normal">1344</span>
-<span class="normal">1345</span>
-<span class="normal">1346</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1346</span>
 <span class="normal">1347</span>
 <span class="normal">1348</span>
 <span class="normal">1349</span>
@@ -19761,7 +19839,18 @@ source account.</p>
 <span class="normal">1464</span>
 <span class="normal">1465</span>
 <span class="normal">1466</span>
-<span class="normal">1467</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">payload_body</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="normal">1467</span>
+<span class="normal">1468</span>
+<span class="normal">1469</span>
+<span class="normal">1470</span>
+<span class="normal">1471</span>
+<span class="normal">1472</span>
+<span class="normal">1473</span>
+<span class="normal">1474</span>
+<span class="normal">1475</span>
+<span class="normal">1476</span>
+<span class="normal">1477</span>
+<span class="normal">1478</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">payload_body</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of values included in the transaction body.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19923,18 +20012,18 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1469</span>
-<span class="normal">1470</span>
-<span class="normal">1471</span>
-<span class="normal">1472</span>
-<span class="normal">1473</span>
-<span class="normal">1474</span>
-<span class="normal">1475</span>
-<span class="normal">1476</span>
-<span class="normal">1477</span>
-<span class="normal">1478</span>
-<span class="normal">1479</span>
-<span class="normal">1480</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialized_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1480</span>
+<span class="normal">1481</span>
+<span class="normal">1482</span>
+<span class="normal">1483</span>
+<span class="normal">1484</span>
+<span class="normal">1485</span>
+<span class="normal">1486</span>
+<span class="normal">1487</span>
+<span class="normal">1488</span>
+<span class="normal">1489</span>
+<span class="normal">1490</span>
+<span class="normal">1491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialized_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns bytes of the serialized representation of the transaction,</span>
 <span class="sd">    which is almost always RLP encoding.</span>
@@ -19974,18 +20063,7 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1482</span>
-<span class="normal">1483</span>
-<span class="normal">1484</span>
-<span class="normal">1485</span>
-<span class="normal">1486</span>
-<span class="normal">1487</span>
-<span class="normal">1488</span>
-<span class="normal">1489</span>
-<span class="normal">1490</span>
-<span class="normal">1491</span>
-<span class="normal">1492</span>
-<span class="normal">1493</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1493</span>
 <span class="normal">1494</span>
 <span class="normal">1495</span>
 <span class="normal">1496</span>
@@ -20063,7 +20141,18 @@ which is almost always RLP encoding.</p>
 <span class="normal">1568</span>
 <span class="normal">1569</span>
 <span class="normal">1570</span>
-<span class="normal">1571</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_envelope</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="normal">1571</span>
+<span class="normal">1572</span>
+<span class="normal">1573</span>
+<span class="normal">1574</span>
+<span class="normal">1575</span>
+<span class="normal">1576</span>
+<span class="normal">1577</span>
+<span class="normal">1578</span>
+<span class="normal">1579</span>
+<span class="normal">1580</span>
+<span class="normal">1581</span>
+<span class="normal">1582</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_envelope</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of values included in the envelope used for signing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -20181,17 +20270,17 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1573</span>
-<span class="normal">1574</span>
-<span class="normal">1575</span>
-<span class="normal">1576</span>
-<span class="normal">1577</span>
-<span class="normal">1578</span>
-<span class="normal">1579</span>
-<span class="normal">1580</span>
-<span class="normal">1581</span>
-<span class="normal">1582</span>
-<span class="normal">1583</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1584</span>
+<span class="normal">1585</span>
+<span class="normal">1586</span>
+<span class="normal">1587</span>
+<span class="normal">1588</span>
+<span class="normal">1589</span>
+<span class="normal">1590</span>
+<span class="normal">1591</span>
+<span class="normal">1592</span>
+<span class="normal">1593</span>
+<span class="normal">1594</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the serialized bytes of the transaction used for signing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -20230,18 +20319,7 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1585</span>
-<span class="normal">1586</span>
-<span class="normal">1587</span>
-<span class="normal">1588</span>
-<span class="normal">1589</span>
-<span class="normal">1590</span>
-<span class="normal">1591</span>
-<span class="normal">1592</span>
-<span class="normal">1593</span>
-<span class="normal">1594</span>
-<span class="normal">1595</span>
-<span class="normal">1596</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1596</span>
 <span class="normal">1597</span>
 <span class="normal">1598</span>
 <span class="normal">1599</span>
@@ -20273,7 +20351,18 @@ which is almost always RLP encoding.</p>
 <span class="normal">1625</span>
 <span class="normal">1626</span>
 <span class="normal">1627</span>
-<span class="normal">1628</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_signature_and_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+<span class="normal">1628</span>
+<span class="normal">1629</span>
+<span class="normal">1630</span>
+<span class="normal">1631</span>
+<span class="normal">1632</span>
+<span class="normal">1633</span>
+<span class="normal">1634</span>
+<span class="normal">1635</span>
+<span class="normal">1636</span>
+<span class="normal">1637</span>
+<span class="normal">1638</span>
+<span class="normal">1639</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_signature_and_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a signed version of the transaction using the private key.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -20359,18 +20448,7 @@ which is almost always RLP encoding.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1786</span>
-<span class="normal">1787</span>
-<span class="normal">1788</span>
-<span class="normal">1789</span>
-<span class="normal">1790</span>
-<span class="normal">1791</span>
-<span class="normal">1792</span>
-<span class="normal">1793</span>
-<span class="normal">1794</span>
-<span class="normal">1795</span>
-<span class="normal">1796</span>
-<span class="normal">1797</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1797</span>
 <span class="normal">1798</span>
 <span class="normal">1799</span>
 <span class="normal">1800</span>
@@ -20390,7 +20468,18 @@ which is almost always RLP encoding.</p>
 <span class="normal">1814</span>
 <span class="normal">1815</span>
 <span class="normal">1816</span>
-<span class="normal">1817</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">1817</span>
+<span class="normal">1818</span>
+<span class="normal">1819</span>
+<span class="normal">1820</span>
+<span class="normal">1821</span>
+<span class="normal">1822</span>
+<span class="normal">1823</span>
+<span class="normal">1824</span>
+<span class="normal">1825</span>
+<span class="normal">1826</span>
+<span class="normal">1827</span>
+<span class="normal">1828</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Header</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Header type used to describe block header properties in test specs.</span>
@@ -20494,18 +20583,7 @@ which is almost always RLP encoding.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2213</span>
-<span class="normal">2214</span>
-<span class="normal">2215</span>
-<span class="normal">2216</span>
-<span class="normal">2217</span>
-<span class="normal">2218</span>
-<span class="normal">2219</span>
-<span class="normal">2220</span>
-<span class="normal">2221</span>
-<span class="normal">2222</span>
-<span class="normal">2223</span>
-<span class="normal">2224</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2224</span>
 <span class="normal">2225</span>
 <span class="normal">2226</span>
 <span class="normal">2227</span>
@@ -20589,7 +20667,18 @@ which is almost always RLP encoding.</p>
 <span class="normal">2305</span>
 <span class="normal">2306</span>
 <span class="normal">2307</span>
-<span class="normal">2308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2308</span>
+<span class="normal">2309</span>
+<span class="normal">2310</span>
+<span class="normal">2311</span>
+<span class="normal">2312</span>
+<span class="normal">2313</span>
+<span class="normal">2314</span>
+<span class="normal">2315</span>
+<span class="normal">2316</span>
+<span class="normal">2317</span>
+<span class="normal">2318</span>
+<span class="normal">2319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Block</span><span class="p">(</span><span class="n">Header</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block type used to describe block properties in test specs</span>
@@ -20909,18 +20998,7 @@ specific block.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2253</span>
-<span class="normal">2254</span>
-<span class="normal">2255</span>
-<span class="normal">2256</span>
-<span class="normal">2257</span>
-<span class="normal">2258</span>
-<span class="normal">2259</span>
-<span class="normal">2260</span>
-<span class="normal">2261</span>
-<span class="normal">2262</span>
-<span class="normal">2263</span>
-<span class="normal">2264</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2264</span>
 <span class="normal">2265</span>
 <span class="normal">2266</span>
 <span class="normal">2267</span>
@@ -20956,7 +21034,18 @@ specific block.</p>
 <span class="normal">2297</span>
 <span class="normal">2298</span>
 <span class="normal">2299</span>
-<span class="normal">2300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
+<span class="normal">2300</span>
+<span class="normal">2301</span>
+<span class="normal">2302</span>
+<span class="normal">2303</span>
+<span class="normal">2304</span>
+<span class="normal">2305</span>
+<span class="normal">2306</span>
+<span class="normal">2307</span>
+<span class="normal">2308</span>
+<span class="normal">2309</span>
+<span class="normal">2310</span>
+<span class="normal">2311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a copy of the environment with the characteristics of this</span>
 <span class="sd">    specific block.</span>
@@ -21032,13 +21121,13 @@ specific block.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2302</span>
-<span class="normal">2303</span>
-<span class="normal">2304</span>
-<span class="normal">2305</span>
-<span class="normal">2306</span>
-<span class="normal">2307</span>
-<span class="normal">2308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_with_rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rlp</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">BytesConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Block&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2313</span>
+<span class="normal">2314</span>
+<span class="normal">2315</span>
+<span class="normal">2316</span>
+<span class="normal">2317</span>
+<span class="normal">2318</span>
+<span class="normal">2319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_with_rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rlp</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">BytesConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Block&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a copy of the block and adds the specified RLP.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -21088,18 +21177,7 @@ sent using the block information.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2426</span>
-<span class="normal">2427</span>
-<span class="normal">2428</span>
-<span class="normal">2429</span>
-<span class="normal">2430</span>
-<span class="normal">2431</span>
-<span class="normal">2432</span>
-<span class="normal">2433</span>
-<span class="normal">2434</span>
-<span class="normal">2435</span>
-<span class="normal">2436</span>
-<span class="normal">2437</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2437</span>
 <span class="normal">2438</span>
 <span class="normal">2439</span>
 <span class="normal">2440</span>
@@ -21162,7 +21240,18 @@ sent using the block information.</p>
 <span class="normal">2497</span>
 <span class="normal">2498</span>
 <span class="normal">2499</span>
-<span class="normal">2500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2500</span>
+<span class="normal">2501</span>
+<span class="normal">2502</span>
+<span class="normal">2503</span>
+<span class="normal">2504</span>
+<span class="normal">2505</span>
+<span class="normal">2506</span>
+<span class="normal">2507</span>
+<span class="normal">2508</span>
+<span class="normal">2509</span>
+<span class="normal">2510</span>
+<span class="normal">2511</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">FixtureEngineNewPayload</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Representation of the `engine_newPayloadVX` information to be</span>
@@ -21271,18 +21360,7 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2465</span>
-<span class="normal">2466</span>
-<span class="normal">2467</span>
-<span class="normal">2468</span>
-<span class="normal">2469</span>
-<span class="normal">2470</span>
-<span class="normal">2471</span>
-<span class="normal">2472</span>
-<span class="normal">2473</span>
-<span class="normal">2474</span>
-<span class="normal">2475</span>
-<span class="normal">2476</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2476</span>
 <span class="normal">2477</span>
 <span class="normal">2478</span>
 <span class="normal">2479</span>
@@ -21306,7 +21384,18 @@ sent using the block information.</p>
 <span class="normal">2497</span>
 <span class="normal">2498</span>
 <span class="normal">2499</span>
-<span class="normal">2500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">2500</span>
+<span class="normal">2501</span>
+<span class="normal">2502</span>
+<span class="normal">2503</span>
+<span class="normal">2504</span>
+<span class="normal">2505</span>
+<span class="normal">2506</span>
+<span class="normal">2507</span>
+<span class="normal">2508</span>
+<span class="normal">2509</span>
+<span class="normal">2510</span>
+<span class="normal">2511</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_fixture_header</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -21384,18 +21473,7 @@ sent using the block information.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2566</span>
-<span class="normal">2567</span>
-<span class="normal">2568</span>
-<span class="normal">2569</span>
-<span class="normal">2570</span>
-<span class="normal">2571</span>
-<span class="normal">2572</span>
-<span class="normal">2573</span>
-<span class="normal">2574</span>
-<span class="normal">2575</span>
-<span class="normal">2576</span>
-<span class="normal">2577</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2577</span>
 <span class="normal">2578</span>
 <span class="normal">2579</span>
 <span class="normal">2580</span>
@@ -21482,7 +21560,18 @@ sent using the block information.</p>
 <span class="normal">2661</span>
 <span class="normal">2662</span>
 <span class="normal">2663</span>
-<span class="normal">2664</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2664</span>
+<span class="normal">2665</span>
+<span class="normal">2666</span>
+<span class="normal">2667</span>
+<span class="normal">2668</span>
+<span class="normal">2669</span>
+<span class="normal">2670</span>
+<span class="normal">2671</span>
+<span class="normal">2672</span>
+<span class="normal">2673</span>
+<span class="normal">2674</span>
+<span class="normal">2675</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Fixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cross-client compatible Ethereum test fixture.</span>
@@ -21611,11 +21700,11 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2640</span>
-<span class="normal">2641</span>
-<span class="normal">2642</span>
-<span class="normal">2643</span>
-<span class="normal">2644</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2651</span>
+<span class="normal">2652</span>
+<span class="normal">2653</span>
+<span class="normal">2654</span>
+<span class="normal">2655</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Post init hook to convert to JSON after instantiation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -21648,13 +21737,13 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2646</span>
-<span class="normal">2647</span>
-<span class="normal">2648</span>
-<span class="normal">2649</span>
-<span class="normal">2650</span>
-<span class="normal">2651</span>
-<span class="normal">2652</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2657</span>
+<span class="normal">2658</span>
+<span class="normal">2659</span>
+<span class="normal">2660</span>
+<span class="normal">2661</span>
+<span class="normal">2662</span>
+<span class="normal">2663</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert to JSON.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -21689,17 +21778,17 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2654</span>
-<span class="normal">2655</span>
-<span class="normal">2656</span>
-<span class="normal">2657</span>
-<span class="normal">2658</span>
-<span class="normal">2659</span>
-<span class="normal">2660</span>
-<span class="normal">2661</span>
-<span class="normal">2662</span>
-<span class="normal">2663</span>
-<span class="normal">2664</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2665</span>
+<span class="normal">2666</span>
+<span class="normal">2667</span>
+<span class="normal">2668</span>
+<span class="normal">2669</span>
+<span class="normal">2670</span>
+<span class="normal">2671</span>
+<span class="normal">2672</span>
+<span class="normal">2673</span>
+<span class="normal">2674</span>
+<span class="normal">2675</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">ref_spec</span><span class="p">:</span> <span class="n">ReferenceSpec</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
