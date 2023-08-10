@@ -2,7 +2,7 @@
 Abstract base class for Ethereum forks
 """
 from abc import ABC, ABCMeta, abstractmethod
-from typing import Mapping, Optional, Type
+from typing import List, Mapping, Optional, Type
 
 from .base_decorators import prefer_transition_to_method
 
@@ -102,6 +102,22 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
         Returns the expected reward amount in wei of a given fork
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+        """
+        Returns a list of the transaction types supported by the fork
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+        """
+        Returns a list pre-compiles supported by the fork
         """
         pass
 
