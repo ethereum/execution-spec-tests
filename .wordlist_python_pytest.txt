@@ -28,6 +28,8 @@ parametrized
 param
 params
 parametrize
+parametrizer
+parametrizers
 popen
 pytester
 pytestmark

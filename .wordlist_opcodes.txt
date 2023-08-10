@@ -148,3 +148,5 @@ selfdestruct
 sendall
 blobhash
 mcopy
+precompile
+precompiles
