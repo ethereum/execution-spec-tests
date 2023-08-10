@@ -136,12 +136,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_precompile/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/</loc>
          <lastmod>2023-08-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_precompile/index/test_cases/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/index/test_cases/</loc>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract/</loc>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract/index/test_cases/</loc>
          <lastmod>2023-08-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
