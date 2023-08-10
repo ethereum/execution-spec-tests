@@ -5476,7 +5476,11 @@ See the state_test fixture docstring for details.</p>
 <span class="normal">422</span>
 <span class="normal">423</span>
 <span class="normal">424</span>
-<span class="normal">425</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">blockchain_test</span><span class="p">(</span>
     <span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">,</span> <span class="n">eips</span><span class="p">,</span> <span class="n">fixture_collector</span><span class="p">,</span> <span class="n">base_test_config</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainTestFiller</span><span class="p">:</span>
@@ -5489,6 +5493,10 @@ See the state_test fixture docstring for details.</p>
     <span class="k">class</span> <span class="nc">BlockchainTestWrapper</span><span class="p">(</span><span class="n">BlockchainTest</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;base_test_config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_test_config</span>
+            <span class="k">if</span> <span class="n">t8n_dump_dir</span> <span class="o">:=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">):</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">t8n_dump_dir</span><span class="p">,</span> <span class="n">convert_test_name_to_path</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">BlockchainTestWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">fixture_collector</span><span class="o">.</span><span class="n">add_fixture</span><span class="p">(</span>
                 <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="p">,</span>
@@ -5534,11 +5542,7 @@ to a test if the test function uses the corresponding fixture.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">432</span>
 <span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span>
@@ -5553,7 +5557,11 @@ to a test if the test function uses the corresponding fixture.</p>
 <span class="normal">444</span>
 <span class="normal">445</span>
 <span class="normal">446</span>
-<span class="normal">447</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A pytest hook called during collection, after all items have been</span>
 <span class="sd">    collected.</span>
@@ -5602,12 +5610,12 @@ more readable test ids for the generated tests.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_make_parametrize_id</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_make_parametrize_id</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called when generating test ids. We use this to generate</span>
 <span class="sd">    more readable test ids for the generated tests.</span>
@@ -5641,11 +5649,7 @@ more readable test ids for the generated tests.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
 <span class="normal">465</span>
@@ -5663,7 +5667,11 @@ more readable test ids for the generated tests.</p>
 <span class="normal">477</span>
 <span class="normal">478</span>
 <span class="normal">479</span>
-<span class="normal">480</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_runtest_call</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_runtest_call</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called in the context of test execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
