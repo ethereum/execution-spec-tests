@@ -2,9 +2,21 @@
 Abstract base class for Ethereum forks
 """
 from abc import ABC, ABCMeta, abstractmethod
-from typing import List, Mapping, Optional, Type
+from typing import Any, List, Mapping, Optional, Protocol, Type
 
 from .base_decorators import prefer_transition_to_method
+
+
+class ForkAttribute(Protocol):
+    """
+    A protocol to get the attribute of a fork at a given block number and timestamp.
+    """
+
+    def __call__(self, block_number: int = 0, timestamp: int = 0) -> Any:
+        """
+        Returns the value of the attribute at the given block number and timestamp.
+        """
+        pass
 
 
 class BaseForkMeta(ABCMeta):
