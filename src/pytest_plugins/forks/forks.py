@@ -5,13 +5,14 @@ import itertools
 import sys
 import textwrap
 from dataclasses import dataclass, field
-from typing import Any, Callable, List
+from typing import Any, List
 
 import pytest
 from pytest import Metafunc
 
 from ethereum_test_forks import (
     Fork,
+    ForkAttribute,
     forks_from_until,
     get_deployed_forks,
     get_forks,
@@ -121,8 +122,8 @@ class CovariantDescriptor:
         if not self.check_enabled(metafunc=metafunc):
             return
         fork = fork_parametrizer.fork
-        fork_attribute: Callable[[int, int], List[Any]] = getattr(fork, self.fork_attribute_name)
-        values = fork_attribute(0, 0)
+        get_fork_covariant_values: ForkAttribute = getattr(fork, self.fork_attribute_name)
+        values = get_fork_covariant_values(block_number=0, timestamp=0)
         assert isinstance(values, list)
         assert len(values) > 0
         fork_parametrizer.fork_covariant_parameters.append(
