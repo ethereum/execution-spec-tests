@@ -265,6 +265,9 @@ def tx(
         kwargs["max_fee_per_blob_gas"] = 1
         kwargs["blob_versioned_hashes"] = add_kzg_version([0], BLOB_COMMITMENT_VERSION_KZG)
 
+    if tx_type > 3:
+        raise Exception(f"Unexpected transaction type: '{tx_type}'. Test requires update.")
+
     return Transaction(**kwargs)
 
 
