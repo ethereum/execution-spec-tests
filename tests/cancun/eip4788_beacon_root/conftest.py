@@ -255,14 +255,13 @@ def tx(
     if tx_type > 0:
         kwargs["access_list"] = access_list
 
-    if tx_type < 2:
+    if tx_type <= 1:
         kwargs["gas_price"] = 7
-
-    if tx_type > 1:
+    else:
         kwargs["max_fee_per_gas"] = 7
         kwargs["max_priority_fee_per_gas"] = 0
 
-    if tx_type > 2:
+    if tx_type == 3:
         kwargs["max_fee_per_blob_gas"] = 1
         kwargs["blob_versioned_hashes"] = add_kzg_version([0], BLOB_COMMITMENT_VERSION_KZG)
 
