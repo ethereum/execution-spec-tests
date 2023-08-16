@@ -3752,7 +3752,7 @@
 <h1 id="test-beacon-root-contract-test-cases">Test Beacon Root Contract - Test Cases<a class="headerlink" href="#test-beacon-root-contract-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/efe1d49bc136c960dc848b12edbe23bec08400c1/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/95cde757dd9c59c6b9dd705ace86170f8b6525ba/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_beacon_root_precompile_calls[fork=Cancun-call_type=CALL-call_value=1-valid_input=True-call_gas=100000-valid_call=True]
 test_beacon_root_precompile_calls[fork=Cancun-call_type=CALL-call_value=1-valid_input=True-call_gas=100001-valid_call=True]
 test_beacon_root_precompile_calls[fork=Cancun-call_type=CALL-call_value=1-valid_input=True-call_gas=99999-valid_call=False]
@@ -3805,14 +3805,14 @@ test_beacon_root_equal_to_timestamp[fork=Cancun-auto_access_list=True-beacon_roo
 test_beacon_root_equal_to_timestamp[fork=Cancun-auto_access_list=True-beacon_root=4294967296-timestamp=4294967296]
 test_beacon_root_equal_to_timestamp[fork=Cancun-auto_access_list=True-beacon_root=18446744073709551614-timestamp=18446744073709551614]
 test_beacon_root_equal_to_timestamp[fork=Cancun-auto_access_list=True-beacon_root=18446744073709551615-timestamp=18446744073709551615]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=False-tx_type=0]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=False-tx_type=1]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=False-tx_type=2]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=False-tx_type=3]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=True-tx_type=0]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=True-tx_type=1]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=True-tx_type=2]
-test_tx_to_beacon_root_contract[fork=Cancun-call_beacon_root_contract=True-auto_access_list=True-tx_type=3]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=3-call_beacon_root_contract=True-auto_access_list=False]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=3-call_beacon_root_contract=True-auto_access_list=True]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=2-call_beacon_root_contract=True-auto_access_list=False]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=2-call_beacon_root_contract=True-auto_access_list=True]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=1-call_beacon_root_contract=True-auto_access_list=False]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=1-call_beacon_root_contract=True-auto_access_list=True]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=0-call_beacon_root_contract=True-auto_access_list=False]
+test_tx_to_beacon_root_contract[fork=Cancun-tx_type=0-call_beacon_root_contract=True-auto_access_list=True]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</span>

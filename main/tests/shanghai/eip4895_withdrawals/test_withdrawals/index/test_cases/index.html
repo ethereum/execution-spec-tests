@@ -3752,7 +3752,7 @@
 <h1 id="test-withdrawals-test-cases">Test Withdrawals - Test Cases<a class="headerlink" href="#test-withdrawals-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/efe1d49bc136c960dc848b12edbe23bec08400c1/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/95cde757dd9c59c6b9dd705ace86170f8b6525ba/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>TestUseValueInTx
 TestUseValueInTx
 TestUseValueInTx
@@ -3785,6 +3785,44 @@ test_zero_amount[fork=Cancun-four_withdrawals_one_with_value_one_with_max]
 test_zero_amount[fork=Cancun-four_withdrawals_one_with_value_one_with_max_reversed_order]
 test_large_amount[fork=Shanghai]
 test_large_amount[fork=Cancun]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=9-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=9-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=5-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=5-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=6-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=6-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=7-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=7-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=8-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=8-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=1-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=1-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=2-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=2-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=3-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=3-amount=1]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=4-amount=0]
+test_withdrawing_to_precompiles[fork=Shanghai-precompile=4-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=10-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=10-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=9-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=9-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=5-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=5-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=6-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=6-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=7-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=7-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=8-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=8-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=1-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=1-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=2-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=2-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=3-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=3-amount=1]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=4-amount=0]
+test_withdrawing_to_precompiles[fork=Cancun-precompile=4-amount=1]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/shanghai/eip4895_withdrawals/test_withdrawals.py</span>
