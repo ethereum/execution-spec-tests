@@ -732,7 +732,6 @@ def test_withdrawing_to_precompiles(
     """
     Test withdrawing to all precompiles for a given fork.
     """
-
     pre: Dict = {
         TestAddress: Account(balance=1000000000000000000000, nonce=0),
     }
