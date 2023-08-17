@@ -5,7 +5,8 @@ from dataclasses import dataclass
 from enum import IntEnum
 from typing import Dict, List, Optional, Tuple
 
-from ...code import Code, code_to_bytes
+from ...code import Code
+from ...common import Bytes
 from ...vm.opcode import Opcodes as Op
 from ..constants import EOF_HEADER_TERMINATOR, EOF_MAGIC
 
@@ -88,7 +89,7 @@ class Section:
                 raise Exception(
                     "Attempted to build header without section data"
                 )
-            size = len(code_to_bytes(self.data))
+            size = len(Bytes(self.data))
         if self.kind == SectionKind.CODE:
             raise Exception(
                 "Need container-wide view of code sections to generate header"
@@ -155,6 +156,10 @@ class Container(Code):
     Class that represents an EOF V1 container.
     """
 
+    name: Optional[str] = None
+    """
+    Name of the container
+    """
     sections: Optional[List[Section]] = None
     """
     List of sections in the container
@@ -251,7 +256,7 @@ class Container(Code):
                             auto_code_inputs,
                             auto_code_outputs,
                             auto_max_height,
-                        ) = compute_code_stack_values(code_to_bytes(s.data))
+                        ) = compute_code_stack_values(Bytes(s.data))
                         if s.auto_max_stack_height:
                             max_stack_height = auto_max_height
                         if s.auto_code_inputs_outputs:
@@ -341,7 +346,7 @@ class Container(Code):
 
         # Add section bodies
         for s in sections:
-            c += code_to_bytes(s.data if s.data is not None else "0x")
+            c += Bytes(s.data if s.data is not None else "0x")
 
         # Add extra (garbage)
         if self.extra is not None:
@@ -402,7 +407,7 @@ class Initcode(Code):
             ]
         )
 
-        super().__init__(bytecode=initcode.assemble(), name=self.name)
+        super().__init__(code=initcode.assemble(), name=self.name)
 
 
 def create_sections_header(
@@ -420,7 +425,7 @@ def create_sections_header(
             if cs.custom_size:
                 h += cs.custom_size.to_bytes(2, "big")
             else:
-                h += len(code_to_bytes(cs.data)).to_bytes(2, "big")
+                h += len(Bytes(cs.data)).to_bytes(2, "big")
     else:
         for s in sections:
             h += s.get_header()

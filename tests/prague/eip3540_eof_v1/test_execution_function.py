@@ -338,8 +338,8 @@ VALID: List[Container] = (
 List of all EOF V1 Containers used during execution tests.
 """
 
-
-def test_eof_functions_contract_call_succeed(_):
+# TODO: Refactor for pytest
+def todo_eof_functions_contract_call_succeed(_):
     """
     Test simple contracts that are simply expected to succeed on call.
     """
@@ -385,7 +385,8 @@ def test_eof_functions_contract_call_succeed(_):
         yield StateTest(env=env, pre=pre, post=post, txs=txs, name=container.name)
 
 
-def test_eof_functions_contract_call_fail(_):
+# TODO: Refactor for pytest
+def todo_eof_functions_contract_call_fail(_):
     """
     Test simple contracts that are simply expected to fail on call.
     """
@@ -431,7 +432,8 @@ def test_eof_functions_contract_call_fail(_):
         yield StateTest(env=env, pre=pre, post=post, txs=txs, name=container.name)
 
 
-def test_eof_functions_contract_call_within_deep_nested(_):
+# TODO: Refactor for pytest
+def todo_eof_functions_contract_call_within_deep_nested(_):
     """
     Test performing a call within a nested callf and verify correct behavior of
     return stack in calling contract.
