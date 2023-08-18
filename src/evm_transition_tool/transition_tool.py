@@ -5,8 +5,10 @@ Transition tool abstract class.
 import json
 import os
 import shutil
+import stat
 import subprocess
 import tempfile
+import textwrap
 from abc import abstractmethod
 from itertools import groupby
 from json import dump
@@ -276,16 +278,28 @@ class TransitionTool:
         )
 
         if debug_output_path:
+            t8n_script = textwrap.dedent(
+                f"""\
+                #!/bin/bash
+                mkdir {temp_dir.name}
+                {' '.join(args)} < {debug_output_path}/stdin
+                """
+            )
             dump_files_to_directory(
                 debug_output_path,
                 stdin
                 | {
                     "args": args,
+                    "t8n.sh": t8n_script,
+                    "stdin": stdin,
                     "stdout": result.stdout.decode(),
                     "stderr": result.stderr.decode(),
                     "returncode": result.returncode,
                 },
             )
+            script_path = os.path.join(debug_output_path, "t8n.sh")
+            st = os.stat(script_path)
+            os.chmod(script_path, st.st_mode | stat.S_IEXEC)
 
         if result.returncode != 0:
             raise Exception("failed to evaluate: " + result.stderr.decode())
