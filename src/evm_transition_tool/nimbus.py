@@ -2,6 +2,7 @@
 Go-ethereum Transition tool interface.
 """
 
+import re
 import subprocess
 from pathlib import Path
 from re import compile
@@ -12,14 +13,14 @@ from ethereum_test_forks import Fork
 from .transition_tool import TransitionTool
 
 
-class GethTransitionTool(TransitionTool):
+class NimbusTransitionTool(TransitionTool):
     """
-    Go-ethereum `evm` Transition tool interface wrapper class.
+    Nimbus `evm` Transition tool interface wrapper class.
     """
 
-    default_binary = Path("evm")
-    detect_binary_pattern = compile(r"^evm version\b")
-    t8n_subcommand: Optional[str] = "t8n"
+    default_binary = Path("t8n")
+    detect_binary_pattern = compile(r"^Nimbus-t8n\b")
+    version_flag: str = "--version"
 
     binary: Path
     cached_version: Optional[str] = None
@@ -32,7 +33,7 @@ class GethTransitionTool(TransitionTool):
         trace: bool = False,
     ):
         super().__init__(binary=binary, trace=trace)
-        args = [str(self.binary), str(self.t8n_subcommand), "--help"]
+        args = [str(self.binary), "--help"]
         try:
             result = subprocess.run(args, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
@@ -40,6 +41,15 @@ class GethTransitionTool(TransitionTool):
         except Exception as e:
             raise Exception(f"Unexpected exception calling evm tool: {e}.")
         self.help_string = result.stdout
+
+    def version(self) -> str:
+        """
+        Gets `evm` binary version.
+        """
+        if self.cached_version is None:
+            self.cached_version = re.sub(r"\x1b\[0m", "", super().version()).strip()
+
+        return self.cached_version
 
     def is_fork_supported(self, fork: Fork) -> bool:
         """

@@ -105,6 +105,7 @@ hexsha
 homebrew
 html
 https
+hyperledger
 ignoreRevsFile
 img
 incrementing

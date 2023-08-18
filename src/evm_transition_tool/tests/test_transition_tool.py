@@ -2,8 +2,8 @@
 Test the transition tool and subclasses.
 """
 
-import os
 import shutil
+import subprocess
 from pathlib import Path
 from typing import Type
 
@@ -12,6 +12,7 @@ import pytest
 from evm_transition_tool import (
     EvmOneTransitionTool,
     GethTransitionTool,
+    NimbusTransitionTool,
     TransitionTool,
     TransitionToolNotFoundInPath,
 )
@@ -45,6 +46,12 @@ def test_default_tool():
             "evm version 1.12.1-unstable-c7b099b2-20230627",
             GethTransitionTool,
         ),
+        (
+            Path("t8n"),
+            "t8n",
+            "Nimbus-t8n 0.1.2\n\x1b[0m",
+            NimbusTransitionTool,
+        ),
     ],
 )
 def test_from_binary(
@@ -58,31 +65,20 @@ def test_from_binary(
     Test that `from_binary` instantiates the correct subclass.
     """
 
+    class MockCompletedProcess:
+        def __init__(self, stdout):
+            self.stdout = stdout
+            self.stderr = None
+            self.returncode = 0
+
     def mock_which(self):
         return which_result
 
-    class ReadResult:
-        read_result: str
+    def mock_run(args, **kwargs):
+        return MockCompletedProcess(read_result.encode())
 
-        def __init__(self, read_result):
-            self.read_result = read_result
-
-        def read(self):
-            return self.read_result
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, exc_type, exc_val, exc_tb):
-            pass
-
-    def mock_popen(path):
-        return ReadResult(read_result)
-
-    # monkeypatch: the transition tools constructor raises an exception if the binary path does
-    # not exist
     monkeypatch.setattr(shutil, "which", mock_which)
-    monkeypatch.setattr(os, "popen", mock_popen)
+    monkeypatch.setattr(subprocess, "run", mock_run)
 
     assert isinstance(TransitionTool.from_binary_path(binary_path=binary_path), expected_class)
 
