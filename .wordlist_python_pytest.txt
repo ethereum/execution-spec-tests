@@ -15,6 +15,7 @@ getoption
 groupby
 hookimpl
 hookwrapper
+IEXEC
 IGNORECASE
 iterdir
 ljust
