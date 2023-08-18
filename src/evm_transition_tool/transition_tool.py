@@ -39,13 +39,21 @@ def dump_files_to_directory(output_path: str, files: Dict[str, Any]) -> None:
     Dump the files to the given directory.
     """
     os.makedirs(output_path, exist_ok=True)
-    for file_name, file_contents in files.items():
+    for file_name_flags, file_contents in files.items():
+        file_name, flags = (
+            file_name_flags.split("+") if "+" in file_name_flags else (file_name_flags, "")
+        )
         file_path = os.path.join(output_path, file_name)
         with open(file_path, "w") as f:
             if isinstance(file_contents, str):
                 f.write(file_contents)
             else:
                 dump(file_contents, f, ensure_ascii=True, indent=4)
+        if flags:
+            file_mode = os.stat(file_path).st_mode
+            if "x" in flags:
+                file_mode |= stat.S_IEXEC
+            os.chmod(file_path, file_mode)
 
 
 class TransitionTool:
@@ -290,16 +298,13 @@ class TransitionTool:
                 stdin
                 | {
                     "args": args,
-                    "t8n.sh": t8n_script,
+                    "t8n.sh+x": t8n_script,
                     "stdin": stdin,
                     "stdout": result.stdout.decode(),
                     "stderr": result.stderr.decode(),
                     "returncode": result.returncode,
                 },
             )
-            script_path = os.path.join(debug_output_path, "t8n.sh")
-            st = os.stat(script_path)
-            os.chmod(script_path, st.st_mode | stat.S_IEXEC)
 
         if result.returncode != 0:
             raise Exception("failed to evaluate: " + result.stderr.decode())
