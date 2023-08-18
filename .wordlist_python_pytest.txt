@@ -41,6 +41,7 @@ rjust
 runpytest
 runtest
 subclasses
+subcommand
 substring
 substrings
 tryfirst
