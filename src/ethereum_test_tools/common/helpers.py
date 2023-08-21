@@ -70,7 +70,29 @@ def copy_opcode_cost(length: int) -> int:
     return 3 + (ceiling_division(length, 32) * 3) + cost_memory_bytes(length, 0)
 
 
-def eip_2028_transaction_data_cost(data: BytesConvertible) -> int:
+def compute_create3_address(
+    address: str | int, salt: int, init_container: bytes, input_data: bytes
+) -> str:
+    """
+    Compute address of the resulting contract created using the `CREATE2`
+    opcode.
+    """
+    ff = bytes([0xFF])
+    if type(address) is str:
+        if address.startswith("0x"):
+            address = address[2:]
+        address_bytes = bytes.fromhex(address)
+    elif type(address) is int:
+        address_bytes = address.to_bytes(length=20, byteorder="big")
+    salt_bytes = salt.to_bytes(length=32, byteorder="big")
+    initcode_hash = keccak256(init_container)
+    hash = keccak256(
+        ff + address_bytes + salt_bytes + initcode_hash + input_data
+    )
+    return "0x" + hash[-20:].hex()
+
+
+def eip_2028_transaction_data_cost(data: bytes | str) -> int:
     """
     Calculates the cost of a given data as part of a transaction, based on the
     costs specified in EIP-2028: https://eips.ethereum.org/EIPS/eip-2028

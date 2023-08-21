@@ -2,7 +2,7 @@
 Ethereum Virtual Machine opcode definitions.
 """
 from enum import Enum
-from typing import List, Union
+from typing import Any, Callable, List, Optional, Union
 
 
 def _get_int_size(n: int) -> int:
@@ -41,6 +41,7 @@ class Opcode(bytes):
     pushed_stack_items: int
     min_stack_height: int
     data_portion_length: int
+    data_portion_parser: Optional[Callable[[Any], bytes]]
     _name_: str
 
     def __new__(
@@ -51,6 +52,7 @@ class Opcode(bytes):
         pushed_stack_items: int = 0,
         min_stack_height: int = 0,
         data_portion_length: int = 0,
+        data_portion_parser=None
     ):
         """
         Creates a new opcode instance.
@@ -65,6 +67,7 @@ class Opcode(bytes):
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
             obj.data_portion_length = data_portion_length
+            obj.data_portion_parser = data_portion_parser
             return obj
 
     def __call__(self, *args_t: Union[int, bytes, str, "Opcode"]) -> bytes:
@@ -178,6 +181,11 @@ class Opcode(bytes):
 
 OpcodeCallArg = Union[int, bytes, Opcode]
 
+def _rjumpv_encoder(*args: int) -> bytes:
+    return b"".join(
+        [len(args).to_bytes(1, "big")] + [i.to_bytes(2, "big", signed=True) for i in args]
+    )
+
 
 class Opcodes(Opcode, Enum):
     """
@@ -261,11 +269,18 @@ class Opcodes(Opcode, Enum):
     PC = Opcode(0x58, pushed_stack_items=1)
     MSIZE = Opcode(0x59, pushed_stack_items=1)
     GAS = Opcode(0x5A, pushed_stack_items=1)
+    NOOP = Opcode(0x5B)
     JUMPDEST = Opcode(0x5B)
     RJUMP = Opcode(0x5C, data_portion_length=2)
     RJUMPI = Opcode(0x5D, popped_stack_items=1, data_portion_length=2)
-    MCOPY = Opcode(0x5E, popped_stack_items=3)
-    RETF = Opcode(0x49)
+    RJUMPV = Opcode(
+        0x5E,
+        popped_stack_items=1,
+        # variable_immediate_length=(1, 2),
+    )
+    CALLF = Opcode(0xB0, data_portion_length=2)
+    RETF = Opcode(0xB1)
+    JUMPF = Opcode(0xB1, data_portion_length=2)
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
     PUSH1 = Opcode(0x60, pushed_stack_items=1, data_portion_length=1)
@@ -343,6 +358,12 @@ class Opcodes(Opcode, Enum):
 
     TLOAD = Opcode(0xB3, popped_stack_items=1, pushed_stack_items=1)
     TSTORE = Opcode(0xB4, popped_stack_items=2)
+    DUPN = Opcode(0xB5, pushed_stack_items=1, data_portion_length=1)
+    SWAPN = Opcode(0xB6, data_portion_length=1)
+    DATALOAD = Opcode(0xB7, popped_stack_items=1, pushed_stack_items=1)
+    DATALOADN = Opcode(0xB8, pushed_stack_items=1, data_portion_length=2)
+    DATASIZE = Opcode(0xB9, pushed_stack_items=1)
+    DATACOPY = Opcode(0xBA, popped_stack_items=3)
 
     CREATE = Opcode(0xF0, popped_stack_items=3, pushed_stack_items=1)
     CALL = Opcode(0xF1, popped_stack_items=7, pushed_stack_items=1)
@@ -350,8 +371,14 @@ class Opcodes(Opcode, Enum):
     RETURN = Opcode(0xF3, popped_stack_items=2)
     DELEGATECALL = Opcode(0xF4, popped_stack_items=6, pushed_stack_items=1)
     CREATE2 = Opcode(0xF5, popped_stack_items=4, pushed_stack_items=1)
+    CREATE3 = Opcode(0xF6, popped_stack_items=4, pushed_stack_items=1, data_portion_length=1)
+    CREATE4 = Opcode(0xF7, popped_stack_items=5, pushed_stack_items=1)
 
-    STATICCALL = Opcode(0xFA, popped_stack_items=6, pushed_stack_items=1)
+    RETURNCONTRACT = Opcode(
+        0xF8, popped_stack_items=2, pushed_stack_items=1, data_portion_length=1
+    )
+
+    STATICCALL = Opcode(0xFA, popped_stack_items=2, pushed_stack_items=1)
 
     REVERT = Opcode(0xFD, popped_stack_items=2)
     INVALID = Opcode(0xFE)
