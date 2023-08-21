@@ -6952,7 +6952,7 @@ implementations.</p>
 
         <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
             <span class="n">env</span><span class="p">[</span>
-                <span class="s2">&quot;beaconRoot&quot;</span>
+                <span class="s2">&quot;parentBeaconBlockRoot&quot;</span>
             <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
 
         <span class="n">new_alloc</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
@@ -6999,7 +6999,7 @@ implementations.</p>
 
         <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
             <span class="n">env</span><span class="p">[</span>
-                <span class="s2">&quot;beaconRoot&quot;</span>
+                <span class="s2">&quot;parentBeaconBlockRoot&quot;</span>
             <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
 
         <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
@@ -8014,7 +8014,7 @@ should be overridden.</p>
 
     <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
         <span class="n">env</span><span class="p">[</span>
-            <span class="s2">&quot;beaconRoot&quot;</span>
+            <span class="s2">&quot;parentBeaconBlockRoot&quot;</span>
         <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
 
     <span class="n">new_alloc</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
@@ -8141,7 +8141,7 @@ should be overridden.</p>
 
     <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
         <span class="n">env</span><span class="p">[</span>
-            <span class="s2">&quot;beaconRoot&quot;</span>
+            <span class="s2">&quot;parentBeaconBlockRoot&quot;</span>
         <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
 
     <span class="n">_</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
