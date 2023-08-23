@@ -1,3 +1,5 @@
+import binascii
+
 from itertools import count, cycle
 from typing import Dict, List, SupportsBytes
 
@@ -168,7 +170,7 @@ def pre(
 
 # TODO: also test where selfdestructable contract is pre-existing
 @pytest.mark.valid_from("Shanghai")
-def test_selfdestruct_created_in_cur_tx_with_revert(
+def test_selfdestruct_created_in_same_tx_with_revert(
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict[str, Account],
@@ -244,3 +246,71 @@ def test_selfdestruct_created_in_cur_tx_with_revert(
     # but also selfdestructs.  ensure that only the balance sent in the outer call
     # made it.
 
+
+@pytest.fixture
+def pre_with_selfdestructable(
+    recursive_revert_contract_address: str,
+    recursive_revert_contract_code: SupportsBytes,
+    selfdestruct_with_transfer_initcode_copy_from_address: str,
+    selfdestruct_with_transfer_contract_initcode: SupportsBytes,
+    selfdestruct_with_transfer_contract_address: str,
+    yul: YulCompiler,
+) -> Dict[str, Account]:
+    return {
+        TestAddress: Account(balance=100_000_000_000_000_000_000),
+        selfdestruct_with_transfer_initcode_copy_from_address: Account(code=selfdestruct_with_transfer_contract_initcode),
+        recursive_revert_contract_address: Account(code=recursive_revert_contract_code, balance=2)
+    }
+
+
+@pytest.mark.valid_from("Shanghai")
+def test_selfdestruct_not_created_in_same_tx_with_revert(
+    state_test: StateTestFiller,
+    env: Environment,
+    entry_code_address: str,
+    selfdestruct_with_transfer_contract_code: SupportsBytes,
+    selfdestruct_with_transfer_contract_address: str,
+    selfdestruct_recipient_address: str,
+    recursive_revert_contract_address: str,
+    recursive_revert_contract_code: SupportsBytes,
+):
+    import pdb; pdb.set_trace()
+    entry_code = Op.CALL(
+        Op.GASLIMIT(),
+        Op.PUSH20(recursive_revert_contract_address),
+        0, # value
+        0, # arg offset
+        0, # arg length
+        0, # ret offset
+        0, # ret length
+    )
+
+    # TODO: handle post for eip enabled/disabled
+    pre: Dict[str, Account] = {
+        TestAddress: Account(balance=100_000_000_000_000_000_000),
+        selfdestruct_with_transfer_contract_address: Account(code=selfdestruct_with_transfer_contract_code),
+        recursive_revert_contract_address: Account(code=bytes(recursive_revert_contract_code), balance=2)
+    }
+
+    post: Dict[str, Account] = {
+        entry_code_address: Account(
+            code="0x"
+        ),
+        selfdestruct_with_transfer_contract_address: Account(balance=1, code="0x"+bytes.decode(binascii.hexlify(bytes(selfdestruct_with_transfer_contract_code)), 'utf-8')),
+        selfdestruct_recipient_address: Account.NONEXISTENT
+    }
+
+    nonce = count()
+    tx = Transaction(
+        ty=0x0,
+        value=0,
+        data=entry_code,
+        chain_id=0x0,
+        nonce=next(nonce),
+        to=None,
+        gas_limit=100_000_000,
+        gas_price=10,
+        protected=False,
+    )
+
+    state_test(env=env, pre=pre, post=post, txs=[tx])
