@@ -306,6 +306,7 @@ readline
 regexes
 reportinfo
 ret
+ripemd
 rjust
 runpytest
 runtest
