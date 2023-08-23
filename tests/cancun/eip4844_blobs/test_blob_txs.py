@@ -707,7 +707,6 @@ def test_invalid_blob_hash_versioning(
 @pytest.mark.parametrize(
     "destination_account,tx_error", [(None, "no_contract_creating_blob_txs")], ids=[""]
 )
-@pytest.mark.force_invalid_fields()
 @pytest.mark.valid_from("Cancun")
 def test_invalid_blob_tx_contract_creation(
     blockchain_test: BlockchainTestFiller,
