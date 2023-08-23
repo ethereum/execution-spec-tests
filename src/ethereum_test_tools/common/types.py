@@ -1168,6 +1168,7 @@ class Transaction:
         json_encoder=JSONEncoder.Field(
             cast_type=HexNumber,
         ),
+        valid_int_range=(0, 2**64 - 1),
     )
     gas_price: Optional[int] = field(
         default=None,
@@ -1202,6 +1203,7 @@ class Transaction:
         json_encoder=JSONEncoder.Field(
             cast_type=Address,
         ),
+        valid_address_length=20,
     )
     value: int = field(
         default=0,
@@ -1367,6 +1369,36 @@ class Transaction:
 
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
             self.max_priority_fee_per_gas = 0
+
+    def validate_and_fix_fields(self) -> Dict[str, Any]:
+        """
+        Overwrites the fields' values with their defaults if they're invalid.
+        Returns a dictionary of fields that were invalid with their previous values.
+        """
+        invalid_fields = {}
+
+        for field_obj in fields(self):
+            field_name = field_obj.name
+            field_value = getattr(self, field_name)
+            default = field_obj.default
+
+            valid_int_range = field_obj.metadata.get("valid_int_range")
+            if valid_int_range and (
+                field_value < valid_int_range[0] or field_value > valid_int_range[1]
+            ):
+                invalid_fields[field_name] = field_value
+                setattr(self, field_name, default)
+
+            valid_address_length = field_obj.metadata.get("valid_address_length")
+            if valid_address_length:
+                if field_value is None:
+                    invalid_fields[field_name] = field_value
+                    setattr(self, field_name, default)
+                elif len(field_value) != valid_address_length:
+                    invalid_fields[field_name] = field_value
+                    setattr(self, field_name, default)
+
+        return invalid_fields
 
     def with_error(self, error: str) -> "Transaction":
         """

@@ -134,7 +134,11 @@ class JSONEncoder(json.JSONEncoder):
             return super().default(obj)
 
 
-def field(*args, json_encoder: Optional[JSONEncoder.Field] = None, **kwargs) -> Any:
+def field(
+    *args,
+    json_encoder: Optional[JSONEncoder.Field] = None,
+    **kwargs,
+) -> Any:
     """
     A wrapper around `dataclasses.field` that allows for json configuration info.
     """
@@ -146,6 +150,14 @@ def field(*args, json_encoder: Optional[JSONEncoder.Field] = None, **kwargs) -> 
 
     if json_encoder is not None:
         metadata["json_encoder"] = json_encoder
+
+    valid_int_range = kwargs.pop("valid_int_range", None)
+    if valid_int_range is not None:
+        metadata["valid_int_range"] = valid_int_range
+
+    valid_address_length = kwargs.pop("valid_address_length", None)
+    if valid_address_length is not None:
+        metadata["valid_address_length"] = valid_address_length
 
     kwargs["metadata"] = metadata
     return dataclass_field(*args, **kwargs)

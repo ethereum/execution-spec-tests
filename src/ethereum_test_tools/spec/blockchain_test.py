@@ -43,6 +43,7 @@ class BlockchainTest(BaseTest):
     blocks: List[Block]
     genesis_environment: Environment = field(default_factory=Environment)
     tag: str = ""
+    invalid_fields: Optional[List[str]] = None
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -153,6 +154,11 @@ class BlockchainTest(BaseTest):
                 if block.txs is not None
                 else []
             )
+
+            # TODO: only run this if defined in the test
+            invalid_tx_fields = []
+            for tx in txs:
+                invalid_tx_fields.append(tx.validate_and_fix_fields())
 
             next_alloc, result = t8n.evaluate(
                 alloc=previous_alloc,
