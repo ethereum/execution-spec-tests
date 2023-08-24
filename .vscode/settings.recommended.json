@@ -2,20 +2,8 @@
     "cSpell.customDictionaries": {
         "project-words": {
             "name": "project-words",
-            "path": "${workspaceRoot}/.wordlist.txt",
+            "path": "${workspaceRoot}/whitelist.txt",
             "description": "Words used in this project",
-            "addWords": true
-        },
-        "opcodes": {
-            "name": "opcodes",
-            "path": "${workspaceRoot}/.wordlist_opcodes.txt",
-            "description": "List of EVM opcodes",
-            "addWords": true
-        },
-        "python_pytest": {
-            "name": "python_pytest",
-            "path": "${workspaceRoot}/.wordlist_python_pytest.txt",
-            "description": "List of python and pytest related words",
             "addWords": true
         },
         "custom": true, // Enable the `custom` dictionary

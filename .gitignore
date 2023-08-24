@@ -60,4 +60,3 @@ _readthedocs
 site
 venv-docs/
 .pyspelling_en.dict
-whitelist.txt

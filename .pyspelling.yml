@@ -16,9 +16,7 @@ matrix:
     d: en_US
   dictionary:
     wordlists:
-      - .wordlist.txt
-      - .wordlist_opcodes.txt
-      - .wordlist_python_pytest.txt
+      - whitelist.txt
     output: .pyspelling_en.dict
   sources:
   - 'docs/**/*.md'
