@@ -97,11 +97,8 @@ def test_beacon_root_precompile_calls(
         (2**32, True),  # arbitrary
         (2**64 - 2, True),  # near-max
         (2**64 - 1, True),  # max
-        # TODO: Update t8n to un marshal > 64-bit int
-        # Exception: failed to evaluate: ERROR(10): failed un marshaling stdin
-        # (2**64, False),  # overflow
-        # Exception: failed to evaluate: ERROR(10): failed un marshaling stdin
-        # (2**64 + 1, False),  # overflow+1
+        (2**64, False),  # overflow
+        (2**64 + 1, False),  # overflow+1
     ],
 )
 @pytest.mark.parametrize("auto_access_list", [False, True])

@@ -155,13 +155,14 @@ class BlockchainTest(BaseTest):
                 else []
             )
 
-            # TODO: only run this if defined in the test - mark with pytest?
+            # TODO: add logic for marked tests
+            valid_env = env.overwrite_invalid_fields()
             valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
 
             next_alloc, result = t8n.evaluate(
                 alloc=previous_alloc,
                 txs=to_json(valid_txs),
-                env=to_json(env),
+                env=to_json(valid_env),
                 fork_name=fork.fork(
                     block_number=Number(env.number), timestamp=Number(env.timestamp)
                 ),

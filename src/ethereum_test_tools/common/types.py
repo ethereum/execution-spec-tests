@@ -895,6 +895,7 @@ class Environment:
             name="currentTimestamp",
             cast_type=Number,
         ),
+        valid_int_range=(0, 2**64 - 1),
     )
     prev_randao: Optional[NumberConvertible] = field(
         default=None,
@@ -1025,6 +1026,31 @@ class Environment:
             skip=True,
         ),
     )
+
+    def overwrite_invalid_fields(self) -> "Environment":
+        """
+        Overwrites the fields' values with their defaults if they're invalid.
+        Returns a new environment with overwritten fields.
+        """
+        valid_env = deepcopy(self)
+        for field_obj in fields(valid_env):
+            field_name = field_obj.name
+            field_value = getattr(valid_env, field_name)
+            default = field_obj.default
+
+            valid_int_range = field_obj.metadata.get("valid_int_range")
+            if valid_int_range and (
+                field_value < valid_int_range[0] or field_value > valid_int_range[1]
+            ):
+                setattr(valid_env, field_name, default)
+
+            valid_address_length = field_obj.metadata.get("valid_address_length")
+            if valid_address_length:
+                if field_value is None:
+                    setattr(valid_env, field_name, default)
+                elif len(field_value) != valid_address_length:
+                    setattr(valid_env, field_name, default)
+        return valid_env
 
     @staticmethod
     def from_parent_header(parent: "FixtureHeader") -> "Environment":
@@ -1168,7 +1194,6 @@ class Transaction:
         json_encoder=JSONEncoder.Field(
             cast_type=HexNumber,
         ),
-        valid_int_range=(0, 2**64 - 1),
     )
     gas_price: Optional[int] = field(
         default=None,
@@ -1391,7 +1416,7 @@ class Transaction:
             if valid_address_length:
                 if field_value is None:
                     setattr(valid_tx, field_name, default)
-                elif len(field_value) != valid_address_length:
+                elif len(Address(field_value)) != valid_address_length:
                     setattr(valid_tx, field_name, default)
         return valid_tx
 

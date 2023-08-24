@@ -138,10 +138,14 @@ class StateTest(BaseTest):
 
         txs = [tx.with_signature_and_sender() for tx in self.txs] if self.txs is not None else []
 
+        # TODO: add logic for marked tests
+        valid_env = env.overwrite_invalid_fields()
+        valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
+
         alloc, result = t8n.evaluate(
             alloc=to_json(pre),
-            txs=to_json(txs),
-            env=to_json(env),
+            txs=to_json(valid_txs),
+            env=to_json(valid_env),
             fork_name=fork.fork(block_number=Number(env.number), timestamp=Number(env.timestamp)),
             chain_id=chain_id,
             reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
