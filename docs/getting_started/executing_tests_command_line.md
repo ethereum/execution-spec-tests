@@ -90,47 +90,7 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
 
 ## Debugging the `t8n` Command
 
-The `--t8n-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes:
-
-```console
-fill --t8n-dump-dir=/tmp/evm-t8n-dump
-```
-
-For example, running:
-
-```console
-fill tests/berlin/eip2930_access_list/ --fork Berlin \
-    --t8n-dump-dir=/tmp/evm-t8n-dump
-```
-
-will produce the directory structure:
-
-```console
-/tmp/evm-t8n-dump/
-└── test_access_list_fork_Berlin
-    ├── 0
-    │   ├── alloc
-    │   ├── args
-    │   ├── env
-    │   ├── output_alloc
-    │   ├── output_result
-    │   ├── returncode
-    │   ├── stderr
-    │   ├── stdout
-    │   └── txs
-    └── 1
-        ├── alloc
-        ├── args
-        ├── env
-        ├── output_alloc
-        ├── output_result
-        ├── returncode
-        ├── stderr
-        ├── stdout
-        └── txs
-```
-
-where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test. Each directory then contain files containing information corresponding to the call, for example, the `args` file contains the arguments passed to the `t8n` command and the `output_alloc` file contains the output of the `t8n` command's `--output-alloc` flag. Note, the first call is used to calculate the state root of the starting alloc and therefore has an empty transaction list.
+The `--t8n-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes, see [Debugging Transition Tools](./debugging_t8n_tools.md).
 
 ## Other Useful Pytest Command-Line Options
 
