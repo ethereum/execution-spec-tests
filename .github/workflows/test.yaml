@@ -48,7 +48,7 @@ jobs:
       - name: Setup Tools/Dependencies macOS
         if: runner.os == 'macOS'
         run: |
-          brew install aspell aspell-en
+          brew install aspell
       - name: Install Tox and any other packages
         run: pip install tox
       - name: Run Tox (CPython)
