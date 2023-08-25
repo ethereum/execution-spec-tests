@@ -4,12 +4,13 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python: ['3.10', '3.11']
         golang: ['1.20.5']
         solc: ['0.8.20', '0.8.21']
+        os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -39,9 +40,14 @@ jobs:
           wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/linux-amd64/$RELEASE_NAME
           chmod a+x $GITHUB_WORKSPACE/bin/solc
           echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
-      - name: Install Aspell
+      - name: Setup Tools/Dependencies Ubuntu
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get install aspell aspell-en
+      - name: Setup Tools/Dependencies macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install aspell aspell-en
       - name: Install Tox and any other packages
         run: pip install tox
       - name: Run Tox (CPython)
