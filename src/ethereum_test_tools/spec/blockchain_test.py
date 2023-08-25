@@ -25,9 +25,10 @@ from ..common import (
     Number,
     ZeroPaddedHexNumber,
     to_json,
+    withdrawals_root,
 )
 from ..common.constants import EmptyOmmersRoot
-from .base_test import BaseTest, verify_post_alloc, verify_transactions
+from .base_test import BaseTest, verify_post_alloc, verify_result, verify_transactions
 from .debugging import print_traces
 
 
@@ -59,6 +60,10 @@ class BlockchainTest(BaseTest):
         Create a genesis block from the state test definition.
         """
         env = self.genesis_environment.set_fork_requirements(fork)
+        if env.withdrawals is not None:
+            assert len(env.withdrawals) == 0, "withdrawals must be empty at genesis"
+        if env.beacon_root is not None:
+            assert Hash(env.beacon_root) == Hash(0), "beacon_root must be empty at genesis"
 
         pre_alloc = Alloc(fork.pre_allocation(block_number=0, timestamp=Number(env.timestamp)))
         new_alloc, state_root = t8n.calc_state_root(
@@ -86,13 +91,7 @@ class BlockchainTest(BaseTest):
             blob_gas_used=ZeroPaddedHexNumber.or_none(env.blob_gas_used),
             excess_blob_gas=ZeroPaddedHexNumber.or_none(env.excess_blob_gas),
             withdrawals_root=Hash.or_none(
-                t8n.calc_withdrawals_root(
-                    withdrawals=env.withdrawals,
-                    fork=fork,
-                    debug_output_path=self.get_next_transition_tool_output_path(),
-                )
-                if env.withdrawals is not None
-                else None
+                withdrawals_root(env.withdrawals) if env.withdrawals is not None else None
             ),
             beacon_root=Hash.or_none(env.beacon_root),
         )
@@ -169,6 +168,7 @@ class BlockchainTest(BaseTest):
             )
             try:
                 rejected_txs = verify_transactions(txs, result)
+                verify_result(result, env)
             except Exception as e:
                 print_traces(t8n.get_traces())
                 pprint(result)

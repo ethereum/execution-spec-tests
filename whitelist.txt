@@ -102,6 +102,7 @@ glightbox
 gwei
 hash32
 hasher
+hexary
 hexsha
 homebrew
 html
