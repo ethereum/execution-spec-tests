@@ -21,7 +21,7 @@ The following requires a Python 3.10 or Python 3.11 installation.
           - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
           - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
 
-    === "macos"
+    === "macOS"
 
           ```console
           brew update
@@ -55,6 +55,13 @@ The following requires a Python 3.10 or Python 3.11 installation.
     source ./venv/bin/activate
     pip install -e '.[docs,lint,test]'
     ```
+
+    !!! note "Python 3.11 on macOS"
+        When using Python 3.11 on macOS the following must be installed first:
+
+        ```console
+        brew install autoconf automake libtool
+        ```
 
 3. Verify installation:
     1. Explore test cases:
