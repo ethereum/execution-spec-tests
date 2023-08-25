@@ -58,6 +58,7 @@ The following requires a Python 3.10 or Python 3.11 installation.
 
     !!! note "Python 3.11 on macOS"
         When using Python 3.11 on macOS the following must be installed first:
+
         ```console
         brew install autoconf automake libtool
         ```
