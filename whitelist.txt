@@ -135,7 +135,7 @@ listdir
 lll
 lllc
 london
-macos
+macOS
 mainnet
 marioevz
 markdownlint
