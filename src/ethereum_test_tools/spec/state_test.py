@@ -41,6 +41,7 @@ class StateTest(BaseTest):
     post: Mapping
     txs: List[Transaction]
     engine_api_error_code: Optional[EngineAPIError] = None
+    invalid_t8n_fields: Optional[List[str]] = None
     tag: str = ""
 
     @classmethod
@@ -138,14 +139,14 @@ class StateTest(BaseTest):
 
         txs = [tx.with_signature_and_sender() for tx in self.txs] if self.txs is not None else []
 
-        # TODO: add logic for marked tests
-        valid_env = env.overwrite_invalid_fields()
-        valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
+        if self.invalid_t8n_fields:
+            valid_env = env.overwrite_invalid_fields()
+            valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
 
         alloc, result = t8n.evaluate(
             alloc=to_json(pre),
-            txs=to_json(valid_txs),
-            env=to_json(valid_env),
+            txs=to_json(valid_txs if self.invalid_t8n_fields else txs),
+            env=to_json(valid_env if self.invalid_t8n_fields else env),
             fork_name=fork.fork(block_number=Number(env.number), timestamp=Number(env.timestamp)),
             chain_id=chain_id,
             reward=fork.get_reward(Number(env.number), Number(env.timestamp)),

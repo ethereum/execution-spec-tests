@@ -722,6 +722,7 @@ def test_invalid_blob_tx_contract_creation(
         post={},
         blocks=blocks,
         genesis_environment=env,
+        invalid_t8n_fields=["to"],
     )
 
 

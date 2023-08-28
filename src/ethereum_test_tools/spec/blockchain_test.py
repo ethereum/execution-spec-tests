@@ -42,8 +42,8 @@ class BlockchainTest(BaseTest):
     post: Mapping
     blocks: List[Block]
     genesis_environment: Environment = field(default_factory=Environment)
+    invalid_t8n_fields: Optional[List[str]] = None
     tag: str = ""
-    invalid_fields: Optional[List[str]] = None
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -155,9 +155,9 @@ class BlockchainTest(BaseTest):
                 else []
             )
 
-            # TODO: add logic for marked tests
-            valid_env = env.overwrite_invalid_fields()
-            valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
+            if self.invalid_t8n_fields:
+                valid_env = env.overwrite_invalid_fields()
+                valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
 
             next_alloc, result = t8n.evaluate(
                 alloc=previous_alloc,
