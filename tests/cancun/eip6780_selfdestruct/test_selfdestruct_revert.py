@@ -25,8 +25,6 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-# NOTE: I'm unsure if I need to redefine this constants (or even what they do)
-
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
@@ -78,15 +76,15 @@ def recursive_revert_contract_code(
                 mstore(0, 0)
                 pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
 
-		// recurse into self
+                // recurse into self
                 mstore(0, op_inner_call)
                 pop(call(gaslimit(), address(), 0, 0, 32, 0, 0))
 
                 return(0, 0)
             }}
             case 1 /* inner call */ {{
-		// trigger selfdestructable contract to self destruct
-		// and then revert
+                // trigger selfdestructable contract to self destruct
+                // and then revert
 
                 mstore(0, 1)
                 pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
@@ -110,8 +108,8 @@ def selfdestruct_with_transfer_contract_address(
 
 @pytest.fixture
 def selfdestruct_with_transfer_contract_code(
-	yul: YulCompiler,
-        selfdestruct_recipient_address: str
+    yul: YulCompiler,
+    selfdestruct_recipient_address: str
 ) -> SupportsBytes:
     return yul(
         f"""
@@ -163,11 +161,13 @@ def pre(
     }
 
 
-# given:
-#	contract A which has methods to receive balance and selfdestruct, and was created in current tx
-# test the following call sequence in a tx:
-# 	transfer value to A and call A.selfdestruct.
-# 	recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.
+"""
+given:
+    contract A which has methods to receive balance and selfdestruct, and was created in current tx
+test the following call sequence in a tx:
+     transfer value to A and call A.selfdestruct.
+     recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.
+"""
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_created_in_same_tx_with_revert(
     state_test: StateTestFiller,
@@ -252,8 +252,10 @@ def pre_with_selfdestructable(
     }
 
 
-# same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract
-# is pre-existing
+"""
+same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract
+is pre-existing
+"""
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_not_created_in_same_tx_with_revert(
     state_test: StateTestFiller,
