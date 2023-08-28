@@ -73,25 +73,20 @@ def recursive_revert_contract_code(
             let op_inner_call := 1
 
             switch operation
-            case 0 {{
-/*
-                mstore(0, 1)
-                pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
-*/
-
-                // transfer some value to the contract
+            case 0 /* outer call */ {{
+                // transfer some value to the selfdestructable contract
                 mstore(0, 0)
                 pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
 
 		// recurse into self
-                mstore(0, 1)
+                mstore(0, op_inner_call)
                 pop(call(gaslimit(), address(), 0, 0, 32, 0, 0))
 
                 return(0, 0)
             }}
-            case 1 {{
-		// inner call triggers selfdestructable contract to self destruct
-		// and then reverts
+            case 1 /* inner call */ {{
+		// trigger selfdestructable contract to self destruct
+		// and then revert
 
                 mstore(0, 1)
                 pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
@@ -126,13 +121,13 @@ def selfdestruct_with_transfer_contract_code(
             pop(mload(16))
 
             switch operation
-            case 0 {{
+            case 0 /* no-op used for transfering value to this contract */ {{
                 return(0, 0)
             }}
             case 1 {{
                 selfdestruct({selfdestruct_recipient_address})
             }}
-            default {{
+            default /* unsupported operation */ {{
                 stop()
             }}
         }}
@@ -168,7 +163,11 @@ def pre(
     }
 
 
-# TODO: also test where selfdestructable contract is pre-existing
+# given:
+#	contract A which has methods to receive balance and selfdestruct, and was created in current tx
+# test the following call sequence in a tx:
+# 	transfer value to A and call A.selfdestruct.
+# 	recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_created_in_same_tx_with_revert(
     state_test: StateTestFiller,
@@ -236,16 +235,6 @@ def test_selfdestruct_created_in_same_tx_with_revert(
 
     state_test(env=env, pre=pre, post=post, txs=[tx])
 
-    # selfdestructable contract created in current transaction
-    # call into selfdestructable contract 1..N times
-    # revert in outer call frame
-
-    # selfdestructable contract created in current transaction
-    # call into selfdestructable contract
-    # recursive call to self. recursive call selfdestructs and outer call reverts
-    # but also selfdestructs.  ensure that only the balance sent in the outer call
-    # made it.
-
 
 @pytest.fixture
 def pre_with_selfdestructable(
@@ -263,6 +252,8 @@ def pre_with_selfdestructable(
     }
 
 
+# same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract
+# is pre-existing
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_not_created_in_same_tx_with_revert(
     state_test: StateTestFiller,
@@ -274,7 +265,6 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
     recursive_revert_contract_address: str,
     recursive_revert_contract_code: SupportsBytes,
 ):
-    import pdb; pdb.set_trace()
     entry_code = Op.CALL(
         Op.GASLIMIT(),
         Op.PUSH20(recursive_revert_contract_address),
@@ -285,7 +275,6 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
         0, # ret length
     )
 
-    # TODO: handle post for eip enabled/disabled
     pre: Dict[str, Account] = {
         TestAddress: Account(balance=100_000_000_000_000_000_000),
         selfdestruct_with_transfer_contract_address: Account(code=selfdestruct_with_transfer_contract_code),
