@@ -1222,7 +1222,7 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
             entry_code_storage.store_next(selfdestruct_contract_address),
             create_bytecode,
         )
-   )
+    )
 
     # Store the EXTCODE* properties of the pre-existing address
     entry_code += Op.SSTORE(
