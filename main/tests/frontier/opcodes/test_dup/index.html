@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.3">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
     
     
       
@@ -4582,7 +4582,7 @@
 
 
 <h1 id="test-dup">Test DUP<a class="headerlink" href="#test-dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/daac9f094ca989b2b2cf15e6984c7e4749f13d8c/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9754b28ec36d7b57a859eacfb6a2a9be4e4a2403/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_dup.py</span>
@@ -4597,11 +4597,10 @@
 <a id="tests.frontier.opcodes.test_dup"></a>
   <div class="doc doc-contents first">
   
+      <p>abstract: Test DUP</p>
+<div class="highlight"><pre><span></span><code>Test the DUP opcodes.
+</code></pre></div>
 
-<details class="abstract" open>
-  <summary>Test DUP</summary>
-  <p>Test the DUP opcodes.</p>
-</details>
   
 
   <div class="doc doc-children">
@@ -4627,14 +4626,11 @@
   <div class="doc doc-contents ">
   
       <p>Test the DUP1-DUP16 opcodes.</p>
+<p>note: Test case ported from:</p>
+<div class="highlight"><pre><span></span><code>- [ethereum/tests/GeneralStateTests/VMTests/vmTests/dup.json](https://github.com/ethereum/tests/blob/develop/GeneralStateTests/VMTests/vmTests/dup.json)
+by Ori Pomerantz.
+</code></pre></div>
 
-<details class="note" open>
-  <summary>Test case ported from:</summary>
-  <ul>
-<li><a href="https://github.com/ethereum/tests/blob/develop/GeneralStateTests/VMTests/vmTests/dup.json">ethereum/tests/GeneralStateTests/VMTests/vmTests/dup.json</a>
-by Ori Pomerantz.</li>
-</ul>
-</details>
           <details class="quote">
             <summary>Source code in <code>tests/frontier/opcodes/test_dup.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 18</span>

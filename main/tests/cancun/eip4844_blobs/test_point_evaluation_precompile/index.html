@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.3">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
     
     
       
@@ -4617,7 +4617,7 @@
 
 
 <h1 id="test-point-evaluation-precompile">Test Point Evaluation Precompile<a class="headerlink" href="#test-point-evaluation-precompile" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/daac9f094ca989b2b2cf15e6984c7e4749f13d8c/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9754b28ec36d7b57a859eacfb6a2a9be4e4a2403/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -4636,34 +4636,33 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip4844_blobs.test_point_evaluation_precompile"></a>
   <div class="doc doc-contents first">
   
+      <p>abstract: Tests point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a></p>
+<div class="highlight"><pre><span></span><code>Test point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+</code></pre></div>
+<p>note: Adding a new test</p>
+<div class="highlight"><pre><span></span><code>Add a function that is named `test_&lt;test_name&gt;` and takes at least the following arguments:
 
-<details class="abstract" open>
-  <summary>Tests point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a></summary>
-  <p>Test point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
-</details>
-<details class="note" open>
-  <summary>Adding a new test</summary>
-  <p>Add a function that is named <code>test_&lt;test_name&gt;</code> and takes at least the following arguments:</p>
-<ul>
-<li>blockchain_test</li>
-<li>pre</li>
-<li>tx</li>
-<li>post</li>
-</ul>
-<p>The following arguments <em>need</em> to be parametrized or the test will not be generated:</p>
-<ul>
-<li>versioned_hash</li>
-<li>kzg_commitment</li>
-<li>z</li>
-<li>y</li>
-<li>kzg_proof</li>
-<li>success</li>
-</ul>
-<p>These values correspond to a single call of the precompile, and <code>success</code> refers to
-whether the call should succeed or fail.</p>
-<p>All other <code>pytest.fixture</code> fixtures can be parametrized to generate new combinations and test
-cases.</p>
-</details>
+- blockchain_test
+- pre
+- tx
+- post
+
+The following arguments *need* to be parametrized or the test will not be generated:
+
+- versioned_hash
+- kzg_commitment
+- z
+- y
+- kzg_proof
+- success
+
+These values correspond to a single call of the precompile, and `success` refers to
+whether the call should succeed or fail.
+
+All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
+cases.
+</code></pre></div>
+
   
 
   <div class="doc doc-children">

@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.3">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
     
     
       
@@ -4589,7 +4589,7 @@
 
 
 <h1 id="test-blocks-beacon-root-contract">Test Blocks Beacon Root Contract<a class="headerlink" href="#test-blocks-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/daac9f094ca989b2b2cf15e6984c7e4749f13d8c/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9754b28ec36d7b57a859eacfb6a2a9be4e4a2403/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -4608,27 +4608,27 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract"></a>
   <div class="doc doc-contents first">
   
+      <p>abstract: Tests beacon block root for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a></p>
+<div class="highlight"><pre><span></span><code>Test the exposed beacon chain root in the EVM for [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788) using multi-block tests
+</code></pre></div>
+<p>note: Adding a new test</p>
+<div class="highlight"><pre><span></span><code>Add a function that is named `test_&lt;test_name&gt;` and takes at least the following arguments:
 
-<details class="abstract" open>
-  <summary>Tests beacon block root for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a></summary>
-  <p>Test the exposed beacon chain root in the EVM for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a> using multi-block tests</p>
-</details>
-<details class="note" open>
-  <summary>Adding a new test</summary>
-  <p>Add a function that is named <code>test_&lt;test_name&gt;</code> and takes at least the following arguments:</p>
-<ul>
-<li>blockchain_test</li>
-<li>env</li>
-<li>pre</li>
-<li>blocks</li>
-<li>post</li>
-<li>valid_call</li>
-</ul>
-<p>The following arguments <em>need</em> to be parametrized or the test will not be generated:</p>
-<p>-</p>
-<p>All other <code>pytest.fixtures</code> can be parametrized to generate new combinations and test
-cases.</p>
-</details>
+- blockchain_test
+- env
+- pre
+- blocks
+- post
+- valid_call
+
+The following arguments *need* to be parametrized or the test will not be generated:
+
+-
+
+All other `pytest.fixtures` can be parametrized to generate new combinations and test
+cases.
+</code></pre></div>
+
   
 
   <div class="doc doc-children">
