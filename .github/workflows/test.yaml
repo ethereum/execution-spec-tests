@@ -7,16 +7,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        golang: ['1.20.5']
         include:
           - os: ubuntu-latest
             python: '3.10'
+            golang: '1.20.5'
             solc: '0.8.20'
           - os: ubuntu-latest
             python: '3.11'
+            golang: '1.20.5'
             solc: '0.8.21'
           - os: macos-latest
             python: '3.11'
+            golang: '1.20.5'
             solc: '0.8.21'
     steps:
       - uses: actions/checkout@v2
