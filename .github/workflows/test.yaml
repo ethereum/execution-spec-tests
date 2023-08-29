@@ -21,16 +21,16 @@ jobs:
             golang: '1.20.5'
             solc: '0.8.21'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
       - name: Checkout go-ethereum
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ethereum/go-ethereum
           path: go-ethereum
       - name: Setup golang
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.golang }}
       - name: Build evm cmd
@@ -40,7 +40,7 @@ jobs:
           go build .
           echo $GITHUB_WORKSPACE/go-ethereum/cmd/evm >> $GITHUB_PATH
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
       - name: Install solc compiler
