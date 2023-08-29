@@ -956,6 +956,7 @@ class Environment:
             name="parentTimestamp",
             cast_type=Number,
         ),
+        valid_int_range=(0, 2**64 - 1),
     )
     parent_base_fee: Optional[NumberConvertible] = field(
         default=None,
@@ -985,33 +986,37 @@ class Environment:
             cast_type=Hash,
         ),
     )
-    parent_blob_gas_used: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentBlobGasUsed",
-            cast_type=Number,
-        ),
-    )
     parent_excess_blob_gas: Optional[NumberConvertible] = field(
-        default=None,
+        default=0,
         json_encoder=JSONEncoder.Field(
             name="parentExcessBlobGas",
             cast_type=Number,
         ),
+        valid_int_range=(0, 2**64 - 1),
+    )
+    parent_blob_gas_used: Optional[NumberConvertible] = field(
+        default=0,
+        json_encoder=JSONEncoder.Field(
+            name="parentBlobGasUsed",
+            cast_type=Number,
+        ),
+        valid_int_range=(0, 2**64 - 1),
     )
     blob_gas_used: Optional[NumberConvertible] = field(
-        default=None,
+        default=0,
         json_encoder=JSONEncoder.Field(
             name="currentBlobGasUsed",
             cast_type=Number,
         ),
+        valid_int_range=(0, 2**64 - 1),
     )
     excess_blob_gas: Optional[NumberConvertible] = field(
-        default=None,
+        default=0,
         json_encoder=JSONEncoder.Field(
             name="currentExcessBlobGas",
             cast_type=Number,
         ),
+        valid_int_range=(0, 2**64 - 1),
     )
     beacon_root: Optional[FixedSizeBytesConvertible] = field(
         default=None,
@@ -1027,29 +1032,30 @@ class Environment:
         ),
     )
 
-    def overwrite_invalid_fields(self) -> "Environment":
+    def replace_invalid_fields(self, invalid_field_names: List[str]) -> "Environment":
         """
-        Overwrites the fields' values with their defaults if they're invalid.
+        Replaces the fields' values with their defaults if they're invalid.
         Returns a new environment with overwritten fields.
         """
         valid_env = deepcopy(self)
-        for field_obj in fields(valid_env):
-            field_name = field_obj.name
-            field_value = getattr(valid_env, field_name)
-            default = field_obj.default
+        all_fields = {field_obj.name: field_obj for field_obj in fields(valid_env)}
+        for field_name in invalid_field_names:
+            field_obj = all_fields.get(field_name)
+            if field_obj:
+                field_value = getattr(valid_env, field_name)
+                default = field_obj.default
 
-            valid_int_range = field_obj.metadata.get("valid_int_range")
-            if valid_int_range and (
-                field_value < valid_int_range[0] or field_value > valid_int_range[1]
-            ):
-                setattr(valid_env, field_name, default)
+                valid_int_range = field_obj.metadata.get("valid_int_range")
+                if valid_int_range and (
+                    field_value < valid_int_range[0] or field_value > valid_int_range[1]
+                ):
+                    setattr(valid_env, field_name, default)
 
-            valid_address_length = field_obj.metadata.get("valid_address_length")
-            if valid_address_length:
-                if field_value is None:
-                    setattr(valid_env, field_name, default)
-                elif len(field_value) != valid_address_length:
-                    setattr(valid_env, field_name, default)
+                valid_address_length = field_obj.metadata.get("valid_address_length")
+                if valid_address_length:
+                    if field_value is None or len(field_value) != valid_address_length:
+                        setattr(valid_env, field_name, default)
+
         return valid_env
 
     @staticmethod
@@ -2221,12 +2227,41 @@ class FixtureHeader:
     )
 
     @classmethod
+    def invalidate_transition_tool_result(
+        cls,
+        transition_tool_result: Dict[str, Any],
+        invalid_fields: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Replaces the transition tool result with the invalid values for the fields that are
+        being tested for validity.
+        """
+        field_to_result_name = {}
+        for header_field in fields(cls):
+            source_info = header_field.metadata.get("source")
+            if source_info:
+                result_name = (
+                    source_info.source_transition_tool
+                    if hasattr(source_info, "source_transition_tool")
+                    else None
+                )
+                if result_name:
+                    field_to_result_name[header_field.name] = result_name
+
+        for invalid_name, invalid_value in invalid_fields.items():
+            result_name = field_to_result_name.get(invalid_name)
+            if result_name:
+                transition_tool_result[result_name] = invalid_value
+        return transition_tool_result
+
+    @classmethod
     def collect(
         cls,
         *,
         fork: Fork,
         transition_tool_result: Dict[str, Any],
         environment: Environment,
+        invalid_fields: Optional[Dict[str, Any]] = None,
     ) -> "FixtureHeader":
         """
         Collects a FixtureHeader object from multiple sources:
@@ -2237,6 +2272,12 @@ class FixtureHeader:
         # requirements
         number, timestamp = Number(environment.number), Number(environment.timestamp)
 
+        if invalid_fields is not None:
+            transition_tool_result = cls.invalidate_transition_tool_result(
+                transition_tool_result,
+                invalid_fields,
+            )
+
         # Collect the header fields
         kwargs: Dict[str, Any] = {}
         for header_field in fields(cls):
@@ -2245,7 +2286,7 @@ class FixtureHeader:
             assert metadata is not None, f"Field {field_name} has no header field metadata"
             field_metadata = metadata.get("source")
             assert isinstance(field_metadata, HeaderFieldSource), (
-                f"Field {field_name} has invalid header_field " f"metadata: {field_metadata}"
+                f"Field {field_name} has invalid header_field metadata: {field_metadata}"
             )
             field_metadata.collect(
                 target=kwargs,

@@ -41,7 +41,7 @@ class StateTest(BaseTest):
     post: Mapping
     txs: List[Transaction]
     engine_api_error_code: Optional[EngineAPIError] = None
-    invalid_t8n_fields: Optional[List[str]] = None
+    invalid_fields: Optional[Dict[str, Any]] = None
     tag: str = ""
 
     @classmethod
@@ -139,14 +139,16 @@ class StateTest(BaseTest):
 
         txs = [tx.with_signature_and_sender() for tx in self.txs] if self.txs is not None else []
 
-        if self.invalid_t8n_fields:
-            valid_env = env.overwrite_invalid_fields()
+        if self.invalid_fields:
+            valid_env = env.replace_invalid_fields(
+                invalid_field_names=list(self.invalid_fields.keys())
+            )
             valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
 
         alloc, result = t8n.evaluate(
             alloc=to_json(pre),
-            txs=to_json(valid_txs if self.invalid_t8n_fields else txs),
-            env=to_json(valid_env if self.invalid_t8n_fields else env),
+            txs=to_json(valid_txs if self.invalid_fields else txs),
+            env=to_json(valid_env if self.invalid_fields else env),
             fork_name=fork.fork(block_number=Number(env.number), timestamp=Number(env.timestamp)),
             chain_id=chain_id,
             reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
@@ -175,6 +177,7 @@ class StateTest(BaseTest):
             fork=fork,
             transition_tool_result=result,
             environment=env,
+            invalid_fields=self.invalid_fields,
         )
 
         block, header.hash = header.build(

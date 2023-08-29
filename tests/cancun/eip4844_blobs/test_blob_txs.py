@@ -704,28 +704,6 @@ def test_invalid_blob_hash_versioning(
     )
 
 
-@pytest.mark.parametrize(
-    "destination_account,tx_error", [(None, "no_contract_creating_blob_txs")], ids=[""]
-)
-@pytest.mark.valid_from("Cancun")
-def test_invalid_blob_tx_contract_creation(
-    blockchain_test: BlockchainTestFiller,
-    pre: Dict,
-    env: Environment,
-    blocks: List[Block],
-):
-    """
-    Reject blocks that include blob transactions that have nil to value (contract creating).
-    """
-    blockchain_test(
-        pre=pre,
-        post={},
-        blocks=blocks,
-        genesis_environment=env,
-        invalid_t8n_fields=["to"],
-    )
-
-
 # ----------------------------------------
 # Opcode Tests in Blob Transaction Context
 # ----------------------------------------

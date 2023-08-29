@@ -42,7 +42,7 @@ class BlockchainTest(BaseTest):
     post: Mapping
     blocks: List[Block]
     genesis_environment: Environment = field(default_factory=Environment)
-    invalid_t8n_fields: Optional[List[str]] = None
+    invalid_fields: Optional[Dict[str, Any]] = None
     tag: str = ""
 
     @classmethod
@@ -154,15 +154,16 @@ class BlockchainTest(BaseTest):
                 if block.txs is not None
                 else []
             )
-
-            if self.invalid_t8n_fields:
-                valid_env = env.overwrite_invalid_fields()
+            if self.invalid_fields:
+                valid_env = env.replace_invalid_fields(
+                    invalid_field_names=list(self.invalid_fields.keys())
+                )
                 valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
 
             next_alloc, result = t8n.evaluate(
                 alloc=previous_alloc,
-                txs=to_json(valid_txs),
-                env=to_json(valid_env),
+                txs=to_json(valid_txs if self.invalid_fields else txs),
+                env=to_json(valid_env if self.invalid_fields else env),
                 fork_name=fork.fork(
                     block_number=Number(env.number), timestamp=Number(env.timestamp)
                 ),
@@ -171,6 +172,7 @@ class BlockchainTest(BaseTest):
                 eips=eips,
                 debug_output_path=self.get_next_transition_tool_output_path(),
             )
+
             try:
                 rejected_txs = verify_transactions(txs, result)
                 verify_result(result, env)
@@ -190,11 +192,13 @@ class BlockchainTest(BaseTest):
                     + "was indeed expected to fail and add the proper "
                     + "`block.exception`"
                 )
+
             env.extra_data = block.extra_data
             header = FixtureHeader.collect(
                 fork=fork,
                 transition_tool_result=result,
                 environment=env,
+                invalid_fields=self.invalid_fields,
             )
 
             if block.rlp_modifier is not None:

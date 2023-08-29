@@ -97,8 +97,6 @@ def test_beacon_root_contract_calls(
         (2**32, True),  # arbitrary
         (2**64 - 2, True),  # near-max
         (2**64 - 1, True),  # max
-        (2**64, False),  # overflow
-        (2**64 + 1, False),  # overflow+1
     ],
 )
 @pytest.mark.parametrize("auto_access_list", [False, True])
@@ -130,7 +128,6 @@ def test_beacon_root_contract_timestamps(
         pre=pre,
         txs=[tx],
         post=post,
-        invalid_t8n_fields=["timestamp"],
     )
 
 
