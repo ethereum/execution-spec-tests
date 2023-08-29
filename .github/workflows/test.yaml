@@ -4,25 +4,36 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python: ['3.10', '3.11']
-        golang: ['1.20.5']
-        solc: ['0.8.20', '0.8.21']
+        include:
+          - os: ubuntu-latest
+            python: '3.10'
+            golang: '1.20.5'
+            solc: '0.8.20'
+          - os: ubuntu-latest
+            python: '3.11'
+            golang: '1.20.5'
+            solc: '0.8.21'
+          - os: macos-latest
+            python: '3.11'
+            golang: '1.20.5'
+            solc: '0.8.21'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
       - name: Checkout go-ethereum
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ethereum/go-ethereum
           path: go-ethereum
       - name: Setup golang
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.golang }}
+          cache-dependency-path: go-ethereum/go.sum
       - name: Build evm cmd
         run: |
           mkdir -p $GITHUB_WORKSPACE/bin
@@ -30,18 +41,26 @@ jobs:
           go build .
           echo $GITHUB_WORKSPACE/go-ethereum/cmd/evm >> $GITHUB_PATH
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
       - name: Install solc compiler
         run: |
-          RELEASE_NAME=$(curl https://binaries.soliditylang.org/linux-amd64/list.json | jq -r --arg SOLC_VERSION "${{ matrix.solc }}" '.releases[$SOLC_VERSION]')
-          wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/linux-amd64/$RELEASE_NAME
+          if [ "$RUNNER_OS" == "Linux" ]; then PLATFORM="linux-amd64"; else PLATFORM="macosx-amd64"; fi
+          RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ matrix.solc }}" '.releases[$SOLC_VERSION]')
+          wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
           chmod a+x $GITHUB_WORKSPACE/bin/solc
           echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
-      - name: Install Aspell
+      - name: Setup Tools/Dependencies Ubuntu
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get install aspell aspell-en
+      - name: Setup Tools/Dependencies macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install aspell
+          # Add additional packages on 3.11: https://github.com/ethereum/execution-spec-tests/issues/274
+          if [ ${{ matrix.python }} == '3.11' ]; then brew install autoconf automake libtool; fi
       - name: Install Tox and any other packages
         run: pip install tox
       - name: Run Tox (CPython)
