@@ -33,6 +33,7 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.golang }}
+          cache-dependency-path: go-ethereum/go.sum
       - name: Build evm cmd
         run: |
           mkdir -p $GITHUB_WORKSPACE/bin
