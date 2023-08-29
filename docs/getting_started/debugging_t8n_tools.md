@@ -48,18 +48,12 @@ will produce the directory structure:
         └── t8n.sh
 ```
 
-where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test, in this case (pre-Shanghai state):
+where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test:
 
 - `0` corresponds to the call used to calculate the state root of the test's initial alloc (which is why it has an empty transaction list).
-- `1` corresponds to the call used to execute the first transaction from the test.
+- `1` corresponds to the call used to execute the first transaction or block from the test.
 
-For post-Shanghai forks:
-
-- `0` corresponds to the call used to calculate the `stateRoot` for the test's initial alloc.
-- `1` (optional) corresponds to the call used to calculate the initial `withdrawalsRoot` for the test's initial alloc if required.
-- `2` corresponds to the call used to execute the first transaction from the test.
-
-Note, there may be more directories present `3`, `4`,... if the test executes more transactions.
+Note, there may be more directories present `2`, `3`, `4`,... if the test executes more transactions/blocks.
 
 Each directory contains files containing information corresponding to the call, for example, the `args.py` file contains the arguments passed to the `t8n` command and the `output/alloc.json` file contains the output of the `t8n` command's `--output-alloc` flag.
 
