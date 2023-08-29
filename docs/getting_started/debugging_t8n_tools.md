@@ -13,7 +13,7 @@ fill tests/berlin/eip2930_access_list/ --fork Berlin \
 
 will produce the directory structure:
 
-```console
+```text
 📁 /tmp/evm-t8n-dump/
 └─╴📁 test_access_list_fork_Berlin
     ├── 📁 0
