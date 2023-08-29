@@ -270,8 +270,10 @@ addoption
 addinivalue
 argname
 autouse
+basedir
 callspec
 collectonly
+copytree
 dedent
 dest
 exc
@@ -306,6 +308,7 @@ readline
 regexes
 reportinfo
 ret
+ripemd
 rjust
 runpytest
 runtest
