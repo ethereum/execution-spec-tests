@@ -14,38 +14,38 @@ fill tests/berlin/eip2930_access_list/ --fork Berlin \
 will produce the directory structure:
 
 ```console
-/tmp/evm-t8n-dump/
-└── test_access_list_fork_Berlin
-    ├── 0
-    │   ├── args.py
-    │   ├── input
-    │   │   ├── alloc.json
-    │   │   ├── env.json
-    │   │   └── txs.json
-    │   ├── output
-    │   │   ├── alloc.json
-    │   │   ├── result.json
-    │   │   └── txs.rlp
-    │   ├── returncode.txt
-    │   ├── stderr.txt
-    │   ├── stdin.txt
-    │   ├── stdout.txt
-    │   └── t8n.sh
-    └── 1
-        ├── args.py
-        ├── input
-        │   ├── alloc.json
-        │   ├── env.json
-        │   └── txs.json
-        ├── output
-        │   ├── alloc.json
-        │   ├── result.json
-        │   └── txs.rlp
-        ├── returncode.txt
-        ├── stderr.txt
-        ├── stdin.txt
-        ├── stdout.txt
-        └── t8n.sh
+📁 /tmp/evm-t8n-dump/
+└─╴📁 test_access_list_fork_Berlin
+    ├── 📁 0
+    │   ├── 📄 args.py
+    │   ├── 📁 input
+    │   │   ├── 📄 alloc.json
+    │   │   ├── 📄 env.json
+    │   │   └── 📄 txs.json
+    │   ├── 📁 output
+    │   │   ├── 📄 alloc.json
+    │   │   ├── 📄 result.json
+    │   │   └── 📄 txs.rlp
+    │   ├── 📄 returncode.txt
+    │   ├── 📄 stderr.txt
+    │   ├── 📄 stdin.txt
+    │   ├── 📄 stdout.txt
+    │   └── 📄 t8n.sh
+    └── 📁 1
+        ├── 📄 args.py
+        ├── 📁 input
+        │   ├── 📄 alloc.json
+        │   ├── 📄 env.json
+        │   └── 📄 txs.json
+        ├── 📁 output
+        │   ├── 📄 alloc.json
+        │   ├── 📄 result.json
+        │   └── 📄 txs.rlp
+        ├── 📄 returncode.txt
+        ├── 📄 stderr.txt
+        ├── 📄 stdin.txt
+        ├── 📄 stdout.txt
+        └── 📄 t8n.sh
 ```
 
 where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test:
