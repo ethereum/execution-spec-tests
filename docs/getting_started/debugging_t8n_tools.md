@@ -62,7 +62,7 @@ Each directory contains files containing information corresponding to the call, 
 The `t8n.sh` script written to the debug directory can be used to reproduce any call made to the `t8n` command, for example, if a Besu `t8n-server` has been started on port `3001`, the request made by the test for first transaction can be reproduced as:
 
 ```console
-/tmp/besu/test_access_list_fork_Berlin/1/t8n.sh 3021
+/tmp/besu/test_access_list_fork_Berlin/1/t8n.sh 3001
 ```
 
 which writes the response the from the `t8n-server` to the console output:
