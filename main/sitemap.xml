@@ -31,6 +31,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/debugging_t8n_tools/</loc>
+         <lastmod>2023-08-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/executing_tests_command_line/</loc>
          <lastmod>2023-08-29</lastmod>
          <changefreq>daily</changefreq>
@@ -87,6 +92,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/library/pytest_plugins/forks/</loc>
+         <lastmod>2023-08-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/library/pytest_plugins/navigation/</loc>
          <lastmod>2023-08-29</lastmod>
          <changefreq>daily</changefreq>
     </url>

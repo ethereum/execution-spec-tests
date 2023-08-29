@@ -507,6 +507,8 @@
       
         
       
+        
+      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
@@ -728,6 +730,26 @@
   
   <span class="md-ellipsis">
     Executing Tests for Features Under Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debugging_t8n_tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Debugging Transition Tools
   </span>
   
 
@@ -1033,6 +1055,8 @@
       
         
       
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1111,6 +1135,26 @@
 
               
             
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/precommit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enabling Precommit Checks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1136,6 +1180,8 @@
       
         
       
+        
+          
         
       
     
@@ -1241,120 +1287,16 @@
   
   
   
-    
-    
-      
+    <li class="md-nav__item">
+      <a href="../../library/pytest_plugins/" class="md-nav__link">
         
-          
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../library/pytest_plugins/" class="md-nav__link ">
-              
   
   <span class="md-ellipsis">
     Pytest Plugins
   </span>
   
 
-            </a>
-            
-              <label class="md-nav__link " for="__nav_7_5">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_5">
-            <span class="md-nav__icon md-icon"></span>
-            Pytest Plugins
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../library/pytest_plugins/forks/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Forks
-  </span>
-  
-
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../library/pytest_plugins/test_filler/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Test Filler
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../library/pytest_plugins/spec_version_checker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Spec Version Checker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -4741,38 +4683,7 @@
 <p>See: <a href="../executing_tests_dev_fork/">Executing Tests for Features under Development</a>.</p>
 </div>
 <h2 id="debugging-the-t8n-command">Debugging the <code>t8n</code> Command<a class="headerlink" href="#debugging-the-t8n-command" title="Permanent link">&para;</a></h2>
-<p>The <code>--t8n-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --t8n-dump-dir=/tmp/evm-t8n-dump</span>
-</code></pre></div>
-<p>For example, running:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin \</span>
-<span class="go">    --t8n-dump-dir=/tmp/evm-t8n-dump</span>
-</code></pre></div>
-<p>will produce the directory structure:</p>
-<div class="highlight"><pre><span></span><code><span class="go">/tmp/evm-t8n-dump/</span>
-<span class="go">└── test_access_list_fork_Berlin</span>
-<span class="go">    ├── 0</span>
-<span class="go">    │   ├── alloc</span>
-<span class="go">    │   ├── args</span>
-<span class="go">    │   ├── env</span>
-<span class="go">    │   ├── output_alloc</span>
-<span class="go">    │   ├── output_result</span>
-<span class="go">    │   ├── returncode</span>
-<span class="go">    │   ├── stderr</span>
-<span class="go">    │   ├── stdout</span>
-<span class="go">    │   └── txs</span>
-<span class="go">    └── 1</span>
-<span class="go">        ├── alloc</span>
-<span class="go">        ├── args</span>
-<span class="go">        ├── env</span>
-<span class="go">        ├── output_alloc</span>
-<span class="go">        ├── output_result</span>
-<span class="go">        ├── returncode</span>
-<span class="go">        ├── stderr</span>
-<span class="go">        ├── stdout</span>
-<span class="go">        └── txs</span>
-</code></pre></div>
-<p>where the directories <code>0</code> and <code>1</code> correspond to the different calls made to the <code>t8n</code> tool executed during the test. Each directory then contain files containing information corresponding to the call, for example, the <code>args</code> file contains the arguments passed to the <code>t8n</code> command and the <code>output_alloc</code> file contains the output of the <code>t8n</code> command's <code>--output-alloc</code> flag. Note, the first call is used to calculate the state root of the starting alloc and therefore has an empty transaction list.</p>
+<p>The <code>--t8n-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes, see <a href="../debugging_t8n_tools/">Debugging Transition Tools</a>.</p>
 <h2 id="other-useful-pytest-command-line-options">Other Useful Pytest Command-Line Options<a class="headerlink" href="#other-useful-pytest-command-line-options" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="go">fill -vv            # More verbose output</span>
 <span class="go">fill -x             # Exit instantly on first error or failed test case</span>
