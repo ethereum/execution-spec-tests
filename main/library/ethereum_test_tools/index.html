@@ -12893,9 +12893,7 @@ Compiles Yul source code into bytecode.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 45</span>
 <span class="normal"> 46</span>
 <span class="normal"> 47</span>
 <span class="normal"> 48</span>
@@ -12994,7 +12992,10 @@ Compiles Yul source code into bytecode.</p>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Yul</span><span class="p">(</span><span class="n">SupportsBytes</span><span class="p">,</span> <span class="n">Sized</span><span class="p">):</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Yul</span><span class="p">(</span><span class="n">SupportsBytes</span><span class="p">,</span> <span class="n">Sized</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Yul compiler.</span>
 <span class="sd">    Compiles Yul source code into bytecode.</span>
@@ -13075,7 +13076,7 @@ Compiles Yul source code into bytecode.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Code</span><span class="p">(</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return solc&#39;s version string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -13085,17 +13086,18 @@ Compiles Yul source code into bytecode.</p>
             <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">solc_output</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">version_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;0\.\d+\.\d+\+\S+&quot;</span>
-        <span class="n">solc_version_string</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">version_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Version: (.*)&quot;</span>
+        <span class="n">solc_version_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">solc_output</span><span class="p">:</span>
-            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">version_pattern</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-                <span class="n">solc_version_string</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span> <span class="o">:=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">version_pattern</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+                <span class="n">solc_version_string</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                 <span class="k">break</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">solc_version_string</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Unable to determine solc version.&quot;</span><span class="p">)</span>
-            <span class="n">solc_version_string</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-        <span class="k">return</span> <span class="n">solc_version_string</span>
+            <span class="k">return</span> <span class="n">Version</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Sanitize</span>
+        <span class="n">solc_version_string</span> <span class="o">=</span> <span class="n">solc_version_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;g++&quot;</span><span class="p">,</span> <span class="s2">&quot;gpp&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">solc_version_string</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -13127,9 +13129,7 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
 <span class="normal"> 75</span>
 <span class="normal"> 76</span>
 <span class="normal"> 77</span>
@@ -13159,7 +13159,9 @@ Compiles Yul source code into bytecode.</p>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assembles using `solc --assemble`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -13221,11 +13223,11 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the length of the Yul bytecode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -13259,11 +13261,11 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
 <span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds two code objects together, by converting both to bytes first.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -13297,11 +13299,11 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds two code objects together, by converting both to bytes first.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -13335,9 +13337,7 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
@@ -13355,7 +13355,10 @@ Compiles Yul source code into bytecode.</p>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return solc&#39;s version string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -13365,17 +13368,18 @@ Compiles Yul source code into bytecode.</p>
         <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">solc_output</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">version_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;0\.\d+\.\d+\+\S+&quot;</span>
-    <span class="n">solc_version_string</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">version_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Version: (.*)&quot;</span>
+    <span class="n">solc_version_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">solc_output</span><span class="p">:</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">version_pattern</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-            <span class="n">solc_version_string</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="o">:=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">version_pattern</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+            <span class="n">solc_version_string</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">break</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">solc_version_string</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Unable to determine solc version.&quot;</span><span class="p">)</span>
-        <span class="n">solc_version_string</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="k">return</span> <span class="n">solc_version_string</span>
+        <span class="k">return</span> <span class="n">Version</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Sanitize</span>
+    <span class="n">solc_version_string</span> <span class="o">=</span> <span class="n">solc_version_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;g++&quot;</span><span class="p">,</span> <span class="s2">&quot;gpp&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">solc_version_string</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
