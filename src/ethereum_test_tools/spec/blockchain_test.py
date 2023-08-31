@@ -154,16 +154,16 @@ class BlockchainTest(BaseTest):
                 if block.txs is not None
                 else []
             )
+
             if self.invalid_fields:
-                valid_env = env.replace_invalid_fields(
-                    invalid_field_names=list(self.invalid_fields.keys())
-                )
-                valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
+                invalid_field_names = list(self.invalid_fields.keys())
+                valid_env = env.with_valid_fields(invalid_field_names)
+                valid_txs = [tx.with_valid_fields(invalid_field_names) for tx in txs]
 
             next_alloc, result = t8n.evaluate(
                 alloc=previous_alloc,
-                txs=to_json(valid_txs if self.invalid_fields else txs),
-                env=to_json(valid_env if self.invalid_fields else env),
+                txs=to_json(txs if not self.invalid_fields else valid_txs),
+                env=to_json(env if not self.invalid_fields else valid_env),
                 fork_name=fork.fork(
                     block_number=Number(env.number), timestamp=Number(env.timestamp)
                 ),
@@ -201,9 +201,12 @@ class BlockchainTest(BaseTest):
                 invalid_fields=self.invalid_fields,
             )
 
+            # Modify any parameter specified within the block or transaction `rlp_modifier` after
+            # transition tool processing.
+            for tx in txs:
+                if tx.rlp_modifier is not None:
+                    tx = tx.join(tx.rlp_modifier)
             if block.rlp_modifier is not None:
-                # Modify any parameter specified in the `rlp_modifier` after
-                # transition tool processing.
                 header = header.join(block.rlp_modifier)
 
             rlp, header.hash = header.build(

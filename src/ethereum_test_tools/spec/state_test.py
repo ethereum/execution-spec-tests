@@ -140,10 +140,9 @@ class StateTest(BaseTest):
         txs = [tx.with_signature_and_sender() for tx in self.txs] if self.txs is not None else []
 
         if self.invalid_fields:
-            valid_env = env.replace_invalid_fields(
-                invalid_field_names=list(self.invalid_fields.keys())
-            )
-            valid_txs = [tx.overwrite_invalid_fields() for tx in txs]
+            invalid_field_names = list(self.invalid_fields.keys())
+            valid_env = env.with_valid_fields(invalid_field_names)
+            valid_txs = [tx.with_valid_fields(invalid_field_names) for tx in txs]
 
         alloc, result = t8n.evaluate(
             alloc=to_json(pre),
@@ -179,6 +178,12 @@ class StateTest(BaseTest):
             environment=env,
             invalid_fields=self.invalid_fields,
         )
+
+        # Modify any parameter specified within the transaction `rlp_modifier` after
+        # transition tool processing.
+        for tx in txs:
+            if tx.rlp_modifier is not None:
+                tx = tx.join(tx.rlp_modifier)
 
         block, header.hash = header.build(
             txs=txs,

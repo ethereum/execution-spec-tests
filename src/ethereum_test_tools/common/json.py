@@ -151,13 +151,9 @@ def field(
     if json_encoder is not None:
         metadata["json_encoder"] = json_encoder
 
-    valid_int_range = kwargs.pop("valid_int_range", None)
-    if valid_int_range is not None:
-        metadata["valid_int_range"] = valid_int_range
-
-    valid_address_length = kwargs.pop("valid_address_length", None)
-    if valid_address_length is not None:
-        metadata["valid_address_length"] = valid_address_length
+    validity_check = kwargs.pop("validity_check", None)
+    if validity_check is not None:
+        metadata["validity_check"] = validity_check
 
     kwargs["metadata"] = metadata
     return dataclass_field(*args, **kwargs)

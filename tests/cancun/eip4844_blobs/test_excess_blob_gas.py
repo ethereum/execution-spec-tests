@@ -224,6 +224,13 @@ def header_blob_gas_used() -> Optional[int]:  # noqa: D103
 
 
 @pytest.fixture
+def correct_blob_gas_used(  # noqa: D103
+    new_blobs: int,
+) -> int:
+    return new_blobs * Spec.GAS_PER_BLOB
+
+
+@pytest.fixture
 def blocks(  # noqa: D103
     tx: Transaction,
     header_excess_blob_gas: Optional[int],
@@ -744,6 +751,100 @@ def test_invalid_non_multiple_excess_blob_gas(
             [
                 f"correct:{hex(correct_excess_blob_gas)}",
                 f"header:{hex(header_excess_blob_gas)}",
+            ]
+        ),
+    )
+
+
+@pytest.mark.parametrize(
+    "header_excess_blob_gas",
+    [(2**64 + (x * Spec.GAS_PER_BLOB)) for x in range(0, SpecHelpers.target_blobs_per_block())],
+)
+@pytest.mark.parametrize("parent_blobs", range(SpecHelpers.target_blobs_per_block()))
+@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize("parent_excess_blobs", range(SpecHelpers.target_blobs_per_block()))
+# -------------------------------------------------------------------------------------------------
+# APPROACH 1: Using valid fields before t8n tool then overwriting afterwards for b11r.
+# -------------------------------------------------------------------------------------------------
+# In this approach we modify an additional field within the Block type - the rlp_modifier.
+# Essentially default valid values are used within the block during transition tool processing,
+# then the invalid fields specified within the rlp_modifier are used afterwards when building the
+# block.
+def test_invalid_excess_blob_gas_overflow(
+    blockchain_test: BlockchainTestFiller,
+    env: Environment,
+    pre: Mapping[str, Account],
+    blocks: List[Block],
+    correct_excess_blob_gas: int,
+    header_excess_blob_gas: Optional[int],
+):
+    """
+    Test rejection of blocks where the `excessBlobGas` is larger than the max `uint64` value.
+
+    As `excessBlobGas` is a `uint64`, it cannot be larger than `2**64-1` or it will overflow.
+    """
+    if header_excess_blob_gas is None:
+        raise Exception("test case is badly formatted")
+
+    if header_excess_blob_gas == correct_excess_blob_gas:
+        raise Exception("invalid test case")
+
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=blocks,
+        genesis_environment=env,
+        tag="-".join(
+            [
+                f"correct:{hex(correct_excess_blob_gas)}",
+                f"header:{hex(header_excess_blob_gas)}",
+            ]
+        ),
+    )
+
+
+@pytest.mark.parametrize(
+    "header_blob_gas_used",
+    [(2**64 + (x * Spec.GAS_PER_BLOB)) for x in range(0, SpecHelpers.target_blobs_per_block())],
+)
+@pytest.mark.parametrize("parent_blobs", range(SpecHelpers.target_blobs_per_block()))
+@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize("parent_excess_blobs", range(SpecHelpers.target_blobs_per_block()))
+# -------------------------------------------------------------------------------------------------
+# APPROACH 1: Using valid fields before t8n tool then overwriting afterwards for b11r.
+# -------------------------------------------------------------------------------------------------
+# In this approach we modify an additional field within the Block type - the rlp_modifier.
+# Essentially default valid values are used within the block during transition tool processing,
+# then the invalid fields specified within the rlp_modifier are used afterwards when building the
+# block.
+def test_invalid_blob_gas_overflow(
+    blockchain_test: BlockchainTestFiller,
+    env: Environment,
+    pre: Mapping[str, Account],
+    blocks: List[Block],
+    correct_blob_gas_used: int,
+    header_blob_gas_used: Optional[int],
+):
+    """
+    Test rejection of blocks where the `blobGasUsed` is larger than the max `uint64` value.
+
+    As `blobGasUsed` is a `uint64`, it cannot be larger than `2**64-1` or it will overflow.
+    """
+    if header_blob_gas_used is None:
+        raise Exception("test case is badly formatted")
+
+    if header_blob_gas_used == correct_blob_gas_used:
+        raise Exception("invalid test case")
+
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=blocks,
+        genesis_environment=env,
+        tag="-".join(
+            [
+                f"correct:{hex(correct_blob_gas_used)}",
+                f"header:{hex(header_blob_gas_used)}",
             ]
         ),
     )

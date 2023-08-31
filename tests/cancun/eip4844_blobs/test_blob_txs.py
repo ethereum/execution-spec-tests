@@ -704,6 +704,144 @@ def test_invalid_blob_hash_versioning(
     )
 
 
+@pytest.fixture
+def invalid_tx_block(
+    destination_account: Optional[str],
+    tx_max_fee_per_gas: int,
+    tx_max_fee_per_blob_gas: int,
+    blob_hashes_per_tx: List[List[bytes]],
+    tx_error: Optional[str],
+) -> Block:
+    """
+    Block with invalid blob transaction, using the tx rlp_modifier.
+    """
+    return Block(
+        txs=[
+            Transaction(
+                ty=Spec.BLOB_TX_TYPE,
+                to=to_address(0x100),
+                max_fee_per_gas=tx_max_fee_per_gas,
+                max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
+                blob_versioned_hashes=blob_hashes_per_tx[0],
+                rlp_modifier=Transaction(to=destination_account, error=tx_error),
+            )
+        ],
+        exception=tx_error,
+        engine_api_error_code=EngineAPIError.InvalidParams,
+        rlp_modifier=Header(blob_gas_used=Spec.GAS_PER_BLOB),
+    )
+
+
+@pytest.mark.parametrize(
+    "destination_account,tx_error", [(None, "no_contract_creating_blob_txs")], ids=[""]
+)
+@pytest.mark.valid_from("Cancun")
+# -------------------------------------------------------------------------------------------------
+# APPROACH 1: Using valid fields before t8n tool then overwriting afterwards for b11r.
+# -------------------------------------------------------------------------------------------------
+# In this approach we modify an additional field within the Transaction type - the rlp_modifier.
+#
+# This is used just like the Block rlp_modifier field, where essentially default valid
+# values are used within the transaction during transition tool processing, then the invalid
+# fields specified within the rlp_modifier are used afterwards when building the block.
+#
+# Note that this approach forces the tester to take a bit more action. Here we are using a separate
+# fixture above: `invalid_tx_block` to build the invalid block with the invalid transaction.
+def test_invalid_blob_tx_contract_creation_rlp_modifier(
+    blockchain_test: BlockchainTestFiller,
+    pre: Dict,
+    env: Environment,
+    invalid_tx_block: Block,
+):
+    """
+    Reject blocks that include blob transactions that have nil to value (contract creating).
+    """
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=[invalid_tx_block],
+        genesis_environment=env,
+    )
+
+
+@pytest.mark.parametrize(
+    "destination_account,tx_error", [(None, "no_contract_creating_blob_txs")], ids=[""]
+)
+@pytest.mark.valid_from("Cancun")
+# -------------------------------------------------------------------------------------------------
+# Here we use the same approach with the tx rlp_modifier as above, but hacking the original
+# generic `blocks` fixture to include the invalid transaction.
+# -------------------------------------------------------------------------------------------------
+def test_invalid_blob_tx_contract_creation_rlp_modifier_2(
+    blockchain_test: BlockchainTestFiller,
+    pre: Dict,
+    env: Environment,
+    txs: List[Transaction],
+    blocks: List[Block],
+    tx_error: Optional[str],
+):
+    """
+    Reject blocks that include blob transactions that have nil to value (contract creating).
+    """
+    erroneous_tx = txs[0]
+    valid_tx = erroneous_tx.with_fields(to=to_address(0x100), error=None)
+
+    blocks[0] = Block(
+        txs=[
+            valid_tx.with_fields(
+                rlp_modifier=valid_tx.with_fields(to=destination_account, error=tx_error)
+            )
+        ],
+    )
+
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=blocks,
+        genesis_environment=env,
+    )
+
+
+@pytest.mark.parametrize(
+    "destination_account,tx_error", [(None, "no_contract_creating_blob_txs")], ids=[""]
+)
+@pytest.mark.valid_from("Cancun")
+# ------------------------------------------------------------------------------------------------
+# APPROACH 2 : Invalid fields for b11r, creating a copy and overwriting with valid fields for t8n.
+# ------------------------------------------------------------------------------------------------
+# In this approach we only attach the erroneous field to the `invalid_fields` field within
+# the `blockchain_test`. Note the format of the `invalid_fields` field is a dictionary where the
+# key is the field name and the value is the invalid value.
+#
+# As every field name within Blocks, Environments and Transactions are unique, we can simply
+# specify the field name. More than one field can be specified within the `invalid_fields`
+# dictionary.
+#
+# Note that this approach only requires the tester to pass the invalid fields and nothing else.
+# Everything else in handled within `blockchain_test.py`: Essentially in this example, before
+# running the t8n tool, we create a copy of the txs called valid_txs but with the invalid fields
+# overwritten. We then pass the valid_txs to the t8n tool and use the original txs within the block
+# builder.
+#
+# Extra checks and types are required within `types.py` using this approach.
+def test_invalid_blob_tx_contract_creation_invalid_fields(
+    blockchain_test: BlockchainTestFiller,
+    pre: Dict,
+    env: Environment,
+    blocks: List[Block],
+):
+    """
+    Reject blocks that include blob transactions that have nil to value (contract creating).
+    """
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=blocks,
+        genesis_environment=env,
+        invalid_fields={"to": destination_account},
+    )
+
+
 # ----------------------------------------
 # Opcode Tests in Blob Transaction Context
 # ----------------------------------------

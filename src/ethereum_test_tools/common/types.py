@@ -19,6 +19,7 @@ from typing import (
     Type,
     TypeAlias,
     TypeVar,
+    Union,
 )
 
 from coincurve.keys import PrivateKey, PublicKey
@@ -247,8 +248,36 @@ class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
     pass
 
 
-MAX_STORAGE_KEY_VALUE = 2**256 - 1
-MIN_STORAGE_KEY_VALUE = -(2**255)
+@dataclass
+class IntRange:
+    """
+    Class that helps represent a range of integer.
+    """
+
+    lower: int
+    upper: int
+
+    def validate_range(self, attr_value: int) -> bool:
+        """
+        Validates that the given value is within the range.
+        """
+        return self.lower <= attr_value <= self.upper
+
+
+@dataclass
+class ValidIntRange:
+    """
+    Class containing different valid integer ranges.
+    """
+
+    signed_64_bit = IntRange(-(2**63), 2**63 - 1)
+    unsigned_64_bit = IntRange(0, 2**64 - 1)
+    signed_256_bit = IntRange(-(2**255), 2**255 - 1)
+    unsigned_256_bit = IntRange(0, 2**256 - 1)
+
+
+MAX_STORAGE_KEY_VALUE = 2**512 - 1
+MIN_STORAGE_KEY_VALUE = -(2**511)
 
 
 class Storage(SupportsJSON):
@@ -895,7 +924,7 @@ class Environment:
             name="currentTimestamp",
             cast_type=Number,
         ),
-        valid_int_range=(0, 2**64 - 1),
+        validity_check=ValidIntRange.unsigned_64_bit,
     )
     prev_randao: Optional[NumberConvertible] = field(
         default=None,
@@ -956,7 +985,7 @@ class Environment:
             name="parentTimestamp",
             cast_type=Number,
         ),
-        valid_int_range=(0, 2**64 - 1),
+        validity_check=ValidIntRange.unsigned_64_bit,
     )
     parent_base_fee: Optional[NumberConvertible] = field(
         default=None,
@@ -992,7 +1021,7 @@ class Environment:
             name="parentExcessBlobGas",
             cast_type=Number,
         ),
-        valid_int_range=(0, 2**64 - 1),
+        validity_check=ValidIntRange.unsigned_64_bit,
     )
     parent_blob_gas_used: Optional[NumberConvertible] = field(
         default=0,
@@ -1000,7 +1029,7 @@ class Environment:
             name="parentBlobGasUsed",
             cast_type=Number,
         ),
-        valid_int_range=(0, 2**64 - 1),
+        validity_check=ValidIntRange.unsigned_64_bit,
     )
     blob_gas_used: Optional[NumberConvertible] = field(
         default=0,
@@ -1008,7 +1037,7 @@ class Environment:
             name="currentBlobGasUsed",
             cast_type=Number,
         ),
-        valid_int_range=(0, 2**64 - 1),
+        validity_check=ValidIntRange.unsigned_64_bit,
     )
     excess_blob_gas: Optional[NumberConvertible] = field(
         default=0,
@@ -1016,7 +1045,7 @@ class Environment:
             name="currentExcessBlobGas",
             cast_type=Number,
         ),
-        valid_int_range=(0, 2**64 - 1),
+        validity_check=ValidIntRange.unsigned_64_bit,
     )
     beacon_root: Optional[FixedSizeBytesConvertible] = field(
         default=None,
@@ -1031,32 +1060,6 @@ class Environment:
             skip=True,
         ),
     )
-
-    def replace_invalid_fields(self, invalid_field_names: List[str]) -> "Environment":
-        """
-        Replaces the fields' values with their defaults if they're invalid.
-        Returns a new environment with overwritten fields.
-        """
-        valid_env = deepcopy(self)
-        all_fields = {field_obj.name: field_obj for field_obj in fields(valid_env)}
-        for field_name in invalid_field_names:
-            field_obj = all_fields.get(field_name)
-            if field_obj:
-                field_value = getattr(valid_env, field_name)
-                default = field_obj.default
-
-                valid_int_range = field_obj.metadata.get("valid_int_range")
-                if valid_int_range and (
-                    field_value < valid_int_range[0] or field_value > valid_int_range[1]
-                ):
-                    setattr(valid_env, field_name, default)
-
-                valid_address_length = field_obj.metadata.get("valid_address_length")
-                if valid_address_length:
-                    if field_value is None or len(field_value) != valid_address_length:
-                        setattr(valid_env, field_name, default)
-
-        return valid_env
 
     @staticmethod
     def from_parent_header(parent: "FixtureHeader") -> "Environment":
@@ -1143,6 +1146,13 @@ class Environment:
             res.beacon_root = 0
 
         return res
+
+    def with_valid_fields(self, invalid_field_names: List[str]) -> "Environment":
+        """
+        Returns a copy of environment where the provided invalid fields are replaced by
+        their respective valid default value.
+        """
+        return ForceValidity.replace_invalid_fields(self, invalid_field_names)
 
 
 @dataclass(kw_only=True)
@@ -1234,7 +1244,7 @@ class Transaction:
         json_encoder=JSONEncoder.Field(
             cast_type=Address,
         ),
-        valid_address_length=20,
+        validity_check=Address,
     )
     value: int = field(
         default=0,
@@ -1339,6 +1349,17 @@ class Transaction:
         ),
     )
 
+    """
+    For tx field modification, where values set within would be used to override the those
+    returned by the `evm_transition_tool`.
+    """
+    rlp_modifier: Optional["Transaction"] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            skip=True,
+        ),
+    )
+
     class InvalidFeePayment(Exception):
         """
         Transaction described more than one fee payment type.
@@ -1401,31 +1422,6 @@ class Transaction:
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
             self.max_priority_fee_per_gas = 0
 
-    def overwrite_invalid_fields(self) -> "Transaction":
-        """
-        Overwrites the fields' values with their defaults if they're invalid.
-        Returns a transaction with overwritten fields.
-        """
-        valid_tx = deepcopy(self)
-        for field_obj in fields(valid_tx):
-            field_name = field_obj.name
-            field_value = getattr(valid_tx, field_name)
-            default = field_obj.default
-
-            valid_int_range = field_obj.metadata.get("valid_int_range")
-            if valid_int_range and (
-                field_value < valid_int_range[0] or field_value > valid_int_range[1]
-            ):
-                setattr(valid_tx, field_name, default)
-
-            valid_address_length = field_obj.metadata.get("valid_address_length")
-            if valid_address_length:
-                if field_value is None:
-                    setattr(valid_tx, field_name, default)
-                elif len(Address(field_value)) != valid_address_length:
-                    setattr(valid_tx, field_name, default)
-        return valid_tx
-
     def with_error(self, error: str) -> "Transaction":
         """
         Create a copy of the transaction with an added error.
@@ -1453,6 +1449,24 @@ class Transaction:
             else:
                 raise ValueError(f"Invalid field '{key}' for Transaction")
         return tx
+
+    def join(self, modifier: "Transaction") -> "Transaction":
+        """
+        Produces a transaction copy with the set values from the modifier.
+        """
+        new_transaction = copy(self)
+        for tx_field in self.__dataclass_fields__:
+            value = getattr(modifier, tx_field)
+            if value is not None:
+                setattr(new_transaction, tx_field, value)
+        return new_transaction
+
+    def with_valid_fields(self, invalid_field_names: List[str]) -> "Transaction":
+        """
+        Returns a copy of the transaction where the provided invalid fields are replaced by
+        their respective valid default value.
+        """
+        return ForceValidity.replace_invalid_fields(self, invalid_field_names)
 
     def payload_body(self) -> List[Any]:
         """
@@ -2228,9 +2242,7 @@ class FixtureHeader:
 
     @classmethod
     def invalidate_transition_tool_result(
-        cls,
-        transition_tool_result: Dict[str, Any],
-        invalid_fields: Dict[str, Any]
+        cls, transition_tool_result: Dict[str, Any], invalid_fields: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
         Replaces the transition tool result with the invalid values for the fields that are
@@ -2285,9 +2297,9 @@ class FixtureHeader:
             metadata = header_field.metadata
             assert metadata is not None, f"Field {field_name} has no header field metadata"
             field_metadata = metadata.get("source")
-            assert isinstance(field_metadata, HeaderFieldSource), (
-                f"Field {field_name} has invalid header_field metadata: {field_metadata}"
-            )
+            assert isinstance(
+                field_metadata, HeaderFieldSource
+            ), f"Field {field_name} has invalid header_field metadata: {field_metadata}"
             field_metadata.collect(
                 target=kwargs,
                 field_name=field_name,
@@ -2819,3 +2831,38 @@ class Fixture:
         self.info["filling-transition-tool"] = t8n.version()
         if ref_spec is not None:
             ref_spec.write_info(self.info)
+
+
+@dataclass(kw_only=True)
+class ForceValidity:
+    """
+    Class that helps force the validity fields of ethereum environment & transaction types.
+    """
+
+    @classmethod
+    def replace_invalid_fields(
+        cls, obj: Union[Environment, Transaction], invalid_field_names: List[str]
+    ) -> Any:
+        """
+        Replaces the invalid fields of the given object with their default valid values.
+        """
+        obj_copy = deepcopy(obj)
+        all_fields = {field_obj.name: field_obj for field_obj in fields(obj_copy)}
+
+        for field_name in invalid_field_names:
+            field_obj = all_fields.get(field_name)
+            if field_obj:
+                field_value = getattr(obj_copy, field_name)
+                field_default = field_obj.default
+                field_validity = field_obj.metadata.get("validity_check")
+                if field_validity is not None:
+                    # IntRange Validity Check - e.g overflown integers
+                    if isinstance(field_validity, IntRange) and (
+                        not field_validity.validate_range(field_value)
+                    ):
+                        setattr(obj_copy, field_name, field_default)
+                    # Address Validity Check - e.g `to` field of a transaction is None
+                    if field_validity is Address and field_value is None:
+                        setattr(obj_copy, field_name, field_default)
+
+        return obj_copy

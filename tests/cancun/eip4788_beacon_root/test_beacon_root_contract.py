@@ -97,6 +97,9 @@ def test_beacon_root_contract_calls(
         (2**32, True),  # arbitrary
         (2**64 - 2, True),  # near-max
         (2**64 - 1, True),  # max
+        (2**64, False),  # overflow
+        (2**64 + 1, False),  # overflow + 1
+        (2**255, False),  # overflow + big
     ],
 )
 @pytest.mark.parametrize("auto_access_list", [False, True])
@@ -109,12 +112,28 @@ def test_beacon_root_contract_calls(
     ],
 )
 @pytest.mark.valid_from("Cancun")
+# ------------------------------------------------------------------------------------------------
+# APPROACH 2: Invalid fields for b11r, creating a copy and overwriting with valid fields for t8n.
+# ------------------------------------------------------------------------------------------------
+# In this approach we only attach the erroneous field to the `invalid_fields` field within
+# the `state_test`. Note the format of the `invalid_fields` field is a dictionary where the
+# key is the field name and the value is the invalid value.
+#
+# This approach only requires the tester to pass the invalid fields and nothing else.
+# Everything else in handled within `state_test.py`: Essentially in this example, before
+# running the t8n tool, we create a copy of the env called valid_env but with the invalid fields
+# overwritten with default valid values. We then pass the valid_env to the t8n tool and use the
+# original env within the block builder.
+#
+# Extra checks and types are required within `types.py` using this approach.
 def test_beacon_root_contract_timestamps(
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict,
     tx: Transaction,
     post: Dict,
+    timestamp: int,
+    valid_input: bool,
 ):
     """
     Tests the beacon root contract call across for various valid and invalid timestamps.
@@ -128,6 +147,7 @@ def test_beacon_root_contract_timestamps(
         pre=pre,
         txs=[tx],
         post=post,
+        invalid_fields={"timestamp": timestamp} if not valid_input else None,
     )
 
 
