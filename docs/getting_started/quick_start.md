@@ -56,13 +56,6 @@ The following requires a Python 3.10 or Python 3.11 installation.
     pip install -e '.[docs,lint,test]'
     ```
 
-    !!! note "Python 3.11 on macOS"
-        When using Python 3.11 on macOS the following must be installed first:
-
-        ```console
-        brew install autoconf automake libtool
-        ```
-
 3. Verify installation:
     1. Explore test cases:
 

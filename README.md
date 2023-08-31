@@ -99,12 +99,6 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
    pip install -e '.[docs,lint,test]'
    ```
 
-   :warning: When using Python 3.11 on macOS the following must be installed first:
-
-   ```console
-   brew install autoconf automake libtool
-   ```
-
 3. Verify the installation:
     1. Explore test cases:
 
