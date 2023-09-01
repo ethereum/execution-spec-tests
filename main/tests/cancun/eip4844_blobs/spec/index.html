@@ -4590,7 +4590,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5bf863348bc426fcea1a8989e6e61157fc60d385/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c4dfd135def7a81c076241553ccae1ea6bde65a/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -4638,9 +4638,7 @@ out.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 33</span>
-<span class="normal"> 34</span>
-<span class="normal"> 35</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
 <span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
@@ -4729,7 +4727,8 @@ out.</p>
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-4844 specifications as defined at</span>
@@ -4801,15 +4800,14 @@ out.</p>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">-</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span>
 
-    <span class="c1"># Note: Currently unused.</span>
-    <span class="c1"># @classmethod</span>
-    <span class="c1"># def get_total_blob_gas(cls, tx: Transaction) -&gt; int:</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Calculate the total blob gas for a transaction.</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     if tx.blob_versioned_hashes is None:</span>
-    <span class="c1">#         return 0</span>
-    <span class="c1">#     return cls.GAS_PER_BLOB * len(tx.blob_versioned_hashes)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_total_blob_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the total blob gas for a transaction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tx</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_blob_gasprice</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -4867,8 +4865,7 @@ spec but not strictly part of it.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
@@ -4922,7 +4919,8 @@ spec but not strictly part of it.</p>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define parameters and helper functions that are tightly coupled to the 4844</span>

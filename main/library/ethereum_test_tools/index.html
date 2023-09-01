@@ -1714,6 +1714,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Removable" class="md-nav__link">
+    Removable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Auto" class="md-nav__link">
     Auto
   </a>
@@ -2498,6 +2505,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Header.EMPTY_FIELD" class="md-nav__link">
+    EMPTY_FIELD
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2514,6 +2528,13 @@
           <li class="md-nav__item">
   <a href="#ethereum_test_tools.Block.rlp" class="md-nav__link">
     rlp
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Block.header_verify" class="md-nav__link">
+    header_verify
   </a>
   
 </li>
@@ -6453,6 +6474,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Removable" class="md-nav__link">
+    Removable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Auto" class="md-nav__link">
     Auto
   </a>
@@ -7237,6 +7265,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Header.EMPTY_FIELD" class="md-nav__link">
+    EMPTY_FIELD
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -7253,6 +7288,13 @@
           <li class="md-nav__item">
   <a href="#ethereum_test_tools.Block.rlp" class="md-nav__link">
     rlp
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Block.header_verify" class="md-nav__link">
+    header_verify
   </a>
   
 </li>
@@ -11954,7 +11996,11 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
-<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
@@ -12113,6 +12159,10 @@ Raises exception on invalid test behavior.</p>
                 <span class="n">transition_tool_result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span>
                 <span class="n">environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
             <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">header_verify</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Verify the header after transition tool processing.</span>
+                <span class="n">header</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">header_verify</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp_modifier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># Modify any parameter specified in the `rlp_modifier` after</span>
@@ -12579,7 +12629,11 @@ str: Hash of the head of the chain, only updated if the produced
 <span class="normal">250</span>
 <span class="normal">251</span>
 <span class="normal">252</span>
-<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_block</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -12666,6 +12720,10 @@ str: Hash of the head of the chain, only updated if the produced
             <span class="n">transition_tool_result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span>
             <span class="n">environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">header_verify</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Verify the header after transition tool processing.</span>
+            <span class="n">header</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">header_verify</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp_modifier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Modify any parameter specified in the `rlp_modifier` after</span>
@@ -12757,11 +12815,7 @@ Raises exception on invalid test behavior.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
@@ -12794,7 +12848,11 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
-<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
@@ -13478,6 +13536,51 @@ the yellow paper: <a href="https://ethereum.github.io/yellowpaper/paper.pdf">htt
     <span class="k">return</span> <span class="n">c</span><span class="p">(</span><span class="n">new_words</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span><span class="p">(</span><span class="n">previous_words</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="ethereum_test_tools.Removable" class="doc doc-heading">
+          <code>Removable</code>
+
+
+<a href="#ethereum_test_tools.Removable" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Sentinel class to detect if a parameter should be removed.
+(<code>None</code> normally means "do not modify")</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Removable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sentinel class to detect if a parameter should be removed.</span>
+<span class="sd">    (`None` normally means &quot;do not modify&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
   </div>
 
 </div>
@@ -22053,7 +22156,11 @@ which is almost always RLP encoding.</p>
 <span class="normal">1878</span>
 <span class="normal">1879</span>
 <span class="normal">1880</span>
-<span class="normal">1881</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">1881</span>
+<span class="normal">1882</span>
+<span class="normal">1883</span>
+<span class="normal">1884</span>
+<span class="normal">1885</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Header</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Header type used to describe block header properties in test specs.</span>
@@ -22084,6 +22191,10 @@ which is almost always RLP encoding.</p>
     <span class="n">REMOVE_FIELD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="n">Removable</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sentinel object used to specify that a header field should be removed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">EMPTY_FIELD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Removable</span><span class="p">]</span> <span class="o">=</span> <span class="n">Removable</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sentinel object used to specify that a header field must be empty during verification.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -22116,6 +22227,33 @@ which is almost always RLP encoding.</p>
   <div class="doc doc-contents ">
   
       <p>Sentinel object used to specify that a header field should be removed.</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+
+<h3 id="ethereum_test_tools.Header.EMPTY_FIELD" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">EMPTY_FIELD</span><span class="p">:</span> <span class="n">Removable</span> <span class="o">=</span> <span class="n">Removable</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Header.EMPTY_FIELD" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Sentinel object used to specify that a header field must be empty during verification.</p>
   </div>
 
 </div>
@@ -22159,31 +22297,7 @@ which is almost always RLP encoding.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2277</span>
-<span class="normal">2278</span>
-<span class="normal">2279</span>
-<span class="normal">2280</span>
-<span class="normal">2281</span>
-<span class="normal">2282</span>
-<span class="normal">2283</span>
-<span class="normal">2284</span>
-<span class="normal">2285</span>
-<span class="normal">2286</span>
-<span class="normal">2287</span>
-<span class="normal">2288</span>
-<span class="normal">2289</span>
-<span class="normal">2290</span>
-<span class="normal">2291</span>
-<span class="normal">2292</span>
-<span class="normal">2293</span>
-<span class="normal">2294</span>
-<span class="normal">2295</span>
-<span class="normal">2296</span>
-<span class="normal">2297</span>
-<span class="normal">2298</span>
-<span class="normal">2299</span>
-<span class="normal">2300</span>
-<span class="normal">2301</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2301</span>
 <span class="normal">2302</span>
 <span class="normal">2303</span>
 <span class="normal">2304</span>
@@ -22254,7 +22368,35 @@ which is almost always RLP encoding.</p>
 <span class="normal">2369</span>
 <span class="normal">2370</span>
 <span class="normal">2371</span>
-<span class="normal">2372</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2372</span>
+<span class="normal">2373</span>
+<span class="normal">2374</span>
+<span class="normal">2375</span>
+<span class="normal">2376</span>
+<span class="normal">2377</span>
+<span class="normal">2378</span>
+<span class="normal">2379</span>
+<span class="normal">2380</span>
+<span class="normal">2381</span>
+<span class="normal">2382</span>
+<span class="normal">2383</span>
+<span class="normal">2384</span>
+<span class="normal">2385</span>
+<span class="normal">2386</span>
+<span class="normal">2387</span>
+<span class="normal">2388</span>
+<span class="normal">2389</span>
+<span class="normal">2390</span>
+<span class="normal">2391</span>
+<span class="normal">2392</span>
+<span class="normal">2393</span>
+<span class="normal">2394</span>
+<span class="normal">2395</span>
+<span class="normal">2396</span>
+<span class="normal">2397</span>
+<span class="normal">2398</span>
+<span class="normal">2399</span>
+<span class="normal">2400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Block</span><span class="p">(</span><span class="n">Header</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block type used to describe block properties in test specs</span>
@@ -22267,6 +22409,10 @@ which is almost always RLP encoding.</p>
 
 <span class="sd">    Only meant to be used to simulate blocks with bad formats, and therefore</span>
 <span class="sd">    requires the block to produce an exception.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    If set, the block header will be verified against the specified values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rlp_modifier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -22385,6 +22531,34 @@ which is almost always RLP encoding.</p>
 the Fixture.</p>
 <p>Only meant to be used to simulate blocks with bad formats, and therefore
 requires the block to produce an exception.</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+
+<h3 id="ethereum_test_tools.Block.header_verify" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Block.header_verify" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>If set, the block header will be verified against the specified values.</p>
   </div>
 
 </div>
@@ -22582,35 +22756,7 @@ specific block.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2317</span>
-<span class="normal">2318</span>
-<span class="normal">2319</span>
-<span class="normal">2320</span>
-<span class="normal">2321</span>
-<span class="normal">2322</span>
-<span class="normal">2323</span>
-<span class="normal">2324</span>
-<span class="normal">2325</span>
-<span class="normal">2326</span>
-<span class="normal">2327</span>
-<span class="normal">2328</span>
-<span class="normal">2329</span>
-<span class="normal">2330</span>
-<span class="normal">2331</span>
-<span class="normal">2332</span>
-<span class="normal">2333</span>
-<span class="normal">2334</span>
-<span class="normal">2335</span>
-<span class="normal">2336</span>
-<span class="normal">2337</span>
-<span class="normal">2338</span>
-<span class="normal">2339</span>
-<span class="normal">2340</span>
-<span class="normal">2341</span>
-<span class="normal">2342</span>
-<span class="normal">2343</span>
-<span class="normal">2344</span>
-<span class="normal">2345</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2345</span>
 <span class="normal">2346</span>
 <span class="normal">2347</span>
 <span class="normal">2348</span>
@@ -22629,7 +22775,35 @@ specific block.</p>
 <span class="normal">2361</span>
 <span class="normal">2362</span>
 <span class="normal">2363</span>
-<span class="normal">2364</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
+<span class="normal">2364</span>
+<span class="normal">2365</span>
+<span class="normal">2366</span>
+<span class="normal">2367</span>
+<span class="normal">2368</span>
+<span class="normal">2369</span>
+<span class="normal">2370</span>
+<span class="normal">2371</span>
+<span class="normal">2372</span>
+<span class="normal">2373</span>
+<span class="normal">2374</span>
+<span class="normal">2375</span>
+<span class="normal">2376</span>
+<span class="normal">2377</span>
+<span class="normal">2378</span>
+<span class="normal">2379</span>
+<span class="normal">2380</span>
+<span class="normal">2381</span>
+<span class="normal">2382</span>
+<span class="normal">2383</span>
+<span class="normal">2384</span>
+<span class="normal">2385</span>
+<span class="normal">2386</span>
+<span class="normal">2387</span>
+<span class="normal">2388</span>
+<span class="normal">2389</span>
+<span class="normal">2390</span>
+<span class="normal">2391</span>
+<span class="normal">2392</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a copy of the environment with the characteristics of this</span>
 <span class="sd">    specific block.</span>
@@ -22706,13 +22880,13 @@ specific block.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2366</span>
-<span class="normal">2367</span>
-<span class="normal">2368</span>
-<span class="normal">2369</span>
-<span class="normal">2370</span>
-<span class="normal">2371</span>
-<span class="normal">2372</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_with_rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rlp</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">BytesConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Block&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2394</span>
+<span class="normal">2395</span>
+<span class="normal">2396</span>
+<span class="normal">2397</span>
+<span class="normal">2398</span>
+<span class="normal">2399</span>
+<span class="normal">2400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_with_rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rlp</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">BytesConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Block&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a copy of the block and adds the specified RLP.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -22763,35 +22937,7 @@ sent using the block information.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2490</span>
-<span class="normal">2491</span>
-<span class="normal">2492</span>
-<span class="normal">2493</span>
-<span class="normal">2494</span>
-<span class="normal">2495</span>
-<span class="normal">2496</span>
-<span class="normal">2497</span>
-<span class="normal">2498</span>
-<span class="normal">2499</span>
-<span class="normal">2500</span>
-<span class="normal">2501</span>
-<span class="normal">2502</span>
-<span class="normal">2503</span>
-<span class="normal">2504</span>
-<span class="normal">2505</span>
-<span class="normal">2506</span>
-<span class="normal">2507</span>
-<span class="normal">2508</span>
-<span class="normal">2509</span>
-<span class="normal">2510</span>
-<span class="normal">2511</span>
-<span class="normal">2512</span>
-<span class="normal">2513</span>
-<span class="normal">2514</span>
-<span class="normal">2515</span>
-<span class="normal">2516</span>
-<span class="normal">2517</span>
-<span class="normal">2518</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2518</span>
 <span class="normal">2519</span>
 <span class="normal">2520</span>
 <span class="normal">2521</span>
@@ -22837,7 +22983,35 @@ sent using the block information.</p>
 <span class="normal">2561</span>
 <span class="normal">2562</span>
 <span class="normal">2563</span>
-<span class="normal">2564</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2564</span>
+<span class="normal">2565</span>
+<span class="normal">2566</span>
+<span class="normal">2567</span>
+<span class="normal">2568</span>
+<span class="normal">2569</span>
+<span class="normal">2570</span>
+<span class="normal">2571</span>
+<span class="normal">2572</span>
+<span class="normal">2573</span>
+<span class="normal">2574</span>
+<span class="normal">2575</span>
+<span class="normal">2576</span>
+<span class="normal">2577</span>
+<span class="normal">2578</span>
+<span class="normal">2579</span>
+<span class="normal">2580</span>
+<span class="normal">2581</span>
+<span class="normal">2582</span>
+<span class="normal">2583</span>
+<span class="normal">2584</span>
+<span class="normal">2585</span>
+<span class="normal">2586</span>
+<span class="normal">2587</span>
+<span class="normal">2588</span>
+<span class="normal">2589</span>
+<span class="normal">2590</span>
+<span class="normal">2591</span>
+<span class="normal">2592</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">FixtureEngineNewPayload</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Representation of the `engine_newPayloadVX` information to be</span>
@@ -22947,42 +23121,42 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2529</span>
-<span class="normal">2530</span>
-<span class="normal">2531</span>
-<span class="normal">2532</span>
-<span class="normal">2533</span>
-<span class="normal">2534</span>
-<span class="normal">2535</span>
-<span class="normal">2536</span>
-<span class="normal">2537</span>
-<span class="normal">2538</span>
-<span class="normal">2539</span>
-<span class="normal">2540</span>
-<span class="normal">2541</span>
-<span class="normal">2542</span>
-<span class="normal">2543</span>
-<span class="normal">2544</span>
-<span class="normal">2545</span>
-<span class="normal">2546</span>
-<span class="normal">2547</span>
-<span class="normal">2548</span>
-<span class="normal">2549</span>
-<span class="normal">2550</span>
-<span class="normal">2551</span>
-<span class="normal">2552</span>
-<span class="normal">2553</span>
-<span class="normal">2554</span>
-<span class="normal">2555</span>
-<span class="normal">2556</span>
-<span class="normal">2557</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2557</span>
 <span class="normal">2558</span>
 <span class="normal">2559</span>
 <span class="normal">2560</span>
 <span class="normal">2561</span>
 <span class="normal">2562</span>
 <span class="normal">2563</span>
-<span class="normal">2564</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">2564</span>
+<span class="normal">2565</span>
+<span class="normal">2566</span>
+<span class="normal">2567</span>
+<span class="normal">2568</span>
+<span class="normal">2569</span>
+<span class="normal">2570</span>
+<span class="normal">2571</span>
+<span class="normal">2572</span>
+<span class="normal">2573</span>
+<span class="normal">2574</span>
+<span class="normal">2575</span>
+<span class="normal">2576</span>
+<span class="normal">2577</span>
+<span class="normal">2578</span>
+<span class="normal">2579</span>
+<span class="normal">2580</span>
+<span class="normal">2581</span>
+<span class="normal">2582</span>
+<span class="normal">2583</span>
+<span class="normal">2584</span>
+<span class="normal">2585</span>
+<span class="normal">2586</span>
+<span class="normal">2587</span>
+<span class="normal">2588</span>
+<span class="normal">2589</span>
+<span class="normal">2590</span>
+<span class="normal">2591</span>
+<span class="normal">2592</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_fixture_header</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -23061,35 +23235,7 @@ sent using the block information.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2630</span>
-<span class="normal">2631</span>
-<span class="normal">2632</span>
-<span class="normal">2633</span>
-<span class="normal">2634</span>
-<span class="normal">2635</span>
-<span class="normal">2636</span>
-<span class="normal">2637</span>
-<span class="normal">2638</span>
-<span class="normal">2639</span>
-<span class="normal">2640</span>
-<span class="normal">2641</span>
-<span class="normal">2642</span>
-<span class="normal">2643</span>
-<span class="normal">2644</span>
-<span class="normal">2645</span>
-<span class="normal">2646</span>
-<span class="normal">2647</span>
-<span class="normal">2648</span>
-<span class="normal">2649</span>
-<span class="normal">2650</span>
-<span class="normal">2651</span>
-<span class="normal">2652</span>
-<span class="normal">2653</span>
-<span class="normal">2654</span>
-<span class="normal">2655</span>
-<span class="normal">2656</span>
-<span class="normal">2657</span>
-<span class="normal">2658</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2658</span>
 <span class="normal">2659</span>
 <span class="normal">2660</span>
 <span class="normal">2661</span>
@@ -23159,7 +23305,35 @@ sent using the block information.</p>
 <span class="normal">2725</span>
 <span class="normal">2726</span>
 <span class="normal">2727</span>
-<span class="normal">2728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2728</span>
+<span class="normal">2729</span>
+<span class="normal">2730</span>
+<span class="normal">2731</span>
+<span class="normal">2732</span>
+<span class="normal">2733</span>
+<span class="normal">2734</span>
+<span class="normal">2735</span>
+<span class="normal">2736</span>
+<span class="normal">2737</span>
+<span class="normal">2738</span>
+<span class="normal">2739</span>
+<span class="normal">2740</span>
+<span class="normal">2741</span>
+<span class="normal">2742</span>
+<span class="normal">2743</span>
+<span class="normal">2744</span>
+<span class="normal">2745</span>
+<span class="normal">2746</span>
+<span class="normal">2747</span>
+<span class="normal">2748</span>
+<span class="normal">2749</span>
+<span class="normal">2750</span>
+<span class="normal">2751</span>
+<span class="normal">2752</span>
+<span class="normal">2753</span>
+<span class="normal">2754</span>
+<span class="normal">2755</span>
+<span class="normal">2756</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Fixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cross-client compatible Ethereum test fixture.</span>
@@ -23289,11 +23463,11 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2704</span>
-<span class="normal">2705</span>
-<span class="normal">2706</span>
-<span class="normal">2707</span>
-<span class="normal">2708</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2732</span>
+<span class="normal">2733</span>
+<span class="normal">2734</span>
+<span class="normal">2735</span>
+<span class="normal">2736</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Post init hook to convert to JSON after instantiation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -23327,13 +23501,13 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2710</span>
-<span class="normal">2711</span>
-<span class="normal">2712</span>
-<span class="normal">2713</span>
-<span class="normal">2714</span>
-<span class="normal">2715</span>
-<span class="normal">2716</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2738</span>
+<span class="normal">2739</span>
+<span class="normal">2740</span>
+<span class="normal">2741</span>
+<span class="normal">2742</span>
+<span class="normal">2743</span>
+<span class="normal">2744</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert to JSON.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -23369,17 +23543,17 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2718</span>
-<span class="normal">2719</span>
-<span class="normal">2720</span>
-<span class="normal">2721</span>
-<span class="normal">2722</span>
-<span class="normal">2723</span>
-<span class="normal">2724</span>
-<span class="normal">2725</span>
-<span class="normal">2726</span>
-<span class="normal">2727</span>
-<span class="normal">2728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2746</span>
+<span class="normal">2747</span>
+<span class="normal">2748</span>
+<span class="normal">2749</span>
+<span class="normal">2750</span>
+<span class="normal">2751</span>
+<span class="normal">2752</span>
+<span class="normal">2753</span>
+<span class="normal">2754</span>
+<span class="normal">2755</span>
+<span class="normal">2756</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">ref_spec</span><span class="p">:</span> <span class="n">ReferenceSpec</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
