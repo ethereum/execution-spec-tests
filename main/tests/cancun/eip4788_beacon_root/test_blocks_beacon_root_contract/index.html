@@ -4531,7 +4531,7 @@
 
 
 <h1 id="test-blocks-beacon-root-contract">Test Blocks Beacon Root Contract<a class="headerlink" href="#test-blocks-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c4dfd135def7a81c076241553ccae1ea6bde65a/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/74dcd930461198fe73b1655cae55106f333cf1e9/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -4596,7 +4596,7 @@ cases.
   <div class="doc doc-contents ">
   
       <p>Tests multiple blocks where each block writes a timestamp to storage and contains one
-transaction that calls the beacon root precompile multiple times.</p>
+transaction that calls the beacon root contract multiple times.</p>
 <p>The blocks might overwrite the historical roots buffer, or not, depending on the <code>timestamps</code>,
 and whether they increment in multiples of <code>HISTORICAL_ROOTS_MODULUS</code> or not.</p>
 <p>By default, the beacon roots are the keccak of the block number.</p>
@@ -4824,7 +4824,7 @@ buffer, which might have been overwritten by a later block.</p>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests multiple blocks where each block writes a timestamp to storage and contains one</span>
-<span class="sd">    transaction that calls the beacon root precompile multiple times.</span>
+<span class="sd">    transaction that calls the beacon root contract multiple times.</span>
 
 <span class="sd">    The blocks might overwrite the historical roots buffer, or not, depending on the `timestamps`,</span>
 <span class="sd">    and whether they increment in multiples of `HISTORICAL_ROOTS_MODULUS` or not.</span>

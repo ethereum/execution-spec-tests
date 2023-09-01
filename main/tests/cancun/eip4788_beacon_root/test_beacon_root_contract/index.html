@@ -4502,15 +4502,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_precompile_calls" class="md-nav__link">
-    test_beacon_root_precompile_calls()
+  <a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_calls" class="md-nav__link">
+    test_beacon_root_contract_calls()
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_precompile_timestamps" class="md-nav__link">
-    test_beacon_root_precompile_timestamps()
+  <a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_timestamps" class="md-nav__link">
+    test_beacon_root_contract_timestamps()
   </a>
   
 </li>
@@ -4552,7 +4552,7 @@
 
 
 <h1 id="test-beacon-root-contract">Test Beacon Root Contract<a class="headerlink" href="#test-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c4dfd135def7a81c076241553ccae1ea6bde65a/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/74dcd930461198fe73b1655cae55106f333cf1e9/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -4608,15 +4608,15 @@ cases.
 
 
 
-<h2 id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_precompile_calls" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_beacon_root_precompile_calls</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
+<h2 id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_calls" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">test_beacon_root_contract_calls</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
 
-<a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_precompile_calls" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_calls" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Tests the beacon root precompile call using various call contexts:
+      <p>Tests the beacon root contract call using various call contexts:
 - <code>CALL</code>
 - <code>DELEGATECALL</code>
 - <code>CALLCODE</code>
@@ -4625,7 +4625,7 @@ for different call gas amounts:
 - exact gas (valid call)
 - extra gas (valid call)
 - insufficient gas (invalid call)</p>
-<p>The expected result is that the precompile call will be executed if the gas amount is met
+<p>The expected result is that the contract call will be executed if the gas amount is met
 and return the correct<code>parent_beacon_block_root</code>. Otherwise the call will be invalid, and not
 be executed. This is highlighted within storage by storing the return value of each call
 context.</p>
@@ -4706,7 +4706,7 @@ context.</p>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_beacon_root_precompile_calls</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_beacon_root_contract_calls</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
@@ -4714,7 +4714,7 @@ context.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root precompile call using various call contexts:</span>
+<span class="sd">    Tests the beacon root contract call using various call contexts:</span>
 <span class="sd">    - `CALL`</span>
 <span class="sd">    - `DELEGATECALL`</span>
 <span class="sd">    - `CALLCODE`</span>
@@ -4724,7 +4724,7 @@ context.</p>
 <span class="sd">    - extra gas (valid call)</span>
 <span class="sd">    - insufficient gas (invalid call)</span>
 
-<span class="sd">    The expected result is that the precompile call will be executed if the gas amount is met</span>
+<span class="sd">    The expected result is that the contract call will be executed if the gas amount is met</span>
 <span class="sd">    and return the correct`parent_beacon_block_root`. Otherwise the call will be invalid, and not</span>
 <span class="sd">    be executed. This is highlighted within storage by storing the return value of each call</span>
 <span class="sd">    context.</span>
@@ -4752,16 +4752,16 @@ context.</p>
 
 
 
-<h2 id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_precompile_timestamps" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_beacon_root_precompile_timestamps</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
+<h2 id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_timestamps" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">test_beacon_root_contract_timestamps</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
 
-<a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_precompile_timestamps" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_timestamps" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Tests the beacon root precompile call across for various valid and invalid timestamps.</p>
-<p>The expected result is that the precompile call will return the correct
+      <p>Tests the beacon root contract call across for various valid and invalid timestamps.</p>
+<p>The expected result is that the contract call will return the correct
 <code>parent_beacon_block_root</code> for a valid input timestamp and return the zero'd 32 bytes value
 for an invalid input timestamp.</p>
 
@@ -4834,7 +4834,7 @@ for an invalid input timestamp.</p>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_beacon_root_precompile_timestamps</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_beacon_root_contract_timestamps</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
@@ -4842,9 +4842,9 @@ for an invalid input timestamp.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root precompile call across for various valid and invalid timestamps.</span>
+<span class="sd">    Tests the beacon root contract call across for various valid and invalid timestamps.</span>
 
-<span class="sd">    The expected result is that the precompile call will return the correct</span>
+<span class="sd">    The expected result is that the contract call will return the correct</span>
 <span class="sd">    `parent_beacon_block_root` for a valid input timestamp and return the zero&#39;d 32 bytes value</span>
 <span class="sd">    for an invalid input timestamp.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -4879,7 +4879,7 @@ for an invalid input timestamp.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Tests the beacon root precompile call using multiple invalid input lengths.</p>
+      <p>Tests the beacon root contract call using multiple invalid input lengths.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
@@ -4932,7 +4932,7 @@ for an invalid input timestamp.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root precompile call using multiple invalid input lengths.</span>
+<span class="sd">    Tests the beacon root contract call using multiple invalid input lengths.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
@@ -4965,8 +4965,8 @@ for an invalid input timestamp.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Tests the beacon root precompile call where the beacon root is equal to the timestamp.</p>
-<p>The expected result is that the precompile call will return the <code>parent_beacon_block_root</code>,
+      <p>Tests the beacon root contract call where the beacon root is equal to the timestamp.</p>
+<p>The expected result is that the contract call will return the <code>parent_beacon_block_root</code>,
 as all timestamps used are valid.</p>
 
           <details class="quote">
@@ -5021,9 +5021,9 @@ as all timestamps used are valid.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root precompile call where the beacon root is equal to the timestamp.</span>
+<span class="sd">    Tests the beacon root contract call where the beacon root is equal to the timestamp.</span>
 
-<span class="sd">    The expected result is that the precompile call will return the `parent_beacon_block_root`,</span>
+<span class="sd">    The expected result is that the contract call will return the `parent_beacon_block_root`,</span>
 <span class="sd">    as all timestamps used are valid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
@@ -5057,8 +5057,7 @@ as all timestamps used are valid.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Tests the beacon root precompile call using a transaction to the precompile contract, using
-different transaction types and data lengths.</p>
+      <p>Tests the beacon root contract using a transaction with different types and data lengths.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
@@ -5081,8 +5080,7 @@ different transaction types and data lengths.</p>
 <span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;auto_access_list&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;auto_access_list&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_beacon_root_contract&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
@@ -5094,8 +5092,7 @@ different transaction types and data lengths.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root precompile call using a transaction to the precompile contract, using</span>
-<span class="sd">    different transaction types and data lengths.</span>
+<span class="sd">    Tests the beacon root contract using a transaction with different types and data lengths.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
