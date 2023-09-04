@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.0e669242.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.046329b4.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.85d0ee34.min.css">
@@ -4509,8 +4509,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_beacon_root_transition_test" class="md-nav__link">
-    test_beacon_root_transition_test()
+  <a href="#tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_beacon_root_transition" class="md-nav__link">
+    test_beacon_root_transition()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_no_beacon_root_contract_at_transition" class="md-nav__link">
+    test_no_beacon_root_contract_at_transition()
   </a>
   
 </li>
@@ -4531,7 +4538,7 @@
 
 
 <h1 id="test-blocks-beacon-root-contract">Test Blocks Beacon Root Contract<a class="headerlink" href="#test-blocks-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/74dcd930461198fe73b1655cae55106f333cf1e9/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3fec884fae12ecbcd0da0880110fa764d91f63e0/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -4814,8 +4821,8 @@ buffer, which might have been overwritten by a later block.</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_multi_block_beacon_root_timestamp_calls</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">timestamps</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-    <span class="n">beacon_roots</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+    <span class="n">timestamps</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">beacon_roots</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
     <span class="n">block_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">call_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -4952,10 +4959,10 @@ buffer, which might have been overwritten by a later block.</p>
 
 
 
-<h2 id="tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_beacon_root_transition_test" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_beacon_root_transition_test</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">beacon_roots</span><span class="p">,</span> <span class="n">block_count</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">call_gas</span><span class="p">,</span> <span class="n">call_value</span><span class="p">,</span> <span class="n">system_address_balance</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
+<h2 id="tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_beacon_root_transition" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">test_beacon_root_transition</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">beacon_roots</span><span class="p">,</span> <span class="n">block_count</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">call_gas</span><span class="p">,</span> <span class="n">call_value</span><span class="p">,</span> <span class="n">system_address_balance</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
 
-<a href="#tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_beacon_root_transition_test" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_beacon_root_transition" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-contents ">
@@ -5098,10 +5105,10 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;block_count&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_beacon_root_transition_test</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_beacon_root_transition</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">timestamps</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-    <span class="n">beacon_roots</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+    <span class="n">timestamps</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">beacon_roots</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
     <span class="n">block_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">call_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -5229,6 +5236,163 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 
 
 
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_no_beacon_root_contract_at_transition" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">test_no_beacon_root_contract_at_transition</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">beacon_roots</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">caller_address</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
+
+<a href="#tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract.test_no_beacon_root_contract_at_transition" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Tests the fork transition to cancun in the case where the beacon root pre-deploy was not
+deployed in time for the fork.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">15_000</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_no_beacon_root_contract_at_transition</span><span class="p">(</span>
+    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">beacon_roots</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+    <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+    <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">caller_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests the fork transition to cancun in the case where the beacon root pre-deploy was not</span>
+<span class="sd">    deployed in time for the fork.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+    <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Block</span><span class="p">(</span>
+            <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
+            <span class="n">beacon_root</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">beacon_roots</span><span class="p">),</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
+            <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
+                <span class="c1"># Also withdraw to the beacon root contract and the system address</span>
+                <span class="n">Withdrawal</span><span class="p">(</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">BEACON_ROOT_CONTRACT_ADDRESS</span><span class="p">,</span>
+                    <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Withdrawal</span><span class="p">(</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">SYSTEM_ADDRESS</span><span class="p">,</span>
+                    <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">pre</span><span class="p">[</span><span class="n">BEACON_ROOT_CONTRACT_ADDRESS</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># Remove the code that is automatically allocated on Cancun fork</span>
+        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">BEACON_ROOT_CONTRACT_ADDRESS</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+                <span class="n">timestamp</span> <span class="o">%</span> <span class="n">HISTORICAL_ROOTS_MODULUS</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">timestamp</span> <span class="o">%</span> <span class="n">HISTORICAL_ROOTS_MODULUS</span><span class="p">)</span> <span class="o">+</span> <span class="n">HISTORICAL_ROOTS_MODULUS</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">balance</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e9</span><span class="p">),</span>
+        <span class="p">),</span>
+        <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+                <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="p">},</span>  <span class="c1"># Successful call because the contract is not there, but nothing else is stored</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+    <span class="n">blockchain_test</span><span class="p">(</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
   </div>
 
   </div>
@@ -5280,7 +5444,7 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
