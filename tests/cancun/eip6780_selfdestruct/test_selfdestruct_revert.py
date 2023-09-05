@@ -211,7 +211,7 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         len(bytes(selfdestruct_with_transfer_contract_initcode)),
     )
 
-entry_code += Op.SSTORE(
+    entry_code += Op.SSTORE(
         0,
         Op.CREATE(
             0, 0, len(bytes(selfdestruct_with_transfer_contract_initcode))  # Value  # Offset
@@ -229,7 +229,7 @@ entry_code += Op.SSTORE(
     )
 
     post: Dict[str, Account] = {
-        entry_code_address: Account(code="0x"),
+        entry_code_address: Account(code="0x", storage=Storage({0: selfdestruct_with_transfer_contract_address})),
         selfdestruct_with_transfer_initcode_copy_from_address: Account(
             code=selfdestruct_with_transfer_contract_initcode,
         ),
