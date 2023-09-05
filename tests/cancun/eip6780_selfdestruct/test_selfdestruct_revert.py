@@ -233,7 +233,9 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
     )
 
     post: Dict[str, Account] = {
-        entry_code_address: Account(code="0x", storage=Storage({0: selfdestruct_with_transfer_contract_address})),
+        entry_code_address: Account(
+            code="0x", storage=Storage({0: selfdestruct_with_transfer_contract_address})
+        ),
         selfdestruct_with_transfer_initcode_copy_from_address: Account(
             code=selfdestruct_with_transfer_contract_initcode,
         ),
@@ -355,12 +357,14 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
         post[selfdestruct_with_transfer_contract_address] = Account(
             balance=1,
             code=selfdestruct_with_transfer_contract_code,
-            storage=Storage({
-                # 2 value transfers: 1 in outer call, 1 in reverted inner call
-                0: 1,
-                # 2 selfdestructs: 1 in outer call, 1 in reverted inner call
-                1: 0,
-            })
+            storage=Storage(
+                {
+                    # 2 value transfers: 1 in outer call, 1 in reverted inner call
+                    0: 1,
+                    # 2 selfdestructs: 1 in outer call, 1 in reverted inner call
+                    1: 0,
+                }
+            ),
         )
         post[selfdestruct_recipient_address] = Account.NONEXISTENT
 
