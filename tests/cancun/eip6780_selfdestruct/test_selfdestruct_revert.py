@@ -131,13 +131,17 @@ def selfdestruct_with_transfer_contract_code(
         {{
             let operation := calldataload(0)
 
-            pop(mload(16))
-
             switch operation
             case 0 /* no-op used for transfering value to this contract */ {{
+                let times_called := sload(0)
+                times_called := add(times_called, 1)
+                sstore(0, times_called)
                 return(0, 0)
             }}
-            case 1 {{
+            case 1 /* trigger the contract to selfdestruct */ {{
+                let times_called := sload(1)
+                times_called := add(times_called, 1)
+                sstore(1, times_called)
                 selfdestruct({selfdestruct_recipient_address})
             }}
             default /* unsupported operation */ {{
@@ -246,6 +250,14 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         post[selfdestruct_with_transfer_contract_address] = Account(
             balance=1,
             code=selfdestruct_with_transfer_contract_code,
+            storage=Storage(
+                {
+                    # 2 value transfers (1 in outer call, 1 in reverted inner call)
+                    0: 1,
+                    # 1 selfdestruct in reverted inner call
+                    1: 0,
+                }
+            ),
         )
         post[selfdestruct_recipient_address] = Account.NONEXISTENT
 
@@ -329,12 +341,26 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
         post[selfdestruct_with_transfer_contract_address] = Account(
             balance=1,
             code=selfdestruct_with_transfer_contract_code,
+            storage=Storage(
+                {
+                    # 2 value transfers: 1 in outer call, 1 in reverted inner call
+                    0: 1,
+                    # 1 selfdestruct in reverted inner call
+                    1: 1,
+                }
+            ),
         )
         post[selfdestruct_recipient_address] = Account(balance=1)
     else:
         post[selfdestruct_with_transfer_contract_address] = Account(
             balance=1,
             code=selfdestruct_with_transfer_contract_code,
+            storage=Storage({
+                # 2 value transfers: 1 in outer call, 1 in reverted inner call
+                0: 1,
+                # 2 selfdestructs: 1 in outer call, 1 in reverted inner call
+                1: 0,
+            })
         )
         post[selfdestruct_recipient_address] = Account.NONEXISTENT
 
