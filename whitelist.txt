@@ -190,6 +190,7 @@ radd
 randao
 readthedocs
 reentrancy
+reentrant
 repo
 repo's
 repos
@@ -234,6 +235,7 @@ toml
 tox
 Tox
 trie
+tstorage
 tx
 txs
 txt
