@@ -1956,6 +1956,7 @@ class HeaderFieldSource:
                 if self.default is not None:
                     value = self.default
                 else:
+                    import pdb; pdb.set_trace()
                     raise ValueError(f"missing required field '{field_name}'")
 
         if value is not None and self.parse_type is not None:
@@ -2140,6 +2141,7 @@ class FixtureHeader:
             parse_type=Number,
             fork_requirement_check="header_blob_gas_used_required",
             source_transition_tool="blobGasUsed",
+            source_environment="blob_gas_used",
         ),
         json_encoder=JSONEncoder.Field(name="blobGasUsed", cast_type=ZeroPaddedHexNumber),
     )
