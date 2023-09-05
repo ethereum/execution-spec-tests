@@ -37,7 +37,7 @@ def entry_code_address() -> str:
 @pytest.fixture
 def recursive_revert_contract_address():
     """Address where the recursive revert contract address exists"""
-    return to_address(0xdeadbeef)
+    return to_address(0xDEADBEEF)
 
 
 @pytest.fixture
@@ -45,7 +45,6 @@ def env() -> Environment:
     """Default environment for all tests."""
     return Environment(
         coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        blob_gas_used=0,
     )
 
 
@@ -56,11 +55,23 @@ def selfdestruct_recipient_address() -> str:
 
 
 @pytest.fixture
+def selfdestruct_on_outer_call() -> bool:
+    return False
+
+
+@pytest.fixture
 def recursive_revert_contract_code(
     yul: YulCompiler,
+    selfdestruct_on_outer_call: bool,
     selfdestruct_with_transfer_contract_code: SupportsBytes,
     selfdestruct_with_transfer_contract_address: str,
 ) -> SupportsBytes:
+    optional_outer_call_code = ""
+    if selfdestruct_on_outer_call:
+        optional_outer_call_code = f"""
+            mstore(0, 1)
+            pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))"""
+
     """Contract code which calls selfdestructable contract, and also makes use of revert"""
     return yul(
         f"""
@@ -71,11 +82,10 @@ def recursive_revert_contract_code(
 
             switch operation
             case 0 /* outer call */ {{
-		// transfer some value to contract and make it selfdestruct
-		mstore(0, 1)
-                pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
+		// transfer value to contract and make it selfdestruct
+                {optional_outer_call_code}
 
-                // transfer some value to the selfdestructable contract
+                // transfer value to the selfdestructed contract
                 mstore(0, 0)
                 pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
 
@@ -83,19 +93,17 @@ def recursive_revert_contract_code(
                 mstore(0, op_inner_call)
                 pop(call(gaslimit(), address(), 0, 0, 32, 0, 0))
 
-		// store the balance for verification
+		// store the selfdestructed contract's balance for verification
 		sstore(1, balance({selfdestruct_with_transfer_contract_address}))
 
                 return(0, 0)
             }}
             case 1 /* inner call */ {{
-                // trigger selfdestructable contract to self destruct
+                // trigger previously-selfdestructed contract to self destruct
                 // and then revert
 
                 mstore(0, 1)
                 pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))
-		sstore(100, extcodesize({selfdestruct_with_transfer_contract_address}))
-
                 revert(0, 0)
             }}
             default {{
@@ -173,12 +181,14 @@ def pre(
     }
 
 
+@pytest.mark.parametrize("selfdestruct_on_outer_call", [False, True])
 @pytest.mark.valid_from("Cancun")
 def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict[str, Account],
     entry_code_address: str,
+    selfdestruct_on_outer_call: bool,
     selfdestruct_with_transfer_contract_code: SupportsBytes,
     selfdestruct_with_transfer_contract_initcode: SupportsBytes,
     selfdestruct_with_transfer_contract_address: str,
@@ -196,7 +206,6 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
     """  # noqa: E501
     entry_code = Op.EXTCODECOPY(
         Op.PUSH20(selfdestruct_with_transfer_initcode_copy_from_address),
-        # TODO: should detect the size of the address automatically ^
         0,
         0,
         len(bytes(selfdestruct_with_transfer_contract_initcode)),
@@ -218,11 +227,8 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         0,  # ret length
     )
 
-    # TODO: handle post for eip enabled/disabled
-
     post: Dict[str, Account] = {
         entry_code_address: Account(code="0x"),
-        selfdestruct_with_transfer_contract_address: Account.NONEXISTENT,  # type: ignore
         selfdestruct_with_transfer_initcode_copy_from_address: Account(
             code=selfdestruct_with_transfer_contract_initcode,
         ),
@@ -230,8 +236,17 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
             code=recursive_revert_contract_code,
             storage=Storage({1: 1}),
         ),
-        selfdestruct_recipient_address: Account(balance=1),
     }
+
+    if selfdestruct_on_outer_call:
+        post[selfdestruct_with_transfer_contract_address] = Account.NONEXISTENT
+        post[selfdestruct_recipient_address] = Account(balance=1)
+    else:
+        post[selfdestruct_with_transfer_contract_address] = Account(
+            balance=1,
+            code=selfdestruct_with_transfer_contract_code,
+        )
+        post[selfdestruct_recipient_address] = Account.NONEXISTENT
 
     nonce = count()
     tx = Transaction(
@@ -268,11 +283,13 @@ def pre_with_selfdestructable(  # noqa: SC200
     }
 
 
+@pytest.mark.parametrize("selfdestruct_on_outer_call", [False, True])
 @pytest.mark.valid_from("Cancun")
 def test_selfdestruct_not_created_in_same_tx_with_revert(
     state_test: StateTestFiller,
     env: Environment,
     entry_code_address: str,
+    selfdestruct_on_outer_call: bool,
     selfdestruct_with_transfer_contract_code: SupportsBytes,
     selfdestruct_with_transfer_contract_address: str,
     selfdestruct_recipient_address: str,
@@ -293,7 +310,6 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
         0,  # ret length
     )
 
-    import pdb; pdb.set_trace()
     pre: Dict[str, Account] = {
         TestAddress: Account(balance=100_000_000_000_000_000_000),
         selfdestruct_with_transfer_contract_address: Account(
@@ -306,12 +322,20 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
 
     post: Dict[str, Account] = {
         entry_code_address: Account(code="0x"),
-        selfdestruct_with_transfer_contract_address: Account(
-            balance=1, code=selfdestruct_with_transfer_contract_code
-        ),
-        selfdestruct_recipient_address: Account.NONEXISTENT,  # type: ignore
-        selfdestruct_recipient_address: Account(balance=1),
     }
+
+    if selfdestruct_on_outer_call:
+        post[selfdestruct_with_transfer_contract_address] = Account(
+            balance=1,
+            code=selfdestruct_with_transfer_contract_code,
+        )
+        post[selfdestruct_recipient_address] = Account(balance=1)
+    else:
+        post[selfdestruct_with_transfer_contract_address] = Account(
+            balance=1,
+            code=selfdestruct_with_transfer_contract_code,
+        )
+        post[selfdestruct_recipient_address] = Account.NONEXISTENT
 
     nonce = count()
     tx = Transaction(
