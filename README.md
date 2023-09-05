@@ -67,8 +67,9 @@ The following transition tools are supported by the framework:
 ### Upcoming EIP Development
 
 Generally specific t8n branches must be used when developing tests for upcoming EIPs: (last updated 05/09/23)
- - Cancun related EIPs (4844, 4788, 1153, 6780) - [marioevz/go-ethereum@cancun-t8n](https://github.com/marioevz/go-ethereum/tree/cancun-t8n)
- - EOF tests - [ethereum/evmone](https://github.com/ethereum/evmone)
+
+- Cancun related EIPs (4844, 4788, 1153, 6780) - [marioevz/go-ethereum@cancun-t8n](https://github.com/marioevz/go-ethereum/tree/cancun-t8n)
+- EOF tests - [ethereum/evmone](https://github.com/ethereum/evmone)
 
 ## Getting Started
 
