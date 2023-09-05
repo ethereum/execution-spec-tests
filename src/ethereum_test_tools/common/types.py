@@ -1956,7 +1956,6 @@ class HeaderFieldSource:
                 if self.default is not None:
                     value = self.default
                 else:
-                    import pdb; pdb.set_trace()
                     raise ValueError(f"missing required field '{field_name}'")
 
         if value is not None and self.parse_type is not None:
