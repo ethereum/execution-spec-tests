@@ -211,11 +211,12 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         len(bytes(selfdestruct_with_transfer_contract_initcode)),
     )
 
-    entry_code += Op.CREATE(
-        0, 0, len(bytes(selfdestruct_with_transfer_contract_initcode))  # Value  # Offset
+entry_code += Op.SSTORE(
+        0,
+        Op.CREATE(
+            0, 0, len(bytes(selfdestruct_with_transfer_contract_initcode))  # Value  # Offset
+        ),
     )
-
-    entry_code += Op.POP()
 
     entry_code += Op.CALL(
         Op.GASLIMIT(),
