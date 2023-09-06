@@ -84,6 +84,7 @@ extcodesize
 fn
 fname
 forkchoice
+fcu
 formatOnSave
 formatter
 fromhex
