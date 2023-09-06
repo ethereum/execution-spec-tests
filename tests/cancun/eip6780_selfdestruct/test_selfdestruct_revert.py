@@ -56,6 +56,7 @@ def selfdestruct_recipient_address() -> str:
 
 @pytest.fixture
 def selfdestruct_on_outer_call() -> bool:
+    """Whether to selfdestruct the target contract in the outer call scope"""
     return False
 
 
@@ -66,6 +67,12 @@ def recursive_revert_contract_code(
     selfdestruct_with_transfer_contract_code: SupportsBytes,
     selfdestruct_with_transfer_contract_address: str,
 ) -> SupportsBytes:
+    """
+    Contract code that:
+        Given selfdestructable contract A, transfer value to A and call A.selfdestruct.
+        Then, recurse into a new call which transfers value to A,
+        call A.selfdestruct, and reverts.
+    """
     optional_outer_call_code = ""
     if selfdestruct_on_outer_call:
         optional_outer_call_code = f"""
@@ -82,7 +89,7 @@ def recursive_revert_contract_code(
 
             switch operation
             case 0 /* outer call */ {{
-		// transfer value to contract and make it selfdestruct
+                // transfer value to contract and make it selfdestruct
                 {optional_outer_call_code}
 
                 // transfer value to the selfdestructed contract
@@ -93,8 +100,8 @@ def recursive_revert_contract_code(
                 mstore(0, op_inner_call)
                 pop(call(gaslimit(), address(), 0, 0, 32, 0, 0))
 
-		// store the selfdestructed contract's balance for verification
-		sstore(1, balance({selfdestruct_with_transfer_contract_address}))
+                // store the selfdestructed contract's balance for verification
+                sstore(1, balance({selfdestruct_with_transfer_contract_address}))
 
                 return(0, 0)
             }}
@@ -361,7 +368,7 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
                 {
                     # 2 value transfers: 1 in outer call, 1 in reverted inner call
                     0: 1,
-                    # 2 selfdestructs: 1 in outer call, 1 in reverted inner call
+                    # 2 selfdestructs: 1 in outer call, 1 in reverted inner call # noqa SC100
                     1: 0,
                 }
             ),
