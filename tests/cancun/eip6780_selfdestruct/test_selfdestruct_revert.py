@@ -253,7 +253,7 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
     }
 
     if selfdestruct_on_outer_call:
-        post[selfdestruct_with_transfer_contract_address] = Account.NONEXISTENT
+        post[selfdestruct_with_transfer_contract_address] = Account.NONEXISTENT  # type: ignore 
         post[selfdestruct_recipient_address] = Account(balance=1)
     else:
         post[selfdestruct_with_transfer_contract_address] = Account(
@@ -268,7 +268,7 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
                 }
             ),
         )
-        post[selfdestruct_recipient_address] = Account.NONEXISTENT
+        post[selfdestruct_recipient_address] = Account.NONEXISTENT  # type: ignore
 
     nonce = count()
     tx = Transaction(
@@ -373,7 +373,7 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
                 }
             ),
         )
-        post[selfdestruct_recipient_address] = Account.NONEXISTENT
+        post[selfdestruct_recipient_address] = Account.NONEXISTENT  # type: ignore
 
     nonce = count()
     tx = Transaction(
