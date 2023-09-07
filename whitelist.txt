@@ -248,6 +248,8 @@ ukiyo
 uncomment
 util
 utils
+v0
+v1
 validator
 venv
 visualstudio
