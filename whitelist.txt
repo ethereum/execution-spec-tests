@@ -37,6 +37,7 @@ callvalue
 cancun
 cd
 chainid
+classdict
 cli2
 codeAddr
 codecopy
@@ -189,6 +190,8 @@ quickstart
 radd
 randao
 readthedocs
+reentrancy
+reentrant
 repo
 repo's
 repos
@@ -213,6 +216,7 @@ src
 stackoverflow
 StateTest
 StateTestFiller
+staticcalled
 stExample
 str
 streetsidesoftware
@@ -233,6 +237,7 @@ toml
 tox
 Tox
 trie
+tstorage
 tx
 txs
 txt
@@ -244,6 +249,8 @@ ukiyo
 uncomment
 util
 utils
+v0
+v1
 validator
 venv
 visualstudio
@@ -385,6 +392,7 @@ gas
 jumpdest
 rjump
 rjumpi
+rjumpv
 callf
 retf
 push0
