@@ -55,15 +55,15 @@ def selfdestruct_recipient_address() -> str:
 
 
 @pytest.fixture
-def selfdestruct_on_outer_call() -> bool:
+def selfdestruct_on_outer_call() -> int:
     """Whether to selfdestruct the target contract in the outer call scope"""
-    return False
+    return 0
 
 
 @pytest.fixture
 def recursive_revert_contract_code(
     yul: YulCompiler,
-    selfdestruct_on_outer_call: bool,
+    selfdestruct_on_outer_call: int,
     selfdestruct_with_transfer_contract_code: SupportsBytes,
     selfdestruct_with_transfer_contract_address: str,
 ) -> SupportsBytes:
@@ -73,11 +73,15 @@ def recursive_revert_contract_code(
         Then, recurse into a new call which transfers value to A,
         call A.selfdestruct, and reverts.
     """
-    optional_outer_call_code = ""
-    if selfdestruct_on_outer_call:
-        optional_outer_call_code = f"""
-            mstore(0, 1)
-            pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))"""
+    optional_outer_call_code_1 = ""
+    optional_outer_call_code_2 = ""
+    optional_outer_call_code = f"""
+        mstore(0, 1)
+        pop(call(gaslimit(), {selfdestruct_with_transfer_contract_address}, 1, 0, 32, 0, 0))"""
+    if selfdestruct_on_outer_call == 1:
+        optional_outer_call_code_1 = optional_outer_call_code
+    elif selfdestruct_on_outer_call == 2:
+        optional_outer_call_code_2 = optional_outer_call_code
 
     """Contract code which calls selfdestructable contract, and also makes use of revert"""
     return yul(
@@ -90,7 +94,7 @@ def recursive_revert_contract_code(
             switch operation
             case 0 /* outer call */ {{
                 // transfer value to contract and make it selfdestruct
-                {optional_outer_call_code}
+                {optional_outer_call_code_1}
 
                 // transfer value to the selfdestructed contract
                 mstore(0, 0)
@@ -102,6 +106,9 @@ def recursive_revert_contract_code(
 
                 // store the selfdestructed contract's balance for verification
                 sstore(1, balance({selfdestruct_with_transfer_contract_address}))
+
+                // transfer value to contract and make it selfdestruct
+                {optional_outer_call_code_2}
 
                 return(0, 0)
             }}
@@ -192,14 +199,22 @@ def pre(
     }
 
 
-@pytest.mark.parametrize("selfdestruct_on_outer_call", [False, True])
+@pytest.mark.parametrize(
+    "selfdestruct_on_outer_call",
+    [0, 1, 2],
+    ids=[
+        "no_outer_selfdestruct",
+        "outer_selfdestruct_before_inner_call",
+        "outer_selfdestruct_after_inner_call",
+    ],
+)
 @pytest.mark.valid_from("Cancun")
 def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
     state_test: StateTestFiller,
     env: Environment,
     pre: Dict[str, Account],
     entry_code_address: str,
-    selfdestruct_on_outer_call: bool,
+    selfdestruct_on_outer_call: int,
     selfdestruct_with_transfer_contract_code: SupportsBytes,
     selfdestruct_with_transfer_contract_initcode: SupportsBytes,
     selfdestruct_with_transfer_contract_address: str,
@@ -252,9 +267,11 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         ),
     }
 
-    if selfdestruct_on_outer_call:
+    if selfdestruct_on_outer_call > 0:
         post[selfdestruct_with_transfer_contract_address] = Account.NONEXISTENT  # type: ignore
-        post[selfdestruct_recipient_address] = Account(balance=1)
+        post[selfdestruct_recipient_address] = Account(
+            balance=1 if selfdestruct_on_outer_call == 1 else 2,
+        )
     else:
         post[selfdestruct_with_transfer_contract_address] = Account(
             balance=1,
@@ -305,13 +322,21 @@ def pre_with_selfdestructable(  # noqa: SC200
     }
 
 
-@pytest.mark.parametrize("selfdestruct_on_outer_call", [False, True])
+@pytest.mark.parametrize(
+    "selfdestruct_on_outer_call",
+    [0, 1, 2],
+    ids=[
+        "no_outer_selfdestruct",
+        "outer_selfdestruct_before_inner_call",
+        "outer_selfdestruct_after_inner_call",
+    ],
+)
 @pytest.mark.valid_from("Cancun")
 def test_selfdestruct_not_created_in_same_tx_with_revert(
     state_test: StateTestFiller,
     env: Environment,
     entry_code_address: str,
-    selfdestruct_on_outer_call: bool,
+    selfdestruct_on_outer_call: int,
     selfdestruct_with_transfer_contract_code: SupportsBytes,
     selfdestruct_with_transfer_contract_address: str,
     selfdestruct_recipient_address: str,
@@ -346,9 +371,9 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
         entry_code_address: Account(code="0x"),
     }
 
-    if selfdestruct_on_outer_call:
+    if selfdestruct_on_outer_call > 0:
         post[selfdestruct_with_transfer_contract_address] = Account(
-            balance=1,
+            balance=1 if selfdestruct_on_outer_call == 1 else 0,
             code=selfdestruct_with_transfer_contract_code,
             storage=Storage(
                 {
@@ -359,7 +384,9 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
                 }
             ),
         )
-        post[selfdestruct_recipient_address] = Account(balance=1)
+        post[selfdestruct_recipient_address] = Account(
+            balance=1 if selfdestruct_on_outer_call == 1 else 2
+        )
     else:
         post[selfdestruct_with_transfer_contract_address] = Account(
             balance=1,
