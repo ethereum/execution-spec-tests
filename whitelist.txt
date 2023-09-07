@@ -37,6 +37,7 @@ callvalue
 cancun
 cd
 chainid
+classdict
 cli2
 codeAddr
 codecopy
