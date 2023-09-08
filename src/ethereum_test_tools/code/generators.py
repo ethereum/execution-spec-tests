@@ -3,7 +3,7 @@ Code generating classes and functions.
 """
 
 from dataclasses import dataclass
-from typing import Optional, SupportsBytes
+from typing import List, Optional, SupportsBytes
 
 from ..common.conversions import to_bytes
 from ..common.helpers import ceiling_division
@@ -237,3 +237,88 @@ class Conditional(Code):
         # Finally we append the true and false branches, and the condition, plus the jumpdest at
         # the very end
         self.bytecode = condition_bytes + if_false_bytes + if_true_bytes + Op.JUMPDEST
+
+
+@dataclass
+class BytecodeCase:
+    """
+    Small helper class to represent a single case in a switch-case statement.
+    """
+
+    condition: str | bytes | SupportsBytes
+    action: str | bytes | SupportsBytes
+
+    def __post_init__(self):
+        """
+        Ensure that the condition and action are of type bytes.
+        """
+        self.condition = to_bytes(self.condition)
+        self.action = to_bytes(self.action)
+
+
+@dataclass(kw_only=True)
+class Switch(Code):
+    """
+    Helper class used to generate switch-case expressions in EVM bytecode.
+
+    Switch-cae behavior:
+        - If no condition is met in the list of BytecodeCases conditions,
+            the `default_action` bytecode is executed.
+        - If multiple conditions are met, the action from the first valid
+            condition is the only one executed.
+        - There is no fall through; it is not possible to execute multiple
+            actions.
+    """
+
+    default_action: str | bytes | SupportsBytes
+    """
+    The default bytecode to execute; if no condition is met, this bytecode is
+    executed.
+    """
+
+    cases: List[BytecodeCase]
+    """
+    A list of BytecodeCase: The first element with a condition that evaluates
+    to a non-zero value is the one that is executed.
+    """
+
+    def __post_init__(self):
+        """
+        Assemble the bytecode by looping over the list of cases and adding
+        the necessary JUMPI and JUMPDEST opcodes in order to replicate
+        switch-case behavior.
+
+        In the future, PC usage should be replaced by using RJUMP and RJUMPI.
+        """
+        # All conditions get pre-pended to this bytecode; if none are met, we reach the default
+        self.bytecode = to_bytes(self.default_action) + Op.STOP
+        jump_length = len(self.bytecode) + 3
+
+        # Reversed: first case in list has priority; it will become the outer most onion layer
+        for case in reversed(self.cases):
+            action = Op.JUMPDEST + case.action + Op.STOP
+            condition = Op.JUMPI(Op.ADD(Op.PC, jump_length), case.condition)
+            # wrap the current case around the onion as its next layer
+            self.bytecode = condition + self.bytecode + action
+            jump_length += len(condition) + len(action)
+
+        # The following unwrapped loop for len(cases)=2 may help explain the above code:
+        # cases = self.cases
+        #
+        # default_action = to_bytes(self.default_action) + Op.STOP
+        # cases[0].action = Op.JUMPDEST + cases[0].action + Op.STOP
+        # cases[1].action = Op.JUMPDEST + cases[1].action + Op.STOP
+        #
+        # jump_length = len(default_action) + 3
+        # cases[1].condition = Op.JUMPI(Op.ADD(Op.PC, jump_length), cases[1].condition)
+        #
+        # jump_length = len(cases[1].condition) + len(default_action) + len(cases[1].action) + 3
+        # cases[0].condition = Op.JUMPI(Op.ADD(Op.PC, jump_length), cases[0].condition)
+        #
+        # self.bytecode = (
+        #     cases[0].condition
+        #     + cases[1].condition
+        #     + default_action
+        #     + cases[1].action
+        #     + cases[0].action
+        #
