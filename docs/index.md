@@ -63,7 +63,7 @@ The following transition tools are supported by the framework:
 | Client | `t8n` Tool | Tracing Support |
 | -------| ---------- | --------------- |
 | [ethereum/evmone](https://github.com/ethereum/evmone) | `evmone-t8n` | Yes |
-| [ethereum/execution-specs](https://github.com/ethereum/execution-specs) | `ethereum-spec-evm` | No |
+| [ethereum/execution-specs](https://github.com/ethereum/execution-specs) | `ethereum-spec-evm` | Yes |
 | [ethereum/go-ethereum](https://github.com/ethereum/go-ethereum) | [`evm t8n`](https://github.com/ethereum/go-ethereum/tree/master/cmd/evm) | Yes |
 | [hyperledger/besu](https://github.com/hyperledger/besu/tree/main/ethereum/evmtool) | [`evm t8n-server`](https://github.com/hyperledger/besu/tree/main/ethereum/evmtool) | No |
 | [status-im/nimbus-eth1](https://github.com/status-im/nimbus-eth1) | [`t8n`](https://github.com/status-im/nimbus-eth1/blob/master/tools/t8n/readme.md) | Yes |
