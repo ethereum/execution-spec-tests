@@ -97,6 +97,52 @@ def test_tload_after_tstore(state_test: StateTestFiller):
     )
 
 
+def test_tload_after_sstore(state_test: StateTestFiller):
+    """
+    Loading after storing returns the stored value: TSTORE(x, y), TLOAD(x)
+    returns y.
+
+    Based on [ethereum/tests/.../18_tloadAfterStoreFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/18_tloadAfterStoreFiller.yml)",  # noqa: E501
+    """
+    env = Environment()
+
+    slots_under_test = [1, 3, 2**128, 2**256 - 1]
+    code = b"".join(
+        [
+            Op.SSTORE(slot - 1, 0xFF) + Op.SSTORE(slot, Op.TLOAD(slot - 1))
+            for slot in slots_under_test
+        ]
+    )
+
+    pre = {
+        TestAddress: Account(balance=10_000_000),
+        code_address: Account(code=code),
+    }
+
+    txs = [
+        Transaction(
+            to=code_address,
+            data=b"",
+            gas_limit=1_000_000,
+        )
+    ]
+
+    post = {
+        code_address: Account(
+            code=code,
+            storage={slot - 1: 0xFF for slot in slots_under_test}
+            | {slot: 0 for slot in slots_under_test},
+        )
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        txs=txs,
+    )
+
+
 def test_tload_after_tstore_is_zero(state_test: StateTestFiller):
     """
     Test that tload returns zero after tstore is called with zero.
