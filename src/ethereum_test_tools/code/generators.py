@@ -108,7 +108,7 @@ class Initcode(Code):
         if initcode_length is not None:
             assert initcode_length >= len(
                 initcode_plus_deploy_code
-            ), "specified invalid lenght for initcode"
+            ), "specified invalid length for initcode"
 
             padding_bytes = bytes(
                 [padding_byte] * (initcode_length - len(initcode_plus_deploy_code))
@@ -214,8 +214,8 @@ class Conditional(Code):
 
     def __post_init__(self):
         """
-        Assemble the conditional bytecode by generating the necessary jumps and
-        jumpdests surrounding the condition and the two possible execution
+        Assemble the conditional bytecode by generating the necessary jump and
+        jumpdest opcodes surrounding the condition and the two possible execution
         paths.
 
         In the future, PC usage should be replaced by using RJUMP and RJUMPI
