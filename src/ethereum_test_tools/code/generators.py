@@ -290,35 +290,29 @@ class Switch(Code):
 
         In the future, PC usage should be replaced by using RJUMP and RJUMPI.
         """
+        # The length required to jump over subsequent actions and jump to the final jumpdest
+        # at the end of switch-case block:
+        end_jump_length = sum(len(case.action) + 6 for case in self.cases) + 3
+        # - add 6 per case for the length of the JUMPDEST and JUMP(ADD(PC, end_jump_length))
+        #   bytecode
+        # - add 3 to the total to account for this action's JUMP; the PC within the call
+        #   requires a "correction" of 3.
+
         # All conditions get pre-pended to this bytecode; if none are met, we reach the default
-        self.bytecode = to_bytes(self.default_action) + Op.STOP
-        jump_length = len(self.bytecode) + 3
+        self.bytecode = to_bytes(self.default_action) + Op.JUMP(Op.ADD(Op.PC, end_jump_length))
+
+        # The length required to jump over the condition and action of the next case
+        condition_jump_length = len(self.bytecode) + 3
 
         # Reversed: first case in list has priority; it will become the outer most onion layer
-        for case in reversed(self.cases):
-            action = Op.JUMPDEST + case.action + Op.STOP
-            condition = Op.JUMPI(Op.ADD(Op.PC, jump_length), case.condition)
+        for i, case in enumerate(reversed(self.cases)):
+            end_jump_length = (
+                sum(len(case.action) + 6 for case in self.cases[: len(self.cases) - i - 1]) + 3
+            )
+            action = Op.JUMPDEST + case.action + Op.JUMP(Op.ADD(Op.PC, end_jump_length))
+            condition = Op.JUMPI(Op.ADD(Op.PC, condition_jump_length), case.condition)
             # wrap the current case around the onion as its next layer
             self.bytecode = condition + self.bytecode + action
-            jump_length += len(condition) + len(action)
+            condition_jump_length += len(condition) + len(action)
 
-        # The following unwrapped loop for len(cases)=2 may help explain the above code:
-        # cases = self.cases
-        #
-        # default_action = to_bytes(self.default_action) + Op.STOP
-        # cases[0].action = Op.JUMPDEST + cases[0].action + Op.STOP
-        # cases[1].action = Op.JUMPDEST + cases[1].action + Op.STOP
-        #
-        # jump_length = len(default_action) + 3
-        # cases[1].condition = Op.JUMPI(Op.ADD(Op.PC, jump_length), cases[1].condition)
-        #
-        # jump_length = len(cases[1].condition) + len(default_action) + len(cases[1].action) + 3
-        # cases[0].condition = Op.JUMPI(Op.ADD(Op.PC, jump_length), cases[0].condition)
-        #
-        # self.bytecode = (
-        #     cases[0].condition
-        #     + cases[1].condition
-        #     + default_action
-        #     + cases[1].action
-        #     + cases[0].action
-        #
+        self.bytecode += Op.JUMPDEST
