@@ -578,6 +578,28 @@ def test_opcodes_if(conditional_bytecode: bytes, expected: bytes):
             {0: 2, 1: 2, 0x10: 1, 0x11: 1},
             id="nested-within-bytecode",
         ),
+        pytest.param(
+            to_hash_bytes(1),
+            Switch(
+                cases=[
+                    BytecodeCase(condition=Op.EQ(Op.CALLDATALOAD(0), 1), action=Op.SSTORE(0, 1))
+                ],
+                default_action=Op.PUSH32(2**256 - 1) * 8,
+            ),
+            {0: 1},
+            id="jumpi-larger-than-1-byte",
+        ),
+        pytest.param(
+            to_hash_bytes(1),
+            Switch(
+                cases=[
+                    BytecodeCase(condition=Op.EQ(Op.CALLDATALOAD(0), 1), action=Op.SSTORE(0, 1))
+                ],
+                default_action=Op.PUSH32(2**256 - 1) * 2048,
+            ),
+            {0: 1},
+            id="jumpi-larger-than-4-bytes",
+        ),
     ],
 )
 def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mapping):
