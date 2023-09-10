@@ -261,7 +261,7 @@ class Switch(Code):
     """
     Helper class used to generate switch-case expressions in EVM bytecode.
 
-    Switch-cae behavior:
+    Switch-case behavior:
         - If no condition is met in the list of BytecodeCases conditions,
             the `default_action` bytecode is executed.
         - If multiple conditions are met, the action from the first valid
