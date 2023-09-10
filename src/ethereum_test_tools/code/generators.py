@@ -304,7 +304,28 @@ class Switch(Code):
         # The length required to jump over the condition and action of the next case
         condition_jump_length = len(self.bytecode) + 3
 
-        # Reversed: first case in list has priority; it will become the outer most onion layer
+        # Reversed: first case in list has priority; it will become the outer-most onion layer.
+        # We build up layers around the default_action, after 1 iteration of the loop, the bytecode
+        # is laid out as:
+        #
+        #  [ case[n-1].condition + JUMPI
+        #    default_action + JUMP,
+        #    JUMPDEST + case[n-1].action,
+        #    JUMPDEST]
+        #
+        # and after n=len(cases) iterations:
+        #
+        #  [ case[0].condition + JUMPI
+        #    case[1].condition + JUMPI
+        #    ...
+        #    case[n-1].condition + JUMPI
+        #    default_action + JUMP,
+        #    JUMPDEST + case[n-1].action,
+        #    ...
+        #    JUMPDEST + case[1].action,
+        #    JUMPDEST + case[0].action,
+        #    JUMPDEST]
+        #
         for i, case in enumerate(reversed(self.cases)):
             action_jump_length = (
                 sum(len(case.action) + 6 for case in self.cases[: len(self.cases) - i - 1]) + 3
