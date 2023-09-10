@@ -301,7 +301,7 @@ class Switch(Code):
         # All conditions get pre-pended to this bytecode; if none are met, we reach the default
         self.bytecode = to_bytes(self.default_action) + Op.JUMP(Op.ADD(Op.PC, action_jump_length))
 
-        # The length required to jump over the condition and action of the next case
+        # The length required to jump over the default action and its JUMP bytecode
         condition_jump_length = len(self.bytecode) + 3
 
         # Reversed: first case in list has priority; it will become the outer-most onion layer.
@@ -326,10 +326,8 @@ class Switch(Code):
         #    JUMPDEST + case[0].action,
         #    JUMPDEST]
         #
-        for i, case in enumerate(reversed(self.cases)):
-            action_jump_length = (
-                sum(len(case.action) + 6 for case in self.cases[: len(self.cases) - i - 1]) + 3
-            )
+        for case in reversed(self.cases):
+            action_jump_length -= len(case.action) + 6
             action = Op.JUMPDEST + case.action + Op.JUMP(Op.ADD(Op.PC, action_jump_length))
             condition = Op.JUMPI(Op.ADD(Op.PC, condition_jump_length), case.condition)
             # wrap the current case around the onion as its next layer
