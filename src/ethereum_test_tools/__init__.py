@@ -4,7 +4,8 @@ tests.
 """
 
 from .code import (
-    BytecodeCase,
+    CalldataCase,
+    Case,
     Code,
     CodeGasMeasure,
     Conditional,
@@ -67,7 +68,8 @@ __all__ = (
     "Block",
     "BlockchainTest",
     "BlockchainTestFiller",
-    "BytecodeCase",
+    "Case",
+    "CalldataCase",
     "Code",
     "CodeGasMeasure",
     "Conditional",

@@ -8,7 +8,7 @@ from enum import EnumMeta, unique
 
 import pytest
 
-from ethereum_test_tools import Account, BytecodeCase, Conditional, Environment
+from ethereum_test_tools import Account, CalldataCase, Conditional, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Switch, TestAddress, Transaction, to_hash_bytes
 
@@ -139,8 +139,8 @@ class DynamicReentrancyTestCases(EnumMeta):
                     ),
                     cases=[
                         # the first, reentrant call, which reverts/receives invalid
-                        BytecodeCase(
-                            condition=Op.EQ(Op.CALLDATALOAD(0), 2),
+                        CalldataCase(
+                            value=2,
                             action=(
                                 Op.MSTORE(0, 3)
                                 + Op.MSTORE(0, Op.CALL(Op.GAS(), callee_address, 0, 0, 32, 0, 0))
@@ -148,9 +148,7 @@ class DynamicReentrancyTestCases(EnumMeta):
                             ),
                         ),
                         # the second, reentrant call, which returns successfully
-                        BytecodeCase(
-                            condition=Op.EQ(Op.CALLDATALOAD(0), 3), action=Op.TSTORE(0xFF, 0x101)
-                        ),
+                        CalldataCase(value=3, action=Op.TSTORE(0xFF, 0x101)),
                     ],
                 ),
                 "expected_storage": {0: 0x00, 1: 0x01, 2: 0x100, 3: 0x100},

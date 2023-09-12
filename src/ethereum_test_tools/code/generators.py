@@ -2,7 +2,7 @@
 Code generating classes and functions.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Optional, SupportsBytes
 
 from ..common.conversions import to_bytes
@@ -240,9 +240,10 @@ class Conditional(Code):
 
 
 @dataclass
-class BytecodeCase:
+class Case:
     """
-    Small helper class to represent a single case in a switch-case statement.
+    Small helper class to represent a single, generic case in a `Switch` cases
+    list.
     """
 
     condition: str | bytes | SupportsBytes
@@ -253,6 +254,35 @@ class BytecodeCase:
         Ensure that the condition and action are of type bytes.
         """
         self.condition = to_bytes(self.condition)
+        self.action = to_bytes(self.action)
+
+
+@dataclass
+class CalldataCase:
+    """
+    Small helper class to represent a single case whose condition depends
+    on the value of the contract's calldata in a Switch case statement.
+
+    By default the calldata is read from position zero, but this can be
+    overridden using `position`.
+
+    The `condition` is generated automatically based on the `value` (and
+    optionally `position`) and may not be set directly.
+    """
+
+    action: str | bytes | SupportsBytes
+    value: int | str | bytes | SupportsBytes
+    position: int = 0
+    condition: bytes = field(init=False)
+
+    def __post_init__(self):
+        """
+        Generate the condition base on `value` and `position`.
+        """
+        value_as_bytes = self.value
+        if not isinstance(self.value, int):
+            value_as_bytes = Op.PUSH32(to_bytes(self.value))
+        self.condition = Op.EQ(Op.CALLDATALOAD(self.position), value_as_bytes)
         self.action = to_bytes(self.action)
 
 
@@ -276,10 +306,10 @@ class Switch(Code):
     executed.
     """
 
-    cases: List[BytecodeCase]
+    cases: List[Case | CalldataCase]
     """
-    A list of BytecodeCase: The first element with a condition that evaluates
-    to a non-zero value is the one that is executed.
+    A list of Case or CalldataCase: The first element with a condition that
+    evaluates to a non-zero value is the one that is executed.
     """
 
     def __post_init__(self):
@@ -318,7 +348,7 @@ class Switch(Code):
         #  + JUMPI(case[1].condition)
         #    ...
         #  + JUMPI(case[n-1].condition)
-        #  + default_action + JUMP
+        #  + default_action + JUMP()
         #  + JUMPDEST + case[n-1].action + JUMP()
         #  + ...
         #  + JUMPDEST + case[1].action + JUMP()
