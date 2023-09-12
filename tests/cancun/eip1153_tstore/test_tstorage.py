@@ -116,7 +116,7 @@ def test_tload_after_sstore(state_test: StateTestFiller):
 
     pre = {
         TestAddress: Account(balance=10_000_000),
-        code_address: Account(code=code),
+        code_address: Account(code=code, storage={slot: 1 for slot in slots_under_test}),
     }
 
     txs = [
