@@ -365,6 +365,7 @@ class Cancun(Shanghai):
         Cancun requires pre-allocation of the beacon root contract for EIP-4788
         """
         new_allocation = {
+            # TODO: update address & code to the correct values
             0xBEAC00DDB15F3B6D645C48263DC93862413A222D: {
                 "nonce": 1,
                 "code": "0x3373fffffffffffffffffffffffffffffffffffffffe14604457602036146024575f5f"
