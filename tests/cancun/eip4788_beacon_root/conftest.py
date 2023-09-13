@@ -21,8 +21,8 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .common import (
-    BEACON_ROOT_CONTRACT_ADDRESS,
-    BEACON_ROOT_CONTRACT_CALL_GAS,
+    BEACON_ROOTS_ADDRESS,
+    BEACON_ROOTS_CALL_GAS,
     HISTORY_BUFFER_LENGTH,
     SYSTEM_ADDRESS,
     expected_storage,
@@ -88,7 +88,7 @@ def call_value() -> int:  # noqa: D103
 
 @pytest.fixture
 def call_gas() -> int:  # noqa: D103
-    return BEACON_ROOT_CONTRACT_CALL_GAS
+    return BEACON_ROOTS_CALL_GAS
 
 
 @pytest.fixture
@@ -108,7 +108,7 @@ def contract_call_account(call_type: Op, call_value: int, call_gas: int) -> Acco
             0x00,  # store the result of the contract call in storage[0]
             call_type(
                 call_gas,
-                BEACON_ROOT_CONTRACT_ADDRESS,
+                BEACON_ROOTS_ADDRESS,
                 call_value,
                 args_start,
                 args_length,
@@ -122,7 +122,7 @@ def contract_call_account(call_type: Op, call_value: int, call_gas: int) -> Acco
             0x00,
             call_type(
                 call_gas,
-                BEACON_ROOT_CONTRACT_ADDRESS,
+                BEACON_ROOTS_ADDRESS,
                 args_start,
                 args_length,
                 return_start,
@@ -225,7 +225,7 @@ def access_list(auto_access_list: bool, timestamp: int) -> List[AccessList]:
     if auto_access_list:
         return [
             AccessList(
-                address=BEACON_ROOT_CONTRACT_ADDRESS,
+                address=BEACON_ROOTS_ADDRESS,
                 storage_keys=[
                     timestamp,
                     timestamp + HISTORY_BUFFER_LENGTH,
@@ -264,7 +264,7 @@ def tx(
     """
     Prepares transaction to call the beacon root contract caller account.
     """
-    to = BEACON_ROOT_CONTRACT_ADDRESS if call_beacon_root_contract else tx_to_address
+    to = BEACON_ROOTS_ADDRESS if call_beacon_root_contract else tx_to_address
     kwargs: Dict = {
         "ty": tx_type,
         "nonce": 0,

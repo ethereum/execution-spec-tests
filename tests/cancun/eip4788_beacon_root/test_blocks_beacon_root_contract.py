@@ -43,7 +43,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .common import (
-    BEACON_ROOT_CONTRACT_ADDRESS,
+    BEACON_ROOTS_ADDRESS,
     HISTORY_BUFFER_LENGTH,
     REF_SPEC_4788_GIT_PATH,
     REF_SPEC_4788_VERSION,
@@ -158,7 +158,7 @@ def test_multi_block_beacon_root_timestamp_calls(
                 current_call_account_expected_storage.store_next(0x01 if call_valid else 0x00),
                 Op.CALL(
                     call_gas,
-                    BEACON_ROOT_CONTRACT_ADDRESS,
+                    BEACON_ROOTS_ADDRESS,
                     call_value,
                     0x00,
                     0x20,
@@ -194,7 +194,7 @@ def test_multi_block_beacon_root_timestamp_calls(
                 withdrawals=[
                     # Also withdraw to the beacon root contract and the system address
                     Withdrawal(
-                        address=BEACON_ROOT_CONTRACT_ADDRESS,
+                        address=BEACON_ROOTS_ADDRESS,
                         amount=1,
                         index=next(withdraw_index),
                         validator=0,
@@ -283,7 +283,7 @@ def test_beacon_root_transition(
                 current_call_account_expected_storage.store_next(0x01 if call_valid else 0x00),
                 Op.CALL(
                     call_gas,
-                    BEACON_ROOT_CONTRACT_ADDRESS,
+                    BEACON_ROOTS_ADDRESS,
                     call_value,
                     0x00,
                     0x20,
@@ -319,7 +319,7 @@ def test_beacon_root_transition(
                 withdrawals=[
                     # Also withdraw to the beacon root contract and the system address
                     Withdrawal(
-                        address=BEACON_ROOT_CONTRACT_ADDRESS,
+                        address=BEACON_ROOTS_ADDRESS,
                         amount=1,
                         index=next(withdraw_index),
                         validator=0,
@@ -365,7 +365,7 @@ def test_no_beacon_root_contract_at_transition(
             withdrawals=[
                 # Also withdraw to the beacon root contract and the system address
                 Withdrawal(
-                    address=BEACON_ROOT_CONTRACT_ADDRESS,
+                    address=BEACON_ROOTS_ADDRESS,
                     amount=1,
                     index=0,
                     validator=0,
@@ -379,13 +379,13 @@ def test_no_beacon_root_contract_at_transition(
             ],
         )
     ]
-    pre[BEACON_ROOT_CONTRACT_ADDRESS] = Account(
+    pre[BEACON_ROOTS_ADDRESS] = Account(
         code=b"",  # Remove the code that is automatically allocated on Cancun fork
         nonce=0,
         balance=0,
     )
     post = {
-        BEACON_ROOT_CONTRACT_ADDRESS: Account(
+        BEACON_ROOTS_ADDRESS: Account(
             storage={
                 timestamp % HISTORY_BUFFER_LENGTH: 0,
                 (timestamp % HISTORY_BUFFER_LENGTH) + HISTORY_BUFFER_LENGTH: 0,
@@ -465,7 +465,7 @@ def test_beacon_root_contract_deploy(
                     withdrawals=[
                         # Also withdraw to the beacon root contract and the system address
                         Withdrawal(
-                            address=BEACON_ROOT_CONTRACT_ADDRESS,
+                            address=BEACON_ROOTS_ADDRESS,
                             amount=1,
                             index=0,
                             validator=0,
@@ -492,7 +492,7 @@ def test_beacon_root_contract_deploy(
                     withdrawals=[
                         # Also withdraw to the beacon root contract and the system address
                         Withdrawal(
-                            address=BEACON_ROOT_CONTRACT_ADDRESS,
+                            address=BEACON_ROOTS_ADDRESS,
                             amount=1,
                             index=2,
                             validator=0,
@@ -515,8 +515,8 @@ def test_beacon_root_contract_deploy(
         else:
             assert False, "This test should only have two blocks"
 
-    expected_code = fork.pre_allocation(1, timestamp)[BEACON_ROOT_CONTRACT_ADDRESS]["code"]
-    pre[BEACON_ROOT_CONTRACT_ADDRESS] = Account(
+    expected_code = fork.pre_allocation(1, timestamp)[BEACON_ROOTS_ADDRESS]["code"]
+    pre[BEACON_ROOTS_ADDRESS] = Account(
         code=b"",  # Remove the code that is automatically allocated on Cancun fork
         nonce=0,
         balance=0,
@@ -525,7 +525,7 @@ def test_beacon_root_contract_deploy(
         balance=deployer_required_balance,
     )
 
-    post[BEACON_ROOT_CONTRACT_ADDRESS] = Account(
+    post[BEACON_ROOTS_ADDRESS] = Account(
         storage=beacon_root_contract_storage,
         code=expected_code,
         nonce=1,

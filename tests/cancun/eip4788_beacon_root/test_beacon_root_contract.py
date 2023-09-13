@@ -30,7 +30,7 @@ import pytest
 from ethereum_test_tools import Environment, StateTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .common import BEACON_ROOT_CONTRACT_CALL_GAS, REF_SPEC_4788_GIT_PATH, REF_SPEC_4788_VERSION
+from .common import BEACON_ROOTS_CALL_GAS, REF_SPEC_4788_GIT_PATH, REF_SPEC_4788_VERSION
 
 REFERENCE_SPEC_GIT_PATH = REF_SPEC_4788_GIT_PATH
 REFERENCE_SPEC_VERSION = REF_SPEC_4788_VERSION
@@ -39,10 +39,10 @@ REFERENCE_SPEC_VERSION = REF_SPEC_4788_VERSION
 @pytest.mark.parametrize(
     "call_gas, valid_call",
     [
-        pytest.param(BEACON_ROOT_CONTRACT_CALL_GAS, True),
-        pytest.param(BEACON_ROOT_CONTRACT_CALL_GAS + 1, True),
+        pytest.param(BEACON_ROOTS_CALL_GAS, True),
+        pytest.param(BEACON_ROOTS_CALL_GAS + 1, True),
         pytest.param(
-            BEACON_ROOT_CONTRACT_CALL_GAS - 1,
+            BEACON_ROOTS_CALL_GAS - 1,
             False,
             marks=pytest.mark.xfail(reason="gas calculation is incorrect"),  # TODO
         ),
