@@ -5109,7 +5109,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2c7abda7abbbad771c295f59af72544d8edd1189/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0ef22d8aa9271b30e83a89d7822235821ff585e2/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -5699,7 +5699,7 @@ max_fee_per_gas would be enough for current block), including:</p>
     <span class="n">all_valid_blob_combinations</span><span class="p">(),</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;account_balance_modifier&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;exact_balance_minus_1&quot;</span><span class="p">])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_error&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;insufficient_account_balance&quot;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_error&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;insufficient account balance&quot;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_insufficient_balance_blob_tx_combinations</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -5781,8 +5781,8 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="normal">694</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx,tx_error,block_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;zero_blob_tx&quot;</span><span class="p">,</span> <span class="s2">&quot;zero_blob_tx&quot;</span><span class="p">),</span>
-        <span class="p">([</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;too_many_blobs&quot;</span><span class="p">),</span>
+        <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;zero blob tx&quot;</span><span class="p">,</span> <span class="s2">&quot;zero blob tx&quot;</span><span class="p">),</span>
+        <span class="p">([</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;too many blobs&quot;</span><span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;too_few_blobs&quot;</span><span class="p">,</span> <span class="s2">&quot;too_many_blobs&quot;</span><span class="p">],</span>
 <span class="p">)</span>
@@ -5953,7 +5953,7 @@ version, including:</p>
         <span class="s2">&quot;multiple_txs_multiple_blobs_single_bad_hash_2&quot;</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_error&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;invalid_versioned_hash&quot;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_error&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;invalid blob versioned hash&quot;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_blob_hash_versioning</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -6540,8 +6540,8 @@ field within NewPayloadV2 method must be rejected with the <code>-32602: Invalid
         <span class="s2">&quot;engine_api_error_code&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="p">[</span>
-        <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Invalid params&quot;</span><span class="p">,</span> <span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">),</span>
-        <span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Invalid params&quot;</span><span class="p">,</span> <span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">),</span>
+        <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;tx type 3 not allowed pre-Cancun&quot;</span><span class="p">,</span> <span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">),</span>
+        <span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;tx type 3 not allowed pre-Cancun&quot;</span><span class="p">,</span> <span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_blob_tx&quot;</span><span class="p">,</span> <span class="s2">&quot;one_blob_tx&quot;</span><span class="p">],</span>
 <span class="p">)</span>

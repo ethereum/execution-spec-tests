@@ -5032,7 +5032,7 @@
 
 
 <h1 id="test-excess-blob-gas-fork-transition">Test Excess Blob Gas Fork Transition<a class="headerlink" href="#test-excess-blob-gas-fork-transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2c7abda7abbbad771c295f59af72544d8edd1189/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0ef22d8aa9271b30e83a89d7822235821ff585e2/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -5173,12 +5173,12 @@ must be rejected with the <code>-32602: Invalid params</code> error.</p>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">timestamp</span><span class="o">=</span><span class="p">(</span><span class="n">FORK_TIMESTAMP</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
                 <span class="n">rlp_modifier</span><span class="o">=</span><span class="n">header_modifier</span><span class="p">,</span>
-                <span class="n">exception</span><span class="o">=</span><span class="s2">&quot;Invalid params&quot;</span><span class="p">,</span>
+                <span class="n">exception</span><span class="o">=</span><span class="s2">&quot;invalid pre fork blob fields&quot;</span><span class="p">,</span>
                 <span class="n">engine_api_error_code</span><span class="o">=</span><span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-        <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;invalid_pre_fork_excess_blob_gas&quot;</span><span class="p">,</span>
+        <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;invalid_pre_fork_blob_fields&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -5290,12 +5290,12 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">timestamp</span><span class="o">=</span><span class="n">FORK_TIMESTAMP</span><span class="p">,</span>
                 <span class="n">rlp_modifier</span><span class="o">=</span><span class="n">header_modifier</span><span class="p">,</span>
-                <span class="n">exception</span><span class="o">=</span><span class="s2">&quot;Invalid params&quot;</span><span class="p">,</span>
+                <span class="n">exception</span><span class="o">=</span><span class="s2">&quot;blob fields missing post fork&quot;</span><span class="p">,</span>
                 <span class="n">engine_api_error_code</span><span class="o">=</span><span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-        <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;excess_blob_gas_missing_post_fork&quot;</span><span class="p">,</span>
+        <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;blob_fields_missing_post_fork&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
