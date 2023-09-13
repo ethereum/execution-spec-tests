@@ -476,6 +476,7 @@ create2
 staticcall
 revert
 selfdestruct
+selfdestructing
 sendall
 blobhash
 mcopy
