@@ -16,7 +16,7 @@
         <link rel="prev" href="../../">
       
       
-        <link rel="next" href="../../../../eip4788_beacon_root/">
+        <link rel="next" href="../../../test_tstorage_selfdestruct/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -1379,6 +1379,8 @@
       
         
       
+        
+      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
@@ -1756,6 +1758,86 @@
 
       </a>
       
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_2_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../test_tstorage_selfdestruct/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Test Tstorage Selfdestruct
+  </span>
+  
+
+            </a>
+            
+              <label class="md-nav__link " for="__nav_8_2_2_7">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Test Tstorage Selfdestruct
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../test_tstorage_selfdestruct/index/test_cases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test Cases
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -5008,10 +5090,11 @@
 <h1 id="test-tstorage-reentrancy-contexts-test-cases">Test Tstorage Reentrancy Contexts - Test Cases<a class="headerlink" href="#test-tstorage-reentrancy-contexts-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/0ef22d8aa9271b30e83a89d7822235821ff585e2/tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/c95b81c11459449c02d7fa2681b8b40bf1fcc6f3/tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_reentrant_call[fork=Cancun-tstore_in_reentrant_call]
 test_reentrant_call[fork=Cancun-tload_after_reentrant_tstore]
 test_reentrant_call[fork=Cancun-manipulate_in_reentrant_call]
+test_reentrant_call[fork=Cancun-tstore_in_call_then_tload_return_in_staticcall]
 test_reentrant_call[fork=Cancun-tstore_before_revert_has_no_effect]
 test_reentrant_call[fork=Cancun-revert_undoes_all]
 test_reentrant_call[fork=Cancun-revert_undoes_tstorage_after_successful_call]
