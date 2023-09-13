@@ -220,3 +220,33 @@ def test_tx_to_beacon_root_contract(
         txs=[tx],
         post=post,
     )
+
+
+@pytest.mark.parametrize(
+    "tx_data",
+    [
+        pytest.param(int.to_bytes(0, length=32, byteorder="big"), id="zero_calldata"),
+    ],
+)
+@pytest.mark.parametrize("valid_call,valid_input", [(False, False)])
+@pytest.mark.parametrize("timestamp", [12])
+@pytest.mark.valid_from("Cancun")
+def test_invalid_beacon_root_calldata_value(
+    state_test: StateTestFiller,
+    env: Environment,
+    pre: Dict,
+    tx: Transaction,
+    post: Dict,
+):
+    """
+    Tests the beacon root contract call using invalid input values:
+    - zero calldata.
+
+    Contract should revert.
+    """
+    state_test(
+        env=env,
+        pre=pre,
+        txs=[tx],
+        post=post,
+    )
