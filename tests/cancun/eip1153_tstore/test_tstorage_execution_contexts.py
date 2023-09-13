@@ -301,7 +301,7 @@ class CallContextTestCases(PytestParameterEnum, metaclass=DynamicCallContextTest
             + Op.SSTORE(0, Op.STATICCALL(Op.GAS(), callee_address, 0, 0, 0, 0))
             + Op.SSTORE(1, Op.TLOAD(0))
         ),
-        "callee_bytecode": Op.TLOAD(0),  # calling tload does fail the call
+        "callee_bytecode": Op.TLOAD(0),  # calling tload does not cause the call to fail
         "expected_caller_storage": {0: 1, 1: 420},
         "expected_callee_storage": {},
     }
