@@ -429,26 +429,29 @@ def test_beacon_root_contract_deploy(
     code deployed and its functionality after Cancun.
     """
     assert fork.header_beacon_root_required(1, timestamp)
+    tx_gas_limit = 0x3D090
+    tx_gas_price = 0xE8D4A51000
+    deployer_required_balance = tx_gas_limit * tx_gas_price
     deploy_tx = Transaction(
         ty=0,
         nonce=0,
         to=None,
-        gas_limit=0x27EAC,
-        gas_price=0xE8D4A51000,
+        gas_limit=tx_gas_limit,
+        gas_price=tx_gas_price,
         value=0,
         data=bytes.fromhex(
-            "60588060095f395ff33373fffffffffffffffffffffffffffffffffffffffe146044576020361460"
-            "24575f5ffd5b620180005f350680545f35146037575f5ffd5b6201800001545f5260205ff35b6201"
-            "800042064281555f359062018000015500"
+            "60618060095f395ff33373fffffffffffffffffffffffffffffffffffffffe14604d576020361460"
+            "24575f5ffd5b5f35801560495762001fff810690815414603c575f5ffd5b62001fff01545f526020"
+            "5ff35b5f5ffd5b62001fff42064281555f359062001fff015500"
         ),
-        v=0x1B,
+        v=0x1B,  # TODO: This is wrong, but the EIP latest commit deleted all the info about the tx
         r=0x539,
         s=0x133700F3A77843802897DB,
         protected=False,
     ).with_signature_and_sender()
     deployer_address = deploy_tx.sender
     assert deployer_address is not None
-    deployer_required_balance = 0x27EAC * 0xE8D4A51000
+    assert deployer_address == bytes.fromhex("0xC7FbEC8522B39df17318A2F71FfA2f8EFcBdb6E0"[2:])
 
     blocks: List[Block] = []
 
