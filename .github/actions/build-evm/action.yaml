@@ -25,13 +25,14 @@ runs:
         file_path: ./evm-config.yaml
         main_key: ${{ inputs.type }}
     - name: Print Variables for the selected EVM type
+      shell: bash
       run: |
         echo "Implementation: ${{ steps.evm-config-reader.outputs.impl }}"
         echo "Repository: ${{ steps.evm-config-reader.outputs.repo }}"
         echo "Reference: ${{ steps.evm-config-reader.outputs.ref }}"
     - name: Build the EVM using Geth action
       if: steps.evm-config-reader.outputs.impl == 'geth'
-      uses: "./.github/actions/build-geth-evm"
+      uses: ./.github/actions/build-geth-evm
       with:
         repo: ${{ steps.evm-config-reader.outputs.repo }}
         ref: ${{ steps.evm-config-reader.outputs.ref }}

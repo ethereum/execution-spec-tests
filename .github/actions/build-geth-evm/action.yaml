@@ -28,6 +28,7 @@ runs:
         go-version: ${{ inputs.golang }}
         cache-dependency-path: go-ethereum/go.sum
     - name: Build evm cmd
+      shell: bash
       run: |
         mkdir -p $GITHUB_WORKSPACE/bin
         cd $GITHUB_WORKSPACE/go-ethereum/cmd/evm
