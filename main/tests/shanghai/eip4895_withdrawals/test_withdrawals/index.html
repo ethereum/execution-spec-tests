@@ -5196,7 +5196,7 @@
 
 
 <h1 id="test-withdrawals">Test Withdrawals<a class="headerlink" href="#test-withdrawals" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d03af0b74536fc389df578ebb686e72b6d0bce96/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e7a0603686c83e18a5f103562231ecbbb913875c/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py</span>
@@ -5404,7 +5404,7 @@ operations](https://eips.ethereum.org/EIPS/eip-4895).
         <span class="k">if</span> <span class="n">test_case</span> <span class="o">==</span> <span class="s2">&quot;tx_in_withdrawals_block&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">test_case</span> <span class="o">==</span> <span class="s2">&quot;tx_after_withdrawals_block&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span><span class="p">)}</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid test case.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_use_value_in_tx</span><span class="p">(</span>
@@ -5416,7 +5416,7 @@ operations](https://eips.ethereum.org/EIPS/eip-4895).
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test sending withdrawal value in a transaction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span><span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">)}</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span><span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">)}</span>
         <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -5468,7 +5468,7 @@ operations](https://eips.ethereum.org/EIPS/eip-4895).
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test sending withdrawal value in a transaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span><span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">)}</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span><span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">)}</span>
     <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -5571,7 +5571,7 @@ operations](https://eips.ethereum.org/EIPS/eip-4895).
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">SEND_ONE_GWEI</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="c1"># Transaction sent from the `TestAddress`, which has 0 balance at start</span>
@@ -5606,7 +5606,7 @@ operations](https://eips.ethereum.org/EIPS/eip-4895).
             <span class="p">}</span>
         <span class="p">),</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span><span class="p">,</span>
+            <span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
 
@@ -6268,7 +6268,7 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
             <span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">),</span>
         <span class="p">),</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
 
@@ -6301,7 +6301,7 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
         <span class="p">),</span>
         <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">),</span>
+            <span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
 
