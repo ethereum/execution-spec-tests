@@ -27,13 +27,9 @@ from typing import Dict, Iterator, List, Mapping, Optional, Tuple
 
 import pytest
 
+from ethereum_test_tools import Account, Block, BlockchainTestFiller, Environment, Header
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
-    Account,
-    Block,
-    BlockchainTestFiller,
-    Environment,
-    Header,
     TestAddress,
     TestAddress2,
     Transaction,
@@ -162,9 +158,9 @@ def tx_gas_limit() -> int:  # noqa: D103
 
 
 @pytest.fixture
-def tx_exact_cost(
+def tx_exact_cost(  # noqa: D103
     tx_value: int, tx_max_fee_per_gas: int, tx_data_cost: int, tx_gas_limit: int
-) -> int:  # noqa: D103
+) -> int:
     return (tx_gas_limit * tx_max_fee_per_gas) + tx_value + tx_data_cost
 
 
@@ -180,9 +176,9 @@ def destination_account() -> str:  # noqa: D103
 
 
 @pytest.fixture
-def pre(
+def pre(  # noqa: D103
     destination_account: str, destination_account_bytecode: bytes, tx_exact_cost: int
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     return {
         TestAddress: Account(balance=tx_exact_cost),
         TestAddress2: Account(balance=10**40),
@@ -191,9 +187,9 @@ def pre(
 
 
 @pytest.fixture
-def post(
+def post(  # noqa: D103
     destination_account: str, tx_value: int, block_fee_per_blob_gas: int
-) -> Mapping[str, Account]:  # noqa: D103
+) -> Mapping[str, Account]:
     return {
         destination_account: Account(
             storage={0: block_fee_per_blob_gas},
