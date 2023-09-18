@@ -684,6 +684,17 @@ class Account:
             actual_storage = Storage(alloc["storage"]) if "storage" in alloc else Storage({})
             expected_storage.must_be_equal(address=address, other=actual_storage)
 
+    def is_empty(self: "Account") -> bool:
+        """
+        Returns true if an account deemed empty.
+        """
+        return (
+            (self.nonce == 0 or self.nonce is None)
+            and (self.balance == 0 or self.balance is None)
+            and (not self.code and self.code is None)
+            and (not self.storage or self.storage == {} or self.storage is None)
+        )
+
     @classmethod
     def from_dict(cls: Type, data: "Dict | Account") -> "Account":
         """
@@ -734,7 +745,9 @@ class Alloc(dict, Mapping[Address, Account], SupportsJSON):
         for address, account in d.items():
             address = Address(address)
             assert address not in self, f"Duplicate address in alloc: {address}"
-            self[address] = Account.from_dict(account)
+            account = Account.from_dict(account)
+            assert not account.is_empty(), f"Empty account: {account} for address: {address}"
+            self[address] = account
 
     @classmethod
     def merge(cls, alloc_1: "Alloc", alloc_2: "Alloc") -> "Alloc":
