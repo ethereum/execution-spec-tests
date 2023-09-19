@@ -20,10 +20,10 @@ runs:
   steps:
     - name: Get the selected EVM version from the evm-config.yaml
       id: evm-config-reader
-      uses: christian-ci/action-yaml-github-output@v2
-      with: 
-        file_path: ./evm-config.yaml
-        main_key: ${{ inputs.type }}
+      shell: bash
+      run: |
+        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./evm-config.yaml \
+        | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
     - name: Print Variables for the selected EVM type
       shell: bash
       run: |
