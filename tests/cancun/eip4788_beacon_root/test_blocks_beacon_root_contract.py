@@ -438,14 +438,14 @@ def test_beacon_root_contract_deploy(
             "24575f5ffd5b5f35801560495762001fff810690815414603c575f5ffd5b62001fff01545f526020"
             "5ff35b5f5ffd5b62001fff42064281555f359062001fff015500"
         ),
-        v=0x1B,  # TODO: This is wrong, but the EIP latest commit deleted all the info about the tx
+        v=0x1B,
         r=0x539,
-        s=0x133700F3A77843802897DB,
+        s=0x1337005F06A8B6A0A0B1F4,
         protected=False,
     ).with_signature_and_sender()
     deployer_address = deploy_tx.sender
     assert deployer_address is not None
-    assert deployer_address == bytes.fromhex("0xC7FbEC8522B39df17318A2F71FfA2f8EFcBdb6E0"[2:])
+    assert deployer_address == bytes.fromhex("0x4f6Da9ba1Cc8c37d9CE52311d4baFfc43bA42D0e"[2:])
 
     blocks: List[Block] = []
 
@@ -535,7 +535,7 @@ def test_beacon_root_contract_deploy(
         balance=int(2e9),
     )
     post[deployer_address] = Account(
-        balance=91366000000000000,  # It doesn't consume all the balance :(
+        balance=175916000000000000,  # It doesn't consume all the balance :(
         nonce=1,
     )
     blockchain_test(
