@@ -113,7 +113,7 @@ Output:
 ```console
 usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--solc-bin SOLC_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
-            [--disable-hive] [--forks] [--fork FORK] [--from FROM]
+            [--enable-hive] [--forks] [--fork FORK] [--from FROM]
             [--until UNTIL] [--test-help]
 
 options:
@@ -136,7 +136,7 @@ Arguments defining filler location and output:
                         deleted.
   --flat-output         Output each test case in the directory without the
                         folder structure.
-  --disable-hive        Output tests skipping hive-related properties.
+  --enable-hive         Output test fixtures with the hive-specific properties.
 
 Arguments defining debug behavior:
   --t8n-dump-dir T8N_DUMP_DIR
