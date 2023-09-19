@@ -211,6 +211,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/spec/</loc>
+         <lastmod>2023-09-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/</loc>
          <lastmod>2023-09-19</lastmod>
          <changefreq>daily</changefreq>

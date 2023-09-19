@@ -10,28 +10,28 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/writing_tests/adding_a_new_test/">
+        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/spec/">
       
       
-        <link rel="prev" href="../types_of_tests/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../writing_a_new_test/">
+        <link rel="next" href="../test_beacon_root_contract/">
       
       
-      <link rel="icon" href="../../img/ETH-logo-icon.svg">
+      <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.2">
     
     
       
-        <title>Adding a New Test - Ethereum Execution Spec Tests</title>
+        <title>Spec - Ethereum Execution Spec Tests</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.30068a00.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.30068a00.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.85d0ee34.min.css">
       
       
 
@@ -50,9 +50,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,11 +61,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Adding a New Test - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="Spec - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/writing_tests/adding_a_new_test.png" >
+        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/cancun/eip4788_beacon_root/spec/index.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -73,19 +73,19 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/writing_tests/adding_a_new_test/" >
+        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/spec/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Adding a New Test - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="Spec - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/writing_tests/adding_a_new_test.png" >
+        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/cancun/eip4788_beacon_root/spec/index.png" >
       
     
     
-   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
@@ -96,7 +96,7 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+            </style> <script src="../../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -118,7 +118,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adding-a-new-test" class="md-skip">
+        <a href="#spec" class="md-skip">
           Skip to content
         </a>
       
@@ -136,9 +136,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Ethereum Execution Spec Tests" class="md-header__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
+    <a href="../../../.." title="Ethereum Execution Spec Tests" class="md-header__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
       
-  <img src="../../img/Ethereum-logo-600px.png" alt="logo">
+  <img src="../../../../img/Ethereum-logo-600px.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -155,7 +155,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Adding a New Test
+              Spec
             
           </span>
         </div>
@@ -271,7 +271,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
     
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../getting_started/quick_start/" class="md-tabs__link">
+        <a href="../../../../getting_started/quick_start/" class="md-tabs__link">
           
   
     
@@ -306,13 +306,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../../writing_tests/" class="md-tabs__link">
           
   
     
@@ -332,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tutorials/state_transition/" class="md-tabs__link">
+        <a href="../../../../tutorials/state_transition/" class="md-tabs__link">
           
   
     
@@ -350,7 +348,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../getting_help/" class="md-tabs__link">
+      <a href="../../../../getting_help/" class="md-tabs__link">
         
   
     
@@ -369,7 +367,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../dev/" class="md-tabs__link">
+        <a href="../../../../dev/" class="md-tabs__link">
           
   
     
@@ -389,7 +387,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../library/" class="md-tabs__link">
+        <a href="../../../../library/" class="md-tabs__link">
           
   
     
@@ -405,11 +403,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../tests/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
           
   
     
@@ -444,9 +444,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Ethereum Execution Spec Tests" class="md-nav__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
+    <a href="../../../.." title="Ethereum Execution Spec Tests" class="md-nav__button md-logo" aria-label="Ethereum Execution Spec Tests" data-md-component="logo">
       
-  <img src="../../img/Ethereum-logo-600px.png" alt="logo">
+  <img src="../../../../img/Ethereum-logo-600px.png" alt="logo">
 
     </a>
     Ethereum Execution Spec Tests
@@ -472,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -541,7 +541,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/quick_start/" class="md-nav__link">
+      <a href="../../../../getting_started/quick_start/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -561,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/setup_vs_code/" class="md-nav__link">
+      <a href="../../../../getting_started/setup_vs_code/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -581,7 +581,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/repository_overview/" class="md-nav__link">
+      <a href="../../../../getting_started/repository_overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -601,7 +601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/executing_tests_command_line/" class="md-nav__link">
+      <a href="../../../../getting_started/executing_tests_command_line/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -621,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/executing_tests_vs_code/" class="md-nav__link">
+      <a href="../../../../getting_started/executing_tests_vs_code/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -641,7 +641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/executing_tests_dev_fork/" class="md-nav__link">
+      <a href="../../../../getting_started/executing_tests_dev_fork/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -661,7 +661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/debugging_t8n_tools/" class="md-nav__link">
+      <a href="../../../../getting_started/debugging_t8n_tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -686,8 +686,6 @@
       
   
   
-    
-  
   
     
     
@@ -710,18 +708,18 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../../writing_tests/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -737,7 +735,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Writing Tests
@@ -752,7 +750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../code_standards/" class="md-nav__link">
+      <a href="../../../../writing_tests/code_standards/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -772,7 +770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../types_of_tests/" class="md-nav__link">
+      <a href="../../../../writing_tests/types_of_tests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -790,18 +788,9 @@
                 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../../writing_tests/adding_a_new_test/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -810,7 +799,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -822,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../writing_a_new_test/" class="md-nav__link">
+      <a href="../../../../writing_tests/writing_a_new_test/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -842,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_specification/" class="md-nav__link">
+      <a href="../../../../writing_tests/reference_specification/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -862,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../verifying_changes/" class="md-nav__link">
+      <a href="../../../../writing_tests/verifying_changes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -927,7 +915,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/state_transition/" class="md-nav__link">
+      <a href="../../../../tutorials/state_transition/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -954,7 +942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_help/" class="md-nav__link">
+      <a href="../../../../getting_help/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -998,7 +986,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../dev/" class="md-nav__link ">
+            <a href="../../../../dev/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1029,7 +1017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/docs/" class="md-nav__link">
+      <a href="../../../../dev/docs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1049,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/coding_style/" class="md-nav__link">
+      <a href="../../../../dev/coding_style/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1069,7 +1057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/precommit/" class="md-nav__link">
+      <a href="../../../../dev/precommit/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1125,7 +1113,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../library/" class="md-nav__link ">
+            <a href="../../../../library/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1156,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../library/evm_transition_tool/" class="md-nav__link">
+      <a href="../../../../library/evm_transition_tool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1176,7 +1164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../library/ethereum_test_tools/" class="md-nav__link">
+      <a href="../../../../library/ethereum_test_tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1196,7 +1184,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../library/ethereum_test_forks/" class="md-nav__link">
+      <a href="../../../../library/ethereum_test_forks/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1216,7 +1204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../library/pytest_plugins/" class="md-nav__link">
+      <a href="../../../../library/pytest_plugins/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1241,6 +1229,8 @@
       
   
   
+    
+  
   
     
     
@@ -1265,18 +1255,18 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/" class="md-nav__link ">
+            <a href="../../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1292,7 +1282,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             Test case reference
@@ -1305,6 +1295,8 @@
                 
   
   
+    
+  
   
     
     
@@ -1327,18 +1319,18 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1354,7 +1346,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8_2">
             <span class="md-nav__icon md-icon"></span>
             Cancun
@@ -1402,7 +1394,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip1153_tstore/" class="md-nav__link ">
+            <a href="../../eip1153_tstore/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1433,7 +1425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip1153_tstore/spec/" class="md-nav__link">
+      <a href="../../eip1153_tstore/spec/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1474,7 +1466,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip1153_tstore/test_tstorage/" class="md-nav__link ">
+            <a href="../../eip1153_tstore/test_tstorage/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1505,7 +1497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip1153_tstore/test_tstorage/index/test_cases/" class="md-nav__link">
+      <a href="../../eip1153_tstore/test_tstorage/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1554,7 +1546,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip1153_tstore/test_tstorage_create_contexts/" class="md-nav__link ">
+            <a href="../../eip1153_tstore/test_tstorage_create_contexts/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1585,7 +1577,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip1153_tstore/test_tstorage_create_contexts/index/test_cases/" class="md-nav__link">
+      <a href="../../eip1153_tstore/test_tstorage_create_contexts/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1634,7 +1626,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip1153_tstore/test_tstorage_execution_contexts/" class="md-nav__link ">
+            <a href="../../eip1153_tstore/test_tstorage_execution_contexts/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1665,7 +1657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip1153_tstore/test_tstorage_execution_contexts/index/test_cases/" class="md-nav__link">
+      <a href="../../eip1153_tstore/test_tstorage_execution_contexts/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1714,7 +1706,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts/" class="md-nav__link ">
+            <a href="../../eip1153_tstore/test_tstorage_reentrancy_contexts/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1745,7 +1737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts/index/test_cases/" class="md-nav__link">
+      <a href="../../eip1153_tstore/test_tstorage_reentrancy_contexts/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1794,7 +1786,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip1153_tstore/test_tstorage_selfdestruct/" class="md-nav__link ">
+            <a href="../../eip1153_tstore/test_tstorage_selfdestruct/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1825,7 +1817,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip1153_tstore/test_tstorage_selfdestruct/index/test_cases/" class="md-nav__link">
+      <a href="../../eip1153_tstore/test_tstorage_selfdestruct/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1859,6 +1851,8 @@
                 
   
   
+    
+  
   
     
     
@@ -1877,18 +1871,18 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_3" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4788_beacon_root/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1904,7 +1898,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_2_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_2_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8_2_3">
             <span class="md-nav__icon md-icon"></span>
             EIP-4788 Beacon Root
@@ -1917,9 +1911,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4788_beacon_root/spec/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Spec
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1928,6 +1942,47 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4788_beacon_root.spec" class="md-nav__link">
+    spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4788_beacon_root.spec.Spec" class="md-nav__link">
+    Spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4788_beacon_root.spec.SpecHelpers" class="md-nav__link">
+    SpecHelpers
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1960,7 +2015,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4788_beacon_root/test_beacon_root_contract/" class="md-nav__link ">
+            <a href="../test_beacon_root_contract/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1991,7 +2046,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4788_beacon_root/test_beacon_root_contract/index/test_cases/" class="md-nav__link">
+      <a href="../test_beacon_root_contract/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2040,7 +2095,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract/" class="md-nav__link ">
+            <a href="../test_blocks_beacon_root_contract/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2071,7 +2126,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract/index/test_cases/" class="md-nav__link">
+      <a href="../test_blocks_beacon_root_contract/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2148,7 +2203,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2179,7 +2234,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/spec/" class="md-nav__link">
+      <a href="../../eip4844_blobs/spec/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2220,7 +2275,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_blob_txs/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_blob_txs/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2251,7 +2306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_blob_txs/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_blob_txs/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2300,7 +2355,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_blob_txs_full/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_blob_txs_full/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2331,7 +2386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_blob_txs_full/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_blob_txs_full/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2380,7 +2435,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_blobhash_opcode/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_blobhash_opcode/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2411,7 +2466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_blobhash_opcode/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_blobhash_opcode/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2460,7 +2515,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_blobhash_opcode_contexts/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2491,7 +2546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_blobhash_opcode_contexts/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2540,7 +2595,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_excess_blob_gas/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2571,7 +2626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_excess_blob_gas/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2620,7 +2675,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_excess_blob_gas_fork_transition/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2651,7 +2706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_excess_blob_gas_fork_transition/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2700,7 +2755,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_point_evaluation_precompile/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_point_evaluation_precompile/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2731,7 +2786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_point_evaluation_precompile/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_point_evaluation_precompile/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2780,7 +2835,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas/" class="md-nav__link ">
+            <a href="../../eip4844_blobs/test_point_evaluation_precompile_gas/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2811,7 +2866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas/index/test_cases/" class="md-nav__link">
+      <a href="../../eip4844_blobs/test_point_evaluation_precompile_gas/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2877,7 +2932,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip4844_blobs/point_evaluation_vectors/README_./" class="md-nav__link">
+      <a href="../../eip4844_blobs/point_evaluation_vectors/README_./" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2938,7 +2993,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip5656_mcopy/" class="md-nav__link ">
+            <a href="../../eip5656_mcopy/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2990,7 +3045,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip5656_mcopy/test_mcopy/" class="md-nav__link ">
+            <a href="../../eip5656_mcopy/test_mcopy/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3021,7 +3076,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip5656_mcopy/test_mcopy/index/test_cases/" class="md-nav__link">
+      <a href="../../eip5656_mcopy/test_mcopy/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3070,7 +3125,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip5656_mcopy/test_mcopy_contexts/" class="md-nav__link ">
+            <a href="../../eip5656_mcopy/test_mcopy_contexts/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3101,7 +3156,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip5656_mcopy/test_mcopy_contexts/index/test_cases/" class="md-nav__link">
+      <a href="../../eip5656_mcopy/test_mcopy_contexts/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3150,7 +3205,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion/" class="md-nav__link ">
+            <a href="../../eip5656_mcopy/test_mcopy_memory_expansion/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3181,7 +3236,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion/index/test_cases/" class="md-nav__link">
+      <a href="../../eip5656_mcopy/test_mcopy_memory_expansion/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3240,7 +3295,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip6780_selfdestruct/" class="md-nav__link ">
+            <a href="../../eip6780_selfdestruct/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3292,7 +3347,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip6780_selfdestruct/test_selfdestruct/" class="md-nav__link ">
+            <a href="../../eip6780_selfdestruct/test_selfdestruct/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3323,7 +3378,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip6780_selfdestruct/test_selfdestruct/index/test_cases/" class="md-nav__link">
+      <a href="../../eip6780_selfdestruct/test_selfdestruct/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3372,7 +3427,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert/" class="md-nav__link ">
+            <a href="../../eip6780_selfdestruct/test_selfdestruct_revert/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3403,7 +3458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert/index/test_cases/" class="md-nav__link">
+      <a href="../../eip6780_selfdestruct/test_selfdestruct_revert/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3460,7 +3515,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip7516_blobgasfee/" class="md-nav__link ">
+            <a href="../../eip7516_blobgasfee/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3512,7 +3567,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode/" class="md-nav__link ">
+            <a href="../../eip7516_blobgasfee/test_blobgasfee_opcode/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3543,7 +3598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode/index/test_cases/" class="md-nav__link">
+      <a href="../../eip7516_blobgasfee/test_blobgasfee_opcode/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3614,7 +3669,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/" class="md-nav__link ">
+            <a href="../../../shanghai/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3666,7 +3721,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip3651_warm_coinbase/" class="md-nav__link ">
+            <a href="../../../shanghai/eip3651_warm_coinbase/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3718,7 +3773,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase/" class="md-nav__link ">
+            <a href="../../../shanghai/eip3651_warm_coinbase/test_warm_coinbase/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3749,7 +3804,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip3651_warm_coinbase/test_warm_coinbase/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3806,7 +3861,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip3855_push0/" class="md-nav__link ">
+            <a href="../../../shanghai/eip3855_push0/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3858,7 +3913,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip3855_push0/test_push0/" class="md-nav__link ">
+            <a href="../../../shanghai/eip3855_push0/test_push0/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3889,7 +3944,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/shanghai/eip3855_push0/test_push0/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip3855_push0/test_push0/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3946,7 +4001,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip3860_initcode/" class="md-nav__link ">
+            <a href="../../../shanghai/eip3860_initcode/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3998,7 +4053,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip3860_initcode/test_initcode/" class="md-nav__link ">
+            <a href="../../../shanghai/eip3860_initcode/test_initcode/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4029,7 +4084,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/shanghai/eip3860_initcode/test_initcode/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip3860_initcode/test_initcode/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4086,7 +4141,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip4895_withdrawals/" class="md-nav__link ">
+            <a href="../../../shanghai/eip4895_withdrawals/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4138,7 +4193,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/shanghai/eip4895_withdrawals/test_withdrawals/" class="md-nav__link ">
+            <a href="../../../shanghai/eip4895_withdrawals/test_withdrawals/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4169,7 +4224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/shanghai/eip4895_withdrawals/test_withdrawals/index/test_cases/" class="md-nav__link">
+      <a href="../../../shanghai/eip4895_withdrawals/test_withdrawals/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4234,7 +4289,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/merge/" class="md-nav__link ">
+            <a href="../../../merge/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4286,7 +4341,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/merge/security/" class="md-nav__link ">
+            <a href="../../../merge/security/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4338,7 +4393,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/merge/security/test_selfdestruct_balance_bug/" class="md-nav__link ">
+            <a href="../../../merge/security/test_selfdestruct_balance_bug/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4369,7 +4424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/merge/security/test_selfdestruct_balance_bug/index/test_cases/" class="md-nav__link">
+      <a href="../../../merge/security/test_selfdestruct_balance_bug/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4434,7 +4489,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/berlin/" class="md-nav__link ">
+            <a href="../../../berlin/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4486,7 +4541,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/berlin/eip2930_access_list/" class="md-nav__link ">
+            <a href="../../../berlin/eip2930_access_list/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4538,7 +4593,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/berlin/eip2930_access_list/test_acl/" class="md-nav__link ">
+            <a href="../../../berlin/eip2930_access_list/test_acl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4569,7 +4624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/berlin/eip2930_access_list/test_acl/index/test_cases/" class="md-nav__link">
+      <a href="../../../berlin/eip2930_access_list/test_acl/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4634,7 +4689,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/istanbul/" class="md-nav__link ">
+            <a href="../../../istanbul/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4686,7 +4741,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/istanbul/eip1344_chainid/" class="md-nav__link ">
+            <a href="../../../istanbul/eip1344_chainid/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4738,7 +4793,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/istanbul/eip1344_chainid/test_chainid/" class="md-nav__link ">
+            <a href="../../../istanbul/eip1344_chainid/test_chainid/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4769,7 +4824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/istanbul/eip1344_chainid/test_chainid/index/test_cases/" class="md-nav__link">
+      <a href="../../../istanbul/eip1344_chainid/test_chainid/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4834,7 +4889,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/" class="md-nav__link ">
+            <a href="../../../homestead/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4886,7 +4941,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/" class="md-nav__link ">
+            <a href="../../../homestead/yul/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4938,7 +4993,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/test_yul_example/" class="md-nav__link ">
+            <a href="../../../homestead/yul/test_yul_example/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4969,7 +5024,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/homestead/yul/test_yul_example/index/test_cases/" class="md-nav__link">
+      <a href="../../../homestead/yul/test_yul_example/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5034,7 +5089,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/frontier/" class="md-nav__link ">
+            <a href="../../../frontier/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5086,7 +5141,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/frontier/opcodes/" class="md-nav__link ">
+            <a href="../../../frontier/opcodes/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5138,7 +5193,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/frontier/opcodes/test_dup/" class="md-nav__link ">
+            <a href="../../../frontier/opcodes/test_dup/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5169,7 +5224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/frontier/opcodes/test_dup/index/test_cases/" class="md-nav__link">
+      <a href="../../../frontier/opcodes/test_dup/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5234,6 +5289,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4788_beacon_root.spec" class="md-nav__link">
+    spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4788_beacon_root.spec.Spec" class="md-nav__link">
+    Spec
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4788_beacon_root.spec.SpecHelpers" class="md-nav__link">
+    SpecHelpers
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -5246,40 +5330,230 @@
                 
                   
 
-  
-  
+
+<h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/805980dd183b962cd5595a357a9e9f83e450d08f/tests/cancun/eip4788_beacon_root/spec.py"><code>tests/cancun/eip4788_beacon_root/spec.py</code></a>.</p>
 
 
-<h1 id="adding-a-new-test">Adding a New Test<a class="headerlink" href="#adding-a-new-test" title="Permanent link">&para;</a></h1>
-<p>All test cases are located underneath the <code>tests</code> directory, which are then organized by fork. Each fork contains sub-directories containing test sub-categories.</p>
-<div class="highlight"><pre><span></span><code>📁 execution-test-specs/
-├─╴📁 tests/
-|   ├── 📄 __init__.py
-│   ├── 📁 cancun/
-|   |    ├── 📄 __init__.py
-│   |    └── 📁 eip4844_blobs/
-|   |        ├── 📄 __init__.py
-|   |        ├── 📄 test_blobhash_opcode.py
-|   |        ├── 📄 test_excess_blob_gas.py
-|   |        └── 📄 ...
-|   ├── 📁 shanghai
-|   |    ├── 📁 eip3651_warm_coinbase
-|   |    |   ├── 📄 __init__.py
-|   |    |   └── 📄 test_warm_coinbase.py
-|   |    ├── 📁 eip3855_push0
-|   |    |   ├── 📄 __init__.py
-|   |    |   └── 📄 test_push0.py
-|   |    ├── 📁...
-|   |    ...
-│   └── 📁 ...
-</code></pre></div>
-<p>Each category/sub-directory may have multiple Python test modules (<code>*.py</code>) which in turn may contain many test functions. The test functions themselves are always parametrized by fork (by the framework).</p>
-<p>A new test can be added by either:</p>
-<ul>
-<li>Adding a new <code>test_</code> python function to an existing file in any of the existing category subdirectories within <code>tests</code>.</li>
-<li>Creating a new source file in an existing category, and populating it with the new test function(s).</li>
-<li>Creating an entirely new category by adding a subdirectory in <code>tests</code> with the appropriate source files and test functions.</li>
-</ul>
+<div class="doc doc-object doc-module">
+
+
+
+<a id="tests.cancun.eip4788_beacon_root.spec"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Defines EIP-4788 specification constants and functions.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="tests.cancun.eip4788_beacon_root.spec.Spec" class="doc doc-heading">
+          <code>Spec</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#tests.cancun.eip4788_beacon_root.spec.Spec" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Parameters from the EIP-4788 specifications as defined at
+<a href="https://eips.ethereum.org/EIPS/eip-4788#specification">https://eips.ethereum.org/EIPS/eip-4788#specification</a></p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip4788_beacon_root/spec.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters from the EIP-4788 specifications as defined at</span>
+<span class="sd">    https://eips.ethereum.org/EIPS/eip-4788#specification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">BEACON_ROOTS_ADDRESS</span> <span class="o">=</span> <span class="mh">0xBEAC020008AFF7331C0A389CB2AAB67597567D7A</span>
+    <span class="n">BEACON_ROOTS_CALL_GAS</span> <span class="o">=</span> <span class="mi">100_000</span>
+    <span class="n">BEACON_ROOTS_DEPLOYER_ADDRESS</span> <span class="o">=</span> <span class="mh">0x4F6DA9BA1CC8C37D9CE52311D4BAFFC43BA42D0E</span>
+    <span class="n">HISTORY_BUFFER_LENGTH</span> <span class="o">=</span> <span class="mi">8_191</span>
+    <span class="n">SYSTEM_ADDRESS</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE</span>
+    <span class="n">FORK_TIMESTAMP</span> <span class="o">=</span> <span class="mi">15_000</span>  <span class="c1"># ShanghaiToCancun timestamp</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="tests.cancun.eip4788_beacon_root.spec.SpecHelpers" class="doc doc-heading">
+          <code>SpecHelpers</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#tests.cancun.eip4788_beacon_root.spec.SpecHelpers" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Helper functions closely related to the EIP-4788 specification.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip4788_beacon_root/spec.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper functions closely related to the EIP-4788 specification.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">timestamp_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Derive the timestamp index into the timestamp ring buffer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">timestamp</span> <span class="o">%</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span>
+
+    <span class="k">def</span> <span class="nf">root_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Derive the root index into the root ring buffer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestamp_index</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">expected_storage</span><span class="p">(</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">beacon_root</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">valid_call</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">valid_input</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Storage</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Derives the expected storage for a given beacon root contract call</span>
+<span class="sd">        dependent on:</span>
+<span class="sd">        - success or failure of the call</span>
+<span class="sd">        - validity of the timestamp input used within the call</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># By default assume the call is unsuccessful and all keys are zero</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)})</span>
+        <span class="k">if</span> <span class="n">valid_call</span> <span class="ow">and</span> <span class="n">valid_input</span><span class="p">:</span>
+            <span class="c1"># beacon root contract call is successful</span>
+            <span class="n">storage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">storage</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">beacon_root</span>
+            <span class="n">storage</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span>
+            <span class="n">storage</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">beacon_root</span>
+
+        <span class="k">return</span> <span class="n">storage</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
 
 
 
@@ -5323,10 +5597,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

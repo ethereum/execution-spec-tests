@@ -1862,6 +1862,10 @@
         
       
         
+          
+        
+      
+        
       
         
       
@@ -1907,6 +1911,26 @@
                 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../../../spec/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spec
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1927,7 +1951,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_3_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_3_3" checked>
         
           
           
@@ -1942,14 +1966,14 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_8_2_3_2">
+              <label class="md-nav__link " for="__nav_8_2_3_3">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_3_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_8_2_3_2">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_2_3_3">
             <span class="md-nav__icon md-icon"></span>
             Test Beacon Root Contract
           </label>
@@ -2017,7 +2041,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_3_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_3_4" >
         
           
           
@@ -2032,14 +2056,14 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_8_2_3_3">
+              <label class="md-nav__link " for="__nav_8_2_3_4">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_3_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8_2_3_3">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_2_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2_3_4">
             <span class="md-nav__icon md-icon"></span>
             Test Blocks Beacon Root Contract
           </label>
@@ -5232,7 +5256,7 @@
 <h1 id="test-beacon-root-contract-test-cases">Test Beacon Root Contract - Test Cases<a class="headerlink" href="#test-beacon-root-contract-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/789de4702be79c198eb210c879de4a386144d5d7/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/805980dd183b962cd5595a357a9e9f83e450d08f/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_beacon_root_contract_calls[fork=Cancun-call_type=CALL-call_value=1-valid_input=True-call_gas=100000-valid_call=True]
 test_beacon_root_contract_calls[fork=Cancun-call_type=CALL-call_value=1-valid_input=True-call_gas=100001-valid_call=True]
 test_beacon_root_contract_calls[fork=Cancun-call_type=CALL-call_value=1-valid_input=True-call_gas=99999-valid_call=False]
@@ -5293,6 +5317,8 @@ test_tx_to_beacon_root_contract[fork=Cancun-tx_type=1-call_beacon_root_contract=
 test_tx_to_beacon_root_contract[fork=Cancun-tx_type=1-call_beacon_root_contract=True-auto_access_list=True]
 test_tx_to_beacon_root_contract[fork=Cancun-tx_type=0-call_beacon_root_contract=True-auto_access_list=False]
 test_tx_to_beacon_root_contract[fork=Cancun-tx_type=0-call_beacon_root_contract=True-auto_access_list=True]
+test_invalid_beacon_root_calldata_value[fork=Cancun-timestamp=12-valid_call=False-valid_input=False-zero_calldata]
+test_beacon_root_selfdestruct[fork=Cancun-timestamp=12]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</span>
