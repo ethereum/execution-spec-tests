@@ -445,8 +445,7 @@ def test_beacon_root_contract_deploy(
     ).with_signature_and_sender()
     deployer_address = deploy_tx.sender
     assert deployer_address is not None
-    assert deployer_address == bytes.fromhex("0x4f6Da9ba1Cc8c37d9CE52311d4baFfc43bA42D0e"[2:])
-
+    assert deployer_address == int.to_bytes(Spec.BEACON_ROOTS_DEPLOYER_ADDRESS, 20, "big")
     blocks: List[Block] = []
 
     beacon_root_contract_storage: Dict = {}
