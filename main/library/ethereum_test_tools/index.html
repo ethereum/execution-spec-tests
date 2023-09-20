@@ -8885,7 +8885,8 @@ Usually used to add extra information to a test case.</p>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
-<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_test</span><span class="p">(</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_test</span><span class="p">(</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">test_spec</span><span class="p">:</span> <span class="n">BaseTest</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -8900,7 +8901,7 @@ Usually used to add extra information to a test case.</p>
 
     <span class="n">pre</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="n">test_spec</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
 
-    <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_spec</span><span class="o">.</span><span class="n">make_blocks</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">fcu_version</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_spec</span><span class="o">.</span><span class="n">make_blocks</span><span class="p">(</span>
         <span class="n">t8n</span><span class="p">,</span>
         <span class="n">genesis</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">,</span>
@@ -8919,6 +8920,7 @@ Usually used to add extra information to a test case.</p>
         <span class="n">post_state</span><span class="o">=</span><span class="n">alloc_to_accounts</span><span class="p">(</span><span class="n">alloc</span><span class="p">),</span>
         <span class="n">seal_engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="n">test_spec</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
+        <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">fixture</span><span class="o">.</span><span class="n">fill_info</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
 
@@ -12034,7 +12036,11 @@ information.</p>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
-<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests transactions over the period of a single block.</span>
@@ -12131,7 +12137,7 @@ information.</p>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a block from the state test definition.</span>
 <span class="sd">        Performs checks against the expected behavior of the test.</span>
@@ -12182,15 +12188,18 @@ information.</p>
             <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
         <span class="p">)</span>
 
+        <span class="c1"># Hive specific fields</span>
         <span class="n">new_payload</span><span class="p">:</span> <span class="n">FixtureEngineNewPayload</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">fcu_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span><span class="p">:</span>
             <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
                 <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
                 <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
                 <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
                 <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
-                <span class="n">error_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
+                <span class="n">error_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">[</span>
@@ -12205,6 +12214,7 @@ information.</p>
             <span class="p">],</span>
             <span class="n">header</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span>
             <span class="n">alloc</span><span class="p">,</span>
+            <span class="n">fcu_version</span><span class="p">,</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -12529,7 +12539,11 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
-<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
@@ -12537,7 +12551,7 @@ Raises exception on invalid test behavior.</p>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a block from the state test definition.</span>
 <span class="sd">    Performs checks against the expected behavior of the test.</span>
@@ -12588,15 +12602,18 @@ Raises exception on invalid test behavior.</p>
         <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
     <span class="p">)</span>
 
+    <span class="c1"># Hive specific fields</span>
     <span class="n">new_payload</span><span class="p">:</span> <span class="n">FixtureEngineNewPayload</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">fcu_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span><span class="p">:</span>
         <span class="n">new_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
             <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
             <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
             <span class="n">withdrawals</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">,</span>
-            <span class="n">error_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_api_error_code</span><span class="p">,</span>
+            <span class="n">error_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span>
         <span class="p">[</span>
@@ -12611,6 +12628,7 @@ Raises exception on invalid test behavior.</p>
         <span class="p">],</span>
         <span class="n">header</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span>
         <span class="n">alloc</span><span class="p">,</span>
+        <span class="n">fcu_version</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -12918,7 +12936,18 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
-<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
@@ -13150,7 +13179,7 @@ Raises exception on invalid test behavior.</p>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a block list from the blockchain test definition.</span>
 <span class="sd">        Performs checks against the expected behavior of the test.</span>
@@ -13159,6 +13188,9 @@ Raises exception on invalid test behavior.</p>
         <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span>
         <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fcu_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">last_valid</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="n">head</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="k">if</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
             <span class="n">fixture_block</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_block</span><span class="p">(</span>
@@ -13172,6 +13204,14 @@ Raises exception on invalid test behavior.</p>
                 <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fixture_block</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">last_valid</span> <span class="o">=</span> <span class="n">fixture_block</span><span class="o">.</span><span class="n">block_header</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span> <span class="ow">and</span> <span class="n">last_valid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span>
+                <span class="n">block_number</span><span class="o">=</span><span class="n">last_valid</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+                <span class="n">timestamp</span><span class="o">=</span><span class="n">last_valid</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">verify_post_alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span>
@@ -13179,7 +13219,7 @@ Raises exception on invalid test behavior.</p>
             <span class="n">print_traces</span><span class="p">(</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
             <span class="k">raise</span> <span class="n">e</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">fcu_version</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -13770,7 +13810,18 @@ Raises exception on invalid test behavior.</p>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
-<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_blocks</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span><span class="p">,</span>
@@ -13778,7 +13829,7 @@ Raises exception on invalid test behavior.</p>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a block list from the blockchain test definition.</span>
 <span class="sd">    Performs checks against the expected behavior of the test.</span>
@@ -13787,6 +13838,9 @@ Raises exception on invalid test behavior.</p>
     <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fcu_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">last_valid</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
     <span class="n">head</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="k">if</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
         <span class="n">fixture_block</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_block</span><span class="p">(</span>
@@ -13800,6 +13854,14 @@ Raises exception on invalid test behavior.</p>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fixture_block</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">last_valid</span> <span class="o">=</span> <span class="n">fixture_block</span><span class="o">.</span><span class="n">block_header</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_test_config</span><span class="o">.</span><span class="n">disable_hive</span> <span class="ow">and</span> <span class="n">last_valid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span>
+            <span class="n">block_number</span><span class="o">=</span><span class="n">last_valid</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">last_valid</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">verify_post_alloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span>
@@ -13807,7 +13869,7 @@ Raises exception on invalid test behavior.</p>
         <span class="n">print_traces</span><span class="p">(</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
         <span class="k">raise</span> <span class="n">e</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">fcu_version</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -14984,7 +15046,7 @@ blockchain.</p>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate the blockchain that must be executed sequentially during test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -15118,7 +15180,7 @@ blockchain.</p>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span><span class="p">],</span> <span class="n">Hash</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the blockchain that must be executed sequentially during test.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25097,7 +25159,12 @@ sent using the block information.</p>
 <span class="normal">2786</span>
 <span class="normal">2787</span>
 <span class="normal">2788</span>
-<span class="normal">2789</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">2789</span>
+<span class="normal">2790</span>
+<span class="normal">2791</span>
+<span class="normal">2792</span>
+<span class="normal">2793</span>
+<span class="normal">2794</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Fixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cross-client compatible Ethereum test fixture.</span>
@@ -25114,6 +25181,11 @@ sent using the block information.</p>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;blocks&quot;</span><span class="p">,</span>
             <span class="n">to_json</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">fcu_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;engineFcuVersion&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">genesis</span><span class="p">:</span> <span class="n">FixtureHeader</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
@@ -25227,11 +25299,11 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2765</span>
-<span class="normal">2766</span>
-<span class="normal">2767</span>
-<span class="normal">2768</span>
-<span class="normal">2769</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2770</span>
+<span class="normal">2771</span>
+<span class="normal">2772</span>
+<span class="normal">2773</span>
+<span class="normal">2774</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Post init hook to convert to JSON after instantiation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25265,13 +25337,13 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2771</span>
-<span class="normal">2772</span>
-<span class="normal">2773</span>
-<span class="normal">2774</span>
-<span class="normal">2775</span>
-<span class="normal">2776</span>
-<span class="normal">2777</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2776</span>
+<span class="normal">2777</span>
+<span class="normal">2778</span>
+<span class="normal">2779</span>
+<span class="normal">2780</span>
+<span class="normal">2781</span>
+<span class="normal">2782</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert to JSON.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25307,17 +25379,17 @@ sent using the block information.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2779</span>
-<span class="normal">2780</span>
-<span class="normal">2781</span>
-<span class="normal">2782</span>
-<span class="normal">2783</span>
-<span class="normal">2784</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2784</span>
 <span class="normal">2785</span>
 <span class="normal">2786</span>
 <span class="normal">2787</span>
 <span class="normal">2788</span>
-<span class="normal">2789</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
+<span class="normal">2789</span>
+<span class="normal">2790</span>
+<span class="normal">2791</span>
+<span class="normal">2792</span>
+<span class="normal">2793</span>
+<span class="normal">2794</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fill_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">ref_spec</span><span class="p">:</span> <span class="n">ReferenceSpec</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
