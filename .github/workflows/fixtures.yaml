@@ -18,7 +18,7 @@ jobs:
             python: '3.11'
           - name: 'fixtures-hive'
             evm-type: 'main'
-            fill-params: '--enable-hive'
+            fill-params: '--enable-hive --from=Merge'
             solc: '0.8.21'
             python: '3.11'
           - name: 'fixtures-develop'
@@ -28,7 +28,7 @@ jobs:
             python: '3.11'
           - name: 'fixtures-develop-hive'
             evm-type: 'develop'
-            fill-params: '--enable-hive --until=Cancun'
+            fill-params: '--enable-hive --from=Merge --until=Cancun'
             solc: '0.8.21'
             python: '3.11'
     steps:
