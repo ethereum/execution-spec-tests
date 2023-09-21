@@ -1,4 +1,4 @@
-name: Ethereum Testing Tools
+name: Run Tox Verifications
 
 on: [push, pull_request, workflow_dispatch]
 
