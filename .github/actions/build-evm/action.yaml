@@ -1,0 +1,38 @@
+name: 'Build EVM'
+description: 'Resolves and builds the requested EVM binary by name'
+inputs:
+  type:
+    description: 'Type of EVM binary to build'
+    required: true
+    default: 'main'
+outputs:
+  impl:
+    description: "Implementation of EVM binary to build"
+    value: ${{ steps.evm-config-reader.outputs.impl }}
+  repo:
+    description: "Repository to use to build the EVM binary"
+    value: ${{ steps.evm-config-reader.outputs.repo }}
+  ref:
+    description: "Reference to branch, commit, or tag to use to build the EVM binary"
+    value: ${{ steps.evm-config-reader.outputs.ref }}
+runs:
+  using: "composite"
+  steps:
+    - name: Get the selected EVM version from the evm-config.yaml
+      id: evm-config-reader
+      shell: bash
+      run: |
+        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./evm-config.yaml \
+        | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
+    - name: Print Variables for the selected EVM type
+      shell: bash
+      run: |
+        echo "Implementation: ${{ steps.evm-config-reader.outputs.impl }}"
+        echo "Repository: ${{ steps.evm-config-reader.outputs.repo }}"
+        echo "Reference: ${{ steps.evm-config-reader.outputs.ref }}"
+    - name: Build the EVM using Geth action
+      if: steps.evm-config-reader.outputs.impl == 'geth'
+      uses: ./.github/actions/build-geth-evm
+      with:
+        repo: ${{ steps.evm-config-reader.outputs.repo }}
+        ref: ${{ steps.evm-config-reader.outputs.ref }}
