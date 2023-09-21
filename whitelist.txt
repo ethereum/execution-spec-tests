@@ -46,6 +46,7 @@ coinbase
 coincurve
 compilable
 config
+conftest
 contractAddr
 controlflow
 cp

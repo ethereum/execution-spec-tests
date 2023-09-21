@@ -9,7 +9,7 @@ import json
 import os
 import re
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Tuple, Type
+from typing import Any, Dict, Generator, List, Optional, Tuple, Type, Union
 
 import pytest
 
@@ -20,6 +20,7 @@ from ethereum_test_tools import (
     BlockchainTest,
     BlockchainTestFiller,
     Fixture,
+    HiveFixture,
     StateTest,
     StateTestFiller,
     Yul,
@@ -87,11 +88,11 @@ def pytest_addoption(parser):
         help="Output each test case in the directory without the folder structure.",
     )
     test_group.addoption(
-        "--disable-hive",
+        "--enable-hive",
         action="store_true",
-        dest="disable_hive",
+        dest="enable_hive",
         default=False,
-        help="Output tests skipping hive-related properties.",
+        help="Output test fixtures with the hive-specific properties.",
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -191,7 +192,7 @@ def base_test_config(request) -> BaseTestConfig:
     Returns the base test configuration that all tests must use.
     """
     config = BaseTestConfig()
-    config.disable_hive = request.config.getoption("disable_hive")
+    config.enable_hive = request.config.getoption("enable_hive")
     return config
 
 
@@ -226,10 +227,13 @@ class FixtureCollector:
         self.output_dir = output_dir
         self.flat_output = flat_output
 
-    def add_fixture(self, item, fixture: Fixture) -> None:
+    def add_fixture(self, item, fixture: Optional[Union[Fixture, HiveFixture]]) -> None:
         """
         Adds a fixture to the list of fixtures of a given test case.
         """
+        # TODO: remove this logic. if hive enabled set --from to Merge
+        if fixture is None:
+            return
 
         def get_module_dir(item) -> str:
             """

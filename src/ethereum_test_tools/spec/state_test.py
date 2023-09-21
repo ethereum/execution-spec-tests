@@ -127,7 +127,13 @@ class StateTest(BaseTest):
         fork: Fork,
         chain_id=1,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[List[FixtureBlock], Hash, Dict[str, Any], Optional[int]]:
+    ) -> Tuple[
+        Optional[List[FixtureBlock]],
+        Optional[List[Optional[FixtureEngineNewPayload]]],
+        Hash,
+        Dict[str, Any],
+        Optional[int],
+    ]:
         """
         Create a block from the state test definition.
         Performs checks against the expected behavior of the test.
@@ -178,30 +184,31 @@ class StateTest(BaseTest):
             withdrawals=env.withdrawals,
         )
 
-        # Hive specific fields
-        new_payload: FixtureEngineNewPayload | None = None
         fcu_version: int | None = None
-        if not self.base_test_config.disable_hive:
-            new_payload = FixtureEngineNewPayload.from_fixture_header(
+        fixture_payload: FixtureEngineNewPayload | None = None
+        fixture_block: FixtureBlock | None = None
+        if self.base_test_config.enable_hive:
+            fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
+            fixture_payload = FixtureEngineNewPayload.from_fixture_header(
                 fork=fork,
                 header=header,
                 transactions=txs,
                 withdrawals=env.withdrawals,
+                valid=True,
                 error_code=None,
             )
-            fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
+        else:
+            fixture_block = FixtureBlock(
+                rlp=block,
+                block_header=header,
+                txs=txs,
+                ommers=[],
+                withdrawals=env.withdrawals,
+            )
 
         return (
-            [
-                FixtureBlock(
-                    rlp=block,
-                    new_payload=new_payload,
-                    block_header=header,
-                    txs=txs,
-                    ommers=[],
-                    withdrawals=env.withdrawals,
-                )
-            ],
+            [fixture_block] if fixture_block is not None else None,
+            [fixture_payload] if fixture_payload is not None else None,
             header.hash,
             alloc,
             fcu_version,

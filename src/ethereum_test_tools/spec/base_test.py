@@ -17,6 +17,7 @@ from ..common import (
     Bytes,
     Environment,
     FixtureBlock,
+    FixtureEngineNewPayload,
     FixtureHeader,
     Hash,
     Transaction,
@@ -86,9 +87,9 @@ class BaseTestConfig:
     General configuration that all tests must support.
     """
 
-    disable_hive: bool = False
+    enable_hive: bool = False
     """
-    Disable any hive-related properties that the output could contain.
+    Enable any hive-related properties that the output could contain.
     """
 
 
@@ -127,7 +128,13 @@ class BaseTest:
         fork: Fork,
         chain_id: int = 1,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[List[FixtureBlock], Hash, Dict[str, Any], Optional[int]]:
+    ) -> Tuple[
+        Optional[List[FixtureBlock]],
+        Optional[List[Optional[FixtureEngineNewPayload]]],
+        Hash,
+        Dict[str, Any],
+        Optional[int],
+    ]:
         """
         Generate the blockchain that must be executed sequentially during test.
         """
