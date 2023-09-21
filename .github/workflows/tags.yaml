@@ -3,8 +3,8 @@ name: Draft Release on Tags
 on:
   workflow_run:
     workflows: ["Build and Package Fixtures"]
-    branches:
-      - 'refs/tags/**'
+    tags:
+      - 'v*'
     types: 
       - completed
 
