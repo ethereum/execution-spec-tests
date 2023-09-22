@@ -8,6 +8,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- 🐞 Tests: Fix invalid blob txs pre-Cancun engine response ([#306](https://github.com/ethereum/execution-spec-tests/pull/306)).
+
 ### 🛠️ Framework
 
 ### 🔧 EVM Tools
