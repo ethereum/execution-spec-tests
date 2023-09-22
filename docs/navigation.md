@@ -22,6 +22,7 @@
     * [Documentation](dev/docs.md)
     * [Coding Style](dev/coding_style.md)
     * [Enabling Precommit Checks](dev/precommit.md)
+  * [Changelog](CHANGELOG.md)
   * [Library Reference](library/index.md)
     * [EVM Transition Tool Package](library/evm_transition_tool.md)
     * [Ethereum Test Tools Package](library/ethereum_test_tools.md)
