@@ -135,10 +135,6 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
            head fixtures/berlin/eip2930_access_list/acl/access_list.json
            ```
 
-## Coverage
-
-The available test cases can be browsed in the [Test Case Reference doc](https://ethereum.github.io/execution-spec-tests/tests/).
-
 ## Usage
 
 See the [online documentation](https://ethereum.github.io/execution-spec-tests/) for further help with working with this codebase:
@@ -147,6 +143,10 @@ See the [online documentation](https://ethereum.github.io/execution-spec-tests/)
 2. [Execute tests for features under development](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
 3. _Optional:_ [Configure VS Code](https://ethereum.github.io/execution-spec-tests/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_vs_code/#executing-and-debugging-test-cases).
 4. Implement a new test case, see [Writing Tests](https://ethereum.github.io/execution-spec-tests/writing_tests/).
+
+## Coverage
+
+The available test cases can be browsed in the [Test Case Reference doc](https://ethereum.github.io/execution-spec-tests/tests/).
 
 ## Contributing
 
