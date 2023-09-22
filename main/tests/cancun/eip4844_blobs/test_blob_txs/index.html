@@ -5393,7 +5393,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cbedb37f87b72bf4dfcdb17c5f1c5e427649714b/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/101e6929dc66a0eaa7c4616f041bed0d2d2d0dea/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6780,7 +6780,7 @@ its calculation:</p>
   
       <p>Reject blocks with blob type transactions before Cancun fork.</p>
 <p>Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions, furthermore blobs
-field within NewPayloadV2 method must be rejected with the <code>-32602: Invalid params</code> error.</p>
+field within NewPayloadV2 method must be computed as INVALID, due to an invalid block hash.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
@@ -6814,18 +6814,16 @@ field within NewPayloadV2 method must be rejected with the <code>-32602: Invalid
 <span class="normal">1031</span>
 <span class="normal">1032</span>
 <span class="normal">1033</span>
-<span class="normal">1034</span>
-<span class="normal">1035</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1034</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tx_error&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;engine_api_error_code&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="p">[</span>
-        <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;tx type 3 not allowed pre-Cancun&quot;</span><span class="p">,</span> <span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">),</span>
-        <span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;tx type 3 not allowed pre-Cancun&quot;</span><span class="p">,</span> <span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">),</span>
+        <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;tx type 3 not allowed pre-Cancun&quot;</span><span class="p">),</span>
+        <span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;tx type 3 not allowed pre-Cancun&quot;</span><span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_blob_tx&quot;</span><span class="p">,</span> <span class="s2">&quot;one_blob_tx&quot;</span><span class="p">],</span>
 <span class="p">)</span>
@@ -6839,7 +6837,7 @@ field within NewPayloadV2 method must be rejected with the <code>-32602: Invalid
 <span class="sd">    Reject blocks with blob type transactions before Cancun fork.</span>
 
 <span class="sd">    Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions, furthermore blobs</span>
-<span class="sd">    field within NewPayloadV2 method must be rejected with the `-32602: Invalid params` error.</span>
+<span class="sd">    field within NewPayloadV2 method must be computed as INVALID, due to an invalid block hash.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
