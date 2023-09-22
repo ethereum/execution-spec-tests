@@ -2576,13 +2576,13 @@ class FixtureEngineNewPayload:
             cast_type=Hash,
         ),
     )
-    version: int = field(
-        json_encoder=JSONEncoder.Field(),
-    )
     valid: bool = field(
         json_encoder=JSONEncoder.Field(
             skip_string_convert=True,
         ),
+    )
+    version: int = field(
+        json_encoder=JSONEncoder.Field(),
     )
     error_code: Optional[EngineAPIError] = field(
         default=None,
@@ -2731,12 +2731,6 @@ class BaseFixture:
             name="network",
         ),
     )
-    name: str = field(
-        default="",
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
     _json: Dict[str, Any] | None = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -2795,7 +2789,7 @@ class Fixture(BaseFixture):
             to_json=True,
         ),
     )
-    head: Hash = field(
+    last_block_hash: Hash = field(
         json_encoder=JSONEncoder.Field(
             name="lastblockhash",
         ),
@@ -2816,6 +2810,7 @@ class Fixture(BaseFixture):
         ),
     )
     seal_engine: str = field(
+        default="NoProof",
         json_encoder=JSONEncoder.Field(
             name="sealEngine",
         ),

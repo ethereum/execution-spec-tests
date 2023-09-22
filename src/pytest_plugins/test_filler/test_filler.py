@@ -263,8 +263,6 @@ class FixtureCollector:
         if not m:
             raise Exception("Could not parse test name: " + item.name)
         name = m.group(1)
-        if fixture.name:
-            name += "-" + fixture.name
         jsonFixture = fixture.to_json()
         self.all_fixtures[module_dir].append((name, jsonFixture))
 
@@ -298,14 +296,6 @@ def fixture_collector(request):
     )
     yield fixture_collector
     fixture_collector.dump_fixtures()
-
-
-@pytest.fixture(autouse=True, scope="session")
-def engine():
-    """
-    Returns the sealEngine used in the generated test fixtures.
-    """
-    return "NoProof"
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -363,7 +353,7 @@ SPEC_TYPES_PARAMETERS: List[str] = [s.pytest_parameter_name() for s in SPEC_TYPE
 
 @pytest.fixture(scope="function")
 def state_test(
-    request, t8n, fork, engine, reference_spec, eips, fixture_collector, base_test_config
+    request, t8n, fork, reference_spec, eips, fixture_collector, base_test_config
 ) -> StateTestFiller:
     """
     Fixture used to instantiate an auto-fillable StateTest object from within
@@ -391,7 +381,6 @@ def state_test(
                     t8n,
                     self,
                     fork,
-                    engine,
                     reference_spec,
                     eips=eips,
                 ),
@@ -402,7 +391,7 @@ def state_test(
 
 @pytest.fixture(scope="function")
 def blockchain_test(
-    request, t8n, fork, engine, reference_spec, eips, fixture_collector, base_test_config
+    request, t8n, fork, reference_spec, eips, fixture_collector, base_test_config
 ) -> BlockchainTestFiller:
     """
     Fixture used to define an auto-fillable BlockchainTest analogous to the
@@ -424,7 +413,6 @@ def blockchain_test(
                     t8n,
                     self,
                     fork,
-                    engine,
                     reference_spec,
                     eips=eips,
                 ),

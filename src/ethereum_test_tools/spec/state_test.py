@@ -3,7 +3,7 @@ State test filler.
 """
 from copy import copy
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
+from typing import Callable, Generator, List, Mapping, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import TransitionTool
@@ -15,15 +15,17 @@ from ..common import (
     Bytes,
     EmptyTrieRoot,
     Environment,
+    Fixture,
     FixtureBlock,
     FixtureEngineNewPayload,
     FixtureHeader,
     Hash,
     HeaderNonce,
-    InvalidFixtureBlock,
+    HiveFixture,
     Number,
     Transaction,
     ZeroPaddedHexNumber,
+    alloc_to_accounts,
     to_json,
 )
 from ..common.constants import EmptyOmmersRoot, EngineAPIError
@@ -43,6 +45,8 @@ class StateTest(BaseTest):
     txs: List[Transaction]
     engine_api_error_code: Optional[EngineAPIError] = None
     tag: str = ""
+
+    chain_id: int = 1
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -120,26 +124,25 @@ class StateTest(BaseTest):
 
         return Alloc(new_alloc), genesis_rlp, genesis
 
-    def make_blocks(
+    def make_fixture(
         self,
         t8n: TransitionTool,
-        genesis: FixtureHeader,
-        pre: Alloc,
         fork: Fork,
-        chain_id=1,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[
-        Optional[List[FixtureBlock | InvalidFixtureBlock]],
-        Optional[List[Optional[FixtureEngineNewPayload]]],
-        Hash,
-        Dict[str, Any],
-        Optional[int],
-    ]:
+    ) -> Fixture:
         """
         Create a block from the state test definition.
         Performs checks against the expected behavior of the test.
         Raises exception on invalid test behavior.
         """
+        pre, genesis_rlp, genesis = self.make_genesis(t8n, fork)
+
+        network_info = (
+            "+".join([fork.name()] + [str(eip) for eip in eips])
+            if eips is not None
+            else fork.name()
+        )
+
         env = self.env.apply_new_parent(genesis)
         env = env.set_fork_requirements(fork)
 
@@ -149,8 +152,8 @@ class StateTest(BaseTest):
             alloc=to_json(pre),
             txs=to_json(txs),
             env=to_json(env),
-            fork_name=fork.fork(block_number=Number(env.number), timestamp=Number(env.timestamp)),
-            chain_id=chain_id,
+            fork_name=network_info,
+            chain_id=self.chain_id,
             reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),
@@ -185,35 +188,109 @@ class StateTest(BaseTest):
             withdrawals=env.withdrawals,
         )
 
-        fcu_version: int | None = None
-        fixture_payload: FixtureEngineNewPayload | None = None
-        fixture_block: FixtureBlock | None = None
-        if self.base_test_config.enable_hive:
-            fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
-            fixture_payload = FixtureEngineNewPayload.from_fixture_header(
-                fork=fork,
-                header=header,
-                transactions=txs,
-                withdrawals=env.withdrawals,
-                valid=True,
-                error_code=None,
-            )
-        else:
-            fixture_block = FixtureBlock(
-                rlp=block,
-                block_header=header,
-                txs=txs,
-                ommers=[],
-                withdrawals=env.withdrawals,
+        fixture = Fixture(
+            fork=network_info,
+            genesis=genesis,
+            genesis_rlp=genesis_rlp,
+            blocks=[
+                FixtureBlock(
+                    rlp=block,
+                    block_header=header,
+                    txs=txs,
+                    ommers=[],
+                    withdrawals=env.withdrawals,
+                )
+            ],
+            last_block_hash=header.hash,
+            pre_state=pre,
+            post_state=alloc_to_accounts(alloc),
+        )
+        return fixture
+
+    def make_hive_fixture(
+        self,
+        t8n: TransitionTool,
+        fork: Fork,
+        eips: Optional[List[int]] = None,
+    ) -> HiveFixture:
+        """
+        Create a block from the state test definition.
+        Performs checks against the expected behavior of the test.
+        Raises exception on invalid test behavior.
+        """
+        pre, _, genesis = self.make_genesis(t8n, fork)
+
+        network_info = (
+            "+".join([fork.name()] + [str(eip) for eip in eips])
+            if eips is not None
+            else fork.name()
+        )
+
+        env = self.env.apply_new_parent(genesis)
+        env = env.set_fork_requirements(fork)
+
+        txs = [tx.with_signature_and_sender() for tx in self.txs] if self.txs is not None else []
+
+        alloc, result = t8n.evaluate(
+            alloc=to_json(pre),
+            txs=to_json(txs),
+            env=to_json(env),
+            fork_name=network_info,
+            chain_id=self.chain_id,
+            reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
+            eips=eips,
+            debug_output_path=self.get_next_transition_tool_output_path(),
+        )
+
+        rejected_txs = verify_transactions(txs, result)
+        if len(rejected_txs) > 0:
+            raise Exception(
+                "one or more transactions in `StateTest` are "
+                + "intrinsically invalid, which are not allowed. "
+                + "Use `BlockchainTest` to verify rejection of blocks "
+                + "that include invalid transactions."
             )
 
-        return (
-            [fixture_block] if fixture_block is not None else None,
-            [fixture_payload] if fixture_payload is not None else None,
-            header.hash,
-            alloc,
-            fcu_version,
+        try:
+            verify_post_alloc(self.post, alloc)
+            verify_result(result, env)
+        except Exception as e:
+            print_traces(traces=t8n.get_traces())
+            raise e
+
+        env.extra_data = b"\x00"
+        header = FixtureHeader.collect(
+            fork=fork,
+            transition_tool_result=result,
+            environment=env,
         )
+
+        _, header.hash = header.build(
+            txs=txs,
+            ommers=[],
+            withdrawals=env.withdrawals,
+        )
+
+        fixture_payload = FixtureEngineNewPayload.from_fixture_header(
+            fork=fork,
+            header=header,
+            transactions=txs,
+            withdrawals=env.withdrawals,
+            valid=True,
+            error_code=None,
+        )
+        fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
+
+        hive_fixture = HiveFixture(
+            fork=network_info,
+            genesis=genesis,
+            payloads=[fixture_payload],
+            fcu_version=fcu_version,
+            pre_state=pre,
+            post_state=alloc_to_accounts(alloc),
+        )
+
+        return hive_fixture
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]
