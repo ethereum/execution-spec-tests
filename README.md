@@ -77,7 +77,7 @@ Generally, specific `t8n` implementations and branches must be used when develop
 
 ### Prerequisites
 
-The following requires a Python 3.10 or Python 3.11 installation.
+The following requires a Python 3.10, 3.11 or 3.12 installation.
 
 ### Quick Start
 
