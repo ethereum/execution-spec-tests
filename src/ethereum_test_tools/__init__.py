@@ -17,6 +17,8 @@ from .code import (
 from .common import (
     AccessList,
     Account,
+    AddrAA,
+    AddrBB,
     Auto,
     Block,
     EngineAPIError,

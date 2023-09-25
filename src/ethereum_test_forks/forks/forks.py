@@ -405,3 +405,17 @@ class Cancun(Shanghai):
         Starting at Cancun, payloads must have a parent beacon block root.
         """
         return True
+
+
+class Prauge(Cancun):
+    """
+    Cancun fork
+    """
+
+    @classmethod
+    def is_deployed(cls):
+        """
+        Flags that Cancun has not been deployed to mainnet; it is under active
+        development.
+        """
+        return False
