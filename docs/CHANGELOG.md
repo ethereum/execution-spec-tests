@@ -4,6 +4,18 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.
 
+## 🔜 [Unreleased - v1.0.6](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6) - 2023-xx-xx
+
+### 🧪 Test Cases
+
+### 🛠️ Framework
+
+### 🔧 Tools
+
+### 📋 Misc
+
+- ✨ Docs: Changelog updated post release ([#321](https://github.com/ethereum/execution-spec-tests/pull/321)).
+
 ## [v1.0.5](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.5) - 2023-09-26: 🐍🏖️ Cancun Devnet 9 Release 3
 
 This release mainly serves to update the EIP-4788 beacon roots address to `0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02`, as updated in [ethereum/EIPs/pull/7672](https://github.com/ethereum/EIPs/pull/7672).
@@ -18,6 +30,17 @@ This release mainly serves to update the EIP-4788 beacon roots address to `0x000
 - ✨ Docs: Changelog added ([#305](https://github.com/ethereum/execution-spec-tests/pull/305)).
 - ✨ CI/CD: Run development fork tests in Github Actions ([#302](https://github.com/ethereum/execution-spec-tests/pull/302)).
 - ✨ CI/CD: Generate test JSON fixtures on push ([#303](https://github.com/ethereum/execution-spec-tests/pull/303)).
+
+---
+
+### 💥 Breaking Change
+
+Please use development fixtures from now on when testing Cancun. These refer to changes that are currently under development within clients:
+
+- fixtures: All tests until the last stable fork (Shanghai)
+- fixtures_develop: All tests until the last development fork (Cancun)
+- fixtures_hive: All tests until the last stable fork (Shanghai) in hive format (Engine API directives instead of the usual BlockchainTest format)
+- fixtures_develop_hive: All tests until the last development fork (Cancun) in hive format
 
 ## [v1.0.4](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.4) - 2023-09-21: 🐍 Cancun Devnet 9 Release 2
 
