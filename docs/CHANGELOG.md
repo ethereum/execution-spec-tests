@@ -8,7 +8,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
-- 🐞 Tests: Fix invalid blob txs pre-Cancun engine response ([#306](https://github.com/ethereum/execution-spec-tests/pull/306)).
+- 🐞 [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844): Fix invalid blob txs pre-Cancun engine response ([#306](https://github.com/ethereum/execution-spec-tests/pull/306)).
+- ✨ [EIP-4788](https://eips.ethereum.org/EIPS/eip-4788): Final update to the beacon root address ([#312](https://github.com/ethereum/execution-spec-tests/pull/312)).
 
 ### 🛠️ Framework
 
@@ -18,7 +19,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Docs: Changelog added ([#305](https://github.com/ethereum/execution-spec-tests/pull/305)).
 - ✨ CI/CD: Run development fork tests in Github Actions ([#302](https://github.com/ethereum/execution-spec-tests/pull/302)).
-- ✨ CI/CD: Generate test JSON fixtures on push ([#301](https://github.com/ethereum/execution-spec-tests/pull/303)).
+- ✨ CI/CD: Generate test JSON fixtures on push ([#303](https://github.com/ethereum/execution-spec-tests/pull/303)).
 
 ## [v1.0.4](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.4) - 2023-09-21: 🐍 Cancun Devnet 9 Release 2
 

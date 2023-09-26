@@ -5,4 +5,4 @@ main:
 develop:
   impl: geth
   repo: marioevz/go-ethereum
-  ref: cancun-t8n
+  ref: cancun-t8n-beacon-root-final-address 
