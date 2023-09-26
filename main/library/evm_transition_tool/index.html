@@ -6725,7 +6725,7 @@
 <span class="s2">                PORT=$</span><span class="se">{{</span><span class="s2">1:-3000</span><span class="se">}}</span>
 <span class="s2">                curl http://localhost:$</span><span class="se">{{</span><span class="s2">PORT</span><span class="se">}}</span><span class="s2">/ -X POST -H &quot;Content-Type: application/json&quot; </span><span class="se">\\</span>
 <span class="s2">                --data &#39;</span><span class="si">{</span><span class="n">indented_post_data_string</span><span class="si">}</span><span class="s2">&#39;</span>
-<span class="s2">                &quot;&quot;&quot;</span>
+<span class="s2">                &quot;&quot;&quot;</span>  <span class="c1"># noqa: E221</span>
             <span class="p">)</span>
             <span class="n">dump_files_to_directory</span><span class="p">(</span>
                 <span class="n">debug_output_path</span><span class="p">,</span>
@@ -7071,7 +7071,7 @@
 <span class="s2">            PORT=$</span><span class="se">{{</span><span class="s2">1:-3000</span><span class="se">}}</span>
 <span class="s2">            curl http://localhost:$</span><span class="se">{{</span><span class="s2">PORT</span><span class="se">}}</span><span class="s2">/ -X POST -H &quot;Content-Type: application/json&quot; </span><span class="se">\\</span>
 <span class="s2">            --data &#39;</span><span class="si">{</span><span class="n">indented_post_data_string</span><span class="si">}</span><span class="s2">&#39;</span>
-<span class="s2">            &quot;&quot;&quot;</span>
+<span class="s2">            &quot;&quot;&quot;</span>  <span class="c1"># noqa: E221</span>
         <span class="p">)</span>
         <span class="n">dump_files_to_directory</span><span class="p">(</span>
             <span class="n">debug_output_path</span><span class="p">,</span>
