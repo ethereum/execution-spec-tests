@@ -12,6 +12,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🔧 Tools
 
+- 🔀 Tools: Updated invalid blocks in fixtures to include non-RLP format ([#311](https://github.com/ethereum/execution-spec-tests/pull/311)).
+
 ### 📋 Misc
 
 - ✨ Docs: Changelog updated post release ([#321](https://github.com/ethereum/execution-spec-tests/pull/321)).
