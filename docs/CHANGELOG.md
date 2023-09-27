@@ -12,6 +12,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🔧 Tools
 
+- ✨ Enable tracing support for `ethereum-spec-evm` ([#289](https://github.com/ethereum/execution-spec-tests/pull/289)).
+
 ### 📋 Misc
 
 - ✨ Docs: Changelog updated post release ([#321](https://github.com/ethereum/execution-spec-tests/pull/321)).
