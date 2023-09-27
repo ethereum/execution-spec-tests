@@ -1,4 +1,12 @@
+## 🗒️ Description
+<!-- Brief description of the changes introduced by this PR -->
 
+## 🔗 Related Issues
+<!-- Reference any related issues using the GitHub issue number (e.g., Fixes #123) -->
+
+## ✅ Checklist
+- [ ] All: Set appropriate labels for the changes.
+- [ ] All: Considered squashing commits to improve commit history.
 
 
 - [ ] All: Added an entry to [CHANGELOG.md](../docs/CHANGELOG.md).
