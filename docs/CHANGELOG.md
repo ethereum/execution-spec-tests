@@ -12,7 +12,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - 🔀 Fixtures: Add a non-RLP format field (`rlp_decoded`) to invalid blocks ([#322](https://github.com/ethereum/execution-spec-tests/pull/322)).
 
-### 🔧 Tools
+### 🔧 EVM Tools
 
 ### 📋 Misc
 
