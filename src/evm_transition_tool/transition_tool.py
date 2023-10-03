@@ -10,6 +10,7 @@ import subprocess
 import tempfile
 import textwrap
 from abc import abstractmethod
+from enum import Enum
 from itertools import groupby
 from json import dump
 from pathlib import Path
@@ -61,6 +62,33 @@ def dump_files_to_directory(output_path: str, files: Dict[str, Any]) -> None:
             os.chmod(file_path, file_mode)
 
 
+class FixtureFormats(Enum):
+    """
+    Helper class to define fixture formats.
+    """
+
+    STATE_TEST = "state_test"
+    STATE_TEST_HIVE = "state_test_hive"
+    BLOCKCHAIN_TEST = "blockchain_test"
+    BLOCKCHAIN_TEST_HIVE = "blockchain_test_hive"
+
+    @classmethod
+    def is_state_test(cls, format):  # noqa: D102
+        return format in (cls.STATE_TEST, cls.STATE_TEST_HIVE)
+
+    @classmethod
+    def is_blockchain_test(cls, format):  # noqa: D102
+        return format in (cls.BLOCKCHAIN_TEST, cls.BLOCKCHAIN_TEST_HIVE)
+
+    @classmethod
+    def is_hive_format(cls, format):  # noqa: D102
+        return format in (cls.STATE_TEST_HIVE, cls.BLOCKCHAIN_TEST_HIVE)
+
+    @classmethod
+    def is_standard_format(cls, format):  # noqa: D102
+        return format in (cls.STATE_TEST, cls.BLOCKCHAIN_TEST)
+
+
 class TransitionTool:
     """
     Transition tool abstract base class which should be inherited by all transition tool
@@ -75,6 +103,8 @@ class TransitionTool:
     detect_binary_pattern: Pattern
     version_flag: str = "-v"
     t8n_subcommand: Optional[str] = None
+    statetest_subcommand: Optional[str] = None
+    blocktest_subcommand: Optional[str] = None
     cached_version: Optional[str] = None
 
     # Abstract methods that each tool must implement
@@ -407,3 +437,64 @@ class TransitionTool:
         if state_root is None or not isinstance(state_root, str):
             raise Exception("Unable to calculate state root")
         return new_alloc, bytes.fromhex(state_root[2:])
+
+    def test_fixture(
+        self,
+        fixture_format: FixtureFormats,
+        fixture_path: Path,
+        debug_output_path: Optional[Path],
+    ):
+        """
+        Executes `evm [state|block]test` to validate a test fixture.
+
+        If a client's `t8n` tool varies from the default behavior, this method
+        should be overridden.
+        """
+        command: list[str] = [str(self.binary)]
+
+        if debug_output_path:
+            command += ["--debug", "--json", "--verbosity", "100"]
+
+        if FixtureFormats.is_state_test(fixture_format):
+            if self.statetest_subcommand:
+                command.append(self.statetest_subcommand)
+        elif FixtureFormats.is_blockchain_test(fixture_format):
+            if self.blocktest_subcommand:
+                command.append(self.blocktest_subcommand)
+        else:
+            raise Exception(f"Invalid test format: {fixture_format}")
+
+        command.append(str(fixture_path))
+
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        if debug_output_path:
+            debug_fixture_path = debug_output_path / fixture_path.name
+            # Use the local copy of the fixture in the debug directory
+            evm_test_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
+            evm_test_script = textwrap.dedent(
+                f"""\
+                #!/bin/bash
+                {evm_test_call}
+                """
+            )
+            dump_files_to_directory(
+                str(debug_output_path),
+                {
+                    "evm_test_args.py": command,
+                    "evm_test_returncode.txt": result.returncode,
+                    "evm_test_stdout.txt": result.stdout.decode(),
+                    "evm_test_stderr.txt": result.stderr.decode(),
+                    "evm_test.sh+x": evm_test_script,
+                },
+            )
+
+        if result.returncode != 0:
+            raise Exception(
+                f"Failed to validate fixture via: '{' '.join(command)}'. "
+                f"Error: '{result.stderr.decode()}'"
+            )

@@ -8,6 +8,7 @@ writes the generated fixtures to file.
 import json
 import os
 import re
+import shutil
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Optional, Tuple, Type, Union
 
@@ -26,7 +27,7 @@ from ethereum_test_tools import (
     Yul,
     fill_test,
 )
-from evm_transition_tool import TransitionTool
+from evm_transition_tool import FixtureFormats, GethTransitionTool, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 
@@ -51,6 +52,24 @@ def pytest_addoption(parser):
         dest="evm_collect_traces",
         default=None,
         help="Collect traces of the execution information from the transition tool.",
+    )
+    evm_group.addoption(
+        "--evm-test-bin",
+        action="store",
+        dest="evm_test_bin",
+        type=Path,
+        default=None,
+        help=(
+            "Path to an evm executable that provides the `statetest` and `blocktest` commands. "
+            "Default: The first (geth) 'evm' entry in PATH."
+        ),
+    )
+    evm_group.addoption(
+        "--enable-evm-test",
+        action="store_true",
+        dest="enable_evm_test",
+        default=False,
+        help="Enable fixture verification using the evm `statetest` and `blocktest` commands.",
     )
 
     solc_group = parser.getgroup("solc", "Arguments defining the solc executable")
@@ -161,9 +180,18 @@ def pytest_report_header(config, start_path):
 @pytest.fixture(autouse=True, scope="session")
 def evm_bin(request) -> Path:
     """
-    Returns the configured evm tool binary path.
+    Returns the configured evm tool binary path used to run t8n.
     """
     return request.config.getoption("evm_bin")
+
+
+@pytest.fixture(autouse=True, scope="session")
+def evm_test_bin(request) -> Path:
+    """
+    Returns the configured evm tool binary path used to run statetest or
+    blocktest.
+    """
+    return request.config.getoption("evm_test_bin")
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -186,6 +214,39 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     t8n.shutdown()
 
 
+@pytest.fixture(scope="session")
+def do_evm_test(request, t8n) -> bool:
+    """
+    Returns True if evm statetest or evm blocktest should be ran on the
+    generated fixture JSON files.
+    """
+    if request.config.getoption("enable_hive"):
+        return False
+    if request.config.getoption("evm_test_bin"):
+        return True
+    if request.config.getoption("enable_evm_test"):
+        return True
+    return False
+
+
+@pytest.fixture(autouse=True, scope="session")
+def evm_test(
+    request, do_evm_test: bool, evm_test_bin: Path
+) -> Optional[Generator[TransitionTool, None, None]]:
+    """
+    Returns the configured evm binary for executing statetest and blocktest
+    commands used to verify generated JSON fixtures.
+    """
+    if not do_evm_test:
+        yield None
+        return
+    evm_test = TransitionTool.from_binary_path(binary_path=evm_test_bin)
+    if not isinstance(evm_test, GethTransitionTool):
+        raise Exception("Only geth is supported as evm_test_bin to validate fixtures.")
+    yield evm_test
+    evm_test.shutdown()
+
+
 @pytest.fixture(autouse=True, scope="session")
 def base_test_config(request) -> BaseTestConfig:
     """
@@ -196,21 +257,54 @@ def base_test_config(request) -> BaseTestConfig:
     return config
 
 
-def strip_test_prefix(name: str) -> str:
+def get_module_relative_output_dir(test_module: Path, filler_path: Path) -> Path:
     """
-    Removes the test prefix from a test case name.
+    Return a directory name for the provided test_module (relative to the
+    base ./tests directory) that can be used for output (within the
+    configured fixtures output path or the evm_t8n_dump_dir directory).
+
+    Example:
+    tests/shanghai/eip3855_push0/test_push0.py -> shanghai/eip3855_push0/test_push0
     """
-    TEST_PREFIX = "test_"
-    if name.startswith(TEST_PREFIX):
-        return name[len(TEST_PREFIX) :]
-    return name
+    basename = test_module.with_suffix("").absolute()
+    basename_relative = basename.relative_to(filler_path.absolute())
+    module_path = basename_relative.parent / basename_relative.stem
+    return module_path
 
 
-def convert_test_name_to_path(name: str) -> str:
+def convert_test_name_to_path(name: str) -> Path:
     """
     Converts a test name to a path.
+
+    Example:
+    test_push0_key_sstore[fork=Shanghai] -> test_push0_key_sstore/fork_Shanghai
     """
-    return re.sub(r"[\[=\-]", "_", name).replace("]", "")
+    function_name, parameters = name.split("[")
+    path = Path(function_name) / re.sub(r"[\[=\-]", "_", parameters).replace("]", "")
+    return path
+
+
+@pytest.fixture(scope="function")
+def evm_t8n_dump_dir(request, filler_path: Path) -> Optional[Path]:
+    """
+    The directory to dump the evm transition tool debug output.
+    """
+    t8n_dump_dir = request.config.getoption("t8n_dump_dir")
+    if not t8n_dump_dir:
+        return None
+    return (
+        Path(t8n_dump_dir)
+        / get_module_relative_output_dir(Path(request.node.path), filler_path)
+        / convert_test_name_to_path(request.node.name)
+    )
+
+
+@pytest.fixture(scope="session")
+def evm_dump_dir(request) -> Path:
+    """
+    The base directory to dump the evm debug output.
+    """
+    return request.config.getoption("t8n_dump_dir")
 
 
 class FixtureCollector:
@@ -218,16 +312,20 @@ class FixtureCollector:
     Collects all fixtures generated by the test cases.
     """
 
-    all_fixtures: Dict[str, List[Tuple[str, Any]]]
+    all_fixtures: Dict[str, List[Tuple[str, Any, FixtureFormats]]]
     output_dir: str
     flat_output: bool
+    json_path_to_fixture_type: Dict[Path, FixtureFormats]
 
     def __init__(self, output_dir: str, flat_output: bool) -> None:
         self.all_fixtures = {}
         self.output_dir = output_dir
         self.flat_output = flat_output
+        self.json_path_to_fixture_type = {}
 
-    def add_fixture(self, item, fixture: Optional[Union[Fixture, HiveFixture]]) -> None:
+    def add_fixture(
+        self, item, fixture: Optional[Union[Fixture, HiveFixture]], fixture_format: FixtureFormats
+    ) -> None:
         """
         Adds a fixture to the list of fixtures of a given test case.
         """
@@ -235,30 +333,18 @@ class FixtureCollector:
         if fixture is None:
             return
 
-        def get_module_dir(item) -> str:
-            """
-            Returns the directory of the test case module.
-            """
-            dirname = os.path.dirname(item.path)
-            basename, _ = os.path.splitext(item.path)
-            basename = strip_test_prefix(os.path.basename(basename))
-            module_path_no_ext = os.path.join(dirname, basename)
-            module_dir = os.path.relpath(
-                module_path_no_ext,
-                item.funcargs["filler_path"],
-            )
-            return module_dir
-
-        module_dir = (
-            strip_test_prefix(item.originalname)
+        fixture_basename = (
+            item.originalname
             if self.flat_output
             else os.path.join(
-                get_module_dir(item),
-                strip_test_prefix(item.originalname),
+                get_module_relative_output_dir(
+                    Path(item.path), Path(item.funcargs["filler_path"])
+                ),
+                item.originalname,
             )
         )
-        if module_dir not in self.all_fixtures:
-            self.all_fixtures[module_dir] = []
+        if fixture_basename not in self.all_fixtures:
+            self.all_fixtures[fixture_basename] = []
         m = re.match(r".*?\[(.*)\]", item.name)
         if not m:
             raise Exception("Could not parse test name: " + item.name)
@@ -266,28 +352,52 @@ class FixtureCollector:
         if fixture.name:
             name += "-" + fixture.name
         jsonFixture = fixture.to_json()
-        self.all_fixtures[module_dir].append((name, jsonFixture))
+        self.all_fixtures[fixture_basename].append((name, jsonFixture, fixture_format))
 
     def dump_fixtures(self) -> None:
         """
         Dumps all collected fixtures to their respective files.
         """
         os.makedirs(self.output_dir, exist_ok=True)
-        for module_file, fixtures in self.all_fixtures.items():
+        for fixture_basename, fixtures in self.all_fixtures.items():
             output_json = {}
-            for index, name_fixture in enumerate(fixtures):
-                name, fixture = name_fixture
+            for index, fixture_props in enumerate(fixtures):
+                name, fixture, fixture_format = fixture_props
                 name = str(index).zfill(3) + "-" + name
                 output_json[name] = fixture
-            file_path = os.path.join(self.output_dir, module_file + ".json")
+            file_path = os.path.join(self.output_dir, fixture_basename + ".json")
             if not self.flat_output:
                 os.makedirs(os.path.dirname(file_path), exist_ok=True)
             with open(file_path, "w") as f:
                 json.dump(output_json, f, indent=4)
+            # All tests have same format within one file (one json file ^= single test function).
+            self.json_path_to_fixture_type[Path(file_path)] = fixture_format
+
+    def copy_fixture_file_to_dump_dir(self, evm_dump_dir: Path) -> None:
+        """
+        Copy the generated fixture files to the evm_dump_dir directory.
+        """
+        for fixture_path, fixture_format in self.json_path_to_fixture_type.items():
+            test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
+            shutil.copy(fixture_path, str(test_dump_dir))
+
+    def test_fixture_files(self, evm_test: TransitionTool, evm_dump_dir: Path) -> None:
+        """
+        Runs `evm [state|block]test` on each fixture.
+        """
+        for fixture_path, fixture_format in self.json_path_to_fixture_type.items():
+            test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
+            evm_test.test_fixture(fixture_format, fixture_path, test_dump_dir)
+
+    def _get_test_dump_dir(self, evm_dump_dir: Path, fixture_path: Path) -> Optional[Path]:
+        if evm_dump_dir:
+            relative_dump_dir = fixture_path.relative_to(self.output_dir).with_suffix("")
+            return evm_dump_dir / relative_dump_dir
+        return None
 
 
 @pytest.fixture(scope="module")
-def fixture_collector(request):
+def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir):
     """
     Returns the configured fixture collector instance used for all tests
     in one test module.
@@ -298,6 +408,10 @@ def fixture_collector(request):
     )
     yield fixture_collector
     fixture_collector.dump_fixtures()
+    if evm_dump_dir:
+        fixture_collector.copy_fixture_file_to_dump_dir(evm_dump_dir)
+    if do_evm_test:
+        fixture_collector.test_fixture_files(evm_test, evm_dump_dir)
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -309,11 +423,11 @@ def engine():
 
 
 @pytest.fixture(autouse=True, scope="session")
-def filler_path(request):
+def filler_path(request) -> Path:
     """
     Returns the directory containing the tests to execute.
     """
-    return request.config.getoption("filler_path")
+    return Path(request.config.getoption("filler_path"))
 
 
 @pytest.fixture(autouse=True)
@@ -362,16 +476,42 @@ SPEC_TYPES_PARAMETERS: List[str] = [s.pytest_parameter_name() for s in SPEC_TYPE
 
 
 @pytest.fixture(scope="function")
+def fixture_format(request) -> FixtureFormats:
+    """
+    Returns the test format of the current test case.
+    """
+    enable_hive = request.config.getoption("enable_hive")
+    if "state_test" in request.fixturenames and not enable_hive:
+        return FixtureFormats.STATE_TEST
+    elif "state_test" in request.fixturenames and enable_hive:
+        return FixtureFormats.STATE_TEST_HIVE
+    elif "blockchain_test" in request.fixturenames and not enable_hive:
+        return FixtureFormats.BLOCKCHAIN_TEST
+    elif "blockchain_test" in request.fixturenames and enable_hive:
+        return FixtureFormats.BLOCKCHAIN_TEST_HIVE
+    else:
+        raise Exception("Unknown fixture format.")
+
+
+@pytest.fixture(scope="function")
 def state_test(
-    request, t8n, fork, engine, reference_spec, eips, fixture_collector, base_test_config
+    request,
+    t8n,
+    fork,
+    engine,
+    reference_spec,
+    eips,
+    evm_t8n_dump_dir,
+    fixture_collector,
+    fixture_format,
+    base_test_config,
 ) -> StateTestFiller:
     """
     Fixture used to instantiate an auto-fillable StateTest object from within
     a test function.
 
     Every test that defines a StateTest filler must explicitly specify this
-    fixture in its function arguments and set the StateTestWrapper's spec
-    property.
+    fixture in its function arguments.
 
     Implementation detail: It must be scoped on test function level to avoid
     leakage between tests.
@@ -380,10 +520,8 @@ def state_test(
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
             kwargs["base_test_config"] = base_test_config
-            if t8n_dump_dir := request.config.getoption("t8n_dump_dir"):
-                kwargs["t8n_dump_dir"] = os.path.join(
-                    t8n_dump_dir, convert_test_name_to_path(request.node.name)
-                )
+            if request.config.getoption("t8n_dump_dir"):
+                kwargs["t8n_dump_dir"] = evm_t8n_dump_dir
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
@@ -395,6 +533,7 @@ def state_test(
                     reference_spec,
                     eips=eips,
                 ),
+                fixture_format,
             )
 
     return StateTestWrapper
@@ -402,7 +541,16 @@ def state_test(
 
 @pytest.fixture(scope="function")
 def blockchain_test(
-    request, t8n, fork, engine, reference_spec, eips, fixture_collector, base_test_config
+    request,
+    t8n,
+    fork,
+    engine,
+    reference_spec,
+    eips,
+    evm_t8n_dump_dir,
+    fixture_collector,
+    fixture_format,
+    base_test_config,
 ) -> BlockchainTestFiller:
     """
     Fixture used to define an auto-fillable BlockchainTest analogous to the
@@ -413,10 +561,8 @@ def blockchain_test(
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
             kwargs["base_test_config"] = base_test_config
-            if t8n_dump_dir := request.config.getoption("t8n_dump_dir"):
-                kwargs["t8n_dump_dir"] = os.path.join(
-                    t8n_dump_dir, convert_test_name_to_path(request.node.name)
-                )
+            if request.config.getoption("t8n_dump_dir"):
+                kwargs["t8n_dump_dir"] = evm_t8n_dump_dir
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
@@ -428,6 +574,7 @@ def blockchain_test(
                     reference_spec,
                     eips=eips,
                 ),
+                fixture_format,
             )
 
     return BlockchainTestWrapper

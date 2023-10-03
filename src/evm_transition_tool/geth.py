@@ -20,6 +20,8 @@ class GethTransitionTool(TransitionTool):
     default_binary = Path("evm")
     detect_binary_pattern = compile(r"^evm version\b")
     t8n_subcommand: Optional[str] = "t8n"
+    statetest_subcommand: Optional[str] = "statetest"
+    blocktest_subcommand: Optional[str] = "blocktest"
 
     binary: Path
     cached_version: Optional[str] = None
