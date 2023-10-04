@@ -519,11 +519,11 @@ def fixture_format(request) -> FixtureFormats:
     Returns the test format of the current test case.
     """
     enable_hive = request.config.getoption("enable_hive")
-    has_state_test_format = set(["state_test", "blockchain_test"]) & set(request.fixturenames)
-    if has_state_test_format and enable_hive:
-        return FixtureFormats.STATE_TEST_HIVE
-    elif has_state_test_format and not enable_hive:
-        return FixtureFormats.STATE_TEST
+    has_blockchain_test_format = set(["state_test", "blockchain_test"]) & set(request.fixturenames)
+    if has_blockchain_test_format and enable_hive:
+        return FixtureFormats.BLOCKCHAIN_TEST_HIVE
+    elif has_blockchain_test_format and not enable_hive:
+        return FixtureFormats.BLOCKCHAIN_TEST
     raise Exception("Unknown fixture format.")
 
 
