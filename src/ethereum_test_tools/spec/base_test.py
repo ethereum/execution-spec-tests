@@ -1,5 +1,5 @@
 """
-Generic Ethereum test base class
+Base test class and helper functions for Ethereum state and blockchain tests.
 """
 from abc import abstractmethod
 from dataclasses import dataclass, field

@@ -1,5 +1,5 @@
 """
-Filler object definitions.
+Test filler definitions.
 """
 from typing import List, Optional, Union
 
@@ -19,18 +19,15 @@ def fill_test(
     eips: Optional[List[int]] = None,
 ) -> Optional[Union[Fixture, HiveFixture]]:
     """
-    Fills fixtures for the specified fork.
+    Fills default/hive fixture for the specified fork and test spec.
     """
-    t8n.reset_traces()
     fixture: Union[Fixture, HiveFixture]
+    t8n.reset_traces()
     if test_spec.base_test_config.enable_hive:
-        if fork.engine_new_payload_version() is not None:
-            fixture = test_spec.make_hive_fixture(t8n, fork, eips)
-        else:  # pre Merge tests are not supported in Hive
-            # TODO: remove this logic. if hive enabled set --from to Merge
-            return None
+        if fork.engine_new_payload_version() is None:
+            return None  # pre Merge tests are not supported in Hive
+        fixture = test_spec.make_hive_fixture(t8n, fork, eips)
     else:
         fixture = test_spec.make_fixture(t8n, fork, eips)
     fixture.fill_info(t8n, spec)
-
     return fixture
