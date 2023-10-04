@@ -446,7 +446,7 @@ def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir_module_level)
     )
     yield fixture_collector
     fixture_collector.dump_fixtures()
-    if evm_dump_dir:
+    if evm_dump_dir_module_level:
         fixture_collector.copy_fixture_file_to_dump_dir(evm_dump_dir_module_level)
     if do_evm_test:
         fixture_collector.verify_fixture_files(evm_test, evm_dump_dir_module_level)
