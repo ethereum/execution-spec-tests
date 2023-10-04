@@ -60,7 +60,7 @@ def pytest_addoption(parser):
         type=Path,
         default=None,
         help=(
-            "Path to an evm executable that provides the `statetest` and `blocktest` commands. "
+            "Path to an evm executable that provides the `blocktest` command. "
             "Default: The first (geth) 'evm' entry in PATH."
         ),
     )
@@ -69,7 +69,7 @@ def pytest_addoption(parser):
         action="store_true",
         dest="enable_evm_test",
         default=False,
-        help="Enable fixture verification using the evm `statetest` and `blocktest` commands.",
+        help="Enable fixture verification using the evm `blocktest` command.",
     )
 
     solc_group = parser.getgroup("solc", "Arguments defining the solc executable")
@@ -481,16 +481,12 @@ def fixture_format(request) -> FixtureFormats:
     Returns the test format of the current test case.
     """
     enable_hive = request.config.getoption("enable_hive")
-    if "state_test" in request.fixturenames and not enable_hive:
-        return FixtureFormats.STATE_TEST
-    elif "state_test" in request.fixturenames and enable_hive:
+    has_state_test_format = set(["state_test", "blockchain_test"]) & set(request.fixturenames)
+    if has_state_test_format and enable_hive:
         return FixtureFormats.STATE_TEST_HIVE
-    elif "blockchain_test" in request.fixturenames and not enable_hive:
-        return FixtureFormats.BLOCKCHAIN_TEST
-    elif "blockchain_test" in request.fixturenames and enable_hive:
-        return FixtureFormats.BLOCKCHAIN_TEST_HIVE
-    else:
-        raise Exception("Unknown fixture format.")
+    elif has_state_test_format and not enable_hive:
+        return FixtureFormats.STATE_TEST
+    raise Exception("Unknown fixture format.")
 
 
 @pytest.fixture(scope="function")
