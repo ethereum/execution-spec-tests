@@ -130,7 +130,7 @@ class BlockchainTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> Tuple[FixtureHeader, Bytes, List[Transaction], Dict[str, Any], Environment]:
         """
-        TODO
+        Generate common block data for both make_fixture and make_hive_fixture.
         """
         if block.rlp and block.exception is not None:
             raise Exception(
@@ -233,7 +233,7 @@ class BlockchainTest(BaseTest):
         head = genesis.hash if genesis.hash is not None else Hash(0)
 
         for block in self.blocks:
-            header, rlp, txs, next_alloc, next_env = self.generate_block_data(
+            header, rlp, txs, new_alloc, new_env = self.generate_block_data(
                 t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
             )
             if block.rlp is None:
@@ -248,12 +248,12 @@ class BlockchainTest(BaseTest):
                             block_number=Number(header.number),
                             txs=txs,
                             ommers=[],
-                            withdrawals=env.withdrawals,
+                            withdrawals=new_env.withdrawals,
                         ),
                     )
                     # Update env, alloc and last block hash for the next block.
-                    alloc = next_alloc
-                    env = next_env.apply_new_parent(header)
+                    alloc = new_alloc
+                    env = new_env.apply_new_parent(header)
                     head = header.hash if header.hash is not None else Hash(0)
                 else:
                     fixture_blocks.append(
@@ -264,7 +264,7 @@ class BlockchainTest(BaseTest):
                                 block_header=header,
                                 txs=txs,
                                 ommers=[],
-                                withdrawals=env.withdrawals,
+                                withdrawals=new_env.withdrawals,
                             ),
                         ),
                     )
@@ -303,7 +303,7 @@ class BlockchainTest(BaseTest):
         env = Environment.from_parent_header(genesis)
 
         for block in self.blocks:
-            header, _, txs, next_alloc, env = self.generate_block_data(
+            header, _, txs, new_alloc, new_env = self.generate_block_data(
                 t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
             )
             if block.rlp is None:
@@ -312,13 +312,13 @@ class BlockchainTest(BaseTest):
                         fork=fork,
                         header=header,
                         transactions=txs,
-                        withdrawals=env.withdrawals,
+                        withdrawals=new_env.withdrawals,
                         valid=block.exception is None,
                         error_code=block.engine_api_error_code,
                     )
                 )
                 if block.exception is None:
-                    alloc = next_alloc
+                    alloc = new_alloc
                     env = env.apply_new_parent(header)
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
 
