@@ -8,49 +8,46 @@ For example, running:
 
 ```console
 fill tests/berlin/eip2930_access_list/ --fork Berlin \
-    --t8n-dump-dir=/tmp/evm-t8n-dump
+    --t8n-dump-dir=/tmp/evm-dump
 ```
 
 will produce the directory structure:
 
 ```text
-📁 /tmp/evm-t8n-dump/
-└─╴📁 berlin
-    └─╴📁 eip2930_access_list
-        └─╴📁 test_acl              # test module
-            └─╴📁 test_access_list  # test function
-                ├── 📁 fork_Berlin  # test parameters
-                │   ├── 📁 0
-                │   │   ├── 📄 args.py
-                │   │   ├── 📁 input
-                │   │   │   ├── 📄 alloc.json
-                │   │   │   ├── 📄 env.json
-                │   │   │   └── 📄 txs.json
-                │   │   ├── 📁 output
-                │   │   │   ├── 📄 alloc.json
-                │   │   │   ├── 📄 result.json
-                │   │   │   └── 📄 txs.rlp
-                │   │   ├── 📄 returncode.txt
-                │   │   ├── 📄 stderr.txt
-                │   │   ├── 📄 stdin.txt
-                │   │   ├── 📄 stdout.txt
-                │   │   └── 📄 t8n.sh
-                │   └─╴📁 1
-                │       ├── 📄 args.py
-                │       ├── 📁 input
-                │       │   ├── 📄 alloc.json
-                │       │   ├── 📄 env.json
-                │       │   └── 📄 txs.json
-                │       ├── 📁 output
-                │       │   ├── 📄 alloc.json
-                │       │   ├── 📄 result.json
-                │       │   └── 📄 txs.rlp
-                │       ├── 📄 returncode.txt
-                │       ├── 📄 stderr.txt
-                │       ├── 📄 stdin.txt
-                │       ├── 📄 stdout.txt
-                │       └── 📄 t8n.sh
-                └── 📄 test_access_list.json
+📁 /tmp/evm-dump/
+└── 📁 berlin__eip2930_access_list__test_acl__test_access_list
+    ├── 📁 fork_Berlin
+    │   ├── 📁 0
+    │   │   ├── 📄 args.py
+    │   │   ├── 📁 input
+    │   │   │   ├── 📄 alloc.json
+    │   │   │   ├── 📄 env.json
+    │   │   │   └── 📄 txs.json
+    │   │   ├── 📁 output
+    │   │   │   ├── 📄 alloc.json
+    │   │   │   ├── 📄 result.json
+    │   │   │   └── 📄 txs.rlp
+    │   │   ├── 📄 returncode.txt
+    │   │   ├── 📄 stderr.txt
+    │   │   ├── 📄 stdin.txt
+    │   │   ├── 📄 stdout.txt
+    │   │   └── 📄 t8n.sh
+    │   └── 📁 1
+    │       ├── 📄 args.py
+    │       ├── 📁 input
+    │       │   ├── 📄 alloc.json
+    │       │   ├── 📄 env.json
+    │       │   └── 📄 txs.json
+    │       ├── 📁 output
+    │       │   ├── 📄 alloc.json
+    │       │   ├── 📄 result.json
+    │       │   └── 📄 txs.rlp
+    │       ├── 📄 returncode.txt
+    │       ├── 📄 stderr.txt
+    │       ├── 📄 stdin.txt
+    │       ├── 📄 stdout.txt
+    │       └── 📄 t8n.sh
+    └── 📄 test_access_list.json
 ```
 
 where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test:
