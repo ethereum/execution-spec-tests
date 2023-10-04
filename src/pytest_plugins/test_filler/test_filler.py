@@ -381,13 +381,13 @@ class FixtureCollector:
             test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
             shutil.copy(fixture_path, str(test_dump_dir))
 
-    def test_fixture_files(self, evm_test: TransitionTool, evm_dump_dir: Path) -> None:
+    def verify_fixture_files(self, evm_test: TransitionTool, evm_dump_dir: Path) -> None:
         """
         Runs `evm [state|block]test` on each fixture.
         """
         for fixture_path, fixture_format in self.json_path_to_fixture_type.items():
             test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
-            evm_test.test_fixture(fixture_format, fixture_path, test_dump_dir)
+            evm_test.verify_fixture(fixture_format, fixture_path, test_dump_dir)
 
     def _get_test_dump_dir(self, evm_dump_dir: Path, fixture_path: Path) -> Optional[Path]:
         if evm_dump_dir:
@@ -411,7 +411,7 @@ def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir):
     if evm_dump_dir:
         fixture_collector.copy_fixture_file_to_dump_dir(evm_dump_dir)
     if do_evm_test:
-        fixture_collector.test_fixture_files(evm_test, evm_dump_dir)
+        fixture_collector.verify_fixture_files(evm_test, evm_dump_dir)
 
 
 @pytest.fixture(autouse=True, scope="session")

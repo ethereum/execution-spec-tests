@@ -438,7 +438,7 @@ class TransitionTool:
             raise Exception("Unable to calculate state root")
         return new_alloc, bytes.fromhex(state_root[2:])
 
-    def test_fixture(
+    def verify_fixture(
         self,
         fixture_format: FixtureFormats,
         fixture_path: Path,
