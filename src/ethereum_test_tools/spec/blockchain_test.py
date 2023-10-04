@@ -1,5 +1,5 @@
 """
-Blockchain test filler.
+Ethereum blockchain test spec definition and filler.
 """
 
 from dataclasses import dataclass, field
@@ -48,7 +48,6 @@ class BlockchainTest(BaseTest):
     blocks: List[Block]
     genesis_environment: Environment = field(default_factory=Environment)
     tag: str = ""
-
     chain_id: int = 1
 
     @classmethod
@@ -121,7 +120,7 @@ class BlockchainTest(BaseTest):
 
         return Alloc(new_alloc), genesis_rlp, genesis
 
-    def get_block_data(
+    def generate_block_data(
         self,
         t8n: TransitionTool,
         fork: Fork,
@@ -133,6 +132,13 @@ class BlockchainTest(BaseTest):
         """
         TODO
         """
+        if block.rlp and block.exception is not None:
+            raise Exception(
+                "test correctness: post-state cannot be verified if the "
+                + "block's rlp is supplied and the block is not supposed "
+                + "to produce an exception"
+            )
+
         env = block.set_environment(previous_env)
         env = env.set_fork_requirements(fork)
 
@@ -148,6 +154,7 @@ class BlockchainTest(BaseTest):
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),
         )
+
         try:
             rejected_txs = verify_transactions(txs, result)
             verify_result(result, env)
@@ -167,6 +174,7 @@ class BlockchainTest(BaseTest):
                 + "was indeed expected to fail and add the proper "
                 + "`block.exception`"
             )
+
         env.extra_data = block.extra_data
         header = FixtureHeader.collect(
             fork=fork,
@@ -191,6 +199,22 @@ class BlockchainTest(BaseTest):
 
         return header, rlp, txs, next_alloc, env
 
+    def network_info(self, fork, eips=None):
+        """
+        Returns fixture network information for the fork & EIP/s.
+        """
+        return "+".join([fork.name()] + [str(eip) for eip in eips]) if eips else fork.name()
+
+    def verify_post_state(self, t8n, alloc):
+        """
+        Verifies the post alloc after all block/s or payload/s are generated.
+        """
+        try:
+            verify_post_alloc(self.post, alloc)
+        except Exception as e:
+            print_traces(t8n.get_traces())
+            raise e
+
     def make_fixture(
         self,
         t8n: TransitionTool,
@@ -198,7 +222,7 @@ class BlockchainTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> Fixture:
         """
-        TODO
+        Create a fixture from the blockchain test definition.
         """
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
@@ -207,20 +231,10 @@ class BlockchainTest(BaseTest):
         alloc = to_json(pre)
         env = Environment.from_parent_header(genesis)
         head = genesis.hash if genesis.hash is not None else Hash(0)
+
         for block in self.blocks:
-            if block.rlp and block.exception is not None:
-                raise Exception(
-                    "test correctness: post-state cannot be verified if the "
-                    + "block's rlp is supplied and the block is not supposed "
-                    + "to produce an exception"
-                )
-            header, rlp, txs, next_alloc, next_env = self.get_block_data(
-                t8n=t8n,
-                fork=fork,
-                block=block,
-                previous_env=env,
-                previous_alloc=alloc,
-                eips=eips,
+            header, rlp, txs, next_alloc, next_env = self.generate_block_data(
+                t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
             )
             if block.rlp is None:
                 # This is the most common case, the RLP needs to be constructed
@@ -262,20 +276,9 @@ class BlockchainTest(BaseTest):
                     ),
                 )
 
-        try:
-            verify_post_alloc(self.post, alloc)
-        except Exception as e:
-            print_traces(t8n.get_traces())
-            raise e
-
-        network_info = (
-            "+".join([fork.name()] + [str(eip) for eip in eips])
-            if eips is not None
-            else fork.name()
-        )
-
+        self.verify_post_state(t8n, alloc)
         return Fixture(
-            fork=network_info,
+            fork=self.network_info(fork, eips),
             genesis=genesis,
             genesis_rlp=genesis_rlp,
             blocks=fixture_blocks,
@@ -291,28 +294,17 @@ class BlockchainTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> HiveFixture:
         """
-        TODO
+        Create a hive fixture from the blocktest definition.
         """
-        pre, _, genesis = self.make_genesis(t8n, fork)
         fixture_payloads: List[Optional[FixtureEngineNewPayload]] = []
 
+        pre, _, genesis = self.make_genesis(t8n, fork)
         alloc = to_json(pre)
         env = Environment.from_parent_header(genesis)
 
         for block in self.blocks:
-            if block.rlp and block.exception is not None:
-                raise Exception(
-                    "test correctness: post-state cannot be verified if the "
-                    + "block's rlp is supplied and the block is not supposed "
-                    + "to produce an exception"
-                )
-            header, _, txs, next_alloc, env = self.get_block_data(
-                t8n=t8n,
-                fork=fork,
-                block=block,
-                previous_env=env,
-                previous_alloc=alloc,
-                eips=eips,
+            header, _, txs, next_alloc, env = self.generate_block_data(
+                t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
             )
             if block.rlp is None:
                 fixture_payloads.append(
@@ -328,23 +320,11 @@ class BlockchainTest(BaseTest):
                 if block.exception is None:
                     alloc = next_alloc
                     env = env.apply_new_parent(header)
-
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
 
-        network_info = (
-            "+".join([fork.name()] + [str(eip) for eip in eips])
-            if eips is not None
-            else fork.name()
-        )
-
-        try:
-            verify_post_alloc(self.post, alloc)
-        except Exception as e:
-            print_traces(t8n.get_traces())
-            raise e
-
+        self.verify_post_state(t8n, alloc)
         return HiveFixture(
-            fork=network_info,
+            fork=self.network_info(fork, eips),
             genesis=genesis,
             payloads=fixture_payloads,
             fcu_version=fcu_version,
