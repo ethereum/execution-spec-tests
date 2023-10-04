@@ -458,9 +458,13 @@ class TransitionTool:
         if FixtureFormats.is_state_test(fixture_format):
             if self.statetest_subcommand:
                 command.append(self.statetest_subcommand)
+            else:
+                raise Exception("The `statetest` command is not supported by this tool.")
         elif FixtureFormats.is_blockchain_test(fixture_format):
             if self.blocktest_subcommand:
                 command.append(self.blocktest_subcommand)
+            else:
+                raise Exception("The `blocktest` command is not supported by this tool.")
         else:
             raise Exception(f"Invalid test format: {fixture_format}")
 
