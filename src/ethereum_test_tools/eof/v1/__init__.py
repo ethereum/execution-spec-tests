@@ -346,7 +346,10 @@ class Container(Code):
 
         # Add section bodies
         for s in sections:
-            c += Bytes(s.data if s.data is not None else "0x")
+            if isinstance(s.data, Container):
+                c += s.data.assemble()
+            else:
+                c += Bytes(s.data if s.data is not None else "0x")
 
         # Add extra (garbage)
         if self.extra is not None:
@@ -383,22 +386,21 @@ class Initcode(Code):
             sections=[
                 Section(
                     kind=SectionKind.CODE,
-                    data=Op.CALLDATACOPY(0, 0, len(self.assembled_output))
-                    + Op.RETURN(0, len(self.assembled_output)),
-                    max_stack_height=3,
+                    data=Op.RETURNCONTRACT(0, 0, 0),
+                    max_stack_height=2,
+                ),
+                Section(
+                    kind=SectionKind.CONTAINER,
+                    data=self.assembled_output,
                 ),
             ],
         )
         initcode = Container(
             sections=[
                 Section(
-                    data=Op.CREATE3(0, 0, 0, 0, len(self.assembled_output)),
+                    data=Op.CREATE3(0, 0, 0, 0, len(self.assembled_output)) + Op.STOP(),
                     kind=SectionKind.CODE,
                     max_stack_height=4,
-                ),
-                Section(
-                    kind=SectionKind.DATA,
-                    data=self.assembled_output,
                 ),
                 Section(
                     kind=SectionKind.CONTAINER,
@@ -425,7 +427,10 @@ def create_sections_header(
             if cs.custom_size:
                 h += cs.custom_size.to_bytes(2, "big")
             else:
-                h += len(Bytes(cs.data)).to_bytes(2, "big")
+                if isinstance(cs.data, Container):
+                    h += len(cs.data.assemble()).to_bytes(2, "big")
+                else:
+                    h += len(Bytes(cs.data)).to_bytes(2, "big")
     else:
         for s in sections:
             h += s.get_header()

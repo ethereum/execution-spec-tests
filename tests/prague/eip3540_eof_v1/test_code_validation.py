@@ -104,11 +104,17 @@ def post(  # noqa: D103
         create3_opcode_contract_address,
         0,
         create3_init_container.init_container.assemble(),
-        create3_init_container.assembled_output,
     )
-    return {
-        create_opcode_created_contract_address: Account(code=container),
-    }
+
+    new_account = Account(code=container)
+
+    # Do not expect to create account if it is invalid
+    if hasattr(new_account, "code") and new_account.code.validity_error != "":
+        return {}
+    else:
+        return {
+            create_opcode_created_contract_address: new_account,
+        }
 
 
 def container_name(c: Container):

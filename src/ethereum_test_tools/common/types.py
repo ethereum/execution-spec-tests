@@ -667,7 +667,11 @@ class Account:
                 )
 
         if self.code is not None:
-            expected_code = Bytes(self.code).hex()
+            expected_code = None
+            if not isinstance(self.code, Bytes):
+                expected_code = "0x" + self.code.assemble().hex()
+            else:
+                expected_code = Bytes(self.code).hex()
             actual_code = str_or_none(alloc.get("code"), "0x")
             if expected_code != actual_code:
                 raise Account.CodeMismatch(

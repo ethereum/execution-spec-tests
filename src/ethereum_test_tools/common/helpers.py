@@ -71,7 +71,7 @@ def copy_opcode_cost(length: int) -> int:
 
 
 def compute_create3_address(
-    address: str | int, salt: int, init_container: bytes, input_data: bytes
+    address: str | int, salt: int, init_container: bytes
 ) -> str:
     """
     Compute address of the resulting contract created using the `CREATE2`
@@ -87,7 +87,7 @@ def compute_create3_address(
     salt_bytes = salt.to_bytes(length=32, byteorder="big")
     initcode_hash = keccak256(init_container)
     hash = keccak256(
-        ff + address_bytes + salt_bytes + initcode_hash + input_data
+        ff + address_bytes + salt_bytes + initcode_hash
     )
     return "0x" + hash[-20:].hex()
 

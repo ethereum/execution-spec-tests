@@ -20,12 +20,6 @@ from .constants import (
 
 VALID: List[Container] = [
     Container(
-        name="single_code_section",
-        sections=[
-            Section(kind=Kind.CODE, data="0x00"),
-        ],
-    ),
-    Container(
         name="single_code_single_data_section",
         sections=[
             Section(kind=Kind.CODE, data="0x00"),
@@ -39,6 +33,12 @@ VALID: List[Container] = [
 ]
 
 INVALID: List[Container] = [
+    Container(
+        name="single_code_section_no_data_section",
+        sections=[
+            Section(kind=Kind.CODE, data="0x00"),
+        ],
+    ),
     Container(
         name="incomplete_magic",
         raw_bytes=bytes([0xEF]),
