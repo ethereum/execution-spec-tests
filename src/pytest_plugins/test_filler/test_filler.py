@@ -10,7 +10,7 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Optional, Tuple, Type, Union
+from typing import Any, Dict, Generator, List, Literal, Optional, Tuple, Type, Union
 
 import pytest
 
@@ -257,6 +257,17 @@ def base_test_config(request) -> BaseTestConfig:
     return config
 
 
+def convert_test_id_to_test_name_and_parameters(name: str) -> Tuple[str, str]:
+    """
+    Converts a test name to a tuple containing the test name and test parameters.
+
+    Example:
+    test_push0_key_sstore[fork=Shanghai] -> test_push0_key_sstore, fork_Shanghai
+    """
+    test_name, parameters = name.split("[")
+    return test_name, re.sub(r"[\[=\-]", "_", parameters).replace("]", "")
+
+
 def get_module_relative_output_dir(test_module: Path, filler_path: Path) -> Path:
     """
     Return a directory name for the provided test_module (relative to the
@@ -272,31 +283,25 @@ def get_module_relative_output_dir(test_module: Path, filler_path: Path) -> Path
     return module_path
 
 
-def convert_test_name_to_path(name: str) -> Path:
-    """
-    Converts a test name to a path.
-
-    Example:
-    test_push0_key_sstore[fork=Shanghai] -> test_push0_key_sstore/fork_Shanghai
-    """
-    function_name, parameters = name.split("[")
-    path = Path(function_name) / re.sub(r"[\[=\-]", "_", parameters).replace("]", "")
-    return path
-
-
-@pytest.fixture(scope="function")
-def evm_t8n_dump_dir(request, filler_path: Path) -> Optional[Path]:
+def get_evm_dump_dir(
+    evm_dump_dir: str,
+    node: pytest.Item,
+    filler_path: Path,
+    level: Literal["test_module", "test_function", "test_parameter"] = "test_parameter",
+) -> Optional[Path]:
     """
     The directory to dump the evm transition tool debug output.
     """
-    t8n_dump_dir = request.config.getoption("t8n_dump_dir")
-    if not t8n_dump_dir:
-        return None
-    return (
-        Path(t8n_dump_dir)
-        / get_module_relative_output_dir(Path(request.node.path), filler_path)
-        / convert_test_name_to_path(request.node.name)
-    )
+    test_module_relative_dir = get_module_relative_output_dir(Path(node.path), filler_path)
+    if level == "test_module":
+        return Path(evm_dump_dir) / Path(str(test_module_relative_dir).replace(os.sep, "__"))
+    test_name, test_parameter_string = convert_test_id_to_test_name_and_parameters(node.name)
+    flat_path = f"{str(test_module_relative_dir).replace(os.sep, '__')}__{test_name}"
+    if level == "test_function":
+        return Path(evm_dump_dir) / flat_path
+    elif level == "test_parameter":
+        return Path(evm_dump_dir) / flat_path / test_parameter_string
+    raise Exception("Unexpected level.")
 
 
 @pytest.fixture(scope="session")
@@ -305,6 +310,40 @@ def evm_dump_dir(request) -> Path:
     The base directory to dump the evm debug output.
     """
     return request.config.getoption("t8n_dump_dir")
+
+
+@pytest.fixture(scope="function")
+def evm_dump_dir_parameter_level(request, filler_path: Path) -> Optional[Path]:
+    """
+    The directory to dump evm transition tool debug output on a test parameter
+    level.
+
+    Example with --t8n-dump-dir=/tmp/evm:
+    -> /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shanghai/
+    """
+    evm_dump_dir = request.config.getoption("t8n_dump_dir")
+    if not evm_dump_dir:
+        return None
+    return get_evm_dump_dir(evm_dump_dir, request.node, filler_path, level="test_parameter")
+
+
+@pytest.fixture(scope="module")
+def evm_dump_dir_module_level(request, filler_path: Path) -> Optional[Path]:
+    """
+    A helper fixture to get the directory to dump evm transition tool debug
+    output on the module level.
+
+    Note: We never write output to this level; we actually want to write
+    output on the function level. Reason: This is used by the
+    `fixture_collector` which must be scoped on the module level in order to
+    work with the xdist plugin, i.e., we can't pass a function-scoped fixture
+    to the `fixture_collector` fixture; it must construct the rest of the
+    path itself.
+    """
+    evm_dump_dir = request.config.getoption("t8n_dump_dir")
+    if not evm_dump_dir:
+        return None
+    return get_evm_dump_dir(evm_dump_dir, request.node, filler_path, level="test_module")
 
 
 class FixtureCollector:
@@ -391,13 +430,12 @@ class FixtureCollector:
 
     def _get_test_dump_dir(self, evm_dump_dir: Path, fixture_path: Path) -> Optional[Path]:
         if evm_dump_dir:
-            relative_dump_dir = fixture_path.relative_to(self.output_dir).with_suffix("")
-            return evm_dump_dir / relative_dump_dir
+            return Path(f"{evm_dump_dir}__{fixture_path.stem}")
         return None
 
 
 @pytest.fixture(scope="module")
-def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir):
+def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir_module_level):
     """
     Returns the configured fixture collector instance used for all tests
     in one test module.
@@ -409,9 +447,9 @@ def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir):
     yield fixture_collector
     fixture_collector.dump_fixtures()
     if evm_dump_dir:
-        fixture_collector.copy_fixture_file_to_dump_dir(evm_dump_dir)
+        fixture_collector.copy_fixture_file_to_dump_dir(evm_dump_dir_module_level)
     if do_evm_test:
-        fixture_collector.verify_fixture_files(evm_test, evm_dump_dir)
+        fixture_collector.verify_fixture_files(evm_test, evm_dump_dir_module_level)
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -497,7 +535,7 @@ def state_test(
     engine,
     reference_spec,
     eips,
-    evm_t8n_dump_dir,
+    evm_dump_dir_parameter_level,
     fixture_collector,
     fixture_format,
     base_test_config,
@@ -516,8 +554,7 @@ def state_test(
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
             kwargs["base_test_config"] = base_test_config
-            if request.config.getoption("t8n_dump_dir"):
-                kwargs["t8n_dump_dir"] = evm_t8n_dump_dir
+            kwargs["t8n_dump_dir"] = evm_dump_dir_parameter_level
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
@@ -543,7 +580,7 @@ def blockchain_test(
     engine,
     reference_spec,
     eips,
-    evm_t8n_dump_dir,
+    evm_dump_dir_parameter_level,
     fixture_collector,
     fixture_format,
     base_test_config,
@@ -557,8 +594,7 @@ def blockchain_test(
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
             kwargs["base_test_config"] = base_test_config
-            if request.config.getoption("t8n_dump_dir"):
-                kwargs["t8n_dump_dir"] = evm_t8n_dump_dir
+            kwargs["t8n_dump_dir"] = evm_dump_dir_parameter_level
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
             fixture_collector.add_fixture(
                 request.node,
