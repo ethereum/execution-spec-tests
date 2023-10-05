@@ -220,13 +220,18 @@ def do_evm_test(request, t8n) -> bool:
     Returns True if evm statetest or evm blocktest should be ran on the
     generated fixture JSON files.
     """
-    if request.config.getoption("enable_hive"):
-        return False
+    do_evm_test = False
     if request.config.getoption("evm_test_bin"):
-        return True
+        do_evm_test = True
     if request.config.getoption("enable_evm_test"):
-        return True
-    return False
+        do_evm_test = True
+    if do_evm_test and request.config.getoption("enable_hive"):
+        pytest.exit(
+            "Hive fixtures can not be validated using geth's evm tool: "
+            "Remove --enable-hive to validate test fixtures.",
+            returncode=pytest.ExitCode.USAGE_ERROR,
+        )
+    return do_evm_test
 
 
 @pytest.fixture(autouse=True, scope="session")
