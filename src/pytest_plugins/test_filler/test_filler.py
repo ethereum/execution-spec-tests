@@ -231,7 +231,7 @@ def do_evm_test(request, t8n) -> bool:
 
 @pytest.fixture(autouse=True, scope="session")
 def evm_test(
-    request, do_evm_test: bool, evm_test_bin: Path
+    request, do_evm_test: bool, evm_bin: Path, evm_test_bin: Path
 ) -> Optional[Generator[TransitionTool, None, None]]:
     """
     Returns the configured evm binary for executing statetest and blocktest
@@ -240,9 +240,15 @@ def evm_test(
     if not do_evm_test:
         yield None
         return
+    if not evm_test_bin and evm_bin:
+        evm_test_bin = evm_bin
     evm_test = TransitionTool.from_binary_path(binary_path=evm_test_bin)
     if not isinstance(evm_test, GethTransitionTool):
-        raise Exception("Only geth is supported as evm_test_bin to validate fixtures.")
+        pytest.exit(
+            "Only geth's evm tool is supported to validate fixtures: "
+            "Either remove --enable-evm-test or set --evm-test-bin to a Geth evm binary.",
+            returncode=pytest.ExitCode.USAGE_ERROR,
+        )
     yield evm_test
     evm_test.shutdown()
 
