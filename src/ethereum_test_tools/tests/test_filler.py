@@ -143,7 +143,6 @@ def test_fill_state_test(fork: Fork, expected_json_file: str, enable_hive: bool)
             t8n=t8n,
             test_spec=state_test,
             fork=fork,
-            engine="NoProof",
             spec=None,
         ),
     }
@@ -161,8 +160,6 @@ def test_fill_state_test(fork: Fork, expected_json_file: str, enable_hive: bool)
 
     fixture_json = to_json(fixture)
     remove_info(fixture_json)
-    with open("gen.json", "w") as fr:
-        json.dump(fixture_json, fr, indent=4)
     assert fixture_json == expected
 
 
@@ -443,7 +440,6 @@ def test_fill_blockchain_valid_txs(
             t8n=t8n,
             test_spec=blockchain_test,
             fork=fork,
-            engine="NoProof",
             spec=None,
         )
     }
@@ -792,7 +788,6 @@ def test_fill_blockchain_invalid_txs(
             t8n=t8n,
             test_spec=blockchain_test,
             fork=fork,
-            engine="NoProof",
             spec=None,
         )
     }

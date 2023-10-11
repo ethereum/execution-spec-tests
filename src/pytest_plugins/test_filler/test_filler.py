@@ -464,14 +464,6 @@ def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir_module_level)
 
 
 @pytest.fixture(autouse=True, scope="session")
-def engine():
-    """
-    Returns the sealEngine used in the generated test fixtures.
-    """
-    return "NoProof"
-
-
-@pytest.fixture(autouse=True, scope="session")
 def filler_path(request) -> Path:
     """
     Returns the directory containing the tests to execute.
@@ -543,7 +535,6 @@ def state_test(
     request,
     t8n,
     fork,
-    engine,
     reference_spec,
     eips,
     evm_dump_dir_parameter_level,
@@ -573,7 +564,6 @@ def state_test(
                     t8n,
                     self,
                     fork,
-                    engine,
                     reference_spec,
                     eips=eips,
                 ),
@@ -588,7 +578,6 @@ def blockchain_test(
     request,
     t8n,
     fork,
-    engine,
     reference_spec,
     eips,
     evm_dump_dir_parameter_level,
@@ -613,7 +602,6 @@ def blockchain_test(
                     t8n,
                     self,
                     fork,
-                    engine,
                     reference_spec,
                     eips=eips,
                 ),
