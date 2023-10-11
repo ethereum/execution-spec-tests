@@ -241,7 +241,7 @@ def do_fixture_verification(request, t8n) -> bool:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def evm_blocktest(
+def evm_fixture_verification(
     request, do_fixture_verification: bool, evm_bin: Path, verify_fixtures_bin: Path
 ) -> Optional[Generator[TransitionTool, None, None]]:
     """
@@ -253,15 +253,15 @@ def evm_blocktest(
         return
     if not verify_fixtures_bin and evm_bin:
         verify_fixtures_bin = evm_bin
-    evm_blocktest = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
-    if not evm_blocktest.blocktest_subcommand:
+    evm_fixture_verification = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
+    if not evm_fixture_verification.blocktest_subcommand:
         pytest.exit(
             "Only geth's evm tool is supported to verify fixtures: "
             "Either remove --verify-fixtures or set --verify-fixtures-bin to a Geth evm binary.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
-    yield evm_blocktest
-    evm_blocktest.shutdown()
+    yield evm_fixture_verification
+    evm_fixture_verification.shutdown()
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -437,13 +437,15 @@ class FixtureCollector:
             test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
             shutil.copy(fixture_path, str(test_dump_dir))
 
-    def verify_fixture_files(self, evm_blocktest: TransitionTool, evm_dump_dir: Path) -> None:
+    def verify_fixture_files(
+        self, evm_fixture_verification: TransitionTool, evm_dump_dir: Path
+    ) -> None:
         """
         Runs `evm [state|block]test` on each fixture.
         """
         for fixture_path, fixture_format in self.json_path_to_fixture_type.items():
             test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
-            evm_blocktest.verify_fixture(fixture_format, fixture_path, test_dump_dir)
+            evm_fixture_verification.verify_fixture(fixture_format, fixture_path, test_dump_dir)
 
     def _get_test_dump_dir(self, evm_dump_dir: Path, fixture_path: Path) -> Optional[Path]:
         if evm_dump_dir:
@@ -452,7 +454,9 @@ class FixtureCollector:
 
 
 @pytest.fixture(scope="module")
-def fixture_collector(request, do_fixture_verification, evm_blocktest, evm_dump_dir_module_level):
+def fixture_collector(
+    request, do_fixture_verification, evm_fixture_verification, evm_dump_dir_module_level
+):
     """
     Returns the configured fixture collector instance used for all tests
     in one test module.
@@ -466,7 +470,7 @@ def fixture_collector(request, do_fixture_verification, evm_blocktest, evm_dump_
     if evm_dump_dir_module_level:
         fixture_collector.copy_fixture_file_to_dump_dir(evm_dump_dir_module_level)
     if do_fixture_verification:
-        fixture_collector.verify_fixture_files(evm_blocktest, evm_dump_dir_module_level)
+        fixture_collector.verify_fixture_files(evm_fixture_verification, evm_dump_dir_module_level)
 
 
 @pytest.fixture(autouse=True, scope="session")
