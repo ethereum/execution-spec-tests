@@ -445,7 +445,7 @@ class TransitionTool:
         debug_output_path: Optional[Path],
     ):
         """
-        Executes `evm [state|block]test` to validate a test fixture.
+        Executes `evm [state|block]test` to verify the fixture at `fixture_path`.
 
         If a client's `t8n` tool varies from the default behavior, this method
         should be overridden.
@@ -499,6 +499,6 @@ class TransitionTool:
 
         if result.returncode != 0:
             raise Exception(
-                f"Failed to validate fixture via: '{' '.join(command)}'. "
+                f"Failed to verify fixture via: '{' '.join(command)}'. "
                 f"Error: '{result.stderr.decode()}'"
             )

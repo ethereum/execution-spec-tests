@@ -233,8 +233,8 @@ def do_fixture_verification(request, t8n) -> bool:
         do_fixture_verification = True
     if do_fixture_verification and request.config.getoption("enable_hive"):
         pytest.exit(
-            "Hive fixtures can not be validated using geth's evm tool: "
-            "Remove --enable-hive to validate test fixtures.",
+            "Hive fixtures can not be verify using geth's evm tool: "
+            "Remove --enable-hive to verify test fixtures.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
     return do_fixture_verification
@@ -256,7 +256,7 @@ def evm_blocktest(
     evm_blocktest = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
     if not isinstance(evm_blocktest, GethTransitionTool):
         pytest.exit(
-            "Only geth's evm tool is supported to validate fixtures: "
+            "Only geth's evm tool is supported to verify fixtures: "
             "Either remove --enable-evm-test or set --evm-test-bin to a Geth evm binary.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
