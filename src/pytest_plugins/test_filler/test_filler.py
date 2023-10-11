@@ -121,8 +121,8 @@ def pytest_addoption(parser):
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
-        "--t8n-dump-dir",
         "--evm-dump-dir",
+        "--t8n-dump-dir",
         action="store",
         dest="t8n_dump_dir",
         default="",
