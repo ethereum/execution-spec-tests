@@ -27,7 +27,7 @@ from ethereum_test_tools import (
     Yul,
     fill_test,
 )
-from evm_transition_tool import FixtureFormats, GethTransitionTool, TransitionTool
+from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 
@@ -254,7 +254,7 @@ def evm_blocktest(
     if not verify_fixtures_bin and evm_bin:
         verify_fixtures_bin = evm_bin
     evm_blocktest = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
-    if not isinstance(evm_blocktest, GethTransitionTool):
+    if not evm_blocktest.blocktest_subcommand:
         pytest.exit(
             "Only geth's evm tool is supported to verify fixtures: "
             "Either remove --enable-evm-test or set --evm-test-bin to a Geth evm binary.",
