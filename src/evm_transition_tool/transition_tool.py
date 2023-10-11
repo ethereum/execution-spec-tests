@@ -479,21 +479,21 @@ class TransitionTool:
         if debug_output_path:
             debug_fixture_path = debug_output_path / fixture_path.name
             # Use the local copy of the fixture in the debug directory
-            evm_test_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
-            evm_test_script = textwrap.dedent(
+            verify_fixtures_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
+            verify_fixtures_script = textwrap.dedent(
                 f"""\
                 #!/bin/bash
-                {evm_test_call}
+                {verify_fixtures_call}
                 """
             )
             dump_files_to_directory(
                 str(debug_output_path),
                 {
-                    "evm_test_args.py": command,
-                    "evm_test_returncode.txt": result.returncode,
-                    "evm_test_stdout.txt": result.stdout.decode(),
-                    "evm_test_stderr.txt": result.stderr.decode(),
-                    "evm_test.sh+x": evm_test_script,
+                    "verify_fixtures_args.py": command,
+                    "verify_fixtures_returncode.txt": result.returncode,
+                    "verify_fixtures_stdout.txt": result.stdout.decode(),
+                    "verify_fixtures_stderr.txt": result.stderr.decode(),
+                    "verify_fixtures.sh+x": verify_fixtures_script,
                 },
             )
 

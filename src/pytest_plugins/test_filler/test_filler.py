@@ -220,47 +220,47 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
 
 
 @pytest.fixture(scope="session")
-def do_evm_test(request, t8n) -> bool:
+def do_fixture_verification(request, t8n) -> bool:
     """
     Returns True if evm statetest or evm blocktest should be ran on the
     generated fixture JSON files.
     """
-    do_evm_test = False
+    do_fixture_verification = False
     if request.config.getoption("verify_fixtures_bin"):
-        do_evm_test = True
+        do_fixture_verification = True
     if request.config.getoption("verify_fixtures"):
-        do_evm_test = True
-    if do_evm_test and request.config.getoption("enable_hive"):
+        do_fixture_verification = True
+    if do_fixture_verification and request.config.getoption("enable_hive"):
         pytest.exit(
             "Hive fixtures can not be validated using geth's evm tool: "
             "Remove --enable-hive to validate test fixtures.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
-    return do_evm_test
+    return do_fixture_verification
 
 
 @pytest.fixture(autouse=True, scope="session")
-def evm_test(
-    request, do_evm_test: bool, evm_bin: Path, verify_fixtures_bin: Path
+def evm_blocktest(
+    request, do_fixture_verification: bool, evm_bin: Path, verify_fixtures_bin: Path
 ) -> Optional[Generator[TransitionTool, None, None]]:
     """
     Returns the configured evm binary for executing statetest and blocktest
     commands used to verify generated JSON fixtures.
     """
-    if not do_evm_test:
+    if not do_fixture_verification:
         yield None
         return
     if not verify_fixtures_bin and evm_bin:
         verify_fixtures_bin = evm_bin
-    evm_test = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
-    if not isinstance(evm_test, GethTransitionTool):
+    evm_blocktest = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
+    if not isinstance(evm_blocktest, GethTransitionTool):
         pytest.exit(
             "Only geth's evm tool is supported to validate fixtures: "
             "Either remove --enable-evm-test or set --evm-test-bin to a Geth evm binary.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
-    yield evm_test
-    evm_test.shutdown()
+    yield evm_blocktest
+    evm_blocktest.shutdown()
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -436,13 +436,13 @@ class FixtureCollector:
             test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
             shutil.copy(fixture_path, str(test_dump_dir))
 
-    def verify_fixture_files(self, evm_test: TransitionTool, evm_dump_dir: Path) -> None:
+    def verify_fixture_files(self, evm_blocktest: TransitionTool, evm_dump_dir: Path) -> None:
         """
         Runs `evm [state|block]test` on each fixture.
         """
         for fixture_path, fixture_format in self.json_path_to_fixture_type.items():
             test_dump_dir = self._get_test_dump_dir(evm_dump_dir, fixture_path)
-            evm_test.verify_fixture(fixture_format, fixture_path, test_dump_dir)
+            evm_blocktest.verify_fixture(fixture_format, fixture_path, test_dump_dir)
 
     def _get_test_dump_dir(self, evm_dump_dir: Path, fixture_path: Path) -> Optional[Path]:
         if evm_dump_dir:
@@ -451,7 +451,7 @@ class FixtureCollector:
 
 
 @pytest.fixture(scope="module")
-def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir_module_level):
+def fixture_collector(request, do_fixture_verification, evm_blocktest, evm_dump_dir_module_level):
     """
     Returns the configured fixture collector instance used for all tests
     in one test module.
@@ -464,8 +464,8 @@ def fixture_collector(request, do_evm_test, evm_test, evm_dump_dir_module_level)
     fixture_collector.dump_fixtures()
     if evm_dump_dir_module_level:
         fixture_collector.copy_fixture_file_to_dump_dir(evm_dump_dir_module_level)
-    if do_evm_test:
-        fixture_collector.verify_fixture_files(evm_test, evm_dump_dir_module_level)
+    if do_fixture_verification:
+        fixture_collector.verify_fixture_files(evm_blocktest, evm_dump_dir_module_level)
 
 
 @pytest.fixture(autouse=True, scope="session")
