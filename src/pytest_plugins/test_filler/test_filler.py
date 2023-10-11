@@ -54,22 +54,27 @@ def pytest_addoption(parser):
         help="Collect traces of the execution information from the transition tool.",
     )
     evm_group.addoption(
-        "--evm-test-bin",
+        "--verify-fixtures",
+        action="store_true",
+        dest="verify_fixtures",
+        default=False,
+        help=(
+            "Verify generated fixture JSON files using geth's evm blocktest command. "
+            "By default, the same evm binary as for the t8n tool is used. A different (geth) evm "
+            "binary may be specified via --verify-fixtures-bin, this must be specified if filling "
+            "with a non-geth t8n tool that does not support blocktest."
+        ),
+    )
+    evm_group.addoption(
+        "--verify-fixtures-bin",
         action="store",
-        dest="evm_test_bin",
+        dest="verify_fixtures_bin",
         type=Path,
         default=None,
         help=(
             "Path to an evm executable that provides the `blocktest` command. "
             "Default: The first (geth) 'evm' entry in PATH."
         ),
-    )
-    evm_group.addoption(
-        "--enable-evm-test",
-        action="store_true",
-        dest="enable_evm_test",
-        default=False,
-        help="Enable fixture verification using the evm `blocktest` command.",
     )
 
     solc_group = parser.getgroup("solc", "Arguments defining the solc executable")
@@ -186,12 +191,12 @@ def evm_bin(request) -> Path:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def evm_test_bin(request) -> Path:
+def verify_fixtures_bin(request) -> Path:
     """
     Returns the configured evm tool binary path used to run statetest or
     blocktest.
     """
-    return request.config.getoption("evm_test_bin")
+    return request.config.getoption("verify_fixtures_bin")
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -221,9 +226,9 @@ def do_evm_test(request, t8n) -> bool:
     generated fixture JSON files.
     """
     do_evm_test = False
-    if request.config.getoption("evm_test_bin"):
+    if request.config.getoption("verify_fixtures_bin"):
         do_evm_test = True
-    if request.config.getoption("enable_evm_test"):
+    if request.config.getoption("verify_fixtures"):
         do_evm_test = True
     if do_evm_test and request.config.getoption("enable_hive"):
         pytest.exit(
@@ -236,7 +241,7 @@ def do_evm_test(request, t8n) -> bool:
 
 @pytest.fixture(autouse=True, scope="session")
 def evm_test(
-    request, do_evm_test: bool, evm_bin: Path, evm_test_bin: Path
+    request, do_evm_test: bool, evm_bin: Path, verify_fixtures_bin: Path
 ) -> Optional[Generator[TransitionTool, None, None]]:
     """
     Returns the configured evm binary for executing statetest and blocktest
@@ -245,9 +250,9 @@ def evm_test(
     if not do_evm_test:
         yield None
         return
-    if not evm_test_bin and evm_bin:
-        evm_test_bin = evm_bin
-    evm_test = TransitionTool.from_binary_path(binary_path=evm_test_bin)
+    if not verify_fixtures_bin and evm_bin:
+        verify_fixtures_bin = evm_bin
+    evm_test = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
     if not isinstance(evm_test, GethTransitionTool):
         pytest.exit(
             "Only geth's evm tool is supported to validate fixtures: "
