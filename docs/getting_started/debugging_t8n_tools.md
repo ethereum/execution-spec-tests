@@ -1,6 +1,6 @@
 # Debugging Transition Tools
 
-The `--t8n-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command to help debugging or simply understand how a test is interacting with the EVM.
+The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command to help debugging or simply understand how a test is interacting with the EVM.
 
 In particular, a script `t8n.sh` is generated for each call to the `t8n` command which can be used to reproduce the call to trigger errors or attach a debugger without the need to execute Python.
 
@@ -8,7 +8,7 @@ For example, running:
 
 ```console
 fill tests/berlin/eip2930_access_list/ --fork Berlin \
-    --t8n-dump-dir=/tmp/evm-dump
+    --evm-dump-dir=/tmp/evm-dump
 ```
 
 will produce the directory structure:

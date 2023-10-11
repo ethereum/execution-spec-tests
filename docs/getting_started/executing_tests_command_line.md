@@ -90,7 +90,7 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
 
 ## Debugging the `t8n` Command
 
-The `--t8n-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes, see [Debugging Transition Tools](./debugging_t8n_tools.md).
+The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes, see [Debugging Transition Tools](./debugging_t8n_tools.md).
 
 ## Other Useful Pytest Command-Line Options
 
@@ -139,7 +139,7 @@ Arguments defining filler location and output:
   --enable-hive         Output test fixtures with the hive-specific properties.
 
 Arguments defining debug behavior:
-  --t8n-dump-dir T8N_DUMP_DIR
+  --evm-dump-dir T8N_DUMP_DIR
                         Path to dump the transition tool debug output.
 
 Specify the fork range to generate fixtures for:
