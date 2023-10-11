@@ -1,5 +1,12 @@
 # Debugging Transition Tools
 
+There are two flags that can help debugging `t8n` tools (or execution-spec-tests framework) behavior:
+
+1. `--evm-dump-dir`: Write debug information from `t8n` tool calls to the specified directory.
+2. `--verify-fixtures`: Run go-ethereum's `evm blocktest` command to verify the generated test fixtures.
+
+## EVM Dump Directory
+
 The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command to help debugging or simply understand how a test is interacting with the EVM.
 
 In particular, a script `t8n.sh` is generated for each call to the `t8n` command which can be used to reproduce the call to trigger errors or attach a debugger without the need to execute Python.
@@ -47,7 +54,7 @@ will produce the directory structure:
     │       ├── 📄 stdin.txt
     │       ├── 📄 stdout.txt
     │       └── 📄 t8n.sh
-    └── 📄 test_access_list.json
+    └── 📄 access_list.json
 ```
 
 where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test:
@@ -59,7 +66,7 @@ Note, there may be more directories present `2`, `3`, `4`,... if the test execut
 
 Each directory contains files containing information corresponding to the call, for example, the `args.py` file contains the arguments passed to the `t8n` command and the `output/alloc.json` file contains the output of the `t8n` command's `--output-alloc` flag.
 
-## The `t8n.sh` Script
+### The `t8n.sh` Script
 
 The `t8n.sh` script written to the debug directory can be used to reproduce any call made to the `t8n` command, for example, if a Besu `t8n-server` has been started on port `3001`, the request made by the test for first transaction can be reproduced as:
 
@@ -95,3 +102,47 @@ which writes the response the from the `t8n-server` to the console output:
 ```
 
 The `t8n.sh` is written to the debug directory for all [supported t8n tools](../index.md#transition-tool-support).
+
+## Verifying Test Fixtures via `evm blocktest`
+
+The `--verify-fixtures` flag can be used to run go-ethereum's `evm blocktest` command to verify the generated test fixtures.
+
+For example, running:
+
+```console
+fill tests/berlin/eip2930_access_list/ --fork Berlin \
+    --evm-dump-dir==/tmp/evm-dump \
+    --evm-bin=../evmone/build/bin/evmone-t8n \
+    --verify-fixtures-bin=../go-ethereum/build/bin/evm \
+    --verify-fixtures
+```
+
+will additionally run the `evm blocktest` command on every JSON fixture file and write the command output to the EVM dump directory:
+
+```text
+📂 /tmp/evm-dump
+└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+    ├── 📄 access_list.json
+    ├── 📂 fork_Berlin
+    │   ├── 📂 0
+    │   │   ├── 📄 args.py
+    │   │   ├── 📂 input
+    │   │   │   ├── 📄 alloc.json
+    │   │   │   ├── 📄 env.json
+    │   │   │   └── 📄 txs.json
+    │   │   ├── 📂 output
+    │   │   │   ├── 📄 alloc.json
+    │   ... ... ...
+    │
+    ├── 📄 verify_fixtures_args.py
+    ├── 📄 verify_fixtures_returncode.txt
+    ├── 📄 verify_fixtures.sh
+    ├── 📄 verify_fixtures_stderr.txt
+    └── 📄 verify_fixtures_stdout.txt
+```
+  
+where the `verify_fixtures.sh` script can be used to reproduce the `evm blocktest` command.
+
+!!! note "Execution scope of `evm blocktest`"
+
+    Note, that `evm blocktest` is not executed per parametrized test case, but rather per test function (which corresponds to once fixture file) and this only happens after all test cases in the module have been executed. This means that the feedback is not as granular as the test case execution. To get feedback per fork, `--fork` flag can be used to only execute test cases for that fork.
