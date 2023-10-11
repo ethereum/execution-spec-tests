@@ -257,7 +257,7 @@ def evm_blocktest(
     if not evm_blocktest.blocktest_subcommand:
         pytest.exit(
             "Only geth's evm tool is supported to verify fixtures: "
-            "Either remove --enable-evm-test or set --evm-test-bin to a Geth evm binary.",
+            "Either remove --verify-fixtures or set --verify-fixtures-bin to a Geth evm binary.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
     yield evm_blocktest

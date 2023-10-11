@@ -439,66 +439,13 @@ class TransitionTool:
         return new_alloc, bytes.fromhex(state_root[2:])
 
     def verify_fixture(
-        self,
-        fixture_format: FixtureFormats,
-        fixture_path: Path,
-        debug_output_path: Optional[Path],
+        self, fixture_format: FixtureFormats, fixture_path: Path, debug_output_path: Optional[Path]
     ):
         """
         Executes `evm [state|block]test` to verify the fixture at `fixture_path`.
 
-        If a client's `t8n` tool varies from the default behavior, this method
-        should be overridden.
+        Currently only implemented by geth's evm.
         """
-        command: list[str] = [str(self.binary)]
-
-        if debug_output_path:
-            command += ["--debug", "--json", "--verbosity", "100"]
-
-        if FixtureFormats.is_state_test(fixture_format):
-            if self.statetest_subcommand:
-                command.append(self.statetest_subcommand)
-            else:
-                raise Exception("The `statetest` command is not supported by this tool.")
-        elif FixtureFormats.is_blockchain_test(fixture_format):
-            if self.blocktest_subcommand:
-                command.append(self.blocktest_subcommand)
-            else:
-                raise Exception("The `blocktest` command is not supported by this tool.")
-        else:
-            raise Exception(f"Invalid test format: {fixture_format}")
-
-        command.append(str(fixture_path))
-
-        result = subprocess.run(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+        raise Exception(
+            "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
         )
-
-        if debug_output_path:
-            debug_fixture_path = debug_output_path / fixture_path.name
-            # Use the local copy of the fixture in the debug directory
-            verify_fixtures_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
-            verify_fixtures_script = textwrap.dedent(
-                f"""\
-                #!/bin/bash
-                {verify_fixtures_call}
-                """
-            )
-            dump_files_to_directory(
-                str(debug_output_path),
-                {
-                    "verify_fixtures_args.py": command,
-                    "verify_fixtures_returncode.txt": result.returncode,
-                    "verify_fixtures_stdout.txt": result.stdout.decode(),
-                    "verify_fixtures_stderr.txt": result.stderr.decode(),
-                    "verify_fixtures.sh+x": verify_fixtures_script,
-                },
-            )
-
-        if result.returncode != 0:
-            raise Exception(
-                f"Failed to verify fixture via: '{' '.join(command)}'. "
-                f"Error: '{result.stderr.decode()}'"
-            )
