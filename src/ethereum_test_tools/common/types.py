@@ -2710,6 +2710,12 @@ class BaseFixture:
             to_json=True,
         ),
     )
+    name: str = field(
+        default="",
+        json_encoder=JSONEncoder.Field(
+            skip=True,
+        ),
+    )
     fork: str = field(
         json_encoder=JSONEncoder.Field(
             name="network",

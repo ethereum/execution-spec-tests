@@ -285,6 +285,7 @@ class BlockchainTest(BaseTest):
             last_block_hash=head,
             pre_state=pre,
             post_state=alloc_to_accounts(alloc),
+            name=self.tag,
         )
 
     def make_hive_fixture(
@@ -330,6 +331,7 @@ class BlockchainTest(BaseTest):
             fcu_version=fcu_version,
             pre_state=pre,
             post_state=alloc_to_accounts(alloc),
+            name=self.tag,
         )
 
 

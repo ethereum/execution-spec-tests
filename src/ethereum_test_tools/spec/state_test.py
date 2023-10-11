@@ -198,6 +198,7 @@ class StateTest(BaseTest):
             last_block_hash=header.hash,
             pre_state=pre,
             post_state=alloc_to_accounts(t8n_alloc),
+            name=self.tag,
         )
 
     def make_hive_fixture(
@@ -237,6 +238,7 @@ class StateTest(BaseTest):
             fcu_version=fcu_version,
             pre_state=pre,
             post_state=alloc_to_accounts(t8n_alloc),
+            name=self.tag,
         )
 
 

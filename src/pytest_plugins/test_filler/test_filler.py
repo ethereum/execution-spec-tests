@@ -263,6 +263,8 @@ class FixtureCollector:
         if not m:
             raise Exception("Could not parse test name: " + item.name)
         name = m.group(1)
+        if fixture.name:
+            name += "-" + fixture.name
         jsonFixture = fixture.to_json()
         self.all_fixtures[module_dir].append((name, jsonFixture))
 
