@@ -731,9 +731,42 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#evm-dump-directory" class="md-nav__link">
+    EVM Dump Directory
+  </a>
+  
+    <nav class="md-nav" aria-label="EVM Dump Directory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#the-t8nsh-script" class="md-nav__link">
     The t8n.sh Script
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-test-fixtures-via-evm-blocktest" class="md-nav__link">
+    Verifying Test Fixtures via evm blocktest
+  </a>
+  
+    <nav class="md-nav" aria-label="Verifying Test Fixtures via evm blocktest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#further-verify-fixtures-examples" class="md-nav__link">
+    Further --verify-fixtures Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5450,9 +5483,42 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#evm-dump-directory" class="md-nav__link">
+    EVM Dump Directory
+  </a>
+  
+    <nav class="md-nav" aria-label="EVM Dump Directory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#the-t8nsh-script" class="md-nav__link">
     The t8n.sh Script
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-test-fixtures-via-evm-blocktest" class="md-nav__link">
+    Verifying Test Fixtures via evm blocktest
+  </a>
+  
+    <nav class="md-nav" aria-label="Verifying Test Fixtures via evm blocktest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#further-verify-fixtures-examples" class="md-nav__link">
+    Further --verify-fixtures Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5475,45 +5541,53 @@
 
 
 <h1 id="debugging-transition-tools">Debugging Transition Tools<a class="headerlink" href="#debugging-transition-tools" title="Permanent link">&para;</a></h1>
-<p>The <code>--t8n-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command to help debugging or simply understand how a test is interacting with the EVM.</p>
+<p>There are two flags that can help debugging <code>t8n</code> tools or the execution-spec-tests framework:</p>
+<ol>
+<li><code>--evm-dump-dir</code>: Write debug information from <code>t8n</code> tool calls to the specified directory.</li>
+<li><code>--verify-fixtures</code>: Run go-ethereum's <code>evm blocktest</code> command to verify the generated test fixtures.</li>
+</ol>
+<h2 id="evm-dump-directory">EVM Dump Directory<a class="headerlink" href="#evm-dump-directory" title="Permanent link">&para;</a></h2>
+<p>The <code>--evm-dump-dir</code> flag tells the framework to write the inputs and outputs of every call made to the <code>t8n</code> command to help debugging or simply understand how a test is interacting with the EVM.</p>
 <p>In particular, a script <code>t8n.sh</code> is generated for each call to the <code>t8n</code> command which can be used to reproduce the call to trigger errors or attach a debugger without the need to execute Python.</p>
 <p>For example, running:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin \</span>
-<span class="go">    --t8n-dump-dir=/tmp/evm-t8n-dump</span>
+<span class="go">    --evm-dump-dir=/tmp/evm-dump</span>
 </code></pre></div>
 <p>will produce the directory structure:</p>
-<div class="highlight"><pre><span></span><code>📁 /tmp/evm-t8n-dump/
-└─╴📁 test_access_list_fork_Berlin
-    ├── 📁 0
-    │   ├── 📄 args.py
-    │   ├── 📁 input
-    │   │   ├── 📄 alloc.json
-    │   │   ├── 📄 env.json
-    │   │   └── 📄 txs.json
-    │   ├── 📁 output
-    │   │   ├── 📄 alloc.json
-    │   │   ├── 📄 result.json
-    │   │   └── 📄 txs.rlp
-    │   ├── 📄 returncode.txt
-    │   ├── 📄 stderr.txt
-    │   ├── 📄 stdin.txt
-    │   ├── 📄 stdout.txt
-    │   └── 📄 t8n.sh
-    └── 📁 1
-        ├── 📄 args.py
-        ├── 📁 input
-        │   ├── 📄 alloc.json
-        │   ├── 📄 env.json
-        │   └── 📄 txs.json
-        ├── 📁 output
-        │   ├── 📄 alloc.json
-        │   ├── 📄 result.json
-        │   └── 📄 txs.rlp
-        ├── 📄 returncode.txt
-        ├── 📄 stderr.txt
-        ├── 📄 stdin.txt
-        ├── 📄 stdout.txt
-        └── 📄 t8n.sh
+<div class="highlight"><pre><span></span><code>📁 /tmp/evm-dump/
+└── 📁 berlin__eip2930_access_list__test_acl__test_access_list
+    ├── 📁 fork_Berlin
+    │   ├── 📁 0
+    │   │   ├── 📄 args.py
+    │   │   ├── 📁 input
+    │   │   │   ├── 📄 alloc.json
+    │   │   │   ├── 📄 env.json
+    │   │   │   └── 📄 txs.json
+    │   │   ├── 📁 output
+    │   │   │   ├── 📄 alloc.json
+    │   │   │   ├── 📄 result.json
+    │   │   │   └── 📄 txs.rlp
+    │   │   ├── 📄 returncode.txt
+    │   │   ├── 📄 stderr.txt
+    │   │   ├── 📄 stdin.txt
+    │   │   ├── 📄 stdout.txt
+    │   │   └── 📄 t8n.sh
+    │   └── 📁 1
+    │       ├── 📄 args.py
+    │       ├── 📁 input
+    │       │   ├── 📄 alloc.json
+    │       │   ├── 📄 env.json
+    │       │   └── 📄 txs.json
+    │       ├── 📁 output
+    │       │   ├── 📄 alloc.json
+    │       │   ├── 📄 result.json
+    │       │   └── 📄 txs.rlp
+    │       ├── 📄 returncode.txt
+    │       ├── 📄 stderr.txt
+    │       ├── 📄 stdin.txt
+    │       ├── 📄 stdout.txt
+    │       └── 📄 t8n.sh
+    └── 📄 access_list.json
 </code></pre></div>
 <p>where the directories <code>0</code> and <code>1</code> correspond to the different calls made to the <code>t8n</code> tool executed during the test:</p>
 <ul>
@@ -5522,8 +5596,8 @@
 </ul>
 <p>Note, there may be more directories present <code>2</code>, <code>3</code>, <code>4</code>,... if the test executes more transactions/blocks.</p>
 <p>Each directory contains files containing information corresponding to the call, for example, the <code>args.py</code> file contains the arguments passed to the <code>t8n</code> command and the <code>output/alloc.json</code> file contains the output of the <code>t8n</code> command's <code>--output-alloc</code> flag.</p>
-<h2 id="the-t8nsh-script">The <code>t8n.sh</code> Script<a class="headerlink" href="#the-t8nsh-script" title="Permanent link">&para;</a></h2>
-<p>The <code>t8n.sh</code> script written to the debug directory can be used to reproduce any call made to the <code>t8n</code> command, for example, if a Besu <code>t8n-server</code> has been started on port <code>3001</code>, the request made by the test for first transaction can be reproduced as:</p>
+<h3 id="the-t8nsh-script">The <code>t8n.sh</code> Script<a class="headerlink" href="#the-t8nsh-script" title="Permanent link">&para;</a></h3>
+<p>The <code>t8n.sh</code> script written to the debug directory can be used to reproduce a specific call made to the <code>t8n</code> command during the test session. For example, if a Besu <code>t8n-server</code> has been started on port <code>3001</code>, the request made by the test for first transaction can be reproduced as:</p>
 <div class="highlight"><pre><span></span><code><span class="go">/tmp/besu/test_access_list_fork_Berlin/1/t8n.sh 3001</span>
 </code></pre></div>
 <p>which writes the response the from the <code>t8n-server</code> to the console output:</p>
@@ -5551,6 +5625,77 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>The <code>t8n.sh</code> is written to the debug directory for all <a href="../../#transition-tool-support">supported t8n tools</a>.</p>
+<h2 id="verifying-test-fixtures-via-evm-blocktest">Verifying Test Fixtures via <code>evm blocktest</code><a class="headerlink" href="#verifying-test-fixtures-via-evm-blocktest" title="Permanent link">&para;</a></h2>
+<p>The <code>--verify-fixtures</code> flag can be used to run go-ethereum's <code>evm blocktest</code> command in order to verify the generated JSON test fixtures.</p>
+<p>For example, running:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin \</span>
+<span class="go">    --evm-dump-dir==/tmp/evm-dump \</span>
+<span class="go">    --evm-bin=../evmone/build/bin/evmone-t8n \</span>
+<span class="go">    --verify-fixtures-bin=../go-ethereum/build/bin/evm \</span>
+<span class="go">    --verify-fixtures</span>
+</code></pre></div>
+<p>will additionally run the <code>evm blocktest</code> command on every JSON fixture file and write its output to the EVM dump directory:</p>
+<div class="highlight"><pre><span></span><code>📂 /tmp/evm-dump
+└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+    ├── 📄 access_list.json
+    ├── 📂 fork_Berlin
+    │   ├── 📂 0
+    │   │   ├── 📄 args.py
+    │   │   ├── 📂 input
+    │   │   │   ├── 📄 alloc.json
+    │   │   │   ├── 📄 env.json
+    │   │   │   └── 📄 txs.json
+    │   │   ├── 📂 output
+    │   │   │   ├── 📄 alloc.json
+    │   ... ... ...
+    │
+    ├── 📄 verify_fixtures_args.py
+    ├── 📄 verify_fixtures_returncode.txt
+    ├── 📄 verify_fixtures.sh
+    ├── 📄 verify_fixtures_stderr.txt
+    └── 📄 verify_fixtures_stdout.txt
+</code></pre></div>
+<p>where the <code>verify_fixtures.sh</code> script can be used to reproduce the <code>evm blocktest</code> command.</p>
+<h3 id="further-verify-fixtures-examples">Further <code>--verify-fixtures</code> Examples<a class="headerlink" href="#further-verify-fixtures-examples" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>No fixture verification performed:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify fixtures: Use the first <code>evm</code> binary in the <code>PATH</code> to execute both the <code>t8n</code> and <code>blocktest</code> commands (i.e., same binary used; this must be a geth binary):</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --verify-fixtures</span>
+</code></pre></div>
+</li>
+<li>
+<p>Explicitly specify the evm binary to execute the <code>blocktest</code> command (the first evm binary in the <code>PATH</code> is used for <code>t8n</code> commands; <code>--verify-fixtures</code> is not necessary):</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --verify-fixtures-bin=../go-ethereum/build/bin/evm</span>
+</code></pre></div>
+</li>
+<li>
+<p>Explicitly set two different <code>evm</code> binaries to execute the <code>t8n</code> and <code>blocktest</code> commands; write debug data to the specified <code>--evm-dump-dir</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --evm-bin=../evmone/build/bin/evmone-t8n \</span>
+<span class="go">  --verify-fixtures-bin=../go-ethereum/build/bin/evm \</span>
+<span class="go">  --evm-dump-dir=/tmp/evm-dump</span>
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Execution scope of <code>evm blocktest</code></p>
+<p>Note, that <code>evm blocktest</code> is not executed per parametrized test case, but rather per test function. This is because each fixture JSON file contains all the parametrized test cases for one test function. </p>
+<p>Additionally, it is executed once for all test functions in one module only after all the test cases in the module have been executed and only report the first fixtures from the first failing test function<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</p>
+<p>This means that the feedback is not as granular as for test case execution. To improve granularity, and get feedback per fork, for example, the <code>--fork</code> flag can be used to only execute test cases for one particular fork.</p>
+</div>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p><!-- markdownlint-disable MD053 (53=link-image-reference-definitions) -->
+This limitation is required to enable support of the <a href="https://github.com/pytest-dev/pytest-xdist"><code>pytest-xdist</code> plugin</a> for concurrent test execution across multiple CPUs. To achieve this we use the we apply the <code>--dist loadscope</code> xdist flag in our <code>pytest.ini</code>.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 

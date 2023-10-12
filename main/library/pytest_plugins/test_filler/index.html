@@ -5437,6 +5437,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.verify_fixtures_bin" class="md-nav__link">
+    verify_fixtures_bin()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pytest_plugins.test_filler.test_filler.solc_bin" class="md-nav__link">
     solc_bin()
   </a>
@@ -5446,6 +5453,20 @@
         <li class="md-nav__item">
   <a href="#pytest_plugins.test_filler.test_filler.t8n" class="md-nav__link">
     t8n()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.do_fixture_verification" class="md-nav__link">
+    do_fixture_verification()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.evm_fixture_verification" class="md-nav__link">
+    evm_fixture_verification()
   </a>
   
 </li>
@@ -5465,8 +5486,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pytest_plugins.test_filler.test_filler.convert_test_name_to_path" class="md-nav__link">
-    convert_test_name_to_path()
+  <a href="#pytest_plugins.test_filler.test_filler.convert_test_id_to_test_name_and_parameters" class="md-nav__link">
+    convert_test_id_to_test_name_and_parameters()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.get_module_relative_output_dir" class="md-nav__link">
+    get_module_relative_output_dir()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.get_evm_dump_dir" class="md-nav__link">
+    get_evm_dump_dir()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.evm_dump_dir" class="md-nav__link">
+    evm_dump_dir()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.evm_dump_dir_parameter_level" class="md-nav__link">
+    evm_dump_dir_parameter_level()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.evm_dump_dir_module_level" class="md-nav__link">
+    evm_dump_dir_module_level()
   </a>
   
 </li>
@@ -5489,6 +5545,20 @@
           <li class="md-nav__item">
   <a href="#pytest_plugins.test_filler.test_filler.FixtureCollector.dump_fixtures" class="md-nav__link">
     dump_fixtures()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.FixtureCollector.copy_fixture_file_to_dump_dir" class="md-nav__link">
+    copy_fixture_file_to_dump_dir()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.FixtureCollector.verify_fixture_files" class="md-nav__link">
+    verify_fixture_files()
   </a>
   
 </li>
@@ -5522,6 +5592,13 @@
         <li class="md-nav__item">
   <a href="#pytest_plugins.test_filler.test_filler.yul" class="md-nav__link">
     yul()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.test_filler.test_filler.fixture_format" class="md-nav__link">
+    fixture_format()
   </a>
   
 </li>
@@ -5674,6 +5751,10 @@ writes the generated fixtures to file.</p>
 
 
 
+
+
+
+
 <div class="doc doc-object doc-function">
 
 
@@ -5691,8 +5772,7 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 33</span>
-<span class="normal"> 34</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 34</span>
 <span class="normal"> 35</span>
 <span class="normal"> 36</span>
 <span class="normal"> 37</span>
@@ -5763,7 +5843,32 @@ writes the generated fixtures to file.</p>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds command-line options to pytest.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -5784,6 +5889,29 @@ writes the generated fixtures to file.</p>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;evm_collect_traces&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Collect traces of the execution information from the transition tool.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">evm_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+        <span class="s2">&quot;--verify-fixtures&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;verify_fixtures&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Verify generated fixture JSON files using geth&#39;s evm blocktest command. &quot;</span>
+            <span class="s2">&quot;By default, the same evm binary as for the t8n tool is used. A different (geth) evm &quot;</span>
+            <span class="s2">&quot;binary may be specified via --verify-fixtures-bin, this must be specified if filling &quot;</span>
+            <span class="s2">&quot;with a non-geth t8n tool that does not support blocktest.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">evm_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+        <span class="s2">&quot;--verify-fixtures-bin&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;verify_fixtures_bin&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Path to an evm executable that provides the `blocktest` command. &quot;</span>
+            <span class="s2">&quot;Default: The first (geth) &#39;evm&#39; entry in PATH.&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">solc_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getgroup</span><span class="p">(</span><span class="s2">&quot;solc&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments defining the solc executable&quot;</span><span class="p">)</span>
@@ -5830,6 +5958,7 @@ writes the generated fixtures to file.</p>
 
     <span class="n">debug_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getgroup</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments defining debug behavior&quot;</span><span class="p">)</span>
     <span class="n">debug_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+        <span class="s2">&quot;--evm-dump-dir&quot;</span><span class="p">,</span>
         <span class="s2">&quot;--t8n-dump-dir&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">,</span>
@@ -5867,32 +5996,7 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
@@ -5906,7 +6010,32 @@ writes the generated fixtures to file.</p>
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Register the plugin&#39;s custom markers and process command-line options.</span>
@@ -5975,15 +6104,15 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_report_header</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">start_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add lines to pytest&#39;s console output header&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">option</span><span class="o">.</span><span class="n">collectonly</span><span class="p">:</span>
@@ -6017,21 +6146,64 @@ writes the generated fixtures to file.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Returns the configured evm tool binary path.</p>
+      <p>Returns the configured evm tool binary path used to run t8n.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">evm_bin</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the configured evm tool binary path.</span>
+<span class="sd">    Returns the configured evm tool binary path used to run t8n.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;evm_bin&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.verify_fixtures_bin" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">verify_fixtures_bin</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.verify_fixtures_bin" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns the configured evm tool binary path used to run statetest or
+blocktest.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">verify_fixtures_bin</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the configured evm tool binary path used to run statetest or</span>
+<span class="sd">    blocktest.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;verify_fixtures_bin&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -6061,12 +6233,12 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">solc_bin</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the configured solc binary path.</span>
@@ -6101,16 +6273,16 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">t8n</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">evm_bin</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">TransitionTool</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the configured transition tool.</span>
@@ -6120,6 +6292,144 @@ writes the generated fixtures to file.</p>
     <span class="p">)</span>
     <span class="k">yield</span> <span class="n">t8n</span>
     <span class="n">t8n</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.do_fixture_verification" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">do_fixture_verification</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.do_fixture_verification" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns True if evm statetest or evm blocktest should be ran on the
+generated fixture JSON files.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">do_fixture_verification</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns True if evm statetest or evm blocktest should be ran on the</span>
+<span class="sd">    generated fixture JSON files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">do_fixture_verification</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;verify_fixtures_bin&quot;</span><span class="p">):</span>
+        <span class="n">do_fixture_verification</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;verify_fixtures&quot;</span><span class="p">):</span>
+        <span class="n">do_fixture_verification</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">do_fixture_verification</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;enable_hive&quot;</span><span class="p">):</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+            <span class="s2">&quot;Hive fixtures can not be verify using geth&#39;s evm tool: &quot;</span>
+            <span class="s2">&quot;Remove --enable-hive to verify test fixtures.&quot;</span><span class="p">,</span>
+            <span class="n">returncode</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">ExitCode</span><span class="o">.</span><span class="n">USAGE_ERROR</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">do_fixture_verification</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.evm_fixture_verification" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">evm_fixture_verification</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">do_fixture_verification</span><span class="p">,</span> <span class="n">evm_bin</span><span class="p">,</span> <span class="n">verify_fixtures_bin</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.evm_fixture_verification" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns the configured evm binary for executing statetest and blocktest
+commands used to verify generated JSON fixtures.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">evm_fixture_verification</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">,</span> <span class="n">do_fixture_verification</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">evm_bin</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">verify_fixtures_bin</span><span class="p">:</span> <span class="n">Path</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Generator</span><span class="p">[</span><span class="n">TransitionTool</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the configured evm binary for executing statetest and blocktest</span>
+<span class="sd">    commands used to verify generated JSON fixtures.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">do_fixture_verification</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="kc">None</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">verify_fixtures_bin</span> <span class="ow">and</span> <span class="n">evm_bin</span><span class="p">:</span>
+        <span class="n">verify_fixtures_bin</span> <span class="o">=</span> <span class="n">evm_bin</span>
+    <span class="n">evm_fixture_verification</span> <span class="o">=</span> <span class="n">TransitionTool</span><span class="o">.</span><span class="n">from_binary_path</span><span class="p">(</span><span class="n">binary_path</span><span class="o">=</span><span class="n">verify_fixtures_bin</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">blocktest_subcommand</span><span class="p">:</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+            <span class="s2">&quot;Only geth&#39;s evm tool is supported to verify fixtures: &quot;</span>
+            <span class="s2">&quot;Either remove --verify-fixtures or set --verify-fixtures-bin to a Geth evm binary.&quot;</span><span class="p">,</span>
+            <span class="n">returncode</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">ExitCode</span><span class="o">.</span><span class="n">USAGE_ERROR</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">yield</span> <span class="n">evm_fixture_verification</span>
+    <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -6149,14 +6459,14 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">base_test_config</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseTestConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the base test configuration that all tests must use.</span>
@@ -6193,14 +6503,14 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">strip_test_prefix</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">strip_test_prefix</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Removes the test prefix from a test case name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -6225,27 +6535,327 @@ writes the generated fixtures to file.</p>
 
 
 
-<h2 id="pytest_plugins.test_filler.test_filler.convert_test_name_to_path" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">convert_test_name_to_path</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
+<h2 id="pytest_plugins.test_filler.test_filler.convert_test_id_to_test_name_and_parameters" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">convert_test_id_to_test_name_and_parameters</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
 
-<a href="#pytest_plugins.test_filler.test_filler.convert_test_name_to_path" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#pytest_plugins.test_filler.test_filler.convert_test_id_to_test_name_and_parameters" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Converts a test name to a path.</p>
+      <p>Converts a test name to a tuple containing the test name and test parameters.</p>
+<p>Example:
+test_push0_key_sstore[fork=Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">convert_test_name_to_path</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">convert_test_id_to_test_name_and_parameters</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts a test name to a path.</span>
+<span class="sd">    Converts a test name to a tuple containing the test name and test parameters.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    test_push0_key_sstore[fork=Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\[=\-]&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">test_name</span><span class="p">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\[=\-]&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.get_module_relative_output_dir" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_module_relative_output_dir</span><span class="p">(</span><span class="n">test_module</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.get_module_relative_output_dir" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return a directory name for the provided test_module (relative to the
+base ./tests directory) that can be used for output (within the
+configured fixtures output path or the evm_t8n_dump_dir directory).</p>
+<p>Example:
+tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_push0</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_module_relative_output_dir</span><span class="p">(</span><span class="n">test_module</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a directory name for the provided test_module (relative to the</span>
+<span class="sd">    base ./tests directory) that can be used for output (within the</span>
+<span class="sd">    configured fixtures output path or the evm_t8n_dump_dir directory).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_push0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">basename</span> <span class="o">=</span> <span class="n">test_module</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+    <span class="n">basename_relative</span> <span class="o">=</span> <span class="n">basename</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">filler_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+    <span class="n">module_path</span> <span class="o">=</span> <span class="n">basename_relative</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">basename_relative</span><span class="o">.</span><span class="n">stem</span>
+    <span class="k">return</span> <span class="n">module_path</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.get_evm_dump_dir" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_evm_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s1">&#39;test_parameter&#39;</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.get_evm_dump_dir" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>The directory to dump the evm transition tool debug output.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_evm_dump_dir</span><span class="p">(</span>
+    <span class="n">evm_dump_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span>
+    <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">level</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;test_module&quot;</span><span class="p">,</span> <span class="s2">&quot;test_function&quot;</span><span class="p">,</span> <span class="s2">&quot;test_parameter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;test_parameter&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The directory to dump the evm transition tool debug output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">test_module_relative_dir</span> <span class="o">=</span> <span class="n">get_module_relative_output_dir</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">filler_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="s2">&quot;test_module&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_module_relative_dir</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;__&quot;</span><span class="p">))</span>
+    <span class="n">test_name</span><span class="p">,</span> <span class="n">test_parameter_string</span> <span class="o">=</span> <span class="n">convert_test_id_to_test_name_and_parameters</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">flat_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">test_module_relative_dir</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="s2">&quot;test_function&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">flat_path</span>
+    <span class="k">elif</span> <span class="n">level</span> <span class="o">==</span> <span class="s2">&quot;test_parameter&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">flat_path</span> <span class="o">/</span> <span class="n">test_parameter_string</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unexpected level.&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.evm_dump_dir" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">evm_dump_dir</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.evm_dump_dir" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>The base directory to dump the evm debug output.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">evm_dump_dir</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base directory to dump the evm debug output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.evm_dump_dir_parameter_level" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">evm_dump_dir_parameter_level</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.evm_dump_dir_parameter_level" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>The directory to dump evm transition tool debug output on a test parameter
+level.</p>
+<p>Example with --evm-dump-dir=/tmp/evm:
+-&gt; /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shanghai/</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">evm_dump_dir_parameter_level</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The directory to dump evm transition tool debug output on a test parameter</span>
+<span class="sd">    level.</span>
+
+<span class="sd">    Example with --evm-dump-dir=/tmp/evm:</span>
+<span class="sd">    -&gt; /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shanghai/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">evm_dump_dir</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">evm_dump_dir</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">get_evm_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;test_parameter&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="pytest_plugins.test_filler.test_filler.evm_dump_dir_module_level" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">evm_dump_dir_module_level</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.evm_dump_dir_module_level" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>A helper fixture to get the directory to dump evm transition tool debug
+output on the module level.</p>
+<p>Note: We never write output to this level; we actually want to write
+output on the function level. Reason: This is used by the
+<code>fixture_collector</code> which must be scoped on the module level in order to
+work with the xdist plugin, i.e., we can't pass a function-scoped fixture
+to the <code>fixture_collector</code> fixture; it must construct the rest of the
+path itself.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">evm_dump_dir_module_level</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A helper fixture to get the directory to dump evm transition tool debug</span>
+<span class="sd">    output on the module level.</span>
+
+<span class="sd">    Note: We never write output to this level; we actually want to write</span>
+<span class="sd">    output on the function level. Reason: This is used by the</span>
+<span class="sd">    `fixture_collector` which must be scoped on the module level in order to</span>
+<span class="sd">    work with the xdist plugin, i.e., we can&#39;t pass a function-scoped fixture</span>
+<span class="sd">    to the `fixture_collector` fixture; it must construct the rest of the</span>
+<span class="sd">    path itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">evm_dump_dir</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">evm_dump_dir</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">get_evm_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;test_module&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -6276,91 +6886,116 @@ writes the generated fixtures to file.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FixtureCollector</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FixtureCollector</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Collects all fixtures generated by the test cases.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">all_fixtures</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span>
+    <span class="n">all_fixtures</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">FixtureFormats</span><span class="p">]]]</span>
     <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">flat_output</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">json_path_to_fixture_type</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="n">FixtureFormats</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">flat_output</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span> <span class="o">=</span> <span class="n">output_dir</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flat_output</span> <span class="o">=</span> <span class="n">flat_output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_fixture_type</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">add_fixture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">fixture</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Fixture</span><span class="p">,</span> <span class="n">HiveFixture</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add_fixture</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">fixture</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Fixture</span><span class="p">,</span> <span class="n">HiveFixture</span><span class="p">]],</span> <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a fixture to the list of fixtures of a given test case.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -6368,30 +7003,21 @@ writes the generated fixtures to file.</p>
         <span class="k">if</span> <span class="n">fixture</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="k">def</span> <span class="nf">get_module_dir</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Returns the directory of the test case module.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-            <span class="n">basename</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-            <span class="n">basename</span> <span class="o">=</span> <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">basename</span><span class="p">))</span>
-            <span class="n">module_path_no_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span>
-            <span class="n">module_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span>
-                <span class="n">module_path_no_ext</span><span class="p">,</span>
-                <span class="n">item</span><span class="o">.</span><span class="n">funcargs</span><span class="p">[</span><span class="s2">&quot;filler_path&quot;</span><span class="p">],</span>
+        <span class="c1"># NOTE: We strip the &#39;test_&#39; prefix from the test module and the test function names.</span>
+        <span class="n">fixture_basename</span><span class="p">:</span> <span class="n">Path</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_output</span><span class="p">:</span>
+            <span class="n">fixture_basename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">relative_fixture_output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">strip_test_prefix</span><span class="p">(</span>
+                <span class="n">Path</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
             <span class="p">)</span>
-            <span class="k">return</span> <span class="n">module_dir</span>
+            <span class="n">module_relative_output_dir</span> <span class="o">=</span> <span class="n">get_module_relative_output_dir</span><span class="p">(</span>
+                <span class="n">relative_fixture_output_dir</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">funcargs</span><span class="p">[</span><span class="s2">&quot;filler_path&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+            <span class="n">fixture_basename</span> <span class="o">=</span> <span class="n">module_relative_output_dir</span> <span class="o">/</span> <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">)</span>
 
-        <span class="n">module_dir</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_output</span>
-            <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="n">get_module_dir</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
-                <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">module_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">module_dir</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">fixture_basename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">fixture_basename</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*?\[(.*)\]&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Could not parse test name: &quot;</span> <span class="o">+</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -6399,24 +7025,50 @@ writes the generated fixtures to file.</p>
         <span class="k">if</span> <span class="n">fixture</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">+=</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">fixture</span><span class="o">.</span><span class="n">name</span>
         <span class="n">jsonFixture</span> <span class="o">=</span> <span class="n">fixture</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">module_dir</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">jsonFixture</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">fixture_basename</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">jsonFixture</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">dump_fixtures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dumps all collected fixtures to their respective files.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">module_file</span><span class="p">,</span> <span class="n">fixtures</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">fixture_basename</span><span class="p">,</span> <span class="n">fixtures</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">output_json</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">name_fixture</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fixtures</span><span class="p">):</span>
-                <span class="n">name</span><span class="p">,</span> <span class="n">fixture</span> <span class="o">=</span> <span class="n">name_fixture</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">fixture_props</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fixtures</span><span class="p">):</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">fixture</span><span class="p">,</span> <span class="n">fixture_format</span> <span class="o">=</span> <span class="n">fixture_props</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">name</span>
                 <span class="n">output_json</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixture</span>
-            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">module_file</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span> <span class="o">/</span> <span class="n">fixture_basename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_output</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">output_json</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="c1"># All tests have same format within one file (one json file ^= single test function).</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_fixture_type</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)]</span> <span class="o">=</span> <span class="n">fixture_format</span>
+
+    <span class="k">def</span> <span class="nf">copy_fixture_file_to_dump_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_dump_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy the generated fixture files to the evm_dump_dir directory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_fixture_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">test_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_test_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fixture_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_dump_dir</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span> <span class="n">evm_dump_dir</span><span class="p">:</span> <span class="n">Path</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs `evm [state|block]test` on each fixture.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_fixture_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">test_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_test_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">)</span>
+            <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">verify_fixture</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">test_dump_dir</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_test_dump_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_dump_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">evm_dump_dir</span><span class="p">:</span>
+            <span class="c1"># NOTE: Here we add the &#39;test_&#39; prefix back to get the dump dir!</span>
+            <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">evm_dump_dir</span><span class="si">}</span><span class="s2">__test_</span><span class="si">{</span><span class="n">fixture_path</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -6437,7 +7089,7 @@ writes the generated fixtures to file.</p>
 
 
 <h3 id="pytest_plugins.test_filler.test_filler.FixtureCollector.add_fixture" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">add_fixture</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">fixture</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">add_fixture</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">fixture</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.test_filler.test_filler.FixtureCollector.add_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -6448,46 +7100,41 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_fixture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">fixture</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Fixture</span><span class="p">,</span> <span class="n">HiveFixture</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_fixture</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">fixture</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Fixture</span><span class="p">,</span> <span class="n">HiveFixture</span><span class="p">]],</span> <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds a fixture to the list of fixtures of a given test case.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -6495,30 +7142,21 @@ writes the generated fixtures to file.</p>
     <span class="k">if</span> <span class="n">fixture</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">get_module_dir</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the directory of the test case module.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-        <span class="n">basename</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-        <span class="n">basename</span> <span class="o">=</span> <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">basename</span><span class="p">))</span>
-        <span class="n">module_path_no_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span>
-        <span class="n">module_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span>
-            <span class="n">module_path_no_ext</span><span class="p">,</span>
-            <span class="n">item</span><span class="o">.</span><span class="n">funcargs</span><span class="p">[</span><span class="s2">&quot;filler_path&quot;</span><span class="p">],</span>
+    <span class="c1"># NOTE: We strip the &#39;test_&#39; prefix from the test module and the test function names.</span>
+    <span class="n">fixture_basename</span><span class="p">:</span> <span class="n">Path</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_output</span><span class="p">:</span>
+        <span class="n">fixture_basename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">relative_fixture_output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">strip_test_prefix</span><span class="p">(</span>
+            <span class="n">Path</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">module_dir</span>
+        <span class="n">module_relative_output_dir</span> <span class="o">=</span> <span class="n">get_module_relative_output_dir</span><span class="p">(</span>
+            <span class="n">relative_fixture_output_dir</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">funcargs</span><span class="p">[</span><span class="s2">&quot;filler_path&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">fixture_basename</span> <span class="o">=</span> <span class="n">module_relative_output_dir</span> <span class="o">/</span> <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">)</span>
 
-    <span class="n">module_dir</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_output</span>
-        <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">get_module_dir</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
-            <span class="n">strip_test_prefix</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">originalname</span><span class="p">),</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="k">if</span> <span class="n">module_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">module_dir</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">fixture_basename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">fixture_basename</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*?\[(.*)\]&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Could not parse test name: &quot;</span> <span class="o">+</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -6526,7 +7164,7 @@ writes the generated fixtures to file.</p>
     <span class="k">if</span> <span class="n">fixture</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
         <span class="n">name</span> <span class="o">+=</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">fixture</span><span class="o">.</span><span class="n">name</span>
     <span class="n">jsonFixture</span> <span class="o">=</span> <span class="n">fixture</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">module_dir</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">jsonFixture</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">fixture_basename</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">jsonFixture</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -6556,37 +7194,129 @@ writes the generated fixtures to file.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dump_fixtures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dump_fixtures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dumps all collected fixtures to their respective files.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">module_file</span><span class="p">,</span> <span class="n">fixtures</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">fixture_basename</span><span class="p">,</span> <span class="n">fixtures</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">output_json</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">name_fixture</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fixtures</span><span class="p">):</span>
-            <span class="n">name</span><span class="p">,</span> <span class="n">fixture</span> <span class="o">=</span> <span class="n">name_fixture</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">fixture_props</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fixtures</span><span class="p">):</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">fixture</span><span class="p">,</span> <span class="n">fixture_format</span> <span class="o">=</span> <span class="n">fixture_props</span>
             <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">name</span>
             <span class="n">output_json</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixture</span>
-        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">module_file</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span> <span class="o">/</span> <span class="n">fixture_basename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_output</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">output_json</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="c1"># All tests have same format within one file (one json file ^= single test function).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_fixture_type</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)]</span> <span class="o">=</span> <span class="n">fixture_format</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="pytest_plugins.test_filler.test_filler.FixtureCollector.copy_fixture_file_to_dump_dir" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">copy_fixture_file_to_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.FixtureCollector.copy_fixture_file_to_dump_dir" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Copy the generated fixture files to the evm_dump_dir directory.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_fixture_file_to_dump_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_dump_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Copy the generated fixture files to the evm_dump_dir directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_fixture_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">test_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_test_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fixture_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_dump_dir</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="pytest_plugins.test_filler.test_filler.FixtureCollector.verify_fixture_files" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">verify_fixture_files</span><span class="p">(</span><span class="n">evm_fixture_verification</span><span class="p">,</span> <span class="n">evm_dump_dir</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.FixtureCollector.verify_fixture_files" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Runs <code>evm [state|block]test</code> on each fixture.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span> <span class="n">evm_dump_dir</span><span class="p">:</span> <span class="n">Path</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs `evm [state|block]test` on each fixture.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_fixture_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">test_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_test_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">)</span>
+        <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">verify_fixture</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">test_dump_dir</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -6614,7 +7344,7 @@ writes the generated fixtures to file.</p>
 
 
 <h2 id="pytest_plugins.test_filler.test_filler.fixture_collector" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">fixture_collector</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">fixture_collector</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">do_fixture_verification</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">,</span> <span class="n">evm_dump_dir_module_level</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.test_filler.test_filler.fixture_collector" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -6626,19 +7356,27 @@ in one test module.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">fixture_collector</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fixture_collector</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">,</span> <span class="n">do_fixture_verification</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">,</span> <span class="n">evm_dump_dir_module_level</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the configured fixture collector instance used for all tests</span>
 <span class="sd">    in one test module.</span>
@@ -6649,6 +7387,10 @@ in one test module.</p>
     <span class="p">)</span>
     <span class="k">yield</span> <span class="n">fixture_collector</span>
     <span class="n">fixture_collector</span><span class="o">.</span><span class="n">dump_fixtures</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">evm_dump_dir_module_level</span><span class="p">:</span>
+        <span class="n">fixture_collector</span><span class="o">.</span><span class="n">copy_fixture_file_to_dump_dir</span><span class="p">(</span><span class="n">evm_dump_dir_module_level</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">do_fixture_verification</span><span class="p">:</span>
+        <span class="n">fixture_collector</span><span class="o">.</span><span class="n">verify_fixture_files</span><span class="p">(</span><span class="n">evm_fixture_verification</span><span class="p">,</span> <span class="n">evm_dump_dir_module_level</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -6678,17 +7420,17 @@ in one test module.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">filler_path</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">filler_path</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the directory containing the tests to execute.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;filler_path&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;filler_path&quot;</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -6722,17 +7464,17 @@ EIPs should be activated for the tests in scope.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">eips</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A fixture specifying that, by default, no EIPs should be activated for</span>
@@ -6778,32 +7520,32 @@ with the <a class="magiclink magiclink-github magiclink-mention" href="https://g
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
 <span class="k">def</span> <span class="nf">yul</span><span class="p">(</span><span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A fixture that allows contract code to be defined with Yul code.</span>
@@ -6846,8 +7588,60 @@ with the <a class="magiclink magiclink-github magiclink-mention" href="https://g
 
 
 
+<h2 id="pytest_plugins.test_filler.test_filler.fixture_format" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">fixture_format</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.test_filler.test_filler.fixture_format" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns the test format of the current test case.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fixture_format</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FixtureFormats</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the test format of the current test case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">enable_hive</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;enable_hive&quot;</span><span class="p">)</span>
+    <span class="n">has_blockchain_test_format</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;state_test&quot;</span><span class="p">,</span> <span class="s2">&quot;blockchain_test&quot;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">fixturenames</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">has_blockchain_test_format</span> <span class="ow">and</span> <span class="n">enable_hive</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST_HIVE</span>
+    <span class="k">elif</span> <span class="n">has_blockchain_test_format</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">enable_hive</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unknown fixture format.&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
 <h2 id="pytest_plugins.test_filler.test_filler.state_test" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">state_test</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">,</span> <span class="n">eips</span><span class="p">,</span> <span class="n">fixture_collector</span><span class="p">,</span> <span class="n">base_test_config</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">state_test</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">,</span> <span class="n">eips</span><span class="p">,</span> <span class="n">evm_dump_dir_parameter_level</span><span class="p">,</span> <span class="n">fixture_collector</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="n">base_test_config</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.test_filler.test_filler.state_test" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -6857,59 +7651,70 @@ with the <a class="magiclink magiclink-github magiclink-mention" href="https://g
       <p>Fixture used to instantiate an auto-fillable StateTest object from within
 a test function.</p>
 <p>Every test that defines a StateTest filler must explicitly specify this
-fixture in its function arguments and set the StateTestWrapper's spec
-property.</p>
+fixture in its function arguments.</p>
 <p>Implementation detail: It must be scoped on test function level to avoid
 leakage between tests.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span>
-<span class="normal">363</span>
-<span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">state_test</span><span class="p">(</span>
-    <span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">,</span> <span class="n">eips</span><span class="p">,</span> <span class="n">fixture_collector</span><span class="p">,</span> <span class="n">base_test_config</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="n">t8n</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">,</span>
+    <span class="n">reference_spec</span><span class="p">,</span>
+    <span class="n">eips</span><span class="p">,</span>
+    <span class="n">evm_dump_dir_parameter_level</span><span class="p">,</span>
+    <span class="n">fixture_collector</span><span class="p">,</span>
+    <span class="n">fixture_format</span><span class="p">,</span>
+    <span class="n">base_test_config</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTestFiller</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fixture used to instantiate an auto-fillable StateTest object from within</span>
 <span class="sd">    a test function.</span>
 
 <span class="sd">    Every test that defines a StateTest filler must explicitly specify this</span>
-<span class="sd">    fixture in its function arguments and set the StateTestWrapper&#39;s spec</span>
-<span class="sd">    property.</span>
+<span class="sd">    fixture in its function arguments.</span>
 
 <span class="sd">    Implementation detail: It must be scoped on test function level to avoid</span>
 <span class="sd">    leakage between tests.</span>
@@ -6918,10 +7723,7 @@ leakage between tests.</p>
     <span class="k">class</span> <span class="nc">StateTestWrapper</span><span class="p">(</span><span class="n">StateTest</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;base_test_config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_test_config</span>
-            <span class="k">if</span> <span class="n">t8n_dump_dir</span> <span class="o">:=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">):</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="n">t8n_dump_dir</span><span class="p">,</span> <span class="n">convert_test_name_to_path</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                <span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">evm_dump_dir_parameter_level</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">StateTestWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">fixture_collector</span><span class="o">.</span><span class="n">add_fixture</span><span class="p">(</span>
                 <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="p">,</span>
@@ -6932,6 +7734,7 @@ leakage between tests.</p>
                     <span class="n">reference_spec</span><span class="p">,</span>
                     <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
                 <span class="p">),</span>
+                <span class="n">fixture_format</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">StateTestWrapper</span>
@@ -6953,7 +7756,7 @@ leakage between tests.</p>
 
 
 <h2 id="pytest_plugins.test_filler.test_filler.blockchain_test" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">blockchain_test</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">,</span> <span class="n">eips</span><span class="p">,</span> <span class="n">fixture_collector</span><span class="p">,</span> <span class="n">base_test_config</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">blockchain_test</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">,</span> <span class="n">eips</span><span class="p">,</span> <span class="n">evm_dump_dir_parameter_level</span><span class="p">,</span> <span class="n">fixture_collector</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="n">base_test_config</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.test_filler.test_filler.blockchain_test" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -6966,38 +7769,52 @@ See the state_test fixture docstring for details.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span>
-<span class="normal">411</span>
-<span class="normal">412</span>
-<span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">blockchain_test</span><span class="p">(</span>
-    <span class="n">request</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">,</span> <span class="n">eips</span><span class="p">,</span> <span class="n">fixture_collector</span><span class="p">,</span> <span class="n">base_test_config</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="n">t8n</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">,</span>
+    <span class="n">reference_spec</span><span class="p">,</span>
+    <span class="n">eips</span><span class="p">,</span>
+    <span class="n">evm_dump_dir_parameter_level</span><span class="p">,</span>
+    <span class="n">fixture_collector</span><span class="p">,</span>
+    <span class="n">fixture_format</span><span class="p">,</span>
+    <span class="n">base_test_config</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainTestFiller</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fixture used to define an auto-fillable BlockchainTest analogous to the</span>
@@ -7008,10 +7825,7 @@ See the state_test fixture docstring for details.</p>
     <span class="k">class</span> <span class="nc">BlockchainTestWrapper</span><span class="p">(</span><span class="n">BlockchainTest</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;base_test_config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_test_config</span>
-            <span class="k">if</span> <span class="n">t8n_dump_dir</span> <span class="o">:=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">):</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="n">t8n_dump_dir</span><span class="p">,</span> <span class="n">convert_test_name_to_path</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                <span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">evm_dump_dir_parameter_level</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">BlockchainTestWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">fixture_collector</span><span class="o">.</span><span class="n">add_fixture</span><span class="p">(</span>
                 <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="p">,</span>
@@ -7022,6 +7836,7 @@ See the state_test fixture docstring for details.</p>
                     <span class="n">reference_spec</span><span class="p">,</span>
                     <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
                 <span class="p">),</span>
+                <span class="n">fixture_format</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">BlockchainTestWrapper</span>
@@ -7057,26 +7872,26 @@ to a test if the test function uses the corresponding fixture.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A pytest hook called during collection, after all items have been</span>
 <span class="sd">    collected.</span>
@@ -7126,12 +7941,12 @@ more readable test ids for the generated tests.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_make_parametrize_id</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_make_parametrize_id</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called when generating test ids. We use this to generate</span>
 <span class="sd">    more readable test ids for the generated tests.</span>
@@ -7166,29 +7981,29 @@ more readable test ids for the generated tests.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_runtest_call</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span>
+<span class="normal">671</span>
+<span class="normal">672</span>
+<span class="normal">673</span>
+<span class="normal">674</span>
+<span class="normal">675</span>
+<span class="normal">676</span>
+<span class="normal">677</span>
+<span class="normal">678</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_runtest_call</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called in the context of test execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

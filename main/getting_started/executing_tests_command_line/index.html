@@ -5597,21 +5597,23 @@
 <p>See: <a href="../executing_tests_dev_fork/">Executing Tests for Features under Development</a>.</p>
 </div>
 <h2 id="debugging-the-t8n-command">Debugging the <code>t8n</code> Command<a class="headerlink" href="#debugging-the-t8n-command" title="Permanent link">&para;</a></h2>
-<p>The <code>--t8n-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes, see <a href="../debugging_t8n_tools/">Debugging Transition Tools</a>.</p>
+<p>The <code>--evm-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes, see <a href="../debugging_t8n_tools/">Debugging Transition Tools</a>.</p>
 <h2 id="other-useful-pytest-command-line-options">Other Useful Pytest Command-Line Options<a class="headerlink" href="#other-useful-pytest-command-line-options" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="go">fill -vv            # More verbose output</span>
 <span class="go">fill -x             # Exit instantly on first error or failed test case</span>
-<span class="go">fill --pdb          # Drop into the debugger upon error in a test case</span>
+<span class="go">fill --pdb -nauto   # Drop into the debugger upon error in a test case</span>
+<span class="go">fill -s             # Print stdout from tests to the console during execution</span>
 </code></pre></div>
 <h2 id="custom-fill-command-line-options">Custom <code>fill</code> Command-Line Options<a class="headerlink" href="#custom-fill-command-line-options" title="Permanent link">&para;</a></h2>
 <p>Options added by the execution-spec-tests pytest plugins can be listed with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --test-help</span>
 </code></pre></div>
 <p>Output:</p>
-<div class="highlight"><pre><span></span><code><span class="go">usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--solc-bin SOLC_BIN]</span>
+<div class="highlight"><pre><span></span><code><span class="go">usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--verify-fixtures]</span>
+<span class="go">            [--verify-fixtures-bin VERIFY_FIXTURES_BIN] [--solc-bin SOLC_BIN]</span>
 <span class="go">            [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]</span>
-<span class="go">            [--enable-hive] [--forks] [--fork FORK] [--from FROM]</span>
-<span class="go">            [--until UNTIL] [--test-help]</span>
+<span class="go">            [--enable-hive] [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK]</span>
+<span class="go">            [--from FROM] [--until UNTIL] [--test-help]</span>
 
 <span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
@@ -5621,6 +5623,15 @@
 <span class="go">                        First &#39;evm&#39; entry in PATH.</span>
 <span class="go">  --traces              Collect traces of the execution information from the</span>
 <span class="go">                        transition tool.</span>
+<span class="go">  --verify-fixtures     Verify generated fixture JSON files using geth&#39;s evm</span>
+<span class="go">                        blocktest command. By default, the same evm binary as for</span>
+<span class="go">                        the t8n tool is used. A different (geth) evm binary may</span>
+<span class="go">                        be specified via --verify-fixtures-bin, this must be</span>
+<span class="go">                        specified if filling with a non-geth t8n tool that does</span>
+<span class="go">                        not support blocktest.</span>
+<span class="go">  --verify-fixtures-bin VERIFY_FIXTURES_BIN</span>
+<span class="go">                        Path to an evm executable that provides the `blocktest`</span>
+<span class="go">                        command. Default: The first (geth) &#39;evm&#39; entry in PATH.</span>
 
 <span class="go">Arguments defining the solc executable:</span>
 <span class="go">  --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).</span>
@@ -5631,12 +5642,12 @@
 <span class="go">                        Path to filler directives</span>
 <span class="go">  --output OUTPUT       Directory to store the generated test fixtures. Can be</span>
 <span class="go">                        deleted.</span>
-<span class="go">  --flat-output         Output each test case in the directory without the</span>
-<span class="go">                        folder structure.</span>
+<span class="go">  --flat-output         Output each test case in the directory without the folder</span>
+<span class="go">                        structure.</span>
 <span class="go">  --enable-hive         Output test fixtures with the hive-specific properties.</span>
 
 <span class="go">Arguments defining debug behavior:</span>
-<span class="go">  --t8n-dump-dir T8N_DUMP_DIR</span>
+<span class="go">  --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR</span>
 <span class="go">                        Path to dump the transition tool debug output.</span>
 
 <span class="go">Specify the fork range to generate fixtures for:</span>
