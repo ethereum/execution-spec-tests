@@ -1,13 +1,13 @@
 # Debugging Transition Tools
 
-There are two flags that can help debugging `t8n` tools (or execution-spec-tests framework) behavior:
+There are two flags that can help debugging `t8n` tools or the execution-spec-tests framework:
 
 1. `--evm-dump-dir`: Write debug information from `t8n` tool calls to the specified directory.
 2. `--verify-fixtures`: Run go-ethereum's `evm blocktest` command to verify the generated test fixtures.
 
 ## EVM Dump Directory
 
-The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command to help debugging or simply understand how a test is interacting with the EVM.
+The `--evm-dump-dir` flag tells the framework to write the inputs and outputs of every call made to the `t8n` command to help debugging or simply understand how a test is interacting with the EVM.
 
 In particular, a script `t8n.sh` is generated for each call to the `t8n` command which can be used to reproduce the call to trigger errors or attach a debugger without the need to execute Python.
 
@@ -68,7 +68,7 @@ Each directory contains files containing information corresponding to the call, 
 
 ### The `t8n.sh` Script
 
-The `t8n.sh` script written to the debug directory can be used to reproduce any call made to the `t8n` command, for example, if a Besu `t8n-server` has been started on port `3001`, the request made by the test for first transaction can be reproduced as:
+The `t8n.sh` script written to the debug directory can be used to reproduce a specific call made to the `t8n` command during the test session. For example, if a Besu `t8n-server` has been started on port `3001`, the request made by the test for first transaction can be reproduced as:
 
 ```console
 /tmp/besu/test_access_list_fork_Berlin/1/t8n.sh 3001
@@ -105,7 +105,7 @@ The `t8n.sh` is written to the debug directory for all [supported t8n tools](../
 
 ## Verifying Test Fixtures via `evm blocktest`
 
-The `--verify-fixtures` flag can be used to run go-ethereum's `evm blocktest` command to verify the generated test fixtures.
+The `--verify-fixtures` flag can be used to run go-ethereum's `evm blocktest` command in order to verify the generated JSON test fixtures.
 
 For example, running:
 
@@ -117,7 +117,7 @@ fill tests/berlin/eip2930_access_list/ --fork Berlin \
     --verify-fixtures
 ```
 
-will additionally run the `evm blocktest` command on every JSON fixture file and write the command output to the EVM dump directory:
+will additionally run the `evm blocktest` command on every JSON fixture file and write its output to the EVM dump directory:
 
 ```text
 📂 /tmp/evm-dump
@@ -140,9 +140,16 @@ will additionally run the `evm blocktest` command on every JSON fixture file and
     ├── 📄 verify_fixtures_stderr.txt
     └── 📄 verify_fixtures_stdout.txt
 ```
-  
+
 where the `verify_fixtures.sh` script can be used to reproduce the `evm blocktest` command.
 
 !!! note "Execution scope of `evm blocktest`"
 
-    Note, that `evm blocktest` is not executed per parametrized test case, but rather per test function (which corresponds to once fixture file) and this only happens after all test cases in the module have been executed. This means that the feedback is not as granular as the test case execution. To get feedback per fork, `--fork` flag can be used to only execute test cases for that fork.
+    Note, that `evm blocktest` is not executed per parametrized test case, but rather per test function. This is because each fixture JSON file contains all the parametrized test cases for one test function. 
+    
+    Additionally, it is executed once for all test functions in one module only after all the test cases in the module have been executed and only report the first fixtures from the first failing test function[^1].
+    
+    This means that the feedback is not as granular as for test case execution. To improve granularity, and get feedback per fork, for example, the `--fork` flag can be used to only execute test cases for one particular fork.
+
+[^1]: <!-- markdownlint-disable MD053 (53=link-image-reference-definitions) -->
+    This limitation is required to enable support of the [`pytest-xdist` plugin](https://github.com/pytest-dev/pytest-xdist) for concurrent test execution across multiple CPUs. To achieve this we use the we apply the `--dist loadscope` xdist flag in our `pytest.ini`.
