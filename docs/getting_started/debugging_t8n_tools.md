@@ -143,6 +143,34 @@ will additionally run the `evm blocktest` command on every JSON fixture file and
 
 where the `verify_fixtures.sh` script can be used to reproduce the `evm blocktest` command.
 
+### Further `--verify-fixtures` Examples
+
+1. No fixture verification performed:
+
+    ```console
+    fill
+    ```
+
+2. Verify fixtures: Use the first `evm` binary in the `PATH` to execute both the `t8n` and `blocktest` commands (i.e., same binary used; this must be a geth binary):
+
+    ```console
+    fill --verify-fixtures
+    ```
+
+3. Explicitly specify the evm binary to execute the `blocktest` command (the first evm binary in the `PATH` is used for `t8n` commands; `--verify-fixtures` is not necessary):
+
+    ```console
+    fill --verify-fixtures-bin=../go-ethereum/build/bin/evm
+    ```
+
+4. Explicitly set two different `evm` binaries to execute the `t8n` and `blocktest` commands; write debug data to the specified `--evm-dump-dir`:
+
+    ```console
+    fill --evm-bin=../evmone/build/bin/evmone-t8n \
+      --verify-fixtures-bin=../go-ethereum/build/bin/evm \
+      --evm-dump-dir=/tmp/evm-dump
+    ```
+
 !!! note "Execution scope of `evm blocktest`"
 
     Note, that `evm blocktest` is not executed per parametrized test case, but rather per test function. This is because each fixture JSON file contains all the parametrized test cases for one test function. 
