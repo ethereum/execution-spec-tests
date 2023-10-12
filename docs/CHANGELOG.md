@@ -15,6 +15,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🔧 EVM Tools
 
+- ✨ Run geth's `evm blocktest` command to verify JSON fixtures after test case execution (`--verify-fixtures`) ([#325](https://github.com/ethereum/execution-spec-tests/pull/325)).
 - ✨ Enable tracing support for `ethereum-spec-evm` ([#289](https://github.com/ethereum/execution-spec-tests/pull/289)).
 
 ### 📋 Misc

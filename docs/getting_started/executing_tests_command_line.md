@@ -90,14 +90,15 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
 
 ## Debugging the `t8n` Command
 
-The `--t8n-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes, see [Debugging Transition Tools](./debugging_t8n_tools.md).
+The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes, see [Debugging Transition Tools](./debugging_t8n_tools.md).
 
 ## Other Useful Pytest Command-Line Options
 
 ```console
 fill -vv            # More verbose output
 fill -x             # Exit instantly on first error or failed test case
-fill --pdb          # Drop into the debugger upon error in a test case
+fill --pdb -nauto   # Drop into the debugger upon error in a test case
+fill -s             # Print stdout from tests to the console during execution
 ```
 
 ## Custom `fill` Command-Line Options
@@ -111,10 +112,11 @@ fill --test-help
 Output:
 
 ```console
-usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--solc-bin SOLC_BIN]
+usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--verify-fixtures]
+            [--verify-fixtures-bin VERIFY_FIXTURES_BIN] [--solc-bin SOLC_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
-            [--enable-hive] [--forks] [--fork FORK] [--from FROM]
-            [--until UNTIL] [--test-help]
+            [--enable-hive] [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK]
+            [--from FROM] [--until UNTIL] [--test-help]
 
 options:
   -h, --help            show this help message and exit
@@ -124,6 +126,15 @@ Arguments defining evm executable behavior:
                         First 'evm' entry in PATH.
   --traces              Collect traces of the execution information from the
                         transition tool.
+  --verify-fixtures     Verify generated fixture JSON files using geth's evm
+                        blocktest command. By default, the same evm binary as for
+                        the t8n tool is used. A different (geth) evm binary may
+                        be specified via --verify-fixtures-bin, this must be
+                        specified if filling with a non-geth t8n tool that does
+                        not support blocktest.
+  --verify-fixtures-bin VERIFY_FIXTURES_BIN
+                        Path to an evm executable that provides the `blocktest`
+                        command. Default: The first (geth) 'evm' entry in PATH.
 
 Arguments defining the solc executable:
   --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).
@@ -134,12 +145,12 @@ Arguments defining filler location and output:
                         Path to filler directives
   --output OUTPUT       Directory to store the generated test fixtures. Can be
                         deleted.
-  --flat-output         Output each test case in the directory without the
-                        folder structure.
+  --flat-output         Output each test case in the directory without the folder
+                        structure.
   --enable-hive         Output test fixtures with the hive-specific properties.
 
 Arguments defining debug behavior:
-  --t8n-dump-dir T8N_DUMP_DIR
+  --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
                         Path to dump the transition tool debug output.
 
 Specify the fork range to generate fixtures for:

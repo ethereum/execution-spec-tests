@@ -18,6 +18,7 @@ BlockchainTest
 BlockchainTestFiller
 blockhash
 blocknum
+blocktest
 bls
 blueswen
 br
@@ -51,6 +52,7 @@ conftest
 contractAddr
 controlflow
 cp
+CPUs
 crypto
 customizations
 Customizations
@@ -76,6 +78,7 @@ esbenp
 eth
 ethash
 ethereum
+ethereum's
 evaluatable
 evm
 evmone
@@ -96,6 +99,7 @@ gaslimit
 gasprice
 GeneralStateTestsFiller
 geth
+geth's
 getitem
 getmtime
 gh
@@ -104,6 +108,7 @@ git's
 github
 Github
 glightbox
+go-ethereum's
 gwei
 hash32
 hasher
@@ -268,6 +273,7 @@ wei
 wikipedia
 wordlist
 www
+xdist
 xF
 xFA
 xFD
