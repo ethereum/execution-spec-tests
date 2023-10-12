@@ -29,6 +29,7 @@ from ethereum_test_tools import (
     EngineAPIError,
     Environment,
     Header,
+    Initcode,
 )
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
@@ -1031,4 +1032,26 @@ def test_blob_type_tx_pre_fork(
         post={},
         blocks=blocks,
         genesis_environment=Environment(),  # `env` fixture has blob fields
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("destination_account", [None], ids=[""])
+@pytest.mark.parametrize("tx_calldata", [Initcode(deploy_code=Op.SSTORE(0, 1))], ids=[""])
+@pytest.mark.parametrize("tx_gas", [100_000], ids=[""])
+@pytest.mark.parametrize("tx_error", ["contract creation not possible in blob tx"], ids=[""])
+def test_contract_creating_blob_type_tx(
+    blockchain_test: BlockchainTestFiller,
+    pre: Dict,
+    env: Environment,
+    blocks: List[Block],
+):
+    """
+    Test that a type 3 transaction that creates a contract is rejected.
+    """
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=blocks,
+        genesis_environment=env,
     )
