@@ -133,7 +133,7 @@ def pytest_addoption(parser):
         "--evm-dump-dir",
         "--t8n-dump-dir",
         action="store",
-        dest="t8n_dump_dir",
+        dest="base_dump_dir",
         default="",
         help="Path to dump the transition tool debug output.",
     )
@@ -308,7 +308,7 @@ def get_module_relative_output_dir(test_module: Path, filler_path: Path) -> Path
     """
     Return a directory name for the provided test_module (relative to the
     base ./tests directory) that can be used for output (within the
-    configured fixtures output path or the evm_t8n_dump_dir directory).
+    configured fixtures output path or the base_dump_dir directory).
 
     Example:
     tests/shanghai/eip3855_push0/test_push0.py -> shanghai/eip3855_push0/test_push0
@@ -347,7 +347,7 @@ def base_dump_dir(request) -> Path:
     """
     The base directory to dump the evm debug output.
     """
-    return request.config.getoption("t8n_dump_dir")
+    return request.config.getoption("base_dump_dir")
 
 
 @pytest.fixture(scope="function")
