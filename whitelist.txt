@@ -291,6 +291,7 @@ autouse
 basedir
 callspec
 collectonly
+copyfile
 copytree
 dedent
 dest
