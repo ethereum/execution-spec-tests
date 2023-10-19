@@ -3010,6 +3010,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Readme
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -3019,6 +3030,39 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generating-the-test-vectors-used-in-v106-and-on" class="md-nav__link">
+    Generating The Test Vectors (used in v1.0.6 and on)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#previous-versions-of-the-test-vectors-used-up-to-v105" class="md-nav__link">
+    Previous Versions of the Test Vectors (used up to v1.0.5)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -5434,6 +5478,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generating-the-test-vectors-used-in-v106-and-on" class="md-nav__link">
+    Generating The Test Vectors (used in v1.0.6 and on)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#previous-versions-of-the-test-vectors-used-up-to-v105" class="md-nav__link">
+    Previous Versions of the Test Vectors (used up to v1.0.5)
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -5448,13 +5514,37 @@
 
 
 <h1 id="kzg-point-evaluation-test-vectors">KZG Point Evaluation Test Vectors<a class="headerlink" href="#kzg-point-evaluation-test-vectors" title="Permanent link">&para;</a></h1>
-<p>This directory contains test vectors for the KZG point evaluation algorithm, compiled from different sources.</p>
-<p>Each file must contain a JSON list of objects, each with the following fields:
-- <code>name</code>: a string describing the test case
-- <code>input</code>: object containing <code>commitment</code>, <code>proof</code>, <code>z</code> and <code>y</code>
-- <code>output</code>: expected output of the evaluation, true, false or null.</p>
-<p>The files are loaded and used throughout different test tests.</p>
-<p>Current files and their sources:
+<p>This directory contains test vectors for the KZG point evaluation algorithm that are loaded and used throughout different tests.</p>
+<p>Each file must contain a JSON list of objects, each with the following fields:</p>
+<ul>
+<li><code>name</code>: a string describing the test case</li>
+<li><code>input</code>: object containing <code>commitment</code>, <code>proof</code>, <code>z</code> and <code>y</code></li>
+<li><code>output</code>: expected output of the evaluation, true, false or null.</li>
+</ul>
+<h2 id="generating-the-test-vectors-used-in-v106-and-on">Generating The Test Vectors (used in v1.0.6 and on)<a class="headerlink" href="#generating-the-test-vectors-used-in-v106-and-on" title="Permanent link">&para;</a></h2>
+<p>From execution-spec-tests release v1.0.6 and on, the point evaluation test vectors were generated using commit <a href="https://github.com/ethereum/consensus-specs/tree/63aa303c5a2cf46ea98edbf3f82286079651bb78">63aa303c</a> from the <a href="https://github.com/ethereum/consensus-specs/commits/official-kzg">official-kzg</a> <a href="https://github.com/ethereum/consensus-specs">consensus-specs</a> branch.</p>
+<p>The test vectors were generated as following:</p>
+<ol>
+<li>
+<p>In the consensus-specs repo:</p>
+<div class="highlight"><pre><span></span><code><span class="go">cd tests/generators/kzg_4844/</span>
+<span class="go">rm -rf /tmp/kzg_4844_output</span>
+<span class="go">mkdir /tmp/kzg_4844_output</span>
+<span class="go">python -m main --output /tmp/kzg_4844_output</span>
+</code></pre></div>
+</li>
+<li>
+<p>In the execution-spec-tests repo:</p>
+<div class="highlight"><pre><span></span><code><span class="go">cd tests/cancun/4844_blobs/point_evaluation_vectors/</span>
+<span class="go">pip install -r requirements.txt</span>
+<span class="go">python concat_kzg_vectors_to_json.py \</span>
+<span class="go">    --input /tmp/kzg_4844_output/general/deneb/kzg/verify_kzg_proof/kzg-mainnet/</span>
+<span class="go">    --output go_kzg_4844_verify_kzg_proof.json</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="previous-versions-of-the-test-vectors-used-up-to-v105">Previous Versions of the Test Vectors (used up to v1.0.5)<a class="headerlink" href="#previous-versions-of-the-test-vectors-used-up-to-v105" title="Permanent link">&para;</a></h2>
+<p>The test vectors up and including execution-spec-tests <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.5">release v1.0.5</a> were:
 - <code>go_kzg_4844_verify_kzg_proof.json</code>: test vectors from the <a href="https://github.com/crate-crypto/go-kzg-4844">go-kzg-4844</a> repository.</p>
 
 

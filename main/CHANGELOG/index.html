@@ -1189,11 +1189,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased-v106-2023-xx-xx" class="md-nav__link">
-    🔜 Unreleased - v1.0.6 - 2023-xx-xx
+  <a href="#unreleased-v106-2023-10-19-cancun-devnet-10" class="md-nav__link">
+    🔜 Unreleased - v1.0.6 - 2023-10-19: 🐍🏖️ Cancun Devnet 10
   </a>
   
-    <nav class="md-nav" aria-label="🔜 Unreleased - v1.0.6 - 2023-xx-xx">
+    <nav class="md-nav" aria-label="🔜 Unreleased - v1.0.6 - 2023-10-19: 🐍🏖️ Cancun Devnet 10">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1220,6 +1220,13 @@
           <li class="md-nav__item">
   <a href="#misc" class="md-nav__link">
     📋 Misc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-change" class="md-nav__link">
+    💥 Breaking Change
   </a>
   
 </li>
@@ -1252,7 +1259,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change" class="md-nav__link">
+  <a href="#breaking-change_1" class="md-nav__link">
     💥 Breaking Change
   </a>
   
@@ -5593,11 +5600,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased-v106-2023-xx-xx" class="md-nav__link">
-    🔜 Unreleased - v1.0.6 - 2023-xx-xx
+  <a href="#unreleased-v106-2023-10-19-cancun-devnet-10" class="md-nav__link">
+    🔜 Unreleased - v1.0.6 - 2023-10-19: 🐍🏖️ Cancun Devnet 10
   </a>
   
-    <nav class="md-nav" aria-label="🔜 Unreleased - v1.0.6 - 2023-xx-xx">
+    <nav class="md-nav" aria-label="🔜 Unreleased - v1.0.6 - 2023-10-19: 🐍🏖️ Cancun Devnet 10">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -5624,6 +5631,13 @@
           <li class="md-nav__item">
   <a href="#misc" class="md-nav__link">
     📋 Misc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breaking-change" class="md-nav__link">
+    💥 Breaking Change
   </a>
   
 </li>
@@ -5656,7 +5670,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change" class="md-nav__link">
+  <a href="#breaking-change_1" class="md-nav__link">
     💥 Breaking Change
   </a>
   
@@ -5743,8 +5757,11 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>Test fixtures for use by clients are available for each release on the <a href="https://github.com/ethereum/execution-spec-tests/releases">Github releases page</a>.</p>
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.</p>
-<h2 id="unreleased-v106-2023-xx-xx">🔜 <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6">Unreleased - v1.0.6</a> - 2023-xx-xx<a class="headerlink" href="#unreleased-v106-2023-xx-xx" title="Permanent link">&para;</a></h2>
+<h2 id="unreleased-v106-2023-10-19-cancun-devnet-10">🔜 <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6">Unreleased - v1.0.6</a> - 2023-10-19: 🐍🏖️ Cancun Devnet 10<a class="headerlink" href="#unreleased-v106-2023-10-19-cancun-devnet-10" title="Permanent link">&para;</a></h2>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
+<ul>
+<li>🔀 <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844</a>: Update KZG point evaluation test vectors to use data from the official KZG setup and Mainnet Trusted Setup (<a href="https://github.com/ethereum/execution-spec-tests/pull/336">#336</a>).</li>
+</ul>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🔀 Fixtures: Add a non-RLP format field (<code>rlp_decoded</code>) to invalid blocks (<a href="https://github.com/ethereum/execution-spec-tests/pull/322">#322</a>).</li>
@@ -5761,6 +5778,11 @@
 <li>✨ Process: Added a Github pull request template (<a href="https://github.com/ethereum/execution-spec-tests/pull/308">#308</a>).</li>
 <li>✨ Docs: Changelog updated post release (<a href="https://github.com/ethereum/execution-spec-tests/pull/321">#321</a>).</li>
 <li>✨ Docs: Add <a href="https://ethereum.github.io/execution-spec-tests/main/getting_started/using_fixtures/">a section explaining execution-spec-tests release artifacts</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/334">#334</a>).</li>
+<li>🔀 T8N Tool: Branch used to generate the tests for Cancun is now <a href="https://github.com/lightclient/go-ethereum/tree/devnet-10">lightclient/go-ethereum@devnet-10</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336">#336</a>)</li>
+</ul>
+<h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Fixtures now use the Mainnet Trusted Setup merged on <a href="https://github.com/ethereum/consensus-specs/pull/3521">consensus-specs#3521</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336">#336</a>)</li>
 </ul>
 <h2 id="v105-2023-09-26-cancun-devnet-9-release-3"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.5">v1.0.5</a> - 2023-09-26: 🐍🏖️ Cancun Devnet 9 Release 3<a class="headerlink" href="#v105-2023-09-26-cancun-devnet-9-release-3" title="Permanent link">&para;</a></h2>
 <p>This release mainly serves to update the EIP-4788 beacon roots address to <code>0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02</code>, as updated in <a href="https://github.com/ethereum/EIPs/pull/7672">ethereum/EIPs/pull/7672</a>.</p>
@@ -5775,7 +5797,7 @@
 <li>✨ CI/CD: Run development fork tests in Github Actions (<a href="https://github.com/ethereum/execution-spec-tests/pull/302">#302</a>).</li>
 <li>✨ CI/CD: Generate test JSON fixtures on push (<a href="https://github.com/ethereum/execution-spec-tests/pull/303">#303</a>).</li>
 </ul>
-<h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
 <p>Please use development fixtures from now on when testing Cancun. These refer to changes that are currently under development within clients:</p>
 <ul>
 <li>fixtures: All tests until the last stable fork (Shanghai)</li>
