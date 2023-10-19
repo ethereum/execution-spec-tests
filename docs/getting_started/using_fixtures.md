@@ -26,10 +26,10 @@ The @ethereum/execution-spec-tests repository provides [releases](https://github
 
 | Release Artifact               | Consumer | Fork/feature scope |
 | ------------------------------ | -------- | ------------------ |
-| `fixtures.tar.gz`              | Clients  | All tests until the last stable fork (Shanghai) | "Must pass" |
-| `fixtures_develop.tar.gz`      | Clients  | All tests until the last development fork (Cancun) |
-| `fixtures_hive.tar.gaz`        | Hive     | All tests until the last stable fork (Shanghai) in hive format |
-| `fixtures_develop_hive.tar.gz` | Hive     | All tests until the last development fork (Cancun) in hive format |
+| `fixtures.tar.gz`              | Clients  | All tests until the last stable fork | "Must pass" |
+| `fixtures_develop.tar.gz`      | Clients  | All tests until the last development fork |
+| `fixtures_hive.tar.gaz`        | Hive     | All tests until the last stable fork in hive format |
+| `fixtures_develop_hive.tar.gz` | Hive     | All tests until the last development fork in hive format |
 
 The Hive format uses Engine API directives instead of the usual BlockchainTest format.
 
