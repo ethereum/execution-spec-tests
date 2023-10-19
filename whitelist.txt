@@ -199,6 +199,7 @@ qGpsxSA
 quickstart
 radd
 randao
+readme
 readthedocs
 reentrancy
 reentrant
