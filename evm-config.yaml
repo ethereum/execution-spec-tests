@@ -4,5 +4,5 @@ main:
   ref: master
 develop:
   impl: geth
-  repo: marioevz/go-ethereum
-  ref: cancun-t8n 
+  repo: lightclient/go-ethereum
+  ref: devnet-10

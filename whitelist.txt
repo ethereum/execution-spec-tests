@@ -9,6 +9,7 @@ at5
 balance
 base64
 basefee
+basename
 bb
 besu
 big0
@@ -500,3 +501,7 @@ precompile
 precompiles
 deployer
 0x
+
+fi
+url
+gz
