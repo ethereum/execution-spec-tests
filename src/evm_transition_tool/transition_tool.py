@@ -301,7 +301,7 @@ class TransitionTool:
                 traces.append(tx_traces)
         self.append_traces(traces)
 
-    def _evaluateFilesystem(
+    def _evaluate_filesystem(
         self,
         *,
         alloc: Any,
@@ -427,7 +427,7 @@ class TransitionTool:
 
         return output_contents["alloc"], output_contents["result"]
 
-    def _evaluateStream(
+    def _evaluate_stream(
         self,
         *,
         alloc: Any,
@@ -551,7 +551,7 @@ class TransitionTool:
         should be overridden.
         """
         if self.t8n_use_stream:
-            return self._evaluateStream(
+            return self._evaluate_stream(
                 alloc=alloc,
                 txs=txs,
                 env=env,
@@ -562,7 +562,7 @@ class TransitionTool:
                 debug_output_path=debug_output_path,
             )
         else:
-            return self._evaluateFilesystem(
+            return self._evaluate_filesystem(
                 alloc=alloc,
                 txs=txs,
                 env=env,
