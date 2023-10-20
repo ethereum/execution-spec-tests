@@ -162,10 +162,12 @@ class TransitionTool:
         cls.default_tool = tool_subclass
 
     @classmethod
-    def get_default_tool(cls) -> "TransitionTool":
+    def get_default_tool(cls) -> Type["TransitionTool"]:
         """
         Returns default transition tool
         """
+        if cls.default_tool is None:
+            raise Exception("The default transition tool was never set.")
         return cls.default_tool
 
     @classmethod
