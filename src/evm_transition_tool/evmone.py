@@ -3,7 +3,7 @@ Evmone Transition tool interface.
 """
 from pathlib import Path
 from re import compile
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Optional
 
 from ethereum_test_forks import Fork
 
