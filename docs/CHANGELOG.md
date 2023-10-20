@@ -4,7 +4,19 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.
 
-## 🔜 [Unreleased - v1.0.6](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6) - 2023-10-19: 🐍🏖️ Cancun Devnet 10
+## 🔜 [Unreleased - v1.0.7](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.7) - 2023-XX-XX: 🐍
+
+### 🧪 Test Cases
+
+### 🛠️ Framework
+
+### 🔧 EVM Tools
+
+### 📋 Misc
+
+- 🔀 Docs: Update `t8n` tool branch to fill tests for development features in the [readme](https://github.com/ethereum/execution-spec-test) ([#338](https://github.com/ethereum/execution-spec-tests/pull/338)).
+
+## [v1.0.6](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6) - 2023-10-19: 🐍🏖️ Cancun Devnet 10
 
 ### 🧪 Test Cases
 
