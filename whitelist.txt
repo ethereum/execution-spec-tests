@@ -327,6 +327,7 @@ readline
 regexes
 reportinfo
 ret
+rglob
 ripemd
 rjust
 runpytest
@@ -335,6 +336,8 @@ subclasses
 subcommand
 substring
 substrings
+testdir
+tmpdir
 tryfirst
 trylast
 usefixtures
