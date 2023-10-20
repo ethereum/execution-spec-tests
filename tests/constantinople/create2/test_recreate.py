@@ -8,9 +8,10 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
     Account,
+    Block,
+    BlockchainTestFiller,
     Environment,
     Initcode,
-    StateTestFiller,
     TestAddress,
     Transaction,
     Yul,
@@ -20,7 +21,11 @@ from ethereum_test_tools import (
 
 @pytest.mark.valid_from("Constantinople")
 @pytest.mark.valid_until("Shanghai")
-def test_recreate(state_test: StateTestFiller, fork: Fork):
+def test_recreate(blockchain_test: BlockchainTestFiller, fork: Fork):
+    """
+    Test that the storage is cleared when a contract is first destructed then re-created using CREATE2.
+    """
+
     env = Environment()
 
     creator_address = 0x100
@@ -57,32 +62,55 @@ def test_recreate(state_test: StateTestFiller, fork: Fork):
 
     initcode = Initcode(deploy_code=deploy_code).bytecode
 
-    tx_create = Transaction(
-        ty=0,
+    create_tx = Transaction(
         nonce=0,
         gas_limit=100000000,
-        gas_price=10,
         to=creator_address,
         data=initcode,
     )
 
     created_contract_address = compute_create2_address(address=creator_address, salt=0, initcode=initcode)
 
-    value = 1
-    tx_set_storage = Transaction(
-        ty=0,
+    set_storage_tx = Transaction(
         nonce=1,
         gas_limit=100000000,
-        gas_price=10,
         to=created_contract_address,
-        value=value,
+        value=1,
     )
+
+    block1 = Block(txs=[create_tx, set_storage_tx])
+
+    destruct_tx = Transaction(
+        nonce=2,
+        gas_limit=100000000,
+        to=created_contract_address,
+        value=0,
+    )
+
+    balance=1
+    send_funds_tx = Transaction(
+        nonce=3,
+        gas_limit=100000000,
+        to=created_contract_address,
+        value=balance,
+    )
+
+    re_create_tx = Transaction(
+        nonce=4,
+        gas_limit=100000000,
+        to=creator_address,
+        data=initcode,
+    )
+
+    block2 = Block(txs=[destruct_tx, send_funds_tx, re_create_tx])
 
     post = {
         created_contract_address: Account(
             nonce=1,
+            balance=balance,
             code=deploy_code,
-            storage={0x00: value},
+            storage={},
         ),
     }
-    state_test(env=env, pre=pre, post=post, txs=[tx_create, tx_set_storage])
+
+    blockchain_test(genesis_environment=env, pre=pre, post=post, blocks=[block1, block2])
