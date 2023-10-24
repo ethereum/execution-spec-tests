@@ -336,6 +336,7 @@ subclasses
 subcommand
 substring
 substrings
+tf
 tryfirst
 trylast
 usefixtures
