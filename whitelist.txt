@@ -307,6 +307,7 @@ hookimpl
 hookwrapper
 IEXEC
 IGNORECASE
+inifile
 iterdir
 ljust
 makepyfile

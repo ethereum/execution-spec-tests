@@ -52,34 +52,62 @@ def tf():  # noqa: D103
     sys.exit(1)
 
 
+def common_options(func):
+    """
+    Common options for both the fill and consume commands.
+    """
+    func = click.option(
+        "-h",
+        "--help",
+        "help_flag",
+        is_flag=True,
+        default=False,
+        expose_value=True,
+        help="Show pytest's help message.",
+    )(func)
+
+    func = click.option(
+        "--pytest-help",
+        "pytest_help_flag",
+        is_flag=True,
+        default=False,
+        expose_value=True,
+        help="Show pytest's help message.",
+    )(func)
+
+    func = click.argument("pytest_args", nargs=-1, type=click.UNPROCESSED)(func)
+
+    return func
+
+
+def handle_help_flags(pytest_args, help_flag, pytest_help_flag):
+    """
+    Modify pytest arguments based on the provided help flags.
+    """
+    if help_flag:
+        return ["--test-help"]
+    elif pytest_help_flag:
+        return ["--help"]
+    else:
+        return list(pytest_args)
+
+
 @click.command(context_settings=dict(ignore_unknown_options=True))
-@click.option(
-    "-h",
-    "--help",
-    "help_flag",
-    is_flag=True,
-    default=False,
-    expose_value=True,
-    help="Show pytest's help message.",
-)
-@click.option(
-    "--pytest-help",
-    "pytest_help_flag",
-    is_flag=True,
-    default=False,
-    expose_value=True,
-    help="Show pytest's help message.",
-)
-@click.argument("pytest_args", nargs=-1, type=click.UNPROCESSED)
+@common_options
 def fill(pytest_args, help_flag, pytest_help_flag):
     """
     Entry point for the fill command.
     """
-    if help_flag:
-        pytest_args = ["--test-help"]
-    elif pytest_help_flag:
-        pytest_args = ["--help"]
-    else:
-        pytest_args = list(pytest_args)
+    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    pytest.main(args)
 
-    pytest.main(pytest_args)
+
+@click.command(context_settings=dict(ignore_unknown_options=True))
+@common_options
+def consume(pytest_args, help_flag, pytest_help_flag):
+    """
+    Entry point for the consume command.
+    """
+    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args += ["-c", "pytest-consume.ini"]
+    pytest.main(args)
