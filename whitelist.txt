@@ -293,6 +293,7 @@ autouse
 basedir
 callspec
 collectonly
+copyfile
 copytree
 dedent
 dest
@@ -329,6 +330,7 @@ readline
 regexes
 reportinfo
 ret
+rglob
 ripemd
 rjust
 runpytest
@@ -338,6 +340,8 @@ subcommand
 substring
 substrings
 tf
+testdir
+tmpdir
 tryfirst
 trylast
 usefixtures
