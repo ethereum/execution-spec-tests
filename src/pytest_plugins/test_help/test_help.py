@@ -49,12 +49,13 @@ def show_test_help(config):
             "solc",
             "fork range",
             "filler location",
-            "defining debug",  # the "debug" group in test_filler plugin.
+            "defining debug",
         ]
     elif pytest_ini.name == "pytest-consume.ini":
         test_group_substrings = [
             "execution-spec-tests",
-            "consume",
+            "consuming",
+            "defining debug",
         ]
     else:
         raise ValueError("Unexpected pytest.ini file option generating test help.")
