@@ -54,7 +54,11 @@ class GethTransitionTool(TransitionTool):
         return fork.fork() in self.help_string
 
     def verify_fixture(
-        self, fixture_format: FixtureFormats, fixture_path: Path, debug_output_path: Optional[Path]
+        self,
+        fixture_format: FixtureFormats,
+        fixture_path: Path,
+        fixture_name: Optional[str],
+        debug_output_path: Optional[Path],
     ):
         """
         Executes `evm [state|block]test` to verify the fixture at `fixture_path`.
@@ -73,6 +77,9 @@ class GethTransitionTool(TransitionTool):
         else:
             raise Exception(f"Invalid test fixture format: {fixture_format}")
 
+        if fixture_name:
+            command.append("--single-test")
+            command.append(fixture_name)
         command.append(str(fixture_path))
 
         result = subprocess.run(
@@ -83,7 +90,6 @@ class GethTransitionTool(TransitionTool):
 
         if debug_output_path:
             debug_fixture_path = debug_output_path / "fixtures.json"
-            shutil.copyfile(fixture_path, debug_fixture_path)
             # Use the local copy of the fixture in the debug directory
             verify_fixtures_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
             verify_fixtures_script = textwrap.dedent(
@@ -102,9 +108,9 @@ class GethTransitionTool(TransitionTool):
                     "verify_fixtures.sh+x": verify_fixtures_script,
                 },
             )
+            shutil.copyfile(fixture_path, debug_fixture_path)
 
         if result.returncode != 0:
             raise Exception(
-                f"Failed to verify fixture via: '{' '.join(command)}'. "
-                f"Error: '{result.stderr.decode()}'"
+                f"EVM test failed.\n{' '.join(command)}\n\n Error:\n{result.stderr.decode()}"
             )

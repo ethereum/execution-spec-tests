@@ -439,7 +439,11 @@ class TransitionTool:
         return new_alloc, bytes.fromhex(state_root[2:])
 
     def verify_fixture(
-        self, fixture_format: FixtureFormats, fixture_path: Path, debug_output_path: Optional[Path]
+        self,
+        fixture_format: FixtureFormats,
+        fixture_path: Path,
+        fixture_name: Optional[str],
+        debug_output_path: Optional[Path],
     ):
         """
         Executes `evm [state|block]test` to verify the fixture at `fixture_path`.

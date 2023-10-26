@@ -4,7 +4,7 @@ A pytest plugin to execute the blocktest on the specified fixture directory.
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Generator
+from typing import Generator, Optional
 
 import pytest
 
@@ -54,6 +54,15 @@ def pytest_addoption(parser):  # noqa: D103
         default=False,
         help="Collect traces of the execution information from the transition tool.",
     )
+    debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
+    debug_group.addoption(
+        "--evm-dump-dir",
+        action="store",
+        dest="base_dump_dir",
+        type=Path,
+        default=None,
+        help="Path to dump the transition tool debug output.",
+    )
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -68,6 +77,22 @@ def evm(request) -> Generator[TransitionTool, None, None]:
     )
     yield evm
     evm.shutdown()
+
+
+@pytest.fixture(scope="function")
+def test_dump_dir(request, json_fixture_path: Path, fixture_name: str) -> Optional[Path]:
+    """
+    The directory to write evm debug output to.
+    """
+    base_dump_dir = request.config.getoption("base_dump_dir")
+    if not base_dump_dir:
+        return None
+    if request.config.getoption("do_multiple_tests_per_file"):
+        if len(fixture_name) > 142:
+            # ensure file name is not too long for eCryptFS
+            fixture_name = fixture_name[:70] + "..." + fixture_name[-70:]
+        return base_dump_dir / json_fixture_path.stem / fixture_name
+    return base_dump_dir / json_fixture_path.stem
 
 
 @pytest.fixture(scope="function")
