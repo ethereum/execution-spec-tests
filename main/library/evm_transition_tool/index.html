@@ -7859,8 +7859,7 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 16</span>
-<span class="normal"> 17</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 17</span>
 <span class="normal"> 18</span>
 <span class="normal"> 19</span>
 <span class="normal"> 20</span>
@@ -7951,7 +7950,9 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Go-ethereum `evm` Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -8019,7 +8020,8 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
-            <span class="n">debug_fixture_path</span> <span class="o">=</span> <span class="n">debug_output_path</span> <span class="o">/</span> <span class="n">fixture_path</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">debug_fixture_path</span> <span class="o">=</span> <span class="n">debug_output_path</span> <span class="o">/</span> <span class="s2">&quot;fixtures.json&quot;</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">fixture_path</span><span class="p">,</span> <span class="n">debug_fixture_path</span><span class="p">)</span>
             <span class="c1"># Use the local copy of the fixture in the debug directory</span>
             <span class="n">verify_fixtures_call</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">debug_fixture_path</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="n">verify_fixtures_script</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
@@ -8076,13 +8078,13 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
-<span class="normal">48</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool.</span>
 
@@ -8118,8 +8120,7 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 55</span>
-<span class="normal"> 56</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 56</span>
 <span class="normal"> 57</span>
 <span class="normal"> 58</span>
 <span class="normal"> 59</span>
@@ -8171,7 +8172,9 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -8200,7 +8203,8 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
-        <span class="n">debug_fixture_path</span> <span class="o">=</span> <span class="n">debug_output_path</span> <span class="o">/</span> <span class="n">fixture_path</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">debug_fixture_path</span> <span class="o">=</span> <span class="n">debug_output_path</span> <span class="o">/</span> <span class="s2">&quot;fixtures.json&quot;</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">fixture_path</span><span class="p">,</span> <span class="n">debug_fixture_path</span><span class="p">)</span>
         <span class="c1"># Use the local copy of the fixture in the debug directory</span>
         <span class="n">verify_fixtures_call</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">debug_fixture_path</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">verify_fixtures_script</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
