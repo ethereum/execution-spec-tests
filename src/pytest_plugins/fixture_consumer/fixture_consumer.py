@@ -112,8 +112,3 @@ def pytest_generate_tests(metafunc):
                     fixture_ids.append(f"{json_file.name}")
 
         metafunc.parametrize("fixture_data", fixture_data, ids=fixture_ids)
-
-
-def test_fixtures(evm: TransitionTool, json_fixture_path: Path, fixture_name: str):  # noqa: D103
-    test_dump_dir = None
-    evm.verify_fixture(FixtureFormats.BLOCKCHAIN_TEST, json_fixture_path, test_dump_dir)
