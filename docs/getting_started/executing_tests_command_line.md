@@ -111,12 +111,13 @@ fill --test-help
 
 Output:
 
-```console
+```text
 usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--verify-fixtures]
             [--verify-fixtures-bin VERIFY_FIXTURES_BIN] [--solc-bin SOLC_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
-            [--enable-hive] [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK]
-            [--from FROM] [--until UNTIL] [--test-help]
+            [--single-fixture-per-file] [--enable-hive]
+            [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK] [--from FROM]
+            [--until UNTIL] [--test-help]
 
 options:
   -h, --help            show this help message and exit
@@ -127,11 +128,11 @@ Arguments defining evm executable behavior:
   --traces              Collect traces of the execution information from the
                         transition tool.
   --verify-fixtures     Verify generated fixture JSON files using geth's evm
-                        blocktest command. By default, the same evm binary as for
-                        the t8n tool is used. A different (geth) evm binary may
-                        be specified via --verify-fixtures-bin, this must be
-                        specified if filling with a non-geth t8n tool that does
-                        not support blocktest.
+                        blocktest command. By default, the same evm binary as
+                        for the t8n tool is used. A different (geth) evm binary
+                        may be specified via --verify-fixtures-bin, this must
+                        be specified if filling with a non-geth t8n tool that
+                        does not support blocktest.
   --verify-fixtures-bin VERIFY_FIXTURES_BIN
                         Path to an evm executable that provides the `blocktest`
                         command. Default: The first (geth) 'evm' entry in PATH.
@@ -145,8 +146,12 @@ Arguments defining filler location and output:
                         Path to filler directives
   --output OUTPUT       Directory to store the generated test fixtures. Can be
                         deleted.
-  --flat-output         Output each test case in the directory without the folder
-                        structure.
+  --flat-output         Output each test case in the directory without the
+                        folder structure.
+  --single-fixture-per-file
+                        Don't group fixtures in JSON files by test function;
+                        write each fixture to its own file. This can be used to
+                        increase the granularity of --verify-fixtures.
   --enable-hive         Output test fixtures with the hive-specific properties.
 
 Arguments defining debug behavior:
@@ -164,4 +169,5 @@ Arguments related to running execution-spec-tests:
                         and exit.
 
 Exit: After displaying help.
+
 ```
