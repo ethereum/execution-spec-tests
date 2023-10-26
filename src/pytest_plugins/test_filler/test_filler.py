@@ -471,8 +471,14 @@ class FixtureCollector:
         for fixture_path, fixture_format in self.json_path_to_fixture_type.items():
             item = self.json_path_to_test_item[fixture_path]
             verify_fixtures_dump_dir = self._get_verify_fixtures_dump_dir(item)
+            use_single_test = False
+            fixture_name = ""
             evm_fixture_verification.verify_fixture(
-                fixture_format, fixture_path, "", verify_fixtures_dump_dir
+                fixture_format,
+                fixture_path,
+                use_single_test,
+                fixture_name,
+                verify_fixtures_dump_dir,
             )
 
     def _get_verify_fixtures_dump_dir(

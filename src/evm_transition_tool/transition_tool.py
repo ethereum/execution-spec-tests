@@ -438,10 +438,19 @@ class TransitionTool:
             raise Exception("Unable to calculate state root")
         return new_alloc, bytes.fromhex(state_root[2:])
 
+    def get_blocktest_help(self) -> str:
+        """
+        Return the help string for the blocktest subcommand.
+        """
+        raise NotImplementedError(
+            "The `blocktest` command is not supported by this tool. Use geth's evm tool."
+        )
+
     def verify_fixture(
         self,
         fixture_format: FixtureFormats,
         fixture_path: Path,
+        use_evm_single_test: bool,
         fixture_name: Optional[str],
         debug_output_path: Optional[Path],
     ):
@@ -450,6 +459,6 @@ class TransitionTool:
 
         Currently only implemented by geth's evm.
         """
-        raise Exception(
+        raise NotImplementedError(
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
         )

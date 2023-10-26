@@ -53,10 +53,24 @@ class GethTransitionTool(TransitionTool):
         """
         return fork.fork() in self.help_string
 
+    def get_blocktest_help(self) -> str:
+        """
+        Return the help string for the blocktest subcommand.
+        """
+        args = [str(self.binary), "blocktest", "--help"]
+        try:
+            result = subprocess.run(args, capture_output=True, text=True)
+        except subprocess.CalledProcessError as e:
+            raise Exception("evm process unexpectedly returned a non-zero status code: " f"{e}.")
+        except Exception as e:
+            raise Exception(f"Unexpected exception calling evm tool: {e}.")
+        return result.stdout
+
     def verify_fixture(
         self,
         fixture_format: FixtureFormats,
         fixture_path: Path,
+        use_evm_single_test: bool,
         fixture_name: Optional[str],
         debug_output_path: Optional[Path],
     ):
@@ -77,7 +91,8 @@ class GethTransitionTool(TransitionTool):
         else:
             raise Exception(f"Invalid test fixture format: {fixture_format}")
 
-        if fixture_name:
+        if use_evm_single_test:
+            assert isinstance(fixture_name, str), "fixture_name must be a string"
             command.append("--single-test")
             command.append(fixture_name)
         command.append(str(fixture_path))
