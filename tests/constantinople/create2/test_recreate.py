@@ -15,7 +15,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     Yul,
-    compute_create_address,
     compute_create2_address,
 )
 

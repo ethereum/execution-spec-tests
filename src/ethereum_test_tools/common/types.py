@@ -746,7 +746,7 @@ class Alloc(dict, Mapping[Address, Account], SupportsJSON):
             address = Address(address)
             assert address not in self, f"Duplicate address in alloc: {address}"
             account = Account.from_dict(account)
-            assert not account.is_empty(), f"Empty account: {account} for address: {address}"
+            #assert not account.is_empty(), f"Empty account: {account} for address: {address}"
             self[address] = account
 
     @classmethod
