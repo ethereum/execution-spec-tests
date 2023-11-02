@@ -69,7 +69,7 @@ def pytest_configure(config):  # noqa: D103
     except NotImplementedError as e:
         pytest.exit(str(e))
     config.evm = evm
-    config.evm_use_single_test = "--single-test" in blocktest_help_string
+    config.evm_use_single_test = "--run" in blocktest_help_string
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -108,7 +108,7 @@ def test_dump_dir(
 
 
 @pytest.fixture(scope="function")
-def json_fixture_path(fixture_data):
+def json_fixture_path(fixture_data: FixtureData):
     """
     Provide the path to the current JSON fixture file.
     """
@@ -116,7 +116,15 @@ def json_fixture_path(fixture_data):
 
 
 @pytest.fixture(scope="function")
-def fixture_name(fixture_data):
+def fixture_format(fixture_data: FixtureData):
+    """
+    The format of the current fixture.
+    """
+    return fixture_data.fixture_format
+
+
+@pytest.fixture(scope="function")
+def fixture_name(fixture_data: FixtureData):
     """
     The name of the current fixture.
     """

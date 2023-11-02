@@ -93,7 +93,7 @@ class GethTransitionTool(TransitionTool):
 
         if use_evm_single_test:
             assert isinstance(fixture_name, str), "fixture_name must be a string"
-            command.append("--single-test")
+            command.append("--run")
             command.append(fixture_name)
         command.append(str(fixture_path))
 
