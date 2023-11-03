@@ -306,7 +306,7 @@ class TransitionTool:
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
-        Executes `evmone-t8n` with the specified arguments.
+        Executes a transition tool using the filesystem for its inputs and outputs.
         """
         if eips is not None:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
@@ -431,6 +431,9 @@ class TransitionTool:
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        """
+        Executes a transition tool using stdin and stdout for its inputs and outputs.
+        """
         if eips is not None:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
 
@@ -537,10 +540,10 @@ class TransitionTool:
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
-        Executes `evm t8n` with the specified arguments.
+        Executes the relevant evaluate method as required by the `t8n` tool.
 
         If a client's `t8n` tool varies from the default behavior, this method
-        should be overridden.
+        can be overridden.
         """
         if self.t8n_use_stream:
             return self._evaluate_stream(
