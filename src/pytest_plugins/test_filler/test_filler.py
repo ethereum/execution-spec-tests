@@ -299,10 +299,10 @@ def convert_test_id_to_test_name_and_parameters(name: str) -> Tuple[str, str]:
     Converts a test name to a tuple containing the test name and test parameters.
 
     Example:
-    test_push0_key_sstore[fork=Shanghai] -> test_push0_key_sstore, fork_Shanghai
+    test_push0_key_sstore[fork_Shanghai] -> test_push0_key_sstore, fork_Shanghai
     """
     test_name, parameters = name.split("[")
-    return test_name, re.sub(r"[\[=\-]", "_", parameters).replace("]", "")
+    return test_name, re.sub(r"[\[\-]", "_", parameters).replace("]", "")
 
 
 def get_module_relative_output_dir(test_module: Path, filler_path: Path) -> Path:
@@ -676,7 +676,7 @@ def pytest_make_parametrize_id(config, val, argname):
     Pytest hook called when generating test ids. We use this to generate
     more readable test ids for the generated tests.
     """
-    return f"{argname}={val}"
+    return f"{argname}_{val}"
 
 
 def pytest_runtest_call(item):
