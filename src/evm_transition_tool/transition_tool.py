@@ -5,16 +5,15 @@ Transition tool abstract class.
 import json
 import os
 import shutil
-import stat
 import subprocess
 import tempfile
 import textwrap
 from abc import abstractmethod
 from enum import Enum
 from itertools import groupby
-from json import dump
 from pathlib import Path
 from re import Pattern
+from .file_utils import write_json_file, dump_files_to_directory
 from typing import Any, Dict, List, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
@@ -33,42 +32,6 @@ class TransitionToolNotFoundInPath(Exception):
         if binary:
             message = f"{message} ({binary})"
         super().__init__(message)
-
-
-def write_json_file(data: Dict[str, Any], file_path: str) -> None:
-    """
-    Write a JSON file to the given path.
-    """
-    with open(file_path, "w") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-
-
-def dump_files_to_directory(output_path: str, files: Dict[str, Any]) -> None:
-    """
-    Dump the files to the given directory.
-    """
-    os.makedirs(output_path, exist_ok=True)
-    for file_rel_path_flags, file_contents in files.items():
-        file_rel_path, flags = (
-            file_rel_path_flags.split("+")
-            if "+" in file_rel_path_flags
-            else (file_rel_path_flags, "")
-        )
-        rel_path = os.path.dirname(file_rel_path)
-        if rel_path:
-            os.makedirs(os.path.join(output_path, rel_path), exist_ok=True)
-        file_path = os.path.join(output_path, file_rel_path)
-        with open(file_path, "w") as f:
-            if isinstance(file_contents, str):
-                f.write(file_contents)
-            else:
-                dump(file_contents, f, ensure_ascii=True, indent=4)
-        if flags:
-            file_mode = os.stat(file_path).st_mode
-            if "x" in flags:
-                file_mode |= stat.S_IEXEC
-            os.chmod(file_path, file_mode)
-
 
 class FixtureFormats(Enum):
     """
@@ -302,15 +265,11 @@ class TransitionTool:
         fork_name: str,
         chain_id: int = 1,
         reward: int = 0,
-        eips: Optional[List[int]] = None,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Executes a transition tool using the filesystem for its inputs and outputs.
         """
-        if eips is not None:
-            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
-
         temp_dir = tempfile.TemporaryDirectory()
         os.mkdir(os.path.join(temp_dir.name, "input"))
         os.mkdir(os.path.join(temp_dir.name, "output"))
@@ -428,18 +387,11 @@ class TransitionTool:
         fork_name: str,
         chain_id: int = 1,
         reward: int = 0,
-        eips: Optional[List[int]] = None,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Executes a transition tool using stdin and stdout for its inputs and outputs.
         """
-        if eips is not None:
-            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
-
-        if int(env["currentNumber"], 0) == 0:
-            reward = -1
-
         command: list[str] = [str(self.binary)]
         if self.t8n_subcommand:
             command.append(self.t8n_subcommand)
@@ -545,6 +497,11 @@ class TransitionTool:
         If a client's `t8n` tool varies from the default behavior, this method
         can be overridden.
         """
+        if eips is not None:
+            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
+        if int(env["currentNumber"], 0) == 0:
+            reward = -1
+
         if self.t8n_use_stream:
             return self._evaluate_stream(
                 alloc=alloc,
@@ -553,7 +510,6 @@ class TransitionTool:
                 fork_name=fork_name,
                 chain_id=chain_id,
                 reward=reward,
-                eips=eips,
                 debug_output_path=debug_output_path,
             )
         else:
@@ -564,7 +520,6 @@ class TransitionTool:
                 fork_name=fork_name,
                 chain_id=chain_id,
                 reward=reward,
-                eips=eips,
                 debug_output_path=debug_output_path,
             )
 
