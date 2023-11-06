@@ -1,7 +1,6 @@
 """
 Transition tool abstract class.
 """
-
 import json
 import os
 import shutil
@@ -13,10 +12,11 @@ from enum import Enum
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from .file_utils import write_json_file, dump_files_to_directory
 from typing import Any, Dict, List, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
+
+from .file_utils import dump_files_to_directory, write_json_file
 
 
 class UnknownTransitionTool(Exception):
@@ -32,6 +32,7 @@ class TransitionToolNotFoundInPath(Exception):
         if binary:
             message = f"{message} ({binary})"
         super().__init__(message)
+
 
 class FixtureFormats(Enum):
     """
@@ -435,7 +436,7 @@ class TransitionTool:
 
         return output["alloc"], output["result"]
 
-    def construct_args_stream(self, fork_name, chain_id, reward, temp_dir):
+    def construct_args_stream(self, fork_name, chain_id, reward, temp_dir):  # noqa: D102
         command: list[str] = [str(self.binary)]
         if self.t8n_subcommand:
             command.append(self.t8n_subcommand)
@@ -457,7 +458,9 @@ class TransitionTool:
             args.append(f"--output.basedir={temp_dir.name}")
         return args
 
-    def dump_debug_stream(self, debug_output_path, temp_dir,stdin, args, result: subprocess.CompletedProcess):
+    def dump_debug_stream(
+        self, debug_output_path, temp_dir, stdin, args, result: subprocess.CompletedProcess
+    ):
         if debug_output_path:
             t8n_call = " ".join(args)
             t8n_output_base_dir = os.path.join(debug_output_path, "t8n.sh.out")

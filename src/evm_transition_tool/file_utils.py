@@ -8,6 +8,7 @@ import stat
 from json import dump
 from typing import Any, Dict
 
+
 def write_json_file(data: Dict[str, Any], file_path: str) -> None:
     """
     Write a JSON file to the given path.
