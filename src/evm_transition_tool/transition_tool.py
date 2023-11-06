@@ -392,6 +392,50 @@ class TransitionTool:
         """
         Executes a transition tool using stdin and stdout for its inputs and outputs.
         """
+        temp_dir = tempfile.TemporaryDirectory() if self.trace else ""
+        args = self.construct_args_stream(fork_name, chain_id, reward, temp_dir)
+
+        stdin = {
+            "alloc": alloc,
+            "txs": txs,
+            "env": env,
+        }
+
+        encoded_input = str.encode(json.dumps(stdin))
+        result = subprocess.run(
+            args,
+            input=encoded_input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        self.dump_debug_stream(debug_output_path, temp_dir, stdin, args, result)
+
+        if result.returncode != 0:
+            raise Exception("failed to evaluate: " + result.stderr.decode())
+
+        output = json.loads(result.stdout)
+
+        if not all([x in output for x in ["alloc", "result", "body"]]):
+            raise Exception("Malformed t8n output: missing 'alloc', 'result' or 'body'.")
+
+        if debug_output_path:
+            dump_files_to_directory(
+                debug_output_path,
+                {
+                    "output/alloc.json": output["alloc"],
+                    "output/result.json": output["result"],
+                    "output/txs.rlp": output["body"],
+                },
+            )
+
+        if self.trace:
+            self.collect_traces(output["result"]["receipts"], temp_dir, debug_output_path)
+            temp_dir.cleanup()
+
+        return output["alloc"], output["result"]
+
+    def construct_args_stream(self, fork_name, chain_id, reward, temp_dir):
         command: list[str] = [str(self.binary)]
         if self.t8n_subcommand:
             command.append(self.t8n_subcommand)
@@ -409,24 +453,11 @@ class TransitionTool:
         ]
 
         if self.trace:
-            temp_dir = tempfile.TemporaryDirectory()
             args.append("--trace")
             args.append(f"--output.basedir={temp_dir.name}")
+        return args
 
-        stdin = {
-            "alloc": alloc,
-            "txs": txs,
-            "env": env,
-        }
-
-        encoded_input = str.encode(json.dumps(stdin))
-        result = subprocess.run(
-            args,
-            input=encoded_input,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-
+    def dump_debug_stream(self, debug_output_path, temp_dir,stdin, args, result: subprocess.CompletedProcess):
         if debug_output_path:
             t8n_call = " ".join(args)
             t8n_output_base_dir = os.path.join(debug_output_path, "t8n.sh.out")
@@ -454,30 +485,6 @@ class TransitionTool:
                     "t8n.sh+x": t8n_script,
                 },
             )
-
-        if result.returncode != 0:
-            raise Exception("failed to evaluate: " + result.stderr.decode())
-
-        output = json.loads(result.stdout)
-
-        if not all([x in output for x in ["alloc", "result", "body"]]):
-            raise Exception("Malformed t8n output: missing 'alloc', 'result' or 'body'.")
-
-        if debug_output_path:
-            dump_files_to_directory(
-                debug_output_path,
-                {
-                    "output/alloc.json": output["alloc"],
-                    "output/result.json": output["result"],
-                    "output/txs.rlp": output["body"],
-                },
-            )
-
-        if self.trace:
-            self.collect_traces(output["result"]["receipts"], temp_dir, debug_output_path)
-            temp_dir.cleanup()
-
-        return output["alloc"], output["result"]
 
     def evaluate(
         self,
