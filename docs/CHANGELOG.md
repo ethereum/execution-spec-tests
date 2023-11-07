@@ -22,7 +22,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ## Breaking Changes
 
-1. In this release the pytest node ID is now used for fixture names (previously it only the test parameters were used), this should not be breaking. However, "=" in both node IDs, and therefore fixture names, has been replaced with "_", which may break tooling that depends on "=" character.
+1. In this release the pytest node ID is now used for fixture names (previously only the test parameters were used), this should not be breaking. However, "=" in both node IDs and therefore fixture names, have been replaced with "_", which may break tooling that depends on the "=" character.
 
    Pytest node ID example:
 
