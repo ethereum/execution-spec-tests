@@ -8,6 +8,7 @@ import subprocess
 import tempfile
 import textwrap
 from abc import abstractmethod
+from dataclasses import dataclass, field
 from enum import Enum
 from itertools import groupby
 from pathlib import Path
@@ -257,15 +258,19 @@ class TransitionTool:
                 traces.append(tx_traces)
         self.append_traces(traces)
 
+    @dataclass
+    class ToolData:
+        alloc: Any
+        txs: Any
+        env: Any
+        fork_name: str
+        chain_id: int = field(default=1)
+        reward: int = field(default=0)
+
     def _evaluate_filesystem(
         self,
         *,
-        alloc: Any,
-        txs: Any,
-        env: Any,
-        fork_name: str,
-        chain_id: int = 1,
-        reward: int = 0,
+        t8n_data: ToolData,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
@@ -276,9 +281,9 @@ class TransitionTool:
         os.mkdir(os.path.join(temp_dir.name, "output"))
 
         input_contents = {
-            "alloc": alloc,
-            "env": env,
-            "txs": txs,
+            "alloc": t8n_data.alloc,
+            "env": t8n_data.env,
+            "txs": t8n_data.txs,
         }
 
         input_paths = {
@@ -296,7 +301,7 @@ class TransitionTool:
         args = [
             str(self.binary),
             "--state.fork",
-            fork_name,
+            t8n_data.fork_name,
             "--input.alloc",
             input_paths["alloc"],
             "--input.env",
@@ -312,9 +317,9 @@ class TransitionTool:
             "--output.body",
             output_paths["body"],
             "--state.reward",
-            str(reward),
+            str(t8n_data.reward),
             "--state.chainid",
-            str(chain_id),
+            str(t8n_data.chain_id),
         ]
 
         if self.trace:
@@ -382,30 +387,24 @@ class TransitionTool:
     def _evaluate_stream(
         self,
         *,
-        alloc: Any,
-        txs: Any,
-        env: Any,
-        fork_name: str,
-        chain_id: int = 1,
-        reward: int = 0,
+        t8n_data: ToolData,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Executes a transition tool using stdin and stdout for its inputs and outputs.
         """
-        temp_dir = tempfile.TemporaryDirectory() if self.trace else ""
-        args = self.construct_args_stream(fork_name, chain_id, reward, temp_dir)
+        temp_dir = tempfile.TemporaryDirectory()
+        args = self.construct_args_stream(t8n_data, temp_dir)
 
         stdin = {
-            "alloc": alloc,
-            "txs": txs,
-            "env": env,
+            "alloc": t8n_data.alloc,
+            "txs": t8n_data.txs,
+            "env": t8n_data.env,
         }
 
-        encoded_input = str.encode(json.dumps(stdin))
         result = subprocess.run(
             args,
-            input=encoded_input,
+            input=str.encode(json.dumps(stdin)),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
@@ -436,7 +435,7 @@ class TransitionTool:
 
         return output["alloc"], output["result"]
 
-    def construct_args_stream(self, fork_name, chain_id, reward, temp_dir):  # noqa: D102
+    def construct_args_stream(self, t8n_data: ToolData, temp_dir):  # noqa: D102
         command: list[str] = [str(self.binary)]
         if self.t8n_subcommand:
             command.append(self.t8n_subcommand)
@@ -448,9 +447,9 @@ class TransitionTool:
             "--output.result=stdout",
             "--output.alloc=stdout",
             "--output.body=stdout",
-            f"--state.fork={fork_name}",
-            f"--state.chainid={chain_id}",
-            f"--state.reward={reward}",
+            f"--state.fork={t8n_data.fork_name}",
+            f"--state.chainid={t8n_data.chain_id}",
+            f"--state.reward={t8n_data.reward}",
         ]
 
         if self.trace:
@@ -460,34 +459,36 @@ class TransitionTool:
 
     def dump_debug_stream(
         self, debug_output_path, temp_dir, stdin, args, result: subprocess.CompletedProcess
-    ):
-        if debug_output_path:
-            t8n_call = " ".join(args)
-            t8n_output_base_dir = os.path.join(debug_output_path, "t8n.sh.out")
-            if self.trace:
-                t8n_call = t8n_call.replace(temp_dir.name, t8n_output_base_dir)
-            t8n_script = textwrap.dedent(
-                f"""\
-                #!/bin/bash
-                rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
-                mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not enabled
-                {t8n_call} < {debug_output_path}/stdin.txt
-                """
-            )
-            dump_files_to_directory(
-                debug_output_path,
-                {
-                    "args.py": args,
-                    "input/alloc.json": stdin["alloc"],
-                    "input/env.json": stdin["env"],
-                    "input/txs.json": stdin["txs"],
-                    "returncode.txt": result.returncode,
-                    "stdin.txt": stdin,
-                    "stdout.txt": result.stdout.decode(),
-                    "stderr.txt": result.stderr.decode(),
-                    "t8n.sh+x": t8n_script,
-                },
-            )
+    ):  # noqa: D102
+        if not debug_output_path:
+            return
+
+        t8n_call = " ".join(args)
+        t8n_output_base_dir = os.path.join(debug_output_path, "t8n.sh.out")
+        if self.trace:
+            t8n_call = t8n_call.replace(temp_dir.name, t8n_output_base_dir)
+        t8n_script = textwrap.dedent(
+            f"""\
+            #!/bin/bash
+            rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
+            mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not enabled
+            {t8n_call} < {debug_output_path}/stdin.txt
+            """
+        )
+        dump_files_to_directory(
+            debug_output_path,
+            {
+                "args.py": args,
+                "input/alloc.json": stdin["alloc"],
+                "input/env.json": stdin["env"],
+                "input/txs.json": stdin["txs"],
+                "returncode.txt": result.returncode,
+                "stdin.txt": stdin,
+                "stdout.txt": result.stdout.decode(),
+                "stderr.txt": result.stderr.decode(),
+                "t8n.sh+x": t8n_script,
+            },
+        )
 
     def evaluate(
         self,
@@ -511,25 +512,15 @@ class TransitionTool:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
         if int(env["currentNumber"], 0) == 0:
             reward = -1
+        t8n_data = TransitionTool.ToolData(
+            alloc=alloc, txs=txs, env=env, fork_name=fork_name, chain_id=chain_id, reward=reward
+        )
 
         if self.t8n_use_stream:
-            return self._evaluate_stream(
-                alloc=alloc,
-                txs=txs,
-                env=env,
-                fork_name=fork_name,
-                chain_id=chain_id,
-                reward=reward,
-                debug_output_path=debug_output_path,
-            )
+            return self._evaluate_stream(t8n_data=t8n_data, debug_output_path=debug_output_path)
         else:
             return self._evaluate_filesystem(
-                alloc=alloc,
-                txs=txs,
-                env=env,
-                fork_name=fork_name,
-                chain_id=chain_id,
-                reward=reward,
+                t8n_data=t8n_data,
                 debug_output_path=debug_output_path,
             )
 
