@@ -2110,7 +2110,7 @@ class FixtureHeader:
         source=HeaderFieldSource(
             parse_type=Bytes,
             source_environment="extra_data",
-            default=b"",
+            default=Bytes([0]),
         ),
         json_encoder=JSONEncoder.Field(name="extraData"),
     )
