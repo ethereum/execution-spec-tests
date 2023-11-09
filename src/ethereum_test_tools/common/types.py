@@ -903,7 +903,7 @@ class Environment:
         ),
     )
     timestamp: NumberConvertible = field(
-        default=1000,
+        default=12,
         json_encoder=JSONEncoder.Field(
             name="currentTimestamp",
             cast_type=Number,

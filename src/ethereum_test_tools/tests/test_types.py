@@ -425,7 +425,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
                 "currentGasLimit": "100000000000000000",
                 "currentNumber": "1",
-                "currentTimestamp": "1000",
+                "currentTimestamp": "12",
                 "blockHashes": {},
                 "ommers": [],
                 "parentUncleHash": (
@@ -457,7 +457,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "currentCoinbase": "0x0000000000000000000000000000000000001234",
                 "currentGasLimit": "100000000000000000",
                 "currentNumber": "1",
-                "currentTimestamp": "1000",
+                "currentTimestamp": "12",
                 "currentDifficulty": "5",
                 "currentRandom": "6",
                 "currentBaseFee": "7",
