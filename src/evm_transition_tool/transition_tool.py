@@ -259,7 +259,11 @@ class TransitionTool:
         self.append_traces(traces)
 
     @dataclass
-    class ToolData:
+    class TransitionToolData:
+        """
+        Transition tool files and data to pass between methods
+        """
+
         alloc: Any
         txs: Any
         env: Any
@@ -270,7 +274,7 @@ class TransitionTool:
     def _evaluate_filesystem(
         self,
         *,
-        t8n_data: ToolData,
+        t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
@@ -387,7 +391,7 @@ class TransitionTool:
     def _evaluate_stream(
         self,
         *,
-        t8n_data: ToolData,
+        t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
@@ -435,7 +439,12 @@ class TransitionTool:
 
         return output["alloc"], output["result"]
 
-    def construct_args_stream(self, t8n_data: ToolData, temp_dir):  # noqa: D102
+    def construct_args_stream(
+        self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
+    ) -> List[str]:
+        """
+        Construct arguments for t8n interaction via streams
+        """
         command: list[str] = [str(self.binary)]
         if self.t8n_subcommand:
             command.append(self.t8n_subcommand)
@@ -458,8 +467,16 @@ class TransitionTool:
         return args
 
     def dump_debug_stream(
-        self, debug_output_path, temp_dir, stdin, args, result: subprocess.CompletedProcess
-    ):  # noqa: D102
+        self,
+        debug_output_path: str,
+        temp_dir: tempfile.TemporaryDirectory,
+        stdin: Dict[str, Any],
+        args: List[str],
+        result: subprocess.CompletedProcess,
+    ):
+        """
+        Export debug files if requested when interacting with t8n via streams
+        """
         if not debug_output_path:
             return
 
@@ -512,7 +529,7 @@ class TransitionTool:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
         if int(env["currentNumber"], 0) == 0:
             reward = -1
-        t8n_data = TransitionTool.ToolData(
+        t8n_data = TransitionTool.TransitionToolData(
             alloc=alloc, txs=txs, env=env, fork_name=fork_name, chain_id=chain_id, reward=reward
         )
 
