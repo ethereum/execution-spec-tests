@@ -11,12 +11,27 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🛠️ Framework
 
 - ✨ Add a `--single-fixture-per-file` flag to generate one fixture JSON file per test case ([#331](https://github.com/ethereum/execution-spec-tests/pull/331)).
+- 🔀 Rename test fixtures names to match the corresponding pytest node ID as generated using `fill` ([#342](https://github.com/ethereum/execution-spec-tests/pull/342)).
+- 💥 Replace "=" with "_" in pytest node ids and test fixture names ([#342](https://github.com/ethereum/execution-spec-tests/pull/342)).
 
 ### 🔧 EVM Tools
 
 ### 📋 Misc
 
 - 🔀 Docs: Update `t8n` tool branch to fill tests for development features in the [readme](https://github.com/ethereum/execution-spec-test) ([#338](https://github.com/ethereum/execution-spec-tests/pull/338)).
+
+## Breaking Changes
+
+1. In this release the pytest node ID is now used for fixture names (previously only the test parameters were used), this should not be breaking. However, "=" in both node IDs and therefore fixture names, have been replaced with "_", which may break tooling that depends on the "=" character.
+
+   Pytest node ID example:
+
+   - Previous node ID: `tests/frontier/opcodes/test_dup.py::test_dup[fork=Frontier]`
+   - New node ID: `tests/frontier/opcodes/test_dup.py::test_dup[fork_Frontier]`
+
+   Fixture name example:
+   - Previous fixture name: `fork=Frontier`
+   - New fixture name: `fork_Frontier`
 
 ## [v1.0.6](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6) - 2023-10-19: 🐍🏖️ Cancun Devnet 10
 

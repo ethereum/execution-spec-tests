@@ -88,6 +88,7 @@ executables
 extcodecopy
 extcodehash
 extcodesize
+filesystem
 fn
 fname
 forkchoice
