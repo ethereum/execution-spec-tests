@@ -69,6 +69,7 @@ dirname
 discordapp
 docstrings
 dup
+EEST
 eip
 eips
 EIPs
@@ -154,7 +155,7 @@ marioevz
 markdownlint
 md
 metaclass
-Misspelled words:
+mixhash
 mkdocs
 mkdocstrings
 mypy
@@ -210,6 +211,7 @@ repos
 returndatacopy
 returndatasize
 rlp
+ruleset
 runtime
 sandboxed
 secp256k1
@@ -299,9 +301,11 @@ copytree
 dedent
 dest
 exc
+extractall
 fixturenames
 fspath
 funcargs
+getfixturevalue
 getgroup
 getoption
 groupby
@@ -324,11 +328,13 @@ params
 parametrize
 parametrizer
 parametrizers
+parametrization
 popen
 pytester
 pytestmark
 readline
 regexes
+removesuffix
 reportinfo
 ret
 rglob
@@ -509,3 +515,7 @@ deployer
 fi
 url
 gz
+tT
+blobgasfee
+istanbul
+berlin

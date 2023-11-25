@@ -32,7 +32,9 @@ result = runner.invoke(fill, ["--help"])
 print(result.output)
 ```
 """
+import os
 import sys
+import warnings
 
 import click
 import pytest
@@ -92,6 +94,30 @@ def handle_help_flags(pytest_args, help_flag, pytest_help_flag):
         return list(pytest_args)
 
 
+def get_hive_flags_from_env():
+    """
+    Read simulator flags from environment variables and convert them, as best as
+    possible, into pytest flags.
+    """
+    pytest_args = []
+    xdist_workers = os.getenv("HIVE_PARALLELISM")
+    if xdist_workers is not None:
+        pytest_args.extend("-n", xdist_workers)
+    test_pattern = os.getenv("HIVE_TEST_PATTERN")
+    if test_pattern is not None:
+        # TODO: Check that the regex is a valid pytest -k "test expression"
+        pytest_args.extend("-k", test_pattern)
+    random_seed = os.getenv("HIVE_RANDOM_SEED")
+    if random_seed is not None:
+        # TODO: implement random seed
+        warnings.warning("HIVE_RANDOM_SEED is not yet supported.")
+    log_level = os.getenv("HIVE_LOGLEVEL")
+    if log_level is not None:
+        # TODO add logging within simulators and implement log level via cli
+        warnings.warning("HIVE_LOG_LEVEL is not yet supported.")
+    return pytest_args
+
+
 @click.command(context_settings=dict(ignore_unknown_options=True))
 @common_options
 def fill(pytest_args, help_flag, pytest_help_flag):
@@ -102,12 +128,49 @@ def fill(pytest_args, help_flag, pytest_help_flag):
     pytest.main(args)
 
 
+@click.group()
+def consume():
+    """
+    Help clients consume JSON test fixtures.
+    """
+    pass
+
+
 @click.command(context_settings=dict(ignore_unknown_options=True))
 @common_options
-def consume(pytest_args, help_flag, pytest_help_flag):
+def consume_direct(pytest_args, help_flag, pytest_help_flag):
     """
-    Entry point for the consume command.
+    Clients consume directly via the `blocktest` interface.
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    args += ["-c", "pytest-consume.ini"]
+    args += ["-c", "pytest-consume-direct.ini"]
     pytest.main(args)
+
+
+@click.command(context_settings=dict(ignore_unknown_options=True))
+@common_options
+def consume_via_rlp(pytest_args, help_flag, pytest_help_flag):
+    """
+    Clients consume RLP-encoded blocks on startup.
+    """
+    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args += ["-c", "pytest-consume-via-rlp.ini"]
+    pytest.main(args)
+
+
+@click.command(context_settings=dict(ignore_unknown_options=True))
+@common_options
+def consume_via_engine_api(pytest_args, help_flag, pytest_help_flag):
+    """
+    Clients consume via the Engine API.
+    """
+    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args += ["-c", "pytest-consume-via-engine-api.ini"]
+    args += get_hive_flags_from_env()
+    raise NotImplementedError("Consume via Engine API simulator is not implemented yet.")
+    # pytest.main(args)
+
+
+consume.add_command(consume_direct, name="direct")
+consume.add_command(consume_via_rlp, name="rlp")
+consume.add_command(consume_via_engine_api, name="engine")

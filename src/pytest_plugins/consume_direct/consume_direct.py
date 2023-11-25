@@ -12,7 +12,7 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 
 
 @dataclass
-class FixtureData:  # noqa: D101
+class TestCase:  # noqa: D101
     fixture_name: str
     fixture_format: FixtureFormats
     json_file_path: Path
@@ -22,13 +22,7 @@ def pytest_addoption(parser):  # noqa: D103
     consume_group = parser.getgroup(
         "consume", "Arguments related to consuming fixtures via a client"
     )
-    consume_group.addoption(
-        "--fixture-directory",
-        type=Path,
-        action="store",
-        default="fixtures",
-        help="Specify the fixture directory to execute tests on. Default: 'fixtures'.",
-    )
+
     consume_group.addoption(
         "--evm-bin",
         action="store",
@@ -108,7 +102,7 @@ def test_dump_dir(
 
 
 @pytest.fixture(scope="function")
-def json_fixture_path(fixture_data: FixtureData):
+def json_fixture_path(fixture_data: TestCase):
     """
     Provide the path to the current JSON fixture file.
     """
@@ -116,7 +110,7 @@ def json_fixture_path(fixture_data: FixtureData):
 
 
 @pytest.fixture(scope="function")
-def fixture_format(fixture_data: FixtureData):
+def fixture_format(fixture_data: TestCase):
     """
     The format of the current fixture.
     """
@@ -124,7 +118,7 @@ def fixture_format(fixture_data: FixtureData):
 
 
 @pytest.fixture(scope="function")
-def fixture_name(fixture_data: FixtureData):
+def fixture_name(fixture_data: TestCase):
     """
     The name of the current fixture.
     """
@@ -140,21 +134,21 @@ def pytest_generate_tests(metafunc):
         fixtures_directory = metafunc.config.getoption("fixture_directory")
 
         fixture_data = []
-        fixture_ids = []
+        test_case_ids = []
         for json_file in fixtures_directory.glob("**/*.json"):
             with json_file.open() as f:
                 data = json.load(f)
                 if metafunc.config.evm_use_single_test:
                     for fixture_name in data.keys():
                         fixture_data.append(
-                            FixtureData(fixture_name, FixtureFormats.BLOCKCHAIN_TEST, json_file)
+                            TestCase(fixture_name, FixtureFormats.BLOCKCHAIN_TEST, json_file)
                         )
-                        fixture_ids.append(f"{json_file.name}_{fixture_name}")
+                        test_case_ids.append(f"{json_file.name}_{fixture_name}")
                 else:
                     # evm bin does not support --single-test
                     fixture_data.append(
-                        FixtureData(json_file.name, FixtureFormats.BLOCKCHAIN_TEST, json_file)
+                        TestCase(json_file.name, FixtureFormats.BLOCKCHAIN_TEST, json_file)
                     )
-                    fixture_ids.append(f"{json_file.name}")
+                    test_case_ids.append(f"{json_file.name}")
 
-        metafunc.parametrize("fixture_data", fixture_data, ids=fixture_ids)
+        metafunc.parametrize("fixture_data", fixture_data, ids=test_case_ids)

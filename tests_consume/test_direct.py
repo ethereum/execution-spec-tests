@@ -1,5 +1,6 @@
 """
-Test module that defines a test to execute a fixture against an EVM blocktest-like command.
+Executes a JSON test fixture directly against a client using a dedicated
+client interface similar to geth's EVM 'blocktest' command.
 """
 from pathlib import Path
 from typing import Optional

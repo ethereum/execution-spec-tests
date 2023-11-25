@@ -51,7 +51,11 @@ def show_test_help(config):
             "filler location",
             "defining debug",
         ]
-    elif pytest_ini.name == "pytest-consume.ini":
+    elif pytest_ini.name in [
+        "pytest-consume-direct.ini",
+        "pytest-consume-via-rlp.ini",
+        "pytest-consume-via-engine-api.ini",
+    ]:
         test_group_substrings = [
             "execution-spec-tests",
             "consuming",

@@ -254,7 +254,7 @@ def do_fixture_verification(request, t8n) -> bool:
 @pytest.fixture(autouse=True, scope="session")
 def evm_fixture_verification(
     request, do_fixture_verification: bool, evm_bin: Path, verify_fixtures_bin: Path
-) -> Optional[Generator[TransitionTool, None, None]]:
+) -> Generator[Optional[TransitionTool], None, None]:
     """
     Returns the configured evm binary for executing statetest and blocktest
     commands used to verify generated JSON fixtures.

@@ -45,6 +45,33 @@ from .conversions import (
 from .json import JSONEncoder, SupportsJSON, field, to_json
 
 
+def load_dataclass_from_json(dataclass_type, json_as_dict: dict):
+    """
+    Loads a dataclass from a JSON object. This could be as simple as, for example,
+    ```
+    fixture = Fixture(**json_as_dict)
+    ```
+    but as we name our dataclass fields differently than those we write to json,
+    we need to do a bit more work.
+    """
+    init_args = {}
+    for dataclass_field in fields(dataclass_type):
+        # Retrieve the JSONEncoder.Field instance from metadata
+        json_encoder_field = dataclass_field.metadata.get("json_encoder")
+
+        if json_encoder_field is None or json_encoder_field.skip:
+            continue
+
+        json_key = json_encoder_field.name or dataclass_field.name
+        if json_key in json_as_dict:
+            value = json_as_dict[json_key]
+            if json_encoder_field.cast_type:
+                value = json_encoder_field.cast_type(value)
+            init_args[dataclass_field.name] = value
+
+    return dataclass_type(**init_args)
+
+
 # Sentinel classes
 class Removable:
     """
