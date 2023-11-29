@@ -317,7 +317,9 @@ IGNORECASE
 inifile
 iterdir
 ljust
+longreprtext
 makepyfile
+makereport
 metafunc
 modifyitems
 nodeid
