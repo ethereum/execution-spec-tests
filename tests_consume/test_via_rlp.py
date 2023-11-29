@@ -9,7 +9,7 @@ from typing import List, Literal, Union
 import pytest
 import requests
 from hive.client import Client
-from hive.testing import HiveTest, HiveTestResult, HiveTestSuite
+from hive.testing import HiveTest
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_tools.common.types import Fixture
@@ -48,33 +48,6 @@ def expected_state_root(test_case: TestCase) -> str:
     The state root defined in the test fixture's last block header.
     """
     return test_case.fixture.blocks[-1]["blockHeader"]["stateRoot"]
-
-
-# @pytest.fixture
-# def execution_client(request):
-#    execution_clients = request.cw
-#    # assert len(execution_client) == 1
-#    return execution_clients[0]
-
-
-@pytest.fixture
-def hive_test(request, test_suite: HiveTestSuite):
-    test_parameter_string = request.node.nodeid.split("[")[-1].rstrip("]")
-    test: HiveTest = test_suite.start_test(
-        name=test_parameter_string, description="TODO: This should come from the '_info' field."
-    )
-    yield test
-    test_result: HiveTestResult
-    try:
-        if hasattr(request.node, "rep_call"):
-            test_passed = request.node.rep_call.passed
-        else:
-            test_passed = False
-        test_result_details = "All good." if test_passed else "Oops, test failed."
-        test_result = HiveTestResult(test_pass=test_passed, details=test_result_details)
-    except Exception as e:
-        test_result = HiveTestResult(test_pass=False, details=str(e))
-    test.end(result=test_result)
 
 
 @pytest.fixture(scope="session")
