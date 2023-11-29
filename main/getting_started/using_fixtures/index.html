@@ -763,6 +763,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#how-test-fixtures-are-consumed-via-hive-simulators" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Test Fixtures are Consumed via Hive Simulators
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-formats" class="md-nav__link">
     <span class="md-ellipsis">
       Release Formats
@@ -5601,6 +5610,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#how-test-fixtures-are-consumed-via-hive-simulators" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Test Fixtures are Consumed via Hive Simulators
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-formats" class="md-nav__link">
     <span class="md-ellipsis">
       Release Formats
@@ -5657,13 +5675,13 @@
 <td><code>blocktest</code>-like command</td>
 <td>Module test</td>
 <td>- Fast feedback loop<br/>- Less complex</td>
-<td>- Smaller coverage scope</td>
+<td>- Smaller coverage scope<br/>- Requires a dedicated interface to the client EVM to consume the JSON fixtures and execute tests</td>
 </tr>
 <tr>
 <td><code>hive --sim ethereum/pyspec</code></td>
 <td>System test / Integration test</td>
 <td>- Wider Coverage Scope<br/>- Tests more of the client stack</td>
-<td>- Slower feedback loop<br/>- Harder to debug</td>
+<td>- Slower feedback loop<br/>- Harder to debug<br/>- Post-Merge forks only (requires the Engine API)</td>
 </tr>
 </tbody>
 </table>
@@ -5675,6 +5693,13 @@
 <p class="admonition-title">Running <code>blocktest</code> directly within the execution-spec-tests framework</p>
 <p>It's possible to execute <code>evm blocktest</code> directly within the execution-spec-tests framework. This is intended to verify fixture generation, see <a href="../debugging_t8n_tools/">Debugging <code>t8n</code> Tools</a>.</p>
 </div>
+<h2 id="how-test-fixtures-are-consumed-via-hive-simulators">How Test Fixtures are Consumed via Hive Simulators<a class="headerlink" href="#how-test-fixtures-are-consumed-via-hive-simulators" title="Permanent link">&para;</a></h2>
+<p>There are two Hive simulators that execute the test cases defined in the JSON test fixtures against fully instantiated client instances using the <a class="magiclink magiclink-github magiclink-repository" href="https://github.com/ethereum/execution-apis" title="GitHub Repository: ethereum/execution-apis">ethereum/execution-apis</a>:</p>
+<ol>
+<li>The <code>ethereum/pyspec</code> simulator executes the test cases against a fully instantiated execution client that executes blocks via the <a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#engine_newpayloadv1"><code>engine_newPayloadVX</code></a> method. Each block is verified by the client and tested against the <code>engine_newPayloadVX</code> response. The post-state section of the test is additionally explicitly verified via <code>eth_getStorageAt</code> and <code>eth_getBalance</code> alongside an internal nonce checking method. Note, this simulator only works for post-merge forks.</li>
+<li>The <code>ethereum/consensus</code> simulator executes the test cases by importing the RLP-encoded blocks to the execution client upon start-up on the command-line. The pre-state of <code>block[0]</code> and the post-state of <code>block[n]</code> are verified using the standard <a href="https://ethereum.github.io/execution-apis/api-documentation">Execution JSON-RPC API</a>, for example with <code>eth_getBlockByNumber</code>. This simulator works for all forks.</li>
+</ol>
+<p>Both of these methods only support test fixtures in the blockchain test format (but any state test can be expressed as blockchain test consisting of 1 block with 1 transaction).</p>
 <h2 id="release-formats">Release Formats<a class="headerlink" href="#release-formats" title="Permanent link">&para;</a></h2>
 <p>The <a class="magiclink magiclink-github magiclink-repository" href="https://github.com/ethereum/execution-spec-tests" title="GitHub Repository: ethereum/execution-spec-tests">ethereum/execution-spec-tests</a> repository provides <a href="https://github.com/ethereum/execution-spec-tests/releases">releases</a> of fixtures in various formats (as of 2023-10-16):</p>
 <table>
