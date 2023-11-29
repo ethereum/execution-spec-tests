@@ -9,8 +9,8 @@ Here's a top-level comparison of these two approaches:
 
 | Consumed via | Scope | Pros | Cons |
 | --- | --- | --- | --- |
-| `blocktest`-like command | Module test | - Fast feedback loop<br/>- Less complex | - Smaller coverage scope |
-| `hive --sim ethereum/pyspec` | System test / Integration test | - Wider Coverage Scope<br/>- Tests more of the client stack | - Slower feedback loop<br/>- Harder to debug |
+| `blocktest`-like command | Module test | - Fast feedback loop<br/>- Less complex | - Smaller coverage scope<br/>- Requires a dedicated interface to the client EVM to consume the JSON fixtures and execute tests |
+| `hive --sim ethereum/pyspec` | System test / Integration test | - Wider Coverage Scope<br/>- Tests more of the client stack | - Slower feedback loop<br/>- Harder to debug<br/>- Post-Merge forks only (requires the Engine API) |
 
 !!! note "Executing a `t8n` tool via `fill` is not considered to be the actual test"
 
@@ -19,6 +19,15 @@ Here's a top-level comparison of these two approaches:
 !!! note "Running `blocktest` directly within the execution-spec-tests framework"
 
     It's possible to execute `evm blocktest` directly within the execution-spec-tests framework. This is intended to verify fixture generation, see [Debugging `t8n` Tools](./debugging_t8n_tools.md).
+
+## How Test Fixtures are Consumed via Hive Simulators
+
+There are two Hive simulators that execute the test cases defined in the JSON test fixtures against fully instantiated client instances using the @ethereum/execution-apis:
+
+1. The `ethereum/pyspec` simulator executes the test cases against a fully instantiated execution client that executes blocks via the [`engine_newPayloadVX`](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#engine_newpayloadv1) method. Each block is verified by the client and tested against the `engine_newPayloadVX` response. The post-state section of the test is additionally explicitly verified via `eth_getStorageAt` and `eth_getBalance` alongside an internal nonce checking method. Note, this simulator only works for post-merge forks.
+2. The `ethereum/consensus` simulator executes the test cases by importing the RLP-encoded blocks to the execution client upon start-up on the command-line. The pre-state of `block[0]` and the post-state of `block[n]` are verified using the standard [Execution JSON-RPC API](https://ethereum.github.io/execution-apis/api-documentation), for example with `eth_getBlockByNumber`. This simulator works for all forks.
+
+Both of these methods only support test fixtures in the blockchain test format (but any state test can be expressed as blockchain test consisting of 1 block with 1 transaction).
 
 ## Release Formats
 

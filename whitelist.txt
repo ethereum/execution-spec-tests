@@ -5,6 +5,7 @@ address
 address2
 alloc
 api
+apis
 at5
 balance
 base64
