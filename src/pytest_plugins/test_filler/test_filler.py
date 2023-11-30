@@ -8,6 +8,7 @@ writes the generated fixtures to file.
 import json
 import os
 import re
+import sys
 import warnings
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Literal, Optional, Tuple, Type, Union
@@ -194,6 +195,20 @@ def pytest_report_header(config, start_path):
     return [f"{t8n.version()}, solc version {solc_version_string}"]
 
 
+def pytest_report_teststatus(report, config):
+    """
+    Disable test session progress report if we're writing the JSON fixtures to
+    stdout to be read by a consume command on stdin. I.e., don't write this
+    type of output to the console:
+
+    ```text
+    ...x...
+    ```
+    """
+    if config.getoption("output") == "stdout":
+        return report.outcome, "", report.outcome.upper()
+
+
 @pytest.fixture(autouse=True, scope="session")
 def evm_bin(request) -> Path:
     """
@@ -370,6 +385,8 @@ def get_fixture_collection_scope(fixture_name, config):
 
     See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
     """
+    if config.getoption("output") == "stdout":
+        return "session"
     if config.getoption("single_fixture_per_file"):
         return "function"
     return "module"
@@ -446,6 +463,12 @@ class FixtureCollector:
         """
         Dumps all collected fixtures to their respective files.
         """
+        if self.output_dir == "stdout":
+            combined_fixtures = {
+                k: v for fixture in self.all_fixtures.values() for k, v in fixture.items()
+            }
+            json.dump(combined_fixtures, sys.stdout, indent=4)
+            return
         os.makedirs(self.output_dir, exist_ok=True)
         for fixture_path, fixtures in self.all_fixtures.items():
             if not self.flat_output:

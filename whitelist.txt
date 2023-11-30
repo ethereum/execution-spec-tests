@@ -316,6 +316,7 @@ hookwrapper
 IEXEC
 IGNORECASE
 inifile
+isatty
 iterdir
 ljust
 longreprtext
@@ -352,6 +353,7 @@ substring
 substrings
 tf
 testdir
+teststatus
 tmpdir
 tryfirst
 trylast

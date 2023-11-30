@@ -94,6 +94,23 @@ def handle_help_flags(pytest_args, help_flag, pytest_help_flag):
         return list(pytest_args)
 
 
+def handle_stdout_flags(args):
+    """
+    If the user has requested to write to stdout, add pytest arguments in order
+    to suppress pytest's test session header and summary output.
+    """
+    writing_to_stdout = False
+    if any(arg == "--output=stdout" for arg in args):
+        writing_to_stdout = True
+    elif any(arg.startswith("--output") for arg in args):
+        output_index = args.index("--output")
+        if output_index < len(args) - 1 and args[output_index + 1] == "stdout":
+            writing_to_stdout = True
+    if writing_to_stdout:
+        args.extend(["-qq", "-s"])
+    return args
+
+
 def get_hive_flags_from_env():
     """
     Read simulator flags from environment variables and convert them, as best as
@@ -125,6 +142,7 @@ def fill(pytest_args, help_flag, pytest_help_flag):
     Entry point for the fill command.
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args = handle_stdout_flags(args)
     pytest.main(args)
 
 
@@ -155,6 +173,8 @@ def consume_via_rlp(pytest_args, help_flag, pytest_help_flag):
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
     args += ["-c", "pytest-consume-via-rlp.ini"]
+    if not sys.stdin.isatty():  # the command is receiving input on stdin
+        args.append("-s")
     pytest.main(args)
 
 

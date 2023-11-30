@@ -5,9 +5,10 @@ upon start-up.
 Implemented using the pytest framework as a pytest plugin.
 """
 import json
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, List, Optional, Tuple
+from typing import Any, List, Literal, Optional, Tuple, Union
 
 import pytest
 
@@ -33,6 +34,9 @@ def test_suite_description() -> str:
     return "Execute blockchain tests by providing RLP-encoded blocks to a client upon start-up."
 
 
+JsonSource = Union[Path, Literal["stdin"]]
+
+
 @dataclass
 class TestCase:  # noqa: D101
     """
@@ -41,7 +45,7 @@ class TestCase:  # noqa: D101
     """
 
     fixture_name: str
-    json_file_path: Path
+    json_file: JsonSource
     json_as_dict: dict
     fixture: Optional[Fixture] = None
     marks: List[pytest.MarkDecorator] = field(default_factory=list)
@@ -66,15 +70,19 @@ class TestCase:  # noqa: D101
             )
 
 
-def create_test_cases_from_json(json_file_path: Path) -> Tuple[List[Any], List[str]]:
+def create_test_cases_from_json(json_file: JsonSource) -> Tuple[List[Any], List[str]]:
     """
-    Extract blockchain test cases from a JSON fixture file.
+    Extract blockchain test cases from a JSON file or from stdin.
     """
     test_cases = []
     test_case_ids = []
-    # TODO: Consider try-except block here
-    with open(json_file_path, "r") as file:
-        json_data = json.load(file)
+
+    # TODO: exception handling?
+    if json_file == "stdin":
+        json_data = json.load(sys.stdin)
+    else:
+        with open(json_file, "r") as file:
+            json_data = json.load(file)
 
     for fixture_name, fixture_data in json_data.items():
         fixture = None
@@ -85,12 +93,12 @@ def create_test_cases_from_json(json_file_path: Path) -> Tuple[List[Any], List[s
             # Or should we? (it'll be brittle).
             fixture = load_dataclass_from_json(Fixture, fixture_data)
         except Exception as e:
-            reason = f"Error creating test case {fixture_name} from {json_file_path}: {e}"
+            reason = f"Error creating test case {fixture_name} from {json_file}: {e}"
             # TODO: Add logger.error() entry here
             marks.append(pytest.mark.xfail(reason=reason, run=False))
 
         test_case = TestCase(
-            json_file_path=json_file_path,
+            json_file=json_file,
             json_as_dict=fixture_data,
             fixture_name=fixture_name,
             fixture=fixture,
@@ -98,10 +106,16 @@ def create_test_cases_from_json(json_file_path: Path) -> Tuple[List[Any], List[s
         )
         test_cases.append(pytest.param(test_case, marks=test_case.marks))
 
-        if "::.py" in fixture_name:  # new format; fixture name if fill pytest node id
+        if (
+            json_file == "stdin"
+            or "::.py" in fixture_name
+            or (isinstance(json_file, str) and json_file == "stdin")
+        ):
+            # stdin or new format; fixture name if fill pytest node id
+            # (if stdin, json_file_path is None)
             test_case_ids.append(str(fixture_name))
-        else:  # old format, pre v1.0.7
-            test_case_ids.append(f"{json_file_path.name}_{str(fixture_name)}")
+        else:
+            test_case_ids.append(f"{json_file.name}_{str(fixture_name)}")
 
     return test_cases, test_case_ids
 
@@ -109,15 +123,23 @@ def create_test_cases_from_json(json_file_path: Path) -> Tuple[List[Any], List[s
 def pytest_generate_tests(metafunc):
     """
     Generate test cases for every test fixture in all the JSON fixture files
-    within the specified fixtures directory.
+    within the specified fixtures directory, or read from stdin if the directory is 'stdin'.
     """
     fixtures_directory = metafunc.config.getoption("fixture_directory")
     test_cases: List[TestCase] = []
     test_case_ids: List[str] = []
-    for json_file in fixtures_directory.glob("**/*.json"):
-        cases, ids = create_test_cases_from_json(json_file)
+
+    if not sys.stdin.isatty():
+        cases, ids = create_test_cases_from_json("stdin")
         test_cases.extend(cases)
         test_case_ids.extend(ids)
+    else:
+        fixtures_directory = Path(fixtures_directory)
+        for json_file in fixtures_directory.glob("**/*.json"):
+            cases, ids = create_test_cases_from_json(json_file)
+            test_cases.extend(cases)
+            test_case_ids.extend(ids)
+
     metafunc.parametrize("test_case", test_cases, ids=test_case_ids)
     if "client_type" in metafunc.fixturenames:
         client_ids = [client.name for client in metafunc.config.hive_execution_clients]
