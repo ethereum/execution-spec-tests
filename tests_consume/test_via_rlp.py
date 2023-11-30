@@ -103,6 +103,7 @@ def buffered_blocks_rlp(blocks_rlp: List[str], start=1) -> List[io.BufferedReade
 @pytest.fixture
 def files(
     test_case: TestCase,
+    client_type: ClientType,
     buffered_genesis: io.BufferedReader,
     buffered_blocks_rlp: list[io.BufferedReader],
 ) -> Mapping[str, io.BufferedReader]:
@@ -114,7 +115,10 @@ def files(
     - Values are in-memory buffered file objects.
     """
     files = {f"/blocks/{i:04d}.rlp": block_rlp for i, block_rlp in enumerate(buffered_blocks_rlp)}
-    files["/genesis.json"] = buffered_genesis
+    if client_type.name == "nethermind":
+        files["/chainspec/test.json"] = buffered_genesis
+    else:
+        files["/genesis.json"] = buffered_genesis
     return files
 
 
