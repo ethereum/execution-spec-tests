@@ -1,5 +1,13 @@
 """
-Test module that defines a test to execute a fixture against an EVM blocktest-like command.
+Test module to test clients using RLP-encoded blocks from blockchain tests.
+
+The test fixtures should have the blockchain test format. The setup sends
+the genesis file and RLP-encoded blocks to the client container using hive.
+The client consumes these files upon start-up.
+
+The test verifies:
+1. The client's genesis block hash matches that of the fixture.
+2. The client's last block's hash and stateRoot` match those of the fixture.
 """
 import json
 import tempfile
