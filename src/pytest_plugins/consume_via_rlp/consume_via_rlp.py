@@ -11,7 +11,8 @@ from typing import Any, List, Optional, Tuple
 
 import pytest
 
-from ethereum_test_tools.common.types import Fixture, load_dataclass_from_json
+from ethereum_test_tools.common.json import load_dataclass_from_json
+from ethereum_test_tools.common.types import Fixture
 
 from .network_ruleset_hive import ruleset
 
