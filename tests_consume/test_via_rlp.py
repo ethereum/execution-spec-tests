@@ -15,7 +15,7 @@ from typing import List, Literal, Mapping, Union
 
 import pytest
 import requests
-from hive.client import Client
+from hive.client import Client, ClientType
 from hive.testing import HiveTest
 from tenacity import retry, stop_after_attempt, wait_exponential
 
@@ -49,11 +49,6 @@ def expected_state_root(test_case: TestCase) -> str:
     The state root defined in the test fixture's last block header.
     """
     return test_case.fixture.blocks[-1]["blockHeader"]["stateRoot"]
-
-
-@pytest.fixture(scope="session")
-def network(test_suite):
-    return test_suite.create_network("execution_client_network")
 
 
 @pytest.fixture(scope="function")
@@ -138,12 +133,10 @@ def environment(test_case: TestCase) -> dict:
 
 
 @pytest.fixture(scope="function")
-def client(hive_test: HiveTest, files: dict, environment: dict, network, client_type) -> Client:
+def client(hive_test: HiveTest, files: dict, environment: dict, client_type: ClientType) -> Client:
     client = hive_test.start_client(client_type=client_type, environment=environment, files=files)
     assert client is not None
-    network.connect_client(client)
     yield client
-    network.disconnect_client(client)
     client.stop()
 
 
