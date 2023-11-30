@@ -309,6 +309,7 @@ funcargs
 getfixturevalue
 getgroup
 getoption
+Golang
 groupby
 hookimpl
 hookwrapper
