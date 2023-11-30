@@ -9,10 +9,9 @@ The test verifies:
 1. The client's genesis block hash matches that of the fixture.
 2. The client's last block's hash and stateRoot` match those of the fixture.
 """
+import io
 import json
-import tempfile
-from pathlib import Path
-from typing import List, Literal, Union
+from typing import List, Literal, Mapping, Union
 
 import pytest
 import requests
@@ -26,17 +25,11 @@ from pytest_plugins.consume_via_rlp.network_ruleset_hive import ruleset
 
 
 @pytest.fixture(scope="function")
-def temp_dir() -> tempfile.TemporaryDirectory:
-    """
-    Return a temporary directory to write the genesis.json and block RLP files to.
-    """
-    return tempfile.TemporaryDirectory()
-
-
-@pytest.fixture(scope="function")
 def test_case_fixture(test_case: TestCase) -> Fixture:
     """
     The test fixture as a dictionary.
+
+    If we failed to parse a test case fixture, it's None: We xfail/skip the test.
     """
     assert test_case.fixture is not None
     return test_case.fixture
@@ -66,17 +59,16 @@ def network(test_suite):
 @pytest.fixture(scope="function")
 def blocks_rlp(test_case_fixture: Fixture) -> List[str]:
     """
-    A list of RLP-encoded blocks for the current test fixture.
+    A list of RLP-encoded blocks for the current json test fixture.
     """
     return [block["rlp"] for block in test_case_fixture.blocks]
 
 
 @pytest.fixture(scope="function")
-def to_geth_genesis(test_case: TestCase, test_case_fixture: Fixture):
+def to_geth_genesis(test_case: TestCase, test_case_fixture: Fixture) -> dict:
     """
     Convert the genesis block header of the current test fixture to a geth genesis block.
     """
-    # TODO: Ask Martin why we can't just use the genesis block header as-is.
     geth_genesis = {
         "nonce": test_case_fixture.genesis["nonce"],
         "timestamp": test_case_fixture.genesis["timestamp"],
@@ -97,22 +89,38 @@ def to_geth_genesis(test_case: TestCase, test_case_fixture: Fixture):
 
 
 @pytest.fixture
-def genesis_file(to_geth_genesis: dict, temp_dir: tempfile.TemporaryDirectory) -> Path:
-    genesis_file = Path(temp_dir.name) / "genesis.json"
-    with open(genesis_file, "w") as f:
-        f.write(json.dumps(to_geth_genesis))
-    return genesis_file
+def buffered_genesis(to_geth_genesis: dict) -> io.BufferedReader:
+    genesis_json = json.dumps(to_geth_genesis)
+    genesis_bytes = genesis_json.encode("utf-8")
+    return io.BufferedReader(io.BytesIO(genesis_bytes))
 
 
 @pytest.fixture
-def block_rlp_files(temp_dir, blocks_rlp, start=1) -> List[Path]:
+def buffered_blocks_rlp(blocks_rlp: List[str], start=1) -> List[io.BufferedReader]:
     block_rlp_files = []
     for i, block_rlp in enumerate(blocks_rlp):
-        blocks_rlp_file = Path(temp_dir.name) / f"{i:04d}.rlp"
-        with open(blocks_rlp_file, "wb") as f:
-            f.write(bytes.fromhex(block_rlp[2:]))
-        block_rlp_files.append(blocks_rlp_file)
-    yield block_rlp_files
+        blocks_rlp_bytes = bytes.fromhex(block_rlp[2:])
+        blocks_rlp_stream = io.BytesIO(blocks_rlp_bytes)
+        block_rlp_files.append(io.BufferedReader(blocks_rlp_stream))
+    return block_rlp_files
+
+
+@pytest.fixture
+def files(
+    test_case: TestCase,
+    buffered_genesis: io.BufferedReader,
+    buffered_blocks_rlp: list[io.BufferedReader],
+) -> Mapping[str, io.BufferedReader]:
+    """
+    Define the files that hive will start the client with.
+
+    The files are specified as a dictionary whose:
+    - Keys are the target file paths in the client's docker container, and,
+    - Values are in-memory buffered file objects.
+    """
+    files = {f"/blocks/{i:04d}.rlp": block_rlp for i, block_rlp in enumerate(buffered_blocks_rlp)}
+    files["/genesis.json"] = buffered_genesis
+    return files
 
 
 @pytest.fixture
@@ -127,27 +135,6 @@ def environment(test_case: TestCase) -> dict:
     if test_case.fixture.seal_engine == "NoProof":
         env["HIVE_SKIP_POW"] = "1"
     return env
-
-
-@pytest.fixture
-def files(test_case: TestCase, genesis_file: Path, block_rlp_files: list[Path]):
-    """
-    Define the files that will be sent to the client container upon initializing
-    the client.
-
-    The files are specified as a dictionary whose:
-    - Keys are the target file paths in the client's docker container, and,
-    - Values are the source file paths in the simulator container, respectively
-        the host (if hive is running in --dev mode).
-    """
-    target_block_files = [Path(f"/blocks/{file.name}") for file in block_rlp_files]
-    target_genesis_file = Path("/genesis.json")
-    files = {
-        str(target_file): str(source_file)
-        for target_file, source_file in zip(target_block_files, block_rlp_files)
-    }
-    files[str(target_genesis_file)] = str(genesis_file)
-    return files
 
 
 @pytest.fixture(scope="function")
