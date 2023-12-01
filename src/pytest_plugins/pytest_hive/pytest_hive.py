@@ -59,9 +59,21 @@ def pytest_configure(config):  # noqa: D103
     # of client_type with hive_execution_clients.
     config.hive_simulator_url = hive_simulator_url
     config.hive_simulator = Simulation(url=hive_simulator_url)
-    config.hive_execution_clients = config.hive_simulator.client_types(
-        role=ClientRole.ExecutionClient
-    )
+    try:
+        config.hive_execution_clients = config.hive_simulator.client_types(
+            role=ClientRole.ExecutionClient
+        )
+    except Exception as e:
+        message = (
+            f"Error connecting to hive simulator at {hive_simulator_url}.\n\n"
+            "Did you forget to start hive in --dev mode?\n"
+            "./hive --dev --client go-ethereum\n\n"
+        )
+        if config.option.verbose > 0:
+            message += f"Error details:\n{str(e)}"
+        else:
+            message += "Re-run with -v for more details."
+        pytest.exit(message)
 
 
 @pytest.hookimpl(trylast=True)
