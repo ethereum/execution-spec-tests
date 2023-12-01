@@ -129,7 +129,7 @@ def pytest_generate_tests(metafunc):
     test_cases: List[TestCase] = []
     test_case_ids: List[str] = []
 
-    if not sys.stdin.isatty():
+    if fixtures_directory == "stdin":
         cases, ids = create_test_cases_from_json("stdin")
         test_cases.extend(cases)
         test_case_ids.extend(ids)

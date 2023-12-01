@@ -102,11 +102,13 @@ def handle_stdout_flags(args):
     writing_to_stdout = False
     if any(arg == "--output=stdout" for arg in args):
         writing_to_stdout = True
-    elif any(arg.startswith("--output") for arg in args):
+    elif "--output" in args:
         output_index = args.index("--output")
-        if output_index < len(args) - 1 and args[output_index + 1] == "stdout":
+        if args[output_index + 1] == "stdout":
             writing_to_stdout = True
     if writing_to_stdout:
+        if any(arg == "-n" or arg.startswith("-n=") for arg in args):
+            sys.exit("error: xdist-plugin not supported with --output=stdout (remove -n args).")
         args.extend(["-qq", "-s"])
     return args
 
@@ -174,7 +176,7 @@ def consume_via_rlp(pytest_args, help_flag, pytest_help_flag):
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
     args += ["-c", "pytest-consume-via-rlp.ini"]
     if not sys.stdin.isatty():  # the command is receiving input on stdin
-        args.append("-s")
+        args.extend(["-s", "--input=stdin"])
     pytest.main(args)
 
 

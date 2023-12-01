@@ -65,6 +65,8 @@ def pytest_addoption(parser):  # noqa: D103
 
 def pytest_configure(config):  # noqa: D103
     input_source = config.getoption("fixture_directory")
+    if input_source == "stdin":
+        return
     download_directory = cached_downloads_directory
 
     if is_url(input_source):
