@@ -20,7 +20,7 @@ from hive.testing import HiveTest
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_tools.common.types import Fixture
-from pytest_plugins.consume_via_rlp.consume_via_rlp import TestCase
+from pytest_plugins.consume.consume import TestCase
 from pytest_plugins.consume_via_rlp.network_ruleset_hive import ruleset
 
 

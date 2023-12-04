@@ -42,8 +42,6 @@ def test_suite(request, simulator: Simulation):
 
 
 def pytest_configure(config):  # noqa: D103
-    if config.option.collectonly:
-        return
     hive_simulator_url = os.environ.get("HIVE_SIMULATOR")
     if hive_simulator_url is None:
         pytest.exit(

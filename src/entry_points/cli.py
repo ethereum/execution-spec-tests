@@ -166,6 +166,8 @@ def consume_direct(pytest_args, help_flag, pytest_help_flag):
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
     args += ["-c", "pytest-consume-direct.ini"]
+    if not sys.stdin.isatty():  # the command is receiving input on stdin
+        args.extend(["-s", "--input=stdin"])
     pytest.main(args)
 
 
@@ -177,6 +179,7 @@ def consume_via_rlp(pytest_args, help_flag, pytest_help_flag):
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
     args += ["-c", "pytest-consume-via-rlp.ini"]
+    args += get_hive_flags_from_env()
     if not sys.stdin.isatty():  # the command is receiving input on stdin
         args.extend(["-s", "--input=stdin"])
     pytest.main(args)
@@ -191,8 +194,23 @@ def consume_via_engine_api(pytest_args, help_flag, pytest_help_flag):
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
     args += ["-c", "pytest-consume-via-engine-api.ini"]
     args += get_hive_flags_from_env()
-    raise NotImplementedError("Consume via Engine API simulator is not implemented yet.")
-    # pytest.main(args)
+    if not sys.stdin.isatty():  # the command is receiving input on stdin
+        args.extend(["-s", "--input=stdin"])
+    pytest.main(args)
+
+
+@click.command(context_settings=dict(ignore_unknown_options=True))
+@common_options
+def consume_all(pytest_args, help_flag, pytest_help_flag):
+    """
+    Clients consume via all available methods (direct, rlp, engine).
+    """
+    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args += ["-c", "pytest-consume-all.ini"]
+    args += get_hive_flags_from_env()
+    if not sys.stdin.isatty():  # the command is receiving input on stdin
+        args.extend(["-s", "--input=stdin"])
+    pytest.main(args)
 
 
 @click.command(context_settings=dict(ignore_unknown_options=True))
@@ -206,11 +224,11 @@ def fill_and_consume_all(pytest_args, help_flag, pytest_help_flag):
     temp_dir = Path(tempfile.TemporaryDirectory().name) / "fixtures"
     args += ["--output", temp_dir]
     pytest.main(args)
-    pytest.main(["-c", "pytest-consume-direct.ini", "--input", temp_dir])
-    pytest.main(["-c", "pytest-consume-via-rlp.ini", "--input", temp_dir])
-    # pytest.main(["-c", "pytest-consume-via-engine.ini", "--input", temp_dir])
+    consume_args = get_hive_flags_from_env()
+    pytest.main(["-c", "pytest-consume-all.ini", "--input", temp_dir, "-v"] + consume_args)
 
 
+consume.add_command(consume_all, name="all")
 consume.add_command(consume_direct, name="direct")
 consume.add_command(consume_via_rlp, name="rlp")
 consume.add_command(consume_via_engine_api, name="engine")
