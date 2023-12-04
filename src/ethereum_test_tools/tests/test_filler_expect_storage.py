@@ -40,7 +40,9 @@ test_transaction = Transaction(
 )
 
 
-def run_test(pre: Mapping[Any, Any], post: Mapping[Any, Any], fork: Fork) -> pytest.ExceptionInfo:
+def run_test(
+    pre: Mapping[Any, Any], post: Mapping[Any, Any], tx: Transaction, fork: Fork
+) -> pytest.ExceptionInfo:
     """
     Perform the test execution and post state verification given pre and post
     """
@@ -48,7 +50,7 @@ def run_test(pre: Mapping[Any, Any], post: Mapping[Any, Any], fork: Fork) -> pyt
         env=Environment(),
         pre=pre,
         post=post,
-        txs=[test_transaction],
+        txs=[tx],
         tag="post_storage_value_mismatch",
         base_test_config=BaseTestConfig(enable_hive=False),
     )
@@ -81,7 +83,7 @@ def test_post_storage_value_mismatch_1():
         test_address: Account(storage={"0x01": "0x02"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 2
     assert e_info.value.got == 1
     assert e_info.value.key == 1
@@ -102,7 +104,7 @@ def test_post_storage_value_mismatch_2():
         test_address: Account(storage={"0x02": "0x01"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 0
     assert e_info.value.got == 1
     assert e_info.value.key == 1
@@ -123,7 +125,7 @@ def test_post_storage_value_mismatch_2_a():
         test_address: Account(storage={"0x00": "0x00"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 0
     assert e_info.value.got == 1
     assert e_info.value.key == 1
@@ -144,7 +146,7 @@ def test_post_storage_value_mismatch_2_b():
         test_address: Account(storage={}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 0
     assert e_info.value.got == 1
     assert e_info.value.key == 1
@@ -165,7 +167,7 @@ def test_post_storage_value_mismatch_3():
         test_address: Account(storage={"0x01": "0x02"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 2
     assert e_info.value.got == 0
     assert e_info.value.key == 1
@@ -186,7 +188,7 @@ def test_post_storage_value_mismatch_3_a():
         test_address: Account(storage={"0x01": "0x02"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 2
     assert e_info.value.got == 0
     assert e_info.value.key == 1
@@ -207,7 +209,7 @@ def test_post_storage_value_mismatch_4():
         test_address: Account(storage={"0x01": "0x02"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 0
     assert e_info.value.got == 3
     assert e_info.value.key == 0
@@ -228,7 +230,7 @@ def test_post_storage_value_mismatch_5():
         test_address: Account(storage={"0x01": "0x02"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 0
     assert e_info.value.got == 3
     assert e_info.value.key == 2
@@ -249,7 +251,7 @@ def test_post_storage_value_mismatch_6():
         test_address: Account(storage={"0x01": "0x02", "0x02": "0x03"}),
     }
 
-    e_info = run_test(pre, post, test_fork)
+    e_info = run_test(pre, post, test_transaction, test_fork)
     assert e_info.value.want == 3
     assert e_info.value.got == 0
     assert e_info.value.key == 2
