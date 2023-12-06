@@ -8,6 +8,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- 🐞 Fixed `tests/cancun/eip4844_blobs/test_blob_txs.py:test_invalid_tx_max_fee_per_blob_gas` to account for extra gas required in the case where the account is incorrectly deduced the balance as if it had the correct block blob gas fee.
+
 ### 🛠️ Framework
 
 - ✨ Add a `--single-fixture-per-file` flag to generate one fixture JSON file per test case ([#331](https://github.com/ethereum/execution-spec-tests/pull/331)).
