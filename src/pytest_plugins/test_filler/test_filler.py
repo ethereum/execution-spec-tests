@@ -20,6 +20,7 @@ from ethereum_test_tools import (
     BaseTestConfig,
     BlockchainTest,
     BlockchainTestFiller,
+    Environment,
     Fixture,
     HiveFixture,
     StateTest,
@@ -434,7 +435,12 @@ class FixtureCollector:
         else:
             fixture_basename = get_fixture_basename_for_nested_output(self, item)
 
-        fixture_path = self.output_dir / fixture_basename.with_suffix(".json")
+        if fixture_format is FixtureFormats.STATE_TEST:
+            fixture_path = self.output_dir / fixture_basename.with_stem(
+                fixture_basename.stem + "_state"
+            ).with_suffix(".json")
+        else:
+            fixture_path = self.output_dir / fixture_basename.with_suffix(".json")
         if fixture_path not in self.all_fixtures:  # relevant when we group by test function
             self.all_fixtures[fixture_path] = {}
             self.json_path_to_fixture_type[fixture_path] = fixture_format
@@ -631,10 +637,10 @@ def blockchain_test(
     """
 
     class BlockchainTestWrapper(BlockchainTest):
-        def __init__(self, *args, **kwargs):
+        def __init__(self, **kwargs):
             kwargs["base_test_config"] = base_test_config
             kwargs["t8n_dump_dir"] = dump_dir_parameter_level
-            super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
+            super(BlockchainTestWrapper, self).__init__(**kwargs)
             fixture_collector.add_fixture(
                 request.node,
                 fill_test(
@@ -646,6 +652,25 @@ def blockchain_test(
                 ),
                 fixture_format,
             )
+            if self.block_count() == 1 and self.transaction_count_in_block(0) == 1:
+                print("Valid state test!")
+                state_test = StateTest(
+                    env=Environment(),
+                    pre=kwargs["pre"],
+                    post=kwargs["post"],
+                    txs=kwargs["blocks"][0].txs,
+                )
+                fixture_collector.add_fixture(
+                    request.node,
+                    fill_test(
+                        t8n,
+                        state_test,
+                        fork,
+                        reference_spec,
+                        eips=eips,
+                    ),
+                    FixtureFormats.STATE_TEST,
+                )
 
     return BlockchainTestWrapper
 

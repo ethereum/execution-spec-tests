@@ -7,6 +7,8 @@ import pytest
 from ethereum_test_forks import Fork, Frontier, Homestead
 from ethereum_test_tools import (
     Account,
+    Block,
+    BlockchainTestFiller,
     Environment,
     StateTestFiller,
     TestAddress,
@@ -15,14 +17,14 @@ from ethereum_test_tools import (
 )
 
 
-@pytest.mark.valid_from("Homestead")
-def test_yul(state_test: StateTestFiller, yul: YulCompiler, fork: Fork):
-    """
-    Test YUL compiled bytecode.
-    """
-    env = Environment()
+@pytest.fixture
+def env():  # noqa: D103
+    return Environment()
 
-    pre = {
+
+@pytest.fixture
+def pre(yul: YulCompiler):  # noqa: D103
+    return {
         "0x1000000000000000000000000000000000000000": Account(
             balance=0x0BA1A9CE0BA1A9CE,
             code=yul(
@@ -41,7 +43,10 @@ def test_yul(state_test: StateTestFiller, yul: YulCompiler, fork: Fork):
         TestAddress: Account(balance=0x0BA1A9CE0BA1A9CE),
     }
 
-    tx = Transaction(
+
+@pytest.fixture
+def tx(fork):  # noqa: D103
+    return Transaction(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
@@ -51,7 +56,10 @@ def test_yul(state_test: StateTestFiller, yul: YulCompiler, fork: Fork):
         protected=False if fork in [Frontier, Homestead] else True,
     )
 
-    post = {
+
+@pytest.fixture
+def post():  # noqa: D103
+    return {
         "0x1000000000000000000000000000000000000000": Account(
             storage={
                 0x00: 0x03,
@@ -59,4 +67,19 @@ def test_yul(state_test: StateTestFiller, yul: YulCompiler, fork: Fork):
         ),
     }
 
+
+@pytest.mark.valid_from("Homestead")
+def test_yul(state_test: StateTestFiller, env, pre, tx, post):
+    """
+    Test YUL compiled bytecode.
+    """
     state_test(env=env, pre=pre, post=post, txs=[tx])
+
+
+@pytest.mark.valid_from("Homestead")
+def test_yul_blockchain(blockchain_test: BlockchainTestFiller, pre, tx, post):
+    """
+    Test YUL compiled bytecode.
+    """
+    blocks = [Block(txs=[tx])]
+    blockchain_test(pre=pre, post=post, blocks=blocks)

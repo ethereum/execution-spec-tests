@@ -64,6 +64,24 @@ class BlockchainTest(BaseTest):
         """
         return self.base_test_config.enable_hive
 
+    def block_count(self) -> int:
+        """
+        Returns the number of blocks in the test.
+        """
+        return len(self.blocks)
+
+    def transaction_count_in_block(self, block_index: int) -> int:
+        """
+        Returns the number of transactions in the block at the given index.
+        """
+        assert block_index >= 0, "block index must be >= 0"
+        if block_index >= self.block_count():
+            raise Exception(
+                f'Block index "{block_index}" is out of range for this test '
+                f"which has {self.block_count()} blocks."
+            )
+        return len(self.blocks[block_index].txs)
+
     def make_genesis(
         self,
         t8n: TransitionTool,

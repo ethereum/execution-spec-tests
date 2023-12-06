@@ -190,6 +190,7 @@ class StateTest(BaseTest):
                 FixtureBlock(
                     rlp=block,
                     block_header=header,
+                    block_number=Number(header.number),
                     txs=txs,
                     ommers=[],
                     withdrawals=self.env.withdrawals,
