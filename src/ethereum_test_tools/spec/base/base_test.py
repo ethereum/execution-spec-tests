@@ -5,10 +5,11 @@ from abc import abstractmethod
 from dataclasses import dataclass, field
 from itertools import count
 from os import path
+from pathlib import Path
 from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Optional
 
 from ethereum_test_forks import Fork
-from evm_transition_tool import TransitionTool
+from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import Account, Address, Environment, Transaction, withdrawals_root
 from ...common.conversions import to_hex
@@ -118,15 +119,39 @@ class BaseFixture:
         if ref_spec is not None:
             ref_spec.write_info(self.info)
 
-    def to_json(self) -> Dict[str, Any]:
+    @classmethod
+    @abstractmethod
+    def format(cls) -> FixtureFormats:
         """
-        Convert to JSON.
-
-        TODO: This has to be replaced in the future to allow for different fixtures to do whatever
-        they want in the output file, and somehow be able to merge themselves automatically with
-        other fixtures of the same type.
+        Returns the fixture format which the evm tool can use to determine how to verify the
+        fixture.
         """
         pass
+
+    @classmethod
+    @abstractmethod
+    def collect_into_file(cls, fixture_file_path: str, fixtures: Dict[str, "BaseFixture"]):
+        """
+        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def output_base_dir_name(cls) -> Path:
+        """
+        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        """
+        pass
+
+    @classmethod
+    def output_file_extension(cls) -> str:
+        """
+        Returns the file extension for this type of fixture.
+
+        By default, fixtures are dumped as JSON files.
+        """
+        return ".json"
 
 
 @dataclass(kw_only=True)
@@ -150,9 +175,9 @@ class BaseTest:
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> Optional[BaseFixture]:
+    ) -> List[BaseFixture]:
         """
-        Generate the test fixture.
+        Generate the list of test fixtures.
         """
         pass
 

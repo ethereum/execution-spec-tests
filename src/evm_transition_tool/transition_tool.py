@@ -61,6 +61,10 @@ class FixtureFormats(Enum):
     def is_standard_format(cls, format):  # noqa: D102
         return format in (cls.STATE_TEST, cls.BLOCKCHAIN_TEST)
 
+    @classmethod
+    def is_verifiable(cls, format):  # noqa: D102
+        return format in (cls.STATE_TEST, cls.BLOCKCHAIN_TEST)
+
 
 class TransitionTool:
     """

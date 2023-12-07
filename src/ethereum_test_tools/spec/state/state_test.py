@@ -87,15 +87,17 @@ class StateTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> Optional[BaseFixture]:
+    ) -> List[BaseFixture]:
         """
         Generate the BlockchainTest fixture.
         """
-        t8n.reset_traces()
-        if self.base_test_config.state_test:
-            raise Exception("StateTest format is not yet implemented!")
-        else:
-            return self.generate_blockchain_test().generate(t8n, fork, eips)
+        fixtures: List[BaseFixture] = []
+
+        fixtures += self.generate_blockchain_test().generate(t8n, fork, eips)
+
+        # TODO: append fixture in state format
+
+        return fixtures
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]

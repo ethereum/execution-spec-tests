@@ -21,8 +21,8 @@ from ethereum_test_tools import (
     StateTestFiller,
     Yul,
 )
-from ethereum_test_tools.spec.fixture_collector import FixtureCollector, get_dump_dir_path
-from evm_transition_tool import FixtureFormats, TransitionTool
+from ethereum_test_tools.spec.fixture_collector import FixtureCollector, TestInfo
+from evm_transition_tool import TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 
@@ -308,15 +308,20 @@ def base_test_config(request) -> BaseTestConfig:
 
 
 @pytest.fixture(scope="session")
-def base_dump_dir(request) -> Path:
+def base_dump_dir(request) -> Optional[Path]:
     """
     The base directory to dump the evm debug output.
     """
-    return request.config.getoption("base_dump_dir")
+    base_dump_dir_str = request.config.getoption("base_dump_dir")
+    if base_dump_dir_str:
+        return Path(base_dump_dir_str)
+    return None
 
 
 @pytest.fixture(scope="function")
-def dump_dir_parameter_level(request, base_dump_dir: Path, filler_path: Path) -> Optional[Path]:
+def dump_dir_parameter_level(
+    request, base_dump_dir: Optional[Path], filler_path: Path
+) -> Optional[Path]:
     """
     The directory to dump evm transition tool debug output on a test parameter
     level.
@@ -324,7 +329,11 @@ def dump_dir_parameter_level(request, base_dump_dir: Path, filler_path: Path) ->
     Example with --evm-dump-dir=/tmp/evm:
     -> /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shanghai/
     """
-    return get_dump_dir_path(base_dump_dir, filler_path, request.node, level="test_parameter")
+    return node_to_test_info(request.node).get_dump_dir_path(
+        base_dump_dir,
+        filler_path,
+        level="test_parameter",
+    )
 
 
 def get_fixture_collection_scope(fixture_name, config):
@@ -343,6 +352,8 @@ def fixture_collector(
     request,
     do_fixture_verification: bool,
     evm_fixture_verification: TransitionTool,
+    filler_path: Path,
+    base_dump_dir: Optional[Path],
 ):
     """
     Returns the configured fixture collector instance used for all tests
@@ -351,6 +362,9 @@ def fixture_collector(
     fixture_collector = FixtureCollector(
         output_dir=request.config.getoption("output"),
         flat_output=request.config.getoption("flat_output"),
+        single_fixture_per_file=request.config.getoption("single_fixture_per_file"),
+        filler_path=filler_path,
+        base_dump_dir=base_dump_dir,
     )
     yield fixture_collector
     fixture_collector.dump_fixtures()
@@ -411,18 +425,16 @@ SPEC_TYPES: List[Type[BaseTest]] = [StateTest, BlockchainTest]
 SPEC_TYPES_PARAMETERS: List[str] = [s.pytest_parameter_name() for s in SPEC_TYPES]
 
 
-@pytest.fixture(scope="function")
-def fixture_format(request) -> FixtureFormats:
+def node_to_test_info(node) -> TestInfo:
     """
-    Returns the test format of the current test case.
+    Returns the test info of the current node item.
     """
-    enable_hive = request.config.getoption("enable_hive")
-    has_blockchain_test_format = set(["state_test", "blockchain_test"]) & set(request.fixturenames)
-    if has_blockchain_test_format and enable_hive:
-        return FixtureFormats.BLOCKCHAIN_TEST_HIVE
-    elif has_blockchain_test_format and not enable_hive:
-        return FixtureFormats.BLOCKCHAIN_TEST
-    raise Exception("Unknown fixture format.")
+    return TestInfo(
+        name=node.name,
+        id=node.nodeid,
+        original_name=node.originalname,
+        path=Path(node.path),
+    )
 
 
 @pytest.fixture(scope="function")
@@ -434,7 +446,6 @@ def state_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
-    fixture_format,
     base_test_config,
 ) -> StateTestFiller:
     """
@@ -453,17 +464,17 @@ def state_test(
             kwargs["base_test_config"] = base_test_config
             kwargs["t8n_dump_dir"] = dump_dir_parameter_level
             super(StateTestWrapper, self).__init__(*args, **kwargs)
-            fixture = self.generate(
+            fixtures = self.generate(
                 t8n,
                 fork,
                 eips=eips,
             )
-            if fixture:
+            for fixture in fixtures:
                 fixture.fill_info(t8n, reference_spec)
-            fixture_collector.add_fixture(
-                request.node,
-                fixture,
-                fixture_format,
+
+            fixture_collector.add_fixtures(
+                node_to_test_info(request.node),
+                fixtures,
             )
 
     return StateTestWrapper
@@ -478,7 +489,6 @@ def blockchain_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
-    fixture_format,
     base_test_config,
 ) -> BlockchainTestFiller:
     """
@@ -492,17 +502,16 @@ def blockchain_test(
             kwargs["base_test_config"] = base_test_config
             kwargs["t8n_dump_dir"] = dump_dir_parameter_level
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
-            fixture = self.generate(
+            fixtures = self.generate(
                 t8n,
                 fork,
                 eips=eips,
             )
-            if fixture:
+            for fixture in fixtures:
                 fixture.fill_info(t8n, reference_spec)
-            fixture_collector.add_fixture(
-                request.node,
-                fixture,
-                fixture_format,
+            fixture_collector.add_fixtures(
+                node_to_test_info(request.node),
+                fixtures,
             )
 
     return BlockchainTestWrapper

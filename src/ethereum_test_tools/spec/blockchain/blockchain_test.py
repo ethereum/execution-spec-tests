@@ -381,21 +381,20 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> Optional[BaseFixture]:
+    ) -> List[BaseFixture]:
         """
         Generate the BlockchainTest fixture.
         """
-        fixture: Optional[BaseFixture] = None
+        fixtures: List[BaseFixture] = []
+
         t8n.reset_traces()
-        if self.base_test_config.state_test:
-            return None  # No blockchain tests when generating state tests
-        elif self.base_test_config.enable_hive:
-            if fork.engine_new_payload_version() is None:
-                return None  # pre Merge tests are not supported in Hive
-            fixture = self.make_hive_fixture(t8n, fork, eips)
-        else:
-            fixture = self.make_fixture(t8n, fork, eips)
-        return fixture
+
+        if not fork.engine_new_payload_version() is None:
+            fixtures.append(self.make_hive_fixture(t8n, fork, eips))
+            t8n.reset_traces()
+
+        fixtures.append(self.make_fixture(t8n, fork, eips))
+        return fixtures
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]
