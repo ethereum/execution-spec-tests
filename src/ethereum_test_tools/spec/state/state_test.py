@@ -35,7 +35,10 @@ class StateTest(BaseTest):
         """
         return "state_test"
 
-    def generate_blockchain_genesis_environment(self) -> Environment:
+    def _generate_blockchain_genesis_environment(self) -> Environment:
+        """
+        Generate the genesis environment for the BlockchainTest formatted test.
+        """
         genesis_env = copy(self.env)
 
         # Modify values to the proper values for the genesis block
@@ -48,29 +51,34 @@ class StateTest(BaseTest):
 
         return genesis_env
 
-    def generate_blockchain_block(self) -> Block:
-        return Block(
-            number=self.env.number,
-            timestamp=self.env.timestamp,
-            coinbase=self.env.coinbase,
-            difficulty=self.env.difficulty,
-            gas_limit=self.env.gas_limit,
-            extra_data=self.env.extra_data,
-            withdrawals=self.env.withdrawals,
-            beacon_root=self.env.beacon_root,
-            txs=self.txs,
-            ommers=[],
-        )
+    def _generate_blockchain_blocks(self) -> List[Block]:
+        """
+        Generate the single block that represents this state test in a BlockchainTest format.
+        """
+        return [
+            Block(
+                number=self.env.number,
+                timestamp=self.env.timestamp,
+                coinbase=self.env.coinbase,
+                difficulty=self.env.difficulty,
+                gas_limit=self.env.gas_limit,
+                extra_data=self.env.extra_data,
+                withdrawals=self.env.withdrawals,
+                beacon_root=self.env.beacon_root,
+                txs=self.txs,
+                ommers=[],
+            )
+        ]
 
     def generate_blockchain_test(self) -> BlockchainTest:
         """
         Generate a BlockchainTest fixture from this StateTest fixture.
         """
         return BlockchainTest(
-            genesis_environment=self.generate_blockchain_genesis_environment(),
+            genesis_environment=self._generate_blockchain_genesis_environment(),
             pre=self.pre,
             post=self.post,
-            blocks=[self.generate_blockchain_block()],
+            blocks=self._generate_blockchain_blocks(),
             base_test_config=self.base_test_config,
         )
 

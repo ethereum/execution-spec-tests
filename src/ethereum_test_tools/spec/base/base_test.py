@@ -94,6 +94,10 @@ class BaseTestConfig:
 
 @dataclass(kw_only=True)
 class BaseFixture:
+    """
+    Represents a base Ethereum test fixture of any type.
+    """
+
     info: Dict[str, str] = json_field(
         default_factory=dict,
         json_encoder=JSONEncoder.Field(
@@ -113,6 +117,16 @@ class BaseFixture:
         self.info["filling-transition-tool"] = t8n.version()
         if ref_spec is not None:
             ref_spec.write_info(self.info)
+
+    def to_json(self) -> Dict[str, Any]:
+        """
+        Convert to JSON.
+
+        TODO: This has to be replaced in the future to allow for different fixtures to do whatever
+        they want in the output file, and somehow be able to merge themselves automatically with
+        other fixtures of the same type.
+        """
+        pass
 
 
 @dataclass(kw_only=True)
