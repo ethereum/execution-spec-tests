@@ -18,14 +18,9 @@ from .common import (
     AccessList,
     Account,
     Auto,
-    Block,
     EngineAPIError,
     Environment,
-    Fixture,
-    FixtureEngineNewPayload,
-    Header,
     HistoryStorageAddress,
-    HiveFixture,
     JSONEncoder,
     Removable,
     Storage,
@@ -46,9 +41,9 @@ from .common import (
     to_hash,
     to_hash_bytes,
 )
-from .filling.fill import fill_test
 from .reference_spec import ReferenceSpec, ReferenceSpecTypes
 from .spec import (
+    BaseFixture,
     BaseTest,
     BaseTestConfig,
     BlockchainTest,
@@ -56,12 +51,14 @@ from .spec import (
     StateTest,
     StateTestFiller,
 )
+from .spec.blockchain.types import Block, Header
 from .vm import Opcode, OpcodeCallArg, Opcodes
 
 __all__ = (
     "AccessList",
     "Account",
     "Auto",
+    "BaseFixture",
     "BaseTest",
     "BaseTestConfig",
     "Block",
@@ -107,7 +104,6 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
-    "fill_test",
     "to_address",
     "to_hash_bytes",
     "to_hash",
