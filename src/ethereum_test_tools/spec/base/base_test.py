@@ -137,12 +137,12 @@ class BaseFixture:
 @dataclass(kw_only=True)
 class BaseTest:
     """
-    Represents a base Ethereum test which must return a genesis and a
-    blockchain.
+    Represents a base Ethereum test which must return a single test fixture.
     """
 
     pre: Mapping
     tag: str = ""
+    fixture_format: FixtureFormats
 
     # Transition tool specific fields
     t8n_dump_dir: Optional[str] = ""
@@ -154,7 +154,7 @@ class BaseTest:
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> List[BaseFixture]:
+    ) -> BaseFixture:
         """
         Generate the list of test fixtures.
         """
@@ -168,6 +168,23 @@ class BaseTest:
         spec type as filler for the test.
         """
         pass
+
+    @classmethod
+    @abstractmethod
+    def fixture_formats(cls) -> List[FixtureFormats]:
+        """
+        Returns a list of fixture formats that can be output to the test spec.
+        """
+        pass
+
+    def __post_init__(self) -> None:
+        """
+        Validate the fixture format.
+        """
+        if self.fixture_format not in self.fixture_formats():
+            raise ValueError(
+                f"Invalid fixture format {self.fixture_format} for {self.__class__.__name__}."
+            )
 
     def get_next_transition_tool_output_path(self) -> str:
         """

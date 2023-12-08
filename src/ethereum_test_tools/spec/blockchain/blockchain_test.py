@@ -6,8 +6,10 @@ from dataclasses import dataclass, field
 from pprint import pprint
 from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
+import pytest
+
 from ethereum_test_forks import Fork
-from evm_transition_tool import TransitionTool
+from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import (
     Address,
@@ -91,6 +93,7 @@ class BlockchainTest(BaseTest):
     genesis_environment: Environment = field(default_factory=Environment)
     tag: str = ""
     chain_id: int = 1
+    fixture_format: FixtureFormats
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -98,6 +101,16 @@ class BlockchainTest(BaseTest):
         Returns the parameter name used to identify this filler in a test.
         """
         return "blockchain_test"
+
+    @classmethod
+    def fixture_formats(cls) -> List[FixtureFormats]:
+        """
+        Returns a list of fixture formats that can be output to the test spec.
+        """
+        return [
+            FixtureFormats.BLOCKCHAIN_TEST,
+            FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+        ]
 
     def make_genesis(
         self,
@@ -374,20 +387,19 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> List[BaseFixture]:
+    ) -> BaseFixture:
         """
         Generate the BlockchainTest fixture.
         """
-        fixtures: List[BaseFixture] = []
-
         t8n.reset_traces()
+        if self.fixture_format == FixtureFormats.BLOCKCHAIN_TEST_HIVE:
+            if fork.engine_forkchoice_updated_version() is None:
+                pytest.skip("Hive fixture requested but no forkchoice update is defined")
+            return self.make_hive_fixture(t8n, fork, eips)
+        elif self.fixture_format == FixtureFormats.BLOCKCHAIN_TEST:
+            return self.make_fixture(t8n, fork, eips)
 
-        if not fork.engine_new_payload_version() is None:
-            fixtures.append(self.make_hive_fixture(t8n, fork, eips))
-            t8n.reset_traces()
-
-        fixtures.append(self.make_fixture(t8n, fork, eips))
-        return fixtures
+        raise Exception(f"Unknown fixture format: {self.fixture_format}")
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]

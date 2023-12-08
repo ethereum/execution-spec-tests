@@ -7,7 +7,7 @@ import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Literal, Optional, Tuple
+from typing import Dict, Literal, Optional, Tuple
 
 from evm_transition_tool import FixtureFormats, TransitionTool
 
@@ -127,32 +127,31 @@ class FixtureCollector:
                 return module_relative_output_dir / strip_test_prefix(info.get_single_test_name())
             return module_relative_output_dir / strip_test_prefix(info.original_name)
 
-    def add_fixtures(self, info: TestInfo, fixtures: List[BaseFixture]) -> None:
+    def add_fixture(self, info: TestInfo, fixture: BaseFixture) -> None:
         """
         Adds a fixture to the list of fixtures of a given test case.
         """
-        for fixture in fixtures:
-            fixture_basename = self.get_fixture_basename(info)
+        fixture_basename = self.get_fixture_basename(info)
 
-            fixture_path = (
-                self.output_dir
-                / fixture.output_base_dir_name()
-                / fixture_basename.with_suffix(fixture.output_file_extension())
-            )
-            if fixture_path not in self.all_fixtures:  # relevant when we group by test function
-                self.all_fixtures[fixture_path] = {}
-                if fixture_path in self.json_path_to_fixture_type:
-                    if self.json_path_to_fixture_type[fixture_path] != fixture.format():
-                        raise Exception(
-                            f"Fixture {fixture_path} has two different types: "
-                            f"{self.json_path_to_fixture_type[fixture_path]} "
-                            f"and {fixture.format()}"
-                        )
-                else:
-                    self.json_path_to_fixture_type[fixture_path] = fixture.format()
-                self.json_path_to_test_item[fixture_path] = info
+        fixture_path = (
+            self.output_dir
+            / fixture.output_base_dir_name()
+            / fixture_basename.with_suffix(fixture.output_file_extension())
+        )
+        if fixture_path not in self.all_fixtures:  # relevant when we group by test function
+            self.all_fixtures[fixture_path] = {}
+            if fixture_path in self.json_path_to_fixture_type:
+                if self.json_path_to_fixture_type[fixture_path] != fixture.format():
+                    raise Exception(
+                        f"Fixture {fixture_path} has two different types: "
+                        f"{self.json_path_to_fixture_type[fixture_path]} "
+                        f"and {fixture.format()}"
+                    )
+            else:
+                self.json_path_to_fixture_type[fixture_path] = fixture.format()
+            self.json_path_to_test_item[fixture_path] = info
 
-            self.all_fixtures[fixture_path][info.id] = fixture
+        self.all_fixtures[fixture_path][info.id] = fixture
 
     def dump_fixtures(self) -> None:
         """

@@ -5,8 +5,10 @@ from copy import copy
 from dataclasses import dataclass
 from typing import Callable, Generator, List, Mapping, Optional, Type
 
+import pytest
+
 from ethereum_test_forks import Fork
-from evm_transition_tool import TransitionTool
+from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import Environment, Number, Transaction
 from ...common.constants import EngineAPIError
@@ -34,6 +36,17 @@ class StateTest(BaseTest):
         Returns the parameter name used to identify this filler in a test.
         """
         return "state_test"
+
+    @classmethod
+    def fixture_formats(cls) -> List[FixtureFormats]:
+        """
+        Returns a list of fixture formats that can be output to the test spec.
+        """
+        return [
+            FixtureFormats.BLOCKCHAIN_TEST,
+            FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+            FixtureFormats.STATE_TEST,
+        ]
 
     def _generate_blockchain_genesis_environment(self) -> Environment:
         """
@@ -79,6 +92,7 @@ class StateTest(BaseTest):
             pre=self.pre,
             post=self.post,
             blocks=self._generate_blockchain_blocks(),
+            fixture_format=self.fixture_format,
         )
 
     def generate(
@@ -86,17 +100,17 @@ class StateTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> List[BaseFixture]:
+    ) -> BaseFixture:
         """
         Generate the BlockchainTest fixture.
         """
-        fixtures: List[BaseFixture] = []
+        if self.fixture_format in BlockchainTest.fixture_formats():
+            return self.generate_blockchain_test().generate(t8n, fork, eips)
+        elif self.fixture_format == FixtureFormats.STATE_TEST:
+            # TODO: append fixture in state format
+            pytest.skip("StateTest fixture format not implemented.")
 
-        fixtures += self.generate_blockchain_test().generate(t8n, fork, eips)
-
-        # TODO: append fixture in state format
-
-        return fixtures
+        raise Exception(f"Unknown fixture format: {self.fixture_format}")
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]

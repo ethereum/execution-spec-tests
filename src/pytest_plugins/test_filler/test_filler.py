@@ -422,6 +422,7 @@ def state_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
+    fixture_format,
 ) -> StateTestFiller:
     """
     Fixture used to instantiate an auto-fillable StateTest object from within
@@ -436,19 +437,19 @@ def state_test(
 
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
+            kwargs["fixture_format"] = fixture_format
             kwargs["t8n_dump_dir"] = dump_dir_parameter_level
             super(StateTestWrapper, self).__init__(*args, **kwargs)
-            fixtures = self.generate(
+            fixture = self.generate(
                 t8n,
                 fork,
                 eips=eips,
             )
-            for fixture in fixtures:
-                fixture.fill_info(t8n, reference_spec)
+            fixture.fill_info(t8n, reference_spec)
 
-            fixture_collector.add_fixtures(
+            fixture_collector.add_fixture(
                 node_to_test_info(request.node),
-                fixtures,
+                fixture,
             )
 
     return StateTestWrapper
@@ -463,6 +464,7 @@ def blockchain_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
+    fixture_format,
 ) -> BlockchainTestFiller:
     """
     Fixture used to define an auto-fillable BlockchainTest analogous to the
@@ -472,21 +474,41 @@ def blockchain_test(
 
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
+            kwargs["fixture_format"] = fixture_format
             kwargs["t8n_dump_dir"] = dump_dir_parameter_level
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
-            fixtures = self.generate(
+            fixture = self.generate(
                 t8n,
                 fork,
                 eips=eips,
             )
-            for fixture in fixtures:
-                fixture.fill_info(t8n, reference_spec)
-            fixture_collector.add_fixtures(
+            fixture.fill_info(t8n, reference_spec)
+            fixture_collector.add_fixture(
                 node_to_test_info(request.node),
-                fixtures,
+                fixture,
             )
 
     return BlockchainTestWrapper
+
+
+test_types: List[BaseTest] = [StateTest, BlockchainTest]
+
+
+def pytest_generate_tests(metafunc):
+    """
+    Pytest hook used to dynamically generate test cases.
+    """
+    for test_type in test_types:
+        test_type_param_name = test_type.pytest_parameter_name()
+        if test_type_param_name in metafunc.fixturenames:
+            metafunc.parametrize(
+                ["fixture_format"],
+                [
+                    pytest.param(fixture_format, id=fixture_format.name)
+                    for fixture_format in test_type.fixture_formats()
+                ],
+                scope="function",
+            )
 
 
 def pytest_collection_modifyitems(items, config):
