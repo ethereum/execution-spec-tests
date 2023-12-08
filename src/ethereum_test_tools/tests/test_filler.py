@@ -14,7 +14,7 @@ from evm_transition_tool import GethTransitionTool
 
 from ..code import Yul
 from ..common import Account, Environment, TestAddress, Transaction, to_json
-from ..spec import BaseTestConfig, BlockchainTest, StateTest
+from ..spec import BlockchainTest, StateTest
 from ..spec.blockchain.types import Block
 from ..spec.blockchain.types import Fixture as BlockchainFixture
 from .conftest import SOLC_PADDING_VERSION
@@ -133,19 +133,18 @@ def test_fill_state_test(fork: Fork, expected_json_file: str, enable_hive: bool)
         post=post,
         txs=[tx],
         tag="my_chain_id_test",
-        base_test_config=BaseTestConfig(
-            blockchain_test=True,
-            enable_hive=enable_hive,
-        ),
     )
 
     t8n = GethTransitionTool()
-
+    fixtures = state_test.generate(
+        t8n=t8n,
+        fork=fork,
+    )
+    assert len(fixtures) == 1
+    blockchain_fixture = fixtures[0]
+    assert isinstance(blockchain_fixture, BlockchainFixture)
     fixture = {
-        f"000/my_chain_id_test/{fork}": state_test.generate(
-            t8n=t8n,
-            fork=fork,
-        ),
+        f"000/my_chain_id_test/{fork}": blockchain_fixture.to_json(),
     }
 
     with open(
@@ -431,16 +430,21 @@ def test_fill_blockchain_valid_txs(
         blocks=blocks,
         genesis_environment=genesis_environment,
         tag="my_blockchain_test_valid_txs",
-        base_test_config=BaseTestConfig(enable_hive=enable_hive),
     )
 
     t8n = GethTransitionTool()
 
+    fixtures = blockchain_test.generate(
+        t8n=t8n,
+        fork=fork,
+    )
+
+    assert len(fixtures) == 1
+    blockchain_fixture = fixtures[0]
+    assert isinstance(blockchain_fixture, BlockchainFixture)
+
     fixture = {
-        f"000/my_blockchain_test/{fork.name()}": blockchain_test.generate(
-            t8n=t8n,
-            fork=fork,
-        )
+        f"000/my_blockchain_test/{fork.name()}": blockchain_fixture.to_json(),
     }
 
     with open(
@@ -777,16 +781,22 @@ def test_fill_blockchain_invalid_txs(
         post=post,
         blocks=blocks,
         genesis_environment=genesis_environment,
-        base_test_config=BaseTestConfig(enable_hive=enable_hive),
     )
 
     t8n = GethTransitionTool()
 
+    fixtures = blockchain_test.generate(
+        t8n=t8n,
+        fork=fork,
+    )
+
+    assert len(fixtures) == 1
+
+    blockchain_fixture = fixtures[0]
+    assert isinstance(blockchain_fixture, BlockchainFixture)
+
     fixture = {
-        f"000/my_blockchain_test/{fork.name()}": blockchain_test.generate(
-            t8n=t8n,
-            fork=fork,
-        )
+        f"000/my_blockchain_test/{fork.name()}": blockchain_fixture.to_json(),
     }
 
     with open(

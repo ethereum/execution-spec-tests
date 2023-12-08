@@ -14,7 +14,6 @@ import pytest
 from ethereum_test_forks import Fork, get_development_forks
 from ethereum_test_tools import (
     BaseTest,
-    BaseTestConfig,
     BlockchainTest,
     BlockchainTestFiller,
     StateTest,
@@ -284,29 +283,6 @@ def evm_fixture_verification(
     evm_fixture_verification.shutdown()
 
 
-@pytest.fixture(autouse=True, scope="session")
-def base_test_config(request) -> BaseTestConfig:
-    """
-    Returns the base test configuration that all tests must use.
-    """
-    config = BaseTestConfig()
-    config.enable_hive = request.config.getoption("enable_hive")
-    config.blockchain_test = request.config.getoption("generate_blockchain_tests")
-    config.state_test = request.config.getoption("generate_state_tests")
-    if config.blockchain_test and config.state_test:
-        pytest.exit(
-            "Only one of --blockchain-test or --state-test can be enabled.",
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
-    if config.state_test and config.enable_hive:
-        pytest.exit(
-            "Hive fixtures can not be generated with --state-test: "
-            "Remove --enable-hive to generate test fixtures.",
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
-    return config
-
-
 @pytest.fixture(scope="session")
 def base_dump_dir(request) -> Optional[Path]:
     """
@@ -446,7 +422,6 @@ def state_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
-    base_test_config,
 ) -> StateTestFiller:
     """
     Fixture used to instantiate an auto-fillable StateTest object from within
@@ -461,7 +436,6 @@ def state_test(
 
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
-            kwargs["base_test_config"] = base_test_config
             kwargs["t8n_dump_dir"] = dump_dir_parameter_level
             super(StateTestWrapper, self).__init__(*args, **kwargs)
             fixtures = self.generate(
@@ -489,7 +463,6 @@ def blockchain_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
-    base_test_config,
 ) -> BlockchainTestFiller:
     """
     Fixture used to define an auto-fillable BlockchainTest analogous to the
@@ -499,7 +472,6 @@ def blockchain_test(
 
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
-            kwargs["base_test_config"] = base_test_config
             kwargs["t8n_dump_dir"] = dump_dir_parameter_level
             super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
             fixtures = self.generate(

@@ -74,26 +74,6 @@ def verify_result(result: Mapping, env: Environment):
 
 
 @dataclass(kw_only=True)
-class BaseTestConfig:
-    """
-    General configuration that all tests must support.
-    """
-
-    enable_hive: bool = False
-    """
-    Enable any hive-related properties that the output could contain.
-    """
-    blockchain_test: bool = False
-    """
-    Enable BlockchainTest type tests production.
-    """
-    state_test: bool = False
-    """
-    Enable StateTest type tests production.
-    """
-
-
-@dataclass(kw_only=True)
 class BaseFixture:
     """
     Represents a base Ethereum test fixture of any type.
@@ -130,7 +110,7 @@ class BaseFixture:
 
     @classmethod
     @abstractmethod
-    def collect_into_file(cls, fixture_file_path: str, fixtures: Dict[str, "BaseFixture"]):
+    def collect_into_file(cls, fixture_file_path: Path, fixtures: Dict[str, "BaseFixture"]):
         """
         Returns the name of the subdirectory where this type of fixture should be dumped to.
         """
@@ -163,7 +143,6 @@ class BaseTest:
 
     pre: Mapping
     tag: str = ""
-    base_test_config: BaseTestConfig = field(default_factory=BaseTestConfig)
 
     # Transition tool specific fields
     t8n_dump_dir: Optional[str] = ""

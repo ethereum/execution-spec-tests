@@ -45,7 +45,6 @@ from .reference_spec import ReferenceSpec, ReferenceSpecTypes
 from .spec import (
     BaseFixture,
     BaseTest,
-    BaseTestConfig,
     BlockchainTest,
     BlockchainTestFiller,
     StateTest,
@@ -60,7 +59,6 @@ __all__ = (
     "Auto",
     "BaseFixture",
     "BaseTest",
-    "BaseTestConfig",
     "Block",
     "BlockchainTest",
     "BlockchainTestFiller",

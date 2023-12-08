@@ -905,7 +905,7 @@ class FixtureCommon(BaseFixture):
         return self._json
 
     @classmethod
-    def collect_into_file(cls, fixture_file_path: str, fixtures: Dict[str, "BaseFixture"]):
+    def collect_into_file(cls, fixture_file_path: Path, fixtures: Dict[str, "BaseFixture"]):
         """
         For BlockchainTest format, we simply join the json fixtures into a single file.
         """

@@ -61,6 +61,9 @@ class TestInfo:
         return test_name, re.sub(r"[\[\-]", "_", parameters).replace("]", "")
 
     def get_single_test_name(self) -> str:
+        """
+        Converts a test name to a single test name.
+        """
         test_name, test_parameters = self.get_name_and_parameters()
         return f"{test_name}__{test_parameters}"
 
@@ -105,6 +108,9 @@ class FixtureCollector:
     json_path_to_test_item: Dict[Path, TestInfo] = field(default_factory=dict)
 
     def get_fixture_basename(self, info: TestInfo) -> Path:
+        """
+        Returns the basename of the fixture file for a given test case.
+        """
         if self.flat_output:
             if self.single_fixture_per_file:
                 return Path(strip_test_prefix(info.get_single_test_name()))
@@ -167,7 +173,7 @@ class FixtureCollector:
         Runs `evm [state|block]test` on each fixture.
         """
         for fixture_path, fixture_format in self.json_path_to_fixture_type.items():
-            if fixture_format.is_verifiable():
+            if FixtureFormats.is_verifiable(fixture_format):
                 info = self.json_path_to_test_item[fixture_path]
                 verify_fixtures_dump_dir = self._get_verify_fixtures_dump_dir(info)
                 evm_fixture_verification.verify_fixture(

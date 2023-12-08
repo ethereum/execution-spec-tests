@@ -79,7 +79,6 @@ class StateTest(BaseTest):
             pre=self.pre,
             post=self.post,
             blocks=self._generate_blockchain_blocks(),
-            base_test_config=self.base_test_config,
         )
 
     def generate(

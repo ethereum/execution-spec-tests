@@ -99,13 +99,6 @@ class BlockchainTest(BaseTest):
         """
         return "blockchain_test"
 
-    @property
-    def hive_enabled(self) -> bool:
-        """
-        Returns true if hive fixture generation is enabled, false otherwise.
-        """
-        return self.base_test_config.enable_hive
-
     def make_genesis(
         self,
         t8n: TransitionTool,

@@ -647,7 +647,6 @@ def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mappin
     txs = [Transaction(to=code_address, data=tx_data, gas_limit=1_000_000)]
     post = {TestAddress: Account(nonce=1), code_address: Account(storage=expected_storage)}
     state_test = StateTest(env=Environment(), pre=pre, txs=txs, post=post)
-    state_test.base_test_config.blockchain_test = True
     state_test.generate(
         t8n=GethTransitionTool(),
         fork=Shanghai,
