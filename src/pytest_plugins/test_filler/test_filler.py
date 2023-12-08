@@ -491,7 +491,7 @@ def blockchain_test(
     return BlockchainTestWrapper
 
 
-test_types: List[BaseTest] = [StateTest, BlockchainTest]
+test_types: List[Type[BaseTest]] = [StateTest, BlockchainTest]
 
 
 def pytest_generate_tests(metafunc):
