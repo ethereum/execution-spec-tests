@@ -23,7 +23,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ## Breaking Changes
 
-1. Fixture output, including release tarballs, now contain subfolders for different test types:
+1. Fixture output, including release tarballs, now contain subdirectories for different test types:
    - `blockchain_tests`: Contains BlockchainTest formatted tests
    - `blockchain_tests_hive`: Contains BlockchainTest with Engine API call directives for use in hive
    - `state_tests`: Contains StateTest formatted tests
