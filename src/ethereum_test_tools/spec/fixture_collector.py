@@ -160,8 +160,7 @@ class FixtureCollector:
         """
         os.makedirs(self.output_dir, exist_ok=True)
         for fixture_path, fixtures in self.all_fixtures.items():
-            if not self.flat_output:
-                os.makedirs(fixture_path.parent, exist_ok=True)
+            os.makedirs(fixture_path.parent, exist_ok=True)
 
             # Get the first fixture to dump to get its type
             fixture = next(iter(fixtures.values()))
