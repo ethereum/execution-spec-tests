@@ -504,7 +504,7 @@ def pytest_generate_tests(metafunc):
             metafunc.parametrize(
                 ["fixture_format"],
                 [
-                    pytest.param(fixture_format, id=fixture_format.name)
+                    pytest.param(fixture_format, id=fixture_format.name.lower())
                     for fixture_format in test_type.fixture_formats()
                 ],
                 scope="function",

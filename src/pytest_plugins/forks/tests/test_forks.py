@@ -36,7 +36,7 @@ def test_no_options_no_validity_marker(pytester):
     forks_under_test = forks_from_until(all_forks[0], all_forks[-1])
     for fork in forks_under_test:
         for fixture_format in StateTest.fixture_formats():
-            assert f":test_all_forks[fork_{fork}-{fixture_format.name}]" in "\n".join(
+            assert f":test_all_forks[fork_{fork}-{fixture_format.name.lower()}]" in "\n".join(
                 result.stdout.lines
             )
     result.assert_outcomes(
@@ -69,8 +69,9 @@ def test_from_london_option_no_validity_marker(pytester, fork_map, fork):
     forks_under_test = forks_from_until(fork_map[fork], all_forks[-1])
     for fork_under_test in forks_under_test:
         for fixture_format in StateTest.fixture_formats():
-            assert f":test_all_forks[fork_{fork_under_test}-{fixture_format.name}]" in "\n".join(
-                result.stdout.lines
+            assert (
+                f":test_all_forks[fork_{fork_under_test}-{fixture_format.name.lower()}]"
+                in "\n".join(result.stdout.lines)
             )
     result.assert_outcomes(
         passed=len(forks_under_test) * len(StateTest.fixture_formats()),
@@ -102,8 +103,9 @@ def test_from_london_until_shanghai_option_no_validity_marker(pytester, fork_map
         forks_under_test.remove(ArrowGlacier)
     for fork_under_test in forks_under_test:
         for fixture_format in StateTest.fixture_formats():
-            assert f":test_all_forks[fork_{fork_under_test}-{fixture_format.name}]" in "\n".join(
-                result.stdout.lines
+            assert (
+                f":test_all_forks[fork_{fork_under_test}-{fixture_format.name.lower()}]"
+                in "\n".join(result.stdout.lines)
             )
     result.assert_outcomes(
         passed=len(forks_under_test) * len(StateTest.fixture_formats()),
