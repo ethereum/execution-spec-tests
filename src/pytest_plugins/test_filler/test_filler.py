@@ -21,7 +21,7 @@ from ethereum_test_tools import (
     Yul,
 )
 from ethereum_test_tools.spec.fixture_collector import FixtureCollector, TestInfo
-from evm_transition_tool import TransitionTool
+from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 
@@ -422,7 +422,6 @@ def state_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
-    fixture_format,
 ) -> StateTestFiller:
     """
     Fixture used to instantiate an auto-fillable StateTest object from within
@@ -434,6 +433,8 @@ def state_test(
     Implementation detail: It must be scoped on test function level to avoid
     leakage between tests.
     """
+    fixture_format = request.param
+    assert isinstance(fixture_format, FixtureFormats)
 
     class StateTestWrapper(StateTest):
         def __init__(self, *args, **kwargs):
@@ -464,13 +465,14 @@ def blockchain_test(
     eips,
     dump_dir_parameter_level,
     fixture_collector,
-    fixture_format,
 ) -> BlockchainTestFiller:
     """
     Fixture used to define an auto-fillable BlockchainTest analogous to the
     state_test fixture for StateTests.
     See the state_test fixture docstring for details.
     """
+    fixture_format = request.param
+    assert isinstance(fixture_format, FixtureFormats)
 
     class BlockchainTestWrapper(BlockchainTest):
         def __init__(self, *args, **kwargs):
@@ -499,15 +501,15 @@ def pytest_generate_tests(metafunc):
     Pytest hook used to dynamically generate test cases.
     """
     for test_type in test_types:
-        test_type_param_name = test_type.pytest_parameter_name()
-        if test_type_param_name in metafunc.fixturenames:
+        if test_type.pytest_parameter_name() in metafunc.fixturenames:
             metafunc.parametrize(
-                ["fixture_format"],
+                [test_type.pytest_parameter_name()],
                 [
                     pytest.param(fixture_format, id=fixture_format.name.lower())
                     for fixture_format in test_type.fixture_formats()
                 ],
                 scope="function",
+                indirect=True,
             )
 
 
