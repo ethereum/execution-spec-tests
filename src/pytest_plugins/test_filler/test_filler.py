@@ -12,14 +12,7 @@ from typing import Generator, List, Optional, Type
 import pytest
 
 from ethereum_test_forks import Fork, get_development_forks
-from ethereum_test_tools import (
-    BaseTest,
-    BlockchainTest,
-    BlockchainTestFiller,
-    StateTest,
-    StateTestFiller,
-    Yul,
-)
+from ethereum_test_tools import BaseTest, BlockchainTest, StateTest, Yul
 from ethereum_test_tools.spec.fixture_collector import FixtureCollector, TestInfo
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
@@ -115,27 +108,6 @@ def pytest_addoption(parser):
             "Don't group fixtures in JSON files by test function; write each fixture to its own "
             "file. This can be used to increase the granularity of --verify-fixtures."
         ),
-    )
-    test_group.addoption(
-        "--enable-hive",
-        action="store_true",
-        dest="enable_hive",
-        default=False,
-        help="Output test fixtures with the hive-specific properties.",
-    )
-    test_group.addoption(
-        "--blockchain-test",
-        action="store_true",
-        dest="generate_blockchain_tests",
-        default=True,
-        help="Generate BlockchainTest type fixtures.",
-    )
-    test_group.addoption(
-        "--state-test",
-        action="store_true",
-        dest="generate_state_tests",
-        default=False,
-        help="Generate StateTest type fixtures.",
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -413,94 +385,74 @@ def node_to_test_info(node) -> TestInfo:
     )
 
 
-@pytest.fixture(scope="function")
-def state_test(
-    request,
-    t8n,
-    fork,
-    reference_spec,
-    eips,
-    dump_dir_parameter_level,
-    fixture_collector,
-) -> StateTestFiller:
+def base_test_parametrizer(cls: Type[BaseTest]):
     """
-    Fixture used to instantiate an auto-fillable StateTest object from within
-    a test function.
+    Generates a pytest.fixture for a given BaseTest subclass.
 
-    Every test that defines a StateTest filler must explicitly specify this
-    fixture in its function arguments.
-
-    Implementation detail: It must be scoped on test function level to avoid
+    Implementation detail: All spec fixtures must be scoped on test function level to avoid
     leakage between tests.
     """
-    fixture_format = request.param
-    assert isinstance(fixture_format, FixtureFormats)
 
-    class StateTestWrapper(StateTest):
-        def __init__(self, *args, **kwargs):
-            kwargs["fixture_format"] = fixture_format
-            kwargs["t8n_dump_dir"] = dump_dir_parameter_level
-            super(StateTestWrapper, self).__init__(*args, **kwargs)
-            fixture = self.generate(
-                t8n,
-                fork,
-                eips=eips,
-            )
-            fixture.fill_info(t8n, reference_spec)
+    @pytest.fixture(
+        scope="function",
+        name=cls.pytest_parameter_name(),
+    )
+    def base_test_parametrizer_func(
+        request,
+        t8n,
+        fork,
+        reference_spec,
+        eips,
+        dump_dir_parameter_level,
+        fixture_collector,
+    ):
+        """
+        Fixture used to instantiate an auto-fillable BaseTest object from within
+        a test function.
 
-            fixture_collector.add_fixture(
-                node_to_test_info(request.node),
-                fixture,
-            )
+        Every test that defines a test filler must explicitly specify its parameter name
+        (see `pytest_parameter_name` in each implementation of BaseTest) in its function
+        arguments.
 
-    return StateTestWrapper
+        When parametrizing, indirect must be used along with the fixture format as value.
+        """
+        fixture_format = request.param
+        assert isinstance(fixture_format, FixtureFormats)
 
+        class BaseTestWrapper(cls):
+            def __init__(self, *args, **kwargs):
+                kwargs["fixture_format"] = fixture_format
+                kwargs["t8n_dump_dir"] = dump_dir_parameter_level
+                super(BaseTestWrapper, self).__init__(*args, **kwargs)
+                fixture = self.generate(
+                    t8n,
+                    fork,
+                    eips=eips,
+                )
+                fixture.fill_info(t8n, reference_spec)
 
-@pytest.fixture(scope="function")
-def blockchain_test(
-    request,
-    t8n,
-    fork,
-    reference_spec,
-    eips,
-    dump_dir_parameter_level,
-    fixture_collector,
-) -> BlockchainTestFiller:
-    """
-    Fixture used to define an auto-fillable BlockchainTest analogous to the
-    state_test fixture for StateTests.
-    See the state_test fixture docstring for details.
-    """
-    fixture_format = request.param
-    assert isinstance(fixture_format, FixtureFormats)
+                fixture_collector.add_fixture(
+                    node_to_test_info(request.node),
+                    fixture,
+                )
 
-    class BlockchainTestWrapper(BlockchainTest):
-        def __init__(self, *args, **kwargs):
-            kwargs["fixture_format"] = fixture_format
-            kwargs["t8n_dump_dir"] = dump_dir_parameter_level
-            super(BlockchainTestWrapper, self).__init__(*args, **kwargs)
-            fixture = self.generate(
-                t8n,
-                fork,
-                eips=eips,
-            )
-            fixture.fill_info(t8n, reference_spec)
-            fixture_collector.add_fixture(
-                node_to_test_info(request.node),
-                fixture,
-            )
+        return BaseTestWrapper
 
-    return BlockchainTestWrapper
+    return base_test_parametrizer_func
 
 
-test_types: List[Type[BaseTest]] = [StateTest, BlockchainTest]
+# Dynamically generate a pytest fixture for each test spec type.
+for cls in SPEC_TYPES:
+    # Fixture needs to be defined in the global scope so pytest can detect it.
+    globals()[cls.pytest_parameter_name()] = base_test_parametrizer(cls)
 
 
 def pytest_generate_tests(metafunc):
     """
-    Pytest hook used to dynamically generate test cases.
+    Pytest hook used to dynamically generate test cases for each fixture format a given
+    test spec supports.
     """
-    for test_type in test_types:
+    for test_type in SPEC_TYPES:
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
