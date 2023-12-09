@@ -142,7 +142,9 @@ class BaseTest:
 
     pre: Mapping
     tag: str = ""
-    fixture_format: FixtureFormats
+    # Setting a default here is just for type checking, the correct value is automatically set
+    # by pytest.
+    fixture_format: FixtureFormats = FixtureFormats.UNSET
 
     # Transition tool specific fields
     t8n_dump_dir: Optional[str] = ""

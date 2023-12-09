@@ -40,6 +40,7 @@ class FixtureFormats(Enum):
     Helper class to define fixture formats.
     """
 
+    UNSET = "unset"
     STATE_TEST = "state_test"
     STATE_TEST_HIVE = "state_test_hive"
     BLOCKCHAIN_TEST = "blockchain_test"

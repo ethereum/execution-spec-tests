@@ -93,7 +93,6 @@ class BlockchainTest(BaseTest):
     genesis_environment: Environment = field(default_factory=Environment)
     tag: str = ""
     chain_id: int = 1
-    fixture_format: FixtureFormats
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
