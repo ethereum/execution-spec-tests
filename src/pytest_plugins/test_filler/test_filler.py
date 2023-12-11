@@ -12,8 +12,7 @@ from typing import Generator, List, Optional, Type
 import pytest
 
 from ethereum_test_forks import Fork, get_development_forks
-from ethereum_test_tools import BaseTest, BlockchainTest, StateTest, Yul
-from ethereum_test_tools.spec.fixture_collector import FixtureCollector, TestInfo
+from ethereum_test_tools import SPEC_TYPES, BaseTest, FixtureCollector, TestInfo, Yul
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -369,7 +368,6 @@ def yul(fork: Fork, request):
     return YulWrapper
 
 
-SPEC_TYPES: List[Type[BaseTest]] = [StateTest, BlockchainTest]
 SPEC_TYPES_PARAMETERS: List[str] = [s.pytest_parameter_name() for s in SPEC_TYPES]
 
 
