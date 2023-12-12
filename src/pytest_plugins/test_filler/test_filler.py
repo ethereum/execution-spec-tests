@@ -128,14 +128,15 @@ def pytest_configure(config):
     Custom marker registration:
     https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
     """
-    config.addinivalue_line(
-        "markers",
-        "state_test: a test case that implement a single state transition test.",
-    )
-    config.addinivalue_line(
-        "markers",
-        "blockchain_test: a test case that implements a block transition test.",
-    )
+    for fixture_format in FixtureFormats:
+        config.addinivalue_line(
+            "markers",
+            (
+                f"{fixture_format.name.lower()}: "
+                f"{FixtureFormats.get_format_description(fixture_format)}"
+            ),
+        )
+
     config.addinivalue_line(
         "markers",
         "yul_test: a test case that compiles Yul code.",
@@ -455,31 +456,16 @@ def pytest_generate_tests(metafunc):
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
                 [
-                    pytest.param(fixture_format, id=fixture_format.name.lower())
+                    pytest.param(
+                        fixture_format,
+                        id=fixture_format.name.lower(),
+                        marks=[getattr(pytest.mark, fixture_format.name.lower())],
+                    )
                     for fixture_format in test_type.fixture_formats()
                 ],
                 scope="function",
                 indirect=True,
             )
-
-
-def pytest_collection_modifyitems(items, config):
-    """
-    A pytest hook called during collection, after all items have been
-    collected.
-
-    Here we dynamically apply "state_test" or "blockchain_test" markers
-    to a test if the test function uses the corresponding fixture.
-    """
-    for item in items:
-        if isinstance(item, EIPSpecTestItem):
-            continue
-        if "state_test" in item.fixturenames:
-            marker = pytest.mark.state_test()
-            item.add_marker(marker)
-        elif "blockchain_test" in item.fixturenames:
-            marker = pytest.mark.blockchain_test()
-            item.add_marker(marker)
 
 
 def pytest_runtest_setup(item):

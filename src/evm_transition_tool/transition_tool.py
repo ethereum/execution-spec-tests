@@ -40,7 +40,7 @@ class FixtureFormats(Enum):
     Helper class to define fixture formats.
     """
 
-    UNSET = "unset"
+    UNSET_TEST_FORMAT = "unset_test_format"
     STATE_TEST = "state_test"
     STATE_TEST_HIVE = "state_test_hive"
     BLOCKCHAIN_TEST = "blockchain_test"
@@ -65,6 +65,25 @@ class FixtureFormats(Enum):
     @classmethod
     def is_verifiable(cls, format):  # noqa: D102
         return format in (cls.STATE_TEST, cls.BLOCKCHAIN_TEST)
+
+    @classmethod
+    def get_format_description(cls, format):
+        """
+        Returns a description of the fixture format.
+
+        Used to add a description to the generated pytest marks.
+        """
+        if format == cls.UNSET_TEST_FORMAT:
+            return "Unknown fixture format; it has not been set."
+        elif format == cls.STATE_TEST:
+            return "Tests that generate a state test fixture."
+        elif format == cls.STATE_TEST_HIVE:
+            return "Tests that generate a state test fixture in hive format."
+        elif format == cls.BLOCKCHAIN_TEST:
+            return "Tests that generate a blockchain test fixture."
+        elif format == cls.BLOCKCHAIN_TEST_HIVE:
+            return "Tests that generate a blockchain test fixture in hive format."
+        raise Exception(f"Unknown fixture format: {format}.")
 
 
 class TransitionTool:

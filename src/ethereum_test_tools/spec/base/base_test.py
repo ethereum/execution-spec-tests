@@ -144,7 +144,7 @@ class BaseTest:
     tag: str = ""
     # Setting a default here is just for type checking, the correct value is automatically set
     # by pytest.
-    fixture_format: FixtureFormats = FixtureFormats.UNSET
+    fixture_format: FixtureFormats = FixtureFormats.UNSET_TEST_FORMAT
 
     # Transition tool specific fields
     t8n_dump_dir: Optional[str] = ""
