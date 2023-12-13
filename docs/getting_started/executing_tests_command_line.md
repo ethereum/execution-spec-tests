@@ -152,7 +152,6 @@ Arguments defining filler location and output:
                         Don't group fixtures in JSON files by test function;
                         write each fixture to its own file. This can be used to
                         increase the granularity of --verify-fixtures.
-  --enable-hive         Output test fixtures with the hive-specific properties.
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
