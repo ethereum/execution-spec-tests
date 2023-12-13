@@ -11,7 +11,7 @@ from typing import Generator, List, Optional, Type
 
 import pytest
 
-from ethereum_test_forks import Fork, get_development_forks
+from ethereum_test_forks import Fork, Merge, get_development_forks, is_fork
 from ethereum_test_tools import SPEC_TYPES, BaseTest, FixtureCollector, TestInfo, Yul
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
@@ -466,6 +466,29 @@ def pytest_generate_tests(metafunc):
                 scope="function",
                 indirect=True,
             )
+
+
+@pytest.hookimpl(trylast=True)
+def pytest_collection_modifyitems(config, items):
+    """
+    Remove pre-Merge tests parametrized to generate hive type fixtures; these
+    can't be used in the Hive Pyspec Simulator.
+
+    This can't be handled in this plugins pytest_generate_tests() as the fork
+    parametrization occurs in the forks plugin.
+    """
+    for item in items[:]:  # use a copy of the list, as we'll be modifying it
+        if isinstance(item, EIPSpecTestItem):
+            continue
+        if not is_fork(item.callspec.params["fork"], Merge):
+            if ("state_test" in item.callspec.params) and item.callspec.params[
+                "state_test"
+            ].name.endswith("HIVE"):
+                items.remove(item)
+            if ("blockchain_test" in item.callspec.params) and item.callspec.params[
+                "blockchain_test"
+            ].name.endswith("HIVE"):
+                items.remove(item)
 
 
 def pytest_runtest_setup(item):

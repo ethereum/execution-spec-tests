@@ -6,8 +6,6 @@ from dataclasses import dataclass, field
 from pprint import pprint
 from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
-import pytest
-
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
@@ -393,7 +391,10 @@ class BlockchainTest(BaseTest):
         t8n.reset_traces()
         if self.fixture_format == FixtureFormats.BLOCKCHAIN_TEST_HIVE:
             if fork.engine_forkchoice_updated_version() is None:
-                pytest.skip("Hive fixture requested but no forkchoice update is defined")
+                raise Exception(
+                    "A hive fixture was requested but no forkchoice update is defined. "
+                    "The framework should never try to execute this test case."
+                )
             return self.make_hive_fixture(t8n, fork, eips)
         elif self.fixture_format == FixtureFormats.BLOCKCHAIN_TEST:
             return self.make_fixture(t8n, fork, eips)
