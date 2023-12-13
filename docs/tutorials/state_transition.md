@@ -1,6 +1,6 @@
 # State Transition Tests
 
-This tutorial teaches you to create a state transition execution specification test. These tests verify that a blockchain, starting from a defined pre-state, will reach a specified post-state after executing a set of specific transactions.
+This tutorial teaches you to create a state transition execution specification test. These tests verify that a starting pre-state will reach a specified post-state after executing a single transaction.
 
 ## Pre-requisites
 
@@ -13,7 +13,7 @@ Before proceeding with this tutorial, it is assumed that you have prior knowledg
 
 ## Example Tests
 
-The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/tests/example/test_yul_example.py#L17) state test.
+The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/tests/homestead/yul/test_yul_example.py#L19) state test.
 
 ### Yul Test
 
@@ -83,7 +83,7 @@ The function definition ends when there is a line that is no longer indented. As
     env = Environment()
 ```
 
-This line specifies that `env` is an [`Environment`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L445) object, and that we just use the default parameters.
+This line specifies that `env` is an [`Environment`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L878) object, and that we just use the default parameters.
 If necessary we can modify the environment to have different block gas limits, block numbers, etc.
 In most tests the defaults are good enough.
 
@@ -102,7 +102,7 @@ It is a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dict
         "0x1000000000000000000000000000000000000000": Account(
 ```
 
-The keys of the dictionary are addresses (as strings), and the values are [`Account`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L264) objects.
+The keys of the dictionary are addresses (as strings), and the values are [`Account`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L517) objects.
 You can read more about address fields [in the static test documentation](https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#address-fields).
 
 ```python
@@ -145,7 +145,7 @@ Generally for execution spec tests the `sstore` instruction acts as a high-level
     }
 ```
 
-[`TestAddress`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/constants.py#L8) is an address for which the test filler has the private key.
+[`TestAddress`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/constants.py#L7) is an address for which the test filler has the private key.
 This means that the test runner can issue a transaction as that contract.
 Of course, this address also needs a balance to be able to issue transactions.
 
@@ -163,7 +163,7 @@ Of course, this address also needs a balance to be able to issue transactions.
     )
 ```
 
-With the pre-state specified, we can add a description for the [`Transaction`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L516).
+With the pre-state specified, we can add a description for the [`Transaction`](https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L1155).
 For more information, [see the static test documentation](https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#transaction)
 
 #### Post State
@@ -185,7 +185,7 @@ In this case, we look at the storage of the contract we called and add to it wha
 #### State Test
 
 ```python
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
 ```
 
 This line calls the wrapper to the `StateTest` object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, `./fixtures/<blockchain,state>_tests/example/yul_example/test_yul.json`).
