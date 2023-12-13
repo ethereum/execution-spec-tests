@@ -111,6 +111,7 @@ git's
 github
 Github
 glightbox
+globals
 go-ethereum's
 gwei
 hash32
