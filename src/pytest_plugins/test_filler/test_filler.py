@@ -222,12 +222,6 @@ def do_fixture_verification(request, t8n) -> bool:
         do_fixture_verification = True
     if request.config.getoption("verify_fixtures"):
         do_fixture_verification = True
-    if do_fixture_verification and request.config.getoption("enable_hive"):
-        pytest.exit(
-            "Hive fixtures can not be verify using geth's evm tool: "
-            "Remove --enable-hive to verify test fixtures.",
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
     return do_fixture_verification
 
 
