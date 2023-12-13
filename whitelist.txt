@@ -505,6 +505,8 @@ precompile
 precompiles
 deployer
 0x
+0x00
+0x10
 
 fi
 url
