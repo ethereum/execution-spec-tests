@@ -475,6 +475,10 @@ def pytest_collection_modifyitems(config, items):
         if isinstance(item, EIPSpecTestItem):
             continue
         if not is_fork(item.callspec.params["fork"], Merge):
+            # Even though the `state_test` test spec does not produce a hive STATE_TEST, it does
+            # produce a BLOCKCHAIN_TEST_HIVE, so we need to remove it here.
+            # TODO: Ideally, the logic could be contained in the `FixtureFormat` class, we create
+            # a `fork_supported` method that returns True if the fork is supported.
             if ("state_test" in item.callspec.params) and item.callspec.params[
                 "state_test"
             ].name.endswith("HIVE"):
