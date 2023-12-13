@@ -43,24 +43,26 @@ from .common import (
 )
 from .reference_spec import ReferenceSpec, ReferenceSpecTypes
 from .spec import (
+    SPEC_TYPES,
     BaseFixture,
     BaseTest,
-    BaseTestConfig,
     BlockchainTest,
     BlockchainTestFiller,
+    FixtureCollector,
     StateTest,
     StateTestFiller,
+    TestInfo,
 )
 from .spec.blockchain.types import Block, Header
 from .vm import Opcode, OpcodeCallArg, Opcodes
 
 __all__ = (
+    "SPEC_TYPES",
     "AccessList",
     "Account",
     "Auto",
     "BaseFixture",
     "BaseTest",
-    "BaseTestConfig",
     "Block",
     "BlockchainTest",
     "BlockchainTestFiller",
@@ -72,6 +74,7 @@ __all__ = (
     "EngineAPIError",
     "Environment",
     "Fixture",
+    "FixtureCollector",
     "FixtureEngineNewPayload",
     "Header",
     "HistoryStorageAddress",
@@ -90,6 +93,7 @@ __all__ = (
     "Switch",
     "TestAddress",
     "TestAddress2",
+    "TestInfo",
     "TestPrivateKey",
     "TestPrivateKey2",
     "Transaction",

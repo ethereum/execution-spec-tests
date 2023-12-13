@@ -22,38 +22,39 @@ will produce the directory structure:
 
 ```text
 📂 /tmp/evm-dump
-└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
-    └── 📂 fork_Berlin
-        ├── 📂 0
-        │   ├── 📄 args.py
-        │   ├── 📂 input
-        │   │   ├── 📄 alloc.json
-        │   │   ├── 📄 env.json
-        │   │   └── 📄 txs.json
-        │   ├── 📂 output
-        │   │   ├── 📄 alloc.json
-        │   │   ├── 📄 result.json
-        │   │   └── 📄 txs.rlp
-        │   ├── 📄 returncode.txt
-        │   ├── 📄 stderr.txt
-        │   ├── 📄 stdin.txt
-        │   ├── 📄 stdout.txt
-        │   └── 📄 t8n.sh
-        └── 📂 1
-            ├── 📄 args.py
-            ├── 📂 input
-            │   ├── 📄 alloc.json
-            │   ├── 📄 env.json
-            │   └── 📄 txs.json
-            ├── 📂 output
-            │   ├── 📄 alloc.json
-            │   ├── 📄 result.json
-            │   └── 📄 txs.rlp
-            ├── 📄 returncode.txt
-            ├── 📄 stderr.txt
-            ├── 📄 stdin.txt
-            ├── 📄 stdout.txt
-            └── 📄 t8n.sh
+└── 📂 blockchain_tests
+    └── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+        └── 📂 fork_Berlin
+            ├── 📂 0
+            │   ├── 📄 args.py
+            │   ├── 📂 input
+            │   │   ├── 📄 alloc.json
+            │   │   ├── 📄 env.json
+            │   │   └── 📄 txs.json
+            │   ├── 📂 output
+            │   │   ├── 📄 alloc.json
+            │   │   ├── 📄 result.json
+            │   │   └── 📄 txs.rlp
+            │   ├── 📄 returncode.txt
+            │   ├── 📄 stderr.txt
+            │   ├── 📄 stdin.txt
+            │   ├── 📄 stdout.txt
+            │   └── 📄 t8n.sh
+            └── 📂 1
+                ├── 📄 args.py
+                ├── 📂 input
+                │   ├── 📄 alloc.json
+                │   ├── 📄 env.json
+                │   └── 📄 txs.json
+                ├── 📂 output
+                │   ├── 📄 alloc.json
+                │   ├── 📄 result.json
+                │   └── 📄 txs.rlp
+                ├── 📄 returncode.txt
+                ├── 📄 stderr.txt
+                ├── 📄 stdin.txt
+                ├── 📄 stdout.txt
+                └── 📄 t8n.sh
 ```
 
 where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test:
@@ -120,24 +121,25 @@ will additionally run the `evm blocktest` command on every JSON fixture file and
 
 ```text
 📂 /tmp/evm-dump
-└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
-    ├── 📄 fixtures.json
-    ├── 📂 fork_Berlin
-    │   ├── 📂 0
-    │   │   ├── 📄 args.py
-    │   │   ├── 📂 input
-    │   │   │   ├── 📄 alloc.json
-    │   │   │   ├── 📄 env.json
-    │   │   │   └── 📄 txs.json
-    │   │   ├── 📂 output
-    │   │   │   ├── 📄 alloc.json
-    │   ... ... ...
-    │
-    ├── 📄 verify_fixtures_args.py
-    ├── 📄 verify_fixtures_returncode.txt
-    ├── 📄 verify_fixtures.sh
-    ├── 📄 verify_fixtures_stderr.txt
-    └── 📄 verify_fixtures_stdout.txt
+└── 📂 blockchain_tests
+    └── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+        ├── 📄 fixtures.json
+        ├── 📂 fork_Berlin
+        │   ├── 📂 0
+        │   │   ├── 📄 args.py
+        │   │   ├── 📂 input
+        │   │   │   ├── 📄 alloc.json
+        │   │   │   ├── 📄 env.json
+        │   │   │   └── 📄 txs.json
+        │   │   ├── 📂 output
+        │   │   │   ├── 📄 alloc.json
+        │   ... ... ...
+        │
+        ├── 📄 verify_fixtures_args.py
+        ├── 📄 verify_fixtures_returncode.txt
+        ├── 📄 verify_fixtures.sh
+        ├── 📄 verify_fixtures_stderr.txt
+        └── 📄 verify_fixtures_stdout.txt
 ```
 
 where the `verify_fixtures.sh` script can be used to reproduce the `evm blocktest` command.
