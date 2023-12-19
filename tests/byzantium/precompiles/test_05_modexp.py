@@ -32,7 +32,6 @@ def test_modexp(state_test: StateTestFiller, fork: str):
     """
 
     account = to_address(0x100)
-    dup_opcode = 0x80 + i
 
     pre[account] = Account(
         code=(
@@ -40,7 +39,7 @@ def test_modexp(state_test: StateTestFiller, fork: str):
             """0x366000600037"""
             +
             # Setup stack to CALL into ModExp with the CALLDATA and CALL into it
-            """600060003660006000060055AF1"""
+            """60006000366000600060055AF1"""
             +
             # Clear out the first 32 bytes of memory (these 32 bytes are saved into storage)
             """6000600052"""
@@ -67,8 +66,8 @@ def test_modexp(state_test: StateTestFiller, fork: str):
         nonce=0,
         to=account,
         data="""0x0000000000000000000000000000000000000000000000000000000000000000"""
-        +    """0000000000000000000000000000000000000000000000000000000000000000"""
-        +    """0000000000000000000000000000000000000000000000000000000000000001""",
+        +      """0000000000000000000000000000000000000000000000000000000000000000"""
+        +      """0000000000000000000000000000000000000000000000000000000000000001""",
         gas_limit=500000,
         gas_price=10,
         protected=True,
