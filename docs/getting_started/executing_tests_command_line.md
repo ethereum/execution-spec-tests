@@ -71,7 +71,7 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
 or, for a test function and specific parameter combination:
 
 ```console
-fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage[fork_Merge-DELEGATECALL]
+fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage[fork_Paris-DELEGATECALL]
 ```
 
 ## Execution for Development Forks
