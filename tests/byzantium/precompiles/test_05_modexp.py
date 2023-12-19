@@ -75,7 +75,7 @@ def test_modexp(state_test: StateTestFiller, fork: str):
     )
     txs.append(tx)
 
-    s: Storage.StorageDictType = dict([(0, 0x01000000000000000000000000000000000000000000000000000000000000)])
+    s: Storage.StorageDictType = dict([(0, 0x0100000000000000000000000000000000000000000000000000000000000000)])
 
     post[account] = Account(storage=s)
 
