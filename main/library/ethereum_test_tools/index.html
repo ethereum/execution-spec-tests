@@ -3157,6 +3157,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.StateTest.network_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      network_info()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.StateTest.make_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       make_fixture()
@@ -9352,6 +9361,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.StateTest.network_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      network_info()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.StateTest.make_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       make_fixture()
@@ -11870,7 +11888,13 @@ Compiles Yul source code into bytecode.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 45</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
 <span class="normal"> 46</span>
 <span class="normal"> 47</span>
 <span class="normal"> 48</span>
@@ -11966,13 +11990,7 @@ Compiles Yul source code into bytecode.</p>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Yul</span><span class="p">(</span><span class="n">SupportsBytes</span><span class="p">,</span> <span class="n">Sized</span><span class="p">):</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Yul</span><span class="p">(</span><span class="n">SupportsBytes</span><span class="p">,</span> <span class="n">Sized</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Yul compiler.</span>
 <span class="sd">    Compiles Yul source code into bytecode.</span>
@@ -12106,7 +12124,13 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
 <span class="normal"> 75</span>
 <span class="normal"> 76</span>
 <span class="normal"> 77</span>
@@ -12132,13 +12156,7 @@ Compiles Yul source code into bytecode.</p>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assembles using `solc --assemble`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12200,11 +12218,11 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the length of the Yul bytecode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12238,11 +12256,11 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds two code objects together, by converting both to bytes first.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12276,11 +12294,11 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds two code objects together, by converting both to bytes first.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12314,7 +12332,13 @@ Compiles Yul source code into bytecode.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/code/yul.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
@@ -12329,13 +12353,7 @@ Compiles Yul source code into bytecode.</p>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return solc&#39;s version string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -23492,7 +23510,13 @@ spec type as filler for the test.</p>
 <span class="normal">332</span>
 <span class="normal">333</span>
 <span class="normal">334</span>
-<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
@@ -23603,7 +23627,9 @@ spec type as filler for the test.</p>
             <span class="n">alloc</span><span class="o">=</span><span class="n">previous_alloc</span><span class="p">,</span>
             <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
             <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
-            <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
+            <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">(</span>
+                <span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+            <span class="p">),</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -23654,11 +23680,15 @@ spec type as filler for the test.</p>
 
         <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">rlp</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">next_alloc</span><span class="p">,</span> <span class="n">env</span>
 
-    <span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns fixture network information for the fork &amp; EIP/s.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span> <span class="k">if</span> <span class="n">eips</span> <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">eips</span>
+            <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -24105,7 +24135,9 @@ spec type as filler for the test.</p>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
-<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -24133,7 +24165,9 @@ spec type as filler for the test.</p>
         <span class="n">alloc</span><span class="o">=</span><span class="n">previous_alloc</span><span class="p">,</span>
         <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
         <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
-        <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
+        <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">(</span>
+            <span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+        <span class="p">),</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
         <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -24212,15 +24246,23 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
 <span class="normal">205</span>
-<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns fixture network information for the fork &amp; EIP/s.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span> <span class="k">if</span> <span class="n">eips</span> <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">eips</span>
+        <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -24250,15 +24292,15 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">214</span>
 <span class="normal">215</span>
-<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">):</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifies the post alloc after all block/s or payload/s are generated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -24296,13 +24338,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
@@ -24367,7 +24403,13 @@ spec type as filler for the test.</p>
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -24468,13 +24510,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span>
 <span class="normal">300</span>
@@ -24512,7 +24548,13 @@ spec type as filler for the test.</p>
 <span class="normal">332</span>
 <span class="normal">333</span>
 <span class="normal">334</span>
-<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -24808,7 +24850,21 @@ spec type as filler for the test.</p>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
-<span class="normal">242</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests transactions over the period of a single block.</span>
@@ -24897,13 +24953,19 @@ spec type as filler for the test.</p>
 
     <span class="k">def</span> <span class="nf">generate_fixture_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate common fixture data for both make_fixture and make_hive_fixture.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pre</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-        <span class="n">network_info</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span> <span class="k">if</span> <span class="n">eips</span> <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="n">transition_tool_name</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">(</span>
+            <span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">fork_name</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">transition_tool_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">eips</span>
+            <span class="k">else</span> <span class="n">transition_tool_name</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">apply_new_parent</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
@@ -24913,7 +24975,7 @@ spec type as filler for the test.</p>
             <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">),</span>
             <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
             <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">),</span>
-            <span class="n">fork_name</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">fork_name</span><span class="o">=</span><span class="n">fork_name</span><span class="p">,</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -24935,7 +24997,17 @@ spec type as filler for the test.</p>
             <span class="n">print_traces</span><span class="p">(</span><span class="n">traces</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
             <span class="k">raise</span> <span class="n">e</span>
 
-        <span class="k">return</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">t8n_result</span><span class="p">,</span> <span class="n">t8n_alloc</span><span class="p">,</span> <span class="n">network_info</span>
+        <span class="k">return</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">t8n_result</span><span class="p">,</span> <span class="n">t8n_alloc</span>
+
+    <span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns fixture network information for the fork &amp; EIP/s.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">eips</span>
+            <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -24950,7 +25022,6 @@ spec type as filler for the test.</p>
             <span class="n">txs</span><span class="p">,</span>
             <span class="n">t8n_result</span><span class="p">,</span>
             <span class="n">t8n_alloc</span><span class="p">,</span>
-            <span class="n">network_info</span><span class="p">,</span>
         <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_fixture_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
         <span class="n">header</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">transition_tool_result</span><span class="o">=</span><span class="n">t8n_result</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span>
@@ -24958,7 +25029,7 @@ spec type as filler for the test.</p>
         <span class="n">block</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">hash</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span> <span class="n">ommers</span><span class="o">=</span><span class="p">[],</span> <span class="n">withdrawals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">Fixture</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">fork</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">),</span>
             <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
             <span class="n">genesis_rlp</span><span class="o">=</span><span class="n">genesis_rlp</span><span class="p">,</span>
             <span class="n">blocks</span><span class="o">=</span><span class="p">[</span>
@@ -24989,7 +25060,6 @@ spec type as filler for the test.</p>
             <span class="n">txs</span><span class="p">,</span>
             <span class="n">t8n_result</span><span class="p">,</span>
             <span class="n">t8n_alloc</span><span class="p">,</span>
-            <span class="n">network_info</span><span class="p">,</span>
         <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_fixture_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
 
         <span class="n">header</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span>
@@ -25007,7 +25077,7 @@ spec type as filler for the test.</p>
         <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">HiveFixture</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">fork</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">),</span>
             <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
             <span class="n">payloads</span><span class="o">=</span><span class="p">[</span><span class="n">fixture_payload</span><span class="p">],</span>
             <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
@@ -25288,15 +25358,27 @@ spec type as filler for the test.</p>
 <span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
-<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_fixture_data</span><span class="p">(</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_fixture_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">Bytes</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate common fixture data for both make_fixture and make_hive_fixture.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pre</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-    <span class="n">network_info</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span> <span class="k">if</span> <span class="n">eips</span> <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+    <span class="n">transition_tool_name</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">(</span>
+        <span class="n">block_number</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span>
+        <span class="n">timestamp</span><span class="o">=</span><span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">fork_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">transition_tool_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">eips</span>
+        <span class="k">else</span> <span class="n">transition_tool_name</span>
     <span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">apply_new_parent</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
@@ -25306,7 +25388,7 @@ spec type as filler for the test.</p>
         <span class="n">alloc</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">),</span>
         <span class="n">txs</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="n">txs</span><span class="p">),</span>
         <span class="n">env</span><span class="o">=</span><span class="n">to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">),</span>
-        <span class="n">fork_name</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+        <span class="n">fork_name</span><span class="o">=</span><span class="n">fork_name</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">Number</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)),</span>
         <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
@@ -25328,7 +25410,53 @@ spec type as filler for the test.</p>
         <span class="n">print_traces</span><span class="p">(</span><span class="n">traces</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
         <span class="k">raise</span> <span class="n">e</span>
 
-    <span class="k">return</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">t8n_result</span><span class="p">,</span> <span class="n">t8n_alloc</span><span class="p">,</span> <span class="n">network_info</span>
+    <span class="k">return</span> <span class="n">genesis</span><span class="p">,</span> <span class="n">genesis_rlp</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">t8n_result</span><span class="p">,</span> <span class="n">t8n_alloc</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="ethereum_test_tools.StateTest.network_info" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_tools.StateTest.network_info" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns fixture network information for the fork &amp; EIP/s.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/ethereum_test_tools/spec/state_test.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns fixture network information for the fork &amp; EIP/s.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">eips</span>
+        <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -25358,23 +25486,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/state_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">181</span>
 <span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
@@ -25395,7 +25507,22 @@ spec type as filler for the test.</p>
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -25408,7 +25535,6 @@ spec type as filler for the test.</p>
         <span class="n">txs</span><span class="p">,</span>
         <span class="n">t8n_result</span><span class="p">,</span>
         <span class="n">t8n_alloc</span><span class="p">,</span>
-        <span class="n">network_info</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_fixture_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
     <span class="n">header</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span>
         <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">transition_tool_result</span><span class="o">=</span><span class="n">t8n_result</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span>
@@ -25416,7 +25542,7 @@ spec type as filler for the test.</p>
     <span class="n">block</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">hash</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span> <span class="n">ommers</span><span class="o">=</span><span class="p">[],</span> <span class="n">withdrawals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Fixture</span><span class="p">(</span>
-        <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+        <span class="n">fork</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">),</span>
         <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
         <span class="n">genesis_rlp</span><span class="o">=</span><span class="n">genesis_rlp</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span>
@@ -25462,22 +25588,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/state_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
@@ -25500,7 +25611,21 @@ spec type as filler for the test.</p>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
-<span class="normal">242</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HiveFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -25513,7 +25638,6 @@ spec type as filler for the test.</p>
         <span class="n">txs</span><span class="p">,</span>
         <span class="n">t8n_result</span><span class="p">,</span>
         <span class="n">t8n_alloc</span><span class="p">,</span>
-        <span class="n">network_info</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_fixture_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
 
     <span class="n">header</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span>
@@ -25531,7 +25655,7 @@ spec type as filler for the test.</p>
     <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">HiveFixture</span><span class="p">(</span>
-        <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+        <span class="n">fork</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">),</span>
         <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
         <span class="n">payloads</span><span class="o">=</span><span class="p">[</span><span class="n">fixture_payload</span><span class="p">],</span>
         <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>

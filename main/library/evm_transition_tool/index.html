@@ -6773,7 +6773,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns True if the fork is supported by the tool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
+        <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -7151,7 +7151,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
+    <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -7767,7 +7767,7 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
 <span class="sd">        If the fork is a transition fork, we want to check the fork it transitions to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
+        <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
 
     <span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span>
@@ -7868,7 +7868,7 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
 <span class="sd">    If the fork is a transition fork, we want to check the fork it transitions to.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
+    <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -8136,7 +8136,7 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
 <span class="sd">        If the fork is a transition fork, we want to check the fork it transitions to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
+        <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -8225,7 +8225,7 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 
 <span class="sd">    If the fork is a transition fork, we want to check the fork it transitions to.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
+    <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -9404,7 +9404,7 @@ implementations.</p>
             <span class="n">alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[],</span>
             <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-            <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">debug_output_path</span><span class="o">=</span><span class="n">debug_output_path</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">state_root</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;stateRoot&quot;</span><span class="p">)</span>
@@ -10595,7 +10595,7 @@ can be overridden.</p>
         <span class="n">alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
         <span class="n">txs</span><span class="o">=</span><span class="p">[],</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-        <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">fork</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">fork_name</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
         <span class="n">debug_output_path</span><span class="o">=</span><span class="n">debug_output_path</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">state_root</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;stateRoot&quot;</span><span class="p">)</span>
