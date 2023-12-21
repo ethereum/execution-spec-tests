@@ -8,6 +8,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- Add tests for the ModExp precompile ([#364](https://github.com/ethereum/execution-spec-tests/pull/364))
+
 ### 🛠️ Framework
 
 - ✨ Add a `--single-fixture-per-file` flag to generate one fixture JSON file per test case ([#331](https://github.com/ethereum/execution-spec-tests/pull/331)).

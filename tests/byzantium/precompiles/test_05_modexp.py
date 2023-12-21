@@ -11,7 +11,7 @@ from ethereum_test_tools import Account, Environment, StateTestFiller, Transacti
 
 def input(b: str, e: str, m: str, extra: str):
     """
-    Generates output for the MODEXP precompile, with the inputs `b` (base), `e` (exponent),
+    Generates input for the MODEXP precompile, with the inputs `b` (base), `e` (exponent),
     `m` (modulus) and optionally extra bytes to append at the end of the call input
     """
     return (
