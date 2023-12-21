@@ -235,6 +235,7 @@ stExample
 str
 streetsidesoftware
 subcall
+subclasscheck
 subdirectories
 subdirectory
 subgraph
