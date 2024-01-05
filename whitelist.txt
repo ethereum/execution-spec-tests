@@ -17,6 +17,7 @@ big0
 big1
 blockchain
 BlockchainTest
+BlockchainTests
 BlockchainTestFiller
 blockhash
 blocknum
@@ -229,6 +230,7 @@ squidfunk
 src
 stackoverflow
 StateTest
+StateTests
 StateTestFiller
 staticcalled
 stExample
