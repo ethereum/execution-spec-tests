@@ -9,6 +9,16 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🧪 Test Cases
 
 - 🔀 Add reentrancy suicide revert test ([#372](https://github.com/ethereum/execution-spec-tests/pull/372)).
+- 🔀 BlockchainTests converted to StateTest (also automatically generate BlockchainTest) ([#368](https://github.com/ethereum/execution-spec-tests/pull/368)):
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_hash_versioning_single_tx
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_value_opcode
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_calldata_opcodes
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_gasprice_opcode
+  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork
 
 ### 🛠️ Framework
 
