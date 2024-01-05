@@ -38,6 +38,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 📋 Misc
 
 - 🔀 Docs: Update `t8n` tool branch to fill tests for development features in the [readme](https://github.com/ethereum/execution-spec-test) ([#338](https://github.com/ethereum/execution-spec-tests/pull/338)).
+- 🔀 Filling tool: Updated filling tool to go-ethereum@master ([#368](https://github.com/ethereum/execution-spec-tests/pull/368))
 
 ## Breaking Changes
 
