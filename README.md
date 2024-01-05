@@ -68,10 +68,11 @@ The following transition tools are supported by the framework:
 
 ### Upcoming EIP Development
 
-Generally, specific `t8n` implementations and branches must be used when developing tests for upcoming EIPs (last updated 2023-10-19):
+Generally, specific `t8n` implementations and branches must be used when developing tests for upcoming EIPs.
 
-- Cancun related EIPs (4844, 4788, 1153, 6780) - [lightclient/go-ethereum@devnet-10](https://github.com/lightclient/go-ethereum/tree/devnet-10)
-- EOF tests - [ethereum/evmone@master](https://github.com/ethereum/evmone)
+We use named reference tags to point to the specific version of the `t8n` implementation that needs to be used fill the tests.
+
+All current tags, their t8n implementation and branch they point to, are listed in [evm-config.yaml](evm-config.yaml).
 
 ## Getting Started
 
