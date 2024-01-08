@@ -3,13 +3,12 @@ Define an entry point wrapper for pytest.
 """
 
 import sys
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from ethereum_test_tools import Opcodes as Op
 
 
-def main():  # noqa: D103
-    evm_bytes_hex_string = sys.argv[1]
+def process_evm_bytes(evm_bytes_hex_string: Any) -> str:  # noqa: D103
     if evm_bytes_hex_string.startswith("0x"):
         evm_bytes_hex_string = evm_bytes_hex_string[2:]
 
@@ -36,7 +35,12 @@ def main():  # noqa: D103
         else:
             opcodes_strings.append(f"Op.{opcode._name_}")
 
-    print(" + ".join(opcodes_strings))
+    return " + ".join(opcodes_strings)
+
+
+def main():  # noqa: D103
+    evm_bytes_hex_string = sys.argv[1]
+    print(process_evm_bytes(evm_bytes_hex_string))
 
 
 if __name__ == "__main__":
