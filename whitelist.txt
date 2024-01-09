@@ -120,7 +120,9 @@ go-ethereum's
 gwei
 hash32
 hasher
+HeaderNonce
 hexary
+HexNumber
 hexsha
 homebrew
 html
@@ -193,7 +195,7 @@ pre
 Pre
 precompile
 prepend
-prevrandao
+PrevRandao
 programmatically
 px
 py
@@ -216,6 +218,7 @@ repos
 returndatacopy
 returndatasize
 rlp
+rpc
 runtime
 sandboxed
 secp256k1
@@ -256,6 +259,7 @@ TestMultipleWithdrawalsSameAddress
 textwrap
 time15k
 timestamp
+todo
 toml
 tox
 Tox
@@ -334,6 +338,7 @@ parametrize
 parametrizer
 parametrizers
 popen
+prevrandao
 pytester
 pytestmark
 readline
@@ -356,6 +361,7 @@ trylast
 usefixtures
 writelines
 xfail
+ZeroPaddedHexNumber
 stop
 add
 mul
