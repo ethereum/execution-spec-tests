@@ -38,7 +38,17 @@ def process_evm_bytes(evm_bytes_hex_string: Any) -> str:  # noqa: D103
     return " + ".join(opcodes_strings)
 
 
+def print_help():  # noqa: D103
+    print("Usage: evm_bytes_to_python <EVM bytes hex string>")
+
+
 def main():  # noqa: D103
+    if len(sys.argv) != 2:
+        print_help()
+        sys.exit(1)
+    if sys.argv[1] in ["-h", "--help"]:
+        print_help()
+        sys.exit(0)
     evm_bytes_hex_string = sys.argv[1]
     print(process_evm_bytes(evm_bytes_hex_string))
 
