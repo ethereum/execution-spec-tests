@@ -402,7 +402,7 @@ class Storage(SupportsJSON):
             hex_str = "0" + hex_str
         return "0x" + hex_str
 
-    def __init__(self, input: StorageDictType = {}, start_slot: int = 0):
+    def __init__(self, input: StorageDictType | "Storage" = {}, start_slot: int = 0):
         """
         Initializes the storage using a given mapping which can have
         keys and values either as string or int.
@@ -419,6 +419,10 @@ class Storage(SupportsJSON):
     def __len__(self) -> int:
         """Returns number of elements in the storage"""
         return len(self.data)
+
+    def __iter__(self) -> Iterator[int]:
+        """Returns iterator of the storage"""
+        return iter(self.data)
 
     def __contains__(self, key: str | int | bytes) -> bool:
         """Checks for an item in the storage"""
@@ -1721,6 +1725,16 @@ class Transaction:
         # Remove the secret key because otherwise we might attempt to sign again (?)
         tx.secret_key = None
         return tx
+
+
+def transaction_list_root(input_txs: List[Transaction] | None) -> Hash:
+    """
+    Returns the transactions root of a list of transactions.
+    """
+    t = HexaryTrie(db={})
+    for i, tx in enumerate(input_txs or []):
+        t.set(eth_rlp.encode(Uint(i)), tx.serialized_bytes())
+    return Hash(t.root_hash)
 
 
 def transaction_list_to_serializable_list(input_txs: List[Transaction] | None) -> List[Any]:
