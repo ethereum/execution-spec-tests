@@ -67,9 +67,11 @@ def tx_value() -> int:
 
 
 @pytest.fixture
-def tx_gas() -> int:
+def tx_gas(
+    tx_calldata: bytes,
+) -> int:
     """Default gas allocated to transactions sent during test."""
-    return 21000
+    return 21000 + eip_2028_transaction_data_cost(tx_calldata)
 
 
 @pytest.fixture
@@ -182,7 +184,6 @@ def blob_hashes_per_tx(blobs_per_tx: List[int]) -> List[List[bytes]]:
 def total_account_minimum_balance(  # noqa: D103
     tx_gas: int,
     tx_value: int,
-    tx_calldata: bytes,
     tx_max_fee_per_gas: int,
     tx_max_priority_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
@@ -195,12 +196,7 @@ def total_account_minimum_balance(  # noqa: D103
     total_cost = 0
     for tx_blob_count in [len(x) for x in blob_hashes_per_tx]:
         data_cost = tx_max_fee_per_blob_gas * Spec.GAS_PER_BLOB * tx_blob_count
-        total_cost += (
-            (tx_gas * (tx_max_fee_per_gas + tx_max_priority_fee_per_gas))
-            + tx_value
-            + eip_2028_transaction_data_cost(tx_calldata)
-            + data_cost
-        )
+        total_cost += (tx_gas * tx_max_fee_per_gas) + tx_value + data_cost
     return total_cost
 
 
@@ -726,7 +722,7 @@ def test_invalid_block_blob_count(
     )
 
 
-@pytest.mark.parametrize("tx_max_priority_fee_per_gas", [0, 8])
+@pytest.mark.parametrize("tx_max_priority_fee_per_gas", [0, 7])
 @pytest.mark.parametrize("tx_value", [0, 1])
 @pytest.mark.parametrize(
     "tx_calldata",
