@@ -17,6 +17,7 @@ from ethereum_test_tools import (
     compute_create_address,
     to_address,
 )
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 def create_modexp_tx_data(b: str, e: str, m: str, extra: str):
@@ -127,26 +128,37 @@ def test_modexp(state_test: StateTestFiller, input: List[str], output: str):
     pre[account] = Account(
         code=(
             # Store all CALLDATA into memory (offset 0)
-            """0x366000600037"""
-            +
-            # Setup stack to CALL into ModExp with the CALLDATA and CALL into it (+ pop value)
-            """60006000366000600060055AF1"""
-            +
+            Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
             # Store the returned CALL status (success = 1, fail = 0) into slot 0:
-            """600055"""
-            +
+            + Op.SSTORE(
+                0,
+                # Setup stack to CALL into ModExp with the CALLDATA and CALL into it (+ pop value)
+                Op.CALL(Op.GAS(), 0x05, 0, 0, Op.CALLDATASIZE(), 0, 0),
+            )
             # Store contract deployment code to deploy the returned data from ModExp as
             # contract code (16 bytes)
-            """7F601038036010600039601038036000F300000000000000000000000000000000600052"""
-            +
+            + Op.MSTORE(
+                0,
+                (
+                    (
+                        # Need to `ljust` this PUSH32 in order to ensure the code starts
+                        # in memory at offset 0 (memory right-aligns stack items which are not
+                        # 32 bytes)
+                        Op.PUSH32(
+                            (
+                                Op.CODECOPY(0, 16, Op.SUB(Op.CODESIZE(), 16))
+                                + Op.RETURN(0, Op.SUB(Op.CODESIZE, 16))
+                            ).ljust(32, bytes(1))
+                        )
+                    )
+                ),
+            )
             # RETURNDATACOPY the returned data from ModExp into memory (offset 16 bytes)
-            """3D600060103E"""
-            +
+            + Op.RETURNDATACOPY(16, 0, Op.RETURNDATASIZE())
             # CREATE contract with the deployment code + the returned data from ModExp
-            """3D60100160006000F0"""
-            +
+            + Op.CREATE(0, 0, Op.ADD(16, Op.RETURNDATASIZE()))
             # STOP (handy for tracing)
-            "00"
+            + Op.STOP()
         )
     )
 
