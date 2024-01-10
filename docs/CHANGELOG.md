@@ -9,7 +9,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🧪 Test Cases
 
 - 🔀 Add reentrancy suicide revert test ([#372](https://github.com/ethereum/execution-spec-tests/pull/372)).
-- 🔀 BlockchainTests converted to StateTest (also automatically generate BlockchainTest) ([#368](https://github.com/ethereum/execution-spec-tests/pull/368)):
+- 🔀 BlockchainTests converted to StateTest (also automatically generate BlockchainTest) ([#368](https://github.com/ethereum/execution-spec-tests/pull/368), [#370](https://github.com/ethereum/execution-spec-tests/pull/370)):
   - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas
   - tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx
   - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count
@@ -19,6 +19,17 @@ Test fixtures for use by clients are available for each release on the [Github r
   - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_calldata_opcodes
   - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_gasprice_opcode
   - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork
+  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py::test_point_evaluation_precompile_gas_usage
+  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_precompile_calls
+  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_invalid_precompile_calls
+  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_external_vectors
+  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_calls
+  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_gas_tx_to
+  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_before_fork
+  - tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_before_fork
+  - tests/shanghai/eip3860_initcode/test_initcode.py::test_contract_creating_tx
+  - tests/shanghai/eip3860_initcode/test_initcode.py::TestContractCreationGasUsage
+- 🐞 Fixed `tests/cancun/eip4844_blobs/test_blob_txs.py:test_invalid_tx_max_fee_per_blob_gas` to account for extra gas required in the case where the account is incorrectly deduced the balance as if it had the correct block blob gas fee ([#370](https://github.com/ethereum/execution-spec-tests/pull/370)).
 
 ### 🛠️ Framework
 
