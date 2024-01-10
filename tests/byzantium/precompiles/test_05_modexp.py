@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     TestAddress,
     Transaction,
+    compute_create_address,
     to_address,
 )
 
@@ -172,4 +173,4 @@ def test_modexp(state_test: StateTestFiller, input: List[str], output: str):
         post[contract_address] = Account(code=output[1])
     post[account] = Account(storage=dict([("0x00", output[0])]))
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
