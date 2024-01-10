@@ -15,6 +15,7 @@ bb
 besu
 big0
 big1
+blobgasfee
 blockchain
 BlockchainTest
 BlockchainTests
@@ -112,6 +113,7 @@ git's
 github
 Github
 glightbox
+globals
 go-ethereum's
 gwei
 hash32
@@ -246,6 +248,7 @@ sudo
 t8n
 tamasfe
 TestAddress
+TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 textwrap
 time15k
@@ -507,6 +510,8 @@ precompile
 precompiles
 deployer
 0x
+0x00
+0x10
 
 fi
 url
