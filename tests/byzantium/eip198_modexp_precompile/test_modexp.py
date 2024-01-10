@@ -19,6 +19,9 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-198.md"
+REFERENCE_SPEC_VERSION = "9e393a79d9937f579acbdcb234a67869259d5a96"
+
 
 def create_modexp_tx_data(b: str, e: str, m: str, extra: str):
     """
