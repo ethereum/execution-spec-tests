@@ -1,8 +1,8 @@
 """
-abstract: Test MODEXP (0x0000..0005)
+abstract: Test [EIP-198: MODEXP Precompile](https://eips.ethereum.org/EIPS/eip-198)
 
-    Tests the MODEXP precompile, located at address 0x0000..0005
-    Tests were filled `with evm version 1.13.4-stable-3f907d6a`
+    Tests the MODEXP precompile, located at address 0x0000..0005. Test cases from the EIP are
+    labelled with `EIP-198-caseX` in the test id.
 """
 from typing import List
 
@@ -79,11 +79,11 @@ def create_modexp_tx_data(b: str, e: str, m: str, extra: str):
             [
                 # Note: the only case which goes out-of-gas, and this is also raw input
                 # which is thus not fed into create_modexp_tx-_data
-                """0000000000000000000000000000000000000000000000000000000000000000"""
-                + """0000000000000000000000000000000000000000000000000000000000000020"""
-                + """ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"""
-                + """fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"""
-                + """fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd"""
+                "0000000000000000000000000000000000000000000000000000000000000000"
+                "0000000000000000000000000000000000000000000000000000000000000020"
+                "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"
+                "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd"
             ],
             ["0x00", "0000000000000000000000000000000000000000000000000000000000000000"],
             id="EIP-198-case3",
@@ -101,12 +101,12 @@ def create_modexp_tx_data(b: str, e: str, m: str, extra: str):
         pytest.param(
             [
                 # Note: this is raw input, so not fed into create_modexp_tx_data
-                """0000000000000000000000000000000000000000000000000000000000000001"""
-                + """0000000000000000000000000000000000000000000000000000000000000002"""
-                + """0000000000000000000000000000000000000000000000000000000000000020"""
-                + """03"""
-                + """ffff"""
-                + """80"""
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000000000000000000002"
+                "0000000000000000000000000000000000000000000000000000000000000020"
+                "03"
+                "ffff"
+                "80"
             ],
             ["0x01", "0x3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab"],
             id="EIP-198-case5",

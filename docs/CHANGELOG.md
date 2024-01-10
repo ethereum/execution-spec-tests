@@ -8,7 +8,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
-- Add tests for the ModExp precompile ([#364](https://github.com/ethereum/execution-spec-tests/pull/364))
+- Add tests for the MODEXP precompile ([#364](https://github.com/ethereum/execution-spec-tests/pull/364))
 
 ### 🛠️ Framework
 
