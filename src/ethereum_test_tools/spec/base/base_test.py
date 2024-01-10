@@ -5,21 +5,17 @@ from abc import abstractmethod
 from dataclasses import dataclass, field
 from itertools import count
 from os import path
-from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Optional
+from pathlib import Path
+from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Optional, TextIO
 
 from ethereum_test_forks import Fork
-from evm_transition_tool import TransitionTool
+from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ..common import (
-    Account,
-    Address,
-    Environment,
-    Fixture,
-    HiveFixture,
-    Transaction,
-    withdrawals_root,
-)
-from ..common.conversions import to_hex
+from ...common import Account, Address, Environment, Transaction, withdrawals_root
+from ...common.conversions import to_hex
+from ...common.json import JSONEncoder
+from ...common.json import field as json_field
+from ...reference_spec.reference_spec import ReferenceSpec
 
 
 def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
@@ -78,53 +74,91 @@ def verify_result(result: Mapping, env: Environment):
 
 
 @dataclass(kw_only=True)
-class BaseTestConfig:
+class BaseFixture:
     """
-    General configuration that all tests must support.
+    Represents a base Ethereum test fixture of any type.
     """
 
-    enable_hive: bool = False
-    """
-    Enable any hive-related properties that the output could contain.
-    """
+    info: Dict[str, str] = json_field(
+        default_factory=dict,
+        json_encoder=JSONEncoder.Field(
+            name="_info",
+            to_json=True,
+        ),
+    )
+
+    def fill_info(
+        self,
+        t8n: TransitionTool,
+        ref_spec: ReferenceSpec | None,
+    ):
+        """
+        Fill the info field for this fixture
+        """
+        self.info["filling-transition-tool"] = t8n.version()
+        if ref_spec is not None:
+            ref_spec.write_info(self.info)
+
+    @classmethod
+    @abstractmethod
+    def format(cls) -> FixtureFormats:
+        """
+        Returns the fixture format which the evm tool can use to determine how to verify the
+        fixture.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
+        """
+        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def output_base_dir_name(cls) -> Path:
+        """
+        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        """
+        pass
+
+    @classmethod
+    def output_file_extension(cls) -> str:
+        """
+        Returns the file extension for this type of fixture.
+
+        By default, fixtures are dumped as JSON files.
+        """
+        return ".json"
 
 
 @dataclass(kw_only=True)
 class BaseTest:
     """
-    Represents a base Ethereum test which must return a genesis and a
-    blockchain.
+    Represents a base Ethereum test which must return a single test fixture.
     """
 
     pre: Mapping
     tag: str = ""
-    base_test_config: BaseTestConfig = field(default_factory=BaseTestConfig)
+    # Setting a default here is just for type checking, the correct value is automatically set
+    # by pytest.
+    fixture_format: FixtureFormats = FixtureFormats.UNSET_TEST_FORMAT
 
     # Transition tool specific fields
     t8n_dump_dir: Optional[str] = ""
     t8n_call_counter: Iterator[int] = field(init=False, default_factory=count)
 
     @abstractmethod
-    def make_fixture(
+    def generate(
         self,
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> Fixture:
+    ) -> BaseFixture:
         """
-        Generate  blockchain that must be executed sequentially during test.
-        """
-        pass
-
-    @abstractmethod
-    def make_hive_fixture(
-        self,
-        t8n: TransitionTool,
-        fork: Fork,
-        eips: Optional[List[int]] = None,
-    ) -> HiveFixture:
-        """
-        Generate the blockchain that must be executed sequentially during test.
+        Generate the list of test fixtures.
         """
         pass
 
@@ -136,6 +170,23 @@ class BaseTest:
         spec type as filler for the test.
         """
         pass
+
+    @classmethod
+    @abstractmethod
+    def fixture_formats(cls) -> List[FixtureFormats]:
+        """
+        Returns a list of fixture formats that can be output to the test spec.
+        """
+        pass
+
+    def __post_init__(self) -> None:
+        """
+        Validate the fixture format.
+        """
+        if self.fixture_format not in self.fixture_formats():
+            raise ValueError(
+                f"Invalid fixture format {self.fixture_format} for {self.__class__.__name__}."
+            )
 
     def get_next_transition_tool_output_path(self) -> str:
         """

@@ -267,7 +267,7 @@ Over the entire for loop, it yields 255 different tests.
     yield StateTest(
         env=env, 
         pre=pre, 
-        txs=[tx],
+        tx=tx,
         post=(post_valid if opc_valid(opc) else post_invalid),
     )
 ```

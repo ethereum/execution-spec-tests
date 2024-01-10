@@ -10,12 +10,14 @@ import pytest
 from semver import Version
 
 from ethereum_test_forks import Berlin, Fork, Istanbul, London, Merge, Shanghai
-from evm_transition_tool import GethTransitionTool
+from evm_transition_tool import FixtureFormats, GethTransitionTool
 
 from ..code import Yul
-from ..common import Account, Block, Environment, TestAddress, Transaction, to_json
-from ..filling import fill_test
-from ..spec import BaseTestConfig, BlockchainTest, StateTest
+from ..common import Account, Environment, TestAddress, Transaction, to_json
+from ..spec import BlockchainTest, StateTest
+from ..spec.blockchain.types import Block
+from ..spec.blockchain.types import Fixture as BlockchainFixture
+from ..spec.blockchain.types import FixtureCommon as BlockchainFixtureCommon
 from .conftest import SOLC_PADDING_VERSION
 
 
@@ -74,19 +76,23 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
     }
 
     t8n = GethTransitionTool()
+    fixture = BlockchainTest(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[],
+        tag="some_state_test",
+        fixture_format=FixtureFormats.BLOCKCHAIN_TEST,
+    ).generate(t8n, fork)
+    assert isinstance(fixture, BlockchainFixture)
+    assert fixture.genesis is not None
 
-    _, _, genesis = StateTest(
-        env=env, pre=pre, post={}, txs=[], tag="some_state_test"
-    ).make_genesis(
-        t8n,
-        fork,
-    )
-    assert genesis.hash is not None
-    assert genesis.hash.startswith(hash)
+    assert fixture.genesis.hash is not None
+    assert fixture.genesis.hash.startswith(hash)
 
 
 @pytest.mark.parametrize(
-    "fork,enable_hive,expected_json_file",
+    "fork,check_hive,expected_json_file",
     [
         (Istanbul, False, "chainid_istanbul_filled.json"),
         (London, False, "chainid_london_filled.json"),
@@ -94,7 +100,7 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
         (Shanghai, True, "chainid_shanghai_filled_hive.json"),
     ],
 )
-def test_fill_state_test(fork: Fork, expected_json_file: str, enable_hive: bool):
+def test_fill_state_test(fork: Fork, expected_json_file: str, check_hive: bool):
     """
     Test `ethereum_test.filler.fill_fixtures` with `StateTest`.
     """
@@ -127,24 +133,25 @@ def test_fill_state_test(fork: Fork, expected_json_file: str, enable_hive: bool)
         ),
     }
 
-    state_test = StateTest(
+    t8n = GethTransitionTool()
+    fixture_format = (
+        FixtureFormats.BLOCKCHAIN_TEST_HIVE if check_hive else FixtureFormats.BLOCKCHAIN_TEST
+    )
+    generated_fixture = StateTest(
         env=env,
         pre=pre,
         post=post,
-        txs=[tx],
+        tx=tx,
         tag="my_chain_id_test",
-        base_test_config=BaseTestConfig(enable_hive=enable_hive),
+        fixture_format=fixture_format,
+    ).generate(
+        t8n=t8n,
+        fork=fork,
     )
-
-    t8n = GethTransitionTool()
-
+    assert generated_fixture.format() == fixture_format
+    assert isinstance(generated_fixture, BlockchainFixtureCommon)
     fixture = {
-        f"000/my_chain_id_test/{fork}": fill_test(
-            t8n=t8n,
-            test_spec=state_test,
-            fork=fork,
-            spec=None,
-        ),
+        f"000/my_chain_id_test/{fork}": generated_fixture.to_json(),
     }
 
     with open(
@@ -164,14 +171,14 @@ def test_fill_state_test(fork: Fork, expected_json_file: str, enable_hive: bool)
 
 
 @pytest.mark.parametrize(
-    "fork,enable_hive,expected_json_file",
+    "fork,check_hive,expected_json_file",
     [
         (London, False, "blockchain_london_valid_filled.json"),
         (Shanghai, True, "blockchain_shanghai_valid_filled_hive.json"),
     ],
 )
 def test_fill_blockchain_valid_txs(
-    fork: Fork, solc_version: str, enable_hive: bool, expected_json_file: str
+    fork: Fork, solc_version: str, check_hive: bool, expected_json_file: str
 ):
     """
     Test `ethereum_test.filler.fill_fixtures` with `BlockchainTest`.
@@ -424,24 +431,27 @@ def test_fill_blockchain_valid_txs(
         coinbase="0xba5e000000000000000000000000000000000000",
     )
 
-    blockchain_test = BlockchainTest(
+    t8n = GethTransitionTool()
+    fixture_format = (
+        FixtureFormats.BLOCKCHAIN_TEST_HIVE if check_hive else FixtureFormats.BLOCKCHAIN_TEST
+    )
+    generated_fixture = BlockchainTest(
         pre=pre,
         post=post,
         blocks=blocks,
         genesis_environment=genesis_environment,
         tag="my_blockchain_test_valid_txs",
-        base_test_config=BaseTestConfig(enable_hive=enable_hive),
+        fixture_format=fixture_format,
+    ).generate(
+        t8n=t8n,
+        fork=fork,
     )
 
-    t8n = GethTransitionTool()
+    assert generated_fixture.format() == fixture_format
+    assert isinstance(generated_fixture, BlockchainFixtureCommon)
 
     fixture = {
-        f"000/my_blockchain_test/{fork.name()}": fill_test(
-            t8n=t8n,
-            test_spec=blockchain_test,
-            fork=fork,
-            spec=None,
-        )
+        f"000/my_blockchain_test/{fork.name()}": generated_fixture.to_json(),
     }
 
     with open(
@@ -467,14 +477,14 @@ def test_fill_blockchain_valid_txs(
 
 
 @pytest.mark.parametrize(
-    "fork,enable_hive,expected_json_file",
+    "fork,check_hive,expected_json_file",
     [
         (London, False, "blockchain_london_invalid_filled.json"),
         (Shanghai, True, "blockchain_shanghai_invalid_filled_hive.json"),
     ],
 )
 def test_fill_blockchain_invalid_txs(
-    fork: Fork, solc_version: str, enable_hive: bool, expected_json_file: str
+    fork: Fork, solc_version: str, check_hive: bool, expected_json_file: str
 ):
     """
     Test `ethereum_test.filler.fill_fixtures` with `BlockchainTest`.
@@ -773,23 +783,24 @@ def test_fill_blockchain_invalid_txs(
         coinbase="0xba5e000000000000000000000000000000000000",
     )
 
-    blockchain_test = BlockchainTest(
+    t8n = GethTransitionTool()
+    fixture_format = (
+        FixtureFormats.BLOCKCHAIN_TEST_HIVE if check_hive else FixtureFormats.BLOCKCHAIN_TEST
+    )
+    generated_fixture = BlockchainTest(
         pre=pre,
         post=post,
         blocks=blocks,
         genesis_environment=genesis_environment,
-        base_test_config=BaseTestConfig(enable_hive=enable_hive),
+        fixture_format=fixture_format,
+    ).generate(
+        t8n=t8n,
+        fork=fork,
     )
-
-    t8n = GethTransitionTool()
-
+    assert generated_fixture.format() == fixture_format
+    assert isinstance(generated_fixture, BlockchainFixtureCommon)
     fixture = {
-        f"000/my_blockchain_test/{fork.name()}": fill_test(
-            t8n=t8n,
-            test_spec=blockchain_test,
-            fork=fork,
-            spec=None,
-        )
+        f"000/my_blockchain_test/{fork.name()}": generated_fixture.to_json(),
     }
 
     with open(

@@ -15,8 +15,10 @@ bb
 besu
 big0
 big1
+blobgasfee
 blockchain
 BlockchainTest
+BlockchainTests
 BlockchainTestFiller
 blockhash
 blocknum
@@ -111,6 +113,7 @@ git's
 github
 Github
 glightbox
+globals
 go-ethereum's
 gwei
 hash32
@@ -229,12 +232,14 @@ squidfunk
 src
 stackoverflow
 StateTest
+StateTests
 StateTestFiller
 staticcalled
 stExample
 str
 streetsidesoftware
 subcall
+subclasscheck
 subdirectories
 subdirectory
 subgraph
@@ -243,6 +248,7 @@ sudo
 t8n
 tamasfe
 TestAddress
+TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 textwrap
 time15k
@@ -505,6 +511,8 @@ precompiles
 deployer
 0x
 modexp
+0x00
+0x10
 
 fi
 url

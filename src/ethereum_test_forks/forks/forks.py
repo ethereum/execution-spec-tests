@@ -13,10 +13,21 @@ class Frontier(BaseFork):
     """
 
     @classmethod
-    def fork(cls, block_number: int = 0, timestamp: int = 0) -> str:
+    def transition_tool_name(cls, block_number: int = 0, timestamp: int = 0) -> str:
         """
         Returns fork name as it's meant to be passed to the transition tool for execution.
         """
+        if cls._transition_tool_name is not None:
+            return cls._transition_tool_name
+        return cls.name()
+
+    @classmethod
+    def solc_name(cls, block_number: int = 0, timestamp: int = 0) -> str:
+        """
+        Returns fork name as it's meant to be passed to the solc compiler.
+        """
+        if cls._solc_name is not None:
+            return cls._solc_name
         return cls.name()
 
     @classmethod
@@ -60,6 +71,13 @@ class Frontier(BaseFork):
         At genesis, header must not contain blob gas used
         """
         return False
+
+    @classmethod
+    def blob_gas_per_blob(cls, block_number: int, timestamp: int) -> int:
+        """
+        Returns the amount of blob gas used per blob for a given fork.
+        """
+        return 0
 
     @classmethod
     def engine_new_payload_version(
@@ -182,7 +200,7 @@ class Constantinople(Byzantium):
         return 2_000_000_000_000_000_000
 
 
-class ConstantinopleFix(Constantinople):
+class ConstantinopleFix(Constantinople, solc_name="Constantinople"):
     """
     Constantinople Fix fork
     """
@@ -262,7 +280,12 @@ class GrayGlacier(ArrowGlacier):
     pass
 
 
-class Merge(London):
+class Merge(
+    London,
+    transition_tool_name="Merge",
+    blockchain_test_network_name="Merge",
+    solc_name="Paris",
+):
     """
     Merge fork
     """
@@ -353,6 +376,13 @@ class Cancun(Shanghai):
         Parent beacon block root is required starting from Cancun.
         """
         return True
+
+    @classmethod
+    def blob_gas_per_blob(cls, block_number: int, timestamp: int) -> int:
+        """
+        Blobs are enabled started from Cancun.
+        """
+        return 2**17
 
     @classmethod
     def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
