@@ -167,9 +167,9 @@ def test_modexp(state_test: StateTestFiller, input: List[str], output: str):
         protected=True,
     )
     if output[0] != "0x00":
-        # Address of the contract which gets generated once the contract is invoked
-        # Note: this account is only created if the CALL output is 1. Otherwise, it is not created.
-        post["0xa7f2bd73a7138a2dec709484ad9c3542d7bc7534"] = Account(code=output[1])
+        # Note: This account is only created if the CALL output is 1. Otherwise, it is not created.
+        contract_address = compute_create_address(account, tx.nonce)
+        post[contract_address] = Account(code=output[1])
     post[account] = Account(storage=dict([("0x00", output[0])]))
 
     state_test(env=env, pre=pre, post=post, txs=[tx])
