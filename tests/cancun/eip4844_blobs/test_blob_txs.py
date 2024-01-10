@@ -50,8 +50,8 @@ from .spec import Spec, SpecHelpers, ref_spec_4844
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
 
-TestPrefundingKey = "0x0b2986cc45bd8a8d028c3fcf6f7a11a52f1df61f3ea5d63f05ca109dd73a3fa0"
-TestPrefundingAddress = "0x97a7cb1de3cc7d556d0aa32433b035067709e1fc"
+TestPreFundingKey = "0x0b2986cc45bd8a8d028c3fcf6f7a11a52f1df61f3ea5d63f05ca109dd73a3fa0"
+TestPreFundingAddress = "0x97a7cb1de3cc7d556d0aa32433b035067709e1fc"
 
 
 @pytest.fixture
@@ -863,7 +863,7 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     - Transactions with max fee per blob gas lower or higher than the priority fee
     """
     pre = {
-        TestPrefundingAddress: Account(balance=(21_000 * 100) + total_account_minimum_balance),
+        TestPreFundingAddress: Account(balance=(21_000 * 100) + total_account_minimum_balance),
     }
     txs = [
         Transaction(
@@ -875,7 +875,7 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
             max_fee_per_gas=100,
             max_priority_fee_per_gas=0,
             access_list=[],
-            secret_key=TestPrefundingKey,
+            secret_key=TestPreFundingKey,
         )
     ] + txs
     blockchain_test(
