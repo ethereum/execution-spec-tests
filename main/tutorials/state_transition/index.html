@@ -5855,7 +5855,7 @@
 
 
 <h1 id="state-transition-tests">State Transition Tests<a class="headerlink" href="#state-transition-tests" title="Permanent link">&para;</a></h1>
-<p>This tutorial teaches you to create a state transition execution specification test. These tests verify that a blockchain, starting from a defined pre-state, will reach a specified post-state after executing a set of specific transactions.</p>
+<p>This tutorial teaches you to create a state transition execution specification test. These tests verify that a starting pre-state will reach a specified post-state after executing a single transaction.</p>
 <h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permanent link">&para;</a></h2>
 <p>Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:</p>
 <ul>
@@ -5865,7 +5865,7 @@
 <li>Familiarity with <a href="https://docs.python.org/3/tutorial/">Python</a>.</li>
 </ul>
 <h2 id="example-tests">Example Tests<a class="headerlink" href="#example-tests" title="Permanent link">&para;</a></h2>
-<p>The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the <a href="https://github.com/ethereum/execution-spec-tests/blob/main/tests/example/test_yul_example.py#L17">Yul</a> state test.</p>
+<p>The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the <a href="https://github.com/ethereum/execution-spec-tests/blob/main/tests/homestead/yul/test_yul_example.py#L19">Yul</a> state test.</p>
 <h3 id="yul-test">Yul Test<a class="headerlink" href="#yul-test" title="Permanent link">&para;</a></h3>
 <p>You can find the source code for the Yul test in <a href="../../tests/homestead/yul/test_yul_example/">tests/homestead/yul/test_yul_example.py</a>.
 It is the spec test equivalent of this <a href="https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml">static test</a>.</p>
@@ -5914,7 +5914,7 @@ The function definition ends when there is a line that is no longer indented. As
 </div>
 <div class="highlight"><pre><span></span><code>    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 </code></pre></div>
-<p>This line specifies that <code>env</code> is an <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L445"><code>Environment</code></a> object, and that we just use the default parameters.
+<p>This line specifies that <code>env</code> is an <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L878"><code>Environment</code></a> object, and that we just use the default parameters.
 If necessary we can modify the environment to have different block gas limits, block numbers, etc.
 In most tests the defaults are good enough.</p>
 <p>For more information, <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#env">see the static test documentation</a>.</p>
@@ -5925,7 +5925,7 @@ In most tests the defaults are good enough.</p>
 It is a <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary</a>, which is the Python term for an associative array.</p>
 <div class="highlight"><pre><span></span><code>        <span class="s2">&quot;0x1000000000000000000000000000000000000000&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
 </code></pre></div>
-<p>The keys of the dictionary are addresses (as strings), and the values are <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L264"><code>Account</code></a> objects.
+<p>The keys of the dictionary are addresses (as strings), and the values are <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L517"><code>Account</code></a> objects.
 You can read more about address fields <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#address-fields">in the static test documentation</a>.</p>
 <div class="highlight"><pre><span></span><code>            <span class="n">balance</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">,</span>
 </code></pre></div>
@@ -5955,7 +5955,7 @@ You can read more about address fields <a href="https://ethereum-tests.readthedo
 <div class="highlight"><pre><span></span><code>        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">),</span>
     <span class="p">}</span>
 </code></pre></div>
-<p><a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/constants.py#L8"><code>TestAddress</code></a> is an address for which the test filler has the private key.
+<p><a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/constants.py#L7"><code>TestAddress</code></a> is an address for which the test filler has the private key.
 This means that the test runner can issue a transaction as that contract.
 Of course, this address also needs a balance to be able to issue transactions.</p>
 <h4 id="transactions">Transactions<a class="headerlink" href="#transactions" title="Permanent link">&para;</a></h4>
@@ -5969,7 +5969,7 @@ Of course, this address also needs a balance to be able to issue transactions.</
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div>
-<p>With the pre-state specified, we can add a description for the <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L516"><code>Transaction</code></a>.
+<p>With the pre-state specified, we can add a description for the <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L1155"><code>Transaction</code></a>.
 For more information, <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#transaction">see the static test documentation</a></p>
 <h4 id="post-state">Post State<a class="headerlink" href="#post-state" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code>    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
@@ -5983,9 +5983,9 @@ For more information, <a href="https://ethereum-tests.readthedocs.io/en/latest/t
 <p>This is the post-state which is equivalent to <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#expect"><code>expect</code></a> in static tests, but without the indexes. It is similar to the pre-state, except that we do not need to specify everything, only those accounts and fields we wish to test.</p>
 <p>In this case, we look at the storage of the contract we called and add to it what we expect to see. In this example storage cell <code>0x00</code> should be <code>0x03</code> as in the pre-state we essentially stored the result of the Yul instruction <code>add(1, 2)</code>.</p>
 <h4 id="state-test">State Test<a class="headerlink" href="#state-test" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code>    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">])</span>
+<div class="highlight"><pre><span></span><code>    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div>
-<p>This line calls the wrapper to the <code>StateTest</code> object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, <code>./fixtures/example/yul_example/test_yul.json</code>).</p>
+<p>This line calls the wrapper to the <code>StateTest</code> object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, <code>./fixtures/&lt;blockchain,state&gt;_tests/example/yul_example/test_yul.json</code>).</p>
 <h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p>At this point you should be able to state transition tests within a single block.</p>
 
@@ -6014,6 +6014,7 @@ For more information, <a href="https://ethereum-tests.readthedocs.io/en/latest/t
     <nav>
       
         <a href="mailto:danceratopz@gmail.com">Dan</a>, 
+        <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:spencer@spencertaylorbrown.uk">Spencer Taylor-Brown</a>, 
         <a href="mailto:73983677+omahs@users.noreply.github.com">omahs</a>
     </nav>

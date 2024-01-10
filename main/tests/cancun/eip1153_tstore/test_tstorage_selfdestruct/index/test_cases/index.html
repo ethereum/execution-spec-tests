@@ -5654,13 +5654,25 @@
 <h1 id="test-tstorage-selfdestruct-test-cases">Test Tstorage Selfdestruct - Test Cases<a class="headerlink" href="#test-tstorage-selfdestruct-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_reentrant_selfdestructing_call[fork_Cancun-tload_after_selfdestruct_pre_existing_contract]
-test_reentrant_selfdestructing_call[fork_Cancun-tload_after_selfdestruct_new_contract]
-test_reentrant_selfdestructing_call[fork_Cancun-tload_after_inner_selfdestruct_pre_existing_contract]
-test_reentrant_selfdestructing_call[fork_Cancun-tload_after_inner_selfdestruct_new_contract]
-test_reentrant_selfdestructing_call[fork_Cancun-tstore_after_selfdestruct_pre_existing_contract]
-test_reentrant_selfdestructing_call[fork_Cancun-tstore_after_selfdestruct_new_contract]
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></a>:</p>
+<div class="highlight"><pre><span></span><code>test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test-tload_after_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test-tload_after_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test-tload_after_inner_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test-tload_after_inner_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test-tstore_after_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test-tstore_after_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test_hive-tload_after_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test_hive-tload_after_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test_hive-tload_after_inner_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test_hive-tload_after_inner_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test_hive-tstore_after_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-blockchain_test_hive-tstore_after_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-state_test-tload_after_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-state_test-tload_after_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-state_test-tload_after_inner_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-state_test-tload_after_inner_selfdestruct_new_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-state_test-tstore_after_selfdestruct_pre_existing_contract]
+test_reentrant_selfdestructing_call[fork_Cancun-state_test-tstore_after_selfdestruct_new_contract]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</span>

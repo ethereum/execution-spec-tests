@@ -5654,17 +5654,30 @@
 <h1 id="test-yul-example-test-cases">Test Yul Example - Test Cases<a class="headerlink" href="#test-yul-example-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/homestead/yul/test_yul_example.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/homestead/yul/test_yul_example.py"><code>tests/homestead/yul/test_yul_example.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_yul[fork_Homestead]
-test_yul[fork_Byzantium]
-test_yul[fork_Constantinople]
-test_yul[fork_ConstantinopleFix]
-test_yul[fork_Istanbul]
-test_yul[fork_Berlin]
-test_yul[fork_London]
-test_yul[fork_Merge]
-test_yul[fork_Shanghai]
-test_yul[fork_Cancun]
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/homestead/yul/test_yul_example.py"><code>tests/homestead/yul/test_yul_example.py</code></a>:</p>
+<div class="highlight"><pre><span></span><code>test_yul[fork_Homestead-blockchain_test]
+test_yul[fork_Homestead-state_test]
+test_yul[fork_Byzantium-blockchain_test]
+test_yul[fork_Byzantium-state_test]
+test_yul[fork_Constantinople-blockchain_test]
+test_yul[fork_Constantinople-state_test]
+test_yul[fork_ConstantinopleFix-blockchain_test]
+test_yul[fork_ConstantinopleFix-state_test]
+test_yul[fork_Istanbul-blockchain_test]
+test_yul[fork_Istanbul-state_test]
+test_yul[fork_Berlin-blockchain_test]
+test_yul[fork_Berlin-state_test]
+test_yul[fork_London-blockchain_test]
+test_yul[fork_London-state_test]
+test_yul[fork_Merge-blockchain_test]
+test_yul[fork_Merge-blockchain_test_hive]
+test_yul[fork_Merge-state_test]
+test_yul[fork_Shanghai-blockchain_test]
+test_yul[fork_Shanghai-blockchain_test_hive]
+test_yul[fork_Shanghai-state_test]
+test_yul[fork_Cancun-blockchain_test]
+test_yul[fork_Cancun-blockchain_test_hive]
+test_yul[fork_Cancun-state_test]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/homestead/yul/test_yul_example.py</span>

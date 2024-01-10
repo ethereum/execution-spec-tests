@@ -5654,12 +5654,24 @@
 <h1 id="test-blobgasfee-opcode-test-cases">Test Blobgasfee Opcode - Test Cases<a class="headerlink" href="#test-blobgasfee-opcode-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_blobbasefee_stack_overflow[fork_Cancun-no_stack_overflow]
-test_blobbasefee_stack_overflow[fork_Cancun-stack_overflow]
-test_blobbasefee_out_of_gas[fork_Cancun-enough_gas]
-test_blobbasefee_out_of_gas[fork_Cancun-out_of_gas]
-test_blobbasefee_before_fork[fork_ShanghaiToCancunAtTime15k]
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></a>:</p>
+<div class="highlight"><pre><span></span><code>test_blobbasefee_stack_overflow[fork_Cancun-blockchain_test-no_stack_overflow]
+test_blobbasefee_stack_overflow[fork_Cancun-blockchain_test-stack_overflow]
+test_blobbasefee_stack_overflow[fork_Cancun-blockchain_test_hive-no_stack_overflow]
+test_blobbasefee_stack_overflow[fork_Cancun-blockchain_test_hive-stack_overflow]
+test_blobbasefee_stack_overflow[fork_Cancun-state_test-no_stack_overflow]
+test_blobbasefee_stack_overflow[fork_Cancun-state_test-stack_overflow]
+test_blobbasefee_out_of_gas[fork_Cancun-blockchain_test-enough_gas]
+test_blobbasefee_out_of_gas[fork_Cancun-blockchain_test-out_of_gas]
+test_blobbasefee_out_of_gas[fork_Cancun-blockchain_test_hive-enough_gas]
+test_blobbasefee_out_of_gas[fork_Cancun-blockchain_test_hive-out_of_gas]
+test_blobbasefee_out_of_gas[fork_Cancun-state_test-enough_gas]
+test_blobbasefee_out_of_gas[fork_Cancun-state_test-out_of_gas]
+test_blobbasefee_before_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test]
+test_blobbasefee_before_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_hive]
+test_blobbasefee_before_fork[fork_ShanghaiToCancunAtTime15k-state_test]
+test_blobbasefee_during_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test]
+test_blobbasefee_during_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_hive]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</span>

@@ -5668,7 +5668,7 @@
 
 
 <h1 id="test-dup">Test DUP<a class="headerlink" href="#test-dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_dup.py</span>
@@ -5703,7 +5703,7 @@
 
 
 <h2 id="tests.frontier.opcodes.test_dup.test_dup" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_dup</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">test_dup</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">dup_opcode</span><span class="p">)</span></code>
 
 <a href="#tests.frontier.opcodes.test_dup.test_dup" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -5718,7 +5718,10 @@ by Ori Pomerantz.
 
           <details class="quote">
             <summary>Source code in <code>tests/frontier/opcodes/test_dup.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 18</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
 <span class="normal"> 19</span>
 <span class="normal"> 20</span>
 <span class="normal"> 21</span>
@@ -5806,9 +5809,33 @@ by Ori Pomerantz.
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dup</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;dup_opcode&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP3</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP4</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP5</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP6</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP7</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP8</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP9</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP10</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP11</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP12</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP13</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP14</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP15</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DUP16</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">op</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_dup</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">dup_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test the DUP1-DUP16 opcodes.</span>
 
@@ -5819,86 +5846,61 @@ by Ori Pomerantz.
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">)}</span>
-    <span class="n">txs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
 
+    <span class="n">account</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)</span>
+
+    <span class="c1"># Push 0x00 - 0x10 onto the stack</span>
+    <span class="n">account_code</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x11</span><span class="p">)])</span>
+
+    <span class="c1"># Use the DUP opcode</span>
+    <span class="n">account_code</span> <span class="o">+=</span> <span class="n">dup_opcode</span>
+
+    <span class="c1"># Save each stack value into different keys in storage</span>
+    <span class="n">account_code</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x11</span><span class="p">)])</span>
+
+    <span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">account_code</span><span class="p">)</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">account</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500000</span><span class="p">,</span>
+        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">fork</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Frontier</span><span class="p">,</span> <span class="n">Homestead</span><span class="p">]</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    We are setting up 16 accounts, ranging from 0x100 to 0x10f.</span>
-<span class="sd">    They push values into the stack from 0-16, but each contract uses a</span>
-<span class="sd">    different DUP opcode, and depending on the opcode used, the item copied</span>
-<span class="sd">    into the storage changes.</span>
+<span class="sd">    Storage will be structured as follows:</span>
+
+<span class="sd">    0x00: 0x10-0x01 (Depending on DUP opcode)</span>
+<span class="sd">    0x01: 0x10</span>
+<span class="sd">    0x02: 0x0F</span>
+<span class="sd">    0x03: 0x0E</span>
+<span class="sd">    0x04: 0x0D</span>
+<span class="sd">    0x05: 0x0C</span>
+<span class="sd">    0x06: 0x0B</span>
+<span class="sd">    0x07: 0x0A</span>
+<span class="sd">    0x08: 0x09</span>
+<span class="sd">    0x09: 0x08</span>
+<span class="sd">    0x0A: 0x07</span>
+<span class="sd">    0x0B: 0x06</span>
+<span class="sd">    0x0C: 0x05</span>
+<span class="sd">    0x0D: 0x04</span>
+<span class="sd">    0x0E: 0x03</span>
+<span class="sd">    0x0F: 0x02</span>
+<span class="sd">    0x10: 0x01</span>
+
+<span class="sd">    DUP1 copies the first element of the stack (0x10).</span>
+<span class="sd">    DUP16 copies the 16th element of the stack (0x01).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Account 0x100 uses DUP1,</span>
-<span class="sd">        Account 0x10f uses DUP16.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">account</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-        <span class="n">dup_opcode</span> <span class="o">=</span> <span class="mh">0x80</span> <span class="o">+</span> <span class="n">i</span>
+    <span class="n">s</span><span class="p">:</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">-</span> <span class="p">(</span><span class="n">dup_opcode</span><span class="o">.</span><span class="n">int</span><span class="p">()</span> <span class="o">-</span> <span class="mh">0x80</span><span class="p">)</span>
 
-        <span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="p">(</span>
-                <span class="c1"># Push 0 - 16 onto the stack</span>
-<span class="w">                </span><span class="sd">&quot;&quot;&quot;0x6000 6001 6002 6003 6004 6005 6006 6007 6008 6009</span>
-<span class="sd">                        600A 600B 600C 600D 600E 600F 6010&quot;&quot;&quot;</span>
-                <span class="o">+</span>
-                <span class="c1"># Use the DUP opcode for this account</span>
-                <span class="nb">hex</span><span class="p">(</span><span class="n">dup_opcode</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-                <span class="o">+</span>
-                <span class="c1"># Save each stack value into different keys in storage</span>
-<span class="w">                </span><span class="sd">&quot;&quot;&quot;6000 55 6001 55 6002 55 6003 55 6004 55 6005 55</span>
-<span class="sd">                        6006 55 6007 55 6008 55 6009 55 600A 55 600B 55</span>
-<span class="sd">                        600C 55 600D 55 600E 55 600F 55 6010 55&quot;&quot;&quot;</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
+    <span class="n">post</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
 
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Also we are sending one transaction to each account.</span>
-<span class="sd">        The storage of each will only change by one item: storage[0]</span>
-<span class="sd">        The value depends on the DUP opcode used.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">account</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500000</span><span class="p">,</span>
-            <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-            <span class="n">protected</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">fork</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Frontier</span><span class="p">,</span> <span class="n">Homestead</span><span class="p">]</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
-
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Storage will be structured as follows:</span>
-
-<span class="sd">        0x00: 0x10-0x01 (Depending on DUP opcode)</span>
-<span class="sd">        0x01: 0x10</span>
-<span class="sd">        0x02: 0x0F</span>
-<span class="sd">        0x03: 0x0E</span>
-<span class="sd">        0x04: 0x0D</span>
-<span class="sd">        0x05: 0x0C</span>
-<span class="sd">        0x06: 0x0B</span>
-<span class="sd">        0x07: 0x0A</span>
-<span class="sd">        0x08: 0x09</span>
-<span class="sd">        0x09: 0x08</span>
-<span class="sd">        0x0A: 0x07</span>
-<span class="sd">        0x0B: 0x06</span>
-<span class="sd">        0x0C: 0x05</span>
-<span class="sd">        0x0D: 0x04</span>
-<span class="sd">        0x0E: 0x03</span>
-<span class="sd">        0x0F: 0x02</span>
-<span class="sd">        0x10: 0x01</span>
-
-<span class="sd">        DUP1 copies the first element of the stack (0x10).</span>
-<span class="sd">        DUP16 copies the 16th element of the stack (0x01).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">s</span><span class="p">:</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
-        <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">-</span> <span class="n">i</span>
-
-        <span class="n">post</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)</span>
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>

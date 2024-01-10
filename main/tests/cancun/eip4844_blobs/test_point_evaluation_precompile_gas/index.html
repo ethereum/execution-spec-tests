@@ -5668,7 +5668,7 @@
 
 
 <h1 id="test-point-evaluation-precompile-gas">Test Point Evaluation Precompile Gas<a class="headerlink" href="#test-point-evaluation-precompile-gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -5711,7 +5711,7 @@ For all forks up to and including Cancun:
 
 
 <h2 id="tests.cancun.eip4844_blobs.test_point_evaluation_precompile_gas.test_point_evaluation_precompile_gas_usage" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_point_evaluation_precompile_gas_usage</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">test_point_evaluation_precompile_gas_usage</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip4844_blobs.test_point_evaluation_precompile_gas.test_point_evaluation_precompile_gas_usage" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -5759,7 +5759,8 @@ For all forks up to and including Cancun:
 <span class="normal">229</span>
 <span class="normal">230</span>
 <span class="normal">231</span>
-<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">232</span>
+<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_type&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">],</span>
 <span class="p">)</span>
@@ -5775,7 +5776,7 @@ For all forks up to and including Cancun:
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;proof&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;incorrect&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_point_evaluation_precompile_gas_usage</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
@@ -5787,10 +5788,11 @@ For all forks up to and including Cancun:
 <span class="sd">    - Test using different gas limits (exact gas, insufficient gas, extra gas)</span>
 <span class="sd">    - Test using correct and incorrect proofs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">])],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>

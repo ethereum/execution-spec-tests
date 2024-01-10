@@ -5654,16 +5654,25 @@
 <h1 id="test-blocks-beacon-root-contract-test-cases">Test Blocks Beacon Root Contract - Test Cases<a class="headerlink" href="#test-blocks-beacon-root-contract-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_multi_block_beacon_root_timestamp_calls[fork_Cancun-block_count_10-buffer_wraparound]
-test_multi_block_beacon_root_timestamp_calls[fork_Cancun-block_count_10-buffer_wraparound_overwrite]
-test_multi_block_beacon_root_timestamp_calls[fork_Cancun-block_count_10-buffer_wraparound_overwrite_high_timestamp]
-test_multi_block_beacon_root_timestamp_calls[fork_Cancun-block_count_10-buffer_wraparound_no_overwrite]
-test_multi_block_beacon_root_timestamp_calls[fork_Cancun-block_count_10-buffer_wraparound_no_overwrite_2]
-test_beacon_root_transition[fork_ShanghaiToCancunAtTime15k-block_count_20-fork_transition]
-test_no_beacon_root_contract_at_transition[fork_ShanghaiToCancunAtTime15k-timestamp_15000]
-test_beacon_root_contract_deploy[fork_ShanghaiToCancunAtTime15k-deploy_on_shanghai]
-test_beacon_root_contract_deploy[fork_ShanghaiToCancunAtTime15k-deploy_on_cancun]
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>:</p>
+<div class="highlight"><pre><span></span><code>test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test-block_count_10-buffer_wraparound]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test-block_count_10-buffer_wraparound_overwrite]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test-block_count_10-buffer_wraparound_overwrite_high_timestamp]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test-block_count_10-buffer_wraparound_no_overwrite]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test-block_count_10-buffer_wraparound_no_overwrite_2]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test_hive-block_count_10-buffer_wraparound]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test_hive-block_count_10-buffer_wraparound_overwrite]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test_hive-block_count_10-buffer_wraparound_overwrite_high_timestamp]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test_hive-block_count_10-buffer_wraparound_no_overwrite]
+test_multi_block_beacon_root_timestamp_calls[fork_Cancun-blockchain_test_hive-block_count_10-buffer_wraparound_no_overwrite_2]
+test_beacon_root_transition[fork_ShanghaiToCancunAtTime15k-blockchain_test-block_count_20-fork_transition]
+test_beacon_root_transition[fork_ShanghaiToCancunAtTime15k-blockchain_test_hive-block_count_20-fork_transition]
+test_no_beacon_root_contract_at_transition[fork_ShanghaiToCancunAtTime15k-blockchain_test-timestamp_15000]
+test_no_beacon_root_contract_at_transition[fork_ShanghaiToCancunAtTime15k-blockchain_test_hive-timestamp_15000]
+test_beacon_root_contract_deploy[fork_ShanghaiToCancunAtTime15k-blockchain_test-deploy_on_shanghai]
+test_beacon_root_contract_deploy[fork_ShanghaiToCancunAtTime15k-blockchain_test-deploy_on_cancun]
+test_beacon_root_contract_deploy[fork_ShanghaiToCancunAtTime15k-blockchain_test_hive-deploy_on_shanghai]
+test_beacon_root_contract_deploy[fork_ShanghaiToCancunAtTime15k-blockchain_test_hive-deploy_on_cancun]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</span>

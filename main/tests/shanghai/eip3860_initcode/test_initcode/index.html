@@ -5716,7 +5716,7 @@
 
 
 <h1 id="test-initcode">Test Initcode<a class="headerlink" href="#test-initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py</span>
@@ -5755,7 +5755,7 @@
 
 
 <h2 id="tests.shanghai.eip3860_initcode.test_initcode.test_contract_creating_tx" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_contract_creating_tx</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">initcode</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">test_contract_creating_tx</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">initcode</span><span class="p">)</span></code>
 
 <a href="#tests.shanghai.eip3860_initcode.test_initcode.test_contract_creating_tx" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -5770,7 +5770,9 @@ length.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
@@ -5826,12 +5828,7 @@ length.</p>
 <span class="normal">246</span>
 <span class="normal">247</span>
 <span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -5841,7 +5838,7 @@ length.</p>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="n">get_initcode_name</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_contract_creating_tx</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">test_contract_creating_tx</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test cases using a contract creating transaction</span>
 
@@ -5873,24 +5870,21 @@ length.</p>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">block</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">])</span>
-
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
         <span class="c1"># Initcode is above the max size, tx inclusion in the block makes</span>
         <span class="c1"># it invalid.</span>
         <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>
         <span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;max initcode size exceeded&quot;</span>
-        <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="o">=</span> <span class="s2">&quot;max initcode size exceeded&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Initcode is at or below the max size, tx inclusion in the block</span>
         <span class="c1"># is ok and the contract is successfully created.</span>
         <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block</span><span class="p">],</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -5935,7 +5929,12 @@ contract creating transaction:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
@@ -6110,20 +6109,7 @@ contract creating transaction:</p>
 <span class="normal">429</span>
 <span class="normal">430</span>
 <span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">432</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -6252,14 +6238,6 @@ contract creating transaction:</p>
         <span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-    <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">tx_error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Block</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Test that the tx_error is also propagated on the Block for the case of</span>
-<span class="sd">        too little intrinsic gas.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">exception</span><span class="o">=</span><span class="n">tx_error</span><span class="p">)</span>
-
-    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">post</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">gas_test_case</span><span class="p">,</span>
@@ -6282,14 +6260,14 @@ contract creating transaction:</p>
 
     <span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+        <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
         <span class="n">gas_test_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span>
         <span class="n">exact_intrinsic_gas</span><span class="p">,</span>
         <span class="n">exact_execution_gas</span><span class="p">,</span>
         <span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">,</span>
-        <span class="n">block</span><span class="p">,</span>
+        <span class="n">tx</span><span class="p">,</span>
         <span class="n">post</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6305,11 +6283,11 @@ contract creating transaction:</p>
                 <span class="s2">&quot;equivalent to that of &#39;test_exact_intrinsic_gas&#39;.&quot;</span>
             <span class="p">)</span>
 
-        <span class="n">blockchain_test</span><span class="p">(</span>
+        <span class="n">state_test</span><span class="p">(</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-            <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block</span><span class="p">],</span>
-            <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+            <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+            <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
             <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">gas_test_case</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -6331,7 +6309,7 @@ contract creating transaction:</p>
 
 
 <h3 id="tests.shanghai.eip3860_initcode.test_initcode.TestContractCreationGasUsage.test_gas_usage" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_gas_usage</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">gas_test_case</span><span class="p">,</span> <span class="n">initcode</span><span class="p">,</span> <span class="n">exact_intrinsic_gas</span><span class="p">,</span> <span class="n">exact_execution_gas</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">test_gas_usage</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">gas_test_case</span><span class="p">,</span> <span class="n">initcode</span><span class="p">,</span> <span class="n">exact_intrinsic_gas</span><span class="p">,</span> <span class="n">exact_execution_gas</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span></code>
 
 <a href="#tests.shanghai.eip3860_initcode.test_initcode.TestContractCreationGasUsage.test_gas_usage" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -6343,7 +6321,20 @@ limits.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">414</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
 <span class="normal">415</span>
 <span class="normal">416</span>
 <span class="normal">417</span>
@@ -6361,29 +6352,16 @@ limits.</p>
 <span class="normal">429</span>
 <span class="normal">430</span>
 <span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
+<span class="normal">432</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">gas_test_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span>
     <span class="n">exact_intrinsic_gas</span><span class="p">,</span>
     <span class="n">exact_execution_gas</span><span class="p">,</span>
     <span class="n">env</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">,</span>
-    <span class="n">block</span><span class="p">,</span>
+    <span class="n">tx</span><span class="p">,</span>
     <span class="n">post</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6399,11 +6377,11 @@ limits.</p>
             <span class="s2">&quot;equivalent to that of &#39;test_exact_intrinsic_gas&#39;.&quot;</span>
         <span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block</span><span class="p">],</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">gas_test_case</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -6446,7 +6424,20 @@ that is on/over the max allowed limit.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
@@ -6609,20 +6600,7 @@ that is on/over the max allowed limit.</p>
 <span class="normal">621</span>
 <span class="normal">622</span>
 <span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">624</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -6796,7 +6774,7 @@ that is on/over the max allowed limit.</p>
             <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-            <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
+            <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
             <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">opcode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -6830,7 +6808,20 @@ initcode that is on/over the max allowed limit.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
 <span class="normal">527</span>
@@ -6930,20 +6921,7 @@ initcode that is on/over the max allowed limit.</p>
 <span class="normal">621</span>
 <span class="normal">622</span>
 <span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
+<span class="normal">624</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
@@ -7054,7 +7032,7 @@ initcode that is on/over the max allowed limit.</p>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">initcode</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">opcode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>

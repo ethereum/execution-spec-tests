@@ -5670,6 +5670,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_during_fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_blobbasefee_during_fork
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -5686,7 +5695,7 @@
 
 
 <h1 id="test-blobgasfee-opcode">Test Blobgasfee Opcode<a class="headerlink" href="#test-blobgasfee-opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -5736,8 +5745,7 @@ For all forks up to and including Cancun:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
-<span class="normal"> 90</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
@@ -5766,7 +5774,8 @@ For all forks up to and including Cancun:
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
-<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">119</span>
+<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_code,call_fails&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BLOBBASEFEE</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_stack_overflow&quot;</span><span class="p">),</span>
@@ -5794,7 +5803,7 @@ For all forks up to and including Cancun:
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -5825,8 +5834,7 @@ For all forks up to and including Cancun:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
-<span class="normal">123</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
@@ -5855,7 +5863,8 @@ For all forks up to and including Cancun:
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
-<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas,call_fails&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">BLOBBASEFEE_GAS</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;enough_gas&quot;</span><span class="p">),</span>
@@ -5883,7 +5892,7 @@ For all forks up to and including Cancun:
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -5903,7 +5912,7 @@ For all forks up to and including Cancun:
 
 
 <h2 id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_before_fork" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">test_blobbasefee_before_fork</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">test_blobbasefee_before_fork</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_before_fork" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -5914,8 +5923,7 @@ For all forks up to and including Cancun:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
-<span class="normal">156</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
@@ -5943,26 +5951,120 @@ For all forks up to and including Cancun:
 <span class="normal">181</span>
 <span class="normal">182</span>
 <span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blobbasefee_before_fork</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests that the BLOBBASEFEE opcode results on exception when called before the fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">code_caller_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
+    <span class="c1"># Fork happens at timestamp 15_000</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">7_500</span>
+    <span class="n">code_caller_pre_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+    <span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">],</span> <span class="n">storage</span><span class="o">=</span><span class="n">code_caller_pre_storage</span><span class="p">)</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">code_caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="p">),</span>
+        <span class="n">code_callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_during_fork" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">test_blobbasefee_during_fork</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
+
+<a href="#tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_during_fork" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Tests that the BLOBBASEFEE opcode results on exception when called before the fork and
+succeeds when called after the fork.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_blobbasefee_during_fork</span><span class="p">(</span>
+    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests that the BLOBBASEFEE opcode results on exception when called before the fork and</span>
+<span class="sd">    succeeds when called after the fork.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">code_caller_pre_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
+    <span class="n">code_caller_post_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 
     <span class="n">nonce</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
@@ -5970,18 +6072,21 @@ For all forks up to and including Cancun:
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timestamps</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">with_nonce</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">nonce</span><span class="p">))],</span>
                 <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">code_caller_storage</span><span class="p">[</span><span class="n">number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">timestamp</span> <span class="o">&lt;</span> <span class="mi">15_000</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="c1"># pre-set storage just to make sure we detect the change</span>
+        <span class="n">code_caller_pre_storage</span><span class="p">[</span><span class="n">block_number</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">timestamp</span> <span class="o">&lt;</span> <span class="mi">15_000</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">code_caller_post_storage</span><span class="p">[</span><span class="n">block_number</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">timestamp</span> <span class="o">&lt;</span> <span class="mi">15_000</span> <span class="k">else</span> <span class="mi">1</span>
 
+    <span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">],</span> <span class="n">storage</span><span class="o">=</span><span class="n">code_caller_pre_storage</span><span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">code_caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">storage</span><span class="o">=</span><span class="n">code_caller_storage</span><span class="p">,</span>
+            <span class="n">storage</span><span class="o">=</span><span class="n">code_caller_post_storage</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">code_callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>

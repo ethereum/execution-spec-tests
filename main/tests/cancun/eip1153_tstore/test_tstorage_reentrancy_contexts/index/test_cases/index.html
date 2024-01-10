@@ -5654,17 +5654,37 @@
 <h1 id="test-tstorage-reentrancy-contexts-test-cases">Test Tstorage Reentrancy Contexts - Test Cases<a class="headerlink" href="#test-tstorage-reentrancy-contexts-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_reentrant_call[fork_Cancun-tstore_in_reentrant_call]
-test_reentrant_call[fork_Cancun-tload_after_reentrant_tstore]
-test_reentrant_call[fork_Cancun-manipulate_in_reentrant_call]
-test_reentrant_call[fork_Cancun-tstore_in_call_then_tload_return_in_staticcall]
-test_reentrant_call[fork_Cancun-tstore_before_revert_has_no_effect]
-test_reentrant_call[fork_Cancun-revert_undoes_all]
-test_reentrant_call[fork_Cancun-revert_undoes_tstorage_after_successful_call]
-test_reentrant_call[fork_Cancun-tstore_before_invalid_has_no_effect]
-test_reentrant_call[fork_Cancun-invalid_undoes_all]
-test_reentrant_call[fork_Cancun-invalid_undoes_tstorage_after_successful_call]
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py</code></a>:</p>
+<div class="highlight"><pre><span></span><code>test_reentrant_call[fork_Cancun-blockchain_test-tstore_in_reentrant_call]
+test_reentrant_call[fork_Cancun-blockchain_test-tload_after_reentrant_tstore]
+test_reentrant_call[fork_Cancun-blockchain_test-manipulate_in_reentrant_call]
+test_reentrant_call[fork_Cancun-blockchain_test-tstore_in_call_then_tload_return_in_staticcall]
+test_reentrant_call[fork_Cancun-blockchain_test-tstore_before_revert_has_no_effect]
+test_reentrant_call[fork_Cancun-blockchain_test-revert_undoes_all]
+test_reentrant_call[fork_Cancun-blockchain_test-revert_undoes_tstorage_after_successful_call]
+test_reentrant_call[fork_Cancun-blockchain_test-tstore_before_invalid_has_no_effect]
+test_reentrant_call[fork_Cancun-blockchain_test-invalid_undoes_all]
+test_reentrant_call[fork_Cancun-blockchain_test-invalid_undoes_tstorage_after_successful_call]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-tstore_in_reentrant_call]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-tload_after_reentrant_tstore]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-manipulate_in_reentrant_call]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-tstore_in_call_then_tload_return_in_staticcall]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-tstore_before_revert_has_no_effect]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-revert_undoes_all]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-revert_undoes_tstorage_after_successful_call]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-tstore_before_invalid_has_no_effect]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-invalid_undoes_all]
+test_reentrant_call[fork_Cancun-blockchain_test_hive-invalid_undoes_tstorage_after_successful_call]
+test_reentrant_call[fork_Cancun-state_test-tstore_in_reentrant_call]
+test_reentrant_call[fork_Cancun-state_test-tload_after_reentrant_tstore]
+test_reentrant_call[fork_Cancun-state_test-manipulate_in_reentrant_call]
+test_reentrant_call[fork_Cancun-state_test-tstore_in_call_then_tload_return_in_staticcall]
+test_reentrant_call[fork_Cancun-state_test-tstore_before_revert_has_no_effect]
+test_reentrant_call[fork_Cancun-state_test-revert_undoes_all]
+test_reentrant_call[fork_Cancun-state_test-revert_undoes_tstorage_after_successful_call]
+test_reentrant_call[fork_Cancun-state_test-tstore_before_invalid_has_no_effect]
+test_reentrant_call[fork_Cancun-state_test-invalid_undoes_all]
+test_reentrant_call[fork_Cancun-state_test-invalid_undoes_tstorage_after_successful_call]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py</span>

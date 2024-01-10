@@ -5654,13 +5654,25 @@
 <h1 id="test-selfdestruct-revert-test-cases">Test Selfdestruct Revert - Test Cases<a class="headerlink" href="#test-selfdestruct-revert-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-no_outer_selfdestruct]
-test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-outer_selfdestruct_before_inner_call]
-test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-outer_selfdestruct_after_inner_call]
-test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-no_outer_selfdestruct]
-test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-outer_selfdestruct_before_inner_call]
-test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-outer_selfdestruct_after_inner_call]
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></a>:</p>
+<div class="highlight"><pre><span></span><code>test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-no_outer_selfdestruct]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test_hive-no_outer_selfdestruct]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test_hive-outer_selfdestruct_before_inner_call]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test_hive-outer_selfdestruct_after_inner_call]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-no_outer_selfdestruct]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_before_inner_call]
+test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_after_inner_call]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-no_outer_selfdestruct]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-blockchain_test_hive-no_outer_selfdestruct]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-blockchain_test_hive-outer_selfdestruct_before_inner_call]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-blockchain_test_hive-outer_selfdestruct_after_inner_call]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-state_test-no_outer_selfdestruct]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_before_inner_call]
+test_selfdestruct_not_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_after_inner_call]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</span>

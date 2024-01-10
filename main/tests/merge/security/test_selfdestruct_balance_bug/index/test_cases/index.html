@@ -5654,15 +5654,18 @@
 <h1 id="test-selfdestruct-balance-bug-test-cases">Test Selfdestruct Balance Bug - Test Cases<a class="headerlink" href="#test-selfdestruct-balance-bug-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/merge/security/test_selfdestruct_balance_bug.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/51d30bdd4e77199e7bddb70857fe8f5cc5475d63/tests/merge/security/test_selfdestruct_balance_bug.py"><code>tests/merge/security/test_selfdestruct_balance_bug.py</code></a>:</p>
-<div class="highlight"><pre><span></span><code>test_tx_selfdestruct_balance_bug[fork_Constantinople]
-test_tx_selfdestruct_balance_bug[fork_ConstantinopleFix]
-test_tx_selfdestruct_balance_bug[fork_Istanbul]
-test_tx_selfdestruct_balance_bug[fork_Berlin]
-test_tx_selfdestruct_balance_bug[fork_London]
-test_tx_selfdestruct_balance_bug[fork_Merge]
-test_tx_selfdestruct_balance_bug[fork_Shanghai]
-test_tx_selfdestruct_balance_bug[fork_Cancun]
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/00965e684dd23423d4cc4ee9f141ef8cd04f612a/tests/merge/security/test_selfdestruct_balance_bug.py"><code>tests/merge/security/test_selfdestruct_balance_bug.py</code></a>:</p>
+<div class="highlight"><pre><span></span><code>test_tx_selfdestruct_balance_bug[fork_Constantinople-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_ConstantinopleFix-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_Istanbul-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_Berlin-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_London-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_Merge-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_Merge-blockchain_test_hive]
+test_tx_selfdestruct_balance_bug[fork_Shanghai-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_Shanghai-blockchain_test_hive]
+test_tx_selfdestruct_balance_bug[fork_Cancun-blockchain_test]
+test_tx_selfdestruct_balance_bug[fork_Cancun-blockchain_test_hive]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/merge/security/test_selfdestruct_balance_bug.py</span>
