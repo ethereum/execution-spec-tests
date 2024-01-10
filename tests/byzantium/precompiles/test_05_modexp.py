@@ -45,17 +45,17 @@ def create_modexp_tx_data(b: str, e: str, m: str, extra: str):
         # The output callSuccess is either 0 (fail of call (out-of-gas)) or 1 (call succeeded)
         # The output returnData is the expected output of the call
         # The optional extraData is extra padded data at the end of the calldata to the precompile
-        (["", "", "02"], ["0x01", "0x01"]),
-        (["", "", "0002"], ["0x01", "0x0001"]),
-        (["00", "00", "02"], ["0x01", "0x01"]),
-        (["", "01", "02"], ["0x01", "0x00"]),
-        (["01", "01", "02"], ["0x01", "0x01"]),
-        (["02", "01", "03"], ["0x01", "0x02"]),
-        (["02", "02", "05"], ["0x01", "0x04"]),
-        (["", "", ""], ["0x01", "0x"]),
-        (["", "", "00"], ["0x01", "0x00"]),
-        (["", "", "01"], ["0x01", "0x00"]),
-        (["", "", "0001"], ["0x01", "0x0000"]),
+        pytest.param(["", "", "02"], ["0x01", "0x01"], id="EIP-198-custom-case-1"),
+        pytest.param(["", "", "0002"], ["0x01", "0x0001"], id="EIP-198-custom-case-2"),
+        pytest.param(["00", "00", "02"], ["0x01", "0x01"], id="EIP-198-custom-case-3"),
+        pytest.param(["", "01", "02"], ["0x01", "0x00"], id="EIP-198-custom-case-4"),
+        pytest.param(["01", "01", "02"], ["0x01", "0x01"], id="EIP-198-custom-case-5"),
+        pytest.param(["02", "01", "03"], ["0x01", "0x02"], id="EIP-198-custom-case-6"),
+        pytest.param(["02", "02", "05"], ["0x01", "0x04"], id="EIP-198-custom-case-7"),
+        pytest.param(["", "", ""], ["0x01", "0x"], id="EIP-198-custom-case-8"),
+        pytest.param(["", "", "00"], ["0x01", "0x00"], id="EIP-198-custom-case-9"),
+        pytest.param(["", "", "01"], ["0x01", "0x00"], id="EIP-198-custom-case-10"),
+        pytest.param(["", "", "0001"], ["0x01", "0x0000"], id="EIP-198-custom-case-11"),
         # Test cases from EIP 198 (Note: the cases where the call goes out-of-gas and the
         # final test case are not yet tested)
         pytest.param(
