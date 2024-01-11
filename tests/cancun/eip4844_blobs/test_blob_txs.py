@@ -1070,7 +1070,7 @@ def test_invalid_blob_tx_contract_creation(
     Reject blocks that include blob transactions that have nil to value (contract creating).
     """
     assert len(txs) == 1
-    assert len(txs[0].blob_versioned_hashes) == 1
+    assert txs[0].blob_versioned_hashes is not None and len(txs[0].blob_versioned_hashes) == 1
     # Replace the transaction with a contract creating one, only in the RLP version
     contract_creating_tx = replace(txs[0], to=None).with_signature_and_sender()
     txs[0] = replace(txs[0], rlp=contract_creating_tx.serialized_bytes())
