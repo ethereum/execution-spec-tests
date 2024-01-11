@@ -17,6 +17,7 @@ note: Adding a new test
 
 """  # noqa: E501
 import itertools
+from dataclasses import replace
 from typing import Dict, List, Optional, Tuple
 
 import pytest
@@ -1055,23 +1056,34 @@ def test_invalid_blob_hash_versioning_multiple_txs(
 
 
 @pytest.mark.parametrize(
-    "destination_account,tx_error", [(None, "no_contract_creating_blob_txs")], ids=[""]
-)
-@pytest.mark.skip(reason="Unable to fill due to invalid field in transaction")
+    "tx_gas", [500_000], ids=[""]
+)  # Increase gas to account for contract creation
 @pytest.mark.valid_from("Cancun")
 def test_invalid_blob_tx_contract_creation(
     blockchain_test: BlockchainTestFiller,
     pre: Dict,
     env: Environment,
-    block: Block,
+    txs: List[Transaction],
+    header_verify: Optional[Header],
 ):
     """
     Reject blocks that include blob transactions that have nil to value (contract creating).
     """
+    assert len(txs) == 1
+    assert len(txs[0].blob_versioned_hashes) == 1
+    # Replace the transaction with a contract creating one, only in the RLP version
+    contract_creating_tx = replace(txs[0], to=None).with_signature_and_sender()
+    txs[0] = replace(txs[0], rlp=contract_creating_tx.serialized_bytes())
     blockchain_test(
         pre=pre,
         post={},
-        blocks=[block],
+        blocks=[
+            Block(
+                txs=txs,
+                exception="no_contract_creating_blob_txs",
+                header_verify=header_verify,
+            )
+        ],
         genesis_environment=env,
     )
 
