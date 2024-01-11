@@ -1,5 +1,5 @@
 """
-Test suite for `ethereum_test` module.
+Test suite for `ethereum_test_tools.filling` fixture generation.
 """
 
 import json
@@ -12,11 +12,11 @@ from semver import Version
 from ethereum_test_forks import Berlin, Fork, Istanbul, London, Merge, Shanghai
 from evm_transition_tool import GethTransitionTool
 
-from ..code import Yul
-from ..common import Account, Block, Environment, TestAddress, Transaction, to_json
-from ..filling import fill_test
-from ..spec import BaseTestConfig, BlockchainTest, StateTest
-from .conftest import SOLC_PADDING_VERSION
+from ...code import Yul
+from ...common import Account, Block, Environment, TestAddress, Transaction, to_json
+from ...filling import fill_test
+from ...spec import BaseTestConfig, BlockchainTest, StateTest
+from ..conftest import SOLC_PADDING_VERSION
 
 
 def remove_info(fixture_json: Dict[str, Any]):  # noqa: D103
@@ -152,7 +152,8 @@ def test_fill_state_test(fork: Fork, expected_json_file: str, enable_hive: bool)
             "src",
             "ethereum_test_tools",
             "tests",
-            "test_fixtures",
+            "test_filling",
+            "fixtures",
             expected_json_file,
         )
     ) as f:
@@ -449,7 +450,8 @@ def test_fill_blockchain_valid_txs(
             "src",
             "ethereum_test_tools",
             "tests",
-            "test_fixtures",
+            "test_filling",
+            "fixtures",
             expected_json_file,
         )
     ) as f:
@@ -797,7 +799,8 @@ def test_fill_blockchain_invalid_txs(
             "src",
             "ethereum_test_tools",
             "tests",
-            "test_fixtures",
+            "test_filling",
+            "fixtures",
             expected_json_file,
         )
     ) as f:
