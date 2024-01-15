@@ -95,6 +95,8 @@ class BaseFixture:
         """
         Fill the info field for this fixture
         """
+        if "comment" not in self.info:
+            self.info["comment"] = "`execution-spec-tests` generated test"
         self.info["filling-transition-tool"] = t8n.version()
         if ref_spec is not None:
             ref_spec.write_info(self.info)

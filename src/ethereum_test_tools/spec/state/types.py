@@ -19,7 +19,6 @@ from ...common.types import (
     Environment,
     Hash,
     HexNumber,
-    Number,
     NumberConvertible,
     Transaction,
     ZeroPaddedHexNumber,
@@ -44,49 +43,63 @@ class FixtureEnvironment:
         default=100000000000000000,
         json_encoder=JSONEncoder.Field(
             name="currentGasLimit",
-            cast_type=Number,
+            cast_type=ZeroPaddedHexNumber,
         ),
     )
     number: NumberConvertible = field(
         default=1,
         json_encoder=JSONEncoder.Field(
             name="currentNumber",
-            cast_type=Number,
+            cast_type=ZeroPaddedHexNumber,
         ),
     )
     timestamp: NumberConvertible = field(
         default=1000,
         json_encoder=JSONEncoder.Field(
             name="currentTimestamp",
-            cast_type=Number,
+            cast_type=ZeroPaddedHexNumber,
         ),
     )
     prev_randao: Optional[NumberConvertible] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
             name="currentRandom",
-            cast_type=Number,
+            cast_type=Hash,
         ),
     )
     difficulty: Optional[NumberConvertible] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
             name="currentDifficulty",
-            cast_type=Number,
+            cast_type=ZeroPaddedHexNumber,
         ),
     )
     base_fee: Optional[NumberConvertible] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
             name="currentBaseFee",
-            cast_type=Number,
+            cast_type=ZeroPaddedHexNumber,
         ),
     )
     excess_blob_gas: Optional[NumberConvertible] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
-            name="currentExcessBlobGas",
-            cast_type=Number,
+            name="parentExcessBlobGas",
+            cast_type=ZeroPaddedHexNumber,
+        ),
+    )
+    beacon_root: Optional[FixedSizeBytesConvertible] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="currentBeaconRoot",
+            cast_type=Hash,
+        ),
+    )
+    previous_hash: Optional[FixedSizeBytesConvertible] = field(
+        default="0x5e20a0453cecd065ea59c37ac63e079ee08998b6045136a8ce6635c7912ec0b6",
+        json_encoder=JSONEncoder.Field(
+            name="previousHash",
+            cast_type=Hash,
         ),
     )
 
@@ -184,13 +197,13 @@ class FixtureTransaction:
         ),
     )
 
-    sender: Optional[FixedSizeBytesConvertible] = field(
+    sender: FixedSizeBytesConvertible = field(
         default=None,
         json_encoder=JSONEncoder.Field(
             cast_type=Address,
         ),
     )
-    secret_key: Optional[FixedSizeBytesConvertible] = field(
+    secret_key_test: FixedSizeBytesConvertible = field(
         default=None,
         json_encoder=JSONEncoder.Field(
             name="secretKey",
