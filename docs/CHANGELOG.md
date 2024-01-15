@@ -30,6 +30,9 @@ Test fixtures for use by clients are available for each release on the [Github r
   - tests/shanghai/eip3860_initcode/test_initcode.py::test_contract_creating_tx
   - tests/shanghai/eip3860_initcode/test_initcode.py::TestContractCreationGasUsage
 - 🐞 Fixed `tests/cancun/eip4844_blobs/test_blob_txs.py:test_invalid_tx_max_fee_per_blob_gas` to account for extra gas required in the case where the account is incorrectly deduced the balance as if it had the correct block blob gas fee ([#370](https://github.com/ethereum/execution-spec-tests/pull/370)).
+- 🐞 Fixed `tests/cancun/eip4844_blobs/test_blob_txs.py:test_insufficient_balance_blob_tx` to correctly calculate the minimum balance required for the accounts ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
+- ✨ Add `tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx` and `tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
+- 🐞 Fix and enable `tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
 
 ### 🛠️ Framework
 
