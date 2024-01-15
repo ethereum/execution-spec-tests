@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
     
     
       
@@ -18218,7 +18218,16 @@ Raises detailed exception when a difference is found.</p>
 <span class="normal">1689</span>
 <span class="normal">1690</span>
 <span class="normal">1691</span>
-<span class="normal">1692</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">1692</span>
+<span class="normal">1693</span>
+<span class="normal">1694</span>
+<span class="normal">1695</span>
+<span class="normal">1696</span>
+<span class="normal">1697</span>
+<span class="normal">1698</span>
+<span class="normal">1699</span>
+<span class="normal">1700</span>
+<span class="normal">1701</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Transaction</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic object that can represent all Ethereum transaction types.</span>
@@ -18378,6 +18387,12 @@ Raises detailed exception when a difference is found.</p>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
+            <span class="n">skip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">rlp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">json_encoder</span><span class="o">=</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
             <span class="n">skip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -18613,6 +18628,9 @@ Raises detailed exception when a difference is found.</p>
 <span class="sd">        Returns bytes of the serialized representation of the transaction,</span>
 <span class="sd">        which is almost always RLP encoding.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlp</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ty must be set for all tx types&quot;</span><span class="p">)</span>
 
@@ -18848,14 +18866,14 @@ Raises detailed exception when a difference is found.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1289</span>
-<span class="normal">1290</span>
-<span class="normal">1291</span>
-<span class="normal">1292</span>
-<span class="normal">1293</span>
-<span class="normal">1294</span>
-<span class="normal">1295</span>
-<span class="normal">1296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidFeePayment</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span>
+<span class="normal">1300</span>
+<span class="normal">1301</span>
+<span class="normal">1302</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidFeePayment</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction described more than one fee payment type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -18893,9 +18911,9 @@ Raises detailed exception when a difference is found.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1294</span>
-<span class="normal">1295</span>
-<span class="normal">1296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1300</span>
+<span class="normal">1301</span>
+<span class="normal">1302</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;only one type of fee payment field can be used in a single tx&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -18940,15 +18958,15 @@ source account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1298</span>
-<span class="normal">1299</span>
-<span class="normal">1300</span>
-<span class="normal">1301</span>
-<span class="normal">1302</span>
-<span class="normal">1303</span>
-<span class="normal">1304</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1304</span>
 <span class="normal">1305</span>
-<span class="normal">1306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidSignaturePrivateKey</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="normal">1306</span>
+<span class="normal">1307</span>
+<span class="normal">1308</span>
+<span class="normal">1309</span>
+<span class="normal">1310</span>
+<span class="normal">1311</span>
+<span class="normal">1312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidSignaturePrivateKey</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction describes both the signature and private key of</span>
 <span class="sd">    source account.</span>
@@ -18987,9 +19005,9 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1304</span>
-<span class="normal">1305</span>
-<span class="normal">1306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1310</span>
+<span class="normal">1311</span>
+<span class="normal">1312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;can&#39;t define both &#39;signature&#39; and &#39;private_key&#39;&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -19030,13 +19048,7 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1308</span>
-<span class="normal">1309</span>
-<span class="normal">1310</span>
-<span class="normal">1311</span>
-<span class="normal">1312</span>
-<span class="normal">1313</span>
-<span class="normal">1314</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1314</span>
 <span class="normal">1315</span>
 <span class="normal">1316</span>
 <span class="normal">1317</span>
@@ -19071,7 +19083,13 @@ source account.</p>
 <span class="normal">1346</span>
 <span class="normal">1347</span>
 <span class="normal">1348</span>
-<span class="normal">1349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">1349</span>
+<span class="normal">1350</span>
+<span class="normal">1351</span>
+<span class="normal">1352</span>
+<span class="normal">1353</span>
+<span class="normal">1354</span>
+<span class="normal">1355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ensures the transaction has no conflicting properties.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19141,13 +19159,13 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1351</span>
-<span class="normal">1352</span>
-<span class="normal">1353</span>
-<span class="normal">1354</span>
-<span class="normal">1355</span>
-<span class="normal">1356</span>
-<span class="normal">1357</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1357</span>
+<span class="normal">1358</span>
+<span class="normal">1359</span>
+<span class="normal">1360</span>
+<span class="normal">1361</span>
+<span class="normal">1362</span>
+<span class="normal">1363</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a copy of the transaction with an added error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19182,13 +19200,13 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1359</span>
-<span class="normal">1360</span>
-<span class="normal">1361</span>
-<span class="normal">1362</span>
-<span class="normal">1363</span>
-<span class="normal">1364</span>
-<span class="normal">1365</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nonce</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1365</span>
+<span class="normal">1366</span>
+<span class="normal">1367</span>
+<span class="normal">1368</span>
+<span class="normal">1369</span>
+<span class="normal">1370</span>
+<span class="normal">1371</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nonce</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a copy of the transaction with a modified nonce.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19223,17 +19241,17 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1367</span>
-<span class="normal">1368</span>
-<span class="normal">1369</span>
-<span class="normal">1370</span>
-<span class="normal">1371</span>
-<span class="normal">1372</span>
-<span class="normal">1373</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1373</span>
 <span class="normal">1374</span>
 <span class="normal">1375</span>
 <span class="normal">1376</span>
-<span class="normal">1377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+<span class="normal">1377</span>
+<span class="normal">1378</span>
+<span class="normal">1379</span>
+<span class="normal">1380</span>
+<span class="normal">1381</span>
+<span class="normal">1382</span>
+<span class="normal">1383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a deepcopy of the transaction with modified fields.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19272,13 +19290,7 @@ source account.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1379</span>
-<span class="normal">1380</span>
-<span class="normal">1381</span>
-<span class="normal">1382</span>
-<span class="normal">1383</span>
-<span class="normal">1384</span>
-<span class="normal">1385</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1385</span>
 <span class="normal">1386</span>
 <span class="normal">1387</span>
 <span class="normal">1388</span>
@@ -19404,7 +19416,13 @@ source account.</p>
 <span class="normal">1508</span>
 <span class="normal">1509</span>
 <span class="normal">1510</span>
-<span class="normal">1511</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">payload_body</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="normal">1511</span>
+<span class="normal">1512</span>
+<span class="normal">1513</span>
+<span class="normal">1514</span>
+<span class="normal">1515</span>
+<span class="normal">1516</span>
+<span class="normal">1517</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">payload_body</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of values included in the transaction body.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19566,22 +19584,28 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1513</span>
-<span class="normal">1514</span>
-<span class="normal">1515</span>
-<span class="normal">1516</span>
-<span class="normal">1517</span>
-<span class="normal">1518</span>
-<span class="normal">1519</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1519</span>
 <span class="normal">1520</span>
 <span class="normal">1521</span>
 <span class="normal">1522</span>
 <span class="normal">1523</span>
-<span class="normal">1524</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialized_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="normal">1524</span>
+<span class="normal">1525</span>
+<span class="normal">1526</span>
+<span class="normal">1527</span>
+<span class="normal">1528</span>
+<span class="normal">1529</span>
+<span class="normal">1530</span>
+<span class="normal">1531</span>
+<span class="normal">1532</span>
+<span class="normal">1533</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialized_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns bytes of the serialized representation of the transaction,</span>
 <span class="sd">    which is almost always RLP encoding.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlp</span>
+
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ty must be set for all tx types&quot;</span><span class="p">)</span>
 
@@ -19617,16 +19641,7 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1526</span>
-<span class="normal">1527</span>
-<span class="normal">1528</span>
-<span class="normal">1529</span>
-<span class="normal">1530</span>
-<span class="normal">1531</span>
-<span class="normal">1532</span>
-<span class="normal">1533</span>
-<span class="normal">1534</span>
-<span class="normal">1535</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1535</span>
 <span class="normal">1536</span>
 <span class="normal">1537</span>
 <span class="normal">1538</span>
@@ -19706,7 +19721,16 @@ which is almost always RLP encoding.</p>
 <span class="normal">1612</span>
 <span class="normal">1613</span>
 <span class="normal">1614</span>
-<span class="normal">1615</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_envelope</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="normal">1615</span>
+<span class="normal">1616</span>
+<span class="normal">1617</span>
+<span class="normal">1618</span>
+<span class="normal">1619</span>
+<span class="normal">1620</span>
+<span class="normal">1621</span>
+<span class="normal">1622</span>
+<span class="normal">1623</span>
+<span class="normal">1624</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_envelope</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of values included in the envelope used for signing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19824,17 +19848,17 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1617</span>
-<span class="normal">1618</span>
-<span class="normal">1619</span>
-<span class="normal">1620</span>
-<span class="normal">1621</span>
-<span class="normal">1622</span>
-<span class="normal">1623</span>
-<span class="normal">1624</span>
-<span class="normal">1625</span>
-<span class="normal">1626</span>
-<span class="normal">1627</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1626</span>
+<span class="normal">1627</span>
+<span class="normal">1628</span>
+<span class="normal">1629</span>
+<span class="normal">1630</span>
+<span class="normal">1631</span>
+<span class="normal">1632</span>
+<span class="normal">1633</span>
+<span class="normal">1634</span>
+<span class="normal">1635</span>
+<span class="normal">1636</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signing_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the serialized bytes of the transaction used for signing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19873,23 +19897,23 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1629</span>
-<span class="normal">1630</span>
-<span class="normal">1631</span>
-<span class="normal">1632</span>
-<span class="normal">1633</span>
-<span class="normal">1634</span>
-<span class="normal">1635</span>
-<span class="normal">1636</span>
-<span class="normal">1637</span>
-<span class="normal">1638</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1638</span>
 <span class="normal">1639</span>
 <span class="normal">1640</span>
 <span class="normal">1641</span>
 <span class="normal">1642</span>
 <span class="normal">1643</span>
 <span class="normal">1644</span>
-<span class="normal">1645</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signature_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="normal">1645</span>
+<span class="normal">1646</span>
+<span class="normal">1647</span>
+<span class="normal">1648</span>
+<span class="normal">1649</span>
+<span class="normal">1650</span>
+<span class="normal">1651</span>
+<span class="normal">1652</span>
+<span class="normal">1653</span>
+<span class="normal">1654</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">signature_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the serialized bytes of the transaction signature.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -19934,16 +19958,7 @@ which is almost always RLP encoding.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1647</span>
-<span class="normal">1648</span>
-<span class="normal">1649</span>
-<span class="normal">1650</span>
-<span class="normal">1651</span>
-<span class="normal">1652</span>
-<span class="normal">1653</span>
-<span class="normal">1654</span>
-<span class="normal">1655</span>
-<span class="normal">1656</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1656</span>
 <span class="normal">1657</span>
 <span class="normal">1658</span>
 <span class="normal">1659</span>
@@ -19979,7 +19994,16 @@ which is almost always RLP encoding.</p>
 <span class="normal">1689</span>
 <span class="normal">1690</span>
 <span class="normal">1691</span>
-<span class="normal">1692</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_signature_and_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+<span class="normal">1692</span>
+<span class="normal">1693</span>
+<span class="normal">1694</span>
+<span class="normal">1695</span>
+<span class="normal">1696</span>
+<span class="normal">1697</span>
+<span class="normal">1698</span>
+<span class="normal">1699</span>
+<span class="normal">1700</span>
+<span class="normal">1701</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_signature_and_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a signed version of the transaction using the private key.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -20697,14 +20721,14 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/common/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1695</span>
-<span class="normal">1696</span>
-<span class="normal">1697</span>
-<span class="normal">1698</span>
-<span class="normal">1699</span>
-<span class="normal">1700</span>
-<span class="normal">1701</span>
-<span class="normal">1702</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">transaction_list_root</span><span class="p">(</span><span class="n">input_txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1704</span>
+<span class="normal">1705</span>
+<span class="normal">1706</span>
+<span class="normal">1707</span>
+<span class="normal">1708</span>
+<span class="normal">1709</span>
+<span class="normal">1710</span>
+<span class="normal">1711</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">transaction_list_root</span><span class="p">(</span><span class="n">input_txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the transactions root of a list of transactions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27357,10 +27381,10 @@ if iteration is needed.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.7389ff0e.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
