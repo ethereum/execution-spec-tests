@@ -15,6 +15,7 @@
     * [Writing a New Test](writing_tests/writing_a_new_test.md)
     * [Referencing an EIP Spec Version](writing_tests/reference_specification.md)
     * [Verifying Changes Locally](writing_tests/verifying_changes.md)
+    * [Exception Tests](writing_tests/exception_tests.md)
   * Tutorials
     * [State Transition Tests](tutorials/state_transition.md)
   * [Consuming Tests](consuming_tests/index.md)
