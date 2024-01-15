@@ -54,6 +54,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🔀 Updates fork name from Merge to Paris ([#363](https://github.com/ethereum/execution-spec-tests/pull/363)).
 - ✨ Add framework unit tests for post state exception verification ([#350](https://github.com/ethereum/execution-spec-tests/pull/350)).
 - ✨ Add [solc 0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23) support ([#373](https://github.com/ethereum/execution-spec-tests/pull/373)).
+- 💥 Tests must now use `BlockException` and `TransactionException` to define the expected exception of a given test, which can be used to test whether the client is hitting the proper exception when processing the block or transaction ([#384](https://github.com/ethereum/execution-spec-tests/pull/384)).
 
 ### 🔧 EVM Tools
 
