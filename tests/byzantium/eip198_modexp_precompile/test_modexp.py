@@ -13,6 +13,7 @@ from ethereum_test_tools import (
     Environment,
     StateTestFiller,
     TestAddress,
+    TestParameterGroup,
     Transaction,
     compute_create_address,
     to_address,
@@ -23,8 +24,8 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-198.md"
 REFERENCE_SPEC_VERSION = "9e393a79d9937f579acbdcb234a67869259d5a96"
 
 
-@dataclass(frozen=True)
-class ModExpInput:
+@dataclass(kw_only=True, frozen=True, repr=False)
+class ModExpInput(TestParameterGroup):
     """
     Helper class that defines the MODEXP precompile inputs and creates the
     call data from them.
@@ -42,17 +43,6 @@ class ModExpInput:
     modulus: str
     extra_data: str = ""
 
-    def __repr__(self):
-        """
-        Used in the pytest id, if an id is not provided via `pytest.param`.
-        """
-        if self.extra_data:
-            return (
-                f"ModExpInput_base_{self.base}-exponent_{self.exponent}-"
-                f"modulus_{self.modulus}-extra_data_{self.extra_data}"
-            )
-        return f"ModExpInput_base_{self.base}-exponent_{self.exponent}-modulus_{self.modulus}"
-
     def create_modexp_tx_data(self):
         """
         Generates input for the MODEXP precompile.
@@ -69,8 +59,8 @@ class ModExpInput:
         )
 
 
-@dataclass(frozen=True)
-class ModExpRawInput:
+@dataclass(kw_only=True, frozen=True, repr=False)
+class ModExpRawInput(TestParameterGroup):
     """
     Helper class to directly define a raw input to the MODEXP precompile.
     """
@@ -84,8 +74,8 @@ class ModExpRawInput:
         return self.raw_input
 
 
-@dataclass(frozen=True)
-class ExpectedOutput:
+@dataclass(kw_only=True, frozen=True, repr=False)
+class ExpectedOutput(TestParameterGroup):
     """
     Expected test result.
 
@@ -97,15 +87,6 @@ class ExpectedOutput:
 
     call_return_code: str
     returned_data: str
-
-    def __repr__(self):
-        """
-        Used in the pytest id, if an id is not provided via `pytest.param`.
-        """
-        return (
-            f"ExpectedOutput_call_return_code_{self.call_return_code}-"
-            f"returned_data_{self.returned_data}"
-        )
 
 
 @pytest.mark.valid_from("Byzantium")
@@ -184,7 +165,7 @@ class ExpectedOutput:
         ),
         pytest.param(  # Note: This is the only test case which goes out-of-gas.
             ModExpRawInput(
-                "0000000000000000000000000000000000000000000000000000000000000000"
+                raw_input="0000000000000000000000000000000000000000000000000000000000000000"
                 "0000000000000000000000000000000000000000000000000000000000000020"
                 "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
                 "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"
@@ -211,7 +192,7 @@ class ExpectedOutput:
         ),
         pytest.param(
             ModExpRawInput(
-                "0000000000000000000000000000000000000000000000000000000000000001"
+                raw_input="0000000000000000000000000000000000000000000000000000000000000001"
                 "0000000000000000000000000000000000000000000000000000000000000002"
                 "0000000000000000000000000000000000000000000000000000000000000020"
                 "03"
