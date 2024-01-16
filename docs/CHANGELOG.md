@@ -83,29 +83,31 @@ Test fixtures for use by clients are available for each release on the [Github r
    - New fixture name: `fork_Frontier`
 4. Produced `blockchain_tests` fixtures and their corresponding `blockchain_tests_hive` fixtures now contain the named exceptions `BlockException` and `TransactionException` as strings in the `expectException` and `validationError` fields, respectively. These exceptions can be used to test whether the client is hitting the proper exception when processing an invalid block.
 
-   Blockchain test:
-   ```json
-   "blocks": [
-         {
-            ...
-            "expectException": "TransactionException.INSUFFICIENT_ACCOUNT_FUNDS",
-            ...
-         }
-         ...
-   ]
-   ```
+Blockchain test:
 
-   Blockchain hive test:
-   ```json
-   "engineNewPayloads": [
-         {
-            ...
-            "validationError": "TransactionException.INSUFFICIENT_ACCOUNT_FUNDS",
-            ...
-         }
+```json
+"blocks": [
+      {
          ...
-   ]
-   ```
+         "expectException": "TransactionException.INSUFFICIENT_ACCOUNT_FUNDS",
+         ...
+      }
+      ...
+]
+```
+
+Blockchain hive test:
+
+```json
+"engineNewPayloads": [
+      {
+         ...
+         "validationError": "TransactionException.INSUFFICIENT_ACCOUNT_FUNDS",
+         ...
+      }
+      ...
+]
+```
 
 ## [v1.0.6](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6) - 2023-10-19: 🐍🏖️ Cancun Devnet 10
 
