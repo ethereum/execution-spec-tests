@@ -18,8 +18,9 @@ big1
 blobgasfee
 blockchain
 BlockchainTest
-BlockchainTests
 BlockchainTestFiller
+BlockchainTests
+BlockException
 blockhash
 blocknum
 blocktest
@@ -71,12 +72,14 @@ difficulty
 dir
 dirname
 discordapp
+docstring
 docstrings
 dup
 eip
 eips
 EIPs
 endianness
+enum
 env
 eof
 esbenp
@@ -263,6 +266,7 @@ todo
 toml
 tox
 Tox
+TransactionException
 trie
 tstorage
 tx
