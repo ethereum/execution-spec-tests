@@ -1048,13 +1048,6 @@ class Environment:
             cast_type=Hash,
         ),
     )
-    previous_hash: Optional[FixedSizeBytesConvertible] = field(
-        default="0x5e20a0453cecd065ea59c37ac63e079ee08998b6045136a8ce6635c7912ec0b6",
-        json_encoder=JSONEncoder.Field(
-            name="previousHash",
-            cast_type=Hash,
-        ),
-    )
     extra_data: Optional[BytesConvertible] = field(
         default=b"\x00",
         json_encoder=JSONEncoder.Field(

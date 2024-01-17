@@ -108,7 +108,11 @@ class FixtureEnvironment:
         """
         Returns a FixtureEnvironment from an Environment.
         """
-        kwargs = {field.name: getattr(env, field.name) for field in fields(cls)}
+        kwargs = {
+            field.name: getattr(env, field.name)
+            for field in fields(cls)
+            if field.name != "previous_hash"  # define this field for state tests only
+        }
         return cls(**kwargs)
 
 
