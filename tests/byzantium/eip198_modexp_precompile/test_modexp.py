@@ -137,8 +137,7 @@ class ExpectedOutput(TestParameterGroup):
             ModExpInput(base="", exponent="", modulus="0001"),
             ExpectedOutput(call_return_code="0x01", returned_data="0x0000"),
         ),
-        # Test cases from EIP 198 (Note: the cases where the call goes out-of-gas and the
-        # final test case are not yet tested)
+        # Test cases from EIP 198.
         pytest.param(
             ModExpInput(
                 base="03",
