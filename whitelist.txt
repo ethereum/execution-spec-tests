@@ -62,6 +62,7 @@ customizations
 Customizations
 danceratopz
 dao
+dataclasses
 datastructures
 delitem
 dev
@@ -510,6 +511,7 @@ precompile
 precompiles
 deployer
 0x
+modexp
 0x00
 0x10
 
