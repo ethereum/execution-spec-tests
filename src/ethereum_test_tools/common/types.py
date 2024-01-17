@@ -1729,8 +1729,17 @@ class Transaction:
                 tx.v += 27
 
         # Remove the secret key because otherwise we might attempt to sign again (?)
-        tx.secret_key_test = tx.secret_key
         tx.secret_key = None
+        return tx
+
+    def with_signature_and_sender_and_private_key(self) -> "Transaction":
+        """
+        Returns a signed version of the transaction using the private key.
+        And print its private key for testing purposes
+        """
+        secret_key = self.secret_key
+        tx = self.with_signature_and_sender()
+        tx.secret_key_test = secret_key
         return tx
 
 
