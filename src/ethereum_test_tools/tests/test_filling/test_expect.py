@@ -50,104 +50,69 @@ def run_post_state_mismatch_test(
 
 # Storage value mismatch tests
 @pytest.mark.parametrize(
-    "pre_storage,post_storage,want,got,key",
+    "pre_storage,post_storage,expected_exception",
     [
         (  # mismatch_1: 1:1 vs 1:2
             {"0x01": "0x01"},
             {"0x01": "0x02"},
-            2,
-            1,
-            1,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=1, want=2, got=1),
         ),
         (  # mismatch_2: 1:1 vs 2:1
             {"0x01": "0x01"},
             {"0x02": "0x01"},
-            0,
-            1,
-            1,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=1, want=0, got=1),
         ),
         (  # mismatch_2_a: 1:1 vs 0:0
             {"0x01": "0x01"},
             {"0x00": "0x00"},
-            0,
-            1,
-            1,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=1, want=0, got=1),
         ),
         (  # mismatch_2_b: 1:1 vs empty
             {"0x01": "0x01"},
             {},
-            0,
-            1,
-            1,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=1, want=0, got=1),
         ),
         (  # mismatch_3: 0:0 vs 1:2
             {"0x00": "0x00"},
             {"0x01": "0x02"},
-            2,
-            0,
-            1,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=1, want=2, got=0),
         ),
         (  # mismatch_3_a: empty vs 1:2
             {},
             {"0x01": "0x02"},
-            2,
-            0,
-            1,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=1, want=2, got=0),
         ),
         (  # mismatch_4: 0:3, 1:2 vs 1:2
             {"0x00": "0x03", "0x01": "0x02"},
             {"0x01": "0x02"},
-            0,
-            3,
-            0,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=0, want=0, got=3),
         ),
         (  # mismatch_5: 1:2, 2:3 vs 1:2
             {"0x01": "0x02", "0x02": "0x03"},
             {"0x01": "0x02"},
-            0,
-            3,
-            2,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=2, want=0, got=3),
         ),
         (  # mismatch_6: 1:2 vs 1:2, 2:3
             {"0x01": "0x02"},
             {"0x01": "0x02", "0x02": "0x03"},
-            3,
-            0,
-            2,
+            Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=2, want=3, got=0),
         ),
     ],
 )
-def test_post_storage_value_mismatch(pre_storage, post_storage, want, got, key):
+def test_post_storage_value_mismatch(pre_storage, post_storage, expected_exception):
     """
     Test `ethereum_test.filler.fill_test` post state storage verification.
     """
     pre[ADDRESS_UNDER_TEST] = Account(nonce=1, storage=pre_storage)
     post[ADDRESS_UNDER_TEST] = Account(storage=post_storage)
     e_info = run_post_state_mismatch_test(pre, post, Storage.KeyValueMismatch)
-    assert e_info.value.want == want
-    assert e_info.value.got == got
-    assert e_info.value.key == key
-    assert e_info.value.address == ADDRESS_UNDER_TEST
-    assert "incorrect value in address" in str(e_info.value)
+    assert e_info.value == expected_exception
 
 
 # Nonce value mismatch tests
 @pytest.mark.parametrize(
     "pre_nonce,post_nonce",
-    [
-        (
-            1,
-            2,
-        ),
-        (
-            1,
-            0,
-        ),
-        (
-            1,
-            None,
-        ),
-    ],
+    [(1, 2), (1, 0), (1, None)],
 )
 def test_post_nonce_value_mismatch(pre_nonce, post_nonce):
     """
@@ -159,10 +124,9 @@ def test_post_nonce_value_mismatch(pre_nonce, post_nonce):
         run_post_state_mismatch_test(pre, post, None)
     else:
         e_info = run_post_state_mismatch_test(pre, post, Account.NonceMismatch)
-        assert e_info.value.want == post_nonce
-        assert e_info.value.got == pre_nonce
-        assert e_info.value.address == ADDRESS_UNDER_TEST
-        assert "unexpected nonce for account" in str(e_info.value)
+        assert e_info.value == Account.NonceMismatch(
+            address=ADDRESS_UNDER_TEST, want=post_nonce, got=pre_nonce
+        )
 
 
 # Code value mismatch tests
@@ -193,10 +157,9 @@ def test_post_code_value_mismatch(pre_code, post_code):
         run_post_state_mismatch_test(pre, post, None)
     else:
         e_info = run_post_state_mismatch_test(pre, post, Account.CodeMismatch)
-        assert e_info.value.want == post_code
-        assert e_info.value.got == pre_code
-        assert e_info.value.address == ADDRESS_UNDER_TEST
-        assert "unexpected code for account" in str(e_info.value)
+        assert e_info.value == Account.CodeMismatch(
+            address=ADDRESS_UNDER_TEST, want=post_code, got=pre_code
+        )
 
 
 # Balance value mismatch tests
@@ -227,10 +190,9 @@ def test_post_balance_value_mismatch(pre_balance, post_balance):
         run_post_state_mismatch_test(pre, post, None)
     else:
         e_info = run_post_state_mismatch_test(pre, post, Account.BalanceMismatch)
-        assert e_info.value.want == post_balance
-        assert e_info.value.got == pre_balance
-        assert e_info.value.address == ADDRESS_UNDER_TEST
-        assert "unexpected balance for account" in str(e_info.value)
+        assert e_info.value == Account.BalanceMismatch(
+            address=ADDRESS_UNDER_TEST, want=post_balance, got=pre_balance
+        )
 
 
 # Account mismatch tests
