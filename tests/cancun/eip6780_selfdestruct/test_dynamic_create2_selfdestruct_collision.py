@@ -66,6 +66,7 @@ def test_dynamic_create2_selfdestruct_collision(
 
     first_create2_result = 1
     second_create2_result = 2
+    code_worked = 3
 
     address_to = to_address(0x0600)
     address_code = to_address(0x0601)
@@ -84,22 +85,39 @@ def test_dynamic_create2_selfdestruct_collision(
         address_to: Account(
             balance=100000000,
             nonce=0,
-            code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
+            code=Op.JUMPDEST()
+            # Make a subcall that do CREATE2 and returns its the result
+            + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
+            + Op.CALL(100000, Op.PUSH20(address_code), 7, 0, Op.CALLDATASIZE(), 0, 32)
             + Op.SSTORE(
-                1, Op.CALL(Op.GAS(), Op.PUSH20(address_code), 0, 0, Op.CALLDATASIZE(), 0, 0)
+                first_create2_result,
+                Op.MLOAD(0),
             )
-            + Op.SSTORE(2, 1),
-            storage={0x01: 0xFF},
+            # Call to the created account to trigger selfdestruct
+            + Op.CALL(Op.GAS(), Op.SLOAD(1), 3, 0, 0, 0, 0)
+            # Make a subcall that do CREATE2 collision and returns its the result
+            + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
+            + Op.CALL(100000, Op.PUSH20(address_code), 5, 0, Op.CALLDATASIZE(), 0, 32)
+            + Op.SSTORE(
+                second_create2_result,
+                Op.MLOAD(0),
+            )
+            # Call to the created account after suicide to trigger suicide again
+            + Op.CALL(Op.GAS(), Op.SLOAD(1), 11, 0, 0, 0, 0) + Op.SSTORE(code_worked, 1),
+            storage={first_create2_result: 0xFF, second_create2_result: 0xFF},
         ),
         address_code: Account(
-            balance=1000000000000000000,
+            balance=0,
             nonce=0,
             code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.SSTORE(first_create2_result, Op.CREATE2(7, 0, Op.CALLDATASIZE(), create2_salt))
-            + Op.CALL(Op.GAS(), Op.SLOAD(1), 3, 0, 0, 0, 0)
-            + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.SSTORE(second_create2_result, Op.CREATE2(5, 0, Op.CALLDATASIZE(), create2_salt)),
-            storage={0x02: 0xFF},
+            + Op.MSTORE(
+                0,
+                Op.CREATE2(
+                    Op.BALANCE(Op.PUSH20(address_code)), 0, Op.CALLDATASIZE(), create2_salt
+                ),
+            )
+            + Op.RETURN(0, 32),
+            storage={},
         ),
         address_create2_storage: Account(
             balance=7000000000000000000,
@@ -123,23 +141,24 @@ def test_dynamic_create2_selfdestruct_collision(
         # Check that create2 account is unchanged
         post[create2_address] = Account(balance=13, nonce=1, code="0x", storage={})
         # The create2 collision causes all the code to go out of gas
-        post[address_to] = Account(storage={0x01: 0x00, 0x02: 0x01})
-        post[suicide_destination] = Account.NONEXISTENT
-        post[address_create2_storage] = Account(storage={0x01: 0x00})
-        post[address_code] = Account(
-            storage={first_create2_result: 0x00, second_create2_result: 0xFF}
+        post[address_to] = Account(
+            storage={code_worked: 0x01, first_create2_result: 0x00, second_create2_result: 0x00}
         )
+        post[suicide_destination] = Account.NONEXISTENT
+        # Check that CREATE2 constructor never worked
+        post[address_create2_storage] = Account(storage={0x01: 0x00})
     else:
-        # Make sure the address_code call has worked
-        post[address_to] = Account(storage={0x01: 0x01, 0x02: 0x01})
+        post[address_to] = Account(
+            storage={
+                code_worked: 0x01,
+                first_create2_result: create2_address,
+                second_create2_result: 0x00,
+            }
+        )
         # Check what value has been transferred by suicide (7 on create and 3 with the call)
-        post[suicide_destination] = Account(balance=10)
+        post[suicide_destination] = Account(balance=21)
         # Make sure the CREATE2 address performed storage operations
         post[address_create2_storage] = Account(storage={0x01: 0x01})
-        # Make sure the second CREATE2 attempt is failing
-        post[address_code] = Account(
-            storage={first_create2_result: create2_address, second_create2_result: 0x00}
-        )
         # Make sure selfdestruct cleans the account
         post[create2_address] = Account.NONEXISTENT
 
