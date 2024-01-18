@@ -9,11 +9,10 @@ import pytest
 from semver import Version
 
 from ethereum_test_forks import Fork, Homestead, Shanghai, forks_from_until, get_deployed_forks
-from evm_transition_tool import GethTransitionTool
+from evm_transition_tool import FixtureFormats, GethTransitionTool
 
 from ..code import CalldataCase, Case, Code, Conditional, Initcode, Switch, Yul
 from ..common import Account, Environment, TestAddress, Transaction, to_hash_bytes
-from ..filling import fill_test
 from ..spec import StateTest
 from ..vm.opcode import Opcodes as Op
 from .conftest import SOLC_PADDING_VERSION
@@ -645,12 +644,17 @@ def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mappin
         TestAddress: Account(balance=10_000_000, nonce=0),
         code_address: Account(code=switch_bytecode),
     }
-    txs = [Transaction(to=code_address, data=tx_data, gas_limit=1_000_000)]
+    tx = Transaction(to=code_address, data=tx_data, gas_limit=1_000_000)
     post = {TestAddress: Account(nonce=1), code_address: Account(storage=expected_storage)}
-    state_test = StateTest(env=Environment(), pre=pre, txs=txs, post=post)
-    fill_test(
+    state_test = StateTest(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+        fixture_format=FixtureFormats.BLOCKCHAIN_TEST,
+    )
+    state_test.generate(
         t8n=GethTransitionTool(),
-        test_spec=state_test,
         fork=Shanghai,
-        spec=None,
+        eips=None,
     )

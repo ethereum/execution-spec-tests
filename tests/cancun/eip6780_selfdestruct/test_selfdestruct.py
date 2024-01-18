@@ -11,7 +11,7 @@ from typing import Dict, List, SupportsBytes
 import pytest
 from ethereum.crypto.hash import keccak256
 
-from ethereum_test_forks import Cancun, Fork, is_fork
+from ethereum_test_forks import Cancun, Fork
 from ethereum_test_tools import (
     Account,
     Block,
@@ -50,7 +50,7 @@ NO_SELFDESTRUCT = "0x0"
 @pytest.fixture
 def eip_enabled(fork: Fork) -> bool:
     """Whether the EIP is enabled or not."""
-    return is_fork(fork, SELFDESTRUCT_ENABLE_FORK)
+    return fork >= SELFDESTRUCT_ENABLE_FORK
 
 
 @pytest.fixture
@@ -412,7 +412,7 @@ def test_create_selfdestruct_same_tx(
         protected=False,
     )
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
@@ -540,7 +540,7 @@ def test_self_destructing_initcode(
         protected=False,
     )
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize("tx_value", [0, 100_000])
@@ -595,7 +595,7 @@ def test_self_destructing_initcode_create_tx(
         protected=False,
     )
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize("create_opcode", [Op.CREATE2])  # Can only recreate using CREATE2
@@ -872,7 +872,7 @@ def test_selfdestruct_pre_existing(
         protected=False,
     )
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
@@ -1148,7 +1148,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
         protected=False,
     )
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
@@ -1305,4 +1305,4 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
         protected=False,
     )
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)

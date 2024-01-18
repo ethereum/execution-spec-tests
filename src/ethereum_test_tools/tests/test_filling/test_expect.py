@@ -6,12 +6,13 @@ from typing import Any, Mapping, Optional
 import pytest
 
 from ethereum_test_forks import Shanghai
-from evm_transition_tool import GethTransitionTool
+from evm_transition_tool import FixtureFormats, GethTransitionTool
 
 from ...common import Account, Environment, TestAddress, Transaction, to_address
 from ...common.types import Storage
-from ...filling import fill_test
-from ...spec import BaseTestConfig, StateTest
+from ...spec import StateTest
+
+# from ...spec.blockchain.types import FixtureCommon as BlockchainFixtureCommon
 
 ADDRESS_UNDER_TEST = to_address(0x01)
 pre = {
@@ -26,25 +27,22 @@ def run_post_state_mismatch_test(
     """
     Performs test filling and post state verification.
     """
+    fork = Shanghai
+    t8n = GethTransitionTool()
+    fixture_format = FixtureFormats.BLOCKCHAIN_TEST
     state_test = StateTest(
         env=Environment(),
         pre=pre,
         post=post,
-        txs=[Transaction()],
+        tx=Transaction(),
         tag="post_value_mismatch",
-        base_test_config=BaseTestConfig(enable_hive=False),
+        fixture_format=fixture_format,
     )
-    e_info: pytest.ExceptionInfo
+
     if exception:
+        e_info: pytest.ExceptionInfo
         with pytest.raises(exception) as e_info:
-            {
-                "post_state_verify": fill_test(
-                    t8n=GethTransitionTool(),
-                    test_spec=state_test,
-                    fork=Shanghai,
-                    spec=None,
-                ),
-            }
+            state_test.generate(t8n=t8n, fork=fork)
         return e_info
     else:
         return None

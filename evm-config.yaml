@@ -4,5 +4,5 @@ main:
   ref: master
 develop:
   impl: geth
-  repo: lightclient/go-ethereum
-  ref: devnet-10
+  repo: ethereum/go-ethereum
+  ref: master

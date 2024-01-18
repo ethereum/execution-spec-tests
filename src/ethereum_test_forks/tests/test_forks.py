@@ -13,7 +13,6 @@ from ..helpers import (
     get_deployed_forks,
     get_development_forks,
     get_forks,
-    is_fork,
     transition_fork_from_to,
     transition_fork_to,
 )
@@ -37,14 +36,14 @@ def test_transition_forks():
     assert BerlinToLondonAt5.transitions_to() == London
     assert BerlinToLondonAt5.transitions_from() == Berlin
 
-    assert BerlinToLondonAt5.fork(4, 0) == "Berlin"
-    assert BerlinToLondonAt5.fork(5, 0) == "London"
+    assert BerlinToLondonAt5.transition_tool_name(4, 0) == "Berlin"
+    assert BerlinToLondonAt5.transition_tool_name(5, 0) == "London"
     # Default values of transition forks is the transition block
-    assert BerlinToLondonAt5.fork() == "London"
+    assert BerlinToLondonAt5.transition_tool_name() == "London"
 
-    assert MergeToShanghaiAtTime15k.fork(0, 14_999) == "Merge"
-    assert MergeToShanghaiAtTime15k.fork(0, 15_000) == "Shanghai"
-    assert MergeToShanghaiAtTime15k.fork() == "Shanghai"
+    assert MergeToShanghaiAtTime15k.transition_tool_name(0, 14_999) == "Merge"
+    assert MergeToShanghaiAtTime15k.transition_tool_name(0, 15_000) == "Shanghai"
+    assert MergeToShanghaiAtTime15k.transition_tool_name() == "Shanghai"
 
     assert BerlinToLondonAt5.header_base_fee_required(4, 0) is False
     assert BerlinToLondonAt5.header_base_fee_required(5, 0) is True
@@ -80,6 +79,14 @@ def test_forks():
     assert f"{London}" == "London"
     assert f"{MergeToShanghaiAtTime15k}" == "MergeToShanghaiAtTime15k"
 
+    # Merge name will be changed to paris, but we need to check the inheriting fork name is still
+    # the default
+    assert Merge.transition_tool_name() == "Merge"
+    assert Shanghai.transition_tool_name() == "Shanghai"
+    assert Merge.blockchain_test_network_name() == "Merge"
+    assert Shanghai.blockchain_test_network_name() == "Shanghai"
+    assert MergeToShanghaiAtTime15k.blockchain_test_network_name() == "MergeToShanghaiAtTime15k"
+
     # Test some fork properties
     assert Berlin.header_base_fee_required(0, 0) is False
     assert London.header_base_fee_required(0, 0) is True
@@ -94,9 +101,38 @@ def test_forks():
     assert cast(Fork, MergeToShanghaiAtTime15k).header_withdrawals_required(0, 15_000) is True
     assert cast(Fork, MergeToShanghaiAtTime15k).header_withdrawals_required() is True
 
-    assert is_fork(Berlin, Berlin) is True
-    assert is_fork(London, Berlin) is True
-    assert is_fork(Berlin, Merge) is False
+    # Test fork comparison
+    assert Merge > Berlin
+    assert not Berlin > Merge
+    assert Berlin < Merge
+    assert not Merge < Berlin
+
+    assert Merge >= Berlin
+    assert not Berlin >= Merge
+    assert Berlin <= Merge
+    assert not Merge <= Berlin
+
+    assert London > Berlin
+    assert not Berlin > London
+    assert Berlin < London
+    assert not London < Berlin
+
+    assert London >= Berlin
+    assert not Berlin >= London
+    assert Berlin <= London
+    assert not London <= Berlin
+
+    assert Berlin >= Berlin
+    assert Berlin <= Berlin
+    assert not Berlin > Berlin
+    assert not Berlin < Berlin
+
+    fork = Berlin
+    assert fork >= Berlin
+    assert fork <= Berlin
+    assert not fork > Berlin
+    assert not fork < Berlin
+    assert fork == Berlin
 
 
 def test_get_forks():  # noqa: D103
