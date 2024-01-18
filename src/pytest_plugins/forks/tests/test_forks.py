@@ -131,3 +131,34 @@ def test_from_london_until_shanghai_option_no_validity_marker(pytester, fork_map
         skipped=0,
         errors=0,
     )
+
+
+def test_from_merge_until_merge_option_no_validity_marker(pytester, fork_map):
+    """
+    Test test parametrization with:
+    - --from Merge command-line option,
+    - --until Merge command-line option,
+    - no fork validity marker.
+    """
+    pytester.makepyfile(
+        f"""
+        import pytest
+
+        def test_all_forks({StateTest.pytest_parameter_name()}):
+            pass
+        """
+    )
+    pytester.copy_example(name="pytest.ini")
+    result = pytester.runpytest("-v", "--from", "Merge", "--until", "Merge")
+    forks_under_test = forks_from_until(fork_map["Paris"], fork_map["Paris"])
+    expected_passed = len(forks_under_test) * len(StateTest.fixture_formats())
+    stdout = "\n".join(result.stdout.lines)
+    for fork in forks_under_test:
+        for fixture_format in StateTest.fixture_formats():
+            assert f":test_all_forks[fork_{fork}-{fixture_format.name.lower()}]" in stdout
+    result.assert_outcomes(
+        passed=expected_passed,
+        failed=0,
+        skipped=0,
+        errors=0,
+    )
