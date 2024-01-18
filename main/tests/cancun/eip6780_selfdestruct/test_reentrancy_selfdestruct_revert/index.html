@@ -4582,11 +4582,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../merge/" class="md-nav__link ">
+            <a href="../../../paris/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    Merge
+    Paris
   </span>
   
 
@@ -4602,7 +4602,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9_4">
             <span class="md-nav__icon md-icon"></span>
-            Merge
+            Paris
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4637,7 +4637,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../merge/security/" class="md-nav__link ">
+            <a href="../../../paris/security/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4692,7 +4692,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../merge/security/test_selfdestruct_balance_bug/" class="md-nav__link ">
+            <a href="../../../paris/security/test_selfdestruct_balance_bug/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4725,7 +4725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../merge/security/test_selfdestruct_balance_bug/index/test_cases/" class="md-nav__link">
+      <a href="../../../paris/security/test_selfdestruct_balance_bug/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5880,7 +5880,7 @@
 
 
 <h1 id="test-reentrancy-selfdestruct-revert">Test Reentrancy Selfdestruct Revert<a class="headerlink" href="#test-reentrancy-selfdestruct-revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/afb3164c06e5a21723fafb667edd74557d1d8804/tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py"><code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/99fb731f79bacd4fb9093046fba174360f99b839/tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py"><code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6058,7 +6058,7 @@ It is expected the S is self destructed after the transaction.</p>
 <span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
-<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Merge&quot;</span><span class="p">)</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;first_suicide&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;second_suicide&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_reentrancy_selfdestruct_revert</span><span class="p">(</span>

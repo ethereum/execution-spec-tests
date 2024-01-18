@@ -511,22 +511,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/merge/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/paris/</loc>
          <lastmod>2024-01-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/merge/security/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/paris/security/</loc>
          <lastmod>2024-01-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/merge/security/test_selfdestruct_balance_bug/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/paris/security/test_selfdestruct_balance_bug/</loc>
          <lastmod>2024-01-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/merge/security/test_selfdestruct_balance_bug/index/test_cases/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/paris/security/test_selfdestruct_balance_bug/index/test_cases/</loc>
          <lastmod>2024-01-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
