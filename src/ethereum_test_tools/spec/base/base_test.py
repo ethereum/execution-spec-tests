@@ -101,6 +101,13 @@ class BaseFixture:
         if ref_spec is not None:
             ref_spec.write_info(self.info)
 
+    @abstractmethod
+    def to_json(self) -> Dict[str, Any]:
+        """
+        Convert to JSON.
+        """
+        pass
+
     @classmethod
     @abstractmethod
     def format(cls) -> FixtureFormats:
