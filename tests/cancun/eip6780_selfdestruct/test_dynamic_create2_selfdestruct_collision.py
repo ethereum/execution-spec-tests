@@ -87,11 +87,11 @@ def test_dynamic_create2_selfdestruct_collision(
     address_to = to_address(0x0600)
     address_code = to_address(0x0601)
     address_create2_storage = to_address(0x0512)
-    suicide_destination = to_address(0x03E8)
+    sendall_destination = to_address(0x03E8)
 
     # CREATE2 Initcode
     create2_salt = 1
-    deploy_code = Op.SELFDESTRUCT(Op.PUSH20(suicide_destination))
+    deploy_code = Op.SELFDESTRUCT(Op.PUSH20(sendall_destination))
     initcode = Initcode(
         deploy_code=deploy_code,
         initcode_prefix=Op.SSTORE(create2_constructor_worked, 1)
@@ -199,19 +199,18 @@ def test_dynamic_create2_selfdestruct_collision(
         }
     )
 
-    # Calculate the destination account balance for the selfdestruct/sendall calls
-    post[suicide_destination] = Account(balance=0)
-
-    if create2_dest_already_in_state:
-        post[suicide_destination].balance += pre_existing_create2_balance
-    else:
-        post[suicide_destination].balance += first_create2_value
+    # Calculate the destination account expected balance for the selfdestruct/sendall calls
+    sendall_destination_balance = (
+        pre_existing_create2_balance if create2_dest_already_in_state else first_create2_value
+    )
 
     if call_create2_contract_in_between:
-        post[suicide_destination].balance += first_call_value
+        sendall_destination_balance += first_call_value
 
     if call_create2_contract_at_the_end:
-        post[suicide_destination].balance += second_call_value
+        sendall_destination_balance += second_call_value
+
+    post[sendall_destination] = Account(balance=sendall_destination_balance)
 
     tx = Transaction(
         ty=0x0,
