@@ -84,15 +84,8 @@ class FixtureEnvironment:
     excess_blob_gas: Optional[NumberConvertible] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
-            name="parentExcessBlobGas",
+            name="currentExcessBlobGas",
             cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-    beacon_root: Optional[FixedSizeBytesConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentBeaconRoot",
-            cast_type=Hash,
         ),
     )
     previous_hash: Optional[FixedSizeBytesConvertible] = field(
