@@ -1,5 +1,5 @@
 """
-Test suite for `ethereum_test_tools.filling` fixture post (expect) section.
+Test fixture post state (expect section) during state fixture generation.
 """
 from typing import Any, Mapping
 
@@ -108,7 +108,7 @@ def t8n() -> GethTransitionTool:  # noqa: D103
 )
 def test_post_storage_value_mismatch(pre, post, expected_exception, state_test, t8n, fork):
     """
-    Test `ethereum_test.filler.fill_test` post state storage verification.
+    Test post state `Account.storage` exceptions during state test fixture generation.
     """
     with pytest.raises(Storage.KeyValueMismatch) as e_info:
         state_test.generate(t8n=t8n, fork=fork)
@@ -126,7 +126,8 @@ def test_post_storage_value_mismatch(pre, post, expected_exception, state_test, 
 )
 def test_post_nonce_value_mismatch(pre, post, state_test, t8n, fork):
     """
-    Test `ethereum_test.filler.fill_test` post state nonce verification.
+    Test post state `Account.nonce` verification and exceptions during state test
+    fixture generation.
     """
     pre_nonce = pre[ADDRESS_UNDER_TEST].nonce
     post_nonce = post[ADDRESS_UNDER_TEST].nonce
@@ -152,7 +153,8 @@ def test_post_nonce_value_mismatch(pre, post, state_test, t8n, fork):
 )
 def test_post_code_value_mismatch(pre, post, state_test, t8n, fork):
     """
-    Test `ethereum_test.filler.fill_test` post state code verification.
+    Test post state `Account.code` verification and exceptions during state test
+    fixture generation.
     """
     pre_code = pre[ADDRESS_UNDER_TEST].code
     post_code = post[ADDRESS_UNDER_TEST].code
@@ -178,7 +180,8 @@ def test_post_code_value_mismatch(pre, post, state_test, t8n, fork):
 )
 def test_post_balance_value_mismatch(pre, post, state_test, t8n, fork):
     """
-    Test `ethereum_test.filler.fill_test` post state balance verification.
+    Test post state `Account.balance` verification and exceptions during state test
+    fixture generation.
     """
     pre_balance = pre[ADDRESS_UNDER_TEST].balance
     post_balance = post[ADDRESS_UNDER_TEST].balance
@@ -221,7 +224,8 @@ def test_post_balance_value_mismatch(pre, post, state_test, t8n, fork):
 )
 def test_post_account_mismatch(state_test, t8n, fork, error_str):
     """
-    Test `ethereum_test.filler.fill_test` post state account verification.
+    Test post state `Account` verification and exceptions during state test
+    fixture generation.
     """
     if error_str is None:
         state_test.generate(t8n=t8n, fork=fork)
