@@ -207,7 +207,7 @@ class FixtureTransaction:
             cast_type=Address,
         ),
     )
-    secret_key_test: FixedSizeBytesConvertible = field(
+    secret_key: Optional[FixedSizeBytesConvertible] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
             name="secretKey",

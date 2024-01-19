@@ -1291,13 +1291,6 @@ class Transaction:
             cast_type=Hash,
         ),
     )
-    secret_key_test: Optional[FixedSizeBytesConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="secretKey",
-            cast_type=Hash,
-        ),
-    )
     protected: bool = field(
         default=True,
         json_encoder=JSONEncoder.Field(
@@ -1678,7 +1671,7 @@ class Transaction:
             + bytes([v])
         )
 
-    def with_signature_and_sender(self) -> "Transaction":
+    def with_signature_and_sender(self, *, keep_secret_key: bool = False) -> "Transaction":
         """
         Returns a signed version of the transaction using the private key.
         """
@@ -1721,18 +1714,9 @@ class Transaction:
             else:  # not protected
                 tx.v += 27
 
-        # Remove the secret key because otherwise we might attempt to sign again (?)
-        tx.secret_key = None
-        return tx
-
-    def with_signature_and_sender_and_private_key(self) -> "Transaction":
-        """
-        Returns a signed version of the transaction using the private key.
-        And print its private key for testing purposes
-        """
-        secret_key = self.secret_key
-        tx = self.with_signature_and_sender()
-        tx.secret_key_test = secret_key
+        # Remove the secret key if requested
+        if not keep_secret_key:
+            tx.secret_key = None
         return tx
 
 
