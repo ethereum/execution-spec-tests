@@ -74,33 +74,40 @@ def test_dynamic_create2_selfdestruct_collision(
     in https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824 is covered
     """
 
+    # Storage locations
     create2_constructor_worked = 1
-    first_create2_result = 1
-    second_create2_result = 2
-    code_worked = 3
+    first_create2_result = 2
+    second_create2_result = 3
+    code_worked = 4
 
+    # Pre-Existing Addresses
+    address_zero = to_address(0x00)
     address_to = to_address(0x0600)
     address_code = to_address(0x0601)
     address_create2_storage = to_address(0x0512)
     suicide_destination = to_address(0x03E8)
     suicide_destination_original = to_address(0x03E9)
 
+    # CREATE2 Initcode
     create2_salt = 1
+    deploy_code = Op.SELFDESTRUCT(Op.PUSH20(suicide_destination))
     initcode = Initcode(
-        deploy_code=Op.SELFDESTRUCT(Op.PUSH20(suicide_destination)),
+        deploy_code=deploy_code,
         initcode_prefix=Op.SSTORE(create2_constructor_worked, 1)
         + Op.CALL(Op.GAS(), Op.PUSH20(address_create2_storage), 0, 0, 0, 0, 0),
     )
-    create2_address = compute_create2_address(address_code, create2_salt, initcode)
-    if call_create2_contract_in_between:
-        call_address_in_between = create2_address
-    else:
-        call_address_in_between = to_address(0x00)
 
-    if call_create2_contract_at_the_end:
-        call_address_in_the_end = create2_address
-    else:
-        call_address_in_the_end = to_address(0x00)
+    # Created addresses
+    create2_address = compute_create2_address(address_code, create2_salt, initcode)
+    call_address_in_between = create2_address if call_create2_contract_in_between else address_zero
+    call_address_in_the_end = create2_address if call_create2_contract_at_the_end else address_zero
+
+    # Values
+    first_create2_value = 3
+    first_call_value = 5
+    second_create2_value = 7
+    second_call_value = 11
+    pre_existing_create2_balance = 13
 
     pre = {
         address_to: Account(
@@ -109,22 +116,26 @@ def test_dynamic_create2_selfdestruct_collision(
             code=Op.JUMPDEST()
             # Make a subcall that do CREATE2 and returns its the result
             + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.CALL(100000, Op.PUSH20(address_code), 3, 0, Op.CALLDATASIZE(), 0, 32)
+            + Op.CALL(
+                100000, Op.PUSH20(address_code), first_create2_value, 0, Op.CALLDATASIZE(), 0, 32
+            )
             + Op.SSTORE(
                 first_create2_result,
                 Op.MLOAD(0),
             )
             # Call to the created account to trigger selfdestruct
-            + Op.CALL(100000, Op.PUSH20(call_address_in_between), 5, 0, 0, 0, 0)
+            + Op.CALL(100000, Op.PUSH20(call_address_in_between), first_call_value, 0, 0, 0, 0)
             # Make a subcall that do CREATE2 collision and returns its the result
             + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.CALL(100000, Op.PUSH20(address_code), 7, 0, Op.CALLDATASIZE(), 0, 32)
+            + Op.CALL(
+                100000, Op.PUSH20(address_code), second_create2_value, 0, Op.CALLDATASIZE(), 0, 32
+            )
             + Op.SSTORE(
                 second_create2_result,
                 Op.MLOAD(0),
             )
             # Call to the created account to trigger selfdestruct
-            + Op.CALL(100000, Op.PUSH20(call_address_in_the_end), 11, 0, 0, 0, 0)
+            + Op.CALL(100000, Op.PUSH20(call_address_in_the_end), second_call_value, 0, 0, 0, 0)
             + Op.SSTORE(code_worked, 1),
             storage={first_create2_result: 0xFF, second_create2_result: 0xFF},
         ),
@@ -155,7 +166,7 @@ def test_dynamic_create2_selfdestruct_collision(
 
     if create2_dest_already_in_state:
         pre[create2_address] = Account(
-            balance=13,
+            balance=pre_existing_create2_balance,
             nonce=1,
             code=Op.SELFDESTRUCT(Op.PUSH20(suicide_destination_original)),
             storage={},
@@ -178,11 +189,11 @@ def test_dynamic_create2_selfdestruct_collision(
 
             if call_create2_contract_at_the_end:
                 post[suicide_destination_original] = Account(
-                    balance=29  # 13 from state and 5 from call and 11 from second call
+                    balance=(pre_existing_create2_balance + first_call_value + second_call_value)
                 )
             else:
                 post[suicide_destination_original] = Account(
-                    balance=18  # 13 from state and 5 from call
+                    balance=(pre_existing_create2_balance + first_call_value)
                 )
         else:
             if call_create2_contract_at_the_end:
@@ -193,11 +204,14 @@ def test_dynamic_create2_selfdestruct_collision(
                 else:
                     post[create2_address] = Account.NONEXISTENT
                 post[suicide_destination_original] = Account(
-                    balance=24  # 13 from state 11 from the end
+                    balance=pre_existing_create2_balance + second_call_value
                 )
             else:
                 post[create2_address] = Account(
-                    balance=13, nonce=1, code=pre[create2_address].code, storage={}
+                    balance=pre_existing_create2_balance,
+                    nonce=1,
+                    code=pre[create2_address].code,
+                    storage={},
                 )
                 post[suicide_destination_original] = Account.NONEXISTENT
 
@@ -214,17 +228,21 @@ def test_dynamic_create2_selfdestruct_collision(
         if call_create2_contract_in_between:
             if call_create2_contract_at_the_end:
                 post[suicide_destination] = Account(
-                    balance=19  # 3 on creation + 5 on a call + 11 at the end call
+                    balance=first_create2_value + first_call_value + second_call_value
                 )
             else:
-                post[suicide_destination] = Account(balance=8)  # 3 on creation + 5 on a call
+                post[suicide_destination] = Account(balance=first_create2_value + first_call_value)
             post[create2_address] = Account.NONEXISTENT
         else:
             if call_create2_contract_at_the_end:
                 post[create2_address] = Account.NONEXISTENT
-                post[suicide_destination] = Account(balance=14)  # 3 on creation + 11 at the end
+                post[suicide_destination] = Account(
+                    balance=first_create2_value + second_call_value
+                )
             else:
-                post[create2_address] = Account(balance=3, nonce=1, code=initcode.deploy_code)
+                post[create2_address] = Account(
+                    balance=first_create2_value, nonce=1, code=initcode.deploy_code
+                )
                 post[suicide_destination] = Account.NONEXISTENT
 
     tx = Transaction(
