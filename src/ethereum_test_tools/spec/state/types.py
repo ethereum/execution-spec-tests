@@ -12,7 +12,6 @@ from ...common.conversions import BytesConvertible, FixedSizeBytesConvertible
 from ...common.json import JSONEncoder, field, to_json
 from ...common.types import (
     AccessList,
-    AddrAA,
     Address,
     Alloc,
     Bytes,
@@ -116,34 +115,29 @@ class FixtureTransaction:
     """
 
     nonce: int = field(
-        default=0,
         json_encoder=JSONEncoder.Field(
             cast_type=ZeroPaddedHexNumber,
         ),
     )
     gas_price: Optional[int] = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             name="gasPrice",
             cast_type=ZeroPaddedHexNumber,
         ),
     )
     max_priority_fee_per_gas: Optional[int] = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             name="maxPriorityFeePerGas",
             cast_type=HexNumber,
         ),
     )
     max_fee_per_gas: Optional[int] = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             name="maxFeePerGas",
             cast_type=HexNumber,
         ),
     )
     gas_limit: int = field(
-        default=21000,
         json_encoder=JSONEncoder.Field(
             name="gasLimit",
             cast_type=lambda x: [ZeroPaddedHexNumber(x)],  # Converted to list
@@ -151,27 +145,24 @@ class FixtureTransaction:
         ),
     )
     to: Optional[FixedSizeBytesConvertible] = field(
-        default=AddrAA,
         json_encoder=JSONEncoder.Field(
+            default_value_skip_cast="",  # Empty string for None
             cast_type=Address,
         ),
     )
     value: int = field(
-        default=0,
         json_encoder=JSONEncoder.Field(
             cast_type=lambda x: [ZeroPaddedHexNumber(x)],  # Converted to list
             to_json=True,
         ),
     )
     data: BytesConvertible = field(
-        default_factory=bytes,
         json_encoder=JSONEncoder.Field(
             cast_type=lambda x: [Bytes(x)],
             to_json=True,
         ),
     )
     access_list: Optional[List[AccessList]] = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             name="accessLists",
             cast_type=lambda x: [x],  # Converted to list of lists
@@ -179,14 +170,12 @@ class FixtureTransaction:
         ),
     )
     max_fee_per_blob_gas: Optional[int] = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             name="maxFeePerBlobGas",
             cast_type=HexNumber,
         ),
     )
     blob_versioned_hashes: Optional[Sequence[FixedSizeBytesConvertible]] = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             name="blobVersionedHashes",
             cast_type=lambda x: [Hash(k) for k in x],
@@ -195,13 +184,11 @@ class FixtureTransaction:
     )
 
     sender: FixedSizeBytesConvertible = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             cast_type=Address,
         ),
     )
     secret_key: Optional[FixedSizeBytesConvertible] = field(
-        default=None,
         json_encoder=JSONEncoder.Field(
             name="secretKey",
             cast_type=Hash,
