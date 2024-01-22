@@ -15,7 +15,7 @@ jobs:
             tox-cmd: 'tox'
           - os: ubuntu-latest
             python: '3.12'
-            solc: '0.8.21'
+            solc: '0.8.23'
             evm-type: 'main'
             tox-cmd: 'tox'
           - os: ubuntu-latest
