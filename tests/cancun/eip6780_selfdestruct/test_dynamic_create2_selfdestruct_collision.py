@@ -256,7 +256,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
     then in a different tx, perform a self-destruct.
     Then:
-        a) on the same tx, attempt to recreate the contract
+        a) on the same tx, attempt to recreate the contract       <=== Covered in this test
         b) on a different tx, attempt to recreate the contract    <=== Covered in this test
     Verify that the test case described
     in https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824 is covered
