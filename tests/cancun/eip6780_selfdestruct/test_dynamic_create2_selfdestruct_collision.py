@@ -56,8 +56,8 @@ def test_dynamic_create2_selfdestruct_collision(
     call_create2_contract_at_the_end: bool,
     state_test: StateTestFiller,
 ):
-    """Dynamic Create2->Suicide->Create2 collision scenario:"""
-    """
+    """Dynamic Create2->Suicide->Create2 collision scenario:
+
     Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
     then on a different call, in the same tx, perform a self-destruct.
     Then:
@@ -126,7 +126,7 @@ def test_dynamic_create2_selfdestruct_collision(
             )
             # Call to the created account to trigger selfdestruct
             + Op.CALL(100000, Op.PUSH20(call_address_in_between), first_call_value, 0, 0, 0, 0)
-            # Make a subcall that do CREATE2 collision and returns its the result
+            # Make a subcall that do CREATE2 collision and returns its address as the result
             + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
             + Op.CALL(
                 100000, Op.PUSH20(address_code), second_create2_value, 0, Op.CALLDATASIZE(), 0, 32
@@ -178,7 +178,7 @@ def test_dynamic_create2_selfdestruct_collision(
 
     # Create2 address only exists if it was pre-existing and after cancun
     post[create2_address] = (
-        Account(balance=0, nonce=1, code=deploy_code)
+        Account(balance=0, nonce=1, code=deploy_code, storage={create2_constructor_worked: 0x00})
         if create2_dest_already_in_state and fork >= Cancun
         else Account.NONEXISTENT
     )
