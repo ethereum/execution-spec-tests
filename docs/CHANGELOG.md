@@ -59,6 +59,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - 🔀 Docs: Update `t8n` tool branch to fill tests for development features in the [readme](https://github.com/ethereum/execution-spec-test) ([#338](https://github.com/ethereum/execution-spec-tests/pull/338)).
 - 🔀 Filling tool: Updated filling tool to go-ethereum@master ([#368](https://github.com/ethereum/execution-spec-tests/pull/368))
+- ✨ Docs: Add a ["Consuming Tests"](https://ethereum.github.io/execution-spec-tests/main/consuming_tests/) section to the docs, where each test fixture format is described, along with the steps to consume them, and the description of the structures used in each format ([#375](https://github.com/ethereum/execution-spec-tests/pull/375))
 
 ## Breaking Changes
 

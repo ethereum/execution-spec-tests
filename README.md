@@ -138,7 +138,7 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
 
 ## Usage
 
-More information on how to obtain and use the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found [here](https://ethereum.github.io/execution-spec-tests/docs-only/getting_started/using_fixtures/).
+More information on how to obtain and consume the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found in the [documentation](https://ethereum.github.io/execution-spec-tests/main/consuming_tests/).
 
 For further help with working with this codebase, see the [online documentation](https://ethereum.github.io/execution-spec-tests/):
 
