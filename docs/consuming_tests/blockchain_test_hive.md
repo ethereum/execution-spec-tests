@@ -20,24 +20,24 @@ For each [`HiveFixture`](#hivefixture) test object in the JSON fixture file, per
 
 1. Start a full node using:
 
-    - [`network`](#-network-fork) to configure the execution fork schedule according to the [`Fork`](./common_types.md#fork) type definition
-    - [`pre`](#-pre-alloc) as the starting state allocation of the execution environment for the test and calculate the genesis state root
-    - [`genesisBlockHeader`](#-genesisblockheader-fixtureheader) as the genesis block header
+    - [`network`](#-network-fork) to configure the execution fork schedule according to the [`Fork`](./common_types.md#fork) type definition.
+    - [`pre`](#-pre-alloc) as the starting state allocation of the execution environment for the test and calculate the genesis state root.
+    - [`genesisBlockHeader`](#-genesisblockheader-fixtureheader) as the genesis block header.
 
-2. Verify the head of the chain is the genesis block, and the state root matches the one calculated on step 1, otherwise fail the test
+2. Verify the head of the chain is the genesis block, and the state root matches the one calculated on step 1, otherwise fail the test.
 
 3. For each [`FixtureEngineNewPayload`](#fixtureenginenewpayload) in [`engineNewPayloads`](#-enginenewpayloads-listfixtureenginenewpayload):
 
     1. Deliver the payload using the `engine_newPayloadVX` directive, using:
-        - [`version`](#-version-number) as the version of the directive
-        - [`executionPayload`](#-executionpayload-fixtureexecutionpayload) as the payload
-        - [`blob_versioned_hashes`](#-blob_versioned_hashes-optionallisthash-fork-cancun), if present, as the list of hashes of the versioned blobs that are part of the execution payload
-        - [`parentBeaconBlockRoot`](#-parentbeaconblockroot-optionalhash-fork-cancun), if present, as the hash of the parent beacon block root
+        - [`version`](#-version-number) as the version of the directive.
+        - [`executionPayload`](#-executionpayload-fixtureexecutionpayload) as the payload.
+        - [`blob_versioned_hashes`](#-blob_versioned_hashes-optionallisthash-fork-cancun), if present, as the list of hashes of the versioned blobs that are part of the execution payload.
+        - [`parentBeaconBlockRoot`](#-parentbeaconblockroot-optionalhash-fork-cancun), if present, as the hash of the parent beacon block root.
     2. If [`errorCode`](#-errorcode-optionalnumber) is present:
-        - Verify the directive returns an error, and the error code matches the one in [`errorCode`](#-errorcode-optionalnumber), otherwise fail the test
-        - Proceed to the next payload
-    3. If [`valid`](#-valid-bool) is `false`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `INVALID`, otherwise fail the test
-    4. If [`valid`](#-valid-bool) is `true`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `VALID`, otherwise fail the test
+        - Verify the directive returns an error, and the error code matches the one in [`errorCode`](#-errorcode-optionalnumber), otherwise fail the test.
+        - Proceed to the next payload.
+    3. If [`valid`](#-valid-bool) is `false`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `INVALID`, otherwise fail the test.
+    4. If [`valid`](#-valid-bool) is `true`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `VALID`, otherwise fail the test.
 
 ## Structures
 
