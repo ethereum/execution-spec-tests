@@ -314,7 +314,7 @@ Fork type is represented as a JSON string that can be set to one of the followin
 - Arrow Glacier Block: `0x00`
 - Gray Glacier Block: `0x00`
 - Terminal Total Difficulty: `0x00`
-- Shanghai Time: `0x3a98`
+- Shanghai Time: `0x0`
 - Cancun Time: `0x3a98`
 
 ### `"Cancun"`
