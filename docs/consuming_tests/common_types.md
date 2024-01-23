@@ -1,3 +1,5 @@
+# Common Types
+
 ## Basic Types
 
 ### `Address`
