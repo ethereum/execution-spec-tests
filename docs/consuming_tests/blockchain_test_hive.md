@@ -82,9 +82,17 @@ They can mismatch the hashes of the versioned blobs in the execution payload, fo
 
 Hash of the parent beacon block root.
 
-#### - `valid`: `bool`
+#### - `validationError`: [`TransactionException`](./exceptions.md#transactionexception)` | `[`BlockException`](./exceptions.md#blockexception)
 
-To be deprecated: Whether the execution payload is valid or not. Expectation is `VALID` if `true`, `INVALID` if `false`, in the `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1).
+Validation error expected when executing the payload.
+
+When the payload is valid, this field is not present, and a `VALID` status is
+expected in the `status` field of
+[PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1).
+
+If this field is present, the `status` field of
+[PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1)
+is expected to be `INVALID`.
 
 #### - `version`: [`Number`](./common_types.md#number)
 

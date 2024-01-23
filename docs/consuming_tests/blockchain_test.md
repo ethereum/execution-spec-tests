@@ -197,9 +197,9 @@ Optional list of withdrawals included in the block RLP.
 
 ### `InvalidFixtureBlock`
 
-#### - `expectException`: `str`
+#### - `expectException`: [`TransactionException`](./exceptions.md#transactionexception)` | `[`BlockException`](./exceptions.md#blockexception)
 
-Expected exception message that invalidates the block.
+Expected exception that invalidates the block.
 
 #### - `rlp`: [`Bytes`](./common_types.md#bytes)
 

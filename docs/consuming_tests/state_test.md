@@ -167,7 +167,7 @@ Expected state root value that results of applying the transaction to the pre-st
 Hash of the RLP representation of the state logs result of applying the transaction to the pre-state
 (TODO: double-check this.)
 
-#### - `expectException`: `str`
+#### - `expectException`: [`TransactionException`](./exceptions.md#transactionexception)
 
 Exception that is expected to be thrown by the transaction execution (Field is missing if the transaction is expected to succeed)
 

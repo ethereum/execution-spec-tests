@@ -23,6 +23,7 @@
     * [Blockchain Tests](consuming_tests/blockchain_test.md)
     * [Blockchain Hive Tests](consuming_tests/blockchain_test_hive.md)
     * [Common Types](consuming_tests/common_types.md)
+    * [Exceptions](consuming_tests/exceptions.md)
   * [Getting Help](getting_help/index.md)
   * [Developer Doc](dev/index.md)
     * [Documentation](dev/docs.md)
