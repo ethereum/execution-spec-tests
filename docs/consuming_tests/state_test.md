@@ -24,7 +24,7 @@ For each [`Fixture`](#-fixture) test object in the JSON fixture file, perform th
 
 1. Use [`pre`](#-pre-alloc) as the starting state allocation of the execution environment for the test
 2. Use [`env`](#-env-fixtureenvironment) to configure the current execution environment
-3. For each [`Fork`](./common_types.md#fork) key of [`post`](#-post-mappingfork-list-fixtureforkpost) in the test, and for each of the elements of the list of [`FixtureForkPost`](#fixtureforkpost) values:
+3. For each [`Fork`](./common_types.md#fork) key of [`post`](#-post-mappingforklist-fixtureforkpost) in the test, and for each of the elements of the list of [`FixtureForkPost`](#fixtureforkpost) values:
 
     1. Configure the execution fork schedule according to the current [`Fork`](./common_types.md#fork) key
     2. Using the [`indexes`](#-indexes-fixtureforkpostindexes) values, and the [`transaction`](#-transaction-fixturetransaction) object, decode the transaction to be executed
