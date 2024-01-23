@@ -1,4 +1,4 @@
-# Blockchain Tests
+# Blockchain Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") -->
 
 The Blockchain Test fixture format tests are included in the fixtures subdirectory `blockchain_tests`.
 
@@ -18,20 +18,20 @@ The JSON file path plus the test name are used as the unique test identifier.
 
 For each [`Fixture`](#fixture) test object in the JSON fixture file, perform the following steps:
 
-1. Use [`network`](#network-fork) to configure the execution fork schedule according to the [`Fork`](./common_types.md#fork) type definition
-2. Use [`pre`](#pre-alloc) as the starting state allocation of the execution environment for the test and calculate the genesis state root
-3. Decode [`genesisRLP`](#genesisrlp-bytes) to obtain the genesis block header, if the block cannot be decoded, fail the test
-4. Compare the genesis block header with [`genesisBlockHeader`](#genesisblockheader-fixtureheader), if any field does not match, fail the test
+1. Use [`network`](#-network-fork) to configure the execution fork schedule according to the [`Fork`](./common_types.md#fork) type definition
+2. Use [`pre`](#-pre-alloc) as the starting state allocation of the execution environment for the test and calculate the genesis state root
+3. Decode [`genesisRLP`](#-genesisrlp-bytes) to obtain the genesis block header, if the block cannot be decoded, fail the test
+4. Compare the genesis block header with [`genesisBlockHeader`](#-genesisblockheader-fixtureheader), if any field does not match, fail the test
 5. Compare the state root calculated on step 2 with the state root in the genesis block header, if they do not match, fail the test
 6. Set the genesis block as the current head of the chain
-7. If [`blocks`](#blocks-listfixtureblockinvalidfixtureblock) contains at least one block, perform the following steps for each [`FixtureBlock`](#fixtureblock) or [`InvalidFixtureBlock`](#invalidfixtureblock):
+7. If [`blocks`](#-blocks-listfixtureblockinvalidfixtureblock) contains at least one block, perform the following steps for each [`FixtureBlock`](#fixtureblock) or [`InvalidFixtureBlock`](#invalidfixtureblock):
 
     1. Determine whether the current block is valid or invalid:
 
         1. If the [`expectException`](#expectexception-str) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock)
         2. If the [`expectException`](#expectexception-str) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock)
 
-    2. Attempt to decode field [`rlp`](#rlp-bytes) as the current block, and if the block cannot be decoded:
+    2. Attempt to decode field [`rlp`](#-rlp-bytes) as the current block, and if the block cannot be decoded:
 
         1. If an exception is not expected for the current block, fail the test
         2. Proceed to the next block
@@ -44,8 +44,8 @@ For each [`Fixture`](#fixture) test object in the JSON fixture file, perform the
     4. If an exception is expected for the current block, fail the test
     5. Set the decoded block as the current head of the chain
 
-8. Compare the hash of the current head of the chain against [`lastblockhash`](#lastblockhash-hash), if they do not match, fail the test
-9. Compare all accounts and the fields described in [`post`](#post-alloc) against the current state, if any do not match, fail the test
+8. Compare the hash of the current head of the chain against [`lastblockhash`](#-lastblockhash-hash), if they do not match, fail the test
+9. Compare all accounts and the fields described in [`post`](#-post-alloc) against the current state, if any do not match, fail the test
 
 ## Structures
 

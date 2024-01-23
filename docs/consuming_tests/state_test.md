@@ -1,4 +1,4 @@
-# State Tests
+# State Tests <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") -->
 
 The State Test fixture format tests are included in the fixtures subdirectory `state_tests`.
 
