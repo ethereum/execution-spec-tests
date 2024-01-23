@@ -86,237 +86,254 @@ State allocation represented as a JSON object, where the keys are the addresses 
 
 Fork type is represented as a JSON string that can be set to one of the following values:
 
-- `"Frontier"`:
-  - Chain ID: `0x00`
+### `"Frontier"`
 
-- `"Homestead"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
+- Chain ID: `0x00`
 
-- `"Byzantium"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
+### `"Homestead"`
 
-- `"Constantinople"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
 
-- `"ConstantinopleFix"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
+### `"Byzantium"`
 
-- `"Istanbul"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
 
-- `"MuirGlacier"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
+### `"Constantinople"`
 
-- `"Berlin"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
 
-- `"BerlinToLondonAt5"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x05`
+### `"ConstantinopleFix"`
 
-- `"London"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
 
-- `"ArrowGlacier"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
-  - Arrow Glacier Block: `0x00`
+### `"Istanbul"`
 
-- `"GrayGlacier"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
-  - Arrow Glacier Block: `0x00`
-  - Gray Glacier Block: `0x00`
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
 
-- `"Merge"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
-  - Arrow Glacier Block: `0x00`
-  - Gray Glacier Block: `0x00`
-  - Terminal Total Difficulty: `0x00`
+### `"MuirGlacier"`
 
-- `"MergeToShanghaiAtTime15k"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
-  - Arrow Glacier Block: `0x00`
-  - Gray Glacier Block: `0x00`
-  - Terminal Total Difficulty: `0x00`
-  - Shanghai Time: `0x3a98`
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
 
-- `"Shanghai"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
-  - Arrow Glacier Block: `0x00`
-  - Gray Glacier Block: `0x00`
-  - Terminal Total Difficulty: `0x00`
-  - Shanghai Time: `0x00`
+### `"Berlin"`
 
-- `"ShanghaiToCancunAtTime15k"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
-  - Arrow Glacier Block: `0x00`
-  - Gray Glacier Block: `0x00`
-  - Terminal Total Difficulty: `0x00`
-  - Shanghai Time: `0x3a98`
-  - Cancun Time: `0x3a98`
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
 
-- `"Cancun"`:
-  - Chain ID: `0x01`
-  - Homestead Block: `0x00`
-  - EIP150 Block: `0x00`
-  - EIP155 Block: `0x00`
-  - EIP158 Block: `0x00`
-  - DAO Fork Block: `0x00`
-  - Byzantium Block: `0x00`
-  - Constantinople Block: `0x00`
-  - Constantinople Fix Block: `0x00`
-  - Istanbul Block: `0x00`
-  - Muir Glacier Block: `0x00`
-  - Berlin Block: `0x00`
-  - London Block: `0x00`
-  - Arrow Glacier Block: `0x00`
-  - Gray Glacier Block: `0x00`
-  - Terminal Total Difficulty: `0x00`
-  - Shanghai Time: `0x00`
-  - Cancun Time: `0x00`
+### `"BerlinToLondonAt5"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x05`
+
+### `"London"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+
+### `"ArrowGlacier"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+
+### `"GrayGlacier"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+
+### `"Merge"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+- Terminal Total Difficulty: `0x00`
+
+### `"MergeToShanghaiAtTime15k"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+- Terminal Total Difficulty: `0x00`
+- Shanghai Time: `0x3a98`
+
+### `"Shanghai"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+- Terminal Total Difficulty: `0x00`
+- Shanghai Time: `0x00`
+
+### `"ShanghaiToCancunAtTime15k"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+- Terminal Total Difficulty: `0x00`
+- Shanghai Time: `0x3a98`
+- Cancun Time: `0x3a98`
+
+### `"Cancun"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+- Terminal Total Difficulty: `0x00`
+- Shanghai Time: `0x00`
+- Cancun Time: `0x00`
