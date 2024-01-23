@@ -30,7 +30,6 @@ Here's a top-level comparison of these two approaches:
 
     It's possible to execute `evm blocktest` directly within the execution-spec-tests framework. This is intended to verify fixture generation, see [Debugging `t8n` Tools](../getting_started/debugging_t8n_tools.md).
 
-
 ## Release Formats
 
 The @ethereum/execution-spec-tests repository provides [releases](https://github.com/ethereum/execution-spec-tests/releases) of fixtures in various formats (as of 2023-10-16):
