@@ -77,7 +77,6 @@ def test_dynamic_create2_selfdestruct_collision(
     Verify that the test case described
     in https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824 is covered
     """
-
     assert call_create2_contract_in_between or call_create2_contract_at_the_end, "invalid test"
 
     # Storage locations
@@ -261,7 +260,6 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     Verify that the test case described
     in https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824 is covered
     """
-
     if recreate_on_first_tx:
         assert selfdestruct_on_first_tx, "invalid test"
 
@@ -397,7 +395,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     # Create2 address only exists if it was pre-existing and after cancun
     account_will_exist_with_code = not selfdestruct_on_first_tx and fork >= Cancun
-    # If the contract is selfdestructed and we also attempt to recreate it on the first tx,
+    # If the contract is self-destructed and we also attempt to recreate it on the first tx,
     # the second call on the second tx will only place balance in the account
     account_will_exist_with_balance = selfdestruct_on_first_tx and recreate_on_first_tx
 
@@ -410,7 +408,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
         else Account.NONEXISTENT
     )
 
-    # Create2 initcode saves storage unconditionaly
+    # Create2 initcode saves storage unconditionally
     post[address_create2_storage] = Account(storage={create2_constructor_worked: 0x01})
 
     # Entry code that makes the calls to the create2 contract creator
