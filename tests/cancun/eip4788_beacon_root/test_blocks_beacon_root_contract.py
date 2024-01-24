@@ -1,10 +1,8 @@
 """
 abstract: Tests beacon block root for [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788)
-
     Test the exposed beacon chain root in the EVM for [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788) using multi-block tests
 
 note: Adding a new test
-
     Add a function that is named `test_<test_name>` and takes at least the following arguments:
 
     - blockchain_test
