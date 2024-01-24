@@ -18,7 +18,7 @@ flowchart LR
   style G stroke:#F9A825,stroke-width:2px
   style H stroke:#F9A825,stroke-width:2px
   
-  subgraph ethereum/go-ethereum, ...
+  subgraph ethereum/go-ethereum
     C[<code>evm t8n</code>\nexternal executable]
   end
 
