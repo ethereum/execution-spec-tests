@@ -426,6 +426,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/</loc>
+         <lastmod>2024-01-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/index/test_cases/</loc>
+         <lastmod>2024-01-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert/</loc>
          <lastmod>2024-01-24</lastmod>
          <changefreq>daily</changefreq>
