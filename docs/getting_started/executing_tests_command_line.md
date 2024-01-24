@@ -71,7 +71,7 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
 or, for a test function and specific parameter combination:
 
 ```console
-fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage[fork_Merge-DELEGATECALL]
+fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage[fork_Paris-DELEGATECALL]
 ```
 
 ## Execution for Development Forks
@@ -152,7 +152,6 @@ Arguments defining filler location and output:
                         Don't group fixtures in JSON files by test function;
                         write each fixture to its own file. This can be used to
                         increase the granularity of --verify-fixtures.
-  --enable-hive         Output test fixtures with the hive-specific properties.
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR

@@ -15,13 +15,13 @@ from .forks.forks import (
     Homestead,
     Istanbul,
     London,
-    Merge,
     MuirGlacier,
+    Paris,
     Shanghai,
 )
 from .forks.transition import (
     BerlinToLondonAt5,
-    MergeToShanghaiAtTime15k,
+    ParisToShanghaiAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
 from .helpers import (
@@ -32,7 +32,6 @@ from .helpers import (
     get_development_forks,
     get_forks,
     get_transition_forks,
-    is_fork,
     transition_fork_from_to,
     transition_fork_to,
 )
@@ -52,8 +51,8 @@ __all__ = [
     "InvalidForkError",
     "Istanbul",
     "London",
-    "Merge",
-    "MergeToShanghaiAtTime15k",
+    "Paris",
+    "ParisToShanghaiAtTime15k",
     "MuirGlacier",
     "Shanghai",
     "ShanghaiToCancunAtTime15k",
@@ -64,7 +63,6 @@ __all__ = [
     "get_deployed_forks",
     "get_development_forks",
     "get_forks",
-    "is_fork",
     "transition_fork_from_to",
     "transition_fork_to",
 ]

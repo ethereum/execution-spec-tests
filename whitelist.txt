@@ -15,8 +15,10 @@ bb
 besu
 big0
 big1
+blobgasfee
 blockchain
 BlockchainTest
+BlockchainTests
 BlockchainTestFiller
 blockhash
 blocknum
@@ -60,6 +62,7 @@ customizations
 Customizations
 danceratopz
 dao
+dataclasses
 datastructures
 delitem
 dev
@@ -80,6 +83,7 @@ esbenp
 eth
 ethash
 ethereum
+EthereumJS
 ethereum's
 evaluatable
 evm
@@ -111,11 +115,14 @@ git's
 github
 Github
 glightbox
+globals
 go-ethereum's
 gwei
 hash32
 hasher
+HeaderNonce
 hexary
+HexNumber
 hexsha
 homebrew
 html
@@ -188,7 +195,7 @@ pre
 Pre
 precompile
 prepend
-prevrandao
+PrevRandao
 programmatically
 px
 py
@@ -211,6 +218,7 @@ repos
 returndatacopy
 returndatasize
 rlp
+rpc
 runtime
 sandboxed
 secp256k1
@@ -229,12 +237,14 @@ squidfunk
 src
 stackoverflow
 StateTest
+StateTests
 StateTestFiller
 staticcalled
 stExample
 str
 streetsidesoftware
 subcall
+subclasscheck
 subdirectories
 subdirectory
 subgraph
@@ -242,11 +252,14 @@ substring
 sudo
 t8n
 tamasfe
+testability
 TestAddress
+TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 textwrap
 time15k
 timestamp
+todo
 toml
 tox
 Tox
@@ -325,6 +338,7 @@ parametrize
 parametrizer
 parametrizers
 popen
+prevrandao
 pytester
 pytestmark
 readline
@@ -347,6 +361,7 @@ trylast
 usefixtures
 writelines
 xfail
+ZeroPaddedHexNumber
 stop
 add
 mul
@@ -504,6 +519,9 @@ precompile
 precompiles
 deployer
 0x
+modexp
+0x00
+0x10
 
 fi
 url

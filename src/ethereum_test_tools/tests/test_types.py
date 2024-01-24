@@ -18,18 +18,12 @@ from ..common import (
     withdrawals_root,
 )
 from ..common.constants import TestPrivateKey
-from ..common.types import (
-    Address,
-    Alloc,
-    Bloom,
-    Bytes,
+from ..common.types import Address, Alloc, Bloom, Bytes, Hash, HeaderNonce, ZeroPaddedHexNumber
+from ..spec.blockchain.types import (
     FixtureEngineNewPayload,
     FixtureExecutionPayload,
     FixtureHeader,
     FixtureTransaction,
-    Hash,
-    HeaderNonce,
-    ZeroPaddedHexNumber,
 )
 
 
@@ -51,6 +45,10 @@ def test_storage():
 
     assert 10 in s.data
     assert s.data[10] == 10
+
+    iter_s = iter(Storage({10: 20, "11": "21"}))
+    assert next(iter_s) == 10
+    assert next(iter_s) == 11
 
     s["10"] = "0x10"
     s["0x10"] = "10"

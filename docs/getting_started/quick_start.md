@@ -84,7 +84,7 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
         2. The corresponding fixture file has been generated:
 
             ```console
-            head fixtures/berlin/eip2930_access_list/acl/access_list.json
+            head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json
             ```
 
 ## Next Steps

@@ -74,7 +74,7 @@ We don't know what will be the fork names after Shanghai, so it is easiest to sp
 We don't need to worry about forks prior to London because the decorator for this test says it is only valid from London.
 
 ```python
-        if fork in {"london", "merge"} and opc==0x5F:
+        if fork in {"london", "paris"} and opc==0x5F:
 ```
 
 Python has a [set data structure](https://docs.python.org/3/tutorial/datastructures.html#sets).
@@ -267,7 +267,7 @@ Over the entire for loop, it yields 255 different tests.
     yield StateTest(
         env=env, 
         pre=pre, 
-        txs=[tx],
+        tx=tx,
         post=(post_valid if opc_valid(opc) else post_invalid),
     )
 ```
