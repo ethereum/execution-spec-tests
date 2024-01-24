@@ -39,7 +39,7 @@ def env():  # noqa: D103
     )
 
 
-@pytest.mark.valid_from("Merge")
+@pytest.mark.valid_from("Paris")
 @pytest.mark.parametrize(
     "create2_dest_already_in_state",
     (True, False),
@@ -230,7 +230,7 @@ def test_dynamic_create2_selfdestruct_collision(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-@pytest.mark.valid_from("Merge")
+@pytest.mark.valid_from("Paris")
 @pytest.mark.parametrize(
     "selfdestruct_on_first_tx,recreate_on_first_tx",
     [
@@ -401,7 +401,6 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     post[create2_address] = (
         Account(balance=0, nonce=1, code=deploy_code, storage={create2_constructor_worked: 0x01})
-        # if not selfdestruct_on_first_tx and fork >= Cancun
         if account_will_exist_with_code
         else Account(balance=second_call_value, nonce=0)
         if account_will_exist_with_balance
