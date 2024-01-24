@@ -52,6 +52,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🔀 Change custom exception classes to dataclasses to improve testability ([#386](https://github.com/ethereum/execution-spec-tests/pull/386)).
 - 🔀 Updates fork name from Merge to Paris ([#363](https://github.com/ethereum/execution-spec-tests/pull/363)).
 - ✨ Add framework unit tests for post state exception verification ([#350](https://github.com/ethereum/execution-spec-tests/pull/350)).
+- ✨ Add [solc 0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23) support ([#373](https://github.com/ethereum/execution-spec-tests/pull/373)).
 
 ### 🔧 EVM Tools
 
