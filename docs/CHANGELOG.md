@@ -35,6 +35,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add `tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx` and `tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
 - 🐞 Fix and enable `tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
 - ✨ Adds a callcode gas test when call stipend is applied to gas limit. Covers a bug found in the EthereumJS EVM. ([#371](https://github.com/ethereum/execution-spec-tests/pull/371))
+- ✨ Adds `test_run_until_out_of_gas` for EIP-1153. ([#401](https://github.com/ethereum/execution-spec-tests/pull/401))
 
 ### 🛠️ Framework
 
