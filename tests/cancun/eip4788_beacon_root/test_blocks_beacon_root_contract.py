@@ -12,10 +12,6 @@ note: Adding a new test
     - post
     - valid_call
 
-    The following arguments *need* to be parametrized or the test will not be generated:
-
-    -
-
     All other `pytest.fixtures` can be parametrized to generate new combinations and test
     cases.
 
