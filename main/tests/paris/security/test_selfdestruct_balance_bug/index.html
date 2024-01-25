@@ -6248,7 +6248,7 @@
 
 
 <h1 id="test-selfdestruct-balance-bug">Test Selfdestruct Balance Bug<a class="headerlink" href="#test-selfdestruct-balance-bug" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/10d045f2e502256a5005ffe46e68c7b3cae3a82a/tests/paris/security/test_selfdestruct_balance_bug.py"><code>tests/paris/security/test_selfdestruct_balance_bug.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d3c0dcc9c05bdee9161e286f10314ae7fca2d545/tests/paris/security/test_selfdestruct_balance_bug.py"><code>tests/paris/security/test_selfdestruct_balance_bug.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/paris/security/test_selfdestruct_balance_bug.py</span>
@@ -6321,13 +6321,11 @@
     is processed. No self-destruct. Expected outcome: 5 wei.</p>
 </li>
 <li>
-<p>Verify that:</p>
-<ul>
-<li>Call within tx 1 is successful, i.e <code>0xaa</code> self-destructed.</li>
-<li>The balances of <code>0xaa</code> after each tx are correct.</li>
-<li>During tx 2, code in <code>0xaa</code> does not execute,
-    hence self-destruct mechanism does not trigger.</li>
-</ul>
+<p>Verify that:
+    - Call within tx 1 is successful, i.e <code>0xaa</code> self-destructed.
+    - The balances of <code>0xaa</code> after each tx are correct.
+    - During tx 2, code in <code>0xaa</code> does not execute,
+        hence self-destruct mechanism does not trigger.</p>
 </li>
 </ol>
 

@@ -6325,24 +6325,21 @@
 <p>By default, execution-spec-tests only generates fixtures for forks that have been deployed to mainnet. In order to generate fixtures for evm features that are actively under development:</p>
 <ol>
 <li>A version of the <code>evm</code> and <code>solc</code> tools that implement the feature must be available (although, typically only a developer version of the <code>evm</code> tool is required, usually the latest stable release of <code>solc</code> is adequate), and,</li>
-<li>
-<p>The development fork to test must be explicitly specified on the command-line:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">via the <code>--fork</code> flag</label><label for="__tabbed_1_2">via the <code>--from</code> flag</label><label for="__tabbed_1_3">via the <code>--until</code> flag</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="go">fill -k 4844 --fork=Cancun -v</span>
+<li>The development fork to test must be explicitly specified on the command-line:<p>=== "via the <code>--fork</code> flag"</p>
+<div class="highlight"><pre><span></span><code>    ```console
+    fill -k 4844 --fork=Cancun -v
+    ```
 </code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="go">fill -k 4844 --from=Cancun -v</span>
+<p>=== "via the <code>--from</code> flag"</p>
+<div class="highlight"><pre><span></span><code>    ```console
+    fill -k 4844 --from=Cancun -v
+    ```
 </code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="go">fill -k 4844 --until=Cancun -v</span>
+<p>=== "via the <code>--until</code> flag"</p>
+<div class="highlight"><pre><span></span><code>    ```console
+    fill -k 4844 --until=Cancun -v
+    ```
 </code></pre></div>
-</div>
-</div>
-</div>
 </li>
 </ol>
 <div class="admonition note">

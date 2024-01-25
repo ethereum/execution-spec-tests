@@ -6661,20 +6661,20 @@ verified in the post state.</p>
 <p>The python representation can be found in <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py">src/ethereum_test_tools/common/types.py</a>.</p>
 <p>It can verify the following properties of an account:</p>
 <ul>
-<li>
-<p><code>nonce</code>: the scalar value equal to a) the number of transactions sent by
-  an Externally Owned Account, b) the amount of contracts created by a contract.</p>
-</li>
-<li>
-<p><code>balance</code>: the amount of Wei (10<sup>-18</sup> Eth) the account has.  <!-- markdownlint-disable MD033 (MD033=no-inline-html) --></p>
-</li>
+<li><code>nonce</code>: the scalar value equal to a) the number of transactions sent by
+  an Externally Owned Account, b) the amount of contracts created by a contract.</li>
+</ul>
+<ul>
+<li><code>balance</code>: the amount of Wei (10<sup>-18</sup> Eth) the account has.  <!-- markdownlint-disable MD033 (MD033=no-inline-html) --></li>
+</ul>
+<ul>
 <li>
 <p><code>code</code>: Bytecode contained by the account. To verify that an account contains
   no code, this property needs to be set to "0x" or "".</p>
+<p>It is not recommended to verify Yul compiled code in the output account,
+because the bytecode can change from version to version.</p>
 </li>
 </ul>
-<p>It is not recommended to verify Yul compiled code in the output account,
-  because the bytecode can change from version to version.</p>
 <ul>
 <li><code>storage</code>: Storage within the account represented as a <code>dict</code> object.
   All storage keys that are expected to be set must be specified, and if a

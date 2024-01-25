@@ -7611,33 +7611,20 @@
 <li>Set the genesis block as the current head of the chain.</li>
 <li>
 <p>If <a href="#-blocks-listfixtureblockinvalidfixtureblock"><code>blocks</code></a> contains at least one block, perform the following steps for each <a href="#fixtureblock"><code>FixtureBlock</code></a> or <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a>:</p>
-<ol>
-<li>
-<p>Determine whether the current block is valid or invalid:</p>
-<ol>
-<li>If the <a href="#expectexception-str"><code>expectException</code></a> field is not present, it is valid, and object must be decoded as a <a href="#fixtureblock"><code>FixtureBlock</code></a>.</li>
-<li>If the <a href="#expectexception-str"><code>expectException</code></a> field is present, it is invalid, and object must be decoded as a <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a>.</li>
-</ol>
-</li>
-<li>
-<p>Attempt to decode field <a href="#-rlp-bytes"><code>rlp</code></a> as the current block, and if the block cannot be decoded:</p>
-<ol>
-<li>If an exception is not expected for the current block, fail the test.</li>
-<li>Proceed to the next block.</li>
-</ol>
-</li>
-<li>
-<p>Attempt to apply the current decoded block on top of the current head of the chain, and if the block cannot be applied:</p>
-<ol>
-<li>If an exception is not expected for the current block, fail the test.</li>
-<li>Proceed to the next block.</li>
-</ol>
-</li>
-<li>
-<p>If an exception is expected for the current block, fail the test.</p>
-</li>
-<li>Set the decoded block as the current head of the chain.</li>
-</ol>
+<p>1. Determine whether the current block is valid or invalid:</p>
+<div class="highlight"><pre><span></span><code>  1. If the [`expectException`](#expectexception-str) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
+  2. If the [`expectException`](#expectexception-str) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
+</code></pre></div>
+<p>2. Attempt to decode field <a href="#-rlp-bytes"><code>rlp</code></a> as the current block, and if the block cannot be decoded:</p>
+<div class="highlight"><pre><span></span><code>  1. If an exception is not expected for the current block, fail the test.
+  2. Proceed to the next block.
+</code></pre></div>
+<p>3. Attempt to apply the current decoded block on top of the current head of the chain, and if the block cannot be applied:</p>
+<div class="highlight"><pre><span></span><code>  1. If an exception is not expected for the current block, fail the test.
+  2. Proceed to the next block.
+</code></pre></div>
+<p>4. If an exception is expected for the current block, fail the test.
+  5. Set the decoded block as the current head of the chain.</p>
 </li>
 <li>
 <p>Compare the hash of the current head of the chain against <a href="#-lastblockhash-hash"><code>lastblockhash</code></a>, if they do not match, fail the test.</p>
