@@ -6238,7 +6238,7 @@
 
 
 <h1 id="test-tstorage">Test Tstorage<a class="headerlink" href="#test-tstorage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/cancun/eip1153_tstore/test_tstorage.py"><code>tests/cancun/eip1153_tstore/test_tstorage.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/cancun/eip1153_tstore/test_tstorage.py"><code>tests/cancun/eip1153_tstore/test_tstorage.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6257,12 +6257,13 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip1153_tstore.test_tstorage"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests <a href="https://eips.ethereum.org/EIPS/eip-1153">EIP-1153: Transient Storage Opcodes</a></p>
-<div class="highlight"><pre><span></span><code>Test [EIP-1153: Transient Storage Opcodes](https://eips.ethereum.org/EIPS/eip-1153). Ports
-and extends some tests from
-[ethereum/tests/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage)
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Tests <a href="https://eips.ethereum.org/EIPS/eip-1153">EIP-1153: Transient Storage Opcodes</a></summary>
+  <p>Test <a href="https://eips.ethereum.org/EIPS/eip-1153">EIP-1153: Transient Storage Opcodes</a>. Ports
+and extends some tests from
+<a href="https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage">ethereum/tests/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/</a></p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6296,7 +6297,8 @@ and extends some tests from
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+<span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -6325,8 +6327,7 @@ and extends some tests from
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_transient_storage_unset_values</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_transient_storage_unset_values</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that tload returns zero for unset values. Loading an arbitrary value is</span>
 <span class="sd">    0 at beginning of transaction: TLOAD(x) is 0.</span>
@@ -6387,7 +6388,8 @@ returns y.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
@@ -6418,8 +6420,7 @@ returns y.</p>
 <span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_tstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_tstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loading after storing returns the stored value: TSTORE(x, y), TLOAD(x)</span>
 <span class="sd">    returns y.</span>
@@ -6482,7 +6483,8 @@ returns y.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
+<span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
@@ -6522,8 +6524,7 @@ returns y.</p>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loading after storing returns the stored value: TSTORE(x, y), TLOAD(x)</span>
 <span class="sd">    returns y.</span>
@@ -6594,7 +6595,8 @@ returns y.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
+<span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
@@ -6633,8 +6635,7 @@ returns y.</p>
 <span class="normal">176</span>
 <span class="normal">177</span>
 <span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_tstore_is_zero</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
+<span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_tstore_is_zero</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that tload returns zero after tstore is called with zero.</span>
 
@@ -6703,7 +6704,8 @@ returns y.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
+<span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
@@ -6731,8 +6733,7 @@ returns y.</p>
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@GasMeasureTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@GasMeasureTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">bytecode</span><span class="p">:</span> <span class="n">Code</span><span class="p">,</span>

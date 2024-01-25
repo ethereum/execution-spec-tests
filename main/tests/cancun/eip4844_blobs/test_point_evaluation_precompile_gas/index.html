@@ -6202,7 +6202,7 @@
 
 
 <h1 id="test-point-evaluation-precompile-gas">Test Point Evaluation Precompile Gas<a class="headerlink" href="#test-point-evaluation-precompile-gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6221,10 +6221,11 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip4844_blobs.test_point_evaluation_precompile_gas"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests gas usage on point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a></p>
-<div class="highlight"><pre><span></span><code>Test gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Tests gas usage on point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a></summary>
+  <p>Test gas usage on point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6261,7 +6262,8 @@ For all forks up to and including Cancun:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">200</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
+<span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
@@ -6293,8 +6295,7 @@ For all forks up to and including Cancun:
 <span class="normal">229</span>
 <span class="normal">230</span>
 <span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_type&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">],</span>
 <span class="p">)</span>

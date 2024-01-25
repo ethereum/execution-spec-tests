@@ -6202,7 +6202,7 @@
 
 
 <h1 id="test-tstorage-execution-contexts">Test Tstorage Execution Contexts<a class="headerlink" href="#test-tstorage-execution-contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6221,10 +6221,11 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip1153_tstore.test_tstorage_execution_contexts"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests for <a href="https://eips.ethereum.org/EIPS/eip-1153">EIP-1153: Transient Storage</a></p>
-<div class="highlight"><pre><span></span><code>Test cases for `TSTORE` and `TLOAD` opcode calls in different execution contexts.
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Tests for <a href="https://eips.ethereum.org/EIPS/eip-1153">EIP-1153: Transient Storage</a></summary>
+  <p>Test cases for <code>TSTORE</code> and <code>TLOAD</code> opcode calls in different execution contexts.</p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6262,7 +6263,8 @@ For all forks up to and including Cancun:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">329</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">328</span>
+<span class="normal">329</span>
 <span class="normal">330</span>
 <span class="normal">331</span>
 <span class="normal">332</span>
@@ -6277,8 +6279,7 @@ For all forks up to and including Cancun:
 <span class="normal">341</span>
 <span class="normal">342</span>
 <span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CallContextTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CallContextTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_subcall</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>

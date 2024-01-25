@@ -6202,7 +6202,7 @@
 
 
 <h1 id="test-mcopy-contexts">Test Mcopy Contexts<a class="headerlink" href="#test-mcopy-contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6221,10 +6221,11 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip5656_mcopy.test_mcopy_contexts"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests <a href="https://eips.ethereum.org/EIPS/eip-5656">EIP-5656: MCOPY - Memory copying instruction</a></p>
-<div class="highlight"><pre><span></span><code>Test memory copy under different call contexts [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Tests <a href="https://eips.ethereum.org/EIPS/eip-5656">EIP-5656: MCOPY - Memory copying instruction</a></summary>
+  <p>Test memory copy under different call contexts <a href="https://eips.ethereum.org/EIPS/eip-5656">EIP-5656: MCOPY - Memory copying instruction</a></p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6259,7 +6260,8 @@ and verify that the caller's memory is unaffected:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+<span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
@@ -6291,8 +6293,7 @@ and verify that the caller's memory is unaffected:
 <span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span>

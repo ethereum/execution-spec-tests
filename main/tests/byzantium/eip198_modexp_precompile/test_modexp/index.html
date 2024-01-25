@@ -6202,7 +6202,7 @@
 
 
 <h1 id="test-modexp">Test Modexp<a class="headerlink" href="#test-modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/byzantium/eip198_modexp_precompile/test_modexp.py"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/byzantium/eip198_modexp_precompile/test_modexp.py"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/byzantium/eip198_modexp_precompile/test_modexp.py</span>
@@ -6217,11 +6217,12 @@
 <a id="tests.byzantium.eip198_modexp_precompile.test_modexp"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Test <a href="https://eips.ethereum.org/EIPS/eip-198">EIP-198: MODEXP Precompile</a></p>
-<div class="highlight"><pre><span></span><code>Tests the MODEXP precompile, located at address 0x0000..0005. Test cases from the EIP are
-labelled with `EIP-198-caseX` in the test id.
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Test <a href="https://eips.ethereum.org/EIPS/eip-198">EIP-198: MODEXP Precompile</a></summary>
+  <p>Tests the MODEXP precompile, located at address 0x0000..0005. Test cases from the EIP are
+labelled with <code>EIP-198-caseX</code> in the test id.</p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6253,7 +6254,8 @@ labelled with `EIP-198-caseX` in the test id.
 
           <details class="quote">
             <summary>Source code in <code>tests/byzantium/eip198_modexp_precompile/test_modexp.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
+<span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
 <span class="normal"> 95</span>
@@ -6432,8 +6434,7 @@ labelled with `EIP-198-caseX` in the test id.
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Byzantium&quot;</span><span class="p">)</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Byzantium&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">],</span>
     <span class="p">[</span>

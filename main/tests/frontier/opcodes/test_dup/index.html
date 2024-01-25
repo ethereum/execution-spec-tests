@@ -6202,7 +6202,7 @@
 
 
 <h1 id="test-dup">Test DUP<a class="headerlink" href="#test-dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_dup.py</span>
@@ -6217,10 +6217,11 @@
 <a id="tests.frontier.opcodes.test_dup"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Test DUP</p>
-<div class="highlight"><pre><span></span><code>Test the DUP opcodes.
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Test DUP</summary>
+  <p>Test the DUP opcodes.</p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6252,7 +6253,8 @@ by Ori Pomerantz.
 
           <details class="quote">
             <summary>Source code in <code>tests/frontier/opcodes/test_dup.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 15</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 14</span>
+<span class="normal"> 15</span>
 <span class="normal"> 16</span>
 <span class="normal"> 17</span>
 <span class="normal"> 18</span>
@@ -6342,8 +6344,7 @@ by Ori Pomerantz.
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;dup_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">,</span>

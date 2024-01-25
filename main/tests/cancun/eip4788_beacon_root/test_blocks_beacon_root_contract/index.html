@@ -6229,7 +6229,7 @@
 
 
 <h1 id="test-blocks-beacon-root-contract">Test Blocks Beacon Root Contract<a class="headerlink" href="#test-blocks-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6248,27 +6248,25 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip4788_beacon_root.test_blocks_beacon_root_contract"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests beacon block root for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a></p>
-<div class="highlight"><pre><span></span><code>Test the exposed beacon chain root in the EVM for [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788) using multi-block tests
-</code></pre></div>
-<p>note: Adding a new test</p>
-<div class="highlight"><pre><span></span><code>Add a function that is named `test_&lt;test_name&gt;` and takes at least the following arguments:
 
-- blockchain_test
-- env
-- pre
-- blocks
-- post
-- valid_call
-
-The following arguments *need* to be parametrized or the test will not be generated:
-
--
-
-All other `pytest.fixtures` can be parametrized to generate new combinations and test
-cases.
-</code></pre></div>
-
+<details class="abstract" open>
+  <summary>Tests beacon block root for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a></summary>
+  <p>Test the exposed beacon chain root in the EVM for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a> using multi-block tests</p>
+</details>
+<details class="note" open>
+  <summary>Adding a new test</summary>
+  <p>Add a function that is named <code>test_&lt;test_name&gt;</code> and takes at least the following arguments:</p>
+<ul>
+<li>blockchain_test</li>
+<li>env</li>
+<li>pre</li>
+<li>blocks</li>
+<li>post</li>
+<li>valid_call</li>
+</ul>
+<p>All other <code>pytest.fixtures</code> can be parametrized to generate new combinations and test
+cases.</p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6307,7 +6305,13 @@ buffer, which might have been overwritten by a later block.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 51</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
 <span class="normal"> 52</span>
 <span class="normal"> 53</span>
 <span class="normal"> 54</span>
@@ -6460,13 +6464,7 @@ buffer, which might have been overwritten by a later block.</p>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamps&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -6655,7 +6653,13 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
@@ -6771,13 +6775,7 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 <span class="normal">326</span>
 <span class="normal">327</span>
 <span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">329</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamps&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fork_transition&quot;</span><span class="p">)],</span>
 <span class="p">)</span>
@@ -6929,7 +6927,13 @@ deployed in time for the fork.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">338</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
 <span class="normal">341</span>
@@ -6986,13 +6990,7 @@ deployed in time for the fork.</p>
 <span class="normal">392</span>
 <span class="normal">393</span>
 <span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">15_000</span><span class="p">])</span>
+<span class="normal">395</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">15_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_no_beacon_root_contract_at_transition</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -7085,7 +7083,13 @@ code deployed and its functionality after Cancun.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">404</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
 <span class="normal">407</span>
@@ -7219,13 +7223,7 @@ code deployed and its functionality after Cancun.</p>
 <span class="normal">535</span>
 <span class="normal">536</span>
 <span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">538</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">15_000</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deploy_on_shanghai&quot;</span><span class="p">),</span>

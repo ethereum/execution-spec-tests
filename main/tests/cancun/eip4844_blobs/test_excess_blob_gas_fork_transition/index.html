@@ -6220,7 +6220,7 @@
 
 
 <h1 id="test-excess-blob-gas-fork-transition">Test Excess Blob Gas Fork Transition<a class="headerlink" href="#test-excess-blob-gas-fork-transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6239,11 +6239,12 @@ For all forks up to and including Cancun:
 <a id="tests.cancun.eip4844_blobs.test_excess_blob_gas_fork_transition"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests <code>excessBlobGas</code> and <code>blobGasUsed</code> block fields for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a> at fork transition.</p>
-<div class="highlight"><pre><span></span><code>Test `excessBlobGas` and `blobGasUsed` block fields for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844) at fork
-transition.
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Tests <code>excessBlobGas</code> and <code>blobGasUsed</code> block fields for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a> at fork transition.</summary>
+  <p>Test <code>excessBlobGas</code> and <code>blobGasUsed</code> block fields for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a> at fork
+transition.</p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6282,7 +6283,8 @@ must be rejected with the <code>-32602: Invalid params</code> error.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
+<span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -6323,8 +6325,7 @@ must be rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;excess_blob_gas_present,blob_gas_used_present&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
@@ -6398,7 +6399,8 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
+<span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
 <span class="normal">183</span>
@@ -6439,8 +6441,7 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;excess_blob_gas_missing,blob_gas_used_missing&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
@@ -6513,7 +6514,8 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
+<span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
@@ -6546,8 +6548,7 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;post_fork_block_count,blob_count_per_block&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span>

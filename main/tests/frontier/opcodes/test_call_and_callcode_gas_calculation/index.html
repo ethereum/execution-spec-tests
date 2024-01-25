@@ -6202,7 +6202,7 @@
 
 
 <h1 id="test-call-and-callcode-gas-calculation">Test Call And Callcode Gas Calculation<a class="headerlink" href="#test-call-and-callcode-gas-calculation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</span>
@@ -6217,18 +6217,18 @@
 <a id="tests.frontier.opcodes.test_call_and_callcode_gas_calculation"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests the nested CALL/CALLCODE opcode gas consumption with a positive value transfer.</p>
-<div class="highlight"><pre><span></span><code>This test is designed to investigate an issue identified in EthereumJS, as reported in:
-https://github.com/ethereumjs/ethereumjs-monorepo/issues/3194.
 
-The issue pertains to the incorrect gas calculation for CALL/CALLCODE operations with a
+<details class="abstract" open>
+  <summary>Tests the nested CALL/CALLCODE opcode gas consumption with a positive value transfer.</summary>
+  <p>This test is designed to investigate an issue identified in EthereumJS, as reported in:
+<a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereumjs/ethereumjs-monorepo/issues/3194" title="GitHub Issue: ethereumjs/ethereumjs-monorepo #3194">ethereumjs/ethereumjs-monorepo#3194</a>.</p>
+<p>The issue pertains to the incorrect gas calculation for CALL/CALLCODE operations with a
 positive value transfer, due to the pre-addition of the gas stipend (2300) to the currently
 available gas instead of adding it to the new call frame. This bug was specific to the case
 where insufficient gas was provided for the CALL/CALLCODE operation. Due to the pre-addition
 of the stipend to the currently available gas, the case for insufficient gas was not properly
-failing with an out-of-gas error.
-
-Test setup: Given two smart contract accounts, 0x0A (caller) and 0x0B (callee):
+failing with an out-of-gas error.</p>
+<p>Test setup: Given two smart contract accounts, 0x0A (caller) and 0x0B (callee):
 1) An arbitrary transaction calls into the contract 0x0A.
 2) Contract 0x0A executes a CALL to contract 0x0B with a specific gas limit (X).
 3) Contract 0x0B then attempts a CALL/CALLCODE to a non-existent contract 0x0C,
@@ -6237,10 +6237,9 @@ Test setup: Given two smart contract accounts, 0x0A (caller) and 0x0B (callee):
    will push 0x01 onto the stack after returning to the call frame in 0x0A. Otherwise, it
    should push 0x00, indicating the insufficiency of gas X (for the bug in EthereumJS, the
    CALL/CALLCODE operation would return 0x01 due to the pre-addition of the gas stipend).
-5) The resulting stack value is saved into contract 0x0A&#39;s storage, allowing us to
-   verify whether the provided gas was sufficient or insufficient.
-</code></pre></div>
-
+5) The resulting stack value is saved into contract 0x0A's storage, allowing us to
+   verify whether the provided gas was sufficient or insufficient.</p>
+</details>
   
 
   <div class="doc doc-children">
@@ -6268,7 +6267,8 @@ Test setup: Given two smart contract accounts, 0x0A (caller) and 0x0B (callee):
 
           <details class="quote">
             <summary>Source code in <code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
+<span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
@@ -6287,8 +6287,7 @@ Test setup: Given two smart contract accounts, 0x0A (caller) and 0x0B (callee):
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_opcode, caller_gas_limit, is_sufficient_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">CALL_SUFFICIENT_GAS</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>

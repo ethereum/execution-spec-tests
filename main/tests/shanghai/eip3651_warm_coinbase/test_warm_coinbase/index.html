@@ -6211,7 +6211,7 @@
 
 
 <h1 id="test-warm-coinbase">Test Warm Coinbase<a class="headerlink" href="#test-warm-coinbase" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7feae5b967f45e1df1f27f5e265604b0c22955da/tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py"><code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69e1d92ff1454504cc1e28a73d50908f59b8c371/tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py"><code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</span>
@@ -6226,13 +6226,17 @@
 <a id="tests.shanghai.eip3651_warm_coinbase.test_warm_coinbase"></a>
   <div class="doc doc-contents first">
   
-      <p>abstract: Tests <a href="https://eips.ethereum.org/EIPS/eip-3651">EIP-3651: Warm COINBASE</a></p>
-<div class="highlight"><pre><span></span><code>Tests for [EIP-3651: Warm COINBASE](https://eips.ethereum.org/EIPS/eip-3651).
-</code></pre></div>
-<p>note: Tests ported from:</p>
-<div class="highlight"><pre><span></span><code>- [ethereum/tests/pull/1082](https://github.com/ethereum/tests/pull/1082).
-</code></pre></div>
 
+<details class="abstract" open>
+  <summary>Tests <a href="https://eips.ethereum.org/EIPS/eip-3651">EIP-3651: Warm COINBASE</a></summary>
+  <p>Tests for <a href="https://eips.ethereum.org/EIPS/eip-3651">EIP-3651: Warm COINBASE</a>.</p>
+</details>
+<details class="note" open>
+  <summary>Tests ported from:</summary>
+  <ul>
+<li><a href="https://github.com/ethereum/tests/pull/1082">ethereum/tests/pull/1082</a>.</li>
+</ul>
+</details>
   
 
   <div class="doc doc-children">
@@ -6267,7 +6271,9 @@ of the following opcodes:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 32</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
 <span class="normal"> 33</span>
 <span class="normal"> 34</span>
 <span class="normal"> 35</span>
@@ -6376,9 +6382,7 @@ of the following opcodes:</p>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;use_sufficient_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
@@ -6528,7 +6532,9 @@ of the following opcodes:</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">214</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
@@ -6586,9 +6592,7 @@ of the following opcodes:</p>
 <span class="normal">269</span>
 <span class="normal">270</span>
 <span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>  <span class="c1"># these tests fill for fork &gt;= Berlin</span>
+<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>  <span class="c1"># these tests fill for fork &gt;= Berlin</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,code_gas_measure&quot;</span><span class="p">,</span>
     <span class="n">gas_measured_opcodes</span><span class="p">,</span>
