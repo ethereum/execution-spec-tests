@@ -18,7 +18,6 @@ from ...common import Account, Environment, Hash, TestAddress, Transaction, to_j
 from ...spec import BlockchainTest, StateTest
 from ...spec.blockchain.types import Block
 from ...spec.blockchain.types import Fixture as BlockchainFixture
-from ...spec.blockchain.types import FixtureBlock
 from ...spec.blockchain.types import FixtureCommon as BlockchainFixtureCommon
 from ..conftest import SOLC_PADDING_VERSION
 
