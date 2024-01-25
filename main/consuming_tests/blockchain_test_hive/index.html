@@ -756,6 +756,8 @@
       
         
       
+        
+      
     
     
     
@@ -925,6 +927,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing_tests/exception_tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exception Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1017,6 +1040,8 @@
       
         
           
+        
+      
         
       
         
@@ -1299,9 +1324,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#-valid-bool" class="md-nav__link">
+  <a href="#-validationerror-transactionexceptionblockexception" class="md-nav__link">
     <span class="md-ellipsis">
-      - valid: bool
+      - validationError: TransactionException|BlockException
     </span>
   </a>
   
@@ -1575,6 +1600,27 @@
   
   <span class="md-ellipsis">
     Common Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exceptions
   </span>
   
 
@@ -6727,9 +6773,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#-valid-bool" class="md-nav__link">
+  <a href="#-validationerror-transactionexceptionblockexception" class="md-nav__link">
     <span class="md-ellipsis">
-      - valid: bool
+      - validationError: TransactionException|BlockException
     </span>
   </a>
   
@@ -7064,8 +7110,14 @@
 They can mismatch the hashes of the versioned blobs in the execution payload, for negative-testing reasons.</p>
 <h4 id="-parentbeaconblockroot-optionalhash-fork-cancun">- <code>parentBeaconBlockRoot</code>: <a href="../common_types/#optional"><code>Optional</code></a><code>[</code><a href="../common_types/#hash"><code>Hash</code></a><code>]</code> <code>(fork: Cancun)</code><a class="headerlink" href="#-parentbeaconblockroot-optionalhash-fork-cancun" title="Permanent link">&para;</a></h4>
 <p>Hash of the parent beacon block root.</p>
-<h4 id="-valid-bool">- <code>valid</code>: <code>bool</code><a class="headerlink" href="#-valid-bool" title="Permanent link">&para;</a></h4>
-<p>To be deprecated: Whether the execution payload is valid or not. Expectation is <code>VALID</code> if <code>true</code>, <code>INVALID</code> if <code>false</code>, in the <code>status</code> field of <a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1">PayloadStatusV1</a>.</p>
+<h4 id="-validationerror-transactionexceptionblockexception">- <code>validationError</code>: <a href="../exceptions/#transactionexception"><code>TransactionException</code></a><code>|</code><a href="../exceptions/#blockexception"><code>BlockException</code></a><a class="headerlink" href="#-validationerror-transactionexceptionblockexception" title="Permanent link">&para;</a></h4>
+<p>Validation error expected when executing the payload.</p>
+<p>When the payload is valid, this field is not present, and a <code>VALID</code> status is
+expected in the <code>status</code> field of
+<a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1">PayloadStatusV1</a>.</p>
+<p>If this field is present, the <code>status</code> field of
+<a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1">PayloadStatusV1</a>
+is expected to be <code>INVALID</code>.</p>
 <h4 id="-version-number">- <code>version</code>: <a href="../common_types/#number"><code>Number</code></a><a class="headerlink" href="#-version-number" title="Permanent link">&para;</a></h4>
 <p>Version of the <code>engine_newPayloadVX</code> directive to use to deliver the payload.</p>
 <h4 id="-errorcode-optionalnumber">- <code>errorCode</code>: <a href="../common_types/#optional"><code>Optional</code></a><code>[</code><a href="../common_types/#number"><code>Number</code></a><code>]</code><a class="headerlink" href="#-errorcode-optionalnumber" title="Permanent link">&para;</a></h4>

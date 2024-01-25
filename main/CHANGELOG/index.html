@@ -756,6 +756,8 @@
       
         
       
+        
+      
     
     
     
@@ -925,6 +927,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../writing_tests/exception_tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exception Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1015,6 +1038,8 @@
       
         
           
+        
+      
         
       
         
@@ -1143,6 +1168,27 @@
   
   <span class="md-ellipsis">
     Common Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../consuming_tests/exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exceptions
   </span>
   
 
@@ -6732,6 +6778,7 @@
 <li>🔀 Updates fork name from Merge to Paris (<a href="https://github.com/ethereum/execution-spec-tests/pull/363">#363</a>).</li>
 <li>✨ Add framework unit tests for post state exception verification (<a href="https://github.com/ethereum/execution-spec-tests/pull/350">#350</a>).</li>
 <li>✨ Add <a href="https://github.com/ethereum/solidity/releases/tag/v0.8.23">solc 0.8.23</a> support (<a href="https://github.com/ethereum/execution-spec-tests/pull/373">#373</a>).</li>
+<li>💥 Tests must now use <code>BlockException</code> and <code>TransactionException</code> to define the expected exception of a given test, which can be used to test whether the client is hitting the proper exception when processing the block or transaction (<a href="https://github.com/ethereum/execution-spec-tests/pull/384">#384</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
@@ -6757,7 +6804,28 @@
 </ul>
 <p>Fixture name example:
    - Previous fixture name: <code>fork=Frontier</code>
-   - New fixture name: <code>fork_Frontier</code></p>
+   - New fixture name: <code>fork_Frontier</code>
+4. Produced <code>blockchain_tests</code> fixtures and their corresponding <code>blockchain_tests_hive</code> fixtures now contain the named exceptions <code>BlockException</code> and <code>TransactionException</code> as strings in the <code>expectException</code> and <code>validationError</code> fields, respectively. These exceptions can be used to test whether the client is hitting the proper exception when processing an invalid block.</p>
+<p>Blockchain test:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;blocks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">         </span><span class="err">...</span>
+<span class="w">         </span><span class="nt">&quot;expectException&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TransactionException.INSUFFICIENT_ACCOUNT_FUNDS&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="err">...</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="err">...</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>Blockchain hive test:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;engineNewPayloads&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">         </span><span class="err">...</span>
+<span class="w">         </span><span class="nt">&quot;validationError&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TransactionException.INSUFFICIENT_ACCOUNT_FUNDS&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="err">...</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="err">...</span>
+<span class="p">]</span>
+</code></pre></div>
 <h2 id="v106-2023-10-19-cancun-devnet-10"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6">v1.0.6</a> - 2023-10-19: 🐍🏖️ Cancun Devnet 10<a class="headerlink" href="#v106-2023-10-19-cancun-devnet-10" title="Permanent link">&para;</a></h2>
 <h3 id="test-cases_1">🧪 Test Cases<a class="headerlink" href="#test-cases_1" title="Permanent link">&para;</a></h3>
 <ul>

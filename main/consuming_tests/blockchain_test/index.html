@@ -756,6 +756,8 @@
       
         
       
+        
+      
     
     
     
@@ -925,6 +927,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing_tests/exception_tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exception Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1017,6 +1040,8 @@
       
         
           
+        
+      
         
       
         
@@ -1542,9 +1567,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#-expectexception-str" class="md-nav__link">
+  <a href="#-expectexception-transactionexceptionblockexception" class="md-nav__link">
     <span class="md-ellipsis">
-      - expectException: str
+      - expectException: TransactionException|BlockException
     </span>
   </a>
   
@@ -1848,6 +1873,27 @@
   
   <span class="md-ellipsis">
     Common Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exceptions
   </span>
   
 
@@ -7264,9 +7310,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#-expectexception-str" class="md-nav__link">
+  <a href="#-expectexception-transactionexceptionblockexception" class="md-nav__link">
     <span class="md-ellipsis">
-      - expectException: str
+      - expectException: TransactionException|BlockException
     </span>
   </a>
   
@@ -7673,8 +7719,8 @@
 <h4 id="-withdrawals-optionallistfixturewithdrawal-fork-shanghai">- <code>withdrawals</code>: <a href="../common_types/#optional"><code>Optional</code></a><code>[</code><a href="../common_types/#list"><code>List</code></a><code>[</code><a href="#fixturewithdrawal"><code>FixtureWithdrawal</code></a><code>]]</code> <code>(fork: Shanghai)</code><a class="headerlink" href="#-withdrawals-optionallistfixturewithdrawal-fork-shanghai" title="Permanent link">&para;</a></h4>
 <p>Optional list of withdrawals included in the block RLP.</p>
 <h3 id="invalidfixtureblock"><code>InvalidFixtureBlock</code><a class="headerlink" href="#invalidfixtureblock" title="Permanent link">&para;</a></h3>
-<h4 id="-expectexception-str">- <code>expectException</code>: <code>str</code><a class="headerlink" href="#-expectexception-str" title="Permanent link">&para;</a></h4>
-<p>Expected exception message that invalidates the block.</p>
+<h4 id="-expectexception-transactionexceptionblockexception">- <code>expectException</code>: <a href="../exceptions/#transactionexception"><code>TransactionException</code></a><code>|</code><a href="../exceptions/#blockexception"><code>BlockException</code></a><a class="headerlink" href="#-expectexception-transactionexceptionblockexception" title="Permanent link">&para;</a></h4>
+<p>Expected exception that invalidates the block.</p>
 <h4 id="-rlp-bytes_1">- <code>rlp</code>: <a href="../common_types/#bytes"><code>Bytes</code></a><a class="headerlink" href="#-rlp-bytes_1" title="Permanent link">&para;</a></h4>
 <p>RLP serialized version of the block.</p>
 <h4 id="-rlp_decoded-optionalfixtureblock">- <code>rlp_decoded</code>: <a href="../common_types/#optional"><code>Optional</code></a><code>[</code><a href="#fixtureblock"><code>FixtureBlock</code></a><code>]</code><a class="headerlink" href="#-rlp_decoded-optionalfixtureblock" title="Permanent link">&para;</a></h4>

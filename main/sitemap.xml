@@ -41,6 +41,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/consuming_tests/exceptions/</loc>
+         <lastmod>2024-01-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/consuming_tests/state_test/</loc>
          <lastmod>2024-01-25</lastmod>
          <changefreq>daily</changefreq>
@@ -662,6 +667,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/code_standards/</loc>
+         <lastmod>2024-01-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/exception_tests/</loc>
          <lastmod>2024-01-25</lastmod>
          <changefreq>daily</changefreq>
     </url>

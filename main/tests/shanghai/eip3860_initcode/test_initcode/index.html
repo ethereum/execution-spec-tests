@@ -756,6 +756,8 @@
       
         
       
+        
+      
     
     
     
@@ -925,6 +927,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../writing_tests/exception_tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exception Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1015,6 +1038,8 @@
       
         
           
+        
+      
         
       
         
@@ -1143,6 +1168,27 @@
   
   <span class="md-ellipsis">
     Common Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../consuming_tests/exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exceptions
   </span>
   
 
@@ -6250,7 +6296,7 @@
 
 
 <h1 id="test-initcode">Test Initcode<a class="headerlink" href="#test-initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e2b84cce2429c777072593e429de7bde73e41951/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/10d045f2e502256a5005ffe46e68c7b3cae3a82a/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py</span>
@@ -6308,8 +6354,7 @@ length.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">189</span>
-<span class="normal">190</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
@@ -6366,7 +6411,8 @@ length.</p>
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
-<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">247</span>
+<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -6412,7 +6458,7 @@ length.</p>
         <span class="c1"># Initcode is above the max size, tx inclusion in the block makes</span>
         <span class="c1"># it invalid.</span>
         <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>
-        <span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;max initcode size exceeded&quot;</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">INITCODE_SIZE_EXCEEDED</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Initcode is at or below the max size, tx inclusion in the block</span>
         <span class="c1"># is ok and the contract is successfully created.</span>
@@ -6467,8 +6513,7 @@ contract creating transaction:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
-<span class="normal">251</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
@@ -6647,7 +6692,8 @@ contract creating transaction:</p>
 <span class="normal">427</span>
 <span class="normal">428</span>
 <span class="normal">429</span>
-<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">430</span>
+<span class="normal">431</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -6732,13 +6778,13 @@ contract creating transaction:</p>
         <span class="p">}</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-    <span class="k">def</span> <span class="nf">tx_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gas_test_case</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">tx_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gas_test_case</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransactionException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test that the transaction is invalid if too little intrinsic gas is</span>
 <span class="sd">        specified, otherwise the tx succeeds.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">gas_test_case</span> <span class="o">==</span> <span class="s2">&quot;too_little_intrinsic_gas&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;intrinsic gas too low&quot;</span>
+            <span class="k">return</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">INTRINSIC_GAS_TOO_LOW</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -6859,8 +6905,7 @@ limits.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">399</span>
-<span class="normal">400</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">400</span>
 <span class="normal">401</span>
 <span class="normal">402</span>
 <span class="normal">403</span>
@@ -6890,7 +6935,8 @@ limits.</p>
 <span class="normal">427</span>
 <span class="normal">428</span>
 <span class="normal">429</span>
-<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
+<span class="normal">430</span>
+<span class="normal">431</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">gas_test_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -6962,8 +7008,7 @@ that is on/over the max allowed limit.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">446</span>
-<span class="normal">447</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">447</span>
 <span class="normal">448</span>
 <span class="normal">449</span>
 <span class="normal">450</span>
@@ -7138,7 +7183,8 @@ that is on/over the max allowed limit.</p>
 <span class="normal">619</span>
 <span class="normal">620</span>
 <span class="normal">621</span>
-<span class="normal">622</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">622</span>
+<span class="normal">623</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -7346,8 +7392,7 @@ initcode that is on/over the max allowed limit.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">509</span>
-<span class="normal">510</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
@@ -7459,7 +7504,8 @@ initcode that is on/over the max allowed limit.</p>
 <span class="normal">619</span>
 <span class="normal">620</span>
 <span class="normal">621</span>
-<span class="normal">622</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
+<span class="normal">622</span>
+<span class="normal">623</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>

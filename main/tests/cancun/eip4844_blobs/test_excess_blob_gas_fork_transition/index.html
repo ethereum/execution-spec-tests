@@ -756,6 +756,8 @@
       
         
       
+        
+      
     
     
     
@@ -925,6 +927,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../writing_tests/exception_tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exception Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1015,6 +1038,8 @@
       
         
           
+        
+      
         
       
         
@@ -1143,6 +1168,27 @@
   
   <span class="md-ellipsis">
     Common Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../consuming_tests/exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exceptions
   </span>
   
 
@@ -6220,7 +6266,7 @@
 
 
 <h1 id="test-excess-blob-gas-fork-transition">Test Excess Blob Gas Fork Transition<a class="headerlink" href="#test-excess-blob-gas-fork-transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e2b84cce2429c777072593e429de7bde73e41951/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/10d045f2e502256a5005ffe46e68c7b3cae3a82a/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6279,12 +6325,11 @@ transition.</p>
       <p>Test block rejection when <code>excessBlobGas</code> and/or <code>blobGasUsed</code> fields are present on a pre-fork
 block.</p>
 <p>Blocks sent by NewPayloadV2 (Shanghai) that contain <code>excessBlobGas</code> and <code>blobGasUsed</code> fields
-must be rejected with the <code>-32602: Invalid params</code> error.</p>
+must be rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error error.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -6325,7 +6370,8 @@ must be rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">176</span>
+<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;excess_blob_gas_present,blob_gas_used_present&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
@@ -6346,7 +6392,7 @@ must be rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="sd">    block.</span>
 
 <span class="sd">    Blocks sent by NewPayloadV2 (Shanghai) that contain `excessBlobGas` and `blobGasUsed` fields</span>
-<span class="sd">    must be rejected with the `-32602: Invalid params` error.</span>
+<span class="sd">    must be rejected with the appropriate `EngineAPIError.InvalidParams` error error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">header_modifier</span> <span class="o">=</span> <span class="n">Header</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">excess_blob_gas_present</span><span class="p">:</span>
@@ -6361,7 +6407,7 @@ must be rejected with the <code>-32602: Invalid params</code> error.</p>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">timestamp</span><span class="o">=</span><span class="p">(</span><span class="n">FORK_TIMESTAMP</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
                 <span class="n">rlp_modifier</span><span class="o">=</span><span class="n">header_modifier</span><span class="p">,</span>
-                <span class="n">exception</span><span class="o">=</span><span class="s2">&quot;invalid pre fork blob fields&quot;</span><span class="p">,</span>
+                <span class="n">exception</span><span class="o">=</span><span class="n">BlockException</span><span class="o">.</span><span class="n">INCORRECT_BLOCK_FORMAT</span><span class="p">,</span>
                 <span class="n">engine_api_error_code</span><span class="o">=</span><span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>
@@ -6395,12 +6441,11 @@ must be rejected with the <code>-32602: Invalid params</code> error.</p>
       <p>Test block rejection when <code>excessBlobGas</code> and/or <code>blobGasUsed</code> fields are missing on a
 post-fork block.</p>
 <p>Blocks sent by NewPayloadV3 (Cancun) without <code>excessBlobGas</code> and <code>blobGasUsed</code> fields must be
-rejected with the <code>-32602: Invalid params</code> error.</p>
+rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
-<span class="normal">180</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
 <span class="normal">183</span>
@@ -6441,7 +6486,8 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
-<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;excess_blob_gas_missing,blob_gas_used_missing&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
@@ -6462,7 +6508,7 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="sd">    post-fork block.</span>
 
 <span class="sd">    Blocks sent by NewPayloadV3 (Cancun) without `excessBlobGas` and `blobGasUsed` fields must be</span>
-<span class="sd">    rejected with the `-32602: Invalid params` error.</span>
+<span class="sd">    rejected with the appropriate `EngineAPIError.InvalidParams` error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">header_modifier</span> <span class="o">=</span> <span class="n">Header</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">excess_blob_gas_missing</span><span class="p">:</span>
@@ -6477,7 +6523,7 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">timestamp</span><span class="o">=</span><span class="n">FORK_TIMESTAMP</span><span class="p">,</span>
                 <span class="n">rlp_modifier</span><span class="o">=</span><span class="n">header_modifier</span><span class="p">,</span>
-                <span class="n">exception</span><span class="o">=</span><span class="s2">&quot;blob fields missing post fork&quot;</span><span class="p">,</span>
+                <span class="n">exception</span><span class="o">=</span><span class="n">BlockException</span><span class="o">.</span><span class="n">INCORRECT_BLOCK_FORMAT</span><span class="p">,</span>
                 <span class="n">engine_api_error_code</span><span class="o">=</span><span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>
@@ -6514,8 +6560,7 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
-<span class="normal">225</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
@@ -6548,7 +6593,8 @@ rejected with the <code>-32602: Invalid params</code> error.</p>
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">258</span>
+<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;post_fork_block_count,blob_count_per_block&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span>
