@@ -6188,7 +6188,7 @@
 <h1 id="test-tstorage-test-cases">Test Tstorage - Test Cases<a class="headerlink" href="#test-tstorage-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/ad35812b83006c0b673ef7d7108d1926fbe2a08e/tests/cancun/eip1153_tstore/test_tstorage.py"><code>tests/cancun/eip1153_tstore/test_tstorage.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/e2b84cce2429c777072593e429de7bde73e41951/tests/cancun/eip1153_tstore/test_tstorage.py"><code>tests/cancun/eip1153_tstore/test_tstorage.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_transient_storage_unset_values[fork_Cancun-blockchain_test]
 test_transient_storage_unset_values[fork_Cancun-blockchain_test_hive]
 test_transient_storage_unset_values[fork_Cancun-state_test]
@@ -6213,6 +6213,15 @@ test_gas_usage[fork_Cancun-state_test-tload]
 test_gas_usage[fork_Cancun-state_test-tstore_tload]
 test_gas_usage[fork_Cancun-state_test-tstore_cold]
 test_gas_usage[fork_Cancun-state_test-tstore_warm]
+test_run_until_out_of_gas[fork_Cancun-blockchain_test-tstore]
+test_run_until_out_of_gas[fork_Cancun-blockchain_test-tstore_wide_address_space]
+test_run_until_out_of_gas[fork_Cancun-blockchain_test-tstore_tload]
+test_run_until_out_of_gas[fork_Cancun-blockchain_test_hive-tstore]
+test_run_until_out_of_gas[fork_Cancun-blockchain_test_hive-tstore_wide_address_space]
+test_run_until_out_of_gas[fork_Cancun-blockchain_test_hive-tstore_tload]
+test_run_until_out_of_gas[fork_Cancun-state_test-tstore]
+test_run_until_out_of_gas[fork_Cancun-state_test-tstore_wide_address_space]
+test_run_until_out_of_gas[fork_Cancun-state_test-tstore_tload]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q --until Cancun tests/cancun/eip1153_tstore/test_tstorage.py</span>
