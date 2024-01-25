@@ -4,38 +4,21 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.
 
-## 🔜 [Unreleased - v1.0.7](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.7) - 2023-XX-XX: 🐍
+## [v2.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0) - 2024-01-25: 🐍🏖️ Cancun
+
+Release [v2.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0) contains many important framework changes, including introduction of the `StateTest` format.
 
 ### 🧪 Test Cases
 
-- ✨ Add tests for the MODEXP precompile ([#364](https://github.com/ethereum/execution-spec-tests/pull/364))
+- ✨ [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844): Add `test_sufficient_balance_blob_tx()` and `test_sufficient_balance_blob_tx_pre_fund_tx()` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
+- ✨ [EIP-1153](https://eips.ethereum.org/EIPS/eip-1153): Add `test_run_until_out_of_gas()` for transient storage opcodes ([#401](https://github.com/ethereum/execution-spec-tests/pull/401)).
+- ✨ [EIP-198](https://eips.ethereum.org/EIPS/eip-198): Add tests for the MODEXP precompile ([#364](https://github.com/ethereum/execution-spec-tests/pull/364)).
+- ✨ Tests for nested `CALL` and `CALLCODE` gas consumption with a positive value transfer (previously lacking coverage) ([#371](https://github.com/ethereum/execution-spec-tests/pull/371)).
 - 🔀 Add reentrancy suicide revert test ([#372](https://github.com/ethereum/execution-spec-tests/pull/372)).
-- 🔀 BlockchainTests converted to StateTest (also automatically generate BlockchainTest) ([#368](https://github.com/ethereum/execution-spec-tests/pull/368), [#370](https://github.com/ethereum/execution-spec-tests/pull/370)):
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_hash_versioning_single_tx
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_value_opcode
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_calldata_opcodes
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_gasprice_opcode
-  - tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork
-  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py::test_point_evaluation_precompile_gas_usage
-  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_precompile_calls
-  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_invalid_precompile_calls
-  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_external_vectors
-  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_calls
-  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_gas_tx_to
-  - tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_point_evaluation_precompile_before_fork
-  - tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_before_fork
-  - tests/shanghai/eip3860_initcode/test_initcode.py::test_contract_creating_tx
-  - tests/shanghai/eip3860_initcode/test_initcode.py::TestContractCreationGasUsage
-- 🐞 Fixed `tests/cancun/eip4844_blobs/test_blob_txs.py:test_invalid_tx_max_fee_per_blob_gas` to account for extra gas required in the case where the account is incorrectly deduced the balance as if it had the correct block blob gas fee ([#370](https://github.com/ethereum/execution-spec-tests/pull/370)).
-- 🐞 Fixed `tests/cancun/eip4844_blobs/test_blob_txs.py:test_insufficient_balance_blob_tx` to correctly calculate the minimum balance required for the accounts ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
-- ✨ Add `tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx` and `tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
-- 🐞 Fix and enable `tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
-- ✨ Adds a callcode gas test when call stipend is applied to gas limit. Covers a bug found in the EthereumJS EVM. ([#371](https://github.com/ethereum/execution-spec-tests/pull/371))
-- ✨ [EIP-1153](https://eips.ethereum.org/EIPS/eip-1153): Add `test_run_until_out_of_gas` for transient storage opcodes ([#401](https://github.com/ethereum/execution-spec-tests/pull/401)).
+- 🔀 Convert all eligible `BlockchainTest`s to `StateTest`s (and additionally generate corresponding `BlockchainTest`s) ([#368](https://github.com/ethereum/execution-spec-tests/pull/368), [#370](https://github.com/ethereum/execution-spec-tests/pull/370)).
+- 🐞 [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844): Fixed `test_invalid_tx_max_fee_per_blob_gas()` to account for extra gas required in the case where the account is incorrectly deduced the balance as if it had the correct block blob gas fee ([#370](https://github.com/ethereum/execution-spec-tests/pull/370)).
+- 🐞 [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844): Fixed `test_insufficient_balance_blob_tx()` to correctly calculate the minimum balance required for the accounts ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
+- 🐞 [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844): Fix and enable `test_invalid_blob_tx_contract_creation` ([#379](https://github.com/ethereum/execution-spec-tests/pull/379)).
 
 ### 🛠️ Framework
 
@@ -65,7 +48,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Docs: Add a ["Consuming Tests"](https://ethereum.github.io/execution-spec-tests/main/consuming_tests/) section to the docs, where each test fixture format is described, along with the steps to consume them, and the description of the structures used in each format ([#375](https://github.com/ethereum/execution-spec-tests/pull/375)).
 - 🐞 Docs: Fix error banner in online docs due to mermaid syntax error ([#398](https://github.com/ethereum/execution-spec-tests/pull/398)).
 
-## Breaking Changes
+### 💥 Breaking Changes
 
 1. Fixture output, including release tarballs, now contain subdirectories for different test types:
    - `blockchain_tests`: Contains BlockchainTest formatted tests
