@@ -15,6 +15,7 @@
     * [Writing a New Test](writing_tests/writing_a_new_test.md)
     * [Referencing an EIP Spec Version](writing_tests/reference_specification.md)
     * [Verifying Changes Locally](writing_tests/verifying_changes.md)
+    * [Exception Tests](writing_tests/exception_tests.md)
   * Tutorials
     * [State Transition Tests](tutorials/state_transition.md)
   * [Consuming Tests](consuming_tests/index.md)
@@ -22,6 +23,7 @@
     * [Blockchain Tests](consuming_tests/blockchain_test.md)
     * [Blockchain Hive Tests](consuming_tests/blockchain_test_hive.md)
     * [Common Types](consuming_tests/common_types.md)
+    * [Exceptions](consuming_tests/exceptions.md)
   * [Getting Help](getting_help/index.md)
   * [Developer Doc](dev/index.md)
     * [Documentation](dev/docs.md)
