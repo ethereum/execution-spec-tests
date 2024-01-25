@@ -106,6 +106,9 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
+  # support pad width = 2
+  - mdx_truly_sane_lists
+
 
 extra:
   version:
