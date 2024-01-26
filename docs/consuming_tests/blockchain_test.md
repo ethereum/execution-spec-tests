@@ -31,18 +31,19 @@ For each [`Fixture`](#fixture) test object in the JSON fixture file, perform the
         1. If the [`expectException`](#expectexception-str) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
         2. If the [`expectException`](#expectexception-str) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
 
-    2. Attempt to decode field [`rlp`](#-rlp-bytes) as the current block, and if the block cannot be decoded:
+    2. Attempt to decode field [`rlp`](#-rlp-bytes) as the current block
+        1. If the block cannot be decoded:
+            - If an rlp decoding exception is not expected for the current block, fail the test.
+            - If an rlp decoding error is expected, pass the test (Note: A block with an expected exception will be the last block in the fixture).
+        2. If the block can be decoded, proceed to the next step.
 
-        1. If an exception is not expected for the current block, fail the test.
-        2. Proceed to the next block.
-
-    3. Attempt to apply the current decoded block on top of the current head of the chain, and if the block cannot be applied:
-
-        1. If an exception is not expected for the current block, fail the test.
-        2. Proceed to the next block.
-
-    4. If an exception is expected for the current block, fail the test.
-    5. Set the decoded block as the current head of the chain.
+    3. Attempt to apply the current decoded block on top of the current head of the chain
+        1. If the block cannot be applied:
+            - If an exception is expected on the current block and it matches the exception obtained upon execution, pass the test. (Note: A block with an expected exception will be the last block in the fixture)
+            - If an exception is not expected on the current block, fail the test
+        2. If the block can be applied:
+            - If an exception is expected on the current block, fail the test
+            - If an exception is not expected on the current block, set the decoded block as the current head of the chain and proceed to the next block until you reach the last block in the fixture.
 
 8. Compare the hash of the current head of the chain against [`lastblockhash`](#-lastblockhash-hash), if they do not match, fail the test.
 9. Compare all accounts and the fields described in [`post`](#-post-alloc) against the current state, if any do not match, fail the test.
