@@ -7615,16 +7615,18 @@
 <div class="highlight"><pre><span></span><code>  1. If the [`expectException`](#expectexception-str) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
   2. If the [`expectException`](#expectexception-str) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
 </code></pre></div>
-<p>2. Attempt to decode field <a href="#-rlp-bytes"><code>rlp</code></a> as the current block, and if the block cannot be decoded:</p>
-<div class="highlight"><pre><span></span><code>  1. If an exception is not expected for the current block, fail the test.
-  2. Proceed to the next block.
-</code></pre></div>
-<p>3. Attempt to apply the current decoded block on top of the current head of the chain, and if the block cannot be applied:</p>
-<div class="highlight"><pre><span></span><code>  1. If an exception is not expected for the current block, fail the test.
-  2. Proceed to the next block.
-</code></pre></div>
-<p>4. If an exception is expected for the current block, fail the test.
-  5. Set the decoded block as the current head of the chain.</p>
+<p>2. Attempt to decode field <a href="#-rlp-bytes"><code>rlp</code></a> as the current block
+      1. If the block cannot be decoded:
+          - If an rlp decoding exception is not expected for the current block, fail the test.
+          - If an rlp decoding error is expected, pass the test (Note: A block with an expected exception will be the last block in the fixture).
+      2. If the block can be decoded, proceed to the next step.</p>
+<p>3. Attempt to apply the current decoded block on top of the current head of the chain
+      1. If the block cannot be applied:
+          - If an exception is expected on the current block and it matches the exception obtained upon execution, pass the test. (Note: A block with an expected exception will be the last block in the fixture)
+          - If an exception is not expected on the current block, fail the test
+      2. If the block can be applied:
+          - If an exception is expected on the current block, fail the test
+          - If an exception is not expected on the current block, set the decoded block as the current head of the chain and proceed to the next block until you reach the last block in the fixture.</p>
 </li>
 <li>
 <p>Compare the hash of the current head of the chain against <a href="#-lastblockhash-hash"><code>lastblockhash</code></a>, if they do not match, fail the test.</p>
@@ -7778,11 +7780,12 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
+        <a href="mailto:48196632+gurukamath@users.noreply.github.com">Guruprasad Kamath</a>, 
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>
     </nav>
   </span>
