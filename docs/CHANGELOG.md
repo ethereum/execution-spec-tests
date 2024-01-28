@@ -4,6 +4,18 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.
 
+## [v2.0.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.1) - 20XX-XX-XX: Unreleased
+
+### 🧪 Test Cases
+
+### 🛠️ Framework
+
+- 🐞 State tests generated with transition forks no longer use the transition fork name in the fixture output, instead they use the actual enabled fork according to the state test's block number and timestamp ([#406](https://github.com/ethereum/execution-spec-tests/pull/406)).
+
+### 📋 Misc
+
+### 💥 Breaking Changes
+
 ## [v2.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0) - 2024-01-25: 🐍🏖️ Cancun
 
 Release [v2.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0) contains many important framework changes, including introduction of the `StateTest` format, and some additional Cancun and other test coverage.
