@@ -44,6 +44,7 @@ cancun
 cd
 chainid
 changelog
+chfast
 classdict
 cli2
 codeAddr
