@@ -482,33 +482,16 @@ def header_verify(
 
 
 @pytest.fixture
-def all_blob_gas_used(
-    fork: Fork,
-    txs: List[Transaction],
-    block_number: int,
-    block_timestamp: int,
-) -> Optional[int | Removable]:
-    """
-    Calculates the blob gas used by the test block taking into account failed transactions.
-    """
-    if not fork.header_blob_gas_used_required(
-        block_number=block_number, timestamp=block_timestamp
-    ):
-        return Header.EMPTY_FIELD
-    return sum([Spec.get_total_blob_gas(tx) for tx in txs])
-
-
-@pytest.fixture
 def rlp_modifier(
-    all_blob_gas_used: Optional[int | Removable],
+    expected_blob_gas_used: Optional[int | Removable],
 ) -> Optional[Header]:
     """
     Header fields to modify on the output block in the BlockchainTest.
     """
-    if all_blob_gas_used == Header.EMPTY_FIELD:
+    if expected_blob_gas_used == Header.EMPTY_FIELD:
         return None
     return Header(
-        blob_gas_used=all_blob_gas_used,
+        blob_gas_used=expected_blob_gas_used,
     )
 
 
