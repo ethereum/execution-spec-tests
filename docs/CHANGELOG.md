@@ -16,6 +16,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 📋 Misc
 
+- ✨ Use `run-parallel` and shared wheel packages for `tox` ([#408](https://github.com/ethereum/execution-spec-tests/pull/408)).
+
 ### 💥 Breaking Changes
 
 ## [v2.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0) - 2024-01-25: 🐍🏖️ Cancun

@@ -12,12 +12,12 @@ jobs:
             python: '3.10'
             solc: '0.8.20'
             evm-type: 'main'
-            tox-cmd: 'tox'
+            tox-cmd: 'tox run-parallel --parallel-no-spinner'
           - os: ubuntu-latest
             python: '3.12'
             solc: '0.8.23'
             evm-type: 'main'
-            tox-cmd: 'tox'
+            tox-cmd: 'tox run-parallel --parallel-no-spinner'
           - os: ubuntu-latest
             python: '3.11'
             solc: '0.8.21'
@@ -27,7 +27,7 @@ jobs:
             python: '3.11'
             solc: '0.8.22'
             evm-type: 'main'
-            tox-cmd: 'tox'
+            tox-cmd: 'tox run-parallel --parallel-no-spinner'
     steps:
       - uses: actions/checkout@v3
         with:
