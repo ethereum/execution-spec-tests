@@ -33,7 +33,7 @@ def get_forks() -> List[Fork]:
     return all_forks
 
 
-def get_deployed_forks():
+def get_deployed_forks() -> List[Fork]:
     """
     Returns a list of all the fork classes implemented by `ethereum_test_forks`
     that have been deployed to mainnet, chronologically ordered by deployment.
@@ -41,7 +41,7 @@ def get_deployed_forks():
     return [fork for fork in get_forks() if fork.is_deployed()]
 
 
-def get_development_forks():
+def get_development_forks() -> List[Fork]:
     """
     Returns a list of all the fork classes implemented by `ethereum_test_forks`
     that have been not yet deployed to mainnet and are currently under
