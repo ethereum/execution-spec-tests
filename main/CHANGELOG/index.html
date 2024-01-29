@@ -6845,6 +6845,9 @@
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.</p>
 <h2 id="v201-20xx-xx-xx-unreleased"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.1">v2.0.1</a> - 20XX-XX-XX: Unreleased<a class="headerlink" href="#v201-20xx-xx-xx-unreleased" title="Permanent link">&para;</a></h2>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844</a>: Adds <code>test_blob_gas_subtraction_tx()</code> verifying the blob gas fee is subtracted from the sender before executing the blob tx (<a href="https://github.com/ethereum/execution-spec-tests/pull/407">#407</a>).</li>
+</ul>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🐞 State tests generated with transition forks no longer use the transition fork name in the fixture output, instead they use the actual enabled fork according to the state test's block number and timestamp (<a href="https://github.com/ethereum/execution-spec-tests/pull/406">#406</a>).</li>
