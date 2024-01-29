@@ -218,8 +218,10 @@ def total_account_minimum_balance(  # noqa: D103
 def total_account_transactions_fee(  # noqa: D103
     tx_gas: int,
     tx_value: int,
-    block_fee_per_gas: int,
     blob_gasprice: int,
+    block_fee_per_gas: int,
+    tx_max_fee_per_gas: int,
+    tx_max_priority_fee_per_gas: int,
     blob_hashes_per_tx: List[List[bytes]],
 ) -> int:
     """
@@ -228,7 +230,10 @@ def total_account_transactions_fee(  # noqa: D103
     total_cost = 0
     for tx_blob_count in [len(x) for x in blob_hashes_per_tx]:
         blob_cost = blob_gasprice * Spec.GAS_PER_BLOB * tx_blob_count
-        total_cost += (tx_gas * block_fee_per_gas) + tx_value + blob_cost
+        block_producer_fee = (
+            tx_max_fee_per_gas - block_fee_per_gas if tx_max_priority_fee_per_gas else 0
+        )
+        total_cost += (tx_gas * (block_fee_per_gas + block_producer_fee)) + tx_value + blob_cost
     return total_cost
 
 
@@ -903,6 +908,7 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     ids=["no_access_list", "access_list"],
 )
 @pytest.mark.parametrize("tx_max_fee_per_gas", [7, 14])
+@pytest.mark.parametrize("tx_max_priority_fee_per_gas", [0, 7])
 @pytest.mark.parametrize("tx_value", [0, 1])
 @pytest.mark.parametrize(
     "tx_calldata",
