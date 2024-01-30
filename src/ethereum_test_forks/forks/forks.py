@@ -7,7 +7,7 @@ from ..base_fork import BaseFork
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
-class Frontier(BaseFork):
+class Frontier(BaseFork, solc_name=None):
     """
     Frontier fork
     """
@@ -150,7 +150,7 @@ class Frontier(BaseFork):
         return {}
 
 
-class Homestead(Frontier):
+class Homestead(Frontier, solc_name="homestead"):
     """
     Homestead fork
     """
@@ -163,7 +163,7 @@ class Homestead(Frontier):
         return [1, 2, 3, 4] + super(Homestead, cls).precompiles(block_number, timestamp)
 
 
-class Byzantium(Homestead):
+class Byzantium(Homestead, solc_name="byzantium"):
     """
     Byzantium fork
     """
@@ -186,7 +186,7 @@ class Byzantium(Homestead):
         return [5, 6, 7, 8] + super(Byzantium, cls).precompiles(block_number, timestamp)
 
 
-class Constantinople(Byzantium):
+class Constantinople(Byzantium, solc_name="constantinople"):
     """
     Constantinople fork
     """
@@ -200,7 +200,7 @@ class Constantinople(Byzantium):
         return 2_000_000_000_000_000_000
 
 
-class ConstantinopleFix(Constantinople, solc_name="Constantinople"):
+class ConstantinopleFix(Constantinople, solc_name="constantinople"):
     """
     Constantinople Fix fork
     """
@@ -208,7 +208,7 @@ class ConstantinopleFix(Constantinople, solc_name="Constantinople"):
     pass
 
 
-class Istanbul(ConstantinopleFix):
+class Istanbul(ConstantinopleFix, solc_name="istanbul"):
     """
     Istanbul fork
     """
@@ -230,7 +230,7 @@ class MuirGlacier(Istanbul):
     pass
 
 
-class Berlin(Istanbul):
+class Berlin(Istanbul, solc_name="berlin"):
     """
     Berlin fork
     """
@@ -243,7 +243,7 @@ class Berlin(Istanbul):
         return [1] + super(Berlin, cls).tx_types(block_number, timestamp)
 
 
-class London(Berlin):
+class London(Berlin, solc_name="london"):
     """
     London fork
     """
@@ -282,6 +282,7 @@ class GrayGlacier(ArrowGlacier):
 
 class Paris(
     London,
+    solc_name="paris",
     transition_tool_name="Merge",
     blockchain_test_network_name="Merge",
 ):
@@ -320,7 +321,7 @@ class Paris(
         return 1
 
 
-class Shanghai(Paris):
+class Shanghai(Paris, solc_name="shanghai"):
     """
     Shanghai fork
     """
@@ -342,7 +343,7 @@ class Shanghai(Paris):
         return 2
 
 
-class Cancun(Shanghai):
+class Cancun(Shanghai, solc_name="cancun"):
     """
     Cancun fork
     """

@@ -3,8 +3,11 @@ Helper methods to resolve forks during test filling
 """
 from typing import List
 
+from semver import Version
+
 from .base_fork import BaseFork, Fork
 from .forks import forks, transition
+from .forks.forks import Frontier, Homestead
 from .transition_base_fork import TransitionBaseClass
 
 
@@ -55,6 +58,35 @@ def get_parent_fork(fork: Fork) -> Fork:
     Returns the parent fork of the specified fork
     """
     return fork.__base__
+
+
+def get_forks_with_solc_support(solc_version: Version) -> List[Fork]:
+    """
+    Returns a list of all fork classes that are supported by solc.
+    """
+    return [fork for fork in get_forks() if fork.is_supported_by_solc(solc_version)]
+
+
+def get_forks_without_solc_support(solc_version: Version) -> List[Fork]:
+    """
+    Returns a list of all fork classes that aren't supported by solc.
+    """
+    return [fork for fork in get_forks() if not fork.is_supported_by_solc(solc_version)]
+
+
+def get_closest_fork_with_solc_support(fork: Fork, solc_version: Version) -> Fork:
+    """
+    Returns the closest fork, potentially the provided fork itself, that has
+    solc support.
+    """
+    if fork == Frontier:
+        return Homestead
+    if fork in get_forks_with_solc_support(solc_version):
+        return fork
+    parent_fork = get_parent_fork(fork)
+    if parent_fork.is_supported_by_solc(solc_version):
+        return parent_fork
+    return get_closest_fork_with_solc_support(parent_fork, solc_version)
 
 
 def get_transition_forks() -> List[Fork]:

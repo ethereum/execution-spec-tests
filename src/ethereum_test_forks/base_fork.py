@@ -4,7 +4,31 @@ Abstract base class for Ethereum forks
 from abc import ABC, ABCMeta, abstractmethod
 from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Type
 
+from semver import Version
+
 from .base_decorators import prefer_transition_to_method
+
+SOLC_FORKS_0_8_20 = [
+    "homestead",
+    "tangerineWhistle",
+    "spuriousDragon",
+    "byzantium",
+    "constantinople",
+    "petersburg",
+    "istanbul",
+    "berlin",
+    "london",
+    "paris",
+    "shanghai",
+]
+SOLC_VERSION_TO_SUPPORTED_FORKS = {
+    Version.parse("0.8.20"): SOLC_FORKS_0_8_20,
+    Version.parse("0.8.21"): SOLC_FORKS_0_8_20,
+    Version.parse("0.8.22"): SOLC_FORKS_0_8_20,
+    Version.parse("0.8.23"): SOLC_FORKS_0_8_20,
+    # TBA: 0.8.24 is the current dev version.
+    Version.parse("0.8.24"): SOLC_FORKS_0_8_20,
+}
 
 
 class ForkAttribute(Protocol):
@@ -257,6 +281,16 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         Returns fork name as it's meant to be passed to the solc compiler.
         """
         pass
+
+    @classmethod
+    def is_supported_by_solc(cls, version: Version) -> bool:
+        """
+        Returns True if the fork is supported by solc (--evm-version).
+        """
+        assert (
+            version in SOLC_VERSION_TO_SUPPORTED_FORKS.keys()
+        ), f"Unsupported solc version: {version}"
+        return cls.solc_name() in SOLC_VERSION_TO_SUPPORTED_FORKS[version]
 
     @classmethod
     def blockchain_test_network_name(cls) -> str:

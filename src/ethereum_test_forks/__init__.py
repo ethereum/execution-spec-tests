@@ -2,7 +2,7 @@
 Ethereum test fork definitions.
 """
 
-from .base_fork import Fork, ForkAttribute
+from .base_fork import SOLC_VERSION_TO_SUPPORTED_FORKS, Fork, ForkAttribute
 from .forks.forks import (
     ArrowGlacier,
     Berlin,
@@ -28,15 +28,19 @@ from .helpers import (
     InvalidForkError,
     forks_from,
     forks_from_until,
+    get_closest_fork_with_solc_support,
     get_deployed_forks,
     get_development_forks,
     get_forks,
+    get_forks_with_solc_support,
+    get_forks_without_solc_support,
     get_transition_forks,
     transition_fork_from_to,
     transition_fork_to,
 )
 
 __all__ = [
+    "SOLC_VERSION_TO_SUPPORTED_FORKS",
     "Fork",
     "ForkAttribute",
     "ArrowGlacier",
@@ -63,6 +67,9 @@ __all__ = [
     "get_deployed_forks",
     "get_development_forks",
     "get_forks",
+    "get_forks_with_solc_support",
+    "get_forks_without_solc_support",
+    "get_closest_fork_with_solc_support",
     "transition_fork_from_to",
     "transition_fork_to",
 ]

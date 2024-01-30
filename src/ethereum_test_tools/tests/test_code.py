@@ -8,10 +8,26 @@ from typing import Mapping, SupportsBytes
 import pytest
 from semver import Version
 
-from ethereum_test_forks import Fork, Homestead, Shanghai, forks_from_until, get_deployed_forks
+from ethereum_test_forks import (
+    Fork,
+    Homestead,
+    Shanghai,
+    forks_from_until,
+    get_deployed_forks,
+    get_forks_with_solc_support,
+)
 from evm_transition_tool import FixtureFormats, GethTransitionTool
 
-from ..code import CalldataCase, Case, Code, Conditional, Initcode, Switch, Yul
+from ..code import (
+    SOLC_SUPPORTED_VERSIONS,
+    CalldataCase,
+    Case,
+    Code,
+    Conditional,
+    Initcode,
+    Switch,
+    Yul,
+)
 from ..common import Account, Environment, TestAddress, Transaction, to_hash_bytes
 from ..spec import StateTest
 from ..vm.opcode import Opcodes as Op
@@ -49,14 +65,14 @@ def test_code_operations(code: Code, expected_bytes: bytes):
     assert bytes(code) == expected_bytes
 
 
-@pytest.fixture(params=forks_from_until(get_deployed_forks()[1], get_deployed_forks()[-1]))
+@pytest.fixture(params=get_forks_with_solc_support(SOLC_SUPPORTED_VERSIONS[-1]))
 def fork(request: pytest.FixtureRequest):
     """
     Return the target evm-version (fork) for solc compilation.
 
     Note:
-    - get_deployed_forks()[1] (Homestead) is the first fork that solc supports.
-    - forks_from_util: Used to remove the Glacier forks
+    - Homestead.
+    - forks_from_until: Used to remove the Glacier forks
     """
     return request.param
 

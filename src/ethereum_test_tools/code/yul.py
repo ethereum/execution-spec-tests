@@ -11,12 +11,14 @@ from typing import Optional, Sized, SupportsBytes, Tuple, Type, Union
 
 from semver import Version
 
-from ethereum_test_forks import Fork
+from ethereum_test_forks import SOLC_VERSION_TO_SUPPORTED_FORKS, Fork
 
 from ..common.conversions import to_bytes
 from .code import Code
 
 DEFAULT_SOLC_ARGS = ("--assemble", "-")
+
+SOLC_SUPPORTED_VERSIONS = list(SOLC_VERSION_TO_SUPPORTED_FORKS.keys())
 
 
 def get_evm_version_from_fork(fork: Fork | None):
@@ -33,7 +35,7 @@ def get_evm_version_from_fork(fork: Fork | None):
     """
     if not fork:
         return None
-    return fork.solc_name().lower()
+    return fork.solc_name()
 
 
 class Yul(SupportsBytes, Sized):
