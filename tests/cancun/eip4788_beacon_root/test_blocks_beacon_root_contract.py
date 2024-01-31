@@ -506,9 +506,7 @@ def test_beacon_root_contract_deploy(
         else:
             assert False, "This test should only have two blocks"
 
-    expected_code = fork.pre_allocation(1, timestamp)[
-        int.from_bytes(Spec.BEACON_ROOTS_ADDRESS, "big")
-    ]["code"]
+    expected_code = fork.pre_allocation(1, timestamp)[Spec.BEACON_ROOTS_ADDRESS]["code"]
     pre[Spec.BEACON_ROOTS_ADDRESS] = Account(
         code=b"",  # Remove the code that is automatically allocated on Cancun fork
         nonce=0,
