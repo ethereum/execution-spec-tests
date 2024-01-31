@@ -3,7 +3,7 @@ Defines EIP-4788 specification constants and functions.
 """
 from dataclasses import dataclass
 
-from ethereum_test_tools import Storage
+from ethereum_test_tools import Address, Storage
 
 
 @dataclass(frozen=True)
@@ -27,11 +27,11 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-4788#specification
     """
 
-    BEACON_ROOTS_ADDRESS = 0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02
+    BEACON_ROOTS_ADDRESS = Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02)
     BEACON_ROOTS_CALL_GAS = 100_000
-    BEACON_ROOTS_DEPLOYER_ADDRESS = 0x0B799C86A49DEEB90402691F1041AA3AF2D3C875
+    BEACON_ROOTS_DEPLOYER_ADDRESS = Address(0x0B799C86A49DEEB90402691F1041AA3AF2D3C875)
     HISTORY_BUFFER_LENGTH = 8_191
-    SYSTEM_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE
+    SYSTEM_ADDRESS = Address(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE)
     FORK_TIMESTAMP = 15_000  # ShanghaiToCancun timestamp
 
 

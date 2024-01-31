@@ -11,6 +11,7 @@ import pytest
 from ethereum_test_forks import Cancun, Fork
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     Conditional,
@@ -94,11 +95,11 @@ def test_dynamic_create2_selfdestruct_collision(
 
     # CREATE2 Initcode
     create2_salt = 1
-    deploy_code = Op.SELFDESTRUCT(Op.PUSH20(sendall_destination))
+    deploy_code = Op.SELFDESTRUCT(sendall_destination)
     initcode = Initcode(
         deploy_code=deploy_code,
         initcode_prefix=Op.SSTORE(create2_constructor_worked, 1)
-        + Op.CALL(Op.GAS(), Op.PUSH20(address_create2_storage), 0, 0, 0, 0, 0),
+        + Op.CALL(Op.GAS(), address_create2_storage, 0, 0, 0, 0, 0),
     )
 
     # Created addresses
@@ -120,26 +121,22 @@ def test_dynamic_create2_selfdestruct_collision(
             code=Op.JUMPDEST()
             # Make a subcall that do CREATE2 and returns its the result
             + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.CALL(
-                100000, Op.PUSH20(address_code), first_create2_value, 0, Op.CALLDATASIZE(), 0, 32
-            )
+            + Op.CALL(100000, address_code, first_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
             + Op.SSTORE(
                 first_create2_result,
                 Op.MLOAD(0),
             )
             # Call to the created account to trigger selfdestruct
-            + Op.CALL(100000, Op.PUSH20(call_address_in_between), first_call_value, 0, 0, 0, 0)
+            + Op.CALL(100000, call_address_in_between, first_call_value, 0, 0, 0, 0)
             # Make a subcall that do CREATE2 collision and returns its address as the result
             + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.CALL(
-                100000, Op.PUSH20(address_code), second_create2_value, 0, Op.CALLDATASIZE(), 0, 32
-            )
+            + Op.CALL(100000, address_code, second_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
             + Op.SSTORE(
                 second_create2_result,
                 Op.MLOAD(0),
             )
             # Call to the created account to trigger selfdestruct
-            + Op.CALL(100000, Op.PUSH20(call_address_in_the_end), second_call_value, 0, 0, 0, 0)
+            + Op.CALL(100000, call_address_in_the_end, second_call_value, 0, 0, 0, 0)
             + Op.SSTORE(code_worked, 1),
             storage={first_create2_result: 0xFF, second_create2_result: 0xFF},
         ),
@@ -177,7 +174,7 @@ def test_dynamic_create2_selfdestruct_collision(
             storage={},
         )
 
-    post: Dict[str, Union[Account, object]] = {}
+    post: Dict[Address, Union[Account, object]] = {}
 
     # Create2 address only exists if it was pre-existing and after cancun
     post[create2_address] = (
@@ -278,11 +275,11 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     # CREATE2 Initcode
     create2_salt = 1
-    deploy_code = Op.SELFDESTRUCT(Op.PUSH20(sendall_destination))
+    deploy_code = Op.SELFDESTRUCT(sendall_destination)
     initcode = Initcode(
         deploy_code=deploy_code,
         initcode_prefix=Op.SSTORE(create2_constructor_worked, 1)
-        + Op.CALL(Op.GAS(), Op.PUSH20(address_create2_storage), 0, 0, 0, 0, 0),
+        + Op.CALL(Op.GAS(), address_create2_storage, 0, 0, 0, 0, 0),
     )
 
     # Created addresses
@@ -302,9 +299,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
         Op.JUMPDEST()
         # Make a subcall that do CREATE2 and returns its the result
         + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-        + Op.CALL(
-            100000, Op.PUSH20(address_code), first_create2_value, 0, Op.CALLDATASIZE(), 0, 32
-        )
+        + Op.CALL(100000, address_code, first_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
         + Op.SSTORE(
             first_create2_result,
             Op.MLOAD(0),
@@ -314,21 +309,19 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     if selfdestruct_on_first_tx:
         first_tx_code += (
             # Call to the created account to trigger selfdestruct
-            Op.CALL(100000, Op.PUSH20(create2_address), first_call_value, 0, 0, 0, 0)
+            Op.CALL(100000, create2_address, first_call_value, 0, 0, 0, 0)
         )
     else:
         second_tx_code += (
             # Call to the created account to trigger selfdestruct
-            Op.CALL(100000, Op.PUSH20(create2_address), first_call_value, 0, 0, 0, 0)
+            Op.CALL(100000, create2_address, first_call_value, 0, 0, 0, 0)
         )
 
     if recreate_on_first_tx:
         first_tx_code += (
             # Make a subcall that do CREATE2 collision and returns its address as the result
             Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.CALL(
-                100000, Op.PUSH20(address_code), second_create2_value, 0, Op.CALLDATASIZE(), 0, 32
-            )
+            + Op.CALL(100000, address_code, second_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
             + Op.SSTORE(
                 second_create2_result,
                 Op.MLOAD(0),
@@ -339,9 +332,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
         second_tx_code += (
             # Make a subcall that do CREATE2 collision and returns its address as the result
             Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
-            + Op.CALL(
-                100000, Op.PUSH20(address_code), second_create2_value, 0, Op.CALLDATASIZE(), 0, 32
-            )
+            + Op.CALL(100000, address_code, second_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
             + Op.SSTORE(
                 second_create2_result,
                 Op.MLOAD(0),
@@ -349,7 +340,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
         )
 
     # Second tx code always calls the create2 contract at the end
-    second_tx_code += Op.CALL(100000, Op.PUSH20(create2_address), second_call_value, 0, 0, 0, 0)
+    second_tx_code += Op.CALL(100000, create2_address, second_call_value, 0, 0, 0, 0)
 
     first_tx_code += Op.SSTORE(part_1_worked, 1)
     second_tx_code += Op.SSTORE(part_2_worked, 1)
@@ -391,7 +382,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
         ),
     }
 
-    post: Dict[str, Union[Account, object]] = {}
+    post: Dict[Address, Union[Account, object]] = {}
 
     # Create2 address only exists if it was pre-existing and after cancun
     account_will_exist_with_code = not selfdestruct_on_first_tx and fork >= Cancun

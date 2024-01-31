@@ -24,6 +24,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     BlockException,
@@ -56,7 +57,7 @@ TestPreFundingAddress = "0x97a7cb1de3cc7d556d0aa32433b035067709e1fc"
 
 
 @pytest.fixture
-def destination_account() -> str:
+def destination_account() -> Address:
     """Default destination account for the blob transactions."""
     return to_address(0x100)
 
@@ -293,7 +294,7 @@ def tx_error() -> Optional[TransactionException]:
 
 @pytest.fixture(autouse=True)
 def txs(  # noqa: D103
-    destination_account: Optional[str],
+    destination_account: Optional[Address],
     tx_gas: int,
     tx_value: int,
     tx_calldata: bytes,
@@ -928,7 +929,7 @@ def test_blob_gas_subtraction_tx(
     state_env: Environment,
     pre: Dict,
     txs: List[Transaction],
-    destination_account: str,
+    destination_account: Address,
     mid_tx_send_amount: int,
     total_account_transactions_fee: int,
 ):
@@ -1240,7 +1241,7 @@ def test_blob_tx_attribute_opcodes(
     opcode: Tuple[bytes, Storage.StorageDictType],
     state_env: Environment,
     txs: List[Transaction],
-    destination_account: str,
+    destination_account: Address,
 ):
     """
     Test opcodes that read transaction attributes work properly for blob type transactions:
@@ -1275,7 +1276,7 @@ def test_blob_tx_attribute_value_opcode(
     state_env: Environment,
     txs: List[Transaction],
     tx_value: int,
-    destination_account: str,
+    destination_account: Address,
 ):
     """
     Test the VALUE opcode with different blob type transaction value amounts.
@@ -1323,7 +1324,7 @@ def test_blob_tx_attribute_calldata_opcodes(
     opcode: Tuple[bytes, Storage.StorageDictType],
     state_env: Environment,
     txs: List[Transaction],
-    destination_account: str,
+    destination_account: Address,
 ):
     """
     Test calldata related opcodes to verify their behavior is not affected by blobs:
@@ -1360,7 +1361,7 @@ def test_blob_tx_attribute_gasprice_opcode(
     opcode: Tuple[bytes, Storage.StorageDictType],
     state_env: Environment,
     txs: List[Transaction],
-    destination_account: str,
+    destination_account: Address,
 ):
     """
     Test GASPRICE opcode to sanity check that the blob gas fee does not affect

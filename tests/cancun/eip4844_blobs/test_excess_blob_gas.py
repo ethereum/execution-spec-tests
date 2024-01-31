@@ -27,6 +27,7 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     BlockException,
@@ -177,14 +178,14 @@ def destination_account_bytecode() -> bytes:  # noqa: D103
 
 
 @pytest.fixture
-def destination_account() -> str:  # noqa: D103
+def destination_account() -> Address:  # noqa: D103
     return to_address(0x100)
 
 
 @pytest.fixture
 def pre(  # noqa: D103
-    destination_account: str, destination_account_bytecode: bytes, tx_exact_cost: int
-) -> Mapping[str, Account]:
+    destination_account: Address, destination_account_bytecode: bytes, tx_exact_cost: int
+) -> Mapping[Address, Account]:
     return {
         TestAddress: Account(balance=tx_exact_cost),
         TestAddress2: Account(balance=10**40),
@@ -194,8 +195,8 @@ def pre(  # noqa: D103
 
 @pytest.fixture
 def post(  # noqa: D103
-    destination_account: str, tx_value: int, block_fee_per_blob_gas: int
-) -> Mapping[str, Account]:
+    destination_account: Address, tx_value: int, block_fee_per_blob_gas: int
+) -> Mapping[Address, Account]:
     return {
         destination_account: Account(
             storage={0: block_fee_per_blob_gas},
@@ -210,7 +211,7 @@ def tx(  # noqa: D103
     tx_max_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
     tx_gas_limit: int,
-    destination_account: str,
+    destination_account: Address,
 ):
     if new_blobs == 0:
         # Send a normal type two tx instead
@@ -316,9 +317,9 @@ def blocks(  # noqa: D103
 def test_correct_excess_blob_gas_calculation(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
-    post: Mapping[str, Account],
+    post: Mapping[Address, Account],
     correct_excess_blob_gas: int,
 ):
     """
@@ -361,9 +362,9 @@ BLOB_GAS_COST_INCREASES = [
 def test_correct_increasing_blob_gas_costs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
-    post: Mapping[str, Account],
+    post: Mapping[Address, Account],
     correct_excess_blob_gas: int,
 ):
     """
@@ -395,9 +396,9 @@ def test_correct_increasing_blob_gas_costs(
 def test_correct_decreasing_blob_gas_costs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
-    post: Mapping[str, Account],
+    post: Mapping[Address, Account],
     correct_excess_blob_gas: int,
 ):
     """
@@ -421,7 +422,7 @@ def test_correct_decreasing_blob_gas_costs(
 def test_invalid_zero_excess_blob_gas_in_header(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
@@ -470,7 +471,7 @@ def all_invalid_blob_gas_used_combinations() -> Iterator[Tuple[int, int]]:
 def test_invalid_blob_gas_used_in_header(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     new_blobs: int,
     header_blob_gas_used: Optional[int],
@@ -509,7 +510,7 @@ def test_invalid_blob_gas_used_in_header(
 def test_invalid_excess_blob_gas_above_target_change(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
@@ -553,7 +554,7 @@ def test_invalid_excess_blob_gas_above_target_change(
 def test_invalid_static_excess_blob_gas(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     parent_excess_blob_gas: int,
@@ -588,7 +589,7 @@ def test_invalid_static_excess_blob_gas(
 def test_invalid_excess_blob_gas_target_blobs_increase_from_zero(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
@@ -629,7 +630,7 @@ def test_invalid_excess_blob_gas_target_blobs_increase_from_zero(
 def test_invalid_static_excess_blob_gas_from_zero_on_blobs_above_target(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
@@ -679,7 +680,7 @@ def test_invalid_static_excess_blob_gas_from_zero_on_blobs_above_target(
 def test_invalid_excess_blob_gas_change(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
@@ -722,7 +723,7 @@ def test_invalid_excess_blob_gas_change(
 def test_invalid_negative_excess_blob_gas(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
@@ -768,7 +769,7 @@ def test_invalid_negative_excess_blob_gas(
 def test_invalid_non_multiple_excess_blob_gas(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
-    pre: Mapping[str, Account],
+    pre: Mapping[Address, Account],
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],

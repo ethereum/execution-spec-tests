@@ -25,6 +25,7 @@ import pytest
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     Storage,
@@ -337,7 +338,7 @@ def test_no_beacon_root_contract_at_transition(
     beacon_roots: Iterator[bytes],
     tx: Transaction,
     timestamp: int,
-    caller_address: str,
+    caller_address: Address,
     fork: Fork,
 ):
     """
@@ -439,7 +440,7 @@ def test_beacon_root_contract_deploy(
     ).with_signature_and_sender()
     deployer_address = deploy_tx.sender
     assert deployer_address is not None
-    assert deployer_address == int.to_bytes(Spec.BEACON_ROOTS_DEPLOYER_ADDRESS, 20, "big")
+    assert Address(deployer_address) == Spec.BEACON_ROOTS_DEPLOYER_ADDRESS
     blocks: List[Block] = []
 
     beacon_root_contract_storage: Dict = {}

@@ -9,6 +9,7 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     CodeGasMeasure,
     Environment,
     StateTestFiller,
@@ -124,7 +125,7 @@ def precompile_caller_account(
 
 
 @pytest.fixture
-def precompile_caller_address() -> str:
+def precompile_caller_address() -> Address:
     """
     Address of the precompile caller account.
     """
@@ -134,7 +135,7 @@ def precompile_caller_address() -> str:
 @pytest.fixture
 def pre(
     precompile_caller_account: Account,
-    precompile_caller_address: str,
+    precompile_caller_address: Address,
 ) -> Dict:
     """
     Prepares the pre state of all test cases, by setting the balance of the
@@ -151,7 +152,7 @@ def pre(
 
 @pytest.fixture
 def tx(
-    precompile_caller_address: str,
+    precompile_caller_address: Address,
     precompile_input: bytes,
 ) -> Transaction:
     """
@@ -171,7 +172,7 @@ def tx(
 
 @pytest.fixture
 def post(
-    precompile_caller_address: str,
+    precompile_caller_address: Address,
     proof: Literal["correct", "incorrect"],
     call_gas: int,
 ) -> Dict:

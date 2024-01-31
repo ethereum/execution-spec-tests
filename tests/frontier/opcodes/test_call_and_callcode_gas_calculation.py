@@ -30,6 +30,7 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Environment,
     StateTestFiller,
     TestAddress,
@@ -111,7 +112,7 @@ def caller_tx() -> Transaction:
 
 
 @pytest.fixture
-def pre(caller_code: bytes, callee_code: bytes) -> Dict[str, Account]:  # noqa: D103
+def pre(caller_code: bytes, callee_code: bytes) -> Dict[Address, Account]:  # noqa: D103
     return {
         to_address(Contract.caller): Account(
             balance=0x03,
@@ -130,7 +131,7 @@ def pre(caller_code: bytes, callee_code: bytes) -> Dict[str, Account]:  # noqa: 
 
 
 @pytest.fixture
-def post(is_sufficient_gas: bool) -> Dict[str, Account]:  # noqa: D103
+def post(is_sufficient_gas: bool) -> Dict[Address, Account]:  # noqa: D103
     return {
         to_address(Contract.caller): Account(storage={0x00: 0x01 if is_sufficient_gas else 0x00}),
     }

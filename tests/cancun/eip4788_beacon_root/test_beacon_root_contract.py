@@ -272,7 +272,7 @@ def test_beacon_root_selfdestruct(
     )
     # self destruct caller
     pre[to_address(0xCC)] = Account(
-        code=Op.CALL(100000, Op.PUSH20(to_address(0x1337)), 0, 0, 0, 0, 0)
+        code=Op.CALL(100000, to_address(0x1337), 0, 0, 0, 0, 0)
         + Op.SSTORE(0, Op.BALANCE(Spec.BEACON_ROOTS_ADDRESS)),
     )
     post = {

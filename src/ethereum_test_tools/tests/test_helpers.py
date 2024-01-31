@@ -17,6 +17,8 @@ def test_to_address():
     assert to_address(10) == "0x000000000000000000000000000000000000000a"
     assert to_address("0x10") == "0x0000000000000000000000000000000000000010"
     assert to_address(2 ** (20 * 8) - 1) == "0xffffffffffffffffffffffffffffffffffffffff"
+    assert to_address(0) == to_address(0)
+    assert to_address(0) != to_address(1)
 
 
 @pytest.mark.parametrize(

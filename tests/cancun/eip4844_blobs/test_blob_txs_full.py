@@ -9,6 +9,7 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     Environment,
@@ -27,7 +28,7 @@ REFERENCE_SPEC_VERSION = ref_spec_4844.version
 
 
 @pytest.fixture
-def destination_account() -> str:
+def destination_account() -> Address:
     """Default destination account for the blob transactions."""
     return to_address(0x100)
 
@@ -172,7 +173,7 @@ def tx_error() -> Optional[TransactionException]:
 
 @pytest.fixture(autouse=True)
 def txs(  # noqa: D103
-    destination_account: Optional[str],
+    destination_account: Optional[Address],
     tx_gas: int,
     tx_value: int,
     tx_calldata: bytes,

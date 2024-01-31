@@ -1,12 +1,21 @@
 """
 Common definitions and types.
 """
+from .base_types import (
+    Address,
+    Bloom,
+    Bytes,
+    Hash,
+    HeaderNonce,
+    HexNumber,
+    Number,
+    ZeroPaddedHexNumber,
+)
 from .constants import (
     AddrAA,
     AddrBB,
     EmptyTrieRoot,
     EngineAPIError,
-    HistoryStorageAddress,
     TestAddress,
     TestAddress2,
     TestPrivateKey,
@@ -29,21 +38,14 @@ from .json import to_json
 from .types import (
     AccessList,
     Account,
-    Address,
     Alloc,
     Auto,
-    Bloom,
-    Bytes,
     Environment,
-    Hash,
-    HeaderNonce,
     JSONEncoder,
-    Number,
     Removable,
     Storage,
     Transaction,
     Withdrawal,
-    ZeroPaddedHexNumber,
     alloc_to_accounts,
     serialize_transactions,
     str_or_none,
@@ -66,7 +68,7 @@ __all__ = (
     "Environment",
     "Hash",
     "HeaderNonce",
-    "HistoryStorageAddress",
+    "HexNumber",
     "JSONEncoder",
     "Number",
     "Removable",

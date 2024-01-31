@@ -11,6 +11,7 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     TestAddress,
@@ -644,7 +645,7 @@ def test_zero_amount(
     }
 
     withdrawals: List[Withdrawal] = []
-    post: Mapping[str, Account | object] = {}
+    post: Mapping[Address, Account | object] = {}
     if test_case == ZeroAmountTestCases.TWO_ZERO:
         withdrawals = all_withdrawals[0:2]
         post = {

@@ -10,6 +10,7 @@ from ethereum.crypto.hash import keccak256
 from ethereum_test_tools import (
     AccessList,
     Account,
+    Address,
     Environment,
     Storage,
     TestAddress,
@@ -86,7 +87,7 @@ def call_gas() -> int:  # noqa: D103
 
 
 @pytest.fixture
-def caller_address() -> str:  # noqa: D103
+def caller_address() -> Address:  # noqa: D103
     return to_address(0x100)
 
 
@@ -177,7 +178,7 @@ def system_address_balance() -> int:
 def pre(
     contract_call_account: Account,
     system_address_balance: int,
-    caller_address: str,
+    caller_address: Address,
 ) -> Dict:
     """
     Prepares the pre state of all test cases, by setting the balance of the
@@ -199,7 +200,7 @@ def pre(
 
 
 @pytest.fixture
-def tx_to_address(request, caller_address: Account) -> bytes:  # noqa: D103
+def tx_to_address(request, caller_address: Account) -> Address:  # noqa: D103
     return request.param if hasattr(request, "param") else caller_address
 
 
@@ -249,7 +250,7 @@ def tx_type() -> int:
 
 @pytest.fixture
 def tx(
-    tx_to_address: str,
+    tx_to_address: Address,
     tx_data: bytes,
     tx_type: int,
     access_list: List[AccessList],
@@ -289,7 +290,7 @@ def tx(
 
 @pytest.fixture
 def post(
-    caller_address: str,
+    caller_address: Address,
     beacon_root: bytes,
     valid_call: bool,
     valid_input: bool,

@@ -81,11 +81,11 @@ def test_tx_selfdestruct_balance_bug(blockchain_test: BlockchainTestFiller, yul:
             0,
             Op.EXTCODESIZE(0xAA),
         )
-        + Op.SSTORE(0xCA1101, Op.CALL(100000, Op.PUSH20(aa_location), 0, 0, 0, 0, 0))
-        + Op.CALL(100000, Op.PUSH20(aa_location), 1, 0, 0, 0, 0)
+        + Op.SSTORE(0xCA1101, Op.CALL(100000, aa_location, 0, 0, 0, 0, 0))
+        + Op.CALL(100000, aa_location, 1, 0, 0, 0, 0)
     )
 
-    balance_code = Op.SSTORE(0xBA1AA, Op.BALANCE(Op.PUSH20(aa_location)))
+    balance_code = Op.SSTORE(0xBA1AA, Op.BALANCE(aa_location))
 
     pre = {
         # sender

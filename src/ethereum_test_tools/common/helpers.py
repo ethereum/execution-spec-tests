@@ -8,8 +8,8 @@ from typing import List, SupportsBytes
 from ethereum.crypto.hash import keccak256
 from ethereum.rlp import encode
 
+from .base_types import Address, Bytes, Hash
 from .conversions import BytesConvertible, FixedSizeBytesConvertible
-from .types import Address, Bytes, Hash
 
 """
 Helper functions
@@ -24,25 +24,25 @@ def ceiling_division(a: int, b: int) -> int:
     return -(a // -b)
 
 
-def compute_create_address(address: FixedSizeBytesConvertible, nonce: int) -> str:
+def compute_create_address(address: FixedSizeBytesConvertible, nonce: int) -> Address:
     """
     Compute address of the resulting contract created using a transaction
     or the `CREATE` opcode.
     """
     nonce_bytes = bytes() if nonce == 0 else nonce.to_bytes(length=1, byteorder="big")
     hash = keccak256(encode([Address(address), nonce_bytes]))
-    return "0x" + hash[-20:].hex()
+    return Address(hash[-20:])
 
 
 def compute_create2_address(
     address: FixedSizeBytesConvertible, salt: FixedSizeBytesConvertible, initcode: BytesConvertible
-) -> str:
+) -> Address:
     """
     Compute address of the resulting contract created using the `CREATE2`
     opcode.
     """
     hash = keccak256(b"\xff" + Address(address) + Hash(salt) + keccak256(Bytes(initcode)))
-    return "0x" + hash[-20:].hex()
+    return Address(hash[-20:])
 
 
 def cost_memory_bytes(new_bytes: int, previous_bytes: int) -> int:
@@ -85,11 +85,11 @@ def eip_2028_transaction_data_cost(data: BytesConvertible) -> int:
     return cost
 
 
-def to_address(input: FixedSizeBytesConvertible) -> str:
+def to_address(input: FixedSizeBytesConvertible) -> Address:
     """
-    Converts an int or str into proper address 20-byte hex string.
+    Converts an int or str into proper Address.
     """
-    return str(Address(input))
+    return Address(input)
 
 
 def to_hash_bytes(input: FixedSizeBytesConvertible) -> bytes:

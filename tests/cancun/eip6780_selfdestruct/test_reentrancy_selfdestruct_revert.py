@@ -60,16 +60,16 @@ def test_reentrancy_selfdestruct_revert(
 
     def construct_call_s(call_type: Op, money: int):
         if call_type in [Op.CALLCODE, Op.CALL]:
-            return call_type(Op.GAS, Op.PUSH20(address_s), money, 0, 0, 0, 0)
+            return call_type(Op.GAS, address_s, money, 0, 0, 0, 0)
         else:
-            return call_type(Op.GAS, Op.PUSH20(address_s), money, 0, 0, 0)
+            return call_type(Op.GAS, address_s, money, 0, 0, 0)
 
     pre = {
         address_to: Account(
             balance=1000000000000000000,
             nonce=0,
             code=Op.SSTORE(1, construct_call_s(first_suicide, 0))
-            + Op.SSTORE(2, Op.CALL(Op.GAS, Op.PUSH20(address_r), 0, 0, 0, 0, 0))
+            + Op.SSTORE(2, Op.CALL(Op.GAS, address_r, 0, 0, 0, 0, 0))
             + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE())
             + Op.SSTORE(3, Op.MLOAD(0)),
             storage={0x01: 0x0100, 0x02: 0x0100, 0x03: 0x0100},
