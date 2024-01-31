@@ -15,11 +15,11 @@ from ethereum_test_tools import (
     BlockException,
     EngineAPIError,
     Environment,
+    Hash,
     Header,
     TestAddress,
     Transaction,
     add_kzg_version,
-    to_hash_bytes,
 )
 
 from .spec import Spec, SpecHelpers, ref_spec_4844
@@ -101,7 +101,7 @@ def post_fork_blocks(
                     max_fee_per_blob_gas=100,
                     access_list=[],
                     blob_versioned_hashes=add_kzg_version(
-                        [to_hash_bytes(x) for x in range(blob_count_per_block)],
+                        [Hash(x) for x in range(blob_count_per_block)],
                         Spec.BLOB_COMMITMENT_VERSION_KZG,
                     ),
                 )

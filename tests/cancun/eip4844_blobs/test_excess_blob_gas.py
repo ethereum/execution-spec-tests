@@ -33,16 +33,11 @@ from ethereum_test_tools import (
     BlockException,
     Environment,
     ExceptionType,
+    Hash,
     Header,
 )
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import (
-    TestAddress,
-    TestAddress2,
-    Transaction,
-    add_kzg_version,
-    to_hash_bytes,
-)
+from ethereum_test_tools import TestAddress, TestAddress2, Transaction, add_kzg_version
 
 from .spec import Spec, SpecHelpers, ref_spec_4844
 
@@ -236,7 +231,7 @@ def tx(  # noqa: D103
             max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
             access_list=[],
             blob_versioned_hashes=add_kzg_version(
-                [to_hash_bytes(x) for x in range(new_blobs)],
+                [Hash(x) for x in range(new_blobs)],
                 Spec.BLOB_COMMITMENT_VERSION_KZG,
             ),
         )

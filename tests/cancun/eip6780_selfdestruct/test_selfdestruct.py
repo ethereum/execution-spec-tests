@@ -17,6 +17,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
+    Hash,
     Initcode,
     StateTestFiller,
     Storage,
@@ -25,7 +26,6 @@ from ethereum_test_tools import (
     YulCompiler,
     compute_create2_address,
     compute_create_address,
-    to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -683,7 +683,7 @@ def test_recreate_self_destructed_contract_different_txs(
         txs.append(
             Transaction(
                 ty=0x0,
-                data=to_hash_bytes(i),
+                data=Hash(i),
                 chain_id=0x0,
                 nonce=next(nonce),
                 to=entry_code_address,

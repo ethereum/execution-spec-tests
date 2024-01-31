@@ -25,9 +25,9 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     CodeGasMeasure,
+    Hash,
     TestAddress,
     Transaction,
-    to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -60,7 +60,7 @@ def blocks():  # noqa: D103
 @pytest.fixture
 def template_tx():  # noqa: D103
     return Transaction(
-        data=to_hash_bytes(0),
+        data=Hash(0),
         gas_limit=3000000,
         max_fee_per_gas=10,
     )

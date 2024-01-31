@@ -85,13 +85,6 @@ def eip_2028_transaction_data_cost(data: BytesConvertible) -> int:
     return cost
 
 
-def to_hash_bytes(input: FixedSizeBytesConvertible) -> bytes:
-    """
-    Converts an int or str into proper 32-byte hash.
-    """
-    return bytes(Hash(input))
-
-
 def add_kzg_version(
     b_hashes: List[bytes | SupportsBytes | int | str], kzg_version: int
 ) -> List[bytes]:
@@ -102,8 +95,9 @@ def add_kzg_version(
     kzg_versioned_hashes = []
 
     for hash in b_hashes:
+        hash = bytes(Hash(hash))
         if isinstance(hash, int) or isinstance(hash, str):
-            kzg_versioned_hashes.append(kzg_version_hex + to_hash_bytes(hash)[1:])
+            kzg_versioned_hashes.append(kzg_version_hex + hash[1:])
         elif isinstance(hash, bytes) or isinstance(hash, SupportsBytes):
             if isinstance(hash, SupportsBytes):
                 hash = bytes(hash)

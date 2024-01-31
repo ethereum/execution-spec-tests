@@ -12,11 +12,11 @@ from ethereum_test_tools import (
     Account,
     Address,
     Environment,
+    Hash,
     Storage,
     TestAddress,
     Transaction,
     add_kzg_version,
-    to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -51,7 +51,7 @@ def beacon_roots() -> Iterator[bytes]:
 
 @pytest.fixture
 def beacon_root(request, beacon_roots: Iterator[bytes]) -> bytes:  # noqa: D103
-    return to_hash_bytes(request.param) if hasattr(request, "param") else next(beacon_roots)
+    return Hash(request.param) if hasattr(request, "param") else next(beacon_roots)
 
 
 @pytest.fixture
@@ -234,7 +234,7 @@ def tx_data(timestamp: int) -> bytes:
     """
     Data included in the transaction to call the beacon root contract.
     """
-    return to_hash_bytes(timestamp)
+    return Hash(timestamp)
 
 
 @pytest.fixture

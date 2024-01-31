@@ -28,11 +28,11 @@ from ethereum_test_tools import (
     Address,
     Block,
     BlockchainTestFiller,
+    Hash,
     Storage,
     TestAddress,
     Transaction,
     Withdrawal,
-    to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -174,7 +174,7 @@ def test_multi_block_beacon_root_timestamp_calls(
                     tx.with_fields(
                         nonce=i,
                         to=Address(0x100 + i),
-                        data=to_hash_bytes(timestamp),
+                        data=Hash(timestamp),
                     )
                 ],
                 beacon_root=beacon_root,
@@ -299,7 +299,7 @@ def test_beacon_root_transition(
                     tx.with_fields(
                         nonce=i,
                         to=Address(0x100 + i),
-                        data=to_hash_bytes(timestamp),
+                        data=Hash(timestamp),
                     )
                 ],
                 beacon_root=beacon_root if transitioned else None,

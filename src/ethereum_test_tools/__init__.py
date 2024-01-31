@@ -39,7 +39,6 @@ from .common import (
     copy_opcode_cost,
     cost_memory_bytes,
     eip_2028_transaction_data_cost,
-    to_hash_bytes,
     transaction_list_root,
 )
 from .exceptions import BlockException, ExceptionList, ExceptionType, TransactionException
@@ -113,6 +112,5 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
-    "to_hash_bytes",
     "transaction_list_root",
 )

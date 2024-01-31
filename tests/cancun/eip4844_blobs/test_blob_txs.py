@@ -30,6 +30,7 @@ from ethereum_test_tools import (
     BlockException,
     EngineAPIError,
     Environment,
+    Hash,
     Header,
 )
 from ethereum_test_tools import Opcodes as Op
@@ -43,7 +44,6 @@ from ethereum_test_tools import (
     TransactionException,
     add_kzg_version,
     eip_2028_transaction_data_cost,
-    to_hash_bytes,
 )
 
 from .spec import Spec, SpecHelpers, ref_spec_4844
@@ -188,7 +188,7 @@ def blob_hashes_per_tx(blobs_per_tx: List[int]) -> List[List[bytes]]:
     """
     return [
         add_kzg_version(
-            [to_hash_bytes(x) for x in range(blob_count)],
+            [Hash(x) for x in range(blob_count)],
             Spec.BLOB_COMMITMENT_VERSION_KZG,
         )
         for blob_count in blobs_per_tx
@@ -1032,16 +1032,10 @@ def test_invalid_tx_blob_count(
 @pytest.mark.parametrize(
     "blob_hashes_per_tx",
     [
-        [[to_hash_bytes(1)]],
-        [[to_hash_bytes(x) for x in range(2)]],
-        [
-            add_kzg_version([to_hash_bytes(1)], Spec.BLOB_COMMITMENT_VERSION_KZG)
-            + [to_hash_bytes(2)]
-        ],
-        [
-            [to_hash_bytes(1)]
-            + add_kzg_version([to_hash_bytes(2)], Spec.BLOB_COMMITMENT_VERSION_KZG)
-        ],
+        [[Hash(1)]],
+        [[Hash(x) for x in range(2)]],
+        [add_kzg_version([Hash(1)], Spec.BLOB_COMMITMENT_VERSION_KZG) + [Hash(2)]],
+        [[Hash(1)] + add_kzg_version([Hash(2)], Spec.BLOB_COMMITMENT_VERSION_KZG)],
     ],
     ids=[
         "single_blob",
@@ -1084,22 +1078,21 @@ def test_invalid_blob_hash_versioning_single_tx(
     "blob_hashes_per_tx",
     [
         [
-            add_kzg_version([to_hash_bytes(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
-            [to_hash_bytes(2)],
+            add_kzg_version([Hash(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
+            [Hash(2)],
         ],
         [
-            add_kzg_version([to_hash_bytes(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
-            [to_hash_bytes(x) for x in range(1, 3)],
+            add_kzg_version([Hash(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
+            [Hash(x) for x in range(1, 3)],
         ],
         [
-            add_kzg_version([to_hash_bytes(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
-            [to_hash_bytes(2)]
-            + add_kzg_version([to_hash_bytes(3)], Spec.BLOB_COMMITMENT_VERSION_KZG),
+            add_kzg_version([Hash(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
+            [Hash(2)] + add_kzg_version([Hash(3)], Spec.BLOB_COMMITMENT_VERSION_KZG),
         ],
         [
-            add_kzg_version([to_hash_bytes(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
-            add_kzg_version([to_hash_bytes(2)], Spec.BLOB_COMMITMENT_VERSION_KZG),
-            [to_hash_bytes(3)],
+            add_kzg_version([Hash(1)], Spec.BLOB_COMMITMENT_VERSION_KZG),
+            add_kzg_version([Hash(2)], Spec.BLOB_COMMITMENT_VERSION_KZG),
+            [Hash(3)],
         ],
     ],
     ids=[
