@@ -3,11 +3,13 @@ All Ethereum fork class definitions.
 """
 from typing import List, Mapping, Optional
 
+from semver import Version
+
 from ..base_fork import BaseFork
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
-class Frontier(BaseFork, solc_name=None):
+class Frontier(BaseFork, solc_name="homestead"):
     """
     Frontier fork
     """
@@ -28,7 +30,14 @@ class Frontier(BaseFork, solc_name=None):
         """
         if cls._solc_name is not None:
             return cls._solc_name
-        return cls.name()
+        return cls.name().lower()
+
+    @classmethod
+    def solc_min_version(cls, block_number: int = 0, timestamp: int = 0) -> Version:
+        """
+        Returns the minimum version of solc that supports this fork.
+        """
+        return Version.parse("0.8.20")
 
     @classmethod
     def header_base_fee_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
@@ -150,7 +159,7 @@ class Frontier(BaseFork, solc_name=None):
         return {}
 
 
-class Homestead(Frontier, solc_name="homestead"):
+class Homestead(Frontier):
     """
     Homestead fork
     """
@@ -163,7 +172,7 @@ class Homestead(Frontier, solc_name="homestead"):
         return [1, 2, 3, 4] + super(Homestead, cls).precompiles(block_number, timestamp)
 
 
-class Byzantium(Homestead, solc_name="byzantium"):
+class Byzantium(Homestead):
     """
     Byzantium fork
     """
@@ -186,7 +195,7 @@ class Byzantium(Homestead, solc_name="byzantium"):
         return [5, 6, 7, 8] + super(Byzantium, cls).precompiles(block_number, timestamp)
 
 
-class Constantinople(Byzantium, solc_name="constantinople"):
+class Constantinople(Byzantium):
     """
     Constantinople fork
     """
@@ -208,7 +217,7 @@ class ConstantinopleFix(Constantinople, solc_name="constantinople"):
     pass
 
 
-class Istanbul(ConstantinopleFix, solc_name="istanbul"):
+class Istanbul(ConstantinopleFix):
     """
     Istanbul fork
     """
@@ -222,7 +231,7 @@ class Istanbul(ConstantinopleFix, solc_name="istanbul"):
 
 
 # Glacier forks skipped, unless explicitly specified
-class MuirGlacier(Istanbul):
+class MuirGlacier(Istanbul, solc_name="istanbul"):
     """
     Muir Glacier fork
     """
@@ -230,7 +239,7 @@ class MuirGlacier(Istanbul):
     pass
 
 
-class Berlin(Istanbul, solc_name="berlin"):
+class Berlin(Istanbul):
     """
     Berlin fork
     """
@@ -243,7 +252,7 @@ class Berlin(Istanbul, solc_name="berlin"):
         return [1] + super(Berlin, cls).tx_types(block_number, timestamp)
 
 
-class London(Berlin, solc_name="london"):
+class London(Berlin):
     """
     London fork
     """
@@ -264,7 +273,7 @@ class London(Berlin, solc_name="london"):
 
 
 # Glacier forks skipped, unless explicitly specified
-class ArrowGlacier(London):
+class ArrowGlacier(London, solc_name="london"):
     """
     Arrow Glacier fork
     """
@@ -272,7 +281,7 @@ class ArrowGlacier(London):
     pass
 
 
-class GrayGlacier(ArrowGlacier):
+class GrayGlacier(ArrowGlacier, solc_name="london"):
     """
     Gray Glacier fork
     """
@@ -282,7 +291,6 @@ class GrayGlacier(ArrowGlacier):
 
 class Paris(
     London,
-    solc_name="paris",
     transition_tool_name="Merge",
     blockchain_test_network_name="Merge",
 ):
@@ -321,7 +329,7 @@ class Paris(
         return 1
 
 
-class Shanghai(Paris, solc_name="shanghai"):
+class Shanghai(Paris):
     """
     Shanghai fork
     """
@@ -343,7 +351,7 @@ class Shanghai(Paris, solc_name="shanghai"):
         return 2
 
 
-class Cancun(Shanghai, solc_name="cancun"):
+class Cancun(Shanghai):
     """
     Cancun fork
     """
@@ -355,6 +363,13 @@ class Cancun(Shanghai, solc_name="cancun"):
         development.
         """
         return False
+
+    @classmethod
+    def solc_min_version(cls, block_number: int = 0, timestamp: int = 0) -> Version:
+        """
+        Returns the minimum version of solc that supports this fork.
+        """
+        return Version.parse("0.8.24")
 
     @classmethod
     def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:

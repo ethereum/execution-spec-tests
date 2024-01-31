@@ -8,28 +8,6 @@ from semver import Version
 
 from .base_decorators import prefer_transition_to_method
 
-SOLC_FORKS_0_8_20 = [
-    "homestead",
-    "tangerineWhistle",
-    "spuriousDragon",
-    "byzantium",
-    "constantinople",
-    "petersburg",
-    "istanbul",
-    "berlin",
-    "london",
-    "paris",
-    "shanghai",
-]
-SOLC_VERSION_TO_SUPPORTED_FORKS = {
-    Version.parse("0.8.20"): SOLC_FORKS_0_8_20,
-    Version.parse("0.8.21"): SOLC_FORKS_0_8_20,
-    Version.parse("0.8.22"): SOLC_FORKS_0_8_20,
-    Version.parse("0.8.23"): SOLC_FORKS_0_8_20,
-    # TBA: 0.8.24 is the current dev version.
-    Version.parse("0.8.24"): SOLC_FORKS_0_8_20,
-}
-
 
 class ForkAttribute(Protocol):
     """
@@ -283,14 +261,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         pass
 
     @classmethod
-    def is_supported_by_solc(cls, version: Version) -> bool:
+    @abstractmethod
+    def solc_min_version(cls, block_number: int = 0, timestamp: int = 0) -> Version:
         """
-        Returns True if the fork is supported by solc (--evm-version).
+        Returns the minimum version of solc that supports this fork.
         """
-        assert (
-            version in SOLC_VERSION_TO_SUPPORTED_FORKS.keys()
-        ), f"Unsupported solc version: {version}"
-        return cls.solc_name() in SOLC_VERSION_TO_SUPPORTED_FORKS[version]
+        pass
 
     @classmethod
     def blockchain_test_network_name(cls) -> str:

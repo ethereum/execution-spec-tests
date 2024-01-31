@@ -353,7 +353,7 @@ def yul(fork: Fork, request):
     Test cases can override the default value by specifying a fixed version
     with the @pytest.mark.compile_yul_with(FORK) marker.
     """
-    solc_target_fork: Fork
+    solc_target_fork: Fork | None
     marker = request.node.get_closest_marker("compile_yul_with")
     if marker:
         if not marker.args[0]:
@@ -364,6 +364,7 @@ def yul(fork: Fork, request):
         assert solc_target_fork in get_forks_with_solc_support(request.config.solc_version)
     else:
         solc_target_fork = get_closest_fork_with_solc_support(fork, request.config.solc_version)
+        assert solc_target_fork is not None, "No fork supports provided solc version."
         if request.config.getoption("verbose") >= 1:
             warnings.warn(f"Compiling Yul for {solc_target_fork}, not {fork}.")
 

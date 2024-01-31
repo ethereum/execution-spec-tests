@@ -2,7 +2,7 @@
 Ethereum test fork definitions.
 """
 
-from .base_fork import SOLC_VERSION_TO_SUPPORTED_FORKS, Fork, ForkAttribute
+from .base_fork import Fork, ForkAttribute
 from .forks.forks import (
     ArrowGlacier,
     Berlin,
@@ -40,7 +40,6 @@ from .helpers import (
 )
 
 __all__ = [
-    "SOLC_VERSION_TO_SUPPORTED_FORKS",
     "Fork",
     "ForkAttribute",
     "ArrowGlacier",
