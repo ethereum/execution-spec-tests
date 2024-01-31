@@ -26,8 +26,7 @@ SOLC_VERSION_TO_SUPPORTED_FORKS = {
     Version.parse("0.8.21"): SOLC_FORKS_0_8_20,
     Version.parse("0.8.22"): SOLC_FORKS_0_8_20,
     Version.parse("0.8.23"): SOLC_FORKS_0_8_20,
-    # TBA: 0.8.24 is the current dev version.
-    Version.parse("0.8.24"): SOLC_FORKS_0_8_20,
+    Version.parse("0.8.24"): SOLC_FORKS_0_8_20 + ["cancun"],  # dev version
 }
 
 

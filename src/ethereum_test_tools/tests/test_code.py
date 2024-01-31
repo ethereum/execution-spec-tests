@@ -13,7 +13,9 @@ from ethereum_test_forks import (
     Homestead,
     Shanghai,
     forks_from_until,
+    get_closest_fork_with_solc_support,
     get_deployed_forks,
+    get_forks,
     get_forks_with_solc_support,
 )
 from evm_transition_tool import FixtureFormats, GethTransitionTool
@@ -32,6 +34,8 @@ from ..common import Account, Environment, TestAddress, Transaction, to_hash_byt
 from ..spec import StateTest
 from ..vm.opcode import Opcodes as Op
 from .conftest import SOLC_PADDING_VERSION
+
+LAST_DEPLOYED_FORK = Shanghai
 
 
 @pytest.mark.parametrize(
@@ -65,16 +69,12 @@ def test_code_operations(code: Code, expected_bytes: bytes):
     assert bytes(code) == expected_bytes
 
 
-@pytest.fixture(params=get_forks_with_solc_support(SOLC_SUPPORTED_VERSIONS[-1]))
+@pytest.fixture(params=get_forks())
 def fork(request: pytest.FixtureRequest):
     """
     Return the target evm-version (fork) for solc compilation.
-
-    Note:
-    - Homestead.
-    - forks_from_until: Used to remove the Glacier forks
     """
-    return request.param
+    return get_closest_fork_with_solc_support(request.param, Yul("").version())
 
 
 @pytest.fixture()
