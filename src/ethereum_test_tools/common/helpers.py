@@ -85,25 +85,11 @@ def eip_2028_transaction_data_cost(data: BytesConvertible) -> int:
     return cost
 
 
-def to_address(input: FixedSizeBytesConvertible) -> Address:
-    """
-    Converts an int or str into proper Address.
-    """
-    return Address(input)
-
-
 def to_hash_bytes(input: FixedSizeBytesConvertible) -> bytes:
     """
     Converts an int or str into proper 32-byte hash.
     """
     return bytes(Hash(input))
-
-
-def to_hash(input: FixedSizeBytesConvertible) -> str:
-    """
-    Converts an int or str into proper 32-byte hash hex string.
-    """
-    return str(Hash(input))
 
 
 def add_kzg_version(

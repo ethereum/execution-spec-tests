@@ -16,7 +16,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     copy_opcode_cost,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -129,7 +128,7 @@ def precompile_caller_address() -> Address:
     """
     Address of the precompile caller account.
     """
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture

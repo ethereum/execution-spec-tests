@@ -21,6 +21,7 @@ from .common import (
     Auto,
     EngineAPIError,
     Environment,
+    Hash,
     JSONEncoder,
     Removable,
     Storage,
@@ -38,8 +39,6 @@ from .common import (
     copy_opcode_cost,
     cost_memory_bytes,
     eip_2028_transaction_data_cost,
-    to_address,
-    to_hash,
     to_hash_bytes,
     transaction_list_root,
 )
@@ -81,6 +80,7 @@ __all__ = (
     "ExceptionList",
     "ExceptionType",
     "FixtureCollector",
+    "Hash",
     "Header",
     "Initcode",
     "JSONEncoder",
@@ -113,8 +113,6 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
-    "to_address",
     "to_hash_bytes",
-    "to_hash",
     "transaction_list_root",
 )

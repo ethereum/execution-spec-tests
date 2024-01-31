@@ -35,7 +35,6 @@ from ethereum_test_tools import (
     StateTestFiller,
     TestAddress,
     Transaction,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -104,7 +103,7 @@ def caller_tx() -> Transaction:
     return Transaction(
         chain_id=0x01,
         nonce=0,
-        to=to_address(Contract.caller),
+        to=Address(Contract.caller),
         value=1,
         gas_limit=500000,
         gas_price=7,
@@ -114,12 +113,12 @@ def caller_tx() -> Transaction:
 @pytest.fixture
 def pre(caller_code: bytes, callee_code: bytes) -> Dict[Address, Account]:  # noqa: D103
     return {
-        to_address(Contract.caller): Account(
+        Address(Contract.caller): Account(
             balance=0x03,
             code=caller_code,
             nonce=1,
         ),
-        to_address(Contract.callee): Account(
+        Address(Contract.callee): Account(
             balance=0x03,
             code=callee_code,
             nonce=1,
@@ -133,7 +132,7 @@ def pre(caller_code: bytes, callee_code: bytes) -> Dict[Address, Account]:  # no
 @pytest.fixture
 def post(is_sufficient_gas: bool) -> Dict[Address, Account]:  # noqa: D103
     return {
-        to_address(Contract.caller): Account(storage={0x00: 0x01 if is_sufficient_gas else 0x00}),
+        Address(Contract.caller): Account(storage={0x00: 0x01 if is_sufficient_gas else 0x00}),
     }
 
 

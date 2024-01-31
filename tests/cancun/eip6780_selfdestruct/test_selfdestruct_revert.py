@@ -19,7 +19,6 @@ from ethereum_test_tools import (
     Transaction,
     YulCompiler,
     compute_create_address,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -38,7 +37,7 @@ def entry_code_address() -> Address:
 @pytest.fixture
 def recursive_revert_contract_address() -> Address:
     """Address where the recursive revert contract address exists"""
-    return to_address(0xDEADBEEF)
+    return Address(0xDEADBEEF)
 
 
 @pytest.fixture
@@ -52,7 +51,7 @@ def env() -> Environment:
 @pytest.fixture
 def selfdestruct_recipient_address() -> Address:
     """List of possible addresses that can receive a SELFDESTRUCT operation."""
-    return to_address(0x1234)
+    return Address(0x1234)
 
 
 @pytest.fixture
@@ -178,7 +177,7 @@ def selfdestruct_with_transfer_contract_initcode(
 @pytest.fixture
 def selfdestruct_with_transfer_initcode_copy_from_address() -> Address:
     """Address of a pre-existing contract we use to simply copy initcode from."""
-    return to_address(0xABCD)
+    return Address(0xABCD)
 
 
 @pytest.fixture

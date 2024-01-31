@@ -30,8 +30,6 @@ from .helpers import (
     copy_opcode_cost,
     cost_memory_bytes,
     eip_2028_transaction_data_cost,
-    to_address,
-    to_hash,
     to_hash_bytes,
 )
 from .json import to_json
@@ -91,9 +89,7 @@ __all__ = (
     "eip_2028_transaction_data_cost",
     "serialize_transactions",
     "str_or_none",
-    "to_address",
     "to_hash_bytes",
-    "to_hash",
     "to_json",
     "transaction_list_root",
     "withdrawals_root",

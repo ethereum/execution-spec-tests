@@ -21,7 +21,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     compute_create2_address,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -87,11 +86,11 @@ def test_dynamic_create2_selfdestruct_collision(
     code_worked = 4
 
     # Pre-Existing Addresses
-    address_zero = to_address(0x00)
-    address_to = to_address(0x0600)
-    address_code = to_address(0x0601)
-    address_create2_storage = to_address(0x0512)
-    sendall_destination = to_address(0x03E8)
+    address_zero = Address(0x00)
+    address_to = Address(0x0600)
+    address_code = Address(0x0601)
+    address_create2_storage = Address(0x0512)
+    sendall_destination = Address(0x03E8)
 
     # CREATE2 Initcode
     create2_salt = 1
@@ -268,10 +267,10 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     part_2_worked = 5
 
     # Pre-Existing Addresses
-    address_to = to_address(0x0600)
-    address_code = to_address(0x0601)
-    address_create2_storage = to_address(0x0512)
-    sendall_destination = to_address(0x03E8)
+    address_to = Address(0x0600)
+    address_code = Address(0x0601)
+    address_create2_storage = Address(0x0512)
+    sendall_destination = Address(0x03E8)
 
     # CREATE2 Initcode
     create2_salt = 1

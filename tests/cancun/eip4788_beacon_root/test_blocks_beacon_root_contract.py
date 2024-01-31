@@ -32,7 +32,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     Withdrawal,
-    to_address,
     to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -132,7 +131,7 @@ def test_multi_block_beacon_root_timestamp_calls(
 
         current_call_account_code = bytes()
         current_call_account_expected_storage = Storage()
-        current_call_account_address = to_address(0x100 + i)
+        current_call_account_address = Address(0x100 + i)
 
         # We are going to call the beacon roots contract once for every timestamp of the current
         # and all previous blocks, and check that the returned beacon root is still correct only
@@ -174,7 +173,7 @@ def test_multi_block_beacon_root_timestamp_calls(
                 txs=[
                     tx.with_fields(
                         nonce=i,
-                        to=to_address(0x100 + i),
+                        to=Address(0x100 + i),
                         data=to_hash_bytes(timestamp),
                     )
                 ],
@@ -256,7 +255,7 @@ def test_beacon_root_transition(
 
         current_call_account_code = bytes()
         current_call_account_expected_storage = Storage()
-        current_call_account_address = to_address(0x100 + i)
+        current_call_account_address = Address(0x100 + i)
 
         # We are going to call the beacon roots contract once for every timestamp of the current
         # and all previous blocks, and check that the returned beacon root is correct only
@@ -299,7 +298,7 @@ def test_beacon_root_transition(
                 txs=[
                     tx.with_fields(
                         nonce=i,
-                        to=to_address(0x100 + i),
+                        to=Address(0x100 + i),
                         data=to_hash_bytes(timestamp),
                     )
                 ],

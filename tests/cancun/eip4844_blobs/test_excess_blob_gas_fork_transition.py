@@ -19,7 +19,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     add_kzg_version,
-    to_address,
     to_hash_bytes,
 )
 
@@ -76,7 +75,7 @@ def blob_count_per_block() -> int:
 
 @pytest.fixture
 def destination_account() -> Address:  # noqa: D103
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture

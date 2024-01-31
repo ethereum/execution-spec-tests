@@ -41,7 +41,6 @@ from ethereum_test_tools import (
     TestAddress2,
     Transaction,
     add_kzg_version,
-    to_address,
     to_hash_bytes,
 )
 
@@ -179,7 +178,7 @@ def destination_account_bytecode() -> bytes:  # noqa: D103
 
 @pytest.fixture
 def destination_account() -> Address:  # noqa: D103
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture

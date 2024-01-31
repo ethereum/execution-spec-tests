@@ -16,7 +16,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     add_kzg_version,
-    to_address,
     to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -88,7 +87,7 @@ def call_gas() -> int:  # noqa: D103
 
 @pytest.fixture
 def caller_address() -> Address:  # noqa: D103
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture
@@ -192,7 +191,7 @@ def pre(
         caller_address: contract_call_account,
     }
     if system_address_balance > 0:
-        pre_alloc[to_address(Spec.SYSTEM_ADDRESS)] = Account(
+        pre_alloc[Address(Spec.SYSTEM_ADDRESS)] = Account(
             nonce=0,
             balance=system_address_balance,
         )

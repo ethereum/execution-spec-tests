@@ -17,7 +17,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     TransactionException,
-    to_address,
 )
 
 from .common import INF_POINT, Blob
@@ -30,7 +29,7 @@ REFERENCE_SPEC_VERSION = ref_spec_4844.version
 @pytest.fixture
 def destination_account() -> Address:
     """Default destination account for the blob transactions."""
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture

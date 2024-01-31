@@ -8,12 +8,12 @@ import pytest
 from ethereum_test_forks import Cancun, Fork
 from ethereum_test_tools import (
     Account,
+    Address,
     Environment,
     StateTestFiller,
     TestAddress,
     TestAddress2,
     Transaction,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -54,9 +54,9 @@ def test_reentrancy_selfdestruct_revert(
     It is expected the S is self destructed after the transaction.
     """
     address_to = TestAddress2
-    address_s = to_address(0x1000000000000000000000000000000000000001)
-    address_r = to_address(0x1000000000000000000000000000000000000002)
-    suicide_d = to_address(0x03E8)
+    address_s = Address(0x1000000000000000000000000000000000000001)
+    address_r = Address(0x1000000000000000000000000000000000000002)
+    suicide_d = Address(0x03E8)
 
     def construct_call_s(call_type: Op, money: int):
         if call_type in [Op.CALLCODE, Op.CALL]:

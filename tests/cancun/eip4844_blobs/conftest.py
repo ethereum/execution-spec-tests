@@ -4,11 +4,11 @@ Pytest (plugin) definitions local to EIP-4844 tests.
 import pytest
 
 from ethereum_test_tools import (
+    Address,
     Block,
     TestPrivateKey2,
     Transaction,
     add_kzg_version,
-    to_address,
     to_hash_bytes,
 )
 
@@ -48,7 +48,7 @@ def non_zero_blob_gas_used_genesis_block(
             Transaction(
                 ty=Spec.BLOB_TX_TYPE,
                 nonce=0,
-                to=to_address(0x200),
+                to=Address(0x200),
                 value=1,
                 gas_limit=21000,
                 max_fee_per_gas=tx_max_fee_per_gas,

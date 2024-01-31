@@ -9,16 +9,16 @@ from typing import Dict
 
 import pytest
 
-from ethereum_test_tools import Account, Block, BlockchainTestFiller, Environment
+from ethereum_test_tools import Account, Address, Block, BlockchainTestFiller, Environment
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Storage, TestAddress, Transaction, to_address
+from ethereum_test_tools import StateTestFiller, Storage, TestAddress, Transaction
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7516.md"
 REFERENCE_SPEC_VERSION = "2ade0452efe8124378f35284676ddfd16dd56ecd"
 
 # Code address used to call the test bytecode on every test case.
-code_caller_address = to_address(0x100)
-code_callee_address = to_address(0x200)
+code_caller_address = Address(0x100)
+code_callee_address = Address(0x200)
 
 BLOBBASEFEE_GAS = 2
 

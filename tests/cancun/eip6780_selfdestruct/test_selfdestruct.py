@@ -25,7 +25,6 @@ from ethereum_test_tools import (
     YulCompiler,
     compute_create2_address,
     compute_create_address,
-    to_address,
     to_hash_bytes,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -64,7 +63,7 @@ def env() -> Environment:
 @pytest.fixture
 def sendall_recipient_addresses() -> List[Address]:
     """List of possible addresses that can receive a SENDALL operation."""
-    return [to_address(0x1234)]
+    return [Address(0x1234)]
 
 
 def selfdestruct_code_preset(
@@ -151,7 +150,7 @@ def selfdestruct_contract_initcode(
 @pytest.fixture
 def initcode_copy_from_address() -> Address:
     """Address of a pre-existing contract we use to simply copy initcode from."""
-    return to_address(0xABCD)
+    return Address(0xABCD)
 
 
 @pytest.fixture
@@ -230,7 +229,7 @@ def pre(
     [
         pytest.param(
             1,
-            [to_address(0x1000)],
+            [Address(0x1000)],
             id="single_call",
         ),
         pytest.param(
@@ -240,27 +239,27 @@ def pre(
         ),
         pytest.param(
             10,
-            [to_address(0x1000)],
+            [Address(0x1000)],
             id="multiple_calls_single_sendall_recipient",
         ),
         pytest.param(
             10,
-            [to_address(0x1000), to_address(0x2000), to_address(0x3000)],
+            [Address(0x1000), Address(0x2000), Address(0x3000)],
             id="multiple_calls_multiple_sendall_recipients",
         ),
         pytest.param(
             10,
-            [SELF_ADDRESS, to_address(0x2000), to_address(0x3000)],
+            [SELF_ADDRESS, Address(0x2000), Address(0x3000)],
             id="multiple_calls_multiple_sendall_recipients_including_self",
         ),
         pytest.param(
             10,
-            [to_address(0x1000), to_address(0x2000), SELF_ADDRESS],
+            [Address(0x1000), Address(0x2000), SELF_ADDRESS],
             id="multiple_calls_multiple_sendall_recipients_including_self_different_order",
         ),
         pytest.param(
             3,
-            [to_address(0x1000), to_address(0x2000), SELF_ADDRESS],
+            [Address(0x1000), Address(0x2000), SELF_ADDRESS],
             id="multiple_calls_multiple_sendall_recipients_including_self_last",
         ),
     ],
@@ -605,7 +604,7 @@ def test_self_destructing_initcode_create_tx(
     "sendall_recipient_addresses",
     [
         pytest.param(
-            [to_address(0x1000)],
+            [Address(0x1000)],
             id="selfdestruct_other_address",
         ),
         pytest.param(
@@ -717,7 +716,7 @@ def test_recreate_self_destructed_contract_different_txs(
     [
         pytest.param(
             1,
-            [to_address(0x1000)],
+            [Address(0x1000)],
             id="single_call",
         ),
         pytest.param(
@@ -727,27 +726,27 @@ def test_recreate_self_destructed_contract_different_txs(
         ),
         pytest.param(
             10,
-            [to_address(0x1000)],
+            [Address(0x1000)],
             id="multiple_calls_single_sendall_recipient",
         ),
         pytest.param(
             10,
-            [to_address(0x1000), to_address(0x2000), to_address(0x3000)],
+            [Address(0x1000), Address(0x2000), Address(0x3000)],
             id="multiple_calls_multiple_sendall_recipients",
         ),
         pytest.param(
             10,
-            [PRE_EXISTING_SELFDESTRUCT_ADDRESS, to_address(0x2000), to_address(0x3000)],
+            [PRE_EXISTING_SELFDESTRUCT_ADDRESS, Address(0x2000), Address(0x3000)],
             id="multiple_calls_multiple_sendall_recipients_including_self",
         ),
         pytest.param(
             10,
-            [to_address(0x1000), to_address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS],
+            [Address(0x1000), Address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS],
             id="multiple_calls_multiple_sendall_recipients_including_self_different_order",
         ),
         pytest.param(
             3,
-            [to_address(0x1000), to_address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS],
+            [Address(0x1000), Address(0x2000), PRE_EXISTING_SELFDESTRUCT_ADDRESS],
             id="multiple_calls_multiple_sendall_recipients_including_self_last",
         ),
     ],

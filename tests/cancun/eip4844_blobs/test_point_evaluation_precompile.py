@@ -44,7 +44,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     eip_2028_transaction_data_cost,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -158,7 +157,7 @@ def precompile_caller_address() -> Address:
     """
     Address of the precompile caller account.
     """
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture
@@ -542,7 +541,7 @@ def test_point_evaluation_precompile_gas_tx_to(
         ty=2,
         nonce=0,
         data=precompile_input,
-        to=to_address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS),
+        to=Address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS),
         value=0,
         gas_limit=call_gas + intrinsic_gas_cost,
         max_fee_per_gas=7,
@@ -590,7 +589,7 @@ def test_point_evaluation_precompile_before_fork(
             0,
         ),
     )
-    precompile_caller_address = to_address(0x100)
+    precompile_caller_address = Address(0x100)
 
     pre = {
         TestAddress: Account(
@@ -609,7 +608,7 @@ def test_point_evaluation_precompile_before_fork(
             storage={1: 1},
             # The call succeeds because precompile is not there yet
         ),
-        to_address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS): Account(
+        Address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS): Account(
             balance=1,
         ),
     }
@@ -649,7 +648,7 @@ def test_point_evaluation_precompile_during_fork(
             0,
         ),
     )
-    precompile_caller_address = to_address(0x100)
+    precompile_caller_address = Address(0x100)
 
     pre = {
         TestAddress: Account(
@@ -684,7 +683,7 @@ def test_point_evaluation_precompile_during_fork(
             storage={b: 1 for b in range(1, len(PRE_FORK_BLOCK_RANGE) + 1)},
             # Only the call in the last block's tx fails; storage 0 by default.
         ),
-        to_address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS): Account(
+        Address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS): Account(
             balance=len(PRE_FORK_BLOCK_RANGE),
         ),
     }
