@@ -200,7 +200,7 @@ class Constantinople(Byzantium, solc_name="constantinople"):
         return 2_000_000_000_000_000_000
 
 
-class ConstantinopleFix(Constantinople, solc_name="constantinople"):
+class ConstantinopleFix(Constantinople):
     """
     Constantinople Fix fork
     """
