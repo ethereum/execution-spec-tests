@@ -1,18 +1,40 @@
 """
 Test fork utilities.
 """
-
 from typing import Mapping, cast
 
+import pytest
+from semver import Version
+
+from ethereum_test_tools.code import SOLC_SUPPORTED_VERSIONS
+
 from ..base_fork import Fork
-from ..forks.forks import Berlin, Cancun, Frontier, London, Paris, Shanghai
+from ..forks.forks import (
+    ArrowGlacier,
+    Berlin,
+    Byzantium,
+    Cancun,
+    Constantinople,
+    ConstantinopleFix,
+    Frontier,
+    GrayGlacier,
+    Homestead,
+    Istanbul,
+    London,
+    MuirGlacier,
+    Paris,
+    Shanghai,
+)
 from ..forks.transition import BerlinToLondonAt5, ParisToShanghaiAtTime15k
 from ..helpers import (
     forks_from,
     forks_from_until,
+    get_closest_fork_with_solc_support,
     get_deployed_forks,
     get_development_forks,
     get_forks,
+    get_forks_with_solc_support,
+    get_forks_without_solc_support,
     transition_fork_from_to,
     transition_fork_to,
 )
@@ -214,3 +236,87 @@ def test_precompiles():
 
 def test_tx_types():
     Cancun.tx_types() == list(range(4))
+
+
+@pytest.mark.parametrize("solc_version", SOLC_SUPPORTED_VERSIONS)
+def test_get_forks_with_solc_support(solc_version):  # noqa: D103
+    forks_with = get_forks_with_solc_support(solc_version)
+    assert Homestead in forks_with
+    assert Byzantium in forks_with
+    assert Constantinople in forks_with
+    assert Istanbul in forks_with
+    assert Berlin in forks_with
+    assert London in forks_with
+    assert Paris in forks_with
+    assert Shanghai in forks_with
+    if solc_version >= "0.8.24":
+        assert Cancun in forks_with
+    assert solc_version < "0.8.25", "update test for new solc version"
+
+
+@pytest.mark.parametrize("solc_version", SOLC_SUPPORTED_VERSIONS)
+def test_get_forks_without_solc_support(solc_version):  # noqa: D103
+    forks_without = get_forks_without_solc_support(solc_version)
+    assert Frontier in forks_without
+    assert ConstantinopleFix in forks_without
+    assert ArrowGlacier in forks_without
+    assert MuirGlacier in forks_without
+    assert GrayGlacier in forks_without
+    if solc_version < "0.8.24":
+        assert Cancun in forks_without
+    assert solc_version < "0.8.25", "update test for new solc version"
+
+
+@pytest.mark.parametrize("solc_version", SOLC_SUPPORTED_VERSIONS)
+@pytest.mark.parametrize(
+    "fork,closest_fork_with_solc_support",
+    [
+        (Frontier, Homestead),
+        (Homestead, Homestead),
+        (Byzantium, Byzantium),
+        (Constantinople, Constantinople),
+        (ConstantinopleFix, Constantinople),
+        (Istanbul, Istanbul),
+        (MuirGlacier, Istanbul),
+        (Berlin, Berlin),
+        (London, London),
+        (ArrowGlacier, London),
+        (GrayGlacier, London),
+        (Paris, Paris),
+        (Shanghai, Shanghai),
+    ],
+)
+def test_get_closest_fork_with_solc_support_deployed(  # noqa: D103
+    solc_version, fork, closest_fork_with_solc_support
+):
+    """
+    Test get_closest_fork_with_solc_support for deployed forks.
+    """
+    closest_fork_got = get_closest_fork_with_solc_support(fork, solc_version)
+    assert closest_fork_got == closest_fork_with_solc_support
+    assert closest_fork_got.solc_name() == closest_fork_with_solc_support.name().lower()
+
+
+@pytest.mark.parametrize(
+    "solc_version,fork,closest_fork_with_solc_support",
+    [
+        ("0.8.20", Cancun, Shanghai),
+        ("0.8.21", Cancun, Shanghai),
+        ("0.8.22", Cancun, Shanghai),
+        ("0.8.23", Cancun, Shanghai),
+        ("0.8.24", Cancun, Cancun),
+    ],
+)
+def test_get_closest_fork_with_solc_support_development(  # noqa: D103
+    solc_version,
+    fork,
+    closest_fork_with_solc_support,
+):
+    """
+    Test get_closest_fork_with_solc_support for development or recently deployed forks.
+    """
+    assert (
+        get_closest_fork_with_solc_support(fork, Version.parse(solc_version))
+        == closest_fork_with_solc_support
+    )
+    assert solc_version < "0.8.25", "update test for new solc version"
