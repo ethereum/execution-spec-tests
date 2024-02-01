@@ -4,11 +4,22 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.
 
-## [vUNRELEASED](https://github.com/ethereum/execution-spec-tests/releases/tag/vUNRELEASED) - 20XX-XX-XX: UNRELEASED
+## 🔜 [Unreleased](https://github.com/ethereum/execution-spec-tests/releases/tag/v-Unreleased) - 2024-xx-xx
+
+### 🧪 Test Cases
 
 ### 🛠️ Framework
 
+- ✨ Improve handling of the argument passed to `solc --evm-version` when compiling Yul code ([#418](https://github.com/ethereum/execution-spec-tests/pull/418)).
+- 🐞 Fix `fill -m yul_test` which failed to filter tests that are (dynamically) marked as a yul test ([#418](https://github.com/ethereum/execution-spec-tests/pull/418)).
 - 🔀 Helper methods `to_address`, `to_hash` and `to_hash_bytes` have been deprecated in favor of `Address` and `Hash`, which are automatically detected as opcode parameters and pushed to the stack in the resulting bytecode ([#422](https://github.com/ethereum/execution-spec-tests/pull/422)).
+- 
+### 🔧 EVM Tools
+
+### 📋 Misc
+
+- 🐞 Fix deprecation warnings due to outdated config in recommended VS Code project settings ([#420](https://github.com/ethereum/execution-spec-tests/pull/420)).
+- 🐞 Fix typo in the selfdestruct revert tests module ([#421](https://github.com/ethereum/execution-spec-tests/pull/421)).
 
 ## [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) - 2024-01-29: 🐍🏖️ Cancun
 
