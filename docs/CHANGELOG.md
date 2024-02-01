@@ -4,6 +4,12 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.
 
+## [vUNRELEASED](https://github.com/ethereum/execution-spec-tests/releases/tag/vUNRELEASED) - 20XX-XX-XX: UNRELEASED
+
+### 🛠️ Framework
+
+- 🔀 Helper methods `to_address`, `to_hash` and `to_hash_bytes` have been deprecated in favor of `Address` and `Hash`, which are automatically detected as opcode parameters and pushed to the stack in the resulting bytecode ([#422](https://github.com/ethereum/execution-spec-tests/pull/422)).
+
 ## [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) - 2024-01-29: 🐍🏖️ Cancun
 
 Release [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) primarily fixes a small bug introduced within the previous release where transition forks are used within the new `StateTest` format. This was highlighted by @chfast within #405 (https://github.com/ethereum/execution-spec-tests/issues/405), where the fork name `ShanghaiToCancunAtTime15k` was found within state tests.
