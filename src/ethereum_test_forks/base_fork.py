@@ -254,7 +254,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def solc_name(cls, block_number: int = 0, timestamp: int = 0) -> str:
+    def solc_name(cls) -> str:
         """
         Returns fork name as it's meant to be passed to the solc compiler.
         """
@@ -262,7 +262,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def solc_min_version(cls, block_number: int = 0, timestamp: int = 0) -> Version:
+    def solc_min_version(cls) -> Version:
         """
         Returns the minimum version of solc that supports this fork.
         """
