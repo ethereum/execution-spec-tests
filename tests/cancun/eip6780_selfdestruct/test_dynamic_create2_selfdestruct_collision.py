@@ -39,7 +39,7 @@ def env():  # noqa: D103
     )
 
 
-@pytest.mark.valid_from("Paris")
+@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "create2_dest_already_in_state",
     (True, False),
@@ -230,7 +230,7 @@ def test_dynamic_create2_selfdestruct_collision(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-@pytest.mark.valid_from("Paris")
+@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "selfdestruct_on_first_tx,recreate_on_first_tx",
     [

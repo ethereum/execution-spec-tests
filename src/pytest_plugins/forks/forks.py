@@ -10,9 +10,19 @@ from typing import Any, List
 import pytest
 from pytest import Metafunc
 
-from ethereum_test_forks import (
+from ethereum_test_forks import (  # noqa: F401
+    Berlin,
+    Byzantium,
+    Cancun,
+    Constantinople,
     Fork,
     ForkAttribute,
+    Frontier,
+    Homestead,
+    Istanbul,
+    London,
+    Paris,
+    Shanghai,
     forks_from_until,
     get_deployed_forks,
     get_forks,
@@ -344,6 +354,12 @@ def get_validity_marker_args(
             f"'{test_name}' specifies an invalid fork '{fork_name}' to the "
             f"'{validity_marker_name}'. "
             f"List of valid forks: {', '.join(metafunc.config.fork_names)}"  # type: ignore
+        )
+    fork_folder = metafunc.module.__name__.split(".")[1].capitalize()
+    if globals()[fork_name] < globals()[fork_folder]:
+        pytest.fail(
+            f"Incorrect usage of '{validity_marker_name}'. The validity marker fork "
+            f"'{fork_name}' must be greater than or equal to the test folder fork '{fork_folder}'."
         )
 
     return fork_name

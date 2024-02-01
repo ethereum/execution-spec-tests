@@ -263,7 +263,7 @@ def pre(
     ],
 )
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_create_selfdestruct_same_tx(
     state_test: StateTestFiller,
     env: Environment,
@@ -418,7 +418,7 @@ def test_create_selfdestruct_same_tx(
 @pytest.mark.parametrize("call_times", [0, 1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("self_destructing_initcode", [True], ids=[""])
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_self_destructing_initcode(
     state_test: StateTestFiller,
     env: Environment,
@@ -546,7 +546,7 @@ def test_self_destructing_initcode(
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("selfdestruct_contract_address", [compute_create_address(TestAddress, 0)])
 @pytest.mark.parametrize("self_destructing_initcode", [True], ids=[""])
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_self_destructing_initcode_create_tx(
     state_test: StateTestFiller,
     env: Environment,
@@ -614,7 +614,7 @@ def test_self_destructing_initcode_create_tx(
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
 @pytest.mark.parametrize("recreate_times", [1])
 @pytest.mark.parametrize("call_times", [1])
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_recreate_self_destructed_contract_different_txs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -753,7 +753,7 @@ def test_recreate_self_destructed_contract_different_txs(
 @pytest.mark.parametrize(
     "selfdestruct_contract_address", [PRE_EXISTING_SELFDESTRUCT_ADDRESS], ids=["pre_existing"]
 )
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_selfdestruct_pre_existing(
     state_test: StateTestFiller,
     eip_enabled: bool,
@@ -880,7 +880,7 @@ def test_selfdestruct_pre_existing(
     "selfdestruct_contract_address,entry_code_address",
     [(compute_create_address(TestAddress, 0), compute_create_address(TestAddress, 1))],
 )
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_selfdestruct_created_same_block_different_tx(
     blockchain_test: BlockchainTestFiller,
     eip_enabled: bool,
@@ -1018,7 +1018,7 @@ def test_selfdestruct_created_same_block_different_tx(
 @pytest.mark.parametrize("call_times", [1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
 @pytest.mark.parametrize("create_opcode", [Op.CREATE])
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_delegatecall_from_new_contract_to_pre_existing_contract(
     state_test: StateTestFiller,
     env: Environment,
@@ -1154,7 +1154,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
 @pytest.mark.parametrize("call_opcode", [Op.DELEGATECALL, Op.CALLCODE])
 @pytest.mark.parametrize("call_times", [1])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
-@pytest.mark.valid_from("Shanghai")
+@pytest.mark.valid_from("Cancun")
 def test_delegatecall_from_pre_existing_contract_to_new_contract(
     state_test: StateTestFiller,
     eip_enabled: bool,

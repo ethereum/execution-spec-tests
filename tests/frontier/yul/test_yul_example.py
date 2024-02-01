@@ -15,7 +15,7 @@ from ethereum_test_tools import (
 )
 
 
-@pytest.mark.valid_from("Homestead")
+@pytest.mark.valid_from("Frontier")
 def test_yul(state_test: StateTestFiller, yul: YulCompiler, fork: Fork):
     """
     Test YUL compiled bytecode.
