@@ -67,6 +67,7 @@ dao
 dataclasses
 datastructures
 delitem
+Dencun
 dev
 devnet
 difficulty
@@ -122,6 +123,7 @@ glightbox
 globals
 go-ethereum's
 gwei
+hardfork
 hash32
 hasher
 HeaderNonce
