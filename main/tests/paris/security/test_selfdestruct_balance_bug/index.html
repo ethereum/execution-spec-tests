@@ -6248,7 +6248,7 @@
 
 
 <h1 id="test-selfdestruct-balance-bug">Test Selfdestruct Balance Bug<a class="headerlink" href="#test-selfdestruct-balance-bug" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/paris/security/test_selfdestruct_balance_bug.py"><code>tests/paris/security/test_selfdestruct_balance_bug.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/paris/security/test_selfdestruct_balance_bug.py"><code>tests/paris/security/test_selfdestruct_balance_bug.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/paris/security/test_selfdestruct_balance_bug.py</span>
@@ -6509,23 +6509,23 @@
             <span class="mi">0</span><span class="p">,</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xCA1101</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">aa_location</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">aa_location</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xCA1101</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">aa_location</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">aa_location</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">balance_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xBA1AA</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">aa_location</span><span class="p">)))</span>
+    <span class="n">balance_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xBA1AA</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">aa_location</span><span class="p">))</span>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># sender</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">),</span>
         <span class="c1"># caller</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">cc_code</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">cc_code</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="c1"># stores balance of 0xaa after each tx 1</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">balance_code</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">balance_code</span><span class="p">),</span>
         <span class="c1"># stores balance of 0xaa after each tx 2</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">balance_code</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">balance_code</span><span class="p">),</span>
         <span class="c1"># Initcode of the self-destruct contract</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">aa_code</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">aa_code</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
@@ -6535,14 +6535,14 @@
                 <span class="c1"># calling with 1 wei call</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">),</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
                     <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="c1"># Dummy tx to store balance of 0xaa after first TX.</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">),</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
                     <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                 <span class="p">),</span>
@@ -6557,7 +6557,7 @@
                 <span class="c1"># Dummy tx to store balance of 0xaa after second TX.</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">),</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
                     <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                 <span class="p">),</span>
@@ -6567,13 +6567,13 @@
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># Check call from caller has succeeded.</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xCA1101</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0xCC</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xCA1101</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
         <span class="c1"># Check balance of 0xaa after tx 1 is 0 wei, i.e self-destructed.</span>
         <span class="c1"># Vulnerable versions should return 1 wei.</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0xBA11</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
         <span class="c1"># Check that 0xaa exists and balance after tx 2 is 5 wei.</span>
         <span class="c1"># Vulnerable versions should return 6 wei.</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">5</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0xBA12</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">5</span><span class="p">}),</span>
         <span class="n">aa_location</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
     <span class="p">}</span>
 

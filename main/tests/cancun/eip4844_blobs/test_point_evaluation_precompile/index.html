@@ -6302,7 +6302,7 @@
 
 
 <h1 id="test-point-evaluation-precompile">Test Point Evaluation Precompile<a class="headerlink" href="#test-point-evaluation-precompile" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6943,7 +6943,7 @@ transaction entry point, and measure the gas consumption.</p>
         <span class="n">ty</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">precompile_input</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span><span class="p">),</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">call_gas</span> <span class="o">+</span> <span class="n">intrinsic_gas_cost</span><span class="p">,</span>
         <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
@@ -7073,7 +7073,7 @@ transaction entry point, and measure the gas consumption.</p>
             <span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">precompile_caller_address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)</span>
+    <span class="n">precompile_caller_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)</span>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
@@ -7092,7 +7092,7 @@ transaction entry point, and measure the gas consumption.</p>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
             <span class="c1"># The call succeeds because precompile is not there yet</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -7229,7 +7229,7 @@ transaction entry point, and measure the gas consumption.</p>
             <span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">precompile_caller_address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)</span>
+    <span class="n">precompile_caller_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)</span>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
@@ -7264,7 +7264,7 @@ transaction entry point, and measure the gas consumption.</p>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">b</span><span class="p">:</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">PRE_FORK_BLOCK_RANGE</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)},</span>
             <span class="c1"># Only the call in the last block&#39;s tx fails; storage 0 by default.</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">PRE_FORK_BLOCK_RANGE</span><span class="p">),</span>
         <span class="p">),</span>
     <span class="p">}</span>

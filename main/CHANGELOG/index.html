@@ -6933,6 +6933,7 @@
 <ul>
 <li>✨ Improve handling of the argument passed to <code>solc --evm-version</code> when compiling Yul code (<a href="https://github.com/ethereum/execution-spec-tests/pull/418">#418</a>).</li>
 <li>🐞 Fix <code>fill -m yul_test</code> which failed to filter tests that are (dynamically) marked as a yul test (<a href="https://github.com/ethereum/execution-spec-tests/pull/418">#418</a>).</li>
+<li>🔀 Helper methods <code>to_address</code>, <code>to_hash</code> and <code>to_hash_bytes</code> have been deprecated in favor of <code>Address</code> and <code>Hash</code>, which are automatically detected as opcode parameters and pushed to the stack in the resulting bytecode (<a href="https://github.com/ethereum/execution-spec-tests/pull/422">#422</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>

@@ -6275,7 +6275,7 @@
 
 
 <h1 id="test-blobhash-opcode">Test Blobhash Opcode<a class="headerlink" href="#test-blobhash-opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/cancun/eip4844_blobs/test_blobhash_opcode.py"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/cancun/eip4844_blobs/test_blobhash_opcode.py"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6434,7 +6434,7 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">blobhash_index_values</span>
     <span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">gas_code</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gas_measures_code</span><span class="p">):</span>
-        <span class="n">address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mh">0x100</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mh">0x100</span><span class="p">)</span>
         <span class="n">pre</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">gas_code</span><span class="p">)</span>
         <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Block</span><span class="p">(</span>
@@ -6577,7 +6577,7 @@ the valid range <code>[0, 2**256-1]</code>.</p>
     <span class="n">b_hashes_list</span> <span class="o">=</span> <span class="n">BlobhashScenario</span><span class="o">.</span><span class="n">create_blob_hashes_list</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">TOTAL_BLOCKS</span><span class="p">)</span>
     <span class="n">blobhash_calls</span> <span class="o">=</span> <span class="n">BlobhashScenario</span><span class="o">.</span><span class="n">generate_blobhash_bytecode</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TOTAL_BLOCKS</span><span class="p">):</span>
-        <span class="n">address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mh">0x100</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mh">0x100</span><span class="p">)</span>
         <span class="n">pre</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">blobhash_calls</span><span class="p">)</span>
         <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Block</span><span class="p">(</span>
@@ -6724,7 +6724,7 @@ exceeds the maximum number of <code>blob_versioned_hash</code> values stored:
     <span class="n">TOTAL_BLOCKS</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">blobhash_calls</span> <span class="o">=</span> <span class="n">BlobhashScenario</span><span class="o">.</span><span class="n">generate_blobhash_bytecode</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TOTAL_BLOCKS</span><span class="p">):</span>
-        <span class="n">address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mh">0x100</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mh">0x100</span><span class="p">)</span>
         <span class="n">pre</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">blobhash_calls</span><span class="p">)</span>
         <span class="n">blob_per_block</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">blobs</span> <span class="o">=</span> <span class="p">[</span><span class="n">random_blob_hashes</span><span class="p">[</span><span class="n">blob</span><span class="p">]</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blob_per_block</span><span class="p">)]</span>
@@ -6858,32 +6858,32 @@ within a block, including the opposite.</p>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="o">**</span><span class="n">pre</span><span class="p">,</span>
         <span class="o">**</span><span class="p">{</span>
-            <span class="n">to_address</span><span class="p">(</span><span class="n">address</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">blobhash_bytecode</span><span class="p">)</span>
+            <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">blobhash_bytecode</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x100</span><span class="p">,</span> <span class="mh">0x500</span><span class="p">,</span> <span class="mh">0x100</span><span class="p">)</span>
         <span class="p">},</span>
     <span class="p">}</span>
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">),</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">),</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="n">address</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">random_blob_hashes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">())}</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">address</span> <span class="ow">in</span> <span class="p">(</span><span class="mh">0x200</span><span class="p">,</span> <span class="mh">0x400</span><span class="p">)</span>

@@ -6257,7 +6257,7 @@
 
 
 <h1 id="test-selfdestruct-revert">Test Selfdestruct Revert<a class="headerlink" href="#test-selfdestruct-revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6425,15 +6425,15 @@ For all forks up to and including Cancun:
 <span class="k">def</span> <span class="nf">test_selfdestruct_created_in_same_tx_with_revert</span><span class="p">(</span>  <span class="c1"># noqa SC200</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
-    <span class="n">entry_code_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">selfdestruct_on_outer_call</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">selfdestruct_with_transfer_contract_code</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
     <span class="n">selfdestruct_with_transfer_contract_initcode</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
-    <span class="n">selfdestruct_with_transfer_contract_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">selfdestruct_recipient_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">selfdestruct_with_transfer_initcode_copy_from_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">recursive_revert_contract_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">selfdestruct_with_transfer_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">selfdestruct_recipient_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">selfdestruct_with_transfer_initcode_copy_from_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">recursive_revert_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">recursive_revert_contract_code</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6444,7 +6444,7 @@ For all forks up to and including Cancun:
 <span class="sd">         Recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="n">entry_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">selfdestruct_with_transfer_initcode_copy_from_address</span><span class="p">),</span>
+        <span class="n">selfdestruct_with_transfer_initcode_copy_from_address</span><span class="p">,</span>
         <span class="mi">0</span><span class="p">,</span>
         <span class="mi">0</span><span class="p">,</span>
         <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_with_transfer_contract_initcode</span><span class="p">)),</span>
@@ -6459,7 +6459,7 @@ For all forks up to and including Cancun:
 
     <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">GASLIMIT</span><span class="p">(),</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">recursive_revert_contract_address</span><span class="p">),</span>
+        <span class="n">recursive_revert_contract_address</span><span class="p">,</span>
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># value</span>
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># arg offset</span>
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># arg length</span>
@@ -6467,7 +6467,7 @@ For all forks up to and including Cancun:
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># ret length</span>
     <span class="p">)</span>
 
-    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">Storage</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">selfdestruct_with_transfer_contract_address</span><span class="p">})</span>
         <span class="p">),</span>
@@ -6649,12 +6649,12 @@ is pre-existing</p>
 <span class="k">def</span> <span class="nf">test_selfdestruct_not_created_in_same_tx_with_revert</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">entry_code_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">selfdestruct_on_outer_call</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">selfdestruct_with_transfer_contract_code</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
-    <span class="n">selfdestruct_with_transfer_contract_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">selfdestruct_recipient_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">recursive_revert_contract_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">selfdestruct_with_transfer_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">selfdestruct_recipient_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">recursive_revert_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">recursive_revert_contract_code</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6663,7 +6663,7 @@ is pre-existing</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">entry_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">GASLIMIT</span><span class="p">(),</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">recursive_revert_contract_address</span><span class="p">),</span>
+        <span class="n">recursive_revert_contract_address</span><span class="p">,</span>
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># value</span>
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># arg offset</span>
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># arg length</span>
@@ -6671,7 +6671,7 @@ is pre-existing</p>
         <span class="mi">0</span><span class="p">,</span>  <span class="c1"># ret length</span>
     <span class="p">)</span>
 
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">100_000_000_000_000_000_000</span><span class="p">),</span>
         <span class="n">selfdestruct_with_transfer_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">selfdestruct_with_transfer_contract_code</span>
@@ -6681,7 +6681,7 @@ is pre-existing</p>
         <span class="p">),</span>
     <span class="p">}</span>
 
-    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">),</span>
     <span class="p">}</span>
 

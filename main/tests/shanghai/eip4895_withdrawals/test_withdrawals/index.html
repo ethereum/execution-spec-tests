@@ -6368,7 +6368,7 @@
 
 
 <h1 id="test-withdrawals">Test Withdrawals<a class="headerlink" href="#test-withdrawals" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py</span>
@@ -6531,7 +6531,7 @@ operations</a>.</p>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">gas_price</span><span class="o">=</span><span class="n">ONE_GWEI</span><span class="p">,</span>
             <span class="n">gas_limit</span><span class="o">=</span><span class="mi">21000</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
             <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -6741,8 +6741,8 @@ operations</a>.</p>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">SEND_ONE_GWEI</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">SEND_ONE_GWEI</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="c1"># Transaction sent from the `TestAddress`, which has 0 balance at start</span>
@@ -6750,13 +6750,13 @@ operations</a>.</p>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
         <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">withdrawal</span> <span class="o">=</span> <span class="n">Withdrawal</span><span class="p">(</span>
         <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+        <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
         <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -6770,13 +6770,13 @@ operations</a>.</p>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mh">0x1</span><span class="p">:</span> <span class="mh">0x0</span><span class="p">,</span>  <span class="c1"># Call fails on the first attempt</span>
                 <span class="mh">0x2</span><span class="p">:</span> <span class="mh">0x1</span><span class="p">,</span>  <span class="c1"># Succeeds on the second attempt</span>
             <span class="p">}</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -6880,10 +6880,10 @@ inside contract call.</p>
     <span class="p">)</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">SAVE_BALANCE_ON_BLOCK_NUMBER</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -6893,15 +6893,15 @@ inside contract call.</p>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
-                    <span class="n">data</span><span class="o">=</span><span class="n">to_hash</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+                    <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
                 <span class="p">)</span>
             <span class="p">],</span>
             <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Withdrawal</span><span class="p">(</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">],</span>
@@ -6911,15 +6911,15 @@ inside contract call.</p>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
-                    <span class="n">data</span><span class="o">=</span><span class="n">to_hash</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+                    <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
                 <span class="p">)</span>
             <span class="p">]</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mi">1</span><span class="p">:</span> <span class="n">ONE_GWEI</span><span class="p">,</span>
                 <span class="mi">2</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">,</span>
@@ -7064,17 +7064,17 @@ inside contract call.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ADDRESSES</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x0</span><span class="p">),</span>  <span class="c1"># Zero address</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x1</span><span class="p">),</span>  <span class="c1"># Pre-compiles</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x2</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x3</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x4</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x5</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x6</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x7</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x8</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x9</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">160</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x0</span><span class="p">),</span>  <span class="c1"># Zero address</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x1</span><span class="p">),</span>  <span class="c1"># Pre-compiles</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x2</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x3</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x4</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x5</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x6</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x7</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x8</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x9</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">160</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
     <span class="p">]</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -7316,7 +7316,7 @@ N is a high number not expected to be seen in mainnet.</p>
     <span class="n">withdrawals</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">addr</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">amount</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">1</span>
         <span class="n">pre</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -7430,11 +7430,11 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SELFDESTRUCT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
             <span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">),</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -7445,14 +7445,14 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">to_hash</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">withdrawal</span> <span class="o">=</span> <span class="n">Withdrawal</span><span class="p">(</span>
         <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+        <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
         <span class="n">amount</span><span class="o">=</span><span class="p">(</span><span class="mi">99</span><span class="p">),</span>
     <span class="p">)</span>
 
@@ -7462,11 +7462,11 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">99</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">),</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
@@ -7729,16 +7729,16 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -7748,25 +7748,25 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
                 <span class="p">),</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Withdrawal</span><span class="p">(</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Withdrawal</span><span class="p">(</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
@@ -7776,25 +7776,25 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
                 <span class="p">),</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Withdrawal</span><span class="p">(</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Withdrawal</span><span class="p">(</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
@@ -7802,10 +7802,10 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
     <span class="p">]</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
     <span class="p">}</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
@@ -7974,7 +7974,7 @@ are included in one block:</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x00&quot;</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
@@ -7985,46 +7985,46 @@ are included in one block:</p>
         <span class="n">Withdrawal</span><span class="p">(</span>
             <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="c1"># No value, touched account</span>
         <span class="n">Withdrawal</span><span class="p">(</span>
             <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="c1"># Withdrawal with value</span>
         <span class="n">Withdrawal</span><span class="p">(</span>
             <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
             <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="c1"># Withdrawal with maximum amount</span>
         <span class="n">Withdrawal</span><span class="p">(</span>
             <span class="n">index</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">),</span>
             <span class="n">amount</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">all_post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x00&quot;</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x00&quot;</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">ONE_GWEI</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x400</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="n">withdrawals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Withdrawal</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span> <span class="o">|</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span> <span class="o">|</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">test_case</span> <span class="o">==</span> <span class="n">ZeroAmountTestCases</span><span class="o">.</span><span class="n">TWO_ZERO</span><span class="p">:</span>
         <span class="n">withdrawals</span> <span class="o">=</span> <span class="n">all_withdrawals</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">account</span><span class="p">:</span> <span class="n">all_post</span><span class="p">[</span><span class="n">account</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="n">post</span>
-            <span class="k">if</span> <span class="n">account</span> <span class="ow">in</span> <span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">account</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span>
         <span class="p">}</span>
     <span class="k">elif</span> <span class="n">test_case</span> <span class="o">==</span> <span class="n">ZeroAmountTestCases</span><span class="o">.</span><span class="n">THREE_ONE_WITH_VALUE</span><span class="p">:</span>
         <span class="n">withdrawals</span> <span class="o">=</span> <span class="n">all_withdrawals</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
@@ -8033,9 +8033,9 @@ are included in one block:</p>
             <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="n">post</span>
             <span class="k">if</span> <span class="n">account</span>
             <span class="ow">in</span> <span class="p">[</span>
-                <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
-                <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
-                <span class="n">to_address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
+                <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+                <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+                <span class="n">Address</span><span class="p">(</span><span class="mh">0x300</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">}</span>
     <span class="k">elif</span> <span class="n">test_case</span> <span class="o">==</span> <span class="n">ZeroAmountTestCases</span><span class="o">.</span><span class="n">FOUR_ONE_WITH_MAX</span><span class="p">:</span>
@@ -8144,7 +8144,7 @@ could overflow uint64 but not uint256.</p>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">amount</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amounts</span><span class="p">):</span>
-        <span class="n">addr</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">withdrawals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Withdrawal</span><span class="p">(</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
@@ -8249,7 +8249,7 @@ could overflow uint64 but not uint256.</p>
                 <span class="n">Withdrawal</span><span class="p">(</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="n">precompile</span><span class="p">),</span>
+                    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">precompile</span><span class="p">),</span>
                     <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">]</span>
@@ -8260,7 +8260,7 @@ could overflow uint64 but not uint256.</p>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="n">precompile</span><span class="p">),</span>
+                    <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">precompile</span><span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>

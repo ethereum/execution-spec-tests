@@ -6263,7 +6263,7 @@
 
 
 <h1 id="test-tstorage-create-contexts">Test Tstorage Create Contexts<a class="headerlink" href="#test-tstorage-create-contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6434,9 +6434,7 @@ For all forks up to and including Cancun:
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="nd">@InitcodeTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">class</span> <span class="nc">TestTransientStorageInContractCreation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6464,7 +6462,7 @@ For all forks up to and including Cancun:
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
         <span class="n">create2_salt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">created_contract_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
             <span class="n">create_call</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
@@ -6472,9 +6470,7 @@ For all forks up to and including Cancun:
             <span class="n">create_call</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">create2_salt</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid opcode specified for test.&quot;</span><span class="p">)</span>
-        <span class="n">contract_call</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="mi">4</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">(),</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">created_contract_address</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">contract_call</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">(),</span> <span class="n">created_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x0100</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mh">0x0200</span><span class="p">)</span>
@@ -6496,7 +6492,7 @@ For all forks up to and including Cancun:
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">created_contract_address</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">create2_salt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="nb">bytes</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">creator_address</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
@@ -6508,8 +6504,8 @@ For all forks up to and including Cancun:
     <span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-        <span class="n">creator_contract_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">created_contract_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">creator_contract_code</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
         <span class="n">initcode</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
         <span class="n">deploy_code</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
         <span class="n">expected_creator_storage</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
@@ -6582,7 +6578,9 @@ For all forks up to and including Cancun:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
@@ -6626,13 +6624,11 @@ For all forks up to and including Cancun:
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
+<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">creator_contract_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">created_contract_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">creator_contract_code</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">initcode</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
     <span class="n">deploy_code</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
     <span class="n">expected_creator_storage</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>

@@ -6248,7 +6248,7 @@
 
 
 <h1 id="test-chainid">Test CHAINID<a class="headerlink" href="#test-chainid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/istanbul/eip1344_chainid/test_chainid.py"><code>tests/istanbul/eip1344_chainid/test_chainid.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/istanbul/eip1344_chainid/test_chainid.py"><code>tests/istanbul/eip1344_chainid/test_chainid.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip1344_chainid/test_chainid.py</span>
@@ -6340,7 +6340,7 @@
     <span class="p">)</span>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CHAINID</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CHAINID</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">),</span>
     <span class="p">}</span>
 
@@ -6348,13 +6348,13 @@
         <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x4660015500&quot;</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x01&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">}),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x4660015500&quot;</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x01&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">}),</span>
     <span class="p">}</span>
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>

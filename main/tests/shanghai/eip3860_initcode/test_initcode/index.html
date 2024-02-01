@@ -6296,7 +6296,7 @@
 
 
 <h1 id="test-initcode">Test Initcode<a class="headerlink" href="#test-initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/shanghai/eip3860_initcode/test_initcode.py"><code>tests/shanghai/eip3860_initcode/test_initcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py</span>
@@ -7270,11 +7270,11 @@ that is on/over the max allowed limit.</p>
 
         <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">),</span>
-            <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">create_code</span><span class="p">,</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="p">),</span>
-            <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">call_code</span><span class="p">,</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="p">),</span>
@@ -7284,7 +7284,7 @@ that is on/over the max allowed limit.</p>
 
         <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
             <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
             <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
             <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
@@ -7303,7 +7303,7 @@ that is on/over the max allowed limit.</p>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
             <span class="c1"># Call returns 0 as out of gas s[0]==1</span>
-            <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                     <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -7312,7 +7312,7 @@ that is on/over the max allowed limit.</p>
             <span class="p">)</span>
 
             <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>
-            <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                     <span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -7337,7 +7337,7 @@ that is on/over the max allowed limit.</p>
                 <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
 
             <span class="c1"># Call returns 1 as valid initcode length s[0]==1 &amp;&amp; s[1]==1</span>
-            <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                     <span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -7346,7 +7346,7 @@ that is on/over the max allowed limit.</p>
             <span class="p">)</span>
 
             <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">deploy_code</span><span class="p">)</span>
-            <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                     <span class="mi">0</span><span class="p">:</span> <span class="n">created_contract_address</span><span class="p">,</span>
@@ -7528,11 +7528,11 @@ initcode that is on/over the max allowed limit.</p>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">create_code</span><span class="p">,</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="n">call_code</span><span class="p">,</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
@@ -7542,7 +7542,7 @@ initcode that is on/over the max allowed limit.</p>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">),</span>
         <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
@@ -7561,7 +7561,7 @@ initcode that is on/over the max allowed limit.</p>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="ow">and</span> <span class="n">eip_3860_active</span><span class="p">:</span>
         <span class="c1"># Call returns 0 as out of gas s[0]==1</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -7570,7 +7570,7 @@ initcode that is on/over the max allowed limit.</p>
         <span class="p">)</span>
 
         <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -7595,7 +7595,7 @@ initcode that is on/over the max allowed limit.</p>
             <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
 
         <span class="c1"># Call returns 1 as valid initcode length s[0]==1 &amp;&amp; s[1]==1</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x200</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -7604,7 +7604,7 @@ initcode that is on/over the max allowed limit.</p>
         <span class="p">)</span>
 
         <span class="n">post</span><span class="p">[</span><span class="n">created_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">deploy_code</span><span class="p">)</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mi">0</span><span class="p">:</span> <span class="n">created_contract_address</span><span class="p">,</span>

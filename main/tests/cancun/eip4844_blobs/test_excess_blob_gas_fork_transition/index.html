@@ -6266,7 +6266,7 @@
 
 
 <h1 id="test-excess-blob-gas-fork-transition">Test Excess Blob Gas Fork Transition<a class="headerlink" href="#test-excess-blob-gas-fork-transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6382,7 +6382,7 @@ must be rejected with the appropriate <code>EngineAPIError.InvalidParams</code> 
 <span class="k">def</span> <span class="nf">test_invalid_pre_fork_block_with_blob_fields</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
     <span class="n">pre_fork_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
     <span class="n">excess_blob_gas_present</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">blob_gas_used_present</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -6498,7 +6498,7 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
 <span class="k">def</span> <span class="nf">test_invalid_post_fork_block_without_blob_fields</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
     <span class="n">pre_fork_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
     <span class="n">excess_blob_gas_missing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">blob_gas_used_missing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -6611,10 +6611,10 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
 <span class="k">def</span> <span class="nf">test_fork_transition_excess_blob_gas</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
     <span class="n">pre_fork_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
     <span class="n">post_fork_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
-    <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test `excessBlobGas` calculation in the header when the fork is activated.</span>

@@ -6275,7 +6275,7 @@
 
 
 <h1 id="test-blocks-beacon-root-contract">Test Blocks Beacon Root Contract<a class="headerlink" href="#test-blocks-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3ec3fa304d92d237f94ba69343e9f6c7aef8c2b3/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/62394990db9876583c0ec75abce82583dff8f22d/tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_blocks_beacon_root_contract.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6599,7 +6599,7 @@ buffer, which might have been overwritten by a later block.</p>
 
         <span class="n">current_call_account_code</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
         <span class="n">current_call_account_expected_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
-        <span class="n">current_call_account_address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">current_call_account_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
 
         <span class="c1"># We are going to call the beacon roots contract once for every timestamp of the current</span>
         <span class="c1"># and all previous blocks, and check that the returned beacon root is still correct only</span>
@@ -6641,8 +6641,8 @@ buffer, which might have been overwritten by a later block.</p>
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">tx</span><span class="o">.</span><span class="n">with_fields</span><span class="p">(</span>
                         <span class="n">nonce</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
-                        <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span>
-                        <span class="n">data</span><span class="o">=</span><span class="n">to_hash_bytes</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span>
+                        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="p">],</span>
                 <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span>
@@ -6872,7 +6872,7 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 
         <span class="n">current_call_account_code</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
         <span class="n">current_call_account_expected_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
-        <span class="n">current_call_account_address</span> <span class="o">=</span> <span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">current_call_account_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
 
         <span class="c1"># We are going to call the beacon roots contract once for every timestamp of the current</span>
         <span class="c1"># and all previous blocks, and check that the returned beacon root is correct only</span>
@@ -6915,8 +6915,8 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">tx</span><span class="o">.</span><span class="n">with_fields</span><span class="p">(</span>
                         <span class="n">nonce</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
-                        <span class="n">to</span><span class="o">=</span><span class="n">to_address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span>
-                        <span class="n">data</span><span class="o">=</span><span class="n">to_hash_bytes</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span>
+                        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="p">],</span>
                 <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span> <span class="k">if</span> <span class="n">transitioned</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
@@ -7044,7 +7044,7 @@ deployed in time for the fork.</p>
     <span class="n">beacon_roots</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">caller_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">caller_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -7313,7 +7313,7 @@ code deployed and its functionality after Cancun.</p>
     <span class="p">)</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span>
     <span class="n">deployer_address</span> <span class="o">=</span> <span class="n">deploy_tx</span><span class="o">.</span><span class="n">sender</span>
     <span class="k">assert</span> <span class="n">deployer_address</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="k">assert</span> <span class="n">deployer_address</span> <span class="o">==</span> <span class="nb">int</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_DEPLOYER_ADDRESS</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">Address</span><span class="p">(</span><span class="n">deployer_address</span><span class="p">)</span> <span class="o">==</span> <span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_DEPLOYER_ADDRESS</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">beacon_root_contract_storage</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
