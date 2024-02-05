@@ -178,7 +178,10 @@ def load_dataclass_from_json(dataclass_type, json_as_dict: dict):
         json_key = json_encoder_field.name or field.name
         if json_key in json_as_dict:
             value = json_as_dict[json_key]
-            if json_encoder_field.cast_type:
+            if (
+                json_encoder_field.default_value_skip_cast != value
+                and json_encoder_field.cast_type
+            ):
                 value = json_encoder_field.cast_type(value)
             init_args[field.name] = value
 

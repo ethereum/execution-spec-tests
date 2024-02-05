@@ -75,6 +75,7 @@ eip
 eips
 EIPs
 endianness
+enp
 env
 eof
 esbenp
@@ -112,16 +113,19 @@ git's
 github
 Github
 glightbox
+globals
 go-ethereum's
 gwei
 hash32
 hasher
 hexary
 hexsha
+hexbytes
 homebrew
 html
 https
 hyperledger
+iat
 ignoreRevsFile
 img
 incrementing
@@ -212,6 +216,7 @@ repos
 returndatacopy
 returndatasize
 rlp
+rpc
 ruleset
 runtime
 sandboxed
@@ -352,6 +357,7 @@ subcommand
 substring
 substrings
 tf
+teardown
 testdir
 teststatus
 tmpdir

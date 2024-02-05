@@ -201,6 +201,16 @@ def create_test_cases_from_json(json_file: JsonSource) -> List[TestCase]:
     return test_cases
 
 
+@pytest.fixture(scope="function")
+def test_case_fixture(test_case: TestCase) -> Fixture:
+    """
+    The test fixture as a dictionary. If we failed to parse a test case fixture,
+    it's None: We xfail/skip the test.
+    """
+    assert test_case.fixture is not None
+    return test_case.fixture
+
+
 def pytest_generate_tests(metafunc):
     """
     Generate test cases for every test fixture in all the JSON fixture files

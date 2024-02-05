@@ -42,7 +42,7 @@ from .conversions import (
     to_fixed_size_bytes,
     to_number,
 )
-from .json import JSONEncoder, SupportsJSON, field, to_json
+from .json import JSONEncoder, SupportsJSON, field, load_dataclass_from_json, to_json
 
 
 # Sentinel classes
@@ -867,8 +867,11 @@ class FixtureWithdrawal(Withdrawal):
         """
         Returns a FixtureWithdrawal from a Withdrawal.
         """
-        kwargs = {field.name: getattr(w, field.name) for field in fields(w)}
-        return cls(**kwargs)
+        if isinstance(w, dict):
+            return load_dataclass_from_json(cls, w)
+        else:
+            kwargs = {field.name: getattr(w, field.name) for field in fields(w)}
+            return cls(**kwargs)
 
 
 DEFAULT_BASE_FEE = 7
@@ -1152,6 +1155,24 @@ class AccessList:
 
 
 @dataclass(kw_only=True)
+class FixtureAccessList(AccessList):
+    """
+    Representation of an Access List within a test Fixture.
+    """
+
+    @classmethod
+    def from_access_list(cls, al: AccessList) -> "FixtureAccessList":
+        """
+        Returns a FixtureAccessList from a AccessList or Dict.
+        """
+        if isinstance(al, dict):
+            return load_dataclass_from_json(cls, al)
+        else:
+            kwargs = {field.name: getattr(al, field.name) for field in fields(al)}
+            return cls(**kwargs)
+
+
+@dataclass(kw_only=True)
 class Transaction:
     """
     Generic object that can represent all Ethereum transaction types.
@@ -1164,9 +1185,6 @@ class Transaction:
             cast_type=HexNumber,
         ),
     )
-    """
-    Transaction type value.
-    """
     chain_id: int = field(
         default=1,
         json_encoder=JSONEncoder.Field(
@@ -1416,7 +1434,7 @@ class Transaction:
 
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = Address(self.to) if self.to is not None else bytes()
+        to = Address(self.to) if self.to else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
@@ -1560,7 +1578,7 @@ class Transaction:
         """
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = Address(self.to) if self.to is not None else bytes()
+        to = Address(self.to) if self.to else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
@@ -1773,6 +1791,10 @@ class FixtureTransaction(Transaction):
     Representation of an Ethereum transaction within a test Fixture.
     """
 
+    @staticmethod
+    def _access_lists_encoder(access_lists: List[AccessList]) -> List[FixtureAccessList]:
+        return [FixtureAccessList.from_access_list(al) for al in access_lists]
+
     ty: Optional[int] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -1780,9 +1802,6 @@ class FixtureTransaction(Transaction):
             cast_type=ZeroPaddedHexNumber,
         ),
     )
-    """
-    Transaction type value.
-    """
     chain_id: int = field(
         default=1,
         json_encoder=JSONEncoder.Field(
@@ -1843,6 +1862,14 @@ class FixtureTransaction(Transaction):
             cast_type=Bytes,
         ),
     )
+    access_list: Optional[List[AccessList]] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="accessList",
+            cast_type=_access_lists_encoder,
+            to_json=True,
+        ),
+    )
     max_fee_per_blob_gas: Optional[int] = field(
         default=None,
         json_encoder=JSONEncoder.Field(
@@ -1874,8 +1901,11 @@ class FixtureTransaction(Transaction):
         """
         Returns a FixtureTransaction from a Transaction.
         """
-        kwargs = {field.name: getattr(tx, field.name) for field in fields(tx)}
-        return cls(**kwargs)
+        if isinstance(tx, dict):
+            return load_dataclass_from_json(cls, tx)
+        else:
+            kwargs = {field.name: getattr(tx, field.name) for field in fields(tx)}
+            return cls(**kwargs)
 
 
 @dataclass(kw_only=True)
@@ -2222,6 +2252,17 @@ class FixtureHeader:
 
         # Pass the collected fields as keyword arguments to the constructor
         return cls(**kwargs)
+
+    @classmethod
+    def from_header(cls, h: Header) -> "FixtureHeader":
+        """
+        Returns a FixtureHeader from a Header.
+        """
+        if isinstance(h, dict):
+            return load_dataclass_from_json(cls, h)
+        else:
+            kwargs = {field.name: getattr(h, field.name) for field in fields(h)}
+            return cls(**kwargs)
 
     def join(self, modifier: Header) -> "FixtureHeader":
         """
@@ -2617,6 +2658,10 @@ class FixtureBlock:
     """
 
     @staticmethod
+    def _header_encoder(header: Header) -> FixtureHeader:
+        return FixtureHeader.from_header(header)
+
+    @staticmethod
     def _txs_encoder(txs: List[Transaction]) -> List[FixtureTransaction]:
         return [FixtureTransaction.from_transaction(tx) for tx in txs]
 
@@ -2632,6 +2677,7 @@ class FixtureBlock:
         default=None,
         json_encoder=JSONEncoder.Field(
             name="blockHeader",
+            cast_type=_header_encoder,
             to_json=True,
         ),
     )
