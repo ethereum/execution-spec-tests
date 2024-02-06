@@ -1,6 +1,7 @@
 """
 Abstract base class for Ethereum forks
 """
+
 from abc import ABC, ABCMeta, abstractmethod
 from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Type
 
@@ -186,6 +187,22 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
         This method must always call the `fork_to` method when transitioning, because the
         allocation can only be set at genesis, and thus cannot be changed at transition time.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def environment_verkle_conversion_information_required(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Returns true if the environment must contain the verkle conversion information, which
+        includes:
+        - Conversion address
+        - Conversion slot hash
+        - Conversion started
+        - Conversion ended
+        - Conversion storage processed
         """
         pass
 
