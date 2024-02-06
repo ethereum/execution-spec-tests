@@ -282,7 +282,7 @@ class BlockchainTest(BaseTest):
             withdrawals=env.withdrawals,
         )
 
-        return header, rlp, txs, next_alloc, env
+        return header, rlp, txs, next_alloc, env.update_from_result(result)
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
         """
