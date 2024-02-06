@@ -221,6 +221,22 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """
         pass
 
+    @classmethod
+    @abstractmethod
+    def environment_verkle_conversion_starts(cls) -> bool:
+        """
+        Returns true if the fork starts the verkle conversion process.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def environment_verkle_conversion_completed(cls) -> bool:
+        """
+        Returns true if verkle conversion must have been completed by this fork.
+        """
+        pass
+
     # Engine API information abstract methods
     @classmethod
     @abstractmethod

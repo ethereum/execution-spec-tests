@@ -23,6 +23,8 @@ def dump_files_to_directory(output_path: str, files: Dict[str, Any]) -> None:
     """
     os.makedirs(output_path, exist_ok=True)
     for file_rel_path_flags, file_contents in files.items():
+        if file_contents is None:
+            continue
         file_rel_path, flags = (
             file_rel_path_flags.split("+")
             if "+" in file_rel_path_flags

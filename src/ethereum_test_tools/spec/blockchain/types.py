@@ -52,6 +52,7 @@ from ...common.types import (
     Transaction,
     TransactionFixtureConverter,
     TransactionGeneric,
+    VerkleTree,
     Withdrawal,
     WithdrawalGeneric,
     WithdrawalRequest,
@@ -202,9 +203,9 @@ class FixtureHeader(CamelModel):
     extra_data: Bytes
     prev_randao: Hash = Field(Hash(0), alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
-    base_fee_per_gas: Annotated[
-        ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")
-    ] | None = Field(None)
+    base_fee_per_gas: (
+        Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")] | None
+    ) = Field(None)
     withdrawals_root: Annotated[Hash, HeaderForkRequirement("withdrawals")] | None = Field(None)
     blob_gas_used: (
         Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("blob_gas_used")] | None
@@ -333,9 +334,9 @@ class Block(Header):
     An RLP modifying header which values would be used to override the ones
     returned by the  `evm_transition_tool`.
     """
-    exception: List[
-        TransactionException | BlockException
-    ] | TransactionException | BlockException | None = None
+    exception: (
+        List[TransactionException | BlockException] | TransactionException | BlockException | None
+    ) = None
     """
     If set, the block is expected to be rejected by the client.
     """
@@ -646,7 +647,7 @@ class FixtureCommon(BaseFixture):
     fork: str = Field(..., alias="network")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
-    post_state: Optional[Alloc] = Field(None)
+    post_state: Optional[Alloc | VerkleTree] = Field(None)
 
     def get_fork(self) -> str:
         """

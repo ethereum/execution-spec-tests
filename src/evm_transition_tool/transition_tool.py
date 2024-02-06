@@ -17,6 +17,7 @@ from re import Pattern
 from typing import Any, Dict, List, Optional, Type
 
 from ethereum_test_forks import Fork
+from ethereum_test_tools.common.types import Alloc, VerkleTree
 
 from .file_utils import dump_files_to_directory, write_json_file
 
@@ -121,6 +122,7 @@ class TransitionTool:
     blocktest_subcommand: Optional[str] = None
     cached_version: Optional[str] = None
     t8n_use_stream: bool = True
+    verkle_subcommand: Optional[str] = None
 
     # Abstract methods that each tool must implement
 
@@ -317,6 +319,7 @@ class TransitionTool:
         txs: Any
         env: Any
         fork_name: str
+        vkt: Any = None
         chain_id: int = field(default=1)
         reward: int = field(default=0)
         empty_string_to: bool = field(default=False)
@@ -347,6 +350,8 @@ class TransitionTool:
             "env": t8n_data.env,
             "txs": t8n_data.txs,
         }
+        if t8n_data.vkt is not None:
+            input_contents["vkt"] = t8n_data.vkt
 
         input_paths = {
             k: os.path.join(temp_dir.name, "input", f"{k}.json") for k in input_contents.keys()
@@ -359,7 +364,6 @@ class TransitionTool:
         }
         output_paths["body"] = os.path.join("output", "txs.rlp")
 
-        # Construct args for evmone-t8n binary
         args = [
             str(self.binary),
             "--state.fork",
@@ -383,6 +387,13 @@ class TransitionTool:
             "--state.chainid",
             str(t8n_data.chain_id),
         ]
+
+        # TODO: Verkle specific logic, update when Verkle fork is confirmed.
+        if t8n_data.fork_name == "Prague":
+            output_paths["vkt"] = os.path.join("output", "vkt.json")
+            args.extend(["--output.vkt", output_paths["vkt"]])
+            if t8n_data.vkt is not None:
+                args.extend(["--input.vkt", input_paths["vkt"]])
 
         if self.trace:
             args.append("--trace")
@@ -436,8 +447,9 @@ class TransitionTool:
         for key, file_path in output_paths.items():
             if "txs.rlp" in file_path:
                 continue
-            with open(file_path, "r+") as file:
-                output_contents[key] = json.load(file)
+            if os.path.exists(file_path):
+                with open(file_path, "r+") as file:
+                    output_contents[key] = json.load(file)
 
         if self.trace:
             self.collect_traces(output_contents["result"]["receipts"], temp_dir, debug_output_path)
@@ -463,6 +475,8 @@ class TransitionTool:
             "txs": t8n_data.txs,
             "env": t8n_data.env,
         }
+        if t8n_data.vkt is not None:
+            stdin["vkt"] = t8n_data.vkt
 
         result = subprocess.run(
             args,
@@ -482,13 +496,16 @@ class TransitionTool:
             raise Exception("Malformed t8n output: missing 'alloc', 'result' or 'body'.")
 
         if debug_output_path:
+            files_to_dump = {
+                "output/alloc.json": output["alloc"],
+                "output/result.json": output["result"],
+                "output/txs.rlp": output["body"],
+            }
+            if "vkt" in output:
+                files_to_dump["output/vkt.json"] = output["vkt"]
             dump_files_to_directory(
                 debug_output_path,
-                {
-                    "output/alloc.json": output["alloc"],
-                    "output/result.json": output["result"],
-                    "output/txs.rlp": output["body"],
-                },
+                files_to_dump,
             )
 
         if self.trace:
@@ -507,10 +524,9 @@ class TransitionTool:
         if self.t8n_subcommand:
             command.append(self.t8n_subcommand)
 
-        args = command + [
-            "--input.alloc=stdin",
-            "--input.txs=stdin",
-            "--input.env=stdin",
+        args = command + ["--input.alloc=stdin", "--input.txs=stdin", "--input.env=stdin"]
+
+        args += [
             "--output.result=stdout",
             "--output.alloc=stdout",
             "--output.body=stdout",
@@ -518,6 +534,12 @@ class TransitionTool:
             f"--state.chainid={t8n_data.chain_id}",
             f"--state.reward={t8n_data.reward}",
         ]
+
+        # TODO: Verkle specific logic, update when Verkle fork is confirmed.
+        if t8n_data.fork_name == "Prague":
+            args.append("--output.vkt=stdout")
+            if t8n_data.vkt is not None:
+                args.append("--input.vkt=stdin")
 
         if self.trace:
             args.append("--trace")
@@ -557,6 +579,7 @@ class TransitionTool:
                 "input/alloc.json": stdin["alloc"],
                 "input/env.json": stdin["env"],
                 "input/txs.json": stdin["txs"],
+                "input/vkt.json": stdin.get("vkt", None),
                 "returncode.txt": result.returncode,
                 "stdin.txt": stdin,
                 "stdout.txt": result.stdout.decode(),
@@ -572,6 +595,7 @@ class TransitionTool:
         txs: Any,
         env: Any,
         fork_name: str,
+        vkt: Any = None,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
@@ -592,6 +616,7 @@ class TransitionTool:
             txs=txs,
             env=env,
             fork_name=fork_name,
+            vkt=vkt,
             chain_id=chain_id,
             reward=reward,
             empty_string_to=self.empty_string_to(),
@@ -619,4 +644,14 @@ class TransitionTool:
         """
         raise NotImplementedError(
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
+        )
+
+    def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
+        """
+        Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.
+
+        Currently only implemented by geth's evm.
+        """
+        raise NotImplementedError(
+            "The `from_mpt_to_vkt` function is not supported by this tool. Use geth's evm tool."
         )

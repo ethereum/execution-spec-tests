@@ -4,7 +4,9 @@ Ethereum state test spec definition and filler.
 
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Type
 
-from ethereum_test_forks import Fork
+import pytest
+
+from ethereum_test_forks import EIP6800Transition, Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import Alloc, Environment, Transaction
@@ -181,7 +183,10 @@ class StateTest(BaseTest):
                 t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips
             )
         elif fixture_format == FixtureFormats.STATE_TEST:
-            return self.make_state_test_fixture(t8n, fork, eips)
+            if fork is not EIP6800Transition:
+                return self.make_state_test_fixture(t8n, fork, eips)
+            else:
+                pytest.skip("State tests are not supported for EIP-6800 transition.")
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
