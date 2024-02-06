@@ -1,8 +1,9 @@
 """
 List of all transition fork definitions.
 """
+
 from ..transition_base_fork import transition_fork
-from .forks import Berlin, Cancun, London, Paris, Shanghai
+from .forks import Berlin, Cancun, London, Paris, Prague, Shanghai
 
 
 # Transition Forks
@@ -28,6 +29,15 @@ class ParisToShanghaiAtTime15k(Paris, blockchain_test_network_name="ParisToShang
 class ShanghaiToCancunAtTime15k(Shanghai):
     """
     Shanghai to Cancun transition at Timestamp 15k
+    """
+
+    pass
+
+
+@transition_fork(to_fork=Prague, at_timestamp=32)
+class ShanghaiToPragueAtTime15k(Shanghai):
+    """
+    Shanghai to Prague transition at Timestamp 32
     """
 
     pass

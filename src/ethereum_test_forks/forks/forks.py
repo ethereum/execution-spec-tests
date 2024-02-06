@@ -462,7 +462,7 @@ class Cancun(Shanghai):
         return True
 
 
-class Prague(Cancun):
+class Prague(Shanghai):
     """
     Prague fork
     """
