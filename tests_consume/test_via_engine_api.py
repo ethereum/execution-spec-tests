@@ -135,7 +135,7 @@ def engine_new_payloads(test_case: TestCase) -> List[FixtureEngineNewPayload]:
             block.block_header,
             block.txs,
             block.withdrawals,
-            False if block.expected_exception else True,
+            True,  # TODO: Add support for InvalidFixtureBlock
             error_code=None,
         )
         for block in fixture_blocks
@@ -161,9 +161,11 @@ def test_via_engine_api(
 
     for payload in engine_new_payloads:
         payload_response = engine_rpc.new_payload(payload)
-        assert payload_response["status"] == (
-            "VALID" if payload.valid else "INVALID"
-        ), f"unexpected status: {payload_response} "
+        assert payload_response["status"] == "VALID"
+        # TODO: Add support for InvalidFixtureBlock
+        # assert payload_response["status"] == (
+        #     "VALID" if payload.valid else "INVALID"
+        # ), f"unexpected status: {payload_response} "
 
     forkchoice_response = engine_rpc.forkchoice_updated(
         forkchoice_state={"headBlockHash": engine_new_payloads[-1].payload.hash},
