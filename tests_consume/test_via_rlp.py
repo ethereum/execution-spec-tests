@@ -19,7 +19,7 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from ethereum_test_tools.common.types import Fixture
+from ethereum_test_tools.spec.blockchain.types import Fixture
 from pytest_plugins.consume.consume import TestCase
 from pytest_plugins.consume_via_rlp.network_ruleset_hive import ruleset
 

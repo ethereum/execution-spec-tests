@@ -17,19 +17,15 @@ from ..common import (
     to_json,
     withdrawals_root,
 )
+from ..common.base_types import Address, Bloom, Bytes, Hash, HeaderNonce, ZeroPaddedHexNumber
 from ..common.constants import TestPrivateKey
-from ..common.types import (
-    Address,
-    Alloc,
-    Bloom,
-    Bytes,
+from ..common.types import Alloc
+from ..exceptions import BlockException, TransactionException
+from ..spec.blockchain.types import (
     FixtureEngineNewPayload,
     FixtureExecutionPayload,
     FixtureHeader,
     FixtureTransaction,
-    Hash,
-    HeaderNonce,
-    ZeroPaddedHexNumber,
 )
 
 
@@ -51,6 +47,10 @@ def test_storage():
 
     assert 10 in s.data
     assert s.data[10] == 10
+
+    iter_s = iter(Storage({10: 20, "11": "21"}))
+    assert next(iter_s) == 10
+    assert next(iter_s) == 11
 
     s["10"] = "0x10"
     s["0x10"] = "10"
@@ -278,10 +278,10 @@ def test_storage():
 )
 def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pass: bool):
     if should_pass:
-        account.check_alloc("test", alloc)
+        account.check_alloc(Address(1), alloc)
     else:
         with pytest.raises(Exception) as _:
-            account.check_alloc("test", alloc)
+            account.check_alloc(Address(1), alloc)
 
 
 @pytest.mark.parametrize(
@@ -941,7 +941,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     ],
                     withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
                 ),
-                valid=False,
+                validation_error=TransactionException.INTRINSIC_GAS_TOO_LOW,
                 version=1,
             ),
             {
@@ -985,7 +985,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                         to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
                     ],
                 },
-                "valid": False,
+                "validationError": "TransactionException.INTRINSIC_GAS_TOO_LOW",
                 "version": "1",
             },
             id="fixture_engine_new_payload_1",
@@ -1034,7 +1034,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
                 ),
                 version=1,
-                valid=True,
+                validation_error=BlockException.INCORRECT_BLOCK_FORMAT,
                 blob_versioned_hashes=[bytes([0]), bytes([1])],
                 error_code=EngineAPIError.InvalidRequest,
             ),
@@ -1080,7 +1080,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     ],
                 },
                 "version": "1",
-                "valid": True,
+                "validationError": "BlockException.INCORRECT_BLOCK_FORMAT",
                 "expectedBlobVersionedHashes": [
                     "0x0000000000000000000000000000000000000000000000000000000000000000",
                     "0x0000000000000000000000000000000000000000000000000000000000000001",

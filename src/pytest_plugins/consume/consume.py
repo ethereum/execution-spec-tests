@@ -13,7 +13,7 @@ import pytest
 import requests
 
 from ethereum_test_tools.common.json import load_dataclass_from_json
-from ethereum_test_tools.common.types import Fixture
+from ethereum_test_tools.spec.blockchain.types import Fixture
 
 from ..consume_via_rlp.network_ruleset_hive import ruleset
 

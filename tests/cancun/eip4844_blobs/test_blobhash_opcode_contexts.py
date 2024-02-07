@@ -1,6 +1,5 @@
 """
 abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-
     Test case for `BLOBHASH` opcode calls across different contexts
     in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
@@ -12,10 +11,10 @@ from ethereum_test_tools import (
     Account,
     Block,
     BlockchainTestFiller,
+    Hash,
     TestAddress,
     Transaction,
     YulCompiler,
-    to_hash_bytes,
 )
 
 from .common import BlobhashContext, simple_blob_hashes
@@ -30,7 +29,7 @@ pytestmark = pytest.mark.valid_from("Cancun")
 # Blob transaction template
 tx_type_3 = Transaction(
     ty=Spec.BLOB_TX_TYPE,
-    data=to_hash_bytes(0),
+    data=Hash(0),
     gas_limit=3000000,
     max_fee_per_gas=10,
     max_priority_fee_per_gas=10,
@@ -101,7 +100,7 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(2**256 - 1) + to_hash_bytes(2**256 - 1),
+                data=Hash(2**256 - 1) + Hash(2**256 - 1),
                 to=BlobhashContext.address("blobhash_sstore"),
             ),
             {
@@ -117,7 +116,7 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(1) + to_hash_bytes(1),
+                data=Hash(1) + Hash(1),
                 to=BlobhashContext.address("call"),
                 blob_versioned_hashes=simple_blob_hashes[:2],
             ),
@@ -138,7 +137,7 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(0) + to_hash_bytes(SpecHelpers.max_blobs_per_block() - 1),
+                data=Hash(0) + Hash(SpecHelpers.max_blobs_per_block() - 1),
                 to=BlobhashContext.address("delegatecall"),
             ),
             {
@@ -160,7 +159,7 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(0) + to_hash_bytes(SpecHelpers.max_blobs_per_block() - 1),
+                data=Hash(0) + Hash(SpecHelpers.max_blobs_per_block() - 1),
                 to=BlobhashContext.address("staticcall"),
             ),
             {
@@ -182,7 +181,7 @@ def opcode_context(yul: YulCompiler, request):
                 ),
             },
             tx_type_3.with_fields(
-                data=to_hash_bytes(0) + to_hash_bytes(SpecHelpers.max_blobs_per_block() - 1),
+                data=Hash(0) + Hash(SpecHelpers.max_blobs_per_block() - 1),
                 to=BlobhashContext.address("callcode"),
             ),
             {
@@ -236,7 +235,7 @@ def opcode_context(yul: YulCompiler, request):
             },
             Transaction(
                 ty=2,
-                data=to_hash_bytes(0),
+                data=Hash(0),
                 to=BlobhashContext.address("blobhash_sstore"),
                 gas_limit=3000000,
                 max_fee_per_gas=10,
@@ -256,7 +255,7 @@ def opcode_context(yul: YulCompiler, request):
             },
             Transaction(
                 ty=1,
-                data=to_hash_bytes(0),
+                data=Hash(0),
                 to=BlobhashContext.address("blobhash_sstore"),
                 gas_limit=3000000,
                 gas_price=10,
@@ -275,7 +274,7 @@ def opcode_context(yul: YulCompiler, request):
             },
             Transaction(
                 ty=0,
-                data=to_hash_bytes(0),
+                data=Hash(0),
                 to=BlobhashContext.address("blobhash_sstore"),
                 gas_limit=3000000,
                 gas_price=10,

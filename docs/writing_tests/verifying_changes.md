@@ -20,6 +20,12 @@ pip install tox
 Run tox, as executed in Github Actions, with:
 
 ```console
+tox run-parallel
+```
+
+or, with sequential test environment execution and verbose output as:
+
+```console
 tox
 ```
 

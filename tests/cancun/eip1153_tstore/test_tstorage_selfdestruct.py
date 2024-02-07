@@ -1,6 +1,5 @@
 """
 abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-
     Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy after self-destruct, taking into
     account the changes in EIP-6780.
 """  # noqa: E501
@@ -42,9 +41,7 @@ def call_option(option_number: int) -> bytes:
     """
     Return the bytecode for a call to the callee contract with the given option number.
     """
-    return Op.MSTORE(0, option_number) + Op.CALL(
-        Op.GAS, Op.PUSH20(callee_address), 0, 0, 32, 0, 32
-    )
+    return Op.MSTORE(0, option_number) + Op.CALL(Op.GAS, callee_address, 0, 0, 32, 0, 32)
 
 
 @unique
@@ -249,4 +246,4 @@ def test_reentrant_selfdestructing_call(
     else:
         post[callee_address] = Account.NONEXISTENT
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)

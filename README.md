@@ -68,10 +68,11 @@ The following transition tools are supported by the framework:
 
 ### Upcoming EIP Development
 
-Generally, specific `t8n` implementations and branches must be used when developing tests for upcoming EIPs (last updated 2023-10-19):
+Generally, specific `t8n` implementations and branches must be used when developing tests for upcoming EIPs.
 
-- Cancun related EIPs (4844, 4788, 1153, 6780) - [lightclient/go-ethereum@devnet-10](https://github.com/lightclient/go-ethereum/tree/devnet-10)
-- EOF tests - [ethereum/evmone@master](https://github.com/ethereum/evmone)
+We use named reference tags to point to the specific version of the `t8n` implementation that needs to be used fill the tests.
+
+All current tags, their t8n implementation and branch they point to, are listed in [evm-config.yaml](evm-config.yaml).
 
 ## Getting Started
 
@@ -83,7 +84,7 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
 
 This guide installs stable versions of the required external (go-ethereum) `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
-1. Ensure go-ethereum's `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20), [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21), [0.8.22](https://github.com/ethereum/solidity/releases/tag/v0.8.22)  supported) are in your path. Either build the required versions, or alternatively:
+1. Ensure go-ethereum's `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20), [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21), [0.8.22](https://github.com/ethereum/solidity/releases/tag/v0.8.22), [0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23)  supported) are in your path. Either build the required versions, or alternatively:
 
     ```console
     sudo add-apt-repository -y ppa:ethereum/ethereum
@@ -137,7 +138,7 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
 
 ## Usage
 
-More information on how to obtain and use the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found [here](https://ethereum.github.io/execution-spec-tests/docs-only/getting_started/using_fixtures/).
+More information on how to obtain and consume the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found in the [documentation](https://ethereum.github.io/execution-spec-tests/main/consuming_tests/).
 
 For further help with working with this codebase, see the [online documentation](https://ethereum.github.io/execution-spec-tests/):
 

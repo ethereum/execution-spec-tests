@@ -5,7 +5,7 @@ Ethereum `engine_X` JSON-RPC Engine API methods used within EEST based hive simu
 from typing import Dict
 
 from ..common.json import to_json
-from ..common.types import FixtureEngineNewPayload
+from ..spec.blockchain.types import FixtureEngineNewPayload
 from .base_rpc import BaseRPC
 
 ForkchoiceStateV1 = Dict

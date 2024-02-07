@@ -19,14 +19,15 @@ from ethereum_test_forks import (  # noqa: F401
     Cancun,
     Frontier,
     London,
-    Merge,
-    MergeToShanghaiAtTime15k,
+    Paris,
+    ParisToShanghaiAtTime15k,
     Shanghai,
     ShanghaiToCancunAtTime15k,
 )
 from ethereum_test_tools.common.json import load_dataclass_from_json
-from ethereum_test_tools.common.types import Account, FixtureBlock, FixtureEngineNewPayload
+from ethereum_test_tools.common.types import Account
 from ethereum_test_tools.rpc import EngineRPC, EthRPC
+from ethereum_test_tools.spec.blockchain.types import FixtureBlock, FixtureEngineNewPayload
 from pytest_plugins.consume.consume import TestCase
 from pytest_plugins.consume_via_engine_api.client_fork_ruleset import client_fork_ruleset
 

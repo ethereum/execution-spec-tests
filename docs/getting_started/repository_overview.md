@@ -10,8 +10,9 @@ The most relevant folders and files in the repo are:
 │   ├── 📁 vm/
 │   └── 📁 ...
 ├─╴📁 fixtures/                  # default fixture output dir
-│   ├── 📁 eips/
-│   ├── 📁 vm/
+│   ├── 📁 blockchain_tests/
+│   ├── 📁 blockchain_tests_hive/
+│   ├── 📁 state_tests/
 │   └── 📁 ...
 ├─╴📁 src/                       # library & framework packages
 │   ├── 📁 ethereum_test_fork/

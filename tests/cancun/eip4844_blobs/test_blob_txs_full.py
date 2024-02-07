@@ -1,6 +1,5 @@
 """
 abstract: Tests full blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-
     Test full blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
 """  # noqa: E501
@@ -10,13 +9,14 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     Environment,
     Header,
     TestAddress,
     Transaction,
-    to_address,
+    TransactionException,
 )
 
 from .common import INF_POINT, Blob
@@ -27,9 +27,9 @@ REFERENCE_SPEC_VERSION = ref_spec_4844.version
 
 
 @pytest.fixture
-def destination_account() -> str:
+def destination_account() -> Address:
     """Default destination account for the blob transactions."""
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture
@@ -160,7 +160,7 @@ def tx_max_fee_per_blob_gas(  # noqa: D103
 
 
 @pytest.fixture
-def tx_error() -> Optional[str]:
+def tx_error() -> Optional[TransactionException]:
     """
     Even though the final block we are producing in each of these tests is invalid, and some of the
     transactions will be invalid due to the format in the final block, none of the transactions
@@ -172,7 +172,7 @@ def tx_error() -> Optional[str]:
 
 @pytest.fixture(autouse=True)
 def txs(  # noqa: D103
-    destination_account: Optional[str],
+    destination_account: Optional[Address],
     tx_gas: int,
     tx_value: int,
     tx_calldata: bytes,
@@ -180,7 +180,7 @@ def txs(  # noqa: D103
     tx_max_fee_per_blob_gas: int,
     tx_max_priority_fee_per_gas: int,
     txs_versioned_hashes: List[List[bytes]],
-    tx_error: Optional[str],
+    tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
     txs_wrapped_blobs: List[bool],
 ) -> List[Transaction]:
@@ -254,7 +254,9 @@ def blocks(
     header_blob_gas_used = 0
     block_error = None
     if any(txs_wrapped_blobs):
-        block_error = "invalid transaction"
+        # This is a block exception because the invalid block is only created in the RLP version,
+        # not in the transition tool.
+        block_error = TransactionException.TYPE_3_TX_WITH_FULL_BLOBS
     if len(txs) > 0:
         header_blob_gas_used = (
             sum(

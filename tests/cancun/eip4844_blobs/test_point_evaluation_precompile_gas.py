@@ -1,6 +1,5 @@
 """
 abstract: Tests gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-
     Test gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
 """  # noqa: E501
@@ -10,13 +9,13 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
-    Block,
-    BlockchainTestFiller,
+    Address,
     CodeGasMeasure,
+    Environment,
+    StateTestFiller,
     TestAddress,
     Transaction,
     copy_opcode_cost,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -125,17 +124,17 @@ def precompile_caller_account(
 
 
 @pytest.fixture
-def precompile_caller_address() -> str:
+def precompile_caller_address() -> Address:
     """
     Address of the precompile caller account.
     """
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture
 def pre(
     precompile_caller_account: Account,
-    precompile_caller_address: str,
+    precompile_caller_address: Address,
 ) -> Dict:
     """
     Prepares the pre state of all test cases, by setting the balance of the
@@ -152,7 +151,7 @@ def pre(
 
 @pytest.fixture
 def tx(
-    precompile_caller_address: str,
+    precompile_caller_address: Address,
     precompile_input: bytes,
 ) -> Transaction:
     """
@@ -172,7 +171,7 @@ def tx(
 
 @pytest.fixture
 def post(
-    precompile_caller_address: str,
+    precompile_caller_address: Address,
     proof: Literal["correct", "incorrect"],
     call_gas: int,
 ) -> Dict:
@@ -213,7 +212,7 @@ def post(
 @pytest.mark.parametrize("proof", ["correct", "incorrect"])
 @pytest.mark.valid_from("Cancun")
 def test_point_evaluation_precompile_gas_usage(
-    blockchain_test: BlockchainTestFiller,
+    state_test: StateTestFiller,
     pre: Dict,
     tx: Transaction,
     post: Dict,
@@ -225,8 +224,9 @@ def test_point_evaluation_precompile_gas_usage(
     - Test using different gas limits (exact gas, insufficient gas, extra gas)
     - Test using correct and incorrect proofs
     """
-    blockchain_test(
+    state_test(
+        env=Environment(),
         pre=pre,
         post=post,
-        blocks=[Block(txs=[tx])],
+        tx=tx,
     )

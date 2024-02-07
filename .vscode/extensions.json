@@ -6,6 +6,7 @@
 		"ms-python.python",
 		"ms-python.isort",
 		"ms-python.flake8",
+		"ms-python.mypy-type-checker",
 		"ms-python.black-formatter",
 		"esbenp.prettier-vscode",
 		"njpwerner.autodocstring",  // https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring

@@ -1,6 +1,5 @@
 """
 abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-
     Test cases for `TSTORE` and `TLOAD` opcode calls in contract initcode.
 """  # noqa: E501
 
@@ -9,7 +8,7 @@ from typing import Optional
 
 import pytest
 
-from ethereum_test_tools import Account, Environment, Initcode
+from ethereum_test_tools import Account, Address, Environment, Initcode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
     StateTestFiller,
@@ -151,7 +150,7 @@ class TestTransientStorageInContractCreation:
         self,
         opcode: Op,
         create2_salt: int,
-        created_contract_address: str,
+        created_contract_address: Address,
     ) -> bytes:
         if opcode == Op.CREATE:
             create_call = Op.CREATE(0, 0, Op.CALLDATASIZE)
@@ -159,9 +158,7 @@ class TestTransientStorageInContractCreation:
             create_call = Op.CREATE2(0, 0, Op.CALLDATASIZE, create2_salt)
         else:
             raise Exception("Invalid opcode specified for test.")
-        contract_call = Op.SSTORE(
-            4, Op.CALL(Op.GAS(), Op.PUSH20(created_contract_address), 0, 0, 0, 0, 0)
-        )
+        contract_call = Op.SSTORE(4, Op.CALL(Op.GAS(), created_contract_address, 0, 0, 0, 0, 0))
         return (
             Op.TSTORE(0, 0x0100)
             + Op.TSTORE(1, 0x0200)
@@ -183,7 +180,7 @@ class TestTransientStorageInContractCreation:
     @pytest.fixture()
     def created_contract_address(  # noqa: D102
         self, opcode: Op, create2_salt: int, initcode: bytes
-    ) -> str:
+    ) -> Address:
         if opcode == Op.CREATE:
             return compute_create_address(address=creator_address, nonce=1)
         if opcode == Op.CREATE2:
@@ -195,8 +192,8 @@ class TestTransientStorageInContractCreation:
     def test_contract_creation(
         self,
         state_test: StateTestFiller,
-        creator_contract_code: str,
-        created_contract_address: str,
+        creator_contract_code: bytes,
+        created_contract_address: Address,
         initcode: bytes,
         deploy_code: bytes,
         expected_creator_storage: dict,
@@ -237,5 +234,5 @@ class TestTransientStorageInContractCreation:
             env=Environment(),
             pre=pre,
             post=post,
-            txs=[tx],
+            tx=tx,
         )

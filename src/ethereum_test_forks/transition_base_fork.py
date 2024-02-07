@@ -1,9 +1,10 @@
 """
 Base objects used to define transition forks.
 """
-from typing import List, Type
+from inspect import signature
+from typing import Callable, List, Type
 
-from .base_fork import BaseFork, Fork, ForkAttribute
+from .base_fork import BaseFork, Fork
 
 ALWAYS_TRANSITIONED_BLOCK_NUMBER = 10_000
 ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP = 10_000_000
@@ -46,27 +47,42 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
         from_fork = cls.__bases__[0]
         assert issubclass(from_fork, BaseFork)
 
-        class NewTransitionClass(cls, TransitionBaseClass, BaseFork):  # type: ignore
+        class NewTransitionClass(
+            cls,  # type: ignore
+            TransitionBaseClass,
+            BaseFork,
+            transition_tool_name=cls._transition_tool_name,
+            blockchain_test_network_name=cls._blockchain_test_network_name,
+            solc_name=cls._solc_name,
+        ):
             pass
 
         NewTransitionClass.name = lambda: transition_name  # type: ignore
 
         def make_transition_method(
-            base_method: ForkAttribute,
-            from_fork_method: ForkAttribute,
-            to_fork_method: ForkAttribute,
+            base_method: Callable,
+            from_fork_method: Callable,
+            to_fork_method: Callable,
         ):
+            base_method_parameters = signature(base_method).parameters
+
             def transition_method(
                 cls,
                 block_number: int = ALWAYS_TRANSITIONED_BLOCK_NUMBER,
                 timestamp: int = ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
             ):
+                kwargs = {}
+                if "block_number" in base_method_parameters:
+                    kwargs["block_number"] = block_number
+                if "timestamp" in base_method_parameters:
+                    kwargs["timestamp"] = timestamp
+
                 if getattr(base_method, "__prefer_transition_to_method__", False):
-                    return to_fork_method(block_number=block_number, timestamp=timestamp)
+                    return to_fork_method(**kwargs)
                 return (
-                    to_fork_method(block_number=block_number, timestamp=timestamp)
+                    to_fork_method(**kwargs)
                     if block_number >= at_block and timestamp >= at_timestamp
-                    else from_fork_method(block_number=block_number, timestamp=timestamp)
+                    else from_fork_method(**kwargs)
                 )
 
             return classmethod(transition_method)
@@ -84,6 +100,9 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
 
         NewTransitionClass.transitions_to = lambda: to_fork  # type: ignore
         NewTransitionClass.transitions_from = lambda: from_fork  # type: ignore
+        NewTransitionClass.fork_at = lambda block_number=0, timestamp=0: (  # type: ignore
+            to_fork if block_number >= at_block and timestamp >= at_timestamp else from_fork
+        )
 
         return NewTransitionClass
 

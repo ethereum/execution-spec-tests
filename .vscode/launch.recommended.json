@@ -2,7 +2,6 @@
   // Use IntelliSense to learn about possible attributes.
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-
   // If the VS Code "Run and Debug" button, respecively launch selector are not visible, see this answer:
   // https://stackoverflow.com/a/74245823
   // 
@@ -41,7 +40,7 @@
         "${input:testPathOrId}"
       ],
       "cwd": "${workspaceFolder}"
-    },   
+    },
     {
       "name": "Launch fill --until Shanghai",
       "type": "python",
@@ -80,7 +79,11 @@
       "type": "python",
       "request": "launch",
       "module": "pytest",
-      "args": ["-c", "pytest.ini", "--test-help"],
+      "args": [
+        "-c",
+        "pytest.ini",
+        "--test-help"
+      ],
       "cwd": "/home/dtopz/code/github/danceratopz/execution-spec-tests"
     },
   ],
@@ -118,15 +121,15 @@
       "id": "fork",
       "description": "Which fork do you want to use?",
       "options": [
-        "Frontier", 
-        "Homestead", 
+        "Frontier",
+        "Homestead",
         "Byzantium",
         "Constantinople",
         "ConstantinopleFix",
         "Istanbul",
         "Berlin",
         "London",
-        "Merge",
+        "Paris",
         "Shanghai",
         "Cancun",
       ],

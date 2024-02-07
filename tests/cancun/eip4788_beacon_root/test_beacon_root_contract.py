@@ -1,10 +1,8 @@
 """
 abstract: Tests beacon block root for [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788)
-
     Test the exposed beacon chain root in the EVM for [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788)
 
 note: Adding a new test
-
     Add a function that is named `test_<test_name>` and takes at least the following arguments:
 
     - state_test
@@ -13,10 +11,6 @@ note: Adding a new test
     - tx
     - post
     - valid_call
-
-    The following arguments *need* to be parametrized or the test will not be generated:
-
-    -
 
     All other `pytest.fixtures` can be parametrized to generate new combinations and test
     cases.
@@ -29,11 +23,11 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Environment,
     StateTestFiller,
     Storage,
     Transaction,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -92,7 +86,7 @@ def test_beacon_root_contract_calls(
     state_test(
         env=env,
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
@@ -138,7 +132,7 @@ def test_beacon_root_contract_timestamps(
     state_test(
         env=env,
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
@@ -169,7 +163,7 @@ def test_calldata_lengths(
     state_test(
         env=env,
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
@@ -202,7 +196,7 @@ def test_beacon_root_equal_to_timestamp(
     state_test(
         env=env,
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
@@ -224,7 +218,7 @@ def test_tx_to_beacon_root_contract(
     state_test(
         env=env,
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
@@ -254,7 +248,7 @@ def test_invalid_beacon_root_calldata_value(
     state_test(
         env=env,
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
@@ -272,21 +266,23 @@ def test_beacon_root_selfdestruct(
     Tests that self destructing the beacon root address transfers actors balance correctly.
     """
     # self destruct actor
-    pre[to_address(0x1337)] = Account(
+    pre[Address(0x1337)] = Account(
         code=Op.SELFDESTRUCT(Spec.BEACON_ROOTS_ADDRESS),
         balance=0xBA1,
     )
     # self destruct caller
-    pre[to_address(0xCC)] = Account(
-        code=Op.CALL(100000, Op.PUSH20(to_address(0x1337)), 0, 0, 0, 0, 0)
+    pre[Address(0xCC)] = Account(
+        code=Op.CALL(100000, Address(0x1337), 0, 0, 0, 0, 0)
         + Op.SSTORE(0, Op.BALANCE(Spec.BEACON_ROOTS_ADDRESS)),
     )
-    post[to_address(0xCC)] = Account(
-        storage=Storage({0: 0xBA1}),
-    )
+    post = {
+        Address(0xCC): Account(
+            storage=Storage({0: 0xBA1}),
+        )
+    }
     state_test(
         env=env,
         pre=pre,
-        txs=[tx, Transaction(nonce=1, to=to_address(0xCC), gas_limit=100000, gas_price=10)],
+        tx=Transaction(nonce=0, to=Address(0xCC), gas_limit=100000, gas_price=10),
         post=post,
     )

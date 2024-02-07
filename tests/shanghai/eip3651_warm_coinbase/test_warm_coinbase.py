@@ -1,23 +1,21 @@
 """
 abstract: Tests [EIP-3651: Warm COINBASE](https://eips.ethereum.org/EIPS/eip-3651)
-
     Tests for [EIP-3651: Warm COINBASE](https://eips.ethereum.org/EIPS/eip-3651).
 
 note: Tests ported from:
-
     - [ethereum/tests/pull/1082](https://github.com/ethereum/tests/pull/1082).
 """
 
 import pytest
 
-from ethereum_test_forks import Shanghai, is_fork
+from ethereum_test_forks import Shanghai
 from ethereum_test_tools import (
     Account,
+    Address,
     CodeGasMeasure,
     Environment,
     TestAddress,
     Transaction,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -103,7 +101,7 @@ def test_warm_coinbase_call_out_of_gas(
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         caller_address: Account(code=caller_code),
-        to_address(contract_under_test_address): Account(code=contract_under_test_code),
+        Address(contract_under_test_address): Account(code=contract_under_test_code),
     }
 
     tx = Transaction(
@@ -117,7 +115,7 @@ def test_warm_coinbase_call_out_of_gas(
 
     post = {}
 
-    if use_sufficient_gas and is_fork(fork=fork, which=Shanghai):
+    if use_sufficient_gas and fork >= Shanghai:
         post[caller_address] = Account(
             storage={
                 # On shanghai and beyond, calls with only 100 gas to
@@ -138,7 +136,7 @@ def test_warm_coinbase_call_out_of_gas(
         env=env,
         pre=pre,
         post=post,
-        txs=[tx],
+        tx=tx,
         tag="opcode_" + opcode,
     )
 
@@ -211,7 +209,7 @@ gas_measured_opcodes = [
 ]
 
 
-@pytest.mark.valid_from("Merge")  # these tests fill for fork >= Berlin
+@pytest.mark.valid_from("Paris")  # these tests fill for fork >= Berlin
 @pytest.mark.parametrize(
     "opcode,code_gas_measure",
     gas_measured_opcodes,
@@ -238,13 +236,13 @@ def test_warm_coinbase_gas_usage(state_test, fork, opcode, code_gas_measure):
         timestamp=1000,
     )
 
-    measure_address = to_address(0x100)
+    measure_address = Address(0x100)
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         measure_address: Account(code=code_gas_measure, balance=1000000000000000000000),
     }
 
-    if is_fork(fork, Shanghai):
+    if fork >= Shanghai:
         expected_gas = GAS_REQUIRED_CALL_WARM_ACCOUNT  # Warm account access cost after EIP-3651
     else:
         expected_gas = 2600  # Cold account access cost before EIP-3651
@@ -269,6 +267,6 @@ def test_warm_coinbase_gas_usage(state_test, fork, opcode, code_gas_measure):
         env=env,
         pre=pre,
         post=post,
-        txs=[tx],
+        tx=tx,
         tag="opcode_" + opcode.lower(),
     )
