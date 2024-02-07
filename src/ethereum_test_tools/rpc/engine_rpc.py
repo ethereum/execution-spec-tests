@@ -35,8 +35,8 @@ class EngineRPC(BaseRPC):
             formatted_json.append(engine_new_payload_json.get("parentBeaconBlockRoot", None))
 
         # TODO: This is a temporary workaround to convert remove zero padding from withdrawals
-        withdrawals = formatted_json[0]["withdrawals"]
-        if len(withdrawals) > 0:
+        if "withdrawals" in formatted_json[0] and len(formatted_json[0]["withdrawals"]) > 0:
+            withdrawals = formatted_json[0]["withdrawals"]
             formatted_json[0]["withdrawals"] = [
                 {
                     "index": hex(int(withdrawal["index"], 16)),
