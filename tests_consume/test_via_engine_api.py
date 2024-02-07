@@ -123,9 +123,15 @@ def engine_new_payloads(test_case: TestCase) -> List[FixtureEngineNewPayload]:
         for block in test_case.fixture.blocks
     ]
 
+    fixture_fork = test_case.fixture.fork
+    if fixture_fork == "Merge":
+        # TODO: Handle mapping following rename of Merge fork
+        fork = Paris
+    else:
+        fork = globals()[fixture_fork]
     return [
         FixtureEngineNewPayload.from_fixture_header(
-            globals()[test_case.fixture.fork],
+            fork,
             block.block_header,
             block.txs,
             block.withdrawals,
