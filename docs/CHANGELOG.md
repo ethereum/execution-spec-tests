@@ -8,6 +8,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- 🐞 Dynamic create2 collision from different transactions same block ([#430](https://github.com/ethereum/execution-spec-tests/pull/430)).
+
 - 🐞 Fix beacon root contract deployment tests so the account in the pre-alloc is not empty ([#425](https://github.com/ethereum/execution-spec-tests/pull/425)).
 
 ### 🛠️ Framework
