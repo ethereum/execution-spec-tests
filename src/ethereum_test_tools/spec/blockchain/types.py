@@ -1126,6 +1126,7 @@ class HiveFixture(FixtureCommon):
         default=None,
         json_encoder=JSONEncoder.Field(
             name="verifySync",
+            skip_string_convert=True,
         ),
     )
     pre_state: Mapping[str, Account] = field(
