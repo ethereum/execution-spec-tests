@@ -1122,6 +1122,12 @@ class HiveFixture(FixtureCommon):
             name="engineFcuVersion",
         ),
     )
+    verify_sync: Optional[bool] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="verifySync",
+        ),
+    )
     pre_state: Mapping[str, Account] = field(
         json_encoder=JSONEncoder.Field(
             name="pre",
