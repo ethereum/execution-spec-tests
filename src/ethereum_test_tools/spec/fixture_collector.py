@@ -161,7 +161,9 @@ class FixtureCollector:
         """
         if self.output_dir == "stdout":
             combined_fixtures = {
-                k: v for fixture in self.all_fixtures.values() for k, v in fixture.items()
+                k: v.to_json()
+                for fixture in self.all_fixtures.values()
+                for k, v in fixture.items()
             }
             json.dump(combined_fixtures, sys.stdout, indent=4)
             return
