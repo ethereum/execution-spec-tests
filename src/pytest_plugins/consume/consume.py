@@ -75,6 +75,8 @@ def pytest_addoption(parser):  # noqa: D103
 
 def generate_test_cases(fixtures_directory):  # noqa: D103
     test_cases = []
+    # TODO: update to allow for invalid fixtures
+    print("---> Skipping all invalid blockchain fixtures. <---")
     if fixtures_directory == "stdin":
         test_cases.extend(create_test_cases_from_json("stdin"))
     else:
@@ -148,8 +150,9 @@ class TestCase:  # noqa: D101
         """
         if any(mark is pytest.mark.xfail for mark in self.marks):
             return  # no point continuing
+        # TODO: update to allow for invalid fixtures
         if not all("blockHeader" in block for block in self.fixture.blocks):
-            print("Skipping fixture with missing block header", self.fixture_name)
+            # print("Skipping fixture with missing block header", self.fixture_name)
             self.marks["rlp"].append(pytest.mark.xfail(reason="Missing block header", run=False))
             self.marks["engine"].append(
                 pytest.mark.xfail(reason="Missing block header", run=False)
