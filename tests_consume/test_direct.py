@@ -2,7 +2,9 @@
 Executes a JSON test fixture directly against a client using a dedicated
 client interface similar to geth's EVM 'blocktest' command.
 """
+
 import json
+import re
 import tempfile
 from pathlib import Path
 from typing import Optional
@@ -42,6 +44,6 @@ def test_blocktest(  # noqa: D103
         FixtureFormats.BLOCKCHAIN_TEST,
         test_case.json_file,
         evm_use_single_test,
-        test_case.fixture_name,
+        re.escape(test_case.fixture_name),
         test_dump_dir,
     )
