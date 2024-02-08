@@ -1,6 +1,7 @@
 """
 A pytest plugin providing common functionality for consuming test fixtures.
 """
+
 import json
 import sys
 import tarfile
@@ -74,14 +75,15 @@ def pytest_addoption(parser):  # noqa: D103
 
 def generate_test_cases(fixtures_directory):  # noqa: D103
     test_cases = []
-
     if fixtures_directory == "stdin":
         test_cases.extend(create_test_cases_from_json("stdin"))
     else:
         fixtures_directory = Path(fixtures_directory)
-        for json_file in fixtures_directory.glob("**/*.json"):
+        ignored_directories = {"blockchain_tests_hive", "state_tests"}
+        for json_file in fixtures_directory.rglob("*.json"):
+            if any(ignored_dir in json_file.parts for ignored_dir in ignored_directories):
+                continue
             test_cases.extend(create_test_cases_from_json(json_file))
-
     return test_cases
 
 
