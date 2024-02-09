@@ -42,6 +42,7 @@ from .types import (
     Removable,
     Storage,
     Transaction,
+    Transactions,
     Withdrawal,
 )
 
@@ -70,6 +71,7 @@ __all__ = (
     "TestPrivateKey",
     "TestPrivateKey2",
     "Transaction",
+    "Transactions",
     "Withdrawal",
     "ZeroPaddedHexNumber",
     "add_kzg_version",
