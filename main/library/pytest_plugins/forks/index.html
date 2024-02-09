@@ -6484,10 +6484,6 @@ markers.</p>
 
 
 
-
-
-
-
 <div class="doc doc-object doc-function">
 
 
@@ -7165,9 +7161,7 @@ the parametrized values change depending on the fork.</p>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Register the plugin&#39;s custom markers and process command-line options.</span>
@@ -7204,9 +7198,7 @@ the parametrized values change depending on the fork.</p>
     <span class="n">forks_until</span> <span class="o">=</span> <span class="n">get_fork_option</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;forks_until&quot;</span><span class="p">)</span>
     <span class="n">show_fork_help</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;show_fork_help&quot;</span><span class="p">)</span>
 
-    <span class="n">all_forks</span> <span class="o">=</span> <span class="n">get_forks</span><span class="p">()</span>
-    <span class="c1"># TODO: Tricky, this removes the *Glacier forks.</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span> <span class="o">=</span> <span class="n">forks_from_until</span><span class="p">(</span><span class="n">all_forks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">all_forks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span> <span class="o">=</span> <span class="p">[</span><span class="n">fork</span> <span class="k">for</span> <span class="n">fork</span> <span class="ow">in</span> <span class="n">get_forks</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">fork</span><span class="o">.</span><span class="n">ignore</span><span class="p">()]</span>
     <span class="n">config</span><span class="o">.</span><span class="n">fork_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">():</span> <span class="n">fork</span> <span class="k">for</span> <span class="n">fork</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span><span class="p">}</span>
     <span class="n">config</span><span class="o">.</span><span class="n">fork_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">fork_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
@@ -7315,7 +7307,9 @@ the parametrized values change depending on the fork.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
@@ -7330,9 +7324,7 @@ the parametrized values change depending on the fork.</p>
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_report_header</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">start_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A pytest hook called to obtain the report header.&quot;&quot;&quot;</span>
     <span class="n">bold</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1m&quot;</span>
@@ -7378,12 +7370,12 @@ the parametrized values change depending on the fork.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">294</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
 <span class="normal">295</span>
 <span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fork</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parametrize test cases by fork.</span>
@@ -7509,7 +7501,9 @@ and return.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">302</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
 <span class="normal">303</span>
 <span class="normal">304</span>
 <span class="normal">305</span>
@@ -7554,9 +7548,7 @@ and return.</p>
 <span class="normal">344</span>
 <span class="normal">345</span>
 <span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_validity_marker_args</span><span class="p">(</span>
+<span class="normal">347</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_validity_marker_args</span><span class="p">(</span>
     <span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">,</span>
     <span class="n">validity_marker_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">test_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -7632,7 +7624,9 @@ and return.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">352</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
 <span class="normal">353</span>
 <span class="normal">354</span>
 <span class="normal">355</span>
@@ -7814,17 +7808,19 @@ and return.</p>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pytest_params</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">ForkParametrizer</span><span class="p">(</span>
-                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-                    <span class="n">mark</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span>
-                        <span class="n">reason</span><span class="o">=</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;Fork &#39;</span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&#39; unsupported by &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s1">&#39;evm_bin&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
-                        <span class="p">)</span>
-                    <span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="n">ForkParametrizer</span><span class="p">(</span>
+                        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                        <span class="n">mark</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span>
+                            <span class="n">reason</span><span class="o">=</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Fork &#39;</span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&#39; unsupported by &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s1">&#39;evm_bin&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                            <span class="p">)</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="ow">in</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">unsupported_forks</span>
+                    <span class="k">else</span> <span class="n">ForkParametrizer</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="ow">in</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">unsupported_forks</span>
-                <span class="k">else</span> <span class="n">ForkParametrizer</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">fork</span> <span class="ow">in</span> <span class="n">intersection_range</span>
             <span class="p">]</span>
             <span class="n">add_fork_covariant_parameters</span><span class="p">(</span><span class="n">metafunc</span><span class="p">,</span> <span class="n">pytest_params</span><span class="p">)</span>
