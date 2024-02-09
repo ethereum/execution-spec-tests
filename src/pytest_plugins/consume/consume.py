@@ -106,7 +106,8 @@ def pytest_configure(config):  # noqa: D103
                 f"Specified fixture directory '{input_source}' does not contain any JSON files."
             )
         config.option.fixture_directory = input_source
-    # We generate the list of test cases here, it need only be done once
+    # We generate the list of test cases once here to make it available for each invocation of
+    # pytest_generate_tests() which is the case when calling `consume all`.
     config.test_cases = generate_test_cases(config.option.fixture_directory)
 
 
