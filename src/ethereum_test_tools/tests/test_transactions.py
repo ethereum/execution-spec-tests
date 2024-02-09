@@ -2,11 +2,11 @@
 Test suite for transaction signing and serialization.
 """
 
-from typing import Tuple
+from typing import List, Tuple
 
 import pytest
 
-from ..common import AccessList, Transaction
+from ..common import AccessList, Transaction, Transactions
 
 
 @pytest.mark.parametrize(
@@ -258,6 +258,236 @@ def test_transaction_signing(
     assert signature is not None
 
     assert signature == expected_signature
-    assert type(tx.sender) == bytes
+    assert isinstance(tx.sender, bytes)
     assert ("0x" + tx.sender.hex()) == expected_sender
     assert ("0x" + tx.serialized_bytes().hex()) == expected_serialized
+
+
+@pytest.mark.parametrize(
+    [
+        "txs",
+        "expected_txs",
+    ],
+    [
+        pytest.param(
+            Transactions(
+                gas_price=range(1000000000, 2000000001, 1000000000),
+            ),
+            [
+                Transaction(
+                    gas_price=1000000000,
+                ),
+                Transaction(
+                    nonce=1,
+                    gas_price=2000000000,
+                ),
+            ],
+            id="type-0-gas-price-range",
+        ),
+        pytest.param(
+            Transactions(
+                gas_price=[1000000000, 2000000000],
+            ),
+            [
+                Transaction(
+                    gas_price=1000000000,
+                ),
+                Transaction(
+                    nonce=1,
+                    gas_price=2000000000,
+                ),
+            ],
+            id="type-0-gas-price-list",
+        ),
+        pytest.param(
+            Transactions(
+                gas_price=[1000000000, 2000000000],
+                data=b"\x00\x01",
+            ),
+            [
+                Transaction(
+                    gas_price=1000000000,
+                    data=b"\x00\x01",
+                ),
+                Transaction(
+                    nonce=1,
+                    gas_price=2000000000,
+                    data=b"\x00\x01",
+                ),
+            ],
+            id="type-0-gas-price-list-with-data",
+        ),
+        pytest.param(
+            Transactions(
+                data=[b"\x00\x01", b"\x00\x02"],
+            ),
+            [
+                Transaction(
+                    data=b"\x00\x01",
+                ),
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x02",
+                ),
+            ],
+            id="type-0-data-list",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=1,
+                data=[b"\x00\x01", b"\x00\x02"],
+            ),
+            [
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x01",
+                ),
+                Transaction(
+                    nonce=2,
+                    data=b"\x00\x02",
+                ),
+            ],
+            id="type-0-data-list-non-zero-nonce",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(2),
+                data=[b"\x00\x01", b"\x00\x02"],
+            ),
+            [
+                Transaction(
+                    nonce=0,
+                    data=b"\x00\x01",
+                ),
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x02",
+                ),
+            ],
+            id="type-0-data-list-iterator-nonce",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(2),
+                data=[b"\x00\x01", b"\x00\x02", b"\x00\x03"],
+            ),
+            [
+                Transaction(
+                    nonce=0,
+                    data=b"\x00\x01",
+                ),
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x02",
+                ),
+            ],
+            id="type-0-data-list-shorter-iterator-nonce",
+        ),
+        pytest.param(
+            Transactions(
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                limit=2,
+            ),
+            [
+                Transaction(
+                    nonce=0,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                ),
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                ),
+            ],
+            id="type-0-limit",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                limit=2,
+            ),
+            [
+                Transaction(
+                    nonce=0,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                ),
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                ),
+            ],
+            id="type-0-limit-longer-iterator",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                limit=2,
+            ),
+            [
+                Transaction(
+                    nonce=0,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                    blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                ),
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                    blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                ),
+            ],
+            id="type-3-list-type",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                blob_versioned_hashes_list=[
+                    [b"\x00\x01", b"\x00\x02"],
+                    [b"\x00\x01", b"\x00\x03"],
+                ],
+            ),
+            [
+                Transaction(
+                    nonce=0,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                    blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                ),
+                Transaction(
+                    nonce=1,
+                    data=b"\x00\x01",
+                    gas_limit=1000000,
+                    gas_price=1000000000,
+                    blob_versioned_hashes=[b"\x00\x01", b"\x00\x03"],
+                ),
+            ],
+            id="type-3-list-list-type",
+        ),
+    ],
+)
+def test_transactions(txs: Transactions, expected_txs: List[Transaction]):
+    for tx1, tx2 in zip(txs, expected_txs):
+        assert tx1 == tx2

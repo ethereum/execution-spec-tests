@@ -1,13 +1,15 @@
 """
 Useful types for generating Ethereum tests.
 """
-from copy import copy, deepcopy
-from dataclasses import dataclass, fields
-from itertools import count
+
+from copy import copy
+from dataclasses import dataclass, fields, replace
+from itertools import count, cycle
 from typing import (
     Any,
     ClassVar,
     Dict,
+    Iterable,
     Iterator,
     List,
     Mapping,
@@ -27,7 +29,15 @@ from trie import HexaryTrie
 from ethereum_test_forks import Fork
 
 from ..exceptions import ExceptionList, TransactionException
-from .base_types import Address, Bytes, Hash, HexNumber, Number, ZeroPaddedHexNumber
+from .base_types import (
+    Address,
+    Bytes,
+    DataclassGenerator,
+    Hash,
+    HexNumber,
+    Number,
+    ZeroPaddedHexNumber,
+)
 from .constants import TestPrivateKey
 from .conversions import (
     BytesConvertible,
@@ -1175,29 +1185,19 @@ class Transaction:
         """
         Create a copy of the transaction with an added error.
         """
-        tx = copy(self)
-        tx.error = error
-        return tx
+        return replace(self, error=error)
 
     def with_nonce(self, nonce: int) -> "Transaction":
         """
         Create a copy of the transaction with a modified nonce.
         """
-        tx = copy(self)
-        tx.nonce = nonce
-        return tx
+        return replace(self, nonce=nonce)
 
     def with_fields(self, **kwargs) -> "Transaction":
         """
-        Create a deepcopy of the transaction with modified fields.
+        Create a copy of the transaction with modified fields.
         """
-        tx = deepcopy(self)
-        for key, value in kwargs.items():
-            if hasattr(tx, key):
-                setattr(tx, key, value)
-            else:
-                raise ValueError(f"Invalid field '{key}' for Transaction")
-        return tx
+        return replace(self, **kwargs)
 
     def payload_body(self) -> List[Any]:
         """
@@ -1474,19 +1474,22 @@ class Transaction:
         """
         Returns a signed version of the transaction using the private key.
         """
-        tx = copy(self)
-
-        if tx.v is not None:
+        if self.v is not None:
             # Transaction already signed
-            if tx.sender is None:
+            if self.sender is None:
                 public_key = PublicKey.from_signature_and_message(
-                    tx.signature_bytes(), keccak256(tx.signing_bytes()), hasher=None
+                    self.signature_bytes(), keccak256(self.signing_bytes()), hasher=None
                 )
-                tx.sender = keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
-            return tx
+                return replace(
+                    self, sender=keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
+                )
+            # Transaction already signed and has sender, nothing changed
+            return self
 
-        if tx.secret_key is None:
+        if self.secret_key is None:
             raise ValueError("secret_key must be set to sign a transaction")
+
+        tx = copy(self)
 
         # Get the signing bytes
         signing_hash = keccak256(tx.signing_bytes())
@@ -1517,6 +1520,30 @@ class Transaction:
         if not keep_secret_key:
             tx.secret_key = None
         return tx
+
+
+class Transactions(DataclassGenerator[Transaction], nonce_field="nonce"):
+    """
+    Transaction generator.
+
+    This class is used to generate transactions in a test case.
+
+    Takes the same arguments as `Transaction`, but if an iterable is provided for a
+    field, it will generate a transaction for each value in the iterable.
+
+    `nonce` value is optional and if not provided, it will be generated automatically
+    for each transaction starting from zero.
+
+    If none of the values are iterables, an exception will be raised because none of the provided
+    values will be bounded.
+
+    `limit` is optional and if provided, it will limit the number of transactions generated.
+
+    Fields that are already supposed to be lists, such as `access_list` and
+    `blob_versioned_hashes`, are not yet supported.
+    """
+
+    pass
 
 
 def transaction_list_root(input_txs: List[Transaction] | None) -> Hash:
