@@ -1429,6 +1429,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.RLP_STRUCTURES_ENCODING" class="md-nav__link">
+    <span class="md-ellipsis">
+      RLP_STRUCTURES_ENCODING
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6669,6 +6678,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.RLP_STRUCTURES_ENCODING" class="md-nav__link">
+    <span class="md-ellipsis">
+      RLP_STRUCTURES_ENCODING
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6715,13 +6733,7 @@ the exceptions.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/exceptions/exceptions.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 64</span>
 <span class="normal"> 65</span>
 <span class="normal"> 66</span>
 <span class="normal"> 67</span>
@@ -6778,7 +6790,13 @@ the exceptions.</p>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -7255,13 +7273,7 @@ block header contains an invalid field.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/exceptions/exceptions.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
@@ -7280,7 +7292,17 @@ block header contains an invalid field.</p>
 <span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
-<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -7305,6 +7327,10 @@ block header contains an invalid field.</p>
     <span class="n">INCORRECT_EXCESS_BLOB_GAS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block&#39;s excess blob gas in header is incorrect.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">RLP_STRUCTURES_ENCODING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block&#39;s rlp encoding is valid but ethereum structures in it are invalid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -7419,6 +7445,33 @@ a fork that is not active yet.</p>
   <div class="doc doc-contents ">
   
       <p>Block's excess blob gas in header is incorrect.</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="ethereum_test_tools.BlockException.RLP_STRUCTURES_ENCODING" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">RLP_STRUCTURES_ENCODING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.BlockException.RLP_STRUCTURES_ENCODING" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Block's rlp encoding is valid but ethereum structures in it are invalid</p>
   </div>
 
 </div>
