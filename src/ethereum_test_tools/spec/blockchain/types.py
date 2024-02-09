@@ -1,6 +1,7 @@
 """
 BlockchainTest types
 """
+
 import json
 from copy import copy, deepcopy
 from dataclasses import dataclass, fields, replace
@@ -26,8 +27,9 @@ from ...common.base_types import (
 )
 from ...common.constants import AddrAA, EmptyOmmersRoot, EngineAPIError
 from ...common.conversions import BytesConvertible, FixedSizeBytesConvertible, NumberConvertible
-from ...common.json import JSONEncoder, field, to_json
+from ...common.json import JSONEncoder, field, load_dataclass_from_json, to_json
 from ...common.types import (
+    AccessList,
     Account,
     Alloc,
     Environment,
@@ -385,6 +387,17 @@ class FixtureHeader:
 
         # Pass the collected fields as keyword arguments to the constructor
         return cls(**kwargs)
+
+    @classmethod
+    def from_header(cls, h: Header) -> "FixtureHeader":
+        """
+        Returns a FixtureHeader from a Header.
+        """
+        if isinstance(h, dict):
+            return load_dataclass_from_json(cls, h)
+        else:
+            kwargs = {field.name: getattr(h, field.name) for field in fields(h)}
+            return cls(**kwargs)
 
     def join(self, modifier: Header) -> "FixtureHeader":
         """
@@ -787,6 +800,24 @@ class FixtureEngineNewPayload:
         return new_payload
 
 
+@dataclass(kw_only=True)
+class FixtureAccessList(AccessList):
+    """
+    Representation of an Access List within a test Fixture.
+    """
+
+    @classmethod
+    def from_access_list(cls, al: AccessList) -> "FixtureAccessList":
+        """
+        Returns a FixtureAccessList from a AccessList or Dict.
+        """
+        if isinstance(al, dict):
+            return load_dataclass_from_json(cls, al)
+        else:
+            kwargs = {field.name: getattr(al, field.name) for field in fields(al)}
+            return cls(**kwargs)
+
+
 @dataclass
 class FixtureTransaction(Transaction):
     """
@@ -857,6 +888,19 @@ class FixtureTransaction(Transaction):
             cast_type=ZeroPaddedHexNumber,
         ),
     )
+
+    @staticmethod
+    def _access_lists_encoder(access_lists: List[AccessList]) -> List[FixtureAccessList]:
+        return [FixtureAccessList.from_access_list(al) for al in access_lists]
+
+    access_list: Optional[List[AccessList]] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="accessList",
+            cast_type=_access_lists_encoder,
+            to_json=True,
+        ),
+    )
     data: BytesConvertible = field(
         default_factory=bytes,
         json_encoder=JSONEncoder.Field(
@@ -894,8 +938,11 @@ class FixtureTransaction(Transaction):
         """
         Returns a FixtureTransaction from a Transaction.
         """
-        kwargs = {field.name: getattr(tx, field.name) for field in fields(tx)}
-        return cls(**kwargs)
+        if isinstance(tx, dict):
+            return load_dataclass_from_json(cls, tx)
+        else:
+            kwargs = {field.name: getattr(tx, field.name) for field in fields(tx)}
+            return cls(**kwargs)
 
 
 @dataclass(kw_only=True)
@@ -927,8 +974,11 @@ class FixtureWithdrawal(Withdrawal):
         """
         Returns a FixtureWithdrawal from a Withdrawal.
         """
-        kwargs = {field.name: getattr(w, field.name) for field in fields(w)}
-        return cls(**kwargs)
+        if isinstance(w, dict):
+            return load_dataclass_from_json(cls, w)
+        else:
+            kwargs = {field.name: getattr(w, field.name) for field in fields(w)}
+            return cls(**kwargs)
 
 
 @dataclass(kw_only=True)
@@ -943,6 +993,7 @@ class FixtureBlock:
     block_header: FixtureHeader = field(
         json_encoder=JSONEncoder.Field(
             name="blockHeader",
+            cast_type=lambda header: FixtureHeader.from_header(header),
             to_json=True,
         ),
     )

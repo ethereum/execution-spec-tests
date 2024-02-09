@@ -266,7 +266,7 @@ class TestFillBlockchainValidTxs:
         return pre
 
     @pytest.fixture
-    def blocks(self):  # noqa: D102
+    def blocks(self) -> List[Block]:  # noqa: D102
         blocks: List[Block] = [
             Block(
                 coinbase="0xba5e000000000000000000000000000000000000",

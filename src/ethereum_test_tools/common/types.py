@@ -1,6 +1,7 @@
 """
 Useful types for generating Ethereum tests.
 """
+
 from copy import copy, deepcopy
 from dataclasses import dataclass, fields
 from itertools import count
@@ -950,9 +951,6 @@ class Transaction:
             cast_type=HexNumber,
         ),
     )
-    """
-    Transaction type value.
-    """
     chain_id: int = field(
         default=1,
         json_encoder=JSONEncoder.Field(
@@ -1208,7 +1206,7 @@ class Transaction:
 
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = Address(self.to) if self.to is not None else bytes()
+        to = Address(self.to) if self.to else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
@@ -1355,7 +1353,7 @@ class Transaction:
         """
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = Address(self.to) if self.to is not None else bytes()
+        to = Address(self.to) if self.to else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844

@@ -3,8 +3,10 @@ Fixture collector class used to collect, sort and combine the different types of
 fixtures.
 """
 
+import json
 import os
 import re
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Literal, Optional, Tuple
@@ -157,6 +159,14 @@ class FixtureCollector:
         """
         Dumps all collected fixtures to their respective files.
         """
+        if self.output_dir == "stdout":
+            combined_fixtures = {
+                k: v.to_json()
+                for fixture in self.all_fixtures.values()
+                for k, v in fixture.items()
+            }
+            json.dump(combined_fixtures, sys.stdout, indent=4)
+            return
         os.makedirs(self.output_dir, exist_ok=True)
         for fixture_path, fixtures in self.all_fixtures.items():
             os.makedirs(fixture_path.parent, exist_ok=True)
@@ -175,8 +185,14 @@ class FixtureCollector:
             if FixtureFormats.is_verifiable(fixture_format):
                 info = self.json_path_to_test_item[fixture_path]
                 verify_fixtures_dump_dir = self._get_verify_fixtures_dump_dir(info)
+                use_single_test = False
+                fixture_name = ""
                 evm_fixture_verification.verify_fixture(
-                    fixture_format, fixture_path, verify_fixtures_dump_dir
+                    fixture_format,
+                    fixture_path,
+                    use_single_test,
+                    fixture_name,
+                    verify_fixtures_dump_dir,
                 )
 
     def _get_verify_fixtures_dump_dir(
