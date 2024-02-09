@@ -1,8 +1,9 @@
 """
 Useful types for generating Ethereum tests.
 """
-from copy import copy, deepcopy
-from dataclasses import dataclass, fields
+
+from copy import copy
+from dataclasses import dataclass, fields, replace
 from itertools import count
 from typing import (
     Any,
@@ -960,7 +961,7 @@ class Transaction:
             cast_type=HexNumber,
         ),
     )
-    nonce: int = field(
+    nonce: int | Iterator[int] = field(
         default=0,
         json_encoder=JSONEncoder.Field(
             cast_type=HexNumber,
@@ -1109,6 +1110,16 @@ class Transaction:
         ),
     )
 
+    @property
+    def resolved_nonce(self) -> int:
+        """
+        Returns the resolved nonce value.
+        """
+        assert isinstance(
+            self.nonce, int
+        ), f"Nonce must be resolved to an integer, got {self.nonce}"
+        return self.nonce
+
     class InvalidFeePayment(Exception):
         """
         Transaction described more than one fee payment type.
@@ -1171,33 +1182,27 @@ class Transaction:
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
             self.max_priority_fee_per_gas = 0
 
+        # Resolve the nonce
+        if isinstance(self.nonce, Iterator):
+            self.nonce = next(self.nonce)
+
     def with_error(self, error: TransactionException | ExceptionList) -> "Transaction":
         """
         Create a copy of the transaction with an added error.
         """
-        tx = copy(self)
-        tx.error = error
-        return tx
+        return replace(self, error=error)
 
-    def with_nonce(self, nonce: int) -> "Transaction":
+    def with_nonce(self, nonce: int | Iterator[int]) -> "Transaction":
         """
         Create a copy of the transaction with a modified nonce.
         """
-        tx = copy(self)
-        tx.nonce = nonce
-        return tx
+        return replace(self, nonce=nonce)
 
     def with_fields(self, **kwargs) -> "Transaction":
         """
-        Create a deepcopy of the transaction with modified fields.
+        Create a copy of the transaction with modified fields.
         """
-        tx = deepcopy(self)
-        for key, value in kwargs.items():
-            if hasattr(tx, key):
-                setattr(tx, key, value)
-            else:
-                raise ValueError(f"Invalid field '{key}' for Transaction")
-        return tx
+        return replace(self, **kwargs)
 
     def payload_body(self) -> List[Any]:
         """
@@ -1238,7 +1243,7 @@ class Transaction:
                 return [
                     [
                         Uint(self.chain_id),
-                        Uint(self.nonce),
+                        Uint(self.resolved_nonce),
                         Uint(self.max_priority_fee_per_gas),
                         Uint(self.max_fee_per_gas),
                         Uint(self.gas_limit),
@@ -1259,7 +1264,7 @@ class Transaction:
             else:
                 return [
                     Uint(self.chain_id),
-                    Uint(self.nonce),
+                    Uint(self.resolved_nonce),
                     Uint(self.max_priority_fee_per_gas),
                     Uint(self.max_fee_per_gas),
                     Uint(self.gas_limit),
@@ -1283,7 +1288,7 @@ class Transaction:
                 raise ValueError("access_list must be set for type 2 tx")
             return [
                 Uint(self.chain_id),
-                Uint(self.nonce),
+                Uint(self.resolved_nonce),
                 Uint(self.max_priority_fee_per_gas),
                 Uint(self.max_fee_per_gas),
                 Uint(self.gas_limit),
@@ -1304,7 +1309,7 @@ class Transaction:
 
             return [
                 Uint(self.chain_id),
-                Uint(self.nonce),
+                Uint(self.resolved_nonce),
                 Uint(self.gas_price),
                 Uint(self.gas_limit),
                 to,
@@ -1320,7 +1325,7 @@ class Transaction:
                 raise ValueError("gas_price must be set for type 0 tx")
             # EIP-155: https://eips.ethereum.org/EIPS/eip-155
             return [
-                Uint(self.nonce),
+                Uint(self.resolved_nonce),
                 Uint(self.gas_price),
                 Uint(self.gas_limit),
                 to,
@@ -1369,7 +1374,7 @@ class Transaction:
                 raise ValueError("blob_versioned_hashes must be set for type 3 tx")
             return [
                 Uint(self.chain_id),
-                Uint(self.nonce),
+                Uint(self.resolved_nonce),
                 Uint(self.max_priority_fee_per_gas),
                 Uint(self.max_fee_per_gas),
                 Uint(self.gas_limit),
@@ -1388,7 +1393,7 @@ class Transaction:
                 raise ValueError("max_fee_per_gas must be set for type 2 tx")
             return [
                 Uint(self.chain_id),
-                Uint(self.nonce),
+                Uint(self.resolved_nonce),
                 Uint(self.max_priority_fee_per_gas),
                 Uint(self.max_fee_per_gas),
                 Uint(self.gas_limit),
@@ -1404,7 +1409,7 @@ class Transaction:
 
             return [
                 Uint(self.chain_id),
-                Uint(self.nonce),
+                Uint(self.resolved_nonce),
                 Uint(self.gas_price),
                 Uint(self.gas_limit),
                 to,
@@ -1419,7 +1424,7 @@ class Transaction:
             if self.protected:
                 # EIP-155: https://eips.ethereum.org/EIPS/eip-155
                 return [
-                    Uint(self.nonce),
+                    Uint(self.resolved_nonce),
                     Uint(self.gas_price),
                     Uint(self.gas_limit),
                     to,
@@ -1431,7 +1436,7 @@ class Transaction:
                 ]
             else:
                 return [
-                    Uint(self.nonce),
+                    Uint(self.resolved_nonce),
                     Uint(self.gas_price),
                     Uint(self.gas_limit),
                     to,
@@ -1474,19 +1479,22 @@ class Transaction:
         """
         Returns a signed version of the transaction using the private key.
         """
-        tx = copy(self)
-
-        if tx.v is not None:
+        if self.v is not None:
             # Transaction already signed
-            if tx.sender is None:
+            if self.sender is None:
                 public_key = PublicKey.from_signature_and_message(
-                    tx.signature_bytes(), keccak256(tx.signing_bytes()), hasher=None
+                    self.signature_bytes(), keccak256(self.signing_bytes()), hasher=None
                 )
-                tx.sender = keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
-            return tx
+                return replace(
+                    self, sender=keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
+                )
+            # Transaction already signed and has sender, nothing changed
+            return self
 
-        if tx.secret_key is None:
+        if self.secret_key is None:
             raise ValueError("secret_key must be set to sign a transaction")
+
+        tx = copy(self)
 
         # Get the signing bytes
         signing_hash = keccak256(tx.signing_bytes())

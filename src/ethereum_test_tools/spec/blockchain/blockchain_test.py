@@ -5,7 +5,7 @@ Ethereum blockchain test spec definition and filler.
 from copy import copy
 from dataclasses import dataclass, field, replace
 from pprint import pprint
-from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
+from typing import Any, Callable, Dict, Generator, Iterable, List, Mapping, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
@@ -99,7 +99,7 @@ class BlockchainTest(BaseTest):
 
     pre: Mapping
     post: Mapping
-    blocks: List[Block]
+    blocks: Iterable[Block]
     genesis_environment: Environment = field(default_factory=Environment)
     tag: str = ""
     chain_id: int = 1
