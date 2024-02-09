@@ -3,6 +3,7 @@ abstract: Test [EIP-198: MODEXP Precompile](https://eips.ethereum.org/EIPS/eip-1
     Tests the MODEXP precompile, located at address 0x0000..0005. Test cases from the EIP are
     labelled with `EIP-198-caseX` in the test id.
 """
+
 from dataclasses import dataclass
 
 import pytest
@@ -252,9 +253,10 @@ def test_modexp(state_test: StateTestFiller, input: ModExpInput, output: Expecte
         )
     )
 
+    nonce = 0
     tx = Transaction(
         ty=0x0,
-        nonce=0,
+        nonce=nonce,
         to=account,
         data=input.create_modexp_tx_data(),
         gas_limit=500000,
@@ -264,7 +266,7 @@ def test_modexp(state_test: StateTestFiller, input: ModExpInput, output: Expecte
 
     post = {}
     if output.call_return_code != "0x00":
-        contract_address = compute_create_address(account, tx.nonce)
+        contract_address = compute_create_address(account, nonce)
         post[contract_address] = Account(code=output.returned_data)
     post[account] = Account(storage={0: output.call_return_code})
 

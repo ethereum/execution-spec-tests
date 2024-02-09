@@ -442,7 +442,7 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
                     Transaction(
                         ty=0x0,
                         chain_id=0x0,
-                        nonce=next(nonce),
+                        nonce=nonce,
                         to=address_to,
                         gas_price=10,
                         protected=False,
@@ -453,7 +453,7 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
                     Transaction(
                         ty=0x0,
                         chain_id=0x0,
-                        nonce=next(nonce),
+                        nonce=nonce,
                         to=address_to_second,
                         gas_price=10,
                         protected=False,
@@ -680,7 +680,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
                     Transaction(
                         ty=0x0,
                         chain_id=0x0,
-                        nonce=next(nonce),
+                        nonce=nonce,
                         to=address_to,
                         gas_price=10,
                         protected=False,
@@ -691,7 +691,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
                     Transaction(
                         ty=0x0,
                         chain_id=0x0,
-                        nonce=next(nonce),
+                        nonce=nonce,
                         to=address_to,
                         gas_price=10,
                         protected=False,

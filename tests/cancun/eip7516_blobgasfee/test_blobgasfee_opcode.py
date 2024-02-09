@@ -3,6 +3,7 @@ abstract: Tests [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/ei
     Test BLOBGASFEE opcode [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/eip-7516)
 
 """  # noqa: E501
+
 from dataclasses import replace
 from itertools import count
 from typing import Dict
@@ -205,7 +206,7 @@ def test_blobbasefee_during_fork(
     for block_number, timestamp in enumerate(timestamps, start=1):
         blocks.append(
             Block(
-                txs=[tx.with_nonce(next(nonce))],
+                txs=[tx.with_nonce(nonce)],
                 timestamp=timestamp,
             ),
         )
