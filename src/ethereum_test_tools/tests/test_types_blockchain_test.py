@@ -1,6 +1,7 @@
 """
 Test the blockchain test types.
 """
+
 from dataclasses import replace
 
 import pytest
@@ -21,7 +22,7 @@ fixture_header_ones = FixtureHeader(
     gas_limit=1,
     gas_used=1,
     timestamp=1,
-    extra_data=Bytes([1]),
+    extra_data=Bytes(b"\x01"),
     mix_digest=Hash(1),
     nonce=HeaderNonce(1),
     base_fee=1,

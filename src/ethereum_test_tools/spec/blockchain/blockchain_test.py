@@ -161,7 +161,7 @@ class BlockchainTest(BaseTest):
             gas_limit=ZeroPaddedHexNumber(env.gas_limit),
             gas_used=0,
             timestamp=0,
-            extra_data=Bytes([0]),
+            extra_data=Bytes(b"\x00"),
             mix_digest=Hash(0),
             nonce=HeaderNonce(0),
             base_fee=ZeroPaddedHexNumber.or_none(env.base_fee),
