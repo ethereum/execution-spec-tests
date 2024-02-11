@@ -19,7 +19,9 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     TransactionException,
+    Transactions,
     Withdrawal,
+    Withdrawals,
     compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -497,60 +499,27 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
     }
     blocks = [
         Block(
-            txs=[
-                Transaction(
-                    nonce=0,
-                    gas_limit=100000,
-                    to=Address(0x300),
-                ),
-                Transaction(
-                    nonce=1,
-                    gas_limit=100000,
-                    to=Address(0x400),
-                ),
-            ],
-            withdrawals=[
-                Withdrawal(
-                    index=0,
-                    validator_index=0,
-                    address=Address(0x100),
-                    amount=1,
-                ),
-                Withdrawal(
-                    index=1,
-                    validator_index=1,
-                    address=Address(0x200),
-                    amount=1,
-                ),
-            ],
+            txs=Transactions(
+                gas_limit=100_000,
+                to=[Address(0x300), Address(0x400)],  # Two transactions, one to each account
+            ),
+            withdrawals=Withdrawals(
+                validator_index=range(2),
+                address=[Address(0x100), Address(0x200)],  # Two withdrawals, one to each account
+                amount=1,
+            ),
         ),
         Block(
-            txs=[
-                Transaction(
-                    nonce=2,
-                    gas_limit=100000,
-                    to=Address(0x100),
-                ),
-                Transaction(
-                    nonce=3,
-                    gas_limit=100000,
-                    to=Address(0x200),
-                ),
-            ],
-            withdrawals=[
-                Withdrawal(
-                    index=0,
-                    validator_index=0,
-                    address=Address(0x300),
-                    amount=1,
-                ),
-                Withdrawal(
-                    index=1,
-                    validator_index=1,
-                    address=Address(0x400),
-                    amount=1,
-                ),
-            ],
+            txs=Transactions(
+                nonce=2,
+                gas_limit=100_000,
+                to=[Address(0x100), Address(0x200)],  # Two transactions, one to each account
+            ),
+            withdrawals=Withdrawals(
+                validator_index=range(2),
+                address=[Address(0x300), Address(0x400)],  # Two withdrawals, one to each account
+                amount=1,
+            ),
         ),
     ]
 
