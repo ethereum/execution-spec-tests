@@ -2,7 +2,7 @@
 All Ethereum fork class definitions.
 """
 
-from typing import List, Mapping, Optional
+from typing import Dict, List, Optional
 
 from semver import Version
 
@@ -151,7 +151,9 @@ class Frontier(BaseFork, solc_name="homestead"):
         return []
 
     @classmethod
-    def pre_allocation(cls, block_number: int = 0, timestamp: int = 0) -> Mapping:
+    def pre_allocation(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Dict[int, Dict[str, str | int | Dict[int, int]]]:
         """
         Returns whether the fork expects pre-allocation of accounts
 
@@ -424,11 +426,13 @@ class Cancun(Shanghai):
         return [0xA] + super(Cancun, cls).precompiles(block_number, timestamp)
 
     @classmethod
-    def pre_allocation(cls, block_number: int = 0, timestamp: int = 0) -> Mapping:
+    def pre_allocation(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Dict[int, Dict[str, str | int | Dict[int, int]]]:
         """
         Cancun requires pre-allocation of the beacon root contract for EIP-4788
         """
-        new_allocation = {
+        new_allocation: Dict[int, Dict[str, str | int | Dict[int, int]]] = {
             0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02: {
                 "nonce": 1,
                 "code": "0x3373fffffffffffffffffffffffffffffffffffffffe14604d57602036146024575f5f"
