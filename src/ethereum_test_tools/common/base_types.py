@@ -7,7 +7,6 @@ from typing import (
     Any,
     ClassVar,
     Dict,
-    Generic,
     Iterable,
     Iterator,
     List,
@@ -238,7 +237,7 @@ class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
 C = TypeVar("C")
 
 
-class DataclassGenerator(Iterable[C]):
+class DataclassGenerator(Iterator[C]):
     """
     Class that creates dataclass generators.
     """
@@ -254,12 +253,12 @@ class DataclassGenerator(Iterable[C]):
     iterations: int = 0
 
     @classmethod
-    def __class_getitem__(cls: type, C: Type) -> Type:
+    def __class_getitem__(cls, c: Type[C]) -> Type["DataclassGenerator[C]"]:
         """
         Creates a new dataclass generator.
         """
         _list_fields = []
-        for field, field_type in get_type_hints(C).items():
+        for field, field_type in get_type_hints(c).items():
             origin = get_origin(field_type)
             if origin == Union:
                 for arg in get_args(field_type):
@@ -280,19 +279,19 @@ class DataclassGenerator(Iterable[C]):
             ):
                 _list_fields.append(field)
 
-        class DataclassGeneratorSubclass(cls):
+        class DataclassGeneratorSubclass(cls):  # type: ignore
             pass
 
-        DataclassGeneratorSubclass._dataclass_type = C
+        DataclassGeneratorSubclass._dataclass_type = c
         DataclassGeneratorSubclass._list_fields = _list_fields
 
         return DataclassGeneratorSubclass
 
-    def __init_subclass__(cls, *, nonce_field: Optional[str] = None) -> None:
+    def __init_subclass__(cls, *, index_field: Optional[str] = None) -> None:
         """
         Initializes the subclass.
         """
-        cls._nonce_field = nonce_field
+        cls._nonce_field = index_field
 
     def __init__(self, *, limit: int = 0, **kwargs: Any):
         """
@@ -302,17 +301,17 @@ class DataclassGenerator(Iterable[C]):
         self.arguments: Dict[str, Iterator[Any]] = {}
 
         for field in self._list_fields:
-            if field in kwargs or f"{field}_list" in kwargs:
-                if field in kwargs and f"{field}_list" in kwargs:
-                    raise ValueError(f"cannot set both {field} and {field}_list")
+            if field in kwargs or f"{field}_iter" in kwargs:
+                if field in kwargs and f"{field}_iter" in kwargs:
+                    raise ValueError(f"cannot set both {field} and {field}_iter")
                 if field in kwargs:
                     self.arguments[field] = cycle([kwargs.pop(field)])
                 else:
                     iterator_count += 1
-                    value = kwargs.pop(f"{field}_list")
+                    value = kwargs.pop(f"{field}_iter")
                     assert isinstance(
                         value, Iterable
-                    ), f"value for {field}_list must be an iterable"
+                    ), f"value for {field}_iter must be an iterable"
                     self.arguments[field] = iter(value)
 
         if self._nonce_field is not None:
@@ -352,7 +351,7 @@ class DataclassGenerator(Iterable[C]):
         """
         return self
 
-    def __next__(self) -> Type[C]:
+    def __next__(self) -> C:
         """
         Returns the next transaction in the sequence.
         """

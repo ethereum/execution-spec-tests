@@ -463,7 +463,7 @@ def test_transaction_signing(
                 data=b"\x00\x01",
                 gas_limit=1000000,
                 gas_price=1000000000,
-                blob_versioned_hashes_list=[
+                blob_versioned_hashes_iter=[
                     [b"\x00\x01", b"\x00\x02"],
                     [b"\x00\x01", b"\x00\x03"],
                 ],

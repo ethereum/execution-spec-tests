@@ -4,7 +4,7 @@ Useful types for generating Ethereum tests.
 
 from copy import copy
 from dataclasses import dataclass, fields, replace
-from itertools import count, cycle
+from itertools import count
 from typing import (
     Any,
     ClassVar,
@@ -688,7 +688,22 @@ class Withdrawal:
         ]
 
 
-def withdrawals_root(withdrawals: List[Withdrawal]) -> bytes:
+class Withdrawals(DataclassGenerator[Withdrawal], index_field="index"):
+    """
+    Withdrawals generator.
+
+    Used to generate multiple withdrawals in a test case.
+
+    Takes the same arguments as `Withdrawal`, but if an iterable is provided for a field, it will
+    generate a Withdrawal for each element in the iterable.
+
+    `index` field is optional and will be automatically generated if not provided.
+    """
+
+    pass
+
+
+def withdrawals_root(withdrawals: Iterable[Withdrawal]) -> bytes:
     """
     Returns the withdrawals root of a list of withdrawals.
     """
@@ -1522,25 +1537,26 @@ class Transaction:
         return tx
 
 
-class Transactions(DataclassGenerator[Transaction], nonce_field="nonce"):
+class Transactions(DataclassGenerator[Transaction], index_field="nonce"):
     """
     Transaction generator.
 
     This class is used to generate transactions in a test case.
 
     Takes the same arguments as `Transaction`, but if an iterable is provided for a
-    field, it will generate a transaction for each value in the iterable.
+    field, it will generate a transaction for each element in the iterable.
 
-    `nonce` value is optional and if not provided, it will be generated automatically
+    `nonce` field is optional and if not provided, it will be generated automatically
     for each transaction starting from zero.
 
     If none of the values are iterables, an exception will be raised because none of the provided
-    values will be bounded.
-
-    `limit` is optional and if provided, it will limit the number of transactions generated.
+    values will be bounded, unless the `limit` argument is provided, which will limit the number
+    of transactions generated.
 
     Fields that are already supposed to be lists, such as `access_list` and
-    `blob_versioned_hashes`, are not yet supported.
+    `blob_versioned_hashes`, can be parametrized as `access_list_iter` and
+    `blob_versioned_hashes_iter` respectively and a iterable of lists can be provided to be used
+    in each generated transaction.
     """
 
     pass
