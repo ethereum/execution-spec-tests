@@ -2,8 +2,24 @@
 Basic type primitives used to define other types.
 """
 
-
-from typing import ClassVar, SupportsBytes, Type, TypeVar
+from itertools import count, cycle
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    Generic,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    SupportsBytes,
+    Type,
+    TypeVar,
+    Union,
+    get_args,
+    get_origin,
+    get_type_hints,
+)
 
 from .conversions import (
     BytesConvertible,
@@ -217,3 +233,133 @@ class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
     """
 
     pass
+
+
+C = TypeVar("C")
+
+
+class DataclassGenerator(Iterable[C]):
+    """
+    Class that creates dataclass generators.
+    """
+
+    # Class fields
+    _dataclass_type: ClassVar[Type]
+    _list_fields: ClassVar[List[str]]
+    _nonce_field: ClassVar[Optional[str]] = None
+
+    # Instance fields
+    arguments: Dict[str, Iterator[Any]]
+    limit: int
+    iterations: int = 0
+
+    @classmethod
+    def __class_getitem__(cls: type, C: Type) -> Type:
+        """
+        Creates a new dataclass generator.
+        """
+        _list_fields = []
+        for field, field_type in get_type_hints(C).items():
+            origin = get_origin(field_type)
+            if origin == Union:
+                for arg in get_args(field_type):
+                    origin = get_origin(arg)
+                    if (
+                        origin is not None
+                        and issubclass(origin, Iterable)
+                        and origin != bytes
+                        and origin != str
+                    ):
+                        _list_fields.append(field)
+                        break
+            elif (
+                origin is not None
+                and issubclass(origin, Iterable)
+                and field_type != bytes
+                and field_type != str
+            ):
+                _list_fields.append(field)
+
+        class DataclassGeneratorSubclass(cls):
+            pass
+
+        DataclassGeneratorSubclass._dataclass_type = C
+        DataclassGeneratorSubclass._list_fields = _list_fields
+
+        return DataclassGeneratorSubclass
+
+    def __init_subclass__(cls, *, nonce_field: Optional[str] = None) -> None:
+        """
+        Initializes the subclass.
+        """
+        cls._nonce_field = nonce_field
+
+    def __init__(self, *, limit: int = 0, **kwargs: Any):
+        """
+        Initializes the dataclass generator.
+        """
+        iterator_count = 0
+        self.arguments: Dict[str, Iterator[Any]] = {}
+
+        for field in self._list_fields:
+            if field in kwargs or f"{field}_list" in kwargs:
+                if field in kwargs and f"{field}_list" in kwargs:
+                    raise ValueError(f"cannot set both {field} and {field}_list")
+                if field in kwargs:
+                    self.arguments[field] = cycle([kwargs.pop(field)])
+                else:
+                    iterator_count += 1
+                    value = kwargs.pop(f"{field}_list")
+                    assert isinstance(
+                        value, Iterable
+                    ), f"value for {field}_list must be an iterable"
+                    self.arguments[field] = iter(value)
+
+        if self._nonce_field is not None:
+            nonce = kwargs.pop(self._nonce_field, 0)
+
+            if isinstance(nonce, int):
+                nonce = count(nonce)
+            elif isinstance(nonce, Iterable):
+                iterator_count += 1
+                nonce = iter(nonce)
+
+            self.arguments[self._nonce_field] = nonce
+
+        for arg in kwargs:
+            value = kwargs[arg]
+            if isinstance(value, Iterator):
+                iterator_count += 1
+                self.arguments[arg] = value
+            elif (
+                isinstance(value, Iterable)
+                and not isinstance(value, str)
+                and not isinstance(value, bytes)
+            ):
+                iterator_count += 1
+                self.arguments[arg] = iter(value)
+            else:
+                self.arguments[arg] = cycle([value])
+
+        assert iterator_count > 0 or limit > 0, "at least one field must be an iterable or limit"
+        "must be set"
+        self.limit = limit
+        self.iterations = 0
+
+    def __iter__(self) -> Iterator[C]:
+        """
+        Returns an iterator over the transactions.
+        """
+        return self
+
+    def __next__(self) -> Type[C]:
+        """
+        Returns the next transaction in the sequence.
+        """
+        if self.limit > 0 and self.iterations >= self.limit:
+            raise StopIteration
+
+        self.iterations += 1
+
+        kwargs = {arg: next(self.arguments[arg]) for arg in self.arguments}
+        return self._dataclass_type(**kwargs)
