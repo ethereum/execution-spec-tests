@@ -44,6 +44,7 @@ from .types import (
     Transaction,
     Transactions,
     Withdrawal,
+    Withdrawals,
 )
 
 __all__ = (
@@ -73,6 +74,7 @@ __all__ = (
     "Transaction",
     "Transactions",
     "Withdrawal",
+    "Withdrawals",
     "ZeroPaddedHexNumber",
     "add_kzg_version",
     "ceiling_division",
