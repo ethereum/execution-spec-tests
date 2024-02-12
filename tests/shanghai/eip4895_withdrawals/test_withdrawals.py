@@ -5,6 +5,7 @@ abstract: Tests [EIP-4895: Beacon chain withdrawals](https://eips.ethereum.org/E
 """
 
 from enum import Enum, unique
+from itertools import count, cycle
 from typing import Dict, List, Mapping
 
 import pytest
@@ -497,29 +498,32 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
             code=Op.SSTORE(Op.NUMBER, 1),
         ),
     }
+    txs = Transactions(
+        # Same gas limit in all transactions
+        gas_limit=100_000,
+        # Four transactions in total, one to each account
+        to=[Address(0x300), Address(0x400), Address(0x100), Address(0x200)],
+        # Two transactions per block
+        chunk_size=2,
+    )
+    withdrawals = Withdrawals(
+        # Cycle through indexes/validators 0 and 1 (unnecessary but preserves original test)
+        index=cycle(range(2)),
+        validator_index=cycle(range(2)),
+        # Four withdrawals in total, one to each account
+        address=(Address(0x100 * i) for i in count(1)),
+        amount=1,
+        # Two withdrawals per block
+        chunk_size=2,
+    )
     blocks = [
         Block(
-            txs=Transactions(
-                gas_limit=100_000,
-                to=[Address(0x300), Address(0x400)],  # Two transactions, one to each account
-            ),
-            withdrawals=Withdrawals(
-                validator_index=range(2),
-                address=[Address(0x100), Address(0x200)],  # Two withdrawals, one to each account
-                amount=1,
-            ),
+            txs=txs,
+            withdrawals=withdrawals,
         ),
         Block(
-            txs=Transactions(
-                nonce=2,
-                gas_limit=100_000,
-                to=[Address(0x100), Address(0x200)],  # Two transactions, one to each account
-            ),
-            withdrawals=Withdrawals(
-                validator_index=range(2),
-                address=[Address(0x300), Address(0x400)],  # Two withdrawals, one to each account
-                amount=1,
-            ),
+            txs=txs,
+            withdrawals=withdrawals,
         ),
     ]
 
