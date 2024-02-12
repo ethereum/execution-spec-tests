@@ -2,6 +2,7 @@
 Test suite for transaction signing and serialization.
 """
 
+from itertools import count
 from typing import List, Tuple
 
 import pytest
@@ -537,7 +538,7 @@ def test_transactions(txs: Transactions, expected_txs: List[Transaction]):
                 gas_limit=1000000,
                 gas_price=1000000000,
                 blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
-                chunk_size=2,
+                limit=2,
             ),
             2,
             [
@@ -574,7 +575,171 @@ def test_transactions(txs: Transactions, expected_txs: List[Transaction]):
                     ),
                 ],
             ],
-            id="type-3-list-type-chunked",
+            id="type-3-list-type-limit-int",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                limit=[1, 2],
+            ),
+            2,
+            [
+                [
+                    Transaction(
+                        nonce=0,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+                [
+                    Transaction(
+                        nonce=1,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=2,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+            ],
+            id="type-3-list-type-limit-list",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                limit=count(1),  # Increasing number of transactions each block
+            ),
+            3,
+            [
+                [
+                    Transaction(
+                        nonce=0,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+                [
+                    Transaction(
+                        nonce=1,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=2,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+                [
+                    Transaction(
+                        nonce=3,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=4,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=5,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+            ],
+            id="type-3-list-type-limit-count",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                limit=count(),  # Increasing number of transactions each block
+            ),
+            4,
+            [
+                [],
+                [
+                    Transaction(
+                        nonce=0,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+                [
+                    Transaction(
+                        nonce=1,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=2,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+                [
+                    Transaction(
+                        nonce=3,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=4,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=5,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+            ],
+            id="type-3-list-type-limit-count-from-zero",
         ),
     ],
 )
