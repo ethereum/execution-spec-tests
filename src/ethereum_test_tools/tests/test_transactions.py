@@ -491,3 +491,99 @@ def test_transaction_signing(
 def test_transactions(txs: Transactions, expected_txs: List[Transaction]):
     for tx1, tx2 in zip(txs, expected_txs):
         assert tx1 == tx2
+
+
+@pytest.mark.parametrize(
+    [
+        "txs",
+        "chunks",
+        "expected_txs",
+    ],
+    [
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                limit=2,
+            ),
+            1,
+            [
+                [
+                    Transaction(
+                        nonce=0,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=1,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ]
+            ],
+            id="type-3-list-type",
+        ),
+        pytest.param(
+            Transactions(
+                nonce=range(1000),
+                data=b"\x00\x01",
+                gas_limit=1000000,
+                gas_price=1000000000,
+                blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                chunk_size=2,
+            ),
+            2,
+            [
+                [
+                    Transaction(
+                        nonce=0,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=1,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+                [
+                    Transaction(
+                        nonce=2,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                    Transaction(
+                        nonce=3,
+                        data=b"\x00\x01",
+                        gas_limit=1000000,
+                        gas_price=1000000000,
+                        blob_versioned_hashes=[b"\x00\x01", b"\x00\x02"],
+                    ),
+                ],
+            ],
+            id="type-3-list-type-chunked",
+        ),
+    ],
+)
+def test_chunked_transactions(
+    txs: Transactions, chunks: int, expected_txs: List[List[Transaction]]
+):
+    chunked_txs: List[List[Transaction]] = []
+    for _ in range(chunks):
+        chunked_txs.append(list(txs))
+    for chunk1, chunk2 in zip(chunked_txs, expected_txs):
+        for tx1, tx2 in zip(chunk1, chunk2):
+            assert tx1 == tx2
