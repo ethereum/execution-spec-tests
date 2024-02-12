@@ -237,7 +237,7 @@ class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
 C = TypeVar("C")
 
 
-class DataclassGenerator(Iterator[C]):
+class DataclassGenerator(Iterable[C]):
     """
     Class that creates dataclass generators.
     """
@@ -250,10 +250,9 @@ class DataclassGenerator(Iterator[C]):
 
     # Instance fields
     iterators: Dict[str, Iterator[Any]]
-    limit: int
-    chunk_size: int
-    new_chunk: bool = True
-    iterations: int = 0
+    limits: Iterator[int]
+    current_limit: int
+    current_iterations: int = 0
 
     @staticmethod
     def _field_type_is_iterable(field_type: Any) -> bool:
@@ -269,7 +268,7 @@ class DataclassGenerator(Iterator[C]):
         """
         Initializes the subclass.
 
-        Dataclass might behave incorrectly if it has fields named `limit` or `chunk_size`.
+        Dataclass might behave incorrectly if it has a field named `limit`.
         """
         cls._dataclass = dataclass
         cls._iterable_fields = [
@@ -279,13 +278,12 @@ class DataclassGenerator(Iterator[C]):
         ]
         cls._index_field = index_field
 
-    def __init__(self, *, limit: int = 0, chunk_size: int = 0, **kwargs: Any):
+    def __init__(self, *, limit: int | Iterable[int] | Iterator[int] = 0, **kwargs: Any):
         """
         Initializes the dataclass generator.
         """
-        any_finite_iterator = False
         self.iterators: Dict[str, Iterator[Any]] = {}
-
+        self.limits = iter(cycle([limit])) if isinstance(limit, int) else iter(limit)
         for field in self._iterable_fields:
             field_with_suffix = f"{field}{self._iter_suffix}"
             if field in kwargs or field_with_suffix in kwargs:
@@ -294,7 +292,6 @@ class DataclassGenerator(Iterator[C]):
                 if field in kwargs:
                     self.iterators[field] = cycle([kwargs.pop(field)])
                 else:
-                    any_finite_iterator = True
                     value = kwargs.pop(field_with_suffix)
                     assert value is not None, f"value for {field_with_suffix} cannot be None"
                     if isinstance(value, Iterator):
@@ -311,13 +308,11 @@ class DataclassGenerator(Iterator[C]):
             if isinstance(index_value, int):
                 index_value = count(index_value)
             elif isinstance(index_value, Iterable):
-                any_finite_iterator = True
                 index_value = iter(index_value)
             self.iterators[self._index_field] = index_value
 
         for arg, value in kwargs.items():
             if value is not None and isinstance(value, Iterator):
-                any_finite_iterator = True
                 self.iterators[arg] = value
             elif (
                 value is not None
@@ -325,36 +320,30 @@ class DataclassGenerator(Iterator[C]):
                 and not isinstance(value, str)
                 and not isinstance(value, bytes)
             ):
-                any_finite_iterator = True
                 self.iterators[arg] = iter(value)
             else:
                 self.iterators[arg] = cycle([value])
 
-        assert (
-            any_finite_iterator or limit > 0 or chunk_size > 0
-        ), "at least one field must be an iterable, or limit or chunk_size must be set"
-        self.limit = limit
-        self.chunk_size = chunk_size
+        self.limits = iter(cycle([limit])) if isinstance(limit, int) else iter(limit)
         self.iterations = 0
 
     def __iter__(self) -> Iterator[C]:
         """
         Returns an iterator over the elements.
         """
+        self.current_iterations = 0
+        try:
+            self.current_limit = next(self.limits)
+        except StopIteration:
+            self.current_limit = 0
         return self
 
     def __next__(self) -> C:
         """
         Returns the next dataclass element in the sequence.
         """
-        if self.limit > 0 and self.iterations >= self.limit:
+        if self.current_limit > 0 and self.current_iterations >= self.current_limit:
             raise StopIteration
 
-        if self.chunk_size > 0 and self.iterations % self.chunk_size == 0 and not self.new_chunk:
-            self.new_chunk = True
-            raise StopIteration
-
-        self.new_chunk = False
         self.iterations += 1
-
         return self._dataclass(**{arg: next(iterator) for arg, iterator in self.iterators.items()})
