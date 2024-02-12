@@ -504,7 +504,7 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
         # Four transactions in total, one to each account
         to=[Address(0x300), Address(0x400), Address(0x100), Address(0x200)],
         # Two transactions per block
-        chunk_size=2,
+        limit=2,
     )
     withdrawals = Withdrawals(
         # Cycle through indexes/validators 0 and 1 (unnecessary but preserves original test)
@@ -514,7 +514,7 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
         address=(Address(0x100 * i) for i in count(1)),
         amount=1,
         # Two withdrawals per block
-        chunk_size=2,
+        limit=2,
     )
     blocks = [
         Block(
