@@ -286,6 +286,7 @@ utils
 v0
 v1
 validator
+validators
 venv
 visualstudio
 vm
