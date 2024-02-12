@@ -672,21 +672,17 @@ def test_recreate_self_destructed_contract_different_txs(
 
     entry_code += Op.STOP
 
-    txs: List[Transaction] = []
-    nonce = count()
+    txs = Transactions(
+        ty=0x0,
+        data=(Hash(i) for i in count()),
+        chain_id=0x0,
+        to=entry_code_address,
+        gas_limit=100_000_000,
+        gas_price=10,
+        protected=False,
+        limit=recreate_times + 1,
+    )
     for i in range(recreate_times + 1):
-        txs.append(
-            Transaction(
-                ty=0x0,
-                data=Hash(i),
-                chain_id=0x0,
-                nonce=next(nonce),
-                to=entry_code_address,
-                gas_limit=100_000_000,
-                gas_price=10,
-                protected=False,
-            )
-        )
         entry_code_storage[i] = selfdestruct_contract_address
 
     pre[entry_code_address] = Account(code=entry_code)

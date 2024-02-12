@@ -438,7 +438,7 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
             Block(
                 txs=Transactions(
                     chain_id=0x0,
-                    to=[address_to, address_to_second],
+                    to=[address_to, address_to_second],  # two transactions
                     gas_price=10,
                     data=initcode.bytecode if initcode.bytecode is not None else bytes(),
                     gas_limit=5_000_000,
@@ -663,7 +663,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
                     data=initcode.bytecode if initcode.bytecode is not None else bytes(),
                     gas_limit=5_000_000,
                     protected=False,
-                    limit=2,
+                    limit=2,  # Two transactions
                 ),
             )
         ],
