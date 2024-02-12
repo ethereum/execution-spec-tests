@@ -66,6 +66,82 @@ This looks like an infinite loop but it isn't because this is a [generator funct
 
 Every time the function `tx_generator()` is called, it returns a new generator with a `nonce` of zero. To increment the `nonce` we need to use the *same* generator. We assign this generator to `tx_generator`.
 
+### `Transactions` Generator
+
+The `Transactions` class can be used to easily create a generator of transactions.
+
+It takes the same arguments as the `Transaction` class, but if any of the fields is an iterable, it will create a generator that returns a transaction for each value in the iterable.
+
+`nonce` value is also optional and will be incremented for each transaction automatically.
+
+For example:
+
+```python
+txs = Transactions(
+    ty=0x0,
+    chain_id=0x0,
+    to=[contract_addr1, contract_addr2],
+    gas_limit=500_000,
+    gas_price=10,
+)
+Block(txs=txs)
+```
+
+This will create a block with two transactions, one to `contract_addr1` and one to `contract_addr2`.
+
+We can also use multiple lists for different fields:
+
+```python
+txs = Transactions(
+    ty=0x0,
+    chain_id=0x0,
+    to=[contract_addr1, contract_addr2],
+    gas_limit=[100_000, 500_000],
+    gas_price=10,
+)
+Block(txs=txs)
+```
+
+This will create a block with two transactions, one to `contract_addr1` with a gas limit of 100_000 and one to `contract_addr2` with a gas limit of 500_000.
+
+When any of the iterables is exhausted, the generator will stop.
+
+Lists are finite iterables, but we can also use infinite iterables for any of the fields and it will be a valid generator.
+We need to be careful to not create an infinite loop, and we can use the `limit` parameter to limit the number of transactions.
+
+```python
+txs = Transactions(
+    ty=0x0,
+    chain_id=0x0,
+    to=(Address(0x100 * i) for i in count(1)),
+    gas_limit=500_000,
+    gas_price=10,
+    limit=10,
+)
+Block(txs=txs)
+```
+
+This will create a block with 10 transactions, each with a different `to` address, starting from `0x100` and incrementing by `0x100` for each transaction.
+
+We can also use the same generator for multiple blocks, and it will continue from where it left off, but we need to provide the `chunk_size` parameter to limit the number of transactions in each block.
+
+```python
+txs = Transactions(
+    ty=0x0,
+    chain_id=0x0,
+    to=(Address(0x100 * i) for i in count(1)),
+    gas_limit=500_000,
+    gas_price=10,
+    chunk_size=10,
+)
+Block(txs=txs)
+Block(txs=txs)
+```
+
+This will create two blocks, each with 10 transactions, each with a different `to` address, starting from `0x100` and incrementing by `0x100` for each transaction.
+
+Similar generators exist for `Withdrawal` class as `Withdrawals`. They are used to create the withdrawals generators.
+
 ### Blocks
 
 Each integer in the `tx_per_block` array is the number of transactions in a block. The genesis block is block 0 (no transactions). It follows that we have 2 transactions in block 1, 0 in block two, 4 in block 3, ..., and 50 in block 9.
