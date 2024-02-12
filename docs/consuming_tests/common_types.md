@@ -337,3 +337,45 @@ Fork type is represented as a JSON string that can be set to one of the followin
 - Terminal Total Difficulty: `0x00`
 - Shanghai Time: `0x00`
 - Cancun Time: `0x00`
+
+### `"Prague"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+- Terminal Total Difficulty: `0x00`
+- Shanghai Time: `0x00`
+- Prague Time: `0x00`
+
+### `"ShanghaiToPragueVerkleTransition"`
+
+- Chain ID: `0x01`
+- Homestead Block: `0x00`
+- EIP150 Block: `0x00`
+- EIP155 Block: `0x00`
+- EIP158 Block: `0x00`
+- DAO Fork Block: `0x00`
+- Byzantium Block: `0x00`
+- Constantinople Block: `0x00`
+- Constantinople Fix Block: `0x00`
+- Istanbul Block: `0x00`
+- Muir Glacier Block: `0x00`
+- Berlin Block: `0x00`
+- London Block: `0x00`
+- Arrow Glacier Block: `0x00`
+- Gray Glacier Block: `0x00`
+- Terminal Total Difficulty: `0x00`
+- Shanghai Time: `0x00`
+- Prague Time: `0x01`
