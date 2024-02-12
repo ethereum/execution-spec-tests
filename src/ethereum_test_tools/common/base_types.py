@@ -330,7 +330,7 @@ class DataclassGenerator(Iterator[C]):
 
     # Class fields
     _dataclass_type: ClassVar[Type]
-    _list_fields: ClassVar[List[str]]
+    _iterable_fields: ClassVar[List[str]]
     _nonce_field: ClassVar[Optional[str]] = None
 
     # Instance fields
@@ -343,35 +343,29 @@ class DataclassGenerator(Iterator[C]):
         """
         Creates a new dataclass generator.
         """
-        _list_fields = []
-        for field, field_type in get_type_hints(c).items():
+
+        def field_type_is_iterable(field_type: Any) -> bool:
             origin = get_origin(field_type)
-            if origin == Union:
-                for arg in get_args(field_type):
-                    origin = get_origin(arg)
-                    if (
-                        origin is not None
-                        and issubclass(origin, Iterable)
-                        and origin != bytes
-                        and origin != str
-                    ):
-                        _list_fields.append(field)
-                        break
-            elif (
-                origin is not None
-                and issubclass(origin, Iterable)
-                and field_type != bytes
-                and field_type != str
-            ):
-                _list_fields.append(field)
+            types: List[Any] = (
+                [get_origin(arg) for arg in get_args(field_type)] if origin == Union else [origin]
+            )
+            return any(
+                t is not None and t != bytes and t != str and issubclass(t, Iterable)
+                for t in types
+            )
 
-        class DataclassGeneratorSubclass(cls):  # type: ignore
-            pass
-
-        DataclassGeneratorSubclass._dataclass_type = c
-        DataclassGeneratorSubclass._list_fields = _list_fields
-
-        return DataclassGeneratorSubclass
+        return type(
+            f"{c.__name__}DataclassGenerator",
+            (cls,),
+            {
+                "_dataclass_type": c,
+                "_iterable_fields": [
+                    field
+                    for field, field_type in get_type_hints(c).items()
+                    if field_type_is_iterable(field_type)
+                ],
+            },
+        )
 
     def __init_subclass__(cls, *, index_field: Optional[str] = None) -> None:
         """
@@ -386,7 +380,7 @@ class DataclassGenerator(Iterator[C]):
         iterator_count = 0
         self.arguments: Dict[str, Iterator[Any]] = {}
 
-        for field in self._list_fields:
+        for field in self._iterable_fields:
             if field in kwargs or f"{field}_iter" in kwargs:
                 if field in kwargs and f"{field}_iter" in kwargs:
                     raise ValueError(f"cannot set both {field} and {field}_iter")
