@@ -331,6 +331,7 @@ class DataclassGenerator(Iterable[C]):
     # Class fields
     _dataclass: ClassVar[Type]
     _iterable_fields: ClassVar[List[str]]
+    _max_iterations: ClassVar[int] = 1000
     _index_field: ClassVar[Optional[str]] = None
     _iter_suffix: ClassVar[str] = "_iter"
 
@@ -350,7 +351,9 @@ class DataclassGenerator(Iterable[C]):
             t is not None and t != bytes and t != str and issubclass(t, Iterable) for t in types
         )
 
-    def __init_subclass__(cls, *, dataclass: Type[C], index_field: Optional[str] = None) -> None:
+    def __init_subclass__(
+        cls, *, dataclass: Type[C], index_field: Optional[str] = None, max_iterations: int = 1000
+    ) -> None:
         """
         Initializes the subclass.
 
@@ -363,13 +366,13 @@ class DataclassGenerator(Iterable[C]):
             if cls._field_type_is_iterable(field_type)
         ]
         cls._index_field = index_field
+        cls._max_iterations = max_iterations
 
-    def __init__(self, *, limit: int | Iterable[int] | Iterator[int] = 0, **kwargs: Any):
+    def __init__(self, *, limit: int | Iterable[int] | Iterator[int] = -1, **kwargs: Any):
         """
         Initializes the dataclass generator.
         """
         self.iterators: Dict[str, Iterator[Any]] = {}
-        self.limits = iter(cycle([limit])) if isinstance(limit, int) else iter(limit)
         for field in self._iterable_fields:
             field_with_suffix = f"{field}{self._iter_suffix}"
             if field in kwargs or field_with_suffix in kwargs:
@@ -411,7 +414,6 @@ class DataclassGenerator(Iterable[C]):
                 self.iterators[arg] = cycle([value])
 
         self.limits = iter(cycle([limit])) if isinstance(limit, int) else iter(limit)
-        self.iterations = 0
 
     def __iter__(self) -> Iterator[C]:
         """
@@ -421,15 +423,16 @@ class DataclassGenerator(Iterable[C]):
         try:
             self.current_limit = next(self.limits)
         except StopIteration:
-            self.current_limit = 0
+            self.current_limit = -1
         return self
 
     def __next__(self) -> C:
         """
         Returns the next dataclass element in the sequence.
         """
-        if self.current_limit > 0 and self.current_iterations >= self.current_limit:
+        if self.current_limit >= 0 and self.current_iterations >= self.current_limit:
             raise StopIteration
-
-        self.iterations += 1
+        if self.current_iterations > self._max_iterations:
+            raise ValueError(f"exceeded maximum number of iterations ({self._max_iterations})")
+        self.current_iterations += 1
         return self._dataclass(**{arg: next(iterator) for arg, iterator in self.iterators.items()})
