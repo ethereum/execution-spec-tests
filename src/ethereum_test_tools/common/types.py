@@ -1246,10 +1246,10 @@ class Transactions(DataclassGenerator, dataclass=Transaction, index_field="nonce
     values will be bounded, unless the `limit` argument is provided, which will limit the number
     of transactions generated.
 
-    Fields that are already supposed to be lists, such as `access_list` and
+    Fields that are already supposed to be iterables, such as `access_list` and
     `blob_versioned_hashes`, can be parametrized as `access_list_iter` and
-    `blob_versioned_hashes_iter` respectively and a iterable of lists can be provided to be used
-    in each generated transaction.
+    `blob_versioned_hashes_iter` respectively and an iterable of iterables can be provided to be
+    used in each generated transaction.
     """
 
     pass
