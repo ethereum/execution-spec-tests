@@ -252,10 +252,9 @@ class DataclassGenerator(Iterator[C]):
     limit: int
     iterations: int = 0
 
-    @classmethod
-    def __class_getitem__(cls, c: Type[C]) -> Type["DataclassGenerator[C]"]:
+    def __init_subclass__(cls, *, dataclass: Type[C], index_field: Optional[str] = None) -> None:
         """
-        Creates a new dataclass generator.
+        Initializes the subclass.
         """
 
         def field_type_is_iterable(field_type: Any) -> bool:
@@ -268,23 +267,12 @@ class DataclassGenerator(Iterator[C]):
                 for t in types
             )
 
-        return type(
-            f"{c.__name__}DataclassGenerator",
-            (cls,),
-            {
-                "_dataclass_type": c,
-                "_iterable_fields": [
-                    field
-                    for field, field_type in get_type_hints(c).items()
-                    if field_type_is_iterable(field_type)
-                ],
-            },
-        )
-
-    def __init_subclass__(cls, *, index_field: Optional[str] = None) -> None:
-        """
-        Initializes the subclass.
-        """
+        cls._dataclass_type = dataclass
+        cls._iterable_fields = [
+            field
+            for field, field_type in get_type_hints(dataclass).items()
+            if field_type_is_iterable(field_type)
+        ]
         cls._nonce_field = index_field
 
     def __init__(self, *, limit: int = 0, **kwargs: Any):

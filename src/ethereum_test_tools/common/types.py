@@ -688,7 +688,7 @@ class Withdrawal:
         ]
 
 
-class Withdrawals(DataclassGenerator[Withdrawal], index_field="index"):
+class Withdrawals(DataclassGenerator, dataclass=Withdrawal, index_field="index"):
     """
     Withdrawals generator.
 
@@ -1537,7 +1537,7 @@ class Transaction:
         return tx
 
 
-class Transactions(DataclassGenerator[Transaction], index_field="nonce"):
+class Transactions(DataclassGenerator, dataclass=Transaction, index_field="nonce"):
     """
     Transaction generator.
 
