@@ -84,7 +84,7 @@ txs = Transactions(
     gas_limit=500_000,
     gas_price=10,
 )
-Block(txs=txs)
+block1 = Block(txs=txs)
 ```
 
 This will create a block with two transactions, one to `contract_addr1` and one to `contract_addr2`, while using the same transaction type (`ty`), chain id, gas limit and gas price for both transactions.
@@ -99,7 +99,7 @@ txs = Transactions(
     gas_limit=[100_000, 500_000],
     gas_price=10,
 )
-Block(txs=txs)
+block1 = Block(txs=txs)
 ```
 
 This will create a block with two transactions, one to `contract_addr1` with a gas limit of 100_000 and one to `contract_addr2` with a gas limit of 500_000.
@@ -119,7 +119,7 @@ txs = Transactions(
     gas_price=10,
     limit=10,
 )
-Block(txs=txs)
+block1 = Block(txs=txs)
 ```
 
 In this case we are assigning an infinite generator to the `to` field, because `count(1)` is an infinite iterator that starts at 1 and increments by 1 for each value. We are also using the `limit` parameter to limit the number of transactions to 10.
@@ -135,8 +135,8 @@ txs = Transactions(
     gas_price=10,
     limit=10,
 )
-Block(txs=txs)
-Block(txs=txs)
+block1 = Block(txs=txs)
+block2 = Block(txs=txs)
 ```
 
 This will create two blocks, each with 10 transactions, each with a different `to` address, starting from `0x100` and incrementing by `0x100` for each transaction.
@@ -152,9 +152,9 @@ txs = Transactions(
     gas_price=10,
     limit=[10, 5, 3],
 )
-Block(txs=txs)
-Block(txs=txs)
-Block(txs=txs)
+block1 = Block(txs=txs)
+block2 = Block(txs=txs)
+block3 = Block(txs=txs)
 ```
 
 This will create three blocks, with 10, 5, and 3 transactions.
@@ -170,15 +170,12 @@ txs = Transactions(
     gas_price=10,
     limit=[10, 5, 3],
 )
-Block(txs=txs)
-Block(txs=txs)
-Block(txs=txs)
-Block(txs=txs)
+blocks = [Block(txs=txs) for _ in range(4)]
 ```
 
-This will create four blocks, with 10, 5, 3, and 0 transactions.
+`blocks` will contain four blocks, with 10, 5, 3, and 0 transactions respectively.
 
-Similar generators exist for `Withdrawal` class as `Withdrawals`. They are used to create the withdrawals generators.
+Similar generators exist for `Withdrawal` class as `Withdrawals`, which can be used to create the withdrawals generators.
 
 ### Generating Blocks
 
