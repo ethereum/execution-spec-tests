@@ -503,8 +503,7 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
         gas_limit=100_000,
         # Four transactions in total, one to each account
         to=[Address(0x300), Address(0x400), Address(0x100), Address(0x200)],
-        # Two transactions per block
-        limit=2,
+        limit=2,  # Two transactions per block
     )
     withdrawals = Withdrawals(
         # Cycle through indexes/validators 0 and 1 (unnecessary but preserves original test)
@@ -513,19 +512,9 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
         # Four withdrawals in total, one to each account
         address=(Address(0x100 * i) for i in count(1)),
         amount=1,
-        # Two withdrawals per block
-        limit=2,
+        limit=2,  # Two withdrawals per block
     )
-    blocks = [
-        Block(
-            txs=txs,
-            withdrawals=withdrawals,
-        ),
-        Block(
-            txs=txs,
-            withdrawals=withdrawals,
-        ),
-    ]
+    blocks = (Block(txs=txs, withdrawals=withdrawals) for _ in range(2))
 
     post = {
         Address(0x100): Account(storage={2: 1}),
