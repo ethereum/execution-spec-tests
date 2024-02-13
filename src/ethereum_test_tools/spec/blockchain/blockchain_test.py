@@ -7,7 +7,7 @@ from dataclasses import dataclass, field, replace
 from pprint import pprint
 from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, Prague
 from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import (
@@ -187,8 +187,16 @@ class BlockchainTest(BaseTest):
         block: Block,
         previous_env: Environment,
         previous_alloc: Dict[str, Any],
+        mpt_alloc: Optional[Dict[str, Any]] = None,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[FixtureHeader, Bytes, List[Transaction], Dict[str, Any], Environment]:
+    ) -> Tuple[
+        FixtureHeader,
+        Bytes,
+        List[Transaction],
+        Dict[str, Any],
+        Optional[Dict[str, Any]],
+        Environment,
+    ]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
         """
@@ -201,6 +209,16 @@ class BlockchainTest(BaseTest):
 
         env = block.set_environment(previous_env)
         env = env.set_fork_requirements(fork)
+
+        if (
+            fork.fork_at(Number(env.number), Number(env.timestamp)) == Prague
+            and fork.fork_at(Number(previous_env.number), Number(previous_env.timestamp)) != Prague
+        ):
+            # Transitioning to verkle trees, we need to update the MPT allocation.
+            assert (
+                mpt_alloc is None
+            ), "MPT allocation should not be set when transitioning to Prague"
+            mpt_alloc = previous_alloc
 
         txs = [tx.with_signature_and_sender() for tx in block.txs] if block.txs is not None else []
 
@@ -217,6 +235,7 @@ class BlockchainTest(BaseTest):
 
         next_alloc, result = t8n.evaluate(
             alloc=previous_alloc,
+            mpt_alloc=mpt_alloc,
             txs=to_json(txs),
             env=to_json(env),
             fork_name=fork.transition_tool_name(
@@ -281,8 +300,10 @@ class BlockchainTest(BaseTest):
             ommers=[],
             withdrawals=env.withdrawals,
         )
-
-        return header, rlp, txs, next_alloc, env.update_from_result(result)
+        env.update_from_result(result)
+        if env.verkle_conversion_ended:
+            mpt_alloc = None
+        return header, rlp, txs, next_alloc, mpt_alloc, env
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
         """
@@ -320,19 +341,21 @@ class BlockchainTest(BaseTest):
         alloc = to_json(pre)
         env = environment_from_parent_header(genesis)
         head = genesis.hash if genesis.hash is not None else Hash(0)
+        mpt_alloc = None  # might be necessary to check at genesis ?
 
         for block in self.blocks:
             if block.rlp is None:
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                header, rlp, txs, new_alloc, new_env = self.generate_block_data(
+                header, rlp, txs, new_alloc, mpt_alloc, new_env = self.generate_block_data(
                     t8n=t8n,
                     fork=fork,
                     block=block,
                     previous_env=env,
                     previous_alloc=alloc,
                     eips=eips,
+                    mpt_alloc=mpt_alloc,
                 )
                 fixture_block = FixtureBlock(
                     rlp=rlp,
@@ -394,10 +417,17 @@ class BlockchainTest(BaseTest):
         pre, _, genesis = self.make_genesis(t8n, fork)
         alloc = to_json(pre)
         env = environment_from_parent_header(genesis)
+        mpt_alloc = None  # might be necessary to check at genesis ?
 
         for block in self.blocks:
-            header, _, txs, new_alloc, new_env = self.generate_block_data(
-                t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
+            header, _, txs, new_alloc, mpt_alloc, new_env = self.generate_block_data(
+                t8n=t8n,
+                fork=fork,
+                block=block,
+                previous_env=env,
+                previous_alloc=alloc,
+                eips=eips,
+                mpt_alloc=mpt_alloc,
             )
             if block.rlp is None:
                 fixture_payloads.append(
