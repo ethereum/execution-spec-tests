@@ -15,6 +15,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Fix incorrect `!=` operator for `FixedSizeBytes` ([#477](https://github.com/ethereum/execution-spec-tests/pull/477)).
 - ✨ Add Macro enum that represents byte sequence of Op instructions ([#457](https://github.com/ethereum/execution-spec-tests/pull/457))
 - ✨ Libraries have been refactored to use `pydantic` for type checking in most test types ([#486](https://github.com/ethereum/execution-spec-tests/pull/486)).
+- 🔀 Added `Transactions` and `Withdrawals` classes, which are transaction and withdrawal generators, respectively. See [docs](https://ethereum.github.io/execution-spec-tests/main/tutorials/blockchain/) for more information ([#435](https://github.com/ethereum/execution-spec-tests/pull/435)).
 
 ### 🔧 EVM Tools
 
