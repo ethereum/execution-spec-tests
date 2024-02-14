@@ -197,17 +197,21 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def environment_verkle_conversion_information_required(
+    def environment_verkle_conversion_starts(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:
         """
-        Returns true if the environment must contain the verkle conversion information, which
-        includes:
-        - Conversion address
-        - Conversion slot hash
-        - Conversion started
-        - Conversion ended
-        - Conversion storage processed
+        Returns true if the fork starts the verkle conversion process.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def environment_verkle_conversion_completed(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Returns true if verkle conversion must have been completed by this fork.
         """
         pass
 

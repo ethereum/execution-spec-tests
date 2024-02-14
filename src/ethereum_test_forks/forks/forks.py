@@ -162,11 +162,20 @@ class Frontier(BaseFork, solc_name="homestead"):
         return {}
 
     @classmethod
-    def environment_verkle_conversion_information_required(
+    def environment_verkle_conversion_starts(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:
         """
-        Returns true if the environment must contain verkle conversion information
+        Returns true if the fork starts the verkle conversion process.
+        """
+        return False
+
+    @classmethod
+    def environment_verkle_conversion_completed(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Returns true if verkle conversion must have been completed by this fork.
         """
         return False
 
@@ -487,10 +496,10 @@ class Prague(Shanghai):
         return Version.parse("1.0.0")  # set a high version; currently unknown
 
     @classmethod
-    def environment_verkle_conversion_information_required(
+    def environment_verkle_conversion_starts(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:
         """
-        Returns true if the environment must contain verkle conversion information
+        Verkle conversion starts in this fork.
         """
         return True

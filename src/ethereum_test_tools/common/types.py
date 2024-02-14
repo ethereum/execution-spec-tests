@@ -943,21 +943,17 @@ class Environment:
         if fork.header_beacon_root_required(number, timestamp) and res.beacon_root is None:
             res.beacon_root = 0
 
-        if fork.environment_verkle_conversion_information_required(number, timestamp):
-            if res.verkle_conversion_address is None:
-                res.verkle_conversion_address = 0
-            if res.verkle_conversion_slot_hash is None:
-                res.verkle_conversion_slot_hash = 0
-            if res.verkle_conversion_started is None:
-                res.verkle_conversion_started = False
+        if fork.environment_verkle_conversion_starts(number, timestamp):
             if res.verkle_conversion_ended is None:
-                res.verkle_conversion_ended = False
-            if res.verkle_conversion_storage_processed is None:
-                res.verkle_conversion_storage_processed = False
+                # Conversion is marked as completed if this is the genesis block, or we are
+                # past the conversion end fork.
+                res.verkle_conversion_ended = (
+                    number == 0 or fork.environment_verkle_conversion_completed(number, timestamp)
+                )
 
         return res
 
-    def update_from_result(self, transition_tool_result: Dict[str, str]) -> "Environment":
+    def update_from_result(self, transition_tool_result: Dict[str, Any]) -> "Environment":
         """
         Updates the environment with the result of a transition tool execution.
         """
@@ -966,13 +962,21 @@ class Environment:
         if "currentConversionSlotHash" in transition_tool_result:
             self.verkle_conversion_slot_hash = transition_tool_result["currentConversionSlotHash"]
         if "currentConversionStarted" in transition_tool_result:
-            self.verkle_conversion_started = transition_tool_result["currentConversionStarted"]
+            conversion_started = transition_tool_result["currentConversionStarted"]
+            assert conversion_started is not None and isinstance(conversion_started, bool)
+            self.verkle_conversion_started = conversion_started
         if "currentConversionEnded" in transition_tool_result:
+            conversion_ended = transition_tool_result["currentConversionEnded"]
+            assert conversion_ended is not None and isinstance(conversion_ended, bool)
             self.verkle_conversion_ended = transition_tool_result["currentConversionEnded"]
         if "currentConversionStorageProcessed" in transition_tool_result:
-            self.verkle_conversion_storage_processed = transition_tool_result[
+            conversion_storage_processed = transition_tool_result[
                 "currentConversionStorageProcessed"
             ]
+            assert conversion_storage_processed is not None and isinstance(
+                conversion_storage_processed, bool
+            )
+            self.verkle_conversion_storage_processed = conversion_storage_processed
         return self
 
 
