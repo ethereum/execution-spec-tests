@@ -22,53 +22,74 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from typing import Dict, List, Tuple
 
 
-def get_fixture_hash_map(fixtures_directory: str) -> dict:
+def compute_fixture_hash(fixture_path: Path) -> str:
     """
-    Generates a sha256 hash map of the fixture json files, mapped to the file name.
+    Generates a sha256 hash of a fixture json files.
     The hash for each fixture is calculated without the `_info` key.
     """
-    hash_map = {}
-    fixtures_dir_path = Path(fixtures_directory)
-    for fixture_path in fixtures_dir_path.rglob("*.json"):
-        with open(fixture_path, "r") as file:
-            data = json.load(file)
-            data.pop("_info", None)
-            fixture_hash = hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
-        relative_path_parts = fixture_path.relative_to(fixtures_dir_path).parts
-        modified_path = Path(*relative_path_parts[1:]).as_posix()
-        hash_map[modified_path] = [fixture_hash]
-    return hash_map
+    with open(fixture_path, "r") as file:
+        data = json.load(file)
+        data.pop("_info", None)
+    return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
 
 
-def get_fixture_cumulative_hash(fixtures_hash_map: dict) -> str:
+def compute_cumulative_hash(hashes: List[str]) -> str:
     """
-    Creates a sha256 hash of the sorted hashes of the fixture json files.
+    Creates cumulative sha256 hash from a list of hashes.
     """
-    sorted_hashes = sorted(fixtures_hash_map.keys())
-    cumulative_hash = hashlib.sha256("".join(sorted_hashes).encode()).hexdigest()
-    return cumulative_hash
+    return hashlib.sha256("".join(sorted(hashes)).encode()).hexdigest()
 
 
-def generate_fixture_hash_map_dict(cumulative_hash: str, hash_map: dict) -> dict:
+def generate_fixture_tree_json(fixtures_directory: Path, output_file: str, parent_path="") -> None:
     """
-    Generates a dict containing both the hash map of fixture files and the cumulative hash.
+    Generates a JSON file containing a tree structure of the fixtures directory calculating
+    cumulative hashes at each folder and file. The tree structure is a nested dictionary used to
+    compare fixture differences, using the cumulative hash as a quick comparison metric.
     """
-    return {"cumulative_hash": cumulative_hash, "hash_map": hash_map}
+    def build_tree(directory: Path, parent_path) -> Tuple[Dict, List[str]]:
+        """
+        Recursively builds a tree structure for fixture directories and files,
+        calculating cumulative hashes at each sub tree.
+        """
+        directory_contents = {}
+        all_hashes = []
 
+        for item in directory.iterdir():
+            relative_path = f"{parent_path}/{item.name}" if parent_path else item.name
 
-def generate_fixture_hash_map_json(
-    fixtures_directory: str, fixture_hash_map_json: str = "fixture_hash_map.json"
-) -> None:
-    """
-    Generates a json file containing the hash map of fixture files and the cumulative hash,
-    directly from the input fixtures directory. Used within CI/CD artifact generation.
-    """
-    hash_map = get_fixture_hash_map(fixtures_directory)
-    cumulative_hash = get_fixture_cumulative_hash(hash_map)
-    with open(fixture_hash_map_json, "w") as file:
-        json.dump(generate_fixture_hash_map_dict(cumulative_hash, hash_map), file, indent=4)
+            if item.is_dir():
+                sub_tree, sub_tree_hashes = build_tree(item, relative_path)
+                directory_contents[item.name] = [
+                    {
+                        "path": relative_path,
+                        "hash": compute_cumulative_hash(sub_tree_hashes),
+                        "contents": sub_tree,
+                    }
+                ]
+                all_hashes.extend(sub_tree_hashes)
+            elif item.suffix == ".json":
+                file_hash = compute_fixture_hash(item)
+                directory_contents[item.name] = [
+                    {
+                        "path": relative_path,
+                        "hash": file_hash,
+                    }
+                ]
+                all_hashes.append(file_hash)
+        return directory_contents, all_hashes
+
+    tree_contents, tree_hashes = build_tree(fixtures_directory, parent_path)
+    fixtures_tree = {
+        "fixtures": {
+            "cumulative_hash": compute_cumulative_hash(tree_hashes),
+            "contents": tree_contents,
+        }
+    }
+    with open(output_file, "w") as file:
+        json.dump(fixtures_tree, file, indent=4)
 
 
 def main():
@@ -111,9 +132,7 @@ def main():
             f"Error: The input or default fixtures directory does not exist: {args.input}"
         )
 
-    # Todo - implement the fixture diff comparison locally
-    # Currently using dfx for testing the json generation
-    generate_fixture_hash_map_json(args.input)
+    generate_fixture_tree_json(fixtures_directory=input_path, output_file="fixtures_tree.json")
 
 
 if __name__ == "__main__":
