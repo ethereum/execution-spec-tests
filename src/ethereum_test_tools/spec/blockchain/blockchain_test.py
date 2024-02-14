@@ -210,16 +210,6 @@ class BlockchainTest(BaseTest):
         env = block.set_environment(previous_env)
         env = env.set_fork_requirements(fork)
 
-        if (
-            fork.fork_at(Number(env.number), Number(env.timestamp)) == Prague
-            and fork.fork_at(Number(previous_env.number), Number(previous_env.timestamp)) != Prague
-        ):
-            # Transitioning to verkle trees, we need to update the MPT allocation.
-            assert (
-                mpt_alloc is None
-            ), "MPT allocation should not be set when transitioning to Prague"
-            mpt_alloc = previous_alloc
-
         txs = [tx.with_signature_and_sender() for tx in block.txs] if block.txs is not None else []
 
         if failing_tx_count := len([tx for tx in txs if tx.error]) > 0:
@@ -300,7 +290,19 @@ class BlockchainTest(BaseTest):
             ommers=[],
             withdrawals=env.withdrawals,
         )
+
+        if (
+            fork.fork_at(Number(env.number), Number(env.timestamp)) == Prague
+            and fork.fork_at(Number(previous_env.number), Number(previous_env.timestamp)) != Prague
+        ):
+            # Transitioning to verkle trees, we need to init the MPT allocation.
+            assert (
+                mpt_alloc is None
+            ), "MPT allocation should not be set when transitioning to Prague"
+            mpt_alloc = previous_alloc
+
         env.update_from_result(result)
+
         if env.verkle_conversion_ended:
             mpt_alloc = None
         return header, rlp, txs, next_alloc, mpt_alloc, env
