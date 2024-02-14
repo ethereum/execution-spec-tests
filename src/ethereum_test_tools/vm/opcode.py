@@ -1321,7 +1321,7 @@ class Opcodes(Opcode, Enum):
 
     EXTCODECOPY = Opcode(0x3C, popped_stack_items=4)
     """
-    EXTCODESIZE(account)
+    EXTCODECOPY(addr, destOffset, offset, size)
     ----
 
     Description
@@ -1681,24 +1681,24 @@ class Opcodes(Opcode, Enum):
 
     BLOBHASH = Opcode(0x49, popped_stack_items=1, pushed_stack_items=1)
     """
-    BLOBHASH(data) = h
+    BLOBHASH(index) = versionedHash
     ----
 
     Description
     ----
-    Returns hashes of blobs in the transaction
+    Returns the versioned hash of a single blob contained in the type-3 transaction
 
     Inputs
     ----
-    - data: data to hash
+    - index: index of the blob
 
     Outputs
     ----
-    - h: keccak256 hash of the data
+    - versionedHash: versioned hash of the blob
 
     Fork
     ----
-    Dencun
+    Cancun
 
     Gas
     ----
@@ -1722,11 +1722,11 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - fee: base fee per gas
+    - fee: base fee per blob gas
 
     Fork
     ----
-    Dencun
+    Cancun
 
     Gas
     ----
@@ -1737,7 +1737,7 @@ class Opcodes(Opcode, Enum):
 
     POP = Opcode(0x50, popped_stack_items=1)
     """
-    POP(y)
+    POP()
     ----
 
     Description
@@ -1746,13 +1746,9 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - y: a stack item
-
-    Outputs
-    ----
     - None
 
-    Inputs
+    Outputs
     ----
     - None
 
@@ -1874,7 +1870,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    100
+    warm: 100
+    cold: 2100
 
     Source: [evm.codes/#54](https://www.evm.codes/#54)
     """
@@ -1903,7 +1900,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    100
+    set: 20000
+    reset: 2900
 
     Source: [evm.codes/#55](https://www.evm.codes/#55)
     """
@@ -2033,7 +2031,7 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - Source: [evm.codes/#5A](https://www.evm.codes/#5A)
+    - gas_remaining: remaining gas for the current call frame
 
     Fork
     ----
@@ -2093,7 +2091,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-
+    Cancun
 
     Gas
     ----
@@ -2118,7 +2116,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-
+    Cancun
 
     Gas
     ----
@@ -2148,7 +2146,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Frontier
+    Cancun
 
     Gas
     ----
@@ -2205,7 +2203,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Frontier
+    Shanghai
 
     Gas
     ----
@@ -4734,7 +4732,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Revolution
+    
     """
 
     RJUMPI = Opcode(0xE1, popped_stack_items=1, data_portion_length=2)
@@ -5076,7 +5074,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Homestead
+    Frontier
 
     Gas
     ----
@@ -5111,12 +5109,12 @@ class Opcodes(Opcode, Enum):
 
     SENDALL = Opcode(0xFF, popped_stack_items=1)
     """
-    SENDALL(to) = success
+    SENDALL(to)
     ----
 
     Description
     ----
-    Send all ether to the target address.
+    Send all ether to the target address and halt execution.
 
     Inputs
     ----
@@ -5132,7 +5130,7 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
+    5000
 
-
-    Source: [eips.ethereum.org/EIPS/eip-4758](https://eips.ethereum.org/EIPS/eip-4758)
+    Source: [eips.ethereum.org/EIPS/eip-6780](https://eips.ethereum.org/EIPS/eip-6780)
     """
