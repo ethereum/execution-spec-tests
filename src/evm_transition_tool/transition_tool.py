@@ -491,6 +491,9 @@ class TransitionTool:
             f"--state.reward={t8n_data.reward}",
         ]
 
+        if t8n_data.mpt_alloc is not None:
+            args.append("--input.allocMPT=stdin")
+
         if self.trace:
             args.append("--trace")
             args.append(f"--output.basedir={temp_dir.name}")
