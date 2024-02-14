@@ -49,6 +49,7 @@ def generate_fixture_tree_json(fixtures_directory: Path, output_file: str, paren
     cumulative hashes at each folder and file. The tree structure is a nested dictionary used to
     compare fixture differences, using the cumulative hash as a quick comparison metric.
     """
+
     def build_tree(directory: Path, parent_path) -> Tuple[Dict, List[str]]:
         """
         Recursively builds a tree structure for fixture directories and files,
@@ -118,6 +119,13 @@ def main():
         default=False,
         help="Compares all fixtures including the development fixtures.",
     )
+    parser.add_argument(
+        "--generate-fixtures-tree-only",
+        action="store_true",
+        default=False,
+        help="Generates a fixture tree json file without comparing the input fixtures.",
+
+    )
     parser.add_argument(  # To be implemented
         "--commit",
         type=str,
@@ -131,8 +139,10 @@ def main():
         raise FileNotFoundError(
             f"Error: The input or default fixtures directory does not exist: {args.input}"
         )
-
-    generate_fixture_tree_json(fixtures_directory=input_path, output_file="fixtures_tree.json")
+    
+    if args.generate_fixtures_tree_only:
+        generate_fixture_tree_json(fixtures_directory=input_path, output_file="fixtures_tree.json")
+        return
 
 
 if __name__ == "__main__":
