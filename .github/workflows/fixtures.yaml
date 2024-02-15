@@ -44,7 +44,7 @@ jobs:
           wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
           chmod a+x $GITHUB_WORKSPACE/bin/solc
           echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
-      - name: Run fixtures fill
+      - name: Run fixtures fill and create fixtures tree hash file
         shell: bash
         run: |
           pip install --upgrade pip
@@ -52,6 +52,8 @@ jobs:
           source env/bin/activate
           pip install -e .
           fill ${{ matrix.fill-params }}
+          dfx --generate-fixtures-tree-only
+          mv fixtures_tree.json ${{ matrix.name }}_hash_tree.json
       - name: Create fixtures info file
         shell: bash
         run: |
@@ -61,20 +63,32 @@ jobs:
         shell: bash
         run: |
           tar -czvf ${{ matrix.name }}.tar.gz ./fixtures
-      - uses: actions/upload-artifact@v3
+      - name: Upload fixtures tar artifact
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.name }}
-          path: ${{ matrix.name }}.tar.gz
+          path: |
+            ${{ matrix.name }}.tar.gz
+      - name: Upload separate fixtures tree hash artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}_hash_tree
+          path: |
+            ${{ matrix.name }}_hash_tree.json
   release:
     runs-on: ubuntu-latest
     needs: build
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - name: Download artifacts
+      - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
           path: .
-      - name: Draft Release
+      - name: Remove fixtures hash tree files
+        shell: bash
+        run: |
+          rm *_hash_tree.json
+      - name: Draft release with remaining files
         uses: softprops/action-gh-release@v1
         with:
           files: './**'
