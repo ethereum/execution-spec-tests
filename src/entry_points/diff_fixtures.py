@@ -18,11 +18,15 @@ fixture artifact build process, and within the PR branch that a user is developi
 then compared within the PR workflow during each commit to flag any changes in the fixture files.
 """
 
+import requests
 import argparse
 import hashlib
 import json
 from pathlib import Path
 from typing import Dict, List, Tuple
+from dotenv import load_dotenv
+import os
+import zipfile
 
 
 def compute_fixture_hash(fixture_path: Path) -> str:
@@ -43,7 +47,11 @@ def compute_cumulative_hash(hashes: List[str]) -> str:
     return hashlib.sha256("".join(sorted(hashes)).encode()).hexdigest()
 
 
-def generate_fixture_tree_json(fixtures_directory: Path, output_file: str, parent_path="") -> None:
+def generate_fixtures_tree_json(
+    fixtures_directory: Path,
+    output_file: str,
+    parent_path="",
+) -> None:
     """
     Generates a JSON file containing a tree structure of the fixtures directory calculating
     cumulative hashes at each folder and file. The tree structure is a nested dictionary used to
@@ -92,6 +100,55 @@ def generate_fixture_tree_json(fixtures_directory: Path, output_file: str, paren
         json.dump(fixtures_tree, file, indent=4)
 
 
+def download_github_artifact(download_url: str, output_path: str, headers: dict):
+    """
+    Helper function to download github zip artifacts and extract them to the output path.
+    """
+    temp_zip_path = Path(output_path) / "temp_artifact.zip"
+    with requests.get(download_url, headers=headers, stream=True) as download_response:
+        download_response.raise_for_status()
+        with open(temp_zip_path, "wb") as f:
+            for chunk in download_response.iter_content(chunk_size=8192):
+                f.write(chunk)
+    with zipfile.ZipFile(temp_zip_path, "r") as zip_ref:
+        zip_ref.extractall(output_path)
+    temp_zip_path.unlink()
+
+
+def get_artifact_fixtures_tree(output_path: str = ".", commit: str = "", develop: bool = False):
+    """
+    Retrieves a fixtures tree artifact from EEST. By default, it will download the latest
+    main branch base artifact. If the develop flag is set, it will download the latest development
+    artifact. The commit flag can be used to download a specific artifact on the main branch based.
+    """
+    load_dotenv()
+    github_token = os.getenv("GITHUB_PAT")
+    if not github_token:
+        raise ValueError("GitHub PAT not found. Ensure GITHUB_PAT is set within your .env file.")
+
+    api_url = "https://api.github.com/repos/ethereum/execution-spec-tests/actions/artifacts"
+    headers = {"Authorization": f"token {github_token}"}
+    response = requests.get(api_url, headers=headers)
+    response.raise_for_status()
+    artifacts = response.json().get("artifacts", [])
+    artifact_name = "fixtures_develop_hash_tree" if develop else "fixtures_hash_tree"
+
+    for artifact in artifacts:
+        artifact_commit = artifact["workflow_run"]["head_sha"]
+        if (
+            artifact["name"] == artifact_name  # base or develop
+            and not artifact["expired"]
+            and (commit == "" or artifact_commit.startswith(commit))  # latest or specific
+        ):
+            download_url = artifact["archive_download_url"]
+            download_github_artifact(download_url, output_path, headers)
+            return
+    
+    raise ValueError(
+        f"No active artifact named '{artifact_name}' found or matching commit '{commit}'."
+    )
+
+
 def main():
     """
     CLI interface for comparing fixture differences between the input directory and the main
@@ -121,8 +178,17 @@ def main():
     parser.add_argument(  # To be implemented
         "--commit",
         type=str,
-        default=None,
+        default="",
         help="The commit hash to compare the input fixtures against.",
+    )
+    parser.add_argument(
+        "--generate-fixtures-tree-only",
+        action="store_true",
+        default=False,
+        help=(
+            "Generates a fixtures tree json file without comparing to the main branch."
+            "Used mostly within the CI/CD pipeline."
+        ),
     )
     args = parser.parse_args()
 
@@ -132,7 +198,19 @@ def main():
             f"Error: The input or default fixtures directory does not exist: {args.input}"
         )
 
-    generate_fixture_tree_json(fixtures_directory=input_path, output_file="fixtures_tree.json")
+    if args.generate_fixtures_tree_only:
+        generate_fixtures_tree_json(
+            fixtures_directory=input_path,
+            output_file="fixtures_tree.json"
+        )
+        return
+
+    # Download the latest artifact from the main branch
+    get_artifact_fixtures_tree(
+        output_path="./",
+        commit=args.commit,
+        develop=args.develop
+    )
 
 
 if __name__ == "__main__":

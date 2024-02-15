@@ -77,7 +77,9 @@ dirname
 discordapp
 docstring
 docstrings
+dotenv
 dup
+EEST
 eip
 eips
 EIPs
@@ -99,6 +101,7 @@ executables
 extcodecopy
 extcodehash
 extcodesize
+extractall
 filesystem
 fn
 fname
@@ -196,7 +199,6 @@ pdb
 petersburg
 png
 Pomerantz
-posix
 ppa
 ppas
 pre
@@ -283,6 +285,7 @@ u256
 ubuntu
 ukiyo
 uncomment
+unlink
 util
 utils
 v0
