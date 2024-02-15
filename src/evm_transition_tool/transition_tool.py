@@ -479,10 +479,12 @@ class TransitionTool:
         if self.t8n_subcommand:
             command.append(self.t8n_subcommand)
 
-        args = command + [
-            "--input.alloc=stdin",
-            "--input.txs=stdin",
-            "--input.env=stdin",
+        args = command + ["--input.alloc=stdin", "--input.txs=stdin", "--input.env=stdin"]
+
+        if t8n_data.mpt_alloc is not None:
+            args.append("--input.allocMPT=stdin")
+
+        args += [
             "--output.result=stdout",
             "--output.alloc=stdout",
             "--output.body=stdout",
@@ -490,9 +492,6 @@ class TransitionTool:
             f"--state.chainid={t8n_data.chain_id}",
             f"--state.reward={t8n_data.reward}",
         ]
-
-        if t8n_data.mpt_alloc is not None:
-            args.append("--input.allocMPT=stdin")
 
         if self.trace:
             args.append("--trace")
