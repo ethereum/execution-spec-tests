@@ -53,6 +53,7 @@ from .spec import (
     StateTest,
     StateTestFiller,
     TestInfo,
+    get_framework_version,
 )
 from .spec.blockchain.types import Block, Header
 from .vm import Opcode, OpcodeCallArg, Opcodes
@@ -112,5 +113,6 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
+    "get_framework_version",
     "transaction_list_root",
 )

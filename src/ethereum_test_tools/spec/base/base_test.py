@@ -1,12 +1,16 @@
 """
 Base test class and helper functions for Ethereum state and blockchain tests.
 """
+
+import subprocess
 from abc import abstractmethod
 from dataclasses import dataclass, field
 from itertools import count
 from os import path
 from pathlib import Path
 from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Optional, TextIO
+
+import pkg_resources
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
@@ -73,6 +77,17 @@ def verify_result(result: Mapping, env: Environment):
         assert result["withdrawalsRoot"] == to_hex(withdrawals_root(env.withdrawals))
 
 
+def get_framework_version() -> str:
+    """
+    Returns the version of the EEST framework.
+    """
+    latest_release = pkg_resources.get_distribution("execution-spec-tests").version
+    local_commit_hash = (
+        subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).decode().strip()
+    )
+    return f"execution-spec-tests v{latest_release}-{local_commit_hash}"
+
+
 @dataclass(kw_only=True)
 class BaseFixture:
     """
@@ -100,6 +115,7 @@ class BaseFixture:
         self.info["filling-transition-tool"] = t8n.version()
         if ref_spec is not None:
             ref_spec.write_info(self.info)
+        self.info["framework-version"] = get_framework_version()
 
     @abstractmethod
     def to_json(self) -> Dict[str, Any]:

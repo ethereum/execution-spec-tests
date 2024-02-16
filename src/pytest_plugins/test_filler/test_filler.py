@@ -19,7 +19,14 @@ from ethereum_test_forks import (
     get_closest_fork_with_solc_support,
     get_forks_with_solc_support,
 )
-from ethereum_test_tools import SPEC_TYPES, BaseTest, FixtureCollector, TestInfo, Yul
+from ethereum_test_tools import (
+    SPEC_TYPES,
+    BaseTest,
+    FixtureCollector,
+    TestInfo,
+    Yul,
+    get_framework_version,
+)
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -126,6 +133,14 @@ def pytest_addoption(parser):
         help="Path to dump the transition tool debug output.",
     )
 
+    version_group = parser.getgroup("version_info", "Versioning of the EEST framework")
+    version_group.addoption(
+        "--version-info",
+        action="store_true",
+        default=False,
+        help="Displays the versioning information of the framework.",
+    )
+
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
@@ -174,6 +189,10 @@ def pytest_configure(config):
             f"Unsupported solc version: {config.solc_version}. Minimum required version is "
             f"{Frontier.solc_min_version()}",
             returncode=pytest.ExitCode.USAGE_ERROR,
+        )
+    if config.getoption("version_info"):
+        pytest.exit(
+            f"'Displaying framework version information'\n" f"> {get_framework_version()}\n"
         )
 
 
