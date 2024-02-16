@@ -47,6 +47,7 @@ changelog
 chfast
 classdict
 cli2
+cmd
 codeAddr
 codecopy
 codesize
@@ -141,6 +142,7 @@ hyperledger
 ignoreRevsFile
 img
 incrementing
+infolist
 init
 initcode
 instantiation

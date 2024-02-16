@@ -23,6 +23,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from io import BytesIO
 from typing import Dict, List, Tuple
 from dotenv import load_dotenv
 import os
@@ -65,7 +66,8 @@ def generate_fixtures_tree_json(
         directory_contents = {}
         all_hashes = []
 
-        for item in directory.iterdir():
+        sorted_items = sorted(directory.iterdir(), key=lambda x: x.name)
+        for item in sorted_items:
             relative_path = f"{parent_path}/{item.name}" if parent_path else item.name
 
             if item.is_dir():
@@ -100,24 +102,9 @@ def generate_fixtures_tree_json(
         json.dump(fixtures_tree, file, indent=4)
 
 
-def download_github_artifact(download_url: str, output_path: str, headers: dict):
+def write_artifact_fixtures_tree_json(commit: str = "", develop: bool = False):
     """
-    Helper function to download github zip artifacts and extract them to the output path.
-    """
-    temp_zip_path = Path(output_path) / "temp_artifact.zip"
-    with requests.get(download_url, headers=headers, stream=True) as download_response:
-        download_response.raise_for_status()
-        with open(temp_zip_path, "wb") as f:
-            for chunk in download_response.iter_content(chunk_size=8192):
-                f.write(chunk)
-    with zipfile.ZipFile(temp_zip_path, "r") as zip_ref:
-        zip_ref.extractall(output_path)
-    temp_zip_path.unlink()
-
-
-def get_artifact_fixtures_tree(output_path: str = ".", commit: str = "", develop: bool = False):
-    """
-    Retrieves a fixtures tree artifact from EEST. By default, it will download the latest
+    Retrieves a fixtures tree artifact json data from EEST. By default, it will download the latest
     main branch base artifact. If the develop flag is set, it will download the latest development
     artifact. The commit flag can be used to download a specific artifact on the main branch based.
     """
@@ -126,7 +113,7 @@ def get_artifact_fixtures_tree(output_path: str = ".", commit: str = "", develop
     if not github_token:
         raise ValueError("GitHub PAT not found. Ensure GITHUB_PAT is set within your .env file.")
 
-    api_url = "https://api.github.com/repos/ethereum/execution-spec-tests/actions/artifacts"
+    api_url = "https://api.github.com/repos/spencer-tb/execution-spec-tests/actions/artifacts"
     headers = {"Authorization": f"token {github_token}"}
     response = requests.get(api_url, headers=headers)
     response.raise_for_status()
@@ -141,12 +128,28 @@ def get_artifact_fixtures_tree(output_path: str = ".", commit: str = "", develop
             and (commit == "" or artifact_commit.startswith(commit))  # latest or specific
         ):
             download_url = artifact["archive_download_url"]
-            download_github_artifact(download_url, output_path, headers)
-            return
-    
-    raise ValueError(
-        f"No active artifact named '{artifact_name}' found or matching commit '{commit}'."
-    )
+            response = requests.get(download_url, headers=headers)
+            response.raise_for_status()
+            with zipfile.ZipFile(BytesIO(response.content)) as zip_ref:
+                json_file_info = next(
+                    (
+                        file_info
+                        for file_info in zip_ref.infolist()
+                        if file_info.filename.endswith("_hash_tree.json")
+                    ),
+                    None,
+                )
+                if json_file_info is None:
+                    raise FileNotFoundError("No fixtures tree hash file found in the artifact.")
+                with zip_ref.open(json_file_info) as json_file:
+                    json_data = json.load(json_file)
+                    with open(f"./{artifact_name}_artifact.json", "w") as file:
+                        json.dump(json_data, file, indent=4)
+                return
+        else:
+            raise ValueError(
+                f"No active artifact named {artifact_name} found or matching commit {commit}."
+            )
 
 
 def main():
@@ -205,11 +208,16 @@ def main():
         )
         return
 
-    # Download the latest artifact from the main branch
-    get_artifact_fixtures_tree(
-        output_path="./",
+    # Download the latest fixtures tree hash json artifact from the main branch
+    write_artifact_fixtures_tree_json(
         commit=args.commit,
         develop=args.develop
+    )
+
+    # Generate the fixtures tree hash from the local input directory
+    generate_fixtures_tree_json(
+        fixtures_directory=input_path,
+        output_file="fixtures_hash_tree_local.json"
     )
 
 
