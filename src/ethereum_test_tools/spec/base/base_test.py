@@ -2,15 +2,15 @@
 Base test class and helper functions for Ethereum state and blockchain tests.
 """
 
-import subprocess
 from abc import abstractmethod
 from dataclasses import dataclass, field
+from importlib.metadata import version
 from itertools import count
 from os import path
 from pathlib import Path
 from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Optional, TextIO
 
-import pkg_resources
+from git import InvalidGitRepositoryError, Repo
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
@@ -81,11 +81,11 @@ def get_framework_version() -> str:
     """
     Returns the version of the EEST framework.
     """
-    latest_release = pkg_resources.get_distribution("execution-spec-tests").version
-    local_commit_hash = (
-        subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).decode().strip()
-    )
-    return f"execution-spec-tests v{latest_release}-{local_commit_hash}"
+    try:
+        local_commit_hash = Repo(search_parent_directories=True).head.commit.hexsha[:7]
+    except InvalidGitRepositoryError:  # required for some framework tests
+        local_commit_hash = "unknown"
+    return f"execution-spec-tests v{version('execution-spec-tests')}-{local_commit_hash}"
 
 
 @dataclass(kw_only=True)
