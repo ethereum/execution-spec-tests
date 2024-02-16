@@ -1,6 +1,7 @@
 """
 Base test class and helper functions for Ethereum state and blockchain tests.
 """
+import os
 from abc import abstractmethod
 from dataclasses import dataclass, field
 from itertools import count
@@ -100,6 +101,7 @@ class BaseFixture:
         self.info["filling-transition-tool"] = t8n.version()
         if ref_spec is not None:
             ref_spec.write_info(self.info)
+        self.info["fill-cmd"] = os.getenv("FILL_CMD", "")
 
     @abstractmethod
     def to_json(self) -> Dict[str, Any]:
