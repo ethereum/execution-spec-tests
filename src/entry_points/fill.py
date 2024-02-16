@@ -2,8 +2,8 @@
 Define an entry point wrapper for pytest.
 """
 
-import sys
 import os
+import sys
 
 import pytest
 

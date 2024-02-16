@@ -18,16 +18,17 @@ fixture artifact build process, and within the PR branch that a user is developi
 then compared within the PR workflow during each commit to flag any changes in the fixture files.
 """
 
-import requests
 import argparse
 import hashlib
 import json
-from pathlib import Path
-from io import BytesIO
-from typing import Dict, List, Tuple
-from dotenv import load_dotenv
 import os
 import zipfile
+from io import BytesIO
+from pathlib import Path
+from typing import Dict, List, Tuple
+
+import requests
+from dotenv import load_dotenv
 
 
 def compute_fixture_hash(fixture_path: Path) -> str:
@@ -58,6 +59,7 @@ def generate_fixtures_tree_json(
     cumulative hashes at each folder and file. The tree structure is a nested dictionary used to
     compare fixture differences, using the cumulative hash as a quick comparison metric.
     """
+
     def build_tree(directory: Path, parent_path) -> Tuple[Dict, List[str]]:
         """
         Recursively builds a tree structure for fixture directories and files,
@@ -203,21 +205,16 @@ def main():
 
     if args.generate_fixtures_tree_only:
         generate_fixtures_tree_json(
-            fixtures_directory=input_path,
-            output_file="fixtures_tree.json"
+            fixtures_directory=input_path, output_file="fixtures_tree.json"
         )
         return
 
     # Download the latest fixtures tree hash json artifact from the main branch
-    write_artifact_fixtures_tree_json(
-        commit=args.commit,
-        develop=args.develop
-    )
+    write_artifact_fixtures_tree_json(commit=args.commit, develop=args.develop)
 
     # Generate the fixtures tree hash from the local input directory
     generate_fixtures_tree_json(
-        fixtures_directory=input_path,
-        output_file="fixtures_hash_tree_local.json"
+        fixtures_directory=input_path, output_file="fixtures_hash_tree_local.json"
     )
 
 

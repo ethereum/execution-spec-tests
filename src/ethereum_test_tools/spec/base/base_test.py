@@ -1,6 +1,7 @@
 """
 Base test class and helper functions for Ethereum state and blockchain tests.
 """
+
 import os
 from abc import abstractmethod
 from dataclasses import dataclass, field
