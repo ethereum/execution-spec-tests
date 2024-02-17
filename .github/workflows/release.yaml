@@ -13,19 +13,29 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.release.tag_name }}
-          persist-credentials: true
           fetch-depth: 0
 
       - name: Update version in setup.cfg
         run: |
           NEW_VERSION=$(echo ${{ github.event.release.tag_name }} | sed 's/^v//')
           sed -i "s/^version = .*/version = $NEW_VERSION/" setup.cfg
-          
-      - name: Commit and push changes
+
+      - name: Create New Branch
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
+          NEW_BRANCH="release-${{ github.event.release.tag_name }}"
+          git checkout -b $NEW_BRANCH
           git add setup.cfg
           git commit -m "Release EEST `${{ github.event.release.tag_name }}`"
-          git push origin HEAD:${{ github.ref }}
+          git push origin $NEW_BRANCH
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: ${{ env.NEW_BRANCH }}
+          commit-message: "Release EEST `${{ github.event.release.tag_name }}`"
+          title: "feat(docs|fw): release EEST `${{ github.event.release.tag_name }}`"
+          body: "This PR updates the framework version in setup.cfg to `${{ github.event.release.tag_name }}`."
+          base: main
+
