@@ -4,12 +4,19 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # TODO: add changelog entry updates
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          persist-credentials: true
+          fetch-depth: 0
+
       - name: Update version in setup.cfg
         run: |
           NEW_VERSION=$(echo ${{ github.event.release.tag_name }} | sed 's/^v//')
