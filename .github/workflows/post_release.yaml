@@ -1,0 +1,65 @@
+name: Post Release Automation
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure git user for actions
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+      - name: Set environment variables
+        run: |
+          echo "NEW_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          echo "NEW_BRANCH=release-${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          echo "COMMIT_MSG=feat(docs|fw): post ${{ github.event.release.tag_name }} release changes" >> $GITHUB_ENV
+
+      - name: Bump version in setup configuration
+        run: |
+          sed -i "s/^version = .*/version = $NEW_VERSION/" setup.cfg
+          git add setup.cfg
+
+      - name: Update changelog with release details
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_DATE: $(date +'%Y-%m-%d')
+        run: |
+          # Replace unreleased link with the new release information
+          RELEASE_DATE=$(date +'%Y-%m-%d')
+          ESCAPED_LINK="https:\/\/github.com\/ethereum\/execution-spec-tests\/releases\/tag\/${NEW_VERSION}"
+          RELEASE_NAME=$(gh release view ${NEW_VERSION} --json body -q '.body' | grep '^#' | head -n 1 | sed 's/^# //')
+          sed -i "s/^## 🔜 \[Unreleased\].*/## [${NEW_VERSION}](${ESCAPED_LINK}) - ${RELEASE_DATE}: ${RELEASE_NAME}/" docs/CHANGELOG.md
+
+          # Append changelog template for the new unreleased section
+          { echo ""; tail -n +5 docs/changelog_section_template.md; } > temp_template.md
+          sed -i '/\*\*Key:\*\*/ r temp_template.md' docs/CHANGELOG.md
+          rm temp_template.md
+
+          git add docs/CHANGELOG.md
+
+      - name: Create pull request with relevant changes
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.NEW_BRANCH }}
+          commit-message: ${{ env.COMMIT_MSG }}
+          title: ${{ env.COMMIT_MSG }}
+          body: |
+            ## 🗒️ Description
+            Post ${{ env.NEW_VERSION }} release changes:
+            - Bump version within `setup.cfg`.
+            - Update `CHANGELOG.md` and copy in `changelog_section_template.md`.
+          base: main
