@@ -4,13 +4,10 @@ Base test class and helper functions for Ethereum state and blockchain tests.
 
 from abc import abstractmethod
 from dataclasses import dataclass, field
-from importlib.metadata import version
 from itertools import count
 from os import path
 from pathlib import Path
 from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Optional, TextIO
-
-from git import InvalidGitRepositoryError, Repo
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
@@ -20,6 +17,7 @@ from ...common.conversions import to_hex
 from ...common.json import JSONEncoder
 from ...common.json import field as json_field
 from ...reference_spec.reference_spec import ReferenceSpec
+from ...utility.helpers import get_framework_version
 
 
 def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
@@ -75,17 +73,6 @@ def verify_result(result: Mapping, env: Environment):
     """
     if env.withdrawals is not None:
         assert result["withdrawalsRoot"] == to_hex(withdrawals_root(env.withdrawals))
-
-
-def get_framework_version() -> str:
-    """
-    Returns the version of the EEST framework.
-    """
-    try:
-        local_commit_hash = Repo(search_parent_directories=True).head.commit.hexsha[:7]
-    except InvalidGitRepositoryError:  # required for some framework tests
-        local_commit_hash = "unknown"
-    return f"execution-spec-tests v{version('execution-spec-tests')}-{local_commit_hash}"
 
 
 @dataclass(kw_only=True)

@@ -53,9 +53,9 @@ from .spec import (
     StateTest,
     StateTestFiller,
     TestInfo,
-    get_framework_version,
 )
 from .spec.blockchain.types import Block, Header
+from .utility.helpers import get_framework_version
 from .vm import Opcode, OpcodeCallArg, Opcodes
 
 __all__ = (
