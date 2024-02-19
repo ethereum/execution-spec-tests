@@ -1,11 +1,12 @@
 """
 BlockchainTest types
 """
+
 import json
 from copy import copy, deepcopy
 from dataclasses import dataclass, fields, replace
 from pathlib import Path
-from typing import Any, Callable, ClassVar, Dict, List, Mapping, Optional, TextIO, Tuple
+from typing import Any, Callable, ClassVar, Dict, Iterable, List, Mapping, Optional, TextIO, Tuple
 
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
@@ -518,7 +519,7 @@ class Block(Header):
     """
     If set, the block is expected to produce an error response from the Engine API.
     """
-    txs: Optional[List[Transaction]] = None
+    txs: Optional[Iterable[Transaction]] = None
     """
     List of transactions included in the block.
     """
@@ -526,7 +527,7 @@ class Block(Header):
     """
     List of ommer headers included in the block.
     """
-    withdrawals: Optional[List[Withdrawal]] = None
+    withdrawals: Optional[Iterable[Withdrawal]] = None
     """
     List of withdrawals to perform for this block.
     """
@@ -552,7 +553,7 @@ class Block(Header):
         )
         if not isinstance(self.base_fee, Removable):
             new_env.base_fee = self.base_fee
-        new_env.withdrawals = self.withdrawals
+        new_env.withdrawals = list(self.withdrawals) if self.withdrawals is not None else None
         if not isinstance(self.excess_blob_gas, Removable):
             new_env.excess_blob_gas = self.excess_blob_gas
         if not isinstance(self.blob_gas_used, Removable):

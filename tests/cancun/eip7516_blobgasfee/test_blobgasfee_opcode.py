@@ -3,6 +3,7 @@ abstract: Tests [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/ei
     Test BLOBGASFEE opcode [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/eip-7516)
 
 """  # noqa: E501
+
 from dataclasses import replace
 from itertools import count
 from typing import Dict

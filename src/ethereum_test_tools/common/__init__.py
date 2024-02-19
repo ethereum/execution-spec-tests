@@ -1,6 +1,7 @@
 """
 Common definitions and types.
 """
+
 from .base_types import (
     Address,
     Bloom,
@@ -42,7 +43,9 @@ from .types import (
     Removable,
     Storage,
     Transaction,
+    Transactions,
     Withdrawal,
+    Withdrawals,
     alloc_to_accounts,
     serialize_transactions,
     str_or_none,
@@ -76,7 +79,9 @@ __all__ = (
     "TestPrivateKey",
     "TestPrivateKey2",
     "Transaction",
+    "Transactions",
     "Withdrawal",
+    "Withdrawals",
     "ZeroPaddedHexNumber",
     "add_kzg_version",
     "alloc_to_accounts",

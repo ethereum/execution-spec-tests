@@ -2,8 +2,23 @@
 Basic type primitives used to define other types.
 """
 
-
-from typing import ClassVar, SupportsBytes, Type, TypeVar
+from itertools import count, cycle
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    SupportsBytes,
+    Type,
+    TypeVar,
+    Union,
+    get_args,
+    get_origin,
+    get_type_hints,
+)
 
 from .conversions import (
     BytesConvertible,
@@ -217,3 +232,121 @@ class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
     """
 
     pass
+
+
+C = TypeVar("C")
+
+
+class DataclassGenerator(Iterable[C]):
+    """
+    Class that creates dataclass generators.
+    """
+
+    # Class fields
+    _dataclass: ClassVar[Type]
+    _iterable_fields: ClassVar[List[str]]
+    _max_iterations: ClassVar[int] = 1000
+    _index_field: ClassVar[Optional[str]] = None
+    _iter_suffix: ClassVar[str] = "_iter"
+
+    # Instance fields
+    iterators: Dict[str, Iterator[Any]]
+    limits: Iterator[int]
+    current_limit: int
+    current_iterations: int = 0
+
+    @staticmethod
+    def _field_type_is_iterable(field_type: Any) -> bool:
+        origin = get_origin(field_type)
+        types: List[Any] = (
+            [get_origin(arg) for arg in get_args(field_type)] if origin == Union else [origin]
+        )
+        return any(
+            t is not None and t != bytes and t != str and issubclass(t, Iterable) for t in types
+        )
+
+    def __init_subclass__(
+        cls, *, dataclass: Type[C], index_field: Optional[str] = None, max_iterations: int = 1000
+    ) -> None:
+        """
+        Initializes the subclass.
+
+        Dataclass might behave incorrectly if it has a field named `limit`.
+        """
+        cls._dataclass = dataclass
+        cls._iterable_fields = [
+            field
+            for field, field_type in get_type_hints(dataclass).items()
+            if cls._field_type_is_iterable(field_type)
+        ]
+        cls._index_field = index_field
+        cls._max_iterations = max_iterations
+
+    def __init__(self, *, limit: int | Iterable[int] | Iterator[int] = -1, **kwargs: Any):
+        """
+        Initializes the dataclass generator.
+        """
+        self.iterators: Dict[str, Iterator[Any]] = {}
+        for field in self._iterable_fields:
+            field_with_suffix = f"{field}{self._iter_suffix}"
+            if field in kwargs or field_with_suffix in kwargs:
+                if field in kwargs and field_with_suffix in kwargs:
+                    raise ValueError(f"cannot set both {field} and {field_with_suffix}")
+                if field in kwargs:
+                    self.iterators[field] = cycle([kwargs.pop(field)])
+                else:
+                    value = kwargs.pop(field_with_suffix)
+                    assert value is not None, f"value for {field_with_suffix} cannot be None"
+                    if isinstance(value, Iterator):
+                        self.iterators[field] = value
+                    elif isinstance(value, Iterable):
+                        self.iterators[field] = iter(value)
+                    else:
+                        raise ValueError(
+                            f"value for {field_with_suffix} must be an iterator or iterable"
+                        )
+
+        if self._index_field:
+            index_value = kwargs.pop(self._index_field, 0)
+            if isinstance(index_value, int):
+                index_value = count(index_value)
+            elif isinstance(index_value, Iterable):
+                index_value = iter(index_value)
+            self.iterators[self._index_field] = index_value
+
+        for arg, value in kwargs.items():
+            if value is not None and isinstance(value, Iterator):
+                self.iterators[arg] = value
+            elif (
+                value is not None
+                and isinstance(value, Iterable)
+                and not isinstance(value, str)
+                and not isinstance(value, bytes)
+            ):
+                self.iterators[arg] = iter(value)
+            else:
+                self.iterators[arg] = cycle([value])
+
+        self.limits = iter(cycle([limit])) if isinstance(limit, int) else iter(limit)
+
+    def __iter__(self) -> Iterator[C]:
+        """
+        Returns an iterator over the elements.
+        """
+        self.current_iterations = 0
+        try:
+            self.current_limit = next(self.limits)
+        except StopIteration:
+            self.current_limit = -1
+        return self
+
+    def __next__(self) -> C:
+        """
+        Returns the next dataclass element in the sequence.
+        """
+        if self.current_limit >= 0 and self.current_iterations >= self.current_limit:
+            raise StopIteration
+        if self.current_iterations > self._max_iterations:
+            raise ValueError(f"exceeded maximum number of iterations ({self._max_iterations})")
+        self.current_iterations += 1
+        return self._dataclass(**{arg: next(iterator) for arg, iterator in self.iterators.items()})

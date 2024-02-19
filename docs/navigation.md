@@ -17,6 +17,7 @@
     * [Verifying Changes Locally](writing_tests/verifying_changes.md)
     * [Exception Tests](writing_tests/exception_tests.md)
   * Tutorials
+    * [Blockchain Tests](tutorials/blockchain.md)
     * [State Transition Tests](tutorials/state_transition.md)
   * [Consuming Tests](consuming_tests/index.md)
     * [State Tests](consuming_tests/state_test.md)

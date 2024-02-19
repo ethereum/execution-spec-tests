@@ -23,6 +23,7 @@ from ethereum_test_tools import (
     Storage,
     TestAddress,
     Transaction,
+    Transactions,
     YulCompiler,
     compute_create2_address,
     compute_create_address,
@@ -410,13 +411,11 @@ def test_create_selfdestruct_same_tx(
 
     post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=100_000,
         data=entry_code,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,
@@ -538,13 +537,11 @@ def test_self_destructing_initcode(
         sendall_recipient_addresses[0]: Account(balance=sendall_amount, storage={0: 1}),
     }
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=100_000,
         data=entry_code,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,
@@ -593,13 +590,11 @@ def test_self_destructing_initcode_create_tx(
         sendall_recipient_addresses[0]: Account(balance=sendall_amount, storage={0: 1}),
     }
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=tx_value,
         data=selfdestruct_contract_initcode,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,
@@ -687,21 +682,17 @@ def test_recreate_self_destructed_contract_different_txs(
 
     entry_code += Op.STOP
 
-    txs: List[Transaction] = []
-    nonce = count()
+    txs = Transactions(
+        ty=0x0,
+        data=(Hash(i) for i in count()),
+        chain_id=0x0,
+        to=entry_code_address,
+        gas_limit=100_000_000,
+        gas_price=10,
+        protected=False,
+        limit=recreate_times + 1,
+    )
     for i in range(recreate_times + 1):
-        txs.append(
-            Transaction(
-                ty=0x0,
-                data=Hash(i),
-                chain_id=0x0,
-                nonce=next(nonce),
-                to=entry_code_address,
-                gas_limit=100_000_000,
-                gas_price=10,
-                protected=False,
-            )
-        )
         entry_code_storage[i] = selfdestruct_contract_address
 
     pre[entry_code_address] = Account(code=entry_code)
@@ -880,13 +871,11 @@ def test_selfdestruct_pre_existing(
     else:
         post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=100_000,
         data=entry_code,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,
@@ -980,33 +969,25 @@ def test_selfdestruct_created_same_block_different_tx(
     else:
         post[selfdestruct_contract_address] = Account.NONEXISTENT  # type: ignore
 
-    nonce = count()
-    txs = [
-        Transaction(
-            ty=0x0,
-            value=0,
-            data=selfdestruct_contract_initcode,
-            chain_id=0x0,
-            nonce=next(nonce),
-            to=None,
-            gas_limit=100_000_000,
-            gas_price=10,
-            protected=False,
-        ),
-        Transaction(
-            ty=0x0,
-            value=100_000,
-            data=entry_code,
-            chain_id=0x0,
-            nonce=next(nonce),
-            to=None,
-            gas_limit=100_000_000,
-            gas_price=10,
-            protected=False,
-        ),
-    ]
-
-    blockchain_test(genesis_environment=env, pre=pre, post=post, blocks=[Block(txs=txs)])
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post=post,
+        blocks=[
+            Block(
+                txs=Transactions(
+                    ty=0x0,
+                    value=[0, 100_000],
+                    data=[selfdestruct_contract_initcode, entry_code],
+                    chain_id=0x0,
+                    to=None,
+                    gas_limit=100_000_000,
+                    gas_price=10,
+                    protected=False,
+                )
+            ),
+        ],
+    )
 
 
 @pytest.mark.parametrize(
@@ -1156,13 +1137,11 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
         sendall_recipient_addresses[0]: Account(balance=sendall_amount, storage={0: 1}),
     }
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=100_000,
         data=entry_code,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,
@@ -1313,13 +1292,11 @@ def test_delegatecall_from_pre_existing_contract_to_new_contract(
     else:
         post[delegate_caller_address] = Account.NONEXISTENT  # type: ignore
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=100_000,
         data=entry_code,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,

@@ -2,7 +2,6 @@
 tests for selfdestruct interaction with revert
 """
 
-from itertools import count
 from typing import Dict, SupportsBytes
 
 import pytest
@@ -287,13 +286,11 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         )
         post[selfdestruct_recipient_address] = Account.NONEXISTENT  # type: ignore
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=0,
         data=entry_code,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,
@@ -402,13 +399,11 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
         )
         post[selfdestruct_recipient_address] = Account.NONEXISTENT  # type: ignore
 
-    nonce = count()
     tx = Transaction(
         ty=0x0,
         value=0,
         data=entry_code,
         chain_id=0x0,
-        nonce=next(nonce),
         to=None,
         gas_limit=100_000_000,
         gas_price=10,

@@ -3,7 +3,6 @@ Suicide scenario requested test
 https://github.com/ethereum/execution-spec-tests/issues/381
 """
 
-from itertools import count
 from typing import Dict, Union
 
 import pytest
@@ -20,6 +19,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     TestAddress,
     Transaction,
+    Transactions,
     compute_create2_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -430,38 +430,20 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
 
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
-    nonce = count()
-
     blockchain_test(
         genesis_environment=Environment(),
         pre=pre,
         post=post,
         blocks=[
             Block(
-                txs=[
-                    Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
-                        to=address_to,
-                        gas_price=10,
-                        protected=False,
-                        data=initcode.bytecode if initcode.bytecode is not None else bytes(),
-                        gas_limit=5000000,
-                        value=0,
-                    ),
-                    Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
-                        to=address_to_second,
-                        gas_price=10,
-                        protected=False,
-                        data=initcode.bytecode if initcode.bytecode is not None else bytes(),
-                        gas_limit=5000000,
-                        value=0,
-                    ),
-                ]
+                txs=Transactions(
+                    chain_id=0x0,
+                    to=[address_to, address_to_second],  # two transactions
+                    gas_price=10,
+                    data=initcode.bytecode if initcode.bytecode is not None else bytes(),
+                    gas_limit=5_000_000,
+                    protected=False,
+                ),
             )
         ],
     )
@@ -668,38 +650,21 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
-    nonce = count()
-
     blockchain_test(
         genesis_environment=Environment(),
         pre=pre,
         post=post,
         blocks=[
             Block(
-                txs=[
-                    Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
-                        to=address_to,
-                        gas_price=10,
-                        protected=False,
-                        data=initcode.bytecode if initcode.bytecode is not None else bytes(),
-                        gas_limit=5000000,
-                        value=0,
-                    ),
-                    Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
-                        to=address_to,
-                        gas_price=10,
-                        protected=False,
-                        data=initcode.bytecode if initcode.bytecode is not None else bytes(),
-                        gas_limit=5000000,
-                        value=0,
-                    ),
-                ]
+                txs=Transactions(
+                    chain_id=0x0,
+                    to=address_to,
+                    gas_price=10,
+                    data=initcode.bytecode if initcode.bytecode is not None else bytes(),
+                    gas_limit=5_000_000,
+                    protected=False,
+                    limit=2,  # Two transactions
+                ),
             )
         ],
     )

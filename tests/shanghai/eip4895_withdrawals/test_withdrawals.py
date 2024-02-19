@@ -5,6 +5,7 @@ abstract: Tests [EIP-4895: Beacon chain withdrawals](https://eips.ethereum.org/E
 """
 
 from enum import Enum, unique
+from itertools import count, cycle
 from typing import Dict, List, Mapping
 
 import pytest
@@ -18,7 +19,9 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
     TransactionException,
+    Transactions,
     Withdrawal,
+    Withdrawals,
     compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -500,64 +503,23 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
             code=Op.SSTORE(Op.NUMBER, 1),
         ),
     }
-    blocks = [
-        Block(
-            txs=[
-                Transaction(
-                    nonce=0,
-                    gas_limit=100000,
-                    to=Address(0x300),
-                ),
-                Transaction(
-                    nonce=1,
-                    gas_limit=100000,
-                    to=Address(0x400),
-                ),
-            ],
-            withdrawals=[
-                Withdrawal(
-                    index=0,
-                    validator=0,
-                    address=Address(0x100),
-                    amount=1,
-                ),
-                Withdrawal(
-                    index=1,
-                    validator=1,
-                    address=Address(0x200),
-                    amount=1,
-                ),
-            ],
-        ),
-        Block(
-            txs=[
-                Transaction(
-                    nonce=2,
-                    gas_limit=100000,
-                    to=Address(0x100),
-                ),
-                Transaction(
-                    nonce=3,
-                    gas_limit=100000,
-                    to=Address(0x200),
-                ),
-            ],
-            withdrawals=[
-                Withdrawal(
-                    index=0,
-                    validator=0,
-                    address=Address(0x300),
-                    amount=1,
-                ),
-                Withdrawal(
-                    index=1,
-                    validator=1,
-                    address=Address(0x400),
-                    amount=1,
-                ),
-            ],
-        ),
-    ]
+    txs = Transactions(
+        # Same gas limit in all transactions
+        gas_limit=100_000,
+        # Four transactions in total, one to each account
+        to=[Address(0x300), Address(0x400), Address(0x100), Address(0x200)],
+        limit=2,  # Two transactions per block
+    )
+    withdrawals = Withdrawals(
+        # Cycle through indexes/validators 0 and 1 (unnecessary but preserves original test)
+        index=cycle(range(2)),
+        validator=cycle(range(2)),
+        # Four withdrawals in total, one to each account
+        address=(Address(0x100 * i) for i in count(1)),
+        amount=1,
+        limit=2,  # Two withdrawals per block
+    )
+    blocks = (Block(txs=txs, withdrawals=withdrawals) for _ in range(2))
 
     post = {
         Address(0x100): Account(storage={2: 1}),
