@@ -8,9 +8,6 @@ Creates a PR to main with post release changes:
 name: Post Release Automation
 
 on:
-  push:
-    branches:
-      - main
   release:
     types: [published]
 
