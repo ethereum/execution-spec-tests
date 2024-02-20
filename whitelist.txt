@@ -46,6 +46,7 @@ chainid
 changelog
 chfast
 classdict
+CLI
 cli2
 codeAddr
 codecopy
