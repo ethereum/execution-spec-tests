@@ -4732,7 +4732,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    
+
     """
 
     RJUMPI = Opcode(0xE1, popped_stack_items=1, data_portion_length=2)
