@@ -498,9 +498,9 @@ def test_beacon_root_contract_deploy(
                     ],
                 ),
             )
-            beacon_root_contract_storage[current_timestamp % Spec.HISTORY_BUFFER_LENGTH] = (
-                current_timestamp
-            )
+            beacon_root_contract_storage[
+                current_timestamp % Spec.HISTORY_BUFFER_LENGTH
+            ] = current_timestamp
             beacon_root_contract_storage[
                 (current_timestamp % Spec.HISTORY_BUFFER_LENGTH) + Spec.HISTORY_BUFFER_LENGTH
             ] = beacon_root
