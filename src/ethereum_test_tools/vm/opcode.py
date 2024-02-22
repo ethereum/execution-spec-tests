@@ -1,5 +1,7 @@
 """
 Ethereum Virtual Machine opcode definitions.
+
+Acknowledgments: The individual opcode documentation below is due to the work by [smlXL](https://github.com/smlxl) on [evm.codes](https://www.evm.codes/), available as open source [github.com/smlxl/evm.codes](https://github.com/smlxl/evm.codes) - thank you! And thanks to @ThreeHrSleep for integrating it in the docstrings.
 """
 
 from enum import Enum
@@ -494,7 +496,7 @@ class Opcodes(Opcode, Enum):
 
     EXP = Opcode(0x0A, popped_stack_items=2, pushed_stack_items=1)
     """
-    EXP(base, exponent) = a ** exponent
+    EXP(a, exponent) = a ** exponent
     ----
 
     Description
@@ -503,7 +505,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - base: integer base.
+    - a: integer base.
     - exponent: integer exponent
 
     Outputs
@@ -516,7 +518,9 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    10
+    static_gas = 10
+    dynamic_gas = 50 * exponent_byte_size
+    gas = static_gas + dynamic_gas
 
     Source: [evm.codes/#0A](https://www.evm.codes/#0A)
     """
@@ -979,7 +983,10 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    30
+    minimum_word_size = (size + 31) / 32
+
+    static_gas = 30
+    dynamic_gas = 6 * minimum_word_size + memory_expansion_cost   
 
     Source: [evm.codes/#20](https://www.evm.codes/#20)
     """
@@ -1035,7 +1042,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    100
+    warm: 100
+    cold: 2600
 
     Source: [evm.codes/#31](https://www.evm.codes/#31)
     """
@@ -1208,7 +1216,10 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    3
+    minimum_word_size = (size + 31) / 32
+
+    static_gas = 3
+    dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
     Source: [evm.codes/#37](https://www.evm.codes/#37)
     """
@@ -1262,7 +1273,10 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    3
+    minimum_word_size = (size + 31) / 32
+
+    static_gas = 3
+    dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
     Source: [evm.codes/#39](https://www.evm.codes/#39)
     """
@@ -1314,9 +1328,10 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    100
+    warm: 100
+    cold: 2600
 
-    Source: [evm.codes/#3C](https://www.evm.codes/#3B)
+    Source: [evm.codes/#3B](https://www.evm.codes/#3B)
     """
 
     EXTCODECOPY = Opcode(0x3C, popped_stack_items=4)
@@ -1345,8 +1360,9 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    minimum_word_size = (size + 31) / 32 static_gas = 0 dynamic_gas = 3 * minimum_word_size +
-    memory_expansion_cost + address_access_cost
+    minimum_word_size = (size + 31) / 32
+    static_gas = 0
+    dynamic_gas = 3 * minimum_word_size + memory_expansion_cost + address_access_cost
 
     Source: [evm.codes/#3C](https://www.evm.codes/#3C)
     """
@@ -1427,7 +1443,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    100
+    warm: 100
+    cold: 2600
 
     Source: [evm.codes/#3F](https://www.evm.codes/#3F)
     """
@@ -1567,7 +1584,7 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    20
+    2
 
     Source: [evm.codes/#44](https://www.evm.codes/#44)
     """
@@ -1732,7 +1749,7 @@ class Opcodes(Opcode, Enum):
     ----
     2
 
-    Source: [eips.ethereum.org/EIPS/eip-7516(https://eips.ethereum.org/EIPS/eip-7516)
+    Source: [eips.ethereum.org/EIPS/eip-7516](https://eips.ethereum.org/EIPS/eip-7516)
     """
 
     POP = Opcode(0x50, popped_stack_items=1)
@@ -1787,6 +1804,7 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
+    static_gas = 3
     3 + memory_expansion_cost
 
     Source: [evm.codes/#51](https://www.evm.codes/#51)
@@ -1900,8 +1918,21 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    set: 20000
-    reset: 2900
+    static_gas = 0
+
+    if value == current_value
+        if key is warm
+            base_dynamic_gas = 100
+        else
+            base_dynamic_gas = 100
+    else if current_value == original_value
+        if original_value == 0
+            base_dynamic_gas = 20000
+        else
+            base_dynamic_gas = 2900
+
+    if key is cold:
+        base_dynamic_gas += 2100
 
     Source: [evm.codes/#55](https://www.evm.codes/#55)
     """
@@ -2180,8 +2211,6 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
     3
-
-    Source: [evm.codes/#5F](https://www.evm.codes/#5F)
     """
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
@@ -5050,7 +5079,7 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    0
+    memory_expansion_cost
 
     Source: [evm.codes/#FD](https://www.evm.codes/#FD)
     """
