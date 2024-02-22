@@ -154,8 +154,6 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
                 "--uds",
                 self.server_file_path,
             ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
         )
         start = time.time()
         while True:
@@ -207,7 +205,7 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
         }
 
         post_data = {"state": state_json, "input": input_json}
-        response = Session().post(self.server_url, json=post_data, timeout=5)
+        response = Session().post(self.server_url, json=post_data, timeout=10)
         response.raise_for_status()  # exception visible in pytest failure output
         output = response.json()
 
