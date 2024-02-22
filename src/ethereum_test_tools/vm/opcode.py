@@ -1298,7 +1298,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get size of an account’s code
+    Get size of an account's code
 
     Inputs
     ----
@@ -1326,7 +1326,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Copy an account’s code to memory
+    Copy an account's code to memory
 
     Inputs
     ----
@@ -1410,7 +1410,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get hash of an account’s code
+    Get hash of an account's code
 
     Inputs
     ----
@@ -1467,7 +1467,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get the block’s beneficiary address
+    Get the block's beneficiary address
 
     Inputs
     ----
@@ -1495,7 +1495,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get the block’s timestamp
+    Get the block's timestamp
 
     Inputs
     ----
@@ -1523,7 +1523,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get the block’s number
+    Get the block's number
 
     Inputs
     ----
@@ -1551,7 +1551,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get the previous block’s RANDAO mix
+    Get the previous block's RANDAO mix
 
     Inputs
     ----
@@ -1579,7 +1579,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get the block’s gas limit
+    Get the block's gas limit
 
     Inputs
     ----
@@ -4931,7 +4931,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Message-call into this account with an alternative account’s code, but persisting the current
+    Message-call into this account with an alternative account's code, but persisting the current
     values for sender and value
 
     Inputs
