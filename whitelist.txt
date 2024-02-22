@@ -252,6 +252,7 @@ ppas
 pre
 Pre
 precompile
+predeploy
 prepend
 PrevRandao
 prestateTracer
