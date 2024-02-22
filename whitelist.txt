@@ -404,6 +404,7 @@ uncomment
 undersize
 unlink
 usr
+unixsocket
 util
 utils
 v0

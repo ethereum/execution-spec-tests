@@ -4,19 +4,28 @@ Ethereum Specs EVM Transition tool interface.
 https://github.com/ethereum/execution-specs
 """
 
+import subprocess
+import time
 from pathlib import Path
 from re import compile
-from typing import Optional
+from tempfile import TemporaryDirectory
+from typing import Any, Dict, List, Optional, Tuple
+
+from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_forks import Constantinople, ConstantinopleFix, Fork
 
 from .geth import GethTransitionTool
 from .transition_tool import FixtureFormats
 
+<<<<<<< HEAD
 UNSUPPORTED_FORKS = (
     Constantinople,
     ConstantinopleFix,
 )
+=======
+DAEMON_STARTUP_TIMEOUT_SECONDS = 5
+>>>>>>> 9df200c2d (feat(transition_tool): Use execution-specs daemon)
 
 
 class ExecutionSpecsTransitionTool(GethTransitionTool):
@@ -93,6 +102,9 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
     detect_binary_pattern = compile(r"^ethereum-spec-evm\b")
     statetest_subcommand: Optional[str] = None
     blocktest_subcommand: Optional[str] = None
+    process: Optional[subprocess.Popen] = None
+    server_url: str
+    temp_dir: Optional[TemporaryDirectory] = None
 
     def is_fork_supported(self, fork: Fork) -> bool:
         """
@@ -126,3 +138,88 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
             "The `verify_fixture()` function is not supported by the ethereum-spec-evm. "
             "Use geth's evm tool."
         )
+
+    def start_server(self):
+        """
+        Starts the t8n-server process, extracts the port, and leaves it running for future re-use.
+        """
+        self.temp_dir = TemporaryDirectory()
+        self.server_file_path = Path(self.temp_dir.name) / "t8n.sock"
+        replaced_str = str(self.server_file_path).replace("/", "%2F")
+        self.server_url = f"http+unix://{replaced_str}/"
+        self.process = subprocess.Popen(
+            args=[
+                str(self.binary),
+                "daemon",
+                "--uds",
+                self.server_file_path,
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        start = time.time()
+        while True:
+            if self.server_file_path.exists():
+                break
+            if time.time() - start > DAEMON_STARTUP_TIMEOUT_SECONDS:
+                raise Exception("Failed starting ethereum-spec-evm subprocess")
+            time.sleep(0)  # yield to other processes
+
+    def shutdown(self):
+        """
+        Stops the t8n-server process if it was started
+        """
+        if self.process:
+            self.process.kill()
+        if self.temp_dir:
+            self.temp_dir.cleanup()
+            self.temp_dir = None
+
+    def evaluate(
+        self,
+        alloc: Any,
+        txs: Any,
+        env: Any,
+        fork_name: str,
+        chain_id: int = 1,
+        reward: int = 0,
+        eips: Optional[List[int]] = None,
+        debug_output_path: str = "",
+    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        """
+        Executes `evm t8n` with the specified arguments.
+        """
+        if not self.process:
+            self.start_server()
+
+        if eips is not None:
+            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
+
+        input_json = {
+            "alloc": alloc,
+            "txs": txs,
+            "env": env,
+        }
+        state_json = {
+            "fork": fork_name,
+            "chainid": chain_id,
+            "reward": reward,
+        }
+
+        post_data = {"state": state_json, "input": input_json}
+        response = Session().post(self.server_url, json=post_data, timeout=5)
+        response.raise_for_status()  # exception visible in pytest failure output
+        output = response.json()
+
+        if response.status_code != 200:
+            raise Exception(
+                f"t8n-server returned status code {response.status_code}, "
+                f"response: {response.text}"
+            )
+        if not all([x in output for x in ["alloc", "result", "body"]]):
+            raise Exception(
+                "Malformed t8n output: missing 'alloc', 'result' or 'body', server response: "
+                f"{response.text}"
+            )
+
+        return output["alloc"], output["result"]
