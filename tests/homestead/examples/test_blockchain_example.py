@@ -1,81 +1,84 @@
 """
-Blockchain Test
+Opcodes Blockchain Test Tutorial Example
 """
 
+from typing import Dict, List
+
+import pytest
+
+from ethereum_test_forks import Fork, Frontier, Homestead
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
-    BlockchainTest,
-    Environment,
+    BlockchainTestFiller,
     TestAddress,
-    Transaction,
-    Yul,
-    test_from,
+    Transactions,
 )
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
-@test_from(fork="london")
-def test_block_number(fork):
-    """
-    Test the NUMBER opcode in different blocks
-    Ori Pomerantz qbzzt1@gmail.com
-    """
-    env = Environment()
-    contract_addr = "0x" + "0" * (40 - 4) + "60A7"
-    pre = {
-        TestAddress: Account(balance=1000000000000000000000),
-        contract_addr: Account(
-            balance=1000000000000000000000,
-            code=Yul(
-                """
-                {
-                    let next_slot := sload(0)
-                    sstore(next_slot, number())
-                    sstore(0, add(next_slot, 1))
-                }
-                """
-            ),
-            storage={
-                0x00: 0x01,
-            },
+@pytest.fixture
+def contract_address() -> Address:
+    return Address(0x100)
+
+
+@pytest.fixture
+def contract_code() -> bytes:
+    return Op.SSTORE(Op.SLOAD(0), Op.NUMBER) + Op.SSTORE(0, Op.ADD(0, Op.SLOAD(0)))
+
+
+@pytest.fixture
+def pre(contract_address: Address, contract_code: bytes) -> Dict:
+    return {
+        TestAddress: Account(balance=10**9),
+        contract_address: Account(
+            balance=10**9,
+            code=contract_code,
         ),
     }
 
-    def tx_generator():
-        nonce = 0  # Initial value
-        while True:
-            tx = Transaction(
-                ty=0x0,
-                chain_id=0x0,
-                nonce=nonce,
-                to=contract_addr,
-                gas_limit=500000,
-                gas_price=10,
+
+@pytest.fixture
+def txs_per_block() -> List[int]:
+    return [2, 0, 4, 8, 0, 0, 20, 1, 50]
+
+
+@pytest.fixture
+def blocks(contract_address: Address, txs_per_block: List[int], fork: Fork) -> List[Block]:
+    blocks = []
+    for txs_count in txs_per_block:
+        blocks.append(
+            Block(
+                txs=Transactions(
+                    limit=txs_count,
+                    ty=0x0,
+                    to=contract_address,
+                    gas_limit=100000,
+                    gas_price=10,
+                    protected=False if fork in [Frontier, Homestead] else True,
+                )
             )
-            nonce = nonce + 1
-            yield tx
+        )
+    return blocks
 
-    tx_generator = tx_generator()
 
-    tx_per_block = [2, 0, 4, 8, 0, 0, 20, 1, 50]
-
-    blocks = map(
-        lambda len: Block(txs=list(map(lambda x: next(tx_generator), range(len)))),
-        tx_per_block,
-    )
-
-    storage = {0: sum(tx_per_block) + 1}
+@pytest.fixture
+def post(contract_address: Address, txs_per_block: List[int]) -> Dict:
+    storage = {0: sum(txs_per_block) + 1}
     next_slot = 1
-    for blocknum in range(len(tx_per_block)):
-        for _ in range(tx_per_block[blocknum]):
+    for blocknum in range(len(txs_per_block)):
+        for _ in range(txs_per_block[blocknum]):
             storage[next_slot] = blocknum + 1
             next_slot = next_slot + 1
+    return {contract_address: Account(storage=storage)}
 
-    post = {contract_addr: Account(storage=storage)}
 
-    yield BlockchainTest(
-        genesis_environment=env,
-        pre=pre,
-        blocks=blocks,
-        post=post,
-    )
+@pytest.mark.valid_from("Homestead")
+def test_block_number(
+    blockchain_test: BlockchainTestFiller, pre: Dict, blocks: List[Block], post: Dict
+):
+    """
+    Test the NUMBER opcode in different blocks
+    """
+    blockchain_test(pre=pre, post=post, blocks=blocks)
