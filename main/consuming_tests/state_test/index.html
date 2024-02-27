@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
@@ -7164,18 +7164,31 @@
 <ol>
 <li>Use <a href="#-pre-alloc"><code>pre</code></a> as the starting state allocation of the execution environment for the test.</li>
 <li>Use <a href="#-env-fixtureenvironment"><code>env</code></a> to configure the current execution environment.</li>
-<li>For each <a href="../common_types/#fork"><code>Fork</code></a> key of <a href="#-post-mappingforklist-fixtureforkpost"><code>post</code></a> in the test, and for each of the elements of the list of <a href="#fixtureforkpost"><code>FixtureForkPost</code></a> values:<p>1. Configure the execution fork schedule according to the current <a href="../common_types/#fork"><code>Fork</code></a> key.
-  2. Using the <a href="#-indexes-fixtureforkpostindexes"><code>indexes</code></a> values, and the <a href="#-transaction-fixturetransaction"><code>transaction</code></a> object, decode the transaction to be executed.
-  3. If the serialized version of the decoded transaction does not match <a href="#-txbytes-bytes"><code>txbytes</code></a>, fail the test.
-  4. Attempt to apply the transaction using the current execution environment:</p>
-<div class="highlight"><pre><span></span><code>  1. If the transaction could not be applied to the current execution context:
-      - If [`expectException`](#-expectexception-str) is empty, fail the test.
-      - If [`expectException`](#-expectexception-str) is not empty, revert the state to the pre-state.
-  2. If the transaction could be applied to the current execution context:
-      - If [`expectException`](#-expectexception-str) is not empty, fail the test.
-</code></pre></div>
-<p>5. Compare the resulting post-state root with the expected post-state root contained in the <a href="#-hash-hash"><code>hash</code></a> field of the current <a href="#fixtureforkpost"><code>FixtureForkPost</code></a>, and fail the test if they do not match.
-  6. Compare the resulting logs hash with the expected logs contained in the <a href="#-logs-hash"><code>logs</code></a> field of the current <a href="#fixtureforkpost"><code>FixtureForkPost</code></a>, and fail the test if they do not match.</p>
+<li>
+<p>For each <a href="../common_types/#fork"><code>Fork</code></a> key of <a href="#-post-mappingforklist-fixtureforkpost"><code>post</code></a> in the test, and for each of the elements of the list of <a href="#fixtureforkpost"><code>FixtureForkPost</code></a> values:</p>
+<ol>
+<li>Configure the execution fork schedule according to the current <a href="../common_types/#fork"><code>Fork</code></a> key.</li>
+<li>Using the <a href="#-indexes-fixtureforkpostindexes"><code>indexes</code></a> values, and the <a href="#-transaction-fixturetransaction"><code>transaction</code></a> object, decode the transaction to be executed.</li>
+<li>If the serialized version of the decoded transaction does not match <a href="#-txbytes-bytes"><code>txbytes</code></a>, fail the test.</li>
+<li>
+<p>Attempt to apply the transaction using the current execution environment:</p>
+<ol>
+<li>If the transaction could not be applied to the current execution context:<ul>
+<li>If <a href="#-expectexception-str"><code>expectException</code></a> is empty, fail the test.</li>
+<li>If <a href="#-expectexception-str"><code>expectException</code></a> is not empty, revert the state to the pre-state.</li>
+</ul>
+</li>
+<li>If the transaction could be applied to the current execution context:<ul>
+<li>If <a href="#-expectexception-str"><code>expectException</code></a> is not empty, fail the test.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Compare the resulting post-state root with the expected post-state root contained in the <a href="#-hash-hash"><code>hash</code></a> field of the current <a href="#fixtureforkpost"><code>FixtureForkPost</code></a>, and fail the test if they do not match.</p>
+</li>
+<li>Compare the resulting logs hash with the expected logs contained in the <a href="#-logs-hash"><code>logs</code></a> field of the current <a href="#fixtureforkpost"><code>FixtureForkPost</code></a>, and fail the test if they do not match.</li>
+</ol>
 </li>
 </ol>
 <h2 id="structures">Structures<a class="headerlink" href="#structures" title="Permanent link">&para;</a></h2>

@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
@@ -6367,40 +6367,45 @@
 <ol>
 <li>
 <p>Ensure <code>go-ethereum</code>'s <code>evm</code> tool and <code>solc</code> (<a href="https://github.com/ethereum/solidity/releases/tag/v0.8.20">0.8.20</a>, <a href="https://github.com/ethereum/solidity/releases/tag/v0.8.21">0.8.21</a>, <a href="https://github.com/ethereum/solidity/releases/tag/v0.8.22">0.8.22</a>, <a href="https://github.com/ethereum/solidity/releases/tag/v0.8.23">0.8.23</a>  supported) are in your path. Either build the required versions, or alternatively:</p>
-<p>=== "Ubuntu"</p>
-<div class="highlight"><pre><span></span><code>    ```console
-    sudo add-apt-repository -y ppa:ethereum/ethereum
-    sudo apt-get update
-    sudo apt-get install ethereum solc
-    ```
-    More help:
-
-    - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
-    - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Ubuntu</label><label for="__tabbed_1_2">macOS</label><label for="__tabbed_1_3">Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><span class="go">sudo add-apt-repository -y ppa:ethereum/ethereum</span>
+<span class="go">sudo apt-get update</span>
+<span class="go">sudo apt-get install ethereum solc</span>
 </code></pre></div>
-<p>=== "macOS"</p>
-<div class="highlight"><pre><span></span><code>    ```console
-    brew update
-    brew upgrade
-    brew tap ethereum/ethereum
-    brew install ethereum solidity
-    ```
-    More help:
-
-    - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#macos-via-homebrew).
-    - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#macos-packages).
+  More help:</p>
+<ul>
+<li><a href="https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas">geth installation doc</a>.</li>
+<li><a href="https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages">solc installation doc</a>.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><span class="go">brew update</span>
+<span class="go">brew upgrade</span>
+<span class="go">brew tap ethereum/ethereum</span>
+<span class="go">brew install ethereum solidity</span>
 </code></pre></div>
-<p>=== "Windows"</p>
-<div class="highlight"><pre><span></span><code>    Binaries available here:
-
-    - [geth](https://geth.ethereum.org/downloads) (binary or installer).
-    - [solc](https://github.com/ethereum/solidity/releases).
-
-    More help:
-
-    - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#windows).
-    - [solc static binaries doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#static-binaries).
-</code></pre></div>
+  More help:</p>
+<ul>
+<li><a href="https://geth.ethereum.org/docs/getting-started/installing-geth#macos-via-homebrew">geth installation doc</a>.</li>
+<li><a href="https://docs.soliditylang.org/en/latest/installing-solidity.html#macos-packages">solc installation doc</a>.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>Binaries available here:</p>
+<ul>
+<li><a href="https://geth.ethereum.org/downloads">geth</a> (binary or installer).</li>
+<li><a href="https://github.com/ethereum/solidity/releases">solc</a>.</li>
+</ul>
+<p>More help:</p>
+<ul>
+<li><a href="https://geth.ethereum.org/docs/getting-started/installing-geth#windows">geth installation doc</a>.</li>
+<li><a href="https://docs.soliditylang.org/en/latest/installing-solidity.html#static-binaries">solc static binaries doc</a>.</li>
+</ul>
+</div>
+</div>
+</div>
 </li>
 <li>
 <p>Clone the <a href="https://github.com/ethereum/execution-spec-tests">execution-spec-tests</a> repo and install its dependencies (it's recommended to use a virtual environment for the installation):</p>
@@ -6412,35 +6417,36 @@
 </code></pre></div>
 </li>
 <li>
-<p>Verify installation:
-    1. Explore test cases:</p>
-<div class="highlight"><pre><span></span><code>  ```console
-  fill --collect-only
-  ```
-
-  Expected console output:
-  &lt;figure markdown&gt;  &lt;!-- markdownlint-disable MD033 (MD033=no-inline-html) --&gt;
-      ![Screenshot of pytest test collection console output](./img/pytest_collect_only.png){align=center}
-  &lt;/figure&gt;
+<p>Verify installation:</p>
+<ol>
+<li>
+<p>Explore test cases:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only</span>
 </code></pre></div>
-<p>2. Execute the test cases (verbosely) in the <code>./tests/berlin/eip2930_access_list/test_acl.py</code> module:</p>
-<div class="highlight"><pre><span></span><code>  ```console
-  fill -v tests/berlin/eip2930_access_list/test_acl.py
-  ```
-
-  Expected console output:
-  &lt;figure markdown&gt;  &lt;!-- markdownlint-disable MD033 (MD033=no-inline-html) --&gt;
-      ![Screenshot of pytest test collection console output](./img/pytest_run_example.png){align=center}
-  &lt;/figure&gt;
-  Check:
-
-  1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
-  2. The corresponding fixture file has been generated:
-
-      ```console
-      head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json
-      ```
+<p>Expected console output:
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+    <a class="glightbox" href="../img/pytest_collect_only.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_collect_only.png" /></a>
+</figure></p>
+</li>
+<li>
+<p>Execute the test cases (verbosely) in the <code>./tests/berlin/eip2930_access_list/test_acl.py</code> module:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py</span>
 </code></pre></div>
+<p>Expected console output:
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+    <a class="glightbox" href="../img/pytest_run_example.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img align="center" alt="Screenshot of pytest test collection console output" src="../img/pytest_run_example.png" /></a>
+</figure>
+Check:</p>
+<ol>
+<li>The versions of the <code>evm</code> and <code>solc</code> tools are as expected (your versions may differ from those in the highlighted box).</li>
+<li>
+<p>The corresponding fixture file has been generated:</p>
+<div class="highlight"><pre><span></span><code><span class="go">head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json</span>
+</code></pre></div>
+</li>
+</ol>
+</li>
+</ol>
 </li>
 </ol>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>

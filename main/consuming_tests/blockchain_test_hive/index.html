@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
@@ -7132,25 +7132,33 @@
 <ol>
 <li>
 <p>Start a full node using:</p>
-<p>- <a href="#-network-fork"><code>network</code></a> to configure the execution fork schedule according to the <a href="../common_types/#fork"><code>Fork</code></a> type definition.
-  - <a href="#-pre-alloc"><code>pre</code></a> as the starting state allocation of the execution environment for the test and calculate the genesis state root.
-  - <a href="#-genesisblockheader-fixtureheader"><code>genesisBlockHeader</code></a> as the genesis block header.</p>
+<ul>
+<li><a href="#-network-fork"><code>network</code></a> to configure the execution fork schedule according to the <a href="../common_types/#fork"><code>Fork</code></a> type definition.</li>
+<li><a href="#-pre-alloc"><code>pre</code></a> as the starting state allocation of the execution environment for the test and calculate the genesis state root.</li>
+<li><a href="#-genesisblockheader-fixtureheader"><code>genesisBlockHeader</code></a> as the genesis block header.</li>
+</ul>
 </li>
 <li>
 <p>Verify the head of the chain is the genesis block, and the state root matches the one calculated on step 1, otherwise fail the test.</p>
 </li>
 <li>
 <p>For each <a href="#fixtureenginenewpayload"><code>FixtureEngineNewPayload</code></a> in <a href="#-enginenewpayloads-listfixtureenginenewpayload"><code>engineNewPayloads</code></a>:</p>
-<p>1. Deliver the payload using the <code>engine_newPayloadVX</code> directive, using:
-      - <a href="#-version-number"><code>version</code></a> as the version of the directive.
-      - <a href="#-executionpayload-fixtureexecutionpayload"><code>executionPayload</code></a> as the payload.
-      - <a href="#-blob_versioned_hashes-optionallisthash-fork-cancun"><code>blob_versioned_hashes</code></a>, if present, as the list of hashes of the versioned blobs that are part of the execution payload.
-      - <a href="#-parentbeaconblockroot-optionalhash-fork-cancun"><code>parentBeaconBlockRoot</code></a>, if present, as the hash of the parent beacon block root.
-  2. If <a href="#-errorcode-optionalnumber"><code>errorCode</code></a> is present:
-      - Verify the directive returns an error, and the error code matches the one in <a href="#-errorcode-optionalnumber"><code>errorCode</code></a>, otherwise fail the test.
-      - Proceed to the next payload.
-  3. If <a href="#-valid-bool"><code>valid</code></a> is <code>false</code>, verify that the directive returns <code>status</code> field of <a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1">PayloadStatusV1</a> as <code>INVALID</code>, otherwise fail the test.
-  4. If <a href="#-valid-bool"><code>valid</code></a> is <code>true</code>, verify that the directive returns <code>status</code> field of <a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1">PayloadStatusV1</a> as <code>VALID</code>, otherwise fail the test.</p>
+<ol>
+<li>Deliver the payload using the <code>engine_newPayloadVX</code> directive, using:<ul>
+<li><a href="#-version-number"><code>version</code></a> as the version of the directive.</li>
+<li><a href="#-executionpayload-fixtureexecutionpayload"><code>executionPayload</code></a> as the payload.</li>
+<li><a href="#-blob_versioned_hashes-optionallisthash-fork-cancun"><code>blob_versioned_hashes</code></a>, if present, as the list of hashes of the versioned blobs that are part of the execution payload.</li>
+<li><a href="#-parentbeaconblockroot-optionalhash-fork-cancun"><code>parentBeaconBlockRoot</code></a>, if present, as the hash of the parent beacon block root.</li>
+</ul>
+</li>
+<li>If <a href="#-errorcode-optionalnumber"><code>errorCode</code></a> is present:<ul>
+<li>Verify the directive returns an error, and the error code matches the one in <a href="#-errorcode-optionalnumber"><code>errorCode</code></a>, otherwise fail the test.</li>
+<li>Proceed to the next payload.</li>
+</ul>
+</li>
+<li>If <a href="#-valid-bool"><code>valid</code></a> is <code>false</code>, verify that the directive returns <code>status</code> field of <a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1">PayloadStatusV1</a> as <code>INVALID</code>, otherwise fail the test.</li>
+<li>If <a href="#-valid-bool"><code>valid</code></a> is <code>true</code>, verify that the directive returns <code>status</code> field of <a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1">PayloadStatusV1</a> as <code>VALID</code>, otherwise fail the test.</li>
+</ol>
 </li>
 </ol>
 <h2 id="structures">Structures<a class="headerlink" href="#structures" title="Permanent link">&para;</a></h2>

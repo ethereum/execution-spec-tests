@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
@@ -7684,22 +7684,41 @@
 <li>Set the genesis block as the current head of the chain.</li>
 <li>
 <p>If <a href="#-blocks-listfixtureblockinvalidfixtureblock"><code>blocks</code></a> contains at least one block, perform the following steps for each <a href="#fixtureblock"><code>FixtureBlock</code></a> or <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a>:</p>
-<p>1. Determine whether the current block is valid or invalid:</p>
-<div class="highlight"><pre><span></span><code>  1. If the [`expectException`](#expectexception-str) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
-  2. If the [`expectException`](#expectexception-str) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
-</code></pre></div>
-<p>2. Attempt to decode field <a href="#-rlp-bytes"><code>rlp</code></a> as the current block
-      1. If the block cannot be decoded:
-          - If an rlp decoding exception is not expected for the current block, fail the test.
-          - If an rlp decoding error is expected, pass the test (Note: A block with an expected exception will be the last block in the fixture).
-      2. If the block can be decoded, proceed to the next step.</p>
-<p>3. Attempt to apply the current decoded block on top of the current head of the chain
-      1. If the block cannot be applied:
-          - If an exception is expected on the current block and it matches the exception obtained upon execution, pass the test. (Note: A block with an expected exception will be the last block in the fixture)
-          - If an exception is not expected on the current block, fail the test
-      2. If the block can be applied:
-          - If an exception is expected on the current block, fail the test
-          - If an exception is not expected on the current block, set the decoded block as the current head of the chain and proceed to the next block until you reach the last block in the fixture.</p>
+<ol>
+<li>
+<p>Determine whether the current block is valid or invalid:</p>
+<ol>
+<li>If the <a href="#expectexception-str"><code>expectException</code></a> field is not present, it is valid, and object must be decoded as a <a href="#fixtureblock"><code>FixtureBlock</code></a>.</li>
+<li>If the <a href="#expectexception-str"><code>expectException</code></a> field is present, it is invalid, and object must be decoded as a <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a>.</li>
+</ol>
+</li>
+<li>
+<p>Attempt to decode field <a href="#-rlp-bytes"><code>rlp</code></a> as the current block</p>
+<ol>
+<li>If the block cannot be decoded:<ul>
+<li>If an rlp decoding exception is not expected for the current block, fail the test.</li>
+<li>If an rlp decoding error is expected, pass the test (Note: A block with an expected exception will be the last block in the fixture).</li>
+</ul>
+</li>
+<li>If the block can be decoded, proceed to the next step.</li>
+</ol>
+</li>
+<li>
+<p>Attempt to apply the current decoded block on top of the current head of the chain</p>
+<ol>
+<li>If the block cannot be applied:<ul>
+<li>If an exception is expected on the current block and it matches the exception obtained upon execution, pass the test. (Note: A block with an expected exception will be the last block in the fixture)</li>
+<li>If an exception is not expected on the current block, fail the test</li>
+</ul>
+</li>
+<li>If the block can be applied:<ul>
+<li>If an exception is expected on the current block, fail the test</li>
+<li>If an exception is not expected on the current block, set the decoded block as the current head of the chain and proceed to the next block until you reach the last block in the fixture.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
 </li>
 <li>
 <p>Compare the hash of the current head of the chain against <a href="#-lastblockhash-hash"><code>lastblockhash</code></a>, if they do not match, fail the test.</p>

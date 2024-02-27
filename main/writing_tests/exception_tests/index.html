@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
@@ -6405,7 +6405,7 @@
 <li>
 <p><a href="../../consuming_tests/exceptions/#blockexception"><code>BlockException</code></a>: To be added to the <code>exception</code> field of the <code>Block</code> object; this exception type is used when a block is expected to be invalid, but the exception is related to a block property, e.g. an invalid value of the block header.</p>
 <p>For an example, see <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/#tests.cancun.eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas"><code>eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas</code></a> which raises <code>BlockException.INCORRECT_EXCESS_BLOB_GAS</code> in the case that the the <code>excessBlobGas</code> remains unchanged
-  but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
+but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
 </li>
 </ol>
 <p>Although exceptions can be combined with the <code>|</code> operator to indicate that a test vector can throw either one of multiple exceptions, ideally the tester should aim to use only one exception per test vector, and only use multiple exceptions on the rare instance when it is not possible to know which exception will be thrown because it depends on client implementation.</p>
