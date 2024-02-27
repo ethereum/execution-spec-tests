@@ -1,7 +1,10 @@
 """
 Ethereum Virtual Machine opcode definitions.
 
-Acknowledgments: The individual opcode documentation below is due to the work by [smlXL](https://github.com/smlxl) on [evm.codes](https://www.evm.codes/), available as open source [github.com/smlxl/evm.codes](https://github.com/smlxl/evm.codes) - thank you! And thanks to @ThreeHrSleep for integrating it in the docstrings.
+Acknowledgments: The individual opcode documentation below is due to the work by
+[smlXL](https://github.com/smlxl) on [evm.codes](https://www.evm.codes/), available as open
+source [github.com/smlxl/evm.codes](https://github.com/smlxl/evm.codes) - thank you! And thanks
+to @ThreeHrSleep for integrating it in the docstrings.
 """
 
 from enum import Enum
@@ -207,7 +210,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Stop execution.
+    Stop execution
 
     Inputs
     ----
@@ -356,11 +359,12 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - a: signed numerator
-    - b: signed denominator (must be non-zero)
+    - b: signed denominator
 
     Outputs
     ----
-    - c: signed integer result of the division
+    - c: signed integer result of the division. If the denominator is 0, the result will be 0
+    ----
 
     Fork
     ----
@@ -384,7 +388,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: integer numerator.
+    - a: integer numerator
     - b: integer denominator
 
     Outputs
@@ -413,13 +417,13 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: integer numerator.
-    - b: integer denominator.
+    - a: integer numerator
+    - b: integer denominator
 
     Outputs
     ----
     - a % b: integer result of the signed integer modulo. If the denominator is 0, the result will
-      be 0
+        be 0
 
     Fork
     ----
@@ -450,7 +454,7 @@ class Opcodes(Opcode, Enum):
     Outputs
     ----
     - (a + b) % N: integer result of the addition followed by a modulo. If the denominator is 0,
-      the result will be 0
+        the result will be 0
 
     Fork
     ----
@@ -474,14 +478,14 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: first integer value to multiply.
-    - b: second integer value to multiply.
+    - a: first integer value to multiply
+    - b: second integer value to multiply
     - N: integer denominator
 
     Outputs
     ----
-    - d: (a * b) % N: integer result of the multiplication followed by a modulo. If the denominator
-      is 0, the result will be 0
+    - (a * b) % N: integer result of the multiplication followed by a modulo. If the denominator
+        is 0, the result will be 0
 
     Fork
     ----
@@ -505,7 +509,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: integer base.
+    - a: integer base
     - exponent: integer exponent
 
     Outputs
@@ -518,9 +522,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    static_gas = 10
-    dynamic_gas = 50 * exponent_byte_size
-    gas = static_gas + dynamic_gas
+    - static_gas = 10
+    - dynamic_gas = 50 * exponent_byte_size
 
     Source: [evm.codes/#0A](https://www.evm.codes/#0A)
     """
@@ -565,8 +568,8 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: first integer value
-    - b: second integer value
+    - a: left side integer value
+    - b: right side integer value
 
     Outputs
     ----
@@ -623,7 +626,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: eft side signed integer
+    - a: left side signed integer
     - b: right side signed integer
 
     Outputs
@@ -652,7 +655,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a:  left side signed integer.
+    - a: left side signed integer
     - b: right side signed integer
 
     Outputs
@@ -738,7 +741,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: first binary value.
+    - a: first binary value
     - b: second binary value
 
     Outputs
@@ -796,7 +799,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a:  first binary value
+    - a: first binary value
     - b: second binary value
 
     Outputs
@@ -853,13 +856,13 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - i: byte offset starting from the most significant byte.
+    - i: byte offset starting from the most significant byte
     - x: 32-byte value
 
     Outputs
     ----
     - y: the indicated byte at the least significant position. If the byte offset is out of range,
-      the result is 0
+        the result is 0
 
     Fork
     ----
@@ -883,7 +886,7 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - shift: number of bits to shift to the left.
+    - shift: number of bits to shift to the left
     - value: 32 bytes to shift
 
     Outputs
@@ -892,7 +895,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Frontier
+    Constantinople
 
     Gas
     ----
@@ -983,10 +986,9 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    minimum_word_size = (size + 31) / 32
-
-    static_gas = 30
-    dynamic_gas = 6 * minimum_word_size + memory_expansion_cost   
+    - minimum_word_size = (size + 31) / 32
+    - static_gas = 30
+    - dynamic_gas = 6 * minimum_word_size + memory_expansion_cost
 
     Source: [evm.codes/#20](https://www.evm.codes/#20)
     """
@@ -1042,8 +1044,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    warm: 100
-    cold: 2600
+    - static_gas = 0
+    - dynamic_gas = 100 if warm_address, 2600 if cold_address
 
     Source: [evm.codes/#31](https://www.evm.codes/#31)
     """
@@ -1064,7 +1066,7 @@ class Opcodes(Opcode, Enum):
     Outputs
     ----
     - address: the 20-byte address of the sender of the transaction. It can only be an account
-      without code
+        without code
 
     Fork
     ----
@@ -1093,7 +1095,7 @@ class Opcodes(Opcode, Enum):
     Outputs
     ----
     - address: the 20-byte address of the caller account. This is the account that did the last
-      call (except delegate call)
+        call (except delegate call)
 
     Fork
     ----
@@ -1145,12 +1147,12 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - i: byte offset in the calldata.
+    - i: byte offset in the calldata
 
     Outputs
     ----
     - data[i]: 32-byte value starting from the given offset of the calldata. All bytes after the
-      end of the calldata are set to 0
+        end of the calldata are set to 0
 
     Fork
     ----
@@ -1216,10 +1218,9 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    minimum_word_size = (size + 31) / 32
-
-    static_gas = 3
-    dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
+    - minimum_word_size = (size + 31) / 32
+    - static_gas = 3
+    - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
     Source: [evm.codes/#37](https://www.evm.codes/#37)
     """
@@ -1273,10 +1274,9 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    minimum_word_size = (size + 31) / 32
-
-    static_gas = 3
-    dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
+    - minimum_word_size = (size + 31) / 32
+    - static_gas = 3
+    - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
     Source: [evm.codes/#39](https://www.evm.codes/#39)
     """
@@ -1328,8 +1328,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    warm: 100
-    cold: 2600
+    - static_gas = 0
+    - dynamic_gas = 100 if warm_address, 2600 if cold_address
 
     Source: [evm.codes/#3B](https://www.evm.codes/#3B)
     """
@@ -1360,9 +1360,9 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    minimum_word_size = (size + 31) / 32
-    static_gas = 0
-    dynamic_gas = 3 * minimum_word_size + memory_expansion_cost + address_access_cost
+    - minimum_word_size = (size + 31) / 32
+    - static_gas = 0
+    - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost + address_access_cost
 
     Source: [evm.codes/#3C](https://www.evm.codes/#3C)
     """
@@ -1402,9 +1402,9 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - destOffset: byte offset in the memory where the result will be copied.
-    - offset: byte offset in the return data from the last executed sub context to copy.
-    - size: byte size to copy.
+    - destOffset: byte offset in the memory where the result will be copied
+    - offset: byte offset in the return data from the last executed sub context to copy
+    - size: byte size to copy
 
     Fork
     ----
@@ -1412,9 +1412,9 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    minimum_word_size = (size + 31) / 32
-
-    Gas = 3 + 3 * minimum_word_size + memory_expansion_cost
+    - minimum_word_size = (size + 31) / 32
+    - static_gas = 3
+    - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
     Source: [evm.codes/#3E](https://www.evm.codes/#3E)
     """
@@ -1435,7 +1435,7 @@ class Opcodes(Opcode, Enum):
     Outputs
     ----
     - hash: hash of the chosen account's code, the empty hash (0xc5d24601...) if the account has no
-      code, or 0 if the account does not exist or has been destroyed
+        code, or 0 if the account does not exist or has been destroyed
 
     Fork
     ----
@@ -1443,8 +1443,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    warm: 100
-    cold: 2600
+    - static_gas = 0
+    - dynamic_gas = 100 if warm_address, 2600 if cold_address
 
     Source: [evm.codes/#3F](https://www.evm.codes/#3F)
     """
@@ -1461,11 +1461,12 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - blockNumber: block number to get the hash from. Valid range is the last 256 blocks (not
-      including the current one). Current block number can be queried with NUMBER
+        including the current one). Current block number can be queried with NUMBER
 
     Outputs
     ----
     - hash: hash of the chosen block, or 0 if the block number is not in the valid range
+
     Fork
     ----
     Frontier
@@ -1563,7 +1564,7 @@ class Opcodes(Opcode, Enum):
 
     PREVRANDAO = Opcode(0x44, pushed_stack_items=1)
     """
-    NUMBER() = prevRandao
+    PREVRANDAO() = prevRandao
     ----
 
     Description
@@ -1672,6 +1673,7 @@ class Opcodes(Opcode, Enum):
 
     Source: [evm.codes/#47](https://www.evm.codes/#47)
     """
+
     BASEFEE = Opcode(0x48, pushed_stack_items=1)
     """
     BASEFEE() = baseFee
@@ -1719,7 +1721,7 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    HASH_OPCODE_GAS
+    3
 
     Source: [eips.ethereum.org/EIPS/eip-4844](https://eips.ethereum.org/EIPS/eip-4844)
     """
@@ -1731,7 +1733,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Returns the value of the blob base-fee of the current block it is executing in
+    Returns the value of the blob base fee of the block it is executing in
 
     Inputs
     ----
@@ -1739,7 +1741,7 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - fee: base fee per blob gas
+    - baseFeePerBlobGas: base fee for the blob gas in wei
 
     Fork
     ----
@@ -1796,7 +1798,7 @@ class Opcodes(Opcode, Enum):
     Outputs
     ----
     - value: the 32 bytes in memory starting at that offset. If it goes beyond its current size
-      (see MSIZE), writes 0s
+        (see MSIZE), writes 0s
 
     Fork
     ----
@@ -1804,8 +1806,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    static_gas = 3
-    3 + memory_expansion_cost
+    - static_gas = 3
+    - dynamic_gas = memory_expansion_cost
 
     Source: [evm.codes/#51](https://www.evm.codes/#51)
     """
@@ -1821,8 +1823,8 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - offset: offset in the memory in bytes.
-    - value: 32-byte value to write in the memory.
+    - offset: offset in the memory in bytes
+    - value: 32-byte value to write in the memory
 
     Outputs
     ----
@@ -1834,7 +1836,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    3 + memory_expansion_cost
+    - static_gas = 3
+    - dynamic_gas = memory_expansion_cost
 
     Source: [evm.codes/#52](https://www.evm.codes/#52)
     """
@@ -1852,7 +1855,7 @@ class Opcodes(Opcode, Enum):
     ----
     - offset: offset in the memory in bytes
     - value: 1-byte value to write in the memory (the least significant byte of the 32-byte stack
-      value
+        value)
 
     Fork
     ----
@@ -1860,7 +1863,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    3 + memory_expansion_cost
+    - static_gas = 3
+    - dynamic_gas = memory_expansion_cost
 
     Source: [evm.codes/#53](https://www.evm.codes/#53)
     """
@@ -1888,8 +1892,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    warm: 100
-    cold: 2100
+    - static_gas = 0
+    - dynamic_gas = 100 if warm_address, 2600 if cold_address
 
     Source: [evm.codes/#54](https://www.evm.codes/#54)
     """
@@ -1918,6 +1922,7 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
+    ```
     static_gas = 0
 
     if value == current_value
@@ -1930,9 +1935,12 @@ class Opcodes(Opcode, Enum):
             base_dynamic_gas = 20000
         else
             base_dynamic_gas = 2900
+    else
+        base_dynamic_gas = 100
 
     if key is cold:
         base_dynamic_gas += 2100
+    ```
 
     Source: [evm.codes/#55](https://www.evm.codes/#55)
     """
@@ -1949,7 +1957,7 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - counter: byte offset in the deployed code where execution will continue from. Must be a
-      JUMPDEST instruction.
+        JUMPDEST instruction
 
     Outputs
     ----
@@ -1978,10 +1986,10 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - counter: byte offset in the deployed code where execution will continue from. Must be a
-      JUMPDEST instruction.
+        JUMPDEST instruction
     - b: the program counter will be altered with the new value only if this value is different
-      from 0. Otherwise, the program counter is simply incremented and the next instruction will be
-      executed.
+        from 0. Otherwise, the program counter is simply incremented and the next instruction will
+        be executed
 
     Fork
     ----
@@ -2062,7 +2070,7 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - gas_remaining: remaining gas for the current call frame
+    - gas: remaining gas (after this instruction)
 
     Fork
     ----
@@ -2110,15 +2118,15 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Load a value from the storage at the specified key.
+    Load word from transient storage
 
     Inputs
     ----
-    - key: The key in storage.
+    - key: 32-byte key in transient storage
 
     Outputs
     ----
-    - value: The value associated with the given key.
+    - value: 32-byte value corresponding to that key. 0 if that key was never written
 
     Fork
     ----
@@ -2138,12 +2146,12 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Store a value in the storage at the specified key.
+    Save word to transient storage
 
     Inputs
     ----
-    - key: The key in storage.
-    - value: The value to be stored.
+    - key: 32-byte key in transient storage
+    - value: 32-byte value to store
 
     Fork
     ----
@@ -2158,17 +2166,17 @@ class Opcodes(Opcode, Enum):
 
     MCOPY = Opcode(0x5E, popped_stack_items=3)
     """
-    MCOPY(dst, src ,length)
+    MCOPY(dst, src, length)
     ----
 
     Description
     ----
-    Copies memory
+    Copies areas in memory
 
     Inputs
     ----
-    - dst: byte offset in the memory where the result will be copied.
-    - src: byte offset in the calldata to copy.
+    - dst: byte offset in the memory where the result will be copied
+    - src: byte offset in the calldata to copy
     - length: byte size to copy
 
     Outputs
@@ -2181,36 +2189,11 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    words_copied = (length + 31) // 32 g_verylow    = 3 g_copy       = 3 * words_copied +
-    memory_expansion_cost gas_cost     = g_verylow + g_copy
+    - minimum_word_size = (length + 31) / 32
+    - static_gas = 3
+    - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
     Source: [eips.ethereum.org/EIPS/eip-5656](https://eips.ethereum.org/EIPS/eip-5656)
-    """
-
-    RETF = Opcode(0x49)
-    """
-    RETF()
-    ----
-
-    Description
-    ----
-    Return from a function
-
-    Inputs
-    ----
-    - None
-
-    Outputs
-    ----
-    - None
-
-    Fork
-    ----
-
-
-    Gas
-    ----
-    3
     """
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
@@ -3097,7 +3080,7 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value.
+    - value: pushed value, aligned to the right (put in the lowest significant bytes)
 
     Fork
     ----
@@ -3125,7 +3108,7 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value.
+    - value: pushed value, aligned to the right (put in the lowest significant bytes)
 
     Fork
     ----
@@ -3140,7 +3123,7 @@ class Opcodes(Opcode, Enum):
 
     DUP1 = Opcode(0x80, pushed_stack_items=1, min_stack_height=1)
     """
-    DUP1(value) = value
+    DUP1(value) = value, value
     ----
 
     Description
@@ -3153,7 +3136,7 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: duplicated value.
+    - value: duplicated value
     - value: original value
 
     Fork
@@ -3169,7 +3152,7 @@ class Opcodes(Opcode, Enum):
 
     DUP2 = Opcode(0x81, pushed_stack_items=1, min_stack_height=2)
     """
-    DUP2(a, b) = b,a,b
+    DUP2(v1, v2) = v2, v1, v2
     ----
 
     Description
@@ -3178,14 +3161,14 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: ignored value.
-    - b: value to duplicate.
+    - v1: ignored value
+    - v2: value to duplicate
 
     Outputs
     ----
-    - b: duplicated value.
-    - a: ignored value.
-    - b: original value.
+    - v2: duplicated value
+    - v1: ignored value
+    - v2: original value
 
     Fork
     ----
@@ -3200,7 +3183,7 @@ class Opcodes(Opcode, Enum):
 
     DUP3 = Opcode(0x82, pushed_stack_items=1, min_stack_height=3)
     """
-    DUP15(a, b, c) = c, a, b, c
+    DUP3(v1, v2, v3) = v3, v1, v2, v3
     ----
 
     Description
@@ -3209,16 +3192,16 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: ignored value.
-    - b: ignored value.
-    - c: value to duplicate.
+    - v1: ignored value
+    - v2: ignored value
+    - v3: value to duplicate
 
     Outputs
     ----
-    - c: duplicated value.
-    - a: ignored value.
-    - b: ignored value.
-    - c: original value.
+    - v3: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - v3: original value
 
     Fork
     ----
@@ -3233,7 +3216,7 @@ class Opcodes(Opcode, Enum):
 
     DUP4 = Opcode(0x83, pushed_stack_items=1, min_stack_height=4)
     """
-    DUP15(value1, value2, value3, value) = value, value2, value3, value
+    DUP4(v1, v2, v3, v4) = v4, v1, v2, v3, v4
     ----
 
     Description
@@ -3242,18 +3225,18 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - v3: ignored value
+    - v4: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v4: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - v3: ignored value
+    - v4: original value
 
     Fork
     ----
@@ -3268,7 +3251,7 @@ class Opcodes(Opcode, Enum):
 
     DUP5 = Opcode(0x84, pushed_stack_items=1, min_stack_height=5)
     """
-    DUP15(value1, value2, value3, value4, value) = value, value2, value3, value4, value
+    DUP5(v1, v2, v3, v4, v5) = v5, v1, v2, v3, v4, v5
     ----
 
     Description
@@ -3277,20 +3260,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - v3: ignored value
+    - v4: ignored value
+    - v5: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v5: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - v3: ignored value
+    - v4: ignored value
+    - v5: original value
 
     Fork
     ----
@@ -3305,8 +3288,7 @@ class Opcodes(Opcode, Enum):
 
     DUP6 = Opcode(0x85, pushed_stack_items=1, min_stack_height=6)
     """
-    DUP15(value1, value2, value3, value4, value5, value) = value, value2, value3, value4, value5,
-    value
+    DUP6(v1, v2, ..., v5, v6) = v6, v1, v2, ..., v5, v6
     ----
 
     Description
@@ -3315,22 +3297,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v5: ignored value
+    - v6: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v6: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v5: ignored value
+    - v6: original value
 
     Fork
     ----
@@ -3345,8 +3325,7 @@ class Opcodes(Opcode, Enum):
 
     DUP7 = Opcode(0x86, pushed_stack_items=1, min_stack_height=7)
     """
-    DUP15(value1, value2, value3, value4, value5, value6, value) = value, value2, value3, value4,
-    value5, value6, value
+    DUP7(v1, v2, ..., v6, v7) = v7, v1, v2, ..., v6, v7
     ----
 
     Description
@@ -3355,24 +3334,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v6: ignored value
+    - v7: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v7: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v6: ignored value
+    - v7: original value
 
     Fork
     ----
@@ -3387,8 +3362,7 @@ class Opcodes(Opcode, Enum):
 
     DUP8 = Opcode(0x87, pushed_stack_items=1, min_stack_height=8)
     """
-    DUP15(value1, value2, value3, value4, value5, value6, value7, value) = value, value2, value3,
-    value4, value5, value6, value7, value
+    DUP8(v1, v2, ..., v7, v8) = v8, v1, v2, ..., v7, v8
     ----
 
     Description
@@ -3397,26 +3371,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v7: ignored value
+    - v8: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v8: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v7: ignored value
+    - v8: original value
 
     Fork
     ----
@@ -3431,8 +3399,7 @@ class Opcodes(Opcode, Enum):
 
     DUP9 = Opcode(0x88, pushed_stack_items=1, min_stack_height=9)
     """
-    DUP15(value1, value2, value3, value4, value5, value6, value7, value8, value) = value, value2,
-    value3, value4, value5, value6, value7, value8, value
+    DUP9(v1, v2, ..., v8, v9) = v9, v1, v2, ..., v8, v9
     ----
 
     Description
@@ -3441,28 +3408,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v8: ignored value
+    - v9: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v9: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v8: ignored value
+    - v9: original value
 
     Fork
     ----
@@ -3476,8 +3435,7 @@ class Opcodes(Opcode, Enum):
     """
     DUP10 = Opcode(0x89, pushed_stack_items=1, min_stack_height=10)
     """
-    DUP10(value1, value2, value3, value4, value5, value6, value7, value8, value9, value) = value,
-    value2, value3, value4, value5, value6, value7, value8, value9, value
+    DUP10(v1, v2, ..., v9, v10) = v10, v1, v2, ..., v9, v10
     ----
 
     Description
@@ -3486,30 +3444,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v9: ignored value
+    - v10: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v10: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v9: ignored value
+    - v10: original value
 
     Fork
     ----
@@ -3524,8 +3472,7 @@ class Opcodes(Opcode, Enum):
 
     DUP11 = Opcode(0x8A, pushed_stack_items=1, min_stack_height=11)
     """
-    DUP11(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value) =
-    value, value2, value3, value4, value5, value6, value7, value8, value9, value10, value
+    DUP11(v1, v2, ..., v10, v11) = v11, v1, v2, ..., v10, v11
     ----
 
     Description
@@ -3534,32 +3481,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v10: ignored value
+    - v11: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v11: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v10: ignored value
+    - v11: original value
 
     Fork
     ----
@@ -3574,9 +3509,7 @@ class Opcodes(Opcode, Enum):
 
     DUP12 = Opcode(0x8B, pushed_stack_items=1, min_stack_height=12)
     """
-    DUP12(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11,
-    value) = value, value2, value3, value4, value5, value6, value7, value8, value9, value10,
-    value11, value
+    DUP12(v1, v2, ..., v11, v12) = v12, v1, v2, ..., v11, v12
     ----
 
     Description
@@ -3585,34 +3518,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v11: ignored value
+    - v12: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v12: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v11: ignored value
+    - v12: original value
 
     Fork
     ----
@@ -3627,9 +3546,7 @@ class Opcodes(Opcode, Enum):
 
     DUP13 = Opcode(0x8C, pushed_stack_items=1, min_stack_height=13)
     """
-    DUP15(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11,
-    value12, value) = value, value2, value3, value4, value5, value6, value7, value8, value9,
-    value10,value11, value12, value
+    DUP13(v1, v2, ..., v12, v13) = v13, v1, v2, ..., v12, v13
     ----
 
     Description
@@ -3638,36 +3555,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v12: ignored value
+    - v13: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v13: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v12: ignored value
+    - v13: original value
 
     Fork
     ----
@@ -3682,9 +3583,7 @@ class Opcodes(Opcode, Enum):
 
     DUP14 = Opcode(0x8D, pushed_stack_items=1, min_stack_height=14)
     """
-    DUP15(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11,
-    value12, value13, value) = value, value2, value3, value4, value5, value6, value7, value8,
-    value9, value10, value11, value12, value13, value
+    DUP14(v1, v2, ..., v13, v14) = v14, v1, v2, ..., v13, v14
     ----
 
     Description
@@ -3693,38 +3592,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v13: ignored value
+    - v14: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v14: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v13: ignored value
+    - v14: original value
 
     Fork
     ----
@@ -3739,9 +3620,7 @@ class Opcodes(Opcode, Enum):
 
     DUP15 = Opcode(0x8E, pushed_stack_items=1, min_stack_height=15)
     """
-    DUP15(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11,
-    value12, value13, value14, value) = value, value2, value3, value4, value5, value6, value7,
-    value8, value9, value10, value11, value12, value13, value14, value
+    DUP15(v1, v2, ..., v14, v15) = v15, v1, v2, ..., v14, v15
     ----
 
     Description
@@ -3750,40 +3629,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v14: ignored value
+    - v15: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v15: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v14: ignored value
+    - v15: original value
 
     Fork
     ----
@@ -3798,9 +3657,7 @@ class Opcodes(Opcode, Enum):
 
     DUP16 = Opcode(0x8F, pushed_stack_items=1, min_stack_height=16)
     """
-    DUP16(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11,
-    value12, value13, value14, value15, value) = value, value2, value3, value4, value5, value6,
-    value7, value8, value9, value10, value11, value12, value13, value14, value15, value
+    DUP16(v1, v2, ..., v15, v16) = v16, v1, v2, ..., v15, v16
     ----
 
     Description
@@ -3809,42 +3666,20 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v15: ignored value
+    - v16: value to duplicate
 
     Outputs
     ----
-    - value: duplicated value
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - value: value to duplicate
+    - v16: duplicated value
+    - v1: ignored value
+    - v2: ignored value
+    - ...
+    - v15: ignored value
+    - v16: original value
 
     Fork
     ----
@@ -3859,7 +3694,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP1 = Opcode(0x90, min_stack_height=2)
     """
-    SWAP1(a, b) = b, a
+    SWAP1(v1, v2) = v2, v1
     ----
 
     Description
@@ -3868,13 +3703,13 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - b: value to swap
+    - v1: value to swap
+    - v2: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - a: swapped value.
+    - v1: swapped value
+    - v2: swapped value
 
     Fork
     ----
@@ -3889,7 +3724,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP2 = Opcode(0x91, min_stack_height=3)
     """
-    SWAP2(a, value2, b) = b, value2, a
+    SWAP2(v1, v2, v3) = v3, v2, v1
     ----
 
     Description
@@ -3898,15 +3733,15 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - v3: value to swap
 
     Outputs
     ----
-    - b: swapped value
-    - ignored value
-    - a: swapped value
+    - v3: swapped value
+    - v2: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -3921,7 +3756,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP3 = Opcode(0x92, min_stack_height=4)
     """
-    SWAP3(a, value2, value3, b) = b value2, value3, a
+    SWAP3(v1, v2, v3, v4) = v4, v2, v3, v1
     ----
 
     Description
@@ -3930,17 +3765,17 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - v3: ignored value
+    - v4: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v4: swapped value
+    - v2: ignored value
+    - v3: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -3955,7 +3790,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP4 = Opcode(0x93, min_stack_height=5)
     """
-    SWAP4(a, value2, value3, value4, b) = b value2, value3, value4, a
+    SWAP4(v1, v2, ..., v4, v5) = v5, v2, ..., v4, v1
     ----
 
     Description
@@ -3964,19 +3799,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v4: ignored value
+    - v5: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v5: swapped value
+    - v2: ignored value
+    - ...
+    - v4: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -3991,7 +3826,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP5 = Opcode(0x94, min_stack_height=6)
     """
-    SWAP5(a, value2, value3, value4, value5, b) = b, value2, value3, value4, value5, a
+    SWAP5(v1, v2, ..., v5, v6) = v6, v2, ..., v5, v1
     ----
 
     Description
@@ -4000,21 +3835,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v5: ignored value
+    - v6: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v6: swapped value
+    - v2: ignored value
+    - ...
+    - v5: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4029,8 +3862,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP6 = Opcode(0x95, min_stack_height=7)
     """
-    SWAP6(a, value2, value3, value4, value5, value6, b) = b, value2, value3, value4, value5,
-    value6, a
+    SWAP6(v1, v2, ..., v6, v7) = v7, v2, ..., v6, v1
     ----
 
     Description
@@ -4039,23 +3871,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v6: ignored value
+    - v7: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v7: swapped value
+    - v2: ignored value
+    - ...
+    - v6: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4070,8 +3898,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP7 = Opcode(0x96, min_stack_height=8)
     """
-    SWAP7(a, value2, value3, value4, value5, value6, value7, b) = b, value2, value3, value4,
-    value5, value6, value7, a
+    SWAP7(v1, v2, ..., v7, v8) = v8, v2, ..., v7, v1
     ----
 
     Description
@@ -4080,25 +3907,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v7: ignored value
+    - v8: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v8: swapped value
+    - v2: ignored value
+    - ...
+    - v7: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4113,8 +3934,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP8 = Opcode(0x97, min_stack_height=9)
     """
-    SWAP8(a, value2, value3, value4, value5, value6, value7, value8, b) = b, value2, value3,
-    value4,value5, value6, value7, value8, a
+    SWAP8(v1, v2, ..., v8, v9) = v9, v2, ..., v8, v1
     ----
 
     Description
@@ -4123,27 +3943,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v8: ignored value
+    - v9: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v9: swapped value
+    - v2: ignored value
+    - ...
+    - v8: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4158,8 +3970,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP9 = Opcode(0x98, min_stack_height=10)
     """
-    SWAP9(a, value2, value3, value4, value5, value6, value7, value8, value9, b) = b, value2,
-    value3,value4, value5, value6, value7, value8, value9, a
+    SWAP9(v1, v2, ..., v9, v10) = v10, v2, ..., v9, v1
     ----
 
     Description
@@ -4168,29 +3979,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v9: ignored value
+    - v10: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v10: swapped value
+    - v2: ignored value
+    - ...
+    - v9: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4205,8 +4006,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP10 = Opcode(0x99, min_stack_height=11)
     """
-    SWAP10(a, value2, value3, value4, value5, value6, value7, value8, value9, value10, b) =
-    b, value2, value3, value4, value5, value6, value7, value8, value9, value10, a
+    SWAP10(v1, v2, ..., v10, v11) = v11, v2, ..., v10, v1
     ----
 
     Description
@@ -4215,31 +4015,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v10: ignored value
+    - v11: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v11: swapped value
+    - v2: ignored value
+    - ...
+    - v10: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4254,8 +4042,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP11 = Opcode(0x9A, min_stack_height=12)
     """
-    SWAP11(a, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, b)
-    = b, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, a
+    SWAP11(v1, v2, ..., v11, v12) = v12, v2, ..., v11, v1
     ----
 
     Description
@@ -4264,33 +4051,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v11: ignored value
+    - v12: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v12: swapped value
+    - v2: ignored value
+    - ...
+    - v11: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4305,9 +4078,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP12 = Opcode(0x9B, min_stack_height=13)
     """
-    SWAP12(a, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11,
-    value12, b) = b, value2, value3, value4, value5, value6, value7, value8, value9, value10,
-    value11, value12, a
+    SWAP12(v1, v2, ..., v12, v13) = v13, v2, ..., v12, v1
     ----
 
     Description
@@ -4316,33 +4087,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v12: ignored value
+    - v13: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v13: swapped value
+    - v2: ignored value
+    - ...
+    - v12: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4357,9 +4114,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP13 = Opcode(0x9C, min_stack_height=14)
     """
-    SWAP13(a, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10,
-    value11, value12, b) = b, value1, value2, value3, value4, value5, value6, value7, value8,
-    value9, value10, value11, value12,a)
+    SWAP13(v1, v2, ..., v13, v14) = v14, v2, ..., v13, v1
     ----
 
     Description
@@ -4368,37 +4123,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap.
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v13: ignored value
+    - v14: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v14: swapped value
+    - v2: ignored value
+    - ...
+    - v13: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4413,9 +4150,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP14 = Opcode(0x9D, min_stack_height=15)
     """
-    SWAP14(a, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10,
-    value11, value12, value13, b) = b, value1, value2, value3, value4, value5, value6, value7,
-    value8, value9, value10, value11, value12, value13, a)
+    SWAP14(v1, v2, ..., v14, v15) = v15, v2, ..., v14, v1
     ----
 
     Description
@@ -4424,39 +4159,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap.
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v14: ignored value
+    - v15: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v15: swapped value
+    - v2: ignored value
+    - ...
+    - v14: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4471,9 +4186,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP15 = Opcode(0x9E, min_stack_height=16)
     """
-    SWAP15(a, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10,
-    value11, value12, value13, value14, b) = b, value1, value2, value3, value4, value5, value6,
-    value7, value8, value9, value10, value11, value12, value13, value14, a)
+    SWAP15(v1, v2, ..., v15, v16) = v16, v2, ..., v15, v1
     ----
 
     Description
@@ -4482,41 +4195,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap.
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v15: ignored value
+    - v16: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v16: swapped value
+    - v2: ignored value
+    - ...
+    - v15: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4531,9 +4222,7 @@ class Opcodes(Opcode, Enum):
 
     SWAP16 = Opcode(0x9F, min_stack_height=17)
     """
-    SWAP16(a, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10,
-    value11, value12, value13, value14, value15, b) = b, value1, value2, value3, value4, value5,
-    value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, a)
+    SWAP16(v1, v2, ..., v16, v17) = v17, v2, ..., v16, v1
     ----
 
     Description
@@ -4542,43 +4231,19 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - a: value to swap.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - b: value to swap.
+    - v1: value to swap
+    - v2: ignored value
+    - ...
+    - v16: ignored value
+    - v17: value to swap
 
     Outputs
     ----
-    - b: swapped value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - ignored value.
-    - a: swapped value.
+    - v17: swapped value
+    - v2: ignored value
+    - ...
+    - v16: ignored value
+    - v1: swapped value
 
     Fork
     ----
@@ -4593,7 +4258,7 @@ class Opcodes(Opcode, Enum):
 
     LOG0 = Opcode(0xA0, popped_stack_items=2)
     """
-    LOG3(offset, size)
+    LOG0(offset, size)
     ----
 
     Description
@@ -4615,7 +4280,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    375 + 375 * topic_count + 8 * size + memory_expansion_cost
+    - static_gas = 375
+    - dynamic_gas = 375 * topic_count + 8 * size + memory_expansion_cost
 
     Source: [evm.codes/#A0](https://www.evm.codes/#A0)
     """
@@ -4627,7 +4293,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Append log record with one topics
+    Append log record with one topic
 
     Inputs
     ----
@@ -4645,7 +4311,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    375 + 375 * topic_count + 8 * size + memory_expansion_cost
+    - static_gas = 375
+    - dynamic_gas = 375 * topic_count + 8 * size + memory_expansion_cost
 
     Source: [evm.codes/#A1](https://www.evm.codes/#A1)
     """
@@ -4676,7 +4343,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    375 + 375 * topic_count + 8 * size + memory_expansion_cost
+    - static_gas = 375
+    - dynamic_gas = 375 * topic_count + 8 * size + memory_expansion_cost
 
     Source: [evm.codes/#A2](https://www.evm.codes/#A2)
     """
@@ -4708,7 +4376,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    375 + 375 * topic_count + 8 * size + memory_expansion_cost
+    - static_gas = 375
+    - dynamic_gas = 375 * topic_count + 8 * size + memory_expansion_cost
 
     Source: [evm.codes/#A3](https://www.evm.codes/#A3)
     """
@@ -4741,93 +4410,125 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    375 + 375 * topic_count + 8 * size + memory_expansion_cost
+    - static_gas = 375
+    - dynamic_gas = 375 * topic_count + 8 * size + memory_expansion_cost
 
     Source: [evm.codes/#A4](https://www.evm.codes/#A4)
     """
 
     RJUMP = Opcode(0xE0, data_portion_length=2)
     """
-    RJUMP(destination)
+    !!! Note: This opcode is under development
+
+    RJUMP()
     ----
 
     Description
     ----
-    Jump to a relative position in code.
 
     Inputs
     ----
-    - destination: The relative position to jump to.
+
+    Outputs
+    ----
 
     Fork
     ----
+    EOF Fork
 
+    Gas
+    ----
+
+    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
     """
 
     RJUMPI = Opcode(0xE1, popped_stack_items=1, data_portion_length=2)
     """
+    !!! Note: This opcode is under development
+
     RJUMPI()
     ----
 
     Description
     ----
 
-
     Inputs
     ----
-
 
     Outputs
     ----
 
-
     Fork
     ----
+    EOF Fork
 
     Gas
     ----
 
-
-    Source:
-
+    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
     """
 
     RJUMPV = Opcode(0xE2)
     """
-    RJUMPV
+    !!! Note: This opcode is under development
+
+    RJUMPV()
     ----
 
     Description
     ----
 
-
     Inputs
     ----
-    -
 
     Outputs
     ----
-    -
 
     Fork
     ----
-
+    EOF Fork
 
     Gas
     ----
 
-
-    Source:
+    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
     """
 
-    CREATE = Opcode(0xF0, popped_stack_items=3, pushed_stack_items=1)
+    RETF = Opcode(0xE4)
     """
-    CREATE(value, offset, length) = contract_address
+    !!! Note: This opcode is under development
+
+    RETF()
     ----
 
     Description
     ----
-    Create a new contract with the given code.
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+    EOF Fork
+
+    Gas
+    ----
+    3
+
+    Source: [eips.ethereum.org/EIPS/eip-4750](https://eips.ethereum.org/EIPS/eip-4750)
+    """
+
+    CREATE = Opcode(0xF0, popped_stack_items=3, pushed_stack_items=1)
+    """
+    CREATE(value, offset, length) = address
+    ----
+
+    Description
+    ----
+    Create a new contract with the given code
 
     Inputs
     ----
@@ -4837,16 +4538,23 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - contract_address: The address of the newly created contract.
+    - address: the address of the deployed contract, 0 if the deployment failed
 
     Fork
     ----
-    Homestead
+    Frontier
 
     Gas
     ----
-    32000 + init_code_cost + memory_expansion_cost + deployment_code_execution_cost +
-    code_deposit_cost
+    ```
+    minimum_word_size = (size + 31) / 32
+    init_code_cost = 2 * minimum_word_size
+    code_deposit_cost = 200 * deployed_code_size
+
+    static_gas = 32000
+    dynamic_gas = init_code_cost + memory_expansion_cost + deployment_code_execution_cost
+        + code_deposit_cost
+    ```
 
     Source: [evm.codes/#F0](https://www.evm.codes/#F0)
     """
@@ -4863,13 +4571,13 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-      context is returned to this one
+        context is returned to this one
     - address: the account which context to execute
     - value: value in wei to send to the account
     - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
     - argsSize: byte size to copy (size of the calldata)
     - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
-      context
+        context
     - retSize: byte size to copy (size of the return data)
 
     Outputs
@@ -4882,8 +4590,11 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    memory_expansion_cost + code_execution_cost + address_access_cost + positive_value_cost +
-    value_to_empty_account_cost
+    ```
+    static_gas = 0
+    dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
+        + positive_value_cost + value_to_empty_account_cost
+    ```
 
     Source: [evm.codes/#F1](https://www.evm.codes/#F1)
     """
@@ -4901,14 +4612,15 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-      context is returned to this one.
+        context is returned to this one
     - address: the account which code to execute
     - value: value in wei to send to the account
     - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
     - argsSize: byte size to copy (size of the calldata)
     - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
-      context
+        context
     - retSize: byte size to copy (size of the return data)
+
     Outputs
     ----
     - success: return 0 if the sub context reverted, 1 otherwise
@@ -4919,7 +4631,11 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    memory_expansion_cost + code_execution_cost + address_access_cost + positive_value_cost
+    ```
+    static_gas = 0
+    dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
+        + positive_value_cost
+    ```
 
     Source: [evm.codes/#F2](https://www.evm.codes/#F2)
     """
@@ -4931,12 +4647,13 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Halt execution returning output data.
+    Halt execution returning output data
 
     Inputs
     ----
-    - offset: The memory offset to the output data.
-    - size: The size of the output data.
+    - offset: byte offset in the memory in bytes, to copy what will be the return data of this
+        context
+    - size: byte size to copy (size of the return data)
 
     Outputs
     ----
@@ -4948,7 +4665,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    memory_expansion_cost
+    - static_gas = 0
+    - dynamic_gas = memory_expansion_cost
 
     Source: [evm.codes/#F3](https://www.evm.codes/#F3)
     """
@@ -4966,12 +4684,12 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-      context is returned to this one
+        context is returned to this one
     - address: the account which code to execute
     - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
     - argsSize: byte size to copy (size of the calldata)
     - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
-      context.
+        context
     - retSize: byte size to copy (size of the return data)
 
     Outputs
@@ -4984,7 +4702,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    memory_expansion_cost + code_execution_cost + address_access_cost
+    - static_gas = 0
+    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
 
     Source: [evm.codes/#F4](https://www.evm.codes/#F4)
     """
@@ -4996,13 +4715,13 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Creates a new contract.
+    Creates a new contract
 
     Inputs
     ----
-    - value: value in wei to send to the new account.
-    - offset: byte offset in the memory in bytes, the initialisation code of the new account.
-    - size: byte size to copy (size of the initialisation code).
+    - value: value in wei to send to the new account
+    - offset: byte offset in the memory in bytes, the initialisation code of the new account
+    - size: byte size to copy (size of the initialisation code)
     - salt: 32-byte value used to create the new account at a deterministic address
 
     Outputs
@@ -5015,18 +4734,23 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    minimum_word_size = (size + 31) / 32 init_code_cost = 2 * minimum_word_size hash_cost = 6 *
-    minimum_word_size code_deposit_cost = 200 * deployed_code_size
+    ```
+    minimum_word_size = (size + 31) / 32
+    init_code_cost = 2 * minimum_word_size
+    hash_cost = 6 * minimum_word_size
+    code_deposit_cost = 200 * deployed_code_size
 
-    32000 + init_code_cost + hash_cost + memory_expansion_cost + deployment_code_execution_cost +
-    code_deposit_cost
+    static_gas = 32000
+    dynamic_gas = init_code_cost + hash_cost + memory_expansion_cost
+        + deployment_code_execution_cost + code_deposit_cost
+    ```
 
     Source: [evm.codes/#F5](https://www.evm.codes/#F5)
     """
 
     STATICCALL = Opcode(0xFA, popped_stack_items=6, pushed_stack_items=1)
     """
-    STATICCALL(gas, address, argsOffset, argsSize, retOffset , retSize) = success
+    STATICCALL(gas, address, argsOffset, argsSize, retOffset, retSize) = success
     ----
 
     Description
@@ -5036,12 +4760,12 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-      context is returned to this one.
-    - address: the account which context to execute.
-    - argsOffset: byte offset in the memory in bytes, the calldata of the sub context.
-    - argsSize: byte size to copy (size of the calldata).
+        context is returned to this one
+    - address: the account which context to execute
+    - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
+    - argsSize: byte size to copy (size of the calldata)
     - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
-      context.
+        context
     - retSize: byte size to copy (size of the return data)
 
     Outputs
@@ -5054,24 +4778,25 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    memory_expansion_cost + code_execution_cost + address_access_cost
+    - static_gas = 0
+    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
 
     Source: [evm.codes/#FA](https://www.evm.codes/#FA)
     """
 
     REVERT = Opcode(0xFD, popped_stack_items=2)
     """
-    REVERT(offset, length)
+    REVERT(offset, size)
     ----
 
     Description
     ----
-    Stop execution and revert changes.
+    Halt execution reverting state changes but returning data and remaining gas
 
     Inputs
     ----
-    - offset: byte offset in the memory in bytes. The return data of the calling context.
-    - size: byte size to copy (size of the return data).
+    - offset: byte offset in the memory in bytes. The return data of the calling context
+    - size: byte size to copy (size of the return data)
 
     Fork
     ----
@@ -5079,7 +4804,8 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    memory_expansion_cost
+    static_gas = 0
+    dynamic_gas = memory_expansion_cost
 
     Source: [evm.codes/#FD](https://www.evm.codes/#FD)
     """
@@ -5091,7 +4817,7 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Invalid opcode.
+    Designated invalid instruction
 
     Inputs
     ----
@@ -5114,16 +4840,16 @@ class Opcodes(Opcode, Enum):
 
     SELFDESTRUCT = Opcode(0xFF, popped_stack_items=1)
     """
-    SELFDESTRUCT(to)
+    SELFDESTRUCT(address)
     ----
 
     Description
     ----
-    Halt execution and register the account for later deletion.
+    Halt execution and register the account for later deletion
 
     Inputs
     ----
-    - to: The address to which any remaining funds are transferred.
+    - address: account to send the current balance to
 
     Fork
     ----
@@ -5134,32 +4860,4 @@ class Opcodes(Opcode, Enum):
     5000
 
     Source: [evm.codes/#FF](https://www.evm.codes/#FF)
-    """
-
-    SENDALL = Opcode(0xFF, popped_stack_items=1)
-    """
-    SENDALL(to)
-    ----
-
-    Description
-    ----
-    Send all ether to the target address and halt execution.
-
-    Inputs
-    ----
-    - to: Target address
-
-    Outputs
-    ----
-    - None
-
-    Fork
-    ----
-    Frontier
-
-    Gas
-    ----
-    5000
-
-    Source: [eips.ethereum.org/EIPS/eip-6780](https://eips.ethereum.org/EIPS/eip-6780)
     """
