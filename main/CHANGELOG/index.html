@@ -7015,6 +7015,7 @@
 <li>🔀 Helper methods <code>to_address</code>, <code>to_hash</code> and <code>to_hash_bytes</code> have been deprecated in favor of <code>Address</code> and <code>Hash</code>, which are automatically detected as opcode parameters and pushed to the stack in the resulting bytecode (<a href="https://github.com/ethereum/execution-spec-tests/pull/422">#422</a>).</li>
 <li>✨ <code>Opcodes</code> enum now contains docstrings with each opcode description, including parameters and return values, which show up in many development environments (<a href="https://github.com/ethereum/execution-spec-tests/pull/424">#424</a>) <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/ThreeHrSleep" title="GitHub User: ThreeHrSleep">@ThreeHrSleep</a>.</li>
 <li>🔀 Locally calculate state root for the genesis blocks in the blockchain tests instead of calling t8n (<a href="https://github.com/ethereum/execution-spec-tests/pull/450">#450</a>).</li>
+<li>🐞 Fix bug that causes an exception during test collection because the fork parameter contains <code>None</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/452">#452</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>

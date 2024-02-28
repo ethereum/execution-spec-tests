@@ -7260,7 +7260,7 @@ commands used to verify generated JSON fixtures.</p>
 <span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">evm_fixture_verification</span><span class="p">(</span>
     <span class="n">request</span><span class="p">,</span> <span class="n">do_fixture_verification</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">evm_bin</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">verify_fixtures_bin</span><span class="p">:</span> <span class="n">Path</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Generator</span><span class="p">[</span><span class="n">TransitionTool</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">TransitionTool</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the configured evm binary for executing statetest and blocktest</span>
 <span class="sd">    commands used to verify generated JSON fixtures.</span>
@@ -8005,7 +8005,10 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">507</span>
 <span class="normal">508</span>
 <span class="normal">509</span>
-<span class="normal">510</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove pre-Paris tests parametrized to generate hive type fixtures; these</span>
 <span class="sd">    can&#39;t be used in the Hive Pyspec Simulator.</span>
@@ -8015,6 +8018,9 @@ parametrization occurs in the forks plugin.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[:]:</span>  <span class="c1"># use a copy of the list, as we&#39;ll be modifying it</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">EIPSpecTestItem</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="s2">&quot;fork&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;fork&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;fork&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">Paris</span><span class="p">:</span>
             <span class="c1"># Even though the `state_test` test spec does not produce a hive STATE_TEST, it does</span>
@@ -8060,12 +8066,12 @@ more readable test ids for the generated tests.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">516</span>
 <span class="normal">517</span>
-<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_make_parametrize_id</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_make_parametrize_id</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called when generating test ids. We use this to generate</span>
 <span class="sd">    more readable test ids for the generated tests.</span>
@@ -8099,10 +8105,7 @@ more readable test ids for the generated tests.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/pytest_plugins/test_filler/test_filler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
 <span class="normal">527</span>
@@ -8121,7 +8124,10 @@ more readable test ids for the generated tests.</p>
 <span class="normal">540</span>
 <span class="normal">541</span>
 <span class="normal">542</span>
-<span class="normal">543</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_runtest_call</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_runtest_call</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called in the context of test execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
