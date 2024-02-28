@@ -73,6 +73,7 @@ class Opcode(bytes):
             obj.min_stack_height = min_stack_height
             obj.data_portion_length = data_portion_length
             return obj
+        assert False
 
     def __call__(self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
         """
@@ -186,6 +187,54 @@ class Opcode(bytes):
         Return the name of the opcode, assigned at Enum creation.
         """
         return self._name_
+
+    def __eq__(self, other):
+        """
+        Required to differentiate between SELFDESTRUCT and SENDALL type of cases
+        And to register the Macro opcodes which are defined from same bytes
+        """
+        if isinstance(other, Opcode):
+            return self._name_ == other._name_
+        return NotImplemented
+
+
+class Macro(Opcode):
+    """
+    Represents opcode macro replacement
+    """
+
+    macro_bytes: bytes
+
+    def __new__(
+        cls,
+        macro_or_byte: Union[bytes, "Macro"],
+    ):
+        """
+        Creates a new opcode macro instance.
+        """
+        cls.macro_bytes = macro_or_byte
+        instance = super().__new__(cls, 0xFF)
+        return instance
+
+    def __call__(self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
+        """
+        Makes a macro instances callable to return formatted bytecode
+        """
+        # ignore opcode arguments
+        args_t.count
+        return self.macro_bytes
+
+    def __len__(self) -> int:
+        """
+        Returns the total bytecode length of the macro.
+        """
+        return len(self.macro_bytes)
+
+    def int(self) -> int:
+        """
+        Returns the integer representation of the byte macros.
+        """
+        return int.from_bytes(self.macro_bytes, byteorder="big")
 
 
 OpcodeCallArg = Union[int, bytes, Opcode]
@@ -4860,4 +4909,25 @@ class Opcodes(Opcode, Enum):
     5000
 
     Source: [evm.codes/#FF](https://www.evm.codes/#FF)
+    """
+
+    OOG = Macro(SHA3(0, 100000000000))
+    """
+    OOG(args)
+    ----
+
+    Halt execution by consuming all available gas
+
+    Inputs
+    ----
+    - any input arguments are ignored
+
+    Fork
+    ----
+    Frontier
+
+    Gas
+    ----
+    
+    Source: SHA3(0, 100000000000)
     """
