@@ -34,9 +34,9 @@ def initialize_repository(args):
 def clean_repository(args):
     """
     Cleans the repository of all generated files and directories:
-        ```
-        rm -rf .tox .pytest_cache .mypy_cache venv fixtures
-        ```
+    ```
+    rm -rf .tox .pytest_cache .mypy_cache venv fixtures
+    ```
     """
     items_to_remove = [".tox", ".pytest_cache", ".mypy_cache", "venv", "fixtures"]
     for item in items_to_remove:
