@@ -51,9 +51,7 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
     cd execution-spec-tests
-    python3 -m venv ./venv/
-    source ./venv/bin/activate
-    pip install -e '.[docs,lint,test]'
+    python src/entry_points/eest_utils.py --init
     ```
 
 3. Verify installation:
