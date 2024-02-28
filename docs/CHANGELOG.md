@@ -152,7 +152,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🔧 EVM Tools
 
-- ✨ Use `execution-specs` evm tool daemon feature to run tests, which provides an fill speed increase of around 57x ([#453](https://github.com/ethereum/execution-spec-tests/pull/453))
+- ✨ Use `execution-specs` evm tool daemon feature to fill tests, which provides a speed increase of around 57x ([#453](https://github.com/ethereum/execution-spec-tests/pull/453))
 
 ### 📋 Misc
 
