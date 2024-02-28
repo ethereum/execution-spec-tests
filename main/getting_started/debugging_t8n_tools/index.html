@@ -6445,55 +6445,35 @@
 <p>The <code>--evm-dump-dir</code> flag tells the framework to write the inputs and outputs of every call made to the <code>t8n</code> command to help debugging or simply understand how a test is interacting with the EVM.</p>
 <p>In particular, a script <code>t8n.sh</code> is generated for each call to the <code>t8n</code> command which can be used to reproduce the call to trigger errors or attach a debugger without the need to execute Python.</p>
 <p>For example, running:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin \</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin -m blockchain_test \</span>
 <span class="go">    --evm-dump-dir=/tmp/evm-dump</span>
 </code></pre></div>
 <p>will produce the directory structure:</p>
 <div class="highlight"><pre><span></span><code>📂 /tmp/evm-dump
-└── 📂 blockchain_tests
-    └── 📂 berlin__eip2930_access_list__test_acl__test_access_list
-        └── 📂 fork_Berlin
-            ├── 📂 0
-            │   ├── 📄 args.py
-            │   ├── 📂 input
-            │   │   ├── 📄 alloc.json
-            │   │   ├── 📄 env.json
-            │   │   └── 📄 txs.json
-            │   ├── 📂 output
-            │   │   ├── 📄 alloc.json
-            │   │   ├── 📄 result.json
-            │   │   └── 📄 txs.rlp
-            │   ├── 📄 returncode.txt
-            │   ├── 📄 stderr.txt
-            │   ├── 📄 stdin.txt
-            │   ├── 📄 stdout.txt
-            │   └── 📄 t8n.sh
-            └── 📂 1
-                ├── 📄 args.py
-                ├── 📂 input
-                │   ├── 📄 alloc.json
-                │   ├── 📄 env.json
-                │   └── 📄 txs.json
-                ├── 📂 output
-                │   ├── 📄 alloc.json
-                │   ├── 📄 result.json
-                │   └── 📄 txs.rlp
-                ├── 📄 returncode.txt
-                ├── 📄 stderr.txt
-                ├── 📄 stdin.txt
-                ├── 📄 stdout.txt
-                └── 📄 t8n.sh
+└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+    └── 📂 fork_Berlin_blockchain_test
+        └── 📂 0
+            ├── 📄 args.py
+            ├── 📂 input
+            │   ├── 📄 alloc.json
+            │   ├── 📄 env.json
+            │   └── 📄 txs.json
+            ├── 📂 output
+            │   ├── 📄 alloc.json
+            │   ├── 📄 result.json
+            │   └── 📄 txs.rlp
+            ├── 📄 returncode.txt
+            ├── 📄 stderr.txt
+            ├── 📄 stdin.txt
+            ├── 📄 stdout.txt
+            └── 📄 t8n.sh
 </code></pre></div>
-<p>where the directories <code>0</code> and <code>1</code> correspond to the different calls made to the <code>t8n</code> tool executed during the test:</p>
-<ul>
-<li><code>0</code> corresponds to the call used to calculate the state root of the test's initial alloc (which is why it has an empty transaction list).</li>
-<li><code>1</code> corresponds to the call used to execute the first transaction or block from the test.</li>
-</ul>
-<p>Note, there may be more directories present <code>2</code>, <code>3</code>, <code>4</code>,... if the test executes more transactions/blocks.</p>
+<p>where the directory <code>0</code> is the starting index of the different calls made to the <code>t8n</code> tool executed during the test, and since the test only contains one block, there is only one directory present.</p>
+<p>Note, there may be more directories present <code>1</code>, <code>2</code>, <code>3</code>,... if the test executes more blocks.</p>
 <p>Each directory contains files containing information corresponding to the call, for example, the <code>args.py</code> file contains the arguments passed to the <code>t8n</code> command and the <code>output/alloc.json</code> file contains the output of the <code>t8n</code> command's <code>--output-alloc</code> flag.</p>
 <h3 id="the-t8nsh-script">The <code>t8n.sh</code> Script<a class="headerlink" href="#the-t8nsh-script" title="Permanent link">&para;</a></h3>
-<p>The <code>t8n.sh</code> script written to the debug directory can be used to reproduce a specific call made to the <code>t8n</code> command during the test session. For example, if a Besu <code>t8n-server</code> has been started on port <code>3001</code>, the request made by the test for first transaction can be reproduced as:</p>
-<div class="highlight"><pre><span></span><code><span class="go">/tmp/besu/test_access_list_fork_Berlin/1/t8n.sh 3001</span>
+<p>The <code>t8n.sh</code> script written to the debug directory can be used to reproduce a specific call made to the <code>t8n</code> command during the test session. For example, if a Besu <code>t8n-server</code> has been started on port <code>3001</code>, the request made by the test for first block can be reproduced as:</p>
+<div class="highlight"><pre><span></span><code><span class="go">/tmp/besu/test_access_list_fork_Berlin/0/t8n.sh 3001</span>
 </code></pre></div>
 <p>which writes the response the from the <code>t8n-server</code> to the console output:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
@@ -6523,7 +6503,7 @@
 <h2 id="verifying-test-fixtures-via-evm-blocktest">Verifying Test Fixtures via <code>evm blocktest</code><a class="headerlink" href="#verifying-test-fixtures-via-evm-blocktest" title="Permanent link">&para;</a></h2>
 <p>The <code>--verify-fixtures</code> flag can be used to run go-ethereum's <code>evm blocktest</code> command in order to verify the generated JSON test fixtures.</p>
 <p>For example, running:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin \</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill tests/berlin/eip2930_access_list/ --fork Berlin -m blockchain_test \</span>
 <span class="go">    --evm-dump-dir==/tmp/evm-dump \</span>
 <span class="go">    --evm-bin=../evmone/build/bin/evmone-t8n \</span>
 <span class="go">    --verify-fixtures-bin=../go-ethereum/build/bin/evm \</span>
@@ -6531,25 +6511,24 @@
 </code></pre></div>
 <p>will additionally run the <code>evm blocktest</code> command on every JSON fixture file and write its output to the EVM dump directory:</p>
 <div class="highlight"><pre><span></span><code>📂 /tmp/evm-dump
-└── 📂 blockchain_tests
-    └── 📂 berlin__eip2930_access_list__test_acl__test_access_list
-        ├── 📄 fixtures.json
-        ├── 📂 fork_Berlin
-        │   ├── 📂 0
-        │   │   ├── 📄 args.py
-        │   │   ├── 📂 input
-        │   │   │   ├── 📄 alloc.json
-        │   │   │   ├── 📄 env.json
-        │   │   │   └── 📄 txs.json
-        │   │   ├── 📂 output
-        │   │   │   ├── 📄 alloc.json
-        │   ... ... ...
-        │
-        ├── 📄 verify_fixtures_args.py
-        ├── 📄 verify_fixtures_returncode.txt
-        ├── 📄 verify_fixtures.sh
-        ├── 📄 verify_fixtures_stderr.txt
-        └── 📄 verify_fixtures_stdout.txt
+└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+    ├── 📄 fixtures.json
+    ├── 📂 fork_Berlin_blockchain_test
+    │   ├── 📂 0
+    │   │   ├── 📄 args.py
+    │   │   ├── 📂 input
+    │   │   │   ├── 📄 alloc.json
+    │   │   │   ├── 📄 env.json
+    │   │   │   └── 📄 txs.json
+    │   │   ├── 📂 output
+    │   │   │   ├── 📄 alloc.json
+    │   ... ... ...
+    │
+    ├── 📄 verify_fixtures_args.py
+    ├── 📄 verify_fixtures_returncode.txt
+    ├── 📄 verify_fixtures.sh
+    ├── 📄 verify_fixtures_stderr.txt
+    └── 📄 verify_fixtures_stdout.txt
 </code></pre></div>
 <p>where the <code>verify_fixtures.sh</code> script can be used to reproduce the <code>evm blocktest</code> command.</p>
 <h3 id="further-verify-fixtures-examples">Further <code>--verify-fixtures</code> Examples<a class="headerlink" href="#further-verify-fixtures-examples" title="Permanent link">&para;</a></h3>
