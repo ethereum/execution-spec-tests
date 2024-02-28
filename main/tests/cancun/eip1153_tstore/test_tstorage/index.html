@@ -6366,7 +6366,7 @@
 
 
 <h1 id="test-tstorage">Test Tstorage<a class="headerlink" href="#test-tstorage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bc1a1543c0874a4b7265f25083798edef22f90b8/tests/cancun/eip1153_tstore/test_tstorage.py"><code>tests/cancun/eip1153_tstore/test_tstorage.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a77a3bc4dc5d16b8469d88e4f8b0187f0feff1be/tests/cancun/eip1153_tstore/test_tstorage.py"><code>tests/cancun/eip1153_tstore/test_tstorage.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6564,7 +6564,7 @@ returns y.</p>
 
     <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">),</span>
-        <span class="n">code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">slot</span> <span class="ow">in</span> <span class="n">slots_under_test</span><span class="p">}),</span>
+        <span class="n">code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot</span><span class="p">:</span> <span class="mh">0xFF</span> <span class="k">for</span> <span class="n">slot</span> <span class="ow">in</span> <span class="n">slots_under_test</span><span class="p">}),</span>
     <span class="p">}</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
