@@ -2,17 +2,27 @@
 CLI interface for common EEST shortcuts and utilities.
 """
 
-import argparse
 import os
 import shutil
 import subprocess
+
+import click
 
 from logger import setup_logger
 
 logger = setup_logger(__name__)
 
 
-def initialize_repository(args):
+@click.group()
+def eest():
+    """
+    EEST commands for common repo utilities.
+    """
+    pass
+
+
+@eest.command()
+def init():
     """
     Initializes and installs all required packages for the repository:
     ```
@@ -32,7 +42,8 @@ def initialize_repository(args):
     subprocess.run([pip_path, "install", "-e", ".[docs,lint,test]"], check=True)
 
 
-def clean_repository(args):
+@eest.command()
+def clean():
     """
     Cleans the repository of all generated files and directories:
     ```
@@ -42,11 +53,23 @@ def clean_repository(args):
     items_to_remove = [".tox", ".pytest_cache", ".mypy_cache", "venv", "fixtures"]
     for item in items_to_remove:
         if os.path.exists(item):
-            shutil.rmtree(item)
+            shutil.rmtree(item, ignore_errors=True)
             logger.warning(f"Deleted `{item}`")
 
 
-def show_version(args):
+@eest.command()
+def reset():
+    """
+    Performs a clean and init on the repository.
+    """
+    ctx = click.get_current_context()
+    ctx.invoke(clean)
+    ctx.invoke(init)
+
+
+# TODO:
+@eest.command()
+def version():
     """
     Outputs the version of the repository.
     """
@@ -55,34 +78,10 @@ def show_version(args):
 
 def main():
     """
-    Main function to handle CLI commands and arguments.
+    Entry point for EEST commands.
     """
-    parser = argparse.ArgumentParser(description="EEST utilities")
-    subparsers = parser.add_subparsers(help="commands")
-
-    init_parser = subparsers.add_parser("init", help="Initializes the repository")
-    init_parser.set_defaults(func=initialize_repository)
-
-    clean_parser = subparsers.add_parser("clean", help="Cleans the repository")
-    clean_parser.set_defaults(func=clean_repository)
-
-    reset_parser = subparsers.add_parser(
-        "reset", help="Performs a clean and init on the repository"
-    )
-    reset_parser.set_defaults(
-        func=lambda args: (clean_repository(args), initialize_repository(args))
-    )
-
-    version_parser = subparsers.add_parser("version", help="Outputs the version of the repository")
-    version_parser.set_defaults(func=show_version)
-
-    args = parser.parse_args()
-
-    if hasattr(args, "func"):
-        args.func(args)
-    else:
-        parser.print_help()
+    eest()
 
 
 if __name__ == "__main__":
-    main()
+    eest()
