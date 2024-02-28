@@ -14,11 +14,11 @@ logger = setup_logger(__name__)
 def initialize_repository(args):
     """
     Initializes and installs all required packages for the repository:
-        ```
-        python3 -m venv ./venv/
-        source ./venv/bin/activate
-        pip install -e '.[docs,lint,test]'
-        ```
+    ```
+    python3 -m venv ./venv/
+    source ./venv/bin/activate
+    pip install -e '.[docs,lint,test]'
+    ```
     """
     logger.info("Creating a virtual environment: `python3 -m venv ./venv/`")
     subprocess.run(["python3", "-m", "venv", "./venv/"], check=True)
