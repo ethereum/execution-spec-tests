@@ -113,9 +113,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Hash folders of JSON fixtures.")
 
     parser.add_argument("folder_path", type=Path, help="The path to the JSON fixtures directory")
-    parser.add_argument("--files", action="store_true", help="Print hash of files")
-    parser.add_argument("--tests", action="store_true", help="Print hash of tests")
-    parser.add_argument("--root", action="store_true", help="Only print hash of root folder")
+    parser.add_argument("--files", "-f", action="store_true", help="Print hash of files")
+    parser.add_argument("--tests", "-t", action="store_true", help="Print hash of tests")
+    parser.add_argument("--root", "-r", action="store_true", help="Only print hash of root folder")
 
     args = parser.parse_args()
 
