@@ -11,7 +11,7 @@ from logger import setup_logger
 logger = setup_logger(__name__)
 
 
-def initialize_repository():
+def initialize_repository(args):
     """
     Initializes and installs all required packages for the repository:
         ```
@@ -31,7 +31,7 @@ def initialize_repository():
     subprocess.run([pip_path, "install", "-e", ".[docs,lint,test]"], check=True)
 
 
-def clean_repository():
+def clean_repository(args):
     """
     Cleans the repository of all generated files and directories:
         ```
@@ -45,43 +45,42 @@ def clean_repository():
             logger.warning(f"Deleted `{item}`")
 
 
+def show_version(args):
+    """
+    Outputs the version of the repository.
+    """
+    logger.info("Version: 0.1.0 - TODO")
+
+
 def main():
     """
-    Main function
+    Main function to handle CLI commands and arguments.
     """
     parser = argparse.ArgumentParser(description="EEST utilities")
-    parser.add_argument(
-        "--init",
-        action="store_true",
-        help="Performs all initialization steps for the repository",
+    subparsers = parser.add_subparsers(help="commands")
+
+    init_parser = subparsers.add_parser("init", help="Initializes the repository")
+    init_parser.set_defaults(func=initialize_repository)
+
+    clean_parser = subparsers.add_parser("clean", help="Cleans the repository")
+    clean_parser.set_defaults(func=clean_repository)
+
+    reset_parser = subparsers.add_parser(
+        "reset", help="Performs a clean and init on the repository"
     )
-    parser.add_argument(
-        "--clean",
-        action="store_true",
-        help="Removes .tox, .pytest_cache, .mypy_cache, venv & fixtures from the repository",
+    reset_parser.set_defaults(
+        func=lambda args: (clean_repository(args), initialize_repository(args))
     )
-    parser.add_argument(
-        "--reset",
-        action="store_true",
-        help="Performs a clean and init on the repository",
-    )
-    parser.add_argument(
-        "--version",
-        action="store_true",
-        help="Outputs the version of the repository",
-    )
+
+    version_parser = subparsers.add_parser("version", help="Outputs the version of the repository")
+    version_parser.set_defaults(func=show_version)
+
     args = parser.parse_args()
 
-    if args.clean or args.reset:
-        clean_repository()
-        logger.info("Repository cleaned!")
-
-    if args.init or args.reset:
-        initialize_repository()
-        logger.info("Repository initialized!")
-
-    if args.version:
-        logger.info("Version: 0.1.0 - TODO")
+    if hasattr(args, "func"):
+        args.func(args)
+    else:
+        parser.print_help()
 
 
 if __name__ == "__main__":
