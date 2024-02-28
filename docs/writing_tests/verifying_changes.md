@@ -88,3 +88,38 @@ Verify:
 ```console
 tox -e docs
 ```
+
+### Verifying Fixture Changes
+
+When writing a PR that modifies either the framework or test cases, it is important to verify that the changes do not cause any issues with the existing test cases.
+
+All filled fixtures contain a `hash` field in the `_info` object, which is the hash of the json string of the fixture. This hash can be used to verify that the fixture has not changed.
+
+The `hasher` command can be used to bulk-verify the hashes of all fixtures in a directory.
+
+It has the following options:
+
+| Flag | Description |
+|--------------|-------------|
+| `--files` / `-f` | Prints a single combined hash per each JSON fixture file recursively contained in a directory. |
+| `--tests` / `-t` | Prints the hash of every single test vector in every JSON fixture file recursively contained in a directory. |
+| `--root` / `-r` | Prints a single combined hash for all JSON fixture files recursively contained in a directory. |
+
+For a quick comparison between two fixture directories, the `--root` option can be used and if the output matches, it means the fixtures in the directories are identical:
+
+```console
+hasher --root fixtures/
+hasher --root fixtures_new/
+```
+
+If the output does not match, the `--files` option can be used to identify which files are different:
+
+```console
+diff <(hasher --files fixtures/) <(hasher --files fixtures_new/)
+```
+
+And the `--tests` option can be used for an even more granular comparison:
+
+```console
+diff <(hasher --tests fixtures/) <(hasher --tests fixtures_new/)
+```
