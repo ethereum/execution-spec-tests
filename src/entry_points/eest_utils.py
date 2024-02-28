@@ -4,6 +4,7 @@ CLI interface for common EEST shortcuts and utilities.
 
 import argparse
 import os
+import shutil
 import subprocess
 
 from logger import setup_logger
@@ -41,7 +42,7 @@ def clean_repository(args):
     items_to_remove = [".tox", ".pytest_cache", ".mypy_cache", "venv", "fixtures"]
     for item in items_to_remove:
         if os.path.exists(item):
-            subprocess.run(["rm", "-rf", item], check=True)
+            shutil.rmtree(item)
             logger.warning(f"Deleted `{item}`")
 
 
