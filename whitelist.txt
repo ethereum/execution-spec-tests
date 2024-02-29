@@ -60,12 +60,14 @@ controlflow
 cp
 CPUs
 crypto
+ctx
 customizations
 Customizations
 danceratopz
 dao
 dataclasses
 datastructures
+datefmt
 delitem
 Dencun
 dev
@@ -77,6 +79,8 @@ discordapp
 docstring
 docstrings
 dup
+eest
+EEST
 eip
 eips
 EIPs
@@ -318,6 +322,7 @@ autouse
 basedir
 callspec
 collectonly
+colorlog
 copyfile
 copytree
 dedent
