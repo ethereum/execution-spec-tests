@@ -7,44 +7,20 @@
 
 The following requires a Python 3.10, 3.11 or 3.12 installation.
 
-1. Ensure `go-ethereum`'s `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20), [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21), [0.8.22](https://github.com/ethereum/solidity/releases/tag/v0.8.22), [0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23)  supported) are in your path. Either build the required versions, or alternatively:
+1. Ensure `go-ethereum`'s `evm` tool are in your path. Either build the required versions, or alternatively:
 
     === "Ubuntu"
 
-          ```console
-          sudo add-apt-repository -y ppa:ethereum/ethereum
-          sudo apt-get update
-          sudo apt-get install ethereum solc
-          ```
-          More help:
-
-          - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
-          - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
+          [geth Ubuntu installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
 
     === "macOS"
 
-          ```console
-          brew update
-          brew upgrade
-          brew tap ethereum/ethereum
-          brew install ethereum solidity
-          ```
-          More help:
-
-          - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#macos-via-homebrew).
-          - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#macos-packages).
+          [geth macOS installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#macos-via-homebrew).
 
     === "Windows"
 
-          Binaries available here:
-
           - [geth](https://geth.ethereum.org/downloads) (binary or installer).
-          - [solc](https://github.com/ethereum/solidity/releases).
-
-          More help:
-
-          - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#windows).
-          - [solc static binaries doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#static-binaries).
+          - [geth Windows installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#windows).
 
 2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies (it's recommended to use a virtual environment for the installation):
 
@@ -52,6 +28,7 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
     git clone https://github.com/ethereum/execution-spec-tests
     cd execution-spec-tests
     python src/entry_points/eest_utils.py init
+    source venv/bin/activate # activate.csh or activate.fish the respective shell
     ```
 
 3. Verify installation:
