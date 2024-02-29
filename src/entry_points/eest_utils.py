@@ -49,26 +49,42 @@ def init():
     python3 -m venv ./venv/
     pip install --upgrade pip
     pip install -e '.[docs,lint,test]'
+    solc-select install 0.8.22
     solc-select use latest --always-install
     ```
     """
-    logger.info("Creating a virtual environment: `python -m venv ./venv/`")
-    subprocess.run([sys.executable, "-m", "venv", os.path.join(".", "venv")], check=True)
+    venv_create = [sys.executable, "-m", "venv", "./venv/"]
+    logger.info(f"Creating a virtual environment: `{' '.join(venv_create)}`")
+    subprocess.run(venv_create, check=True)
+
     pip_path = os.path.join(".", "venv", "bin", "pip")
 
-    logger.info("Upgrading pip to the latest version: `pip install --upgrade pip`")
-    subprocess.run([pip_path, "install", "--upgrade", "pip"], check=True)
+    pip_upgrade = [pip_path, "install", "--upgrade", "pip"]
+    logger.info(f"Upgrading pip to the latest version: `{' '.join(pip_upgrade)}`")
+    subprocess.run(pip_upgrade, check=True)
 
-    logger.info("Installing required packages: `pip install -e '.[docs,lint,test]'`")
-    subprocess.run([pip_path, "install", "-e", ".[docs,lint,test]"], check=True)
+    pip_install = [pip_path, "install", "-e", ".[docs,lint,test]"]
+    logger.info(f"Installing required packages: `{' '.join(pip_install)}`")
+    subprocess.run(pip_install, check=True)
 
-    logger.info("Installing latest solc within venv: `solc-select use latest --always-install`")
-    original_home = os.environ.get("HOME")
-    # solc-select uses $HOME to store the solc binaries, so temporarily change it to the venv
-    os.environ["HOME"] = "./venv"
     solc_select_path = os.path.join(".", "venv", "bin", "solc-select")
-    subprocess.run([solc_select_path, "use", "latest", "--always-install"], check=True)
-    # revert the $HOME environment variable
+    # solc-select uses $HOME to store the solc binaries, so temporarily change it to the venv
+    original_home = os.environ.get("HOME")
+    os.environ["HOME"] = "./venv"
+
+    # Required for forks <= Constantinople, see important note:
+    # https://github.com/ethereum/solidity/releases/tag/v0.8.22
+    solc_install_0_8_22 = [solc_select_path, "install", "0.8.22"]
+    logger.info(f"Installing solc 0.8.22 within venv:  `{' '.join(solc_install_0_8_22)}`")
+    subprocess.run(solc_install_0_8_22, check=True)
+
+    solc_install_latest = [solc_select_path, "use", "latest", "--always-install"]
+    logger.info(
+        f"Installing and using latest solc within venv:  `{' '.join(solc_install_latest)}`"
+    )
+    subprocess.run(solc_install_latest, check=True)
+
+    # Revert the $HOME environment variable
     os.environ["HOME"] = original_home
 
 
