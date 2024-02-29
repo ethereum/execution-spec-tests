@@ -6,6 +6,7 @@ import logging
 import os
 import shutil
 import subprocess
+import sys
 
 import click
 import colorlog
@@ -46,12 +47,13 @@ def init():
     Initializes and installs all required packages add dependencies for the repository:
     ```
     python3 -m venv ./venv/
+    pip install --upgrade pip
     pip install -e '.[docs,lint,test]'
     solc-select use latest --always-install
     ```
     """
-    logger.info("Creating a virtual environment: `python3 -m venv ./venv/`")
-    subprocess.run(["python3", "-m", "venv", "./venv/"], check=True)
+    logger.info("Creating a virtual environment: `python -m venv ./venv/`")
+    subprocess.run([sys.executable, "-m", "venv", os.path.join(".", "venv")], check=True)
     pip_path = os.path.join(".", "venv", "bin", "pip")
 
     logger.info("Upgrading pip to the latest version: `pip install --upgrade pip`")
