@@ -7016,6 +7016,7 @@
 <li>✨ <code>Opcodes</code> enum now contains docstrings with each opcode description, including parameters and return values, which show up in many development environments (<a href="https://github.com/ethereum/execution-spec-tests/pull/424">#424</a>) <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/ThreeHrSleep" title="GitHub User: ThreeHrSleep">@ThreeHrSleep</a>.</li>
 <li>🔀 Locally calculate state root for the genesis blocks in the blockchain tests instead of calling t8n (<a href="https://github.com/ethereum/execution-spec-tests/pull/450">#450</a>).</li>
 <li>🐞 Fix bug that causes an exception during test collection because the fork parameter contains <code>None</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/452">#452</a>).</li>
+<li>✨ The <code>_info</code> field in the test fixtures now contains a <code>hash</code> field, which is the hash of the test fixture, and a <code>hasher</code> script has been added which prints and performs calculations on top of the hashes of all fixtures (see <code>hasher -h</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/454">#454</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>

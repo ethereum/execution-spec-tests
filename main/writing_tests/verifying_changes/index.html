@@ -1029,6 +1029,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#verifying-fixture-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifying Fixture Changes
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6466,6 +6475,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#verifying-fixture-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifying Fixture Changes
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6550,6 +6568,43 @@
 <p>Verify:</p>
 <div class="highlight"><pre><span></span><code><span class="go">tox -e docs</span>
 </code></pre></div>
+<h3 id="verifying-fixture-changes">Verifying Fixture Changes<a class="headerlink" href="#verifying-fixture-changes" title="Permanent link">&para;</a></h3>
+<p>When writing a PR that modifies either the framework or test cases, it is important to verify that the changes do not cause any issues with the existing test cases.</p>
+<p>All filled fixtures contain a <code>hash</code> field in the <code>_info</code> object, which is the hash of the json string of the fixture. This hash can be used to verify that the fixture has not changed.</p>
+<p>The <code>hasher</code> command can be used to bulk-verify the hashes of all fixtures in a directory.</p>
+<p>It has the following options:</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--files</code> / <code>-f</code></td>
+<td>Prints a single combined hash per each JSON fixture file recursively contained in a directory.</td>
+</tr>
+<tr>
+<td><code>--tests</code> / <code>-t</code></td>
+<td>Prints the hash of every single test vector in every JSON fixture file recursively contained in a directory.</td>
+</tr>
+<tr>
+<td><code>--root</code> / <code>-r</code></td>
+<td>Prints a single combined hash for all JSON fixture files recursively contained in a directory.</td>
+</tr>
+</tbody>
+</table>
+<p>For a quick comparison between two fixture directories, the <code>--root</code> option can be used and if the output matches, it means the fixtures in the directories are identical:</p>
+<div class="highlight"><pre><span></span><code><span class="go">hasher --root fixtures/</span>
+<span class="go">hasher --root fixtures_new/</span>
+</code></pre></div>
+<p>If the output does not match, the <code>--files</code> option can be used to identify which files are different:</p>
+<div class="highlight"><pre><span></span><code><span class="go">diff &lt;(hasher --files fixtures/) &lt;(hasher --files fixtures_new/)</span>
+</code></pre></div>
+<p>And the <code>--tests</code> option can be used for an even more granular comparison:</p>
+<div class="highlight"><pre><span></span><code><span class="go">diff &lt;(hasher --tests fixtures/) &lt;(hasher --tests fixtures_new/)</span>
+</code></pre></div>
 
 
 
@@ -6570,12 +6625,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:danceratopz@gmail.com">Dan</a>
+        <a href="mailto:danceratopz@gmail.com">Dan</a>, 
+        <a href="mailto:marioevz@gmail.com">Mario Vega</a>
     </nav>
   </span>
 
