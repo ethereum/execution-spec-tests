@@ -7,7 +7,7 @@ from dataclasses import dataclass, field, replace
 from pprint import pprint
 from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, Prague
 from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import (
@@ -187,8 +187,16 @@ class BlockchainTest(BaseTest):
         block: Block,
         previous_env: Environment,
         previous_alloc: Dict[str, Any],
+        previous_vkt: Optional[Dict[str, Any]] = None,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[FixtureHeader, Bytes, List[Transaction], Dict[str, Any], Environment]:
+    ) -> Tuple[
+        FixtureHeader,
+        Bytes,
+        List[Transaction],
+        Dict[str, Any],
+        Optional[Dict[str, Any]],
+        Environment,
+    ]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
         """
@@ -215,13 +223,14 @@ class BlockchainTest(BaseTest):
                     + "must be the last transaction in the block"
                 )
 
-        next_alloc, result = t8n.evaluate(
+        next_alloc, result, vkt = t8n.evaluate(
             alloc=previous_alloc,
             txs=to_json(txs),
             env=to_json(env),
             fork_name=fork.transition_tool_name(
                 block_number=Number(env.number), timestamp=Number(env.timestamp)
             ),
+            vkt=previous_vkt,
             chain_id=self.chain_id,
             reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
             eips=eips,
@@ -236,6 +245,8 @@ class BlockchainTest(BaseTest):
             pprint(result)
             pprint(previous_alloc)
             pprint(next_alloc)
+            if vkt is not None:
+                pprint(vkt)
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -282,7 +293,14 @@ class BlockchainTest(BaseTest):
             withdrawals=env.withdrawals,
         )
 
-        return header, rlp, txs, next_alloc, env
+        env.update_from_result(result)
+
+        if fork.fork_at(Number(env.number), Number(env.timestamp)) >= Prague:
+            if env.verkle_conversion_ended:
+                next_alloc = {}
+            else:
+                next_alloc = previous_alloc
+        return header, rlp, txs, next_alloc, vkt, env
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
         """
@@ -294,12 +312,12 @@ class BlockchainTest(BaseTest):
             else fork.blockchain_test_network_name()
         )
 
-    def verify_post_state(self, t8n, alloc):
+    def verify_post_state(self, *, t8n, alloc, vkt=None):
         """
         Verifies the post alloc after all block/s or payload/s are generated.
         """
         try:
-            verify_post_alloc(self.post, alloc)
+            verify_post_alloc(expected_post=self.post, got_alloc=alloc, got_vkt=vkt)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
@@ -320,18 +338,20 @@ class BlockchainTest(BaseTest):
         alloc = to_json(pre)
         env = environment_from_parent_header(genesis)
         head = genesis.hash if genesis.hash is not None else Hash(0)
+        vkt = None  # might be necessary to check at genesis ?
 
         for block in self.blocks:
             if block.rlp is None:
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                header, rlp, txs, new_alloc, new_env = self.generate_block_data(
+                header, rlp, txs, new_alloc, new_vkt, new_env = self.generate_block_data(
                     t8n=t8n,
                     fork=fork,
                     block=block,
                     previous_env=env,
                     previous_alloc=alloc,
+                    previous_vkt=vkt,
                     eips=eips,
                 )
                 fixture_block = FixtureBlock(
@@ -348,6 +368,7 @@ class BlockchainTest(BaseTest):
                     alloc = new_alloc
                     env = apply_new_parent(new_env, header)
                     head = header.hash if header.hash is not None else Hash(0)
+                    vkt = new_vkt
                 else:
                     fixture_blocks.append(
                         InvalidFixtureBlock(
@@ -368,7 +389,7 @@ class BlockchainTest(BaseTest):
                     ),
                 )
 
-        self.verify_post_state(t8n, alloc)
+        self.verify_post_state(t8n=t8n, alloc=alloc, vkt=vkt)
         return Fixture(
             fork=self.network_info(fork, eips),
             genesis=genesis,
@@ -394,10 +415,17 @@ class BlockchainTest(BaseTest):
         pre, _, genesis = self.make_genesis(t8n, fork)
         alloc = to_json(pre)
         env = environment_from_parent_header(genesis)
+        vkt = None  # might be necessary to check at genesis ?
 
         for block in self.blocks:
-            header, _, txs, new_alloc, new_env = self.generate_block_data(
-                t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
+            header, _, txs, new_alloc, new_vkt, new_env = self.generate_block_data(
+                t8n=t8n,
+                fork=fork,
+                block=block,
+                previous_env=env,
+                previous_alloc=alloc,
+                previous_vkt=vkt,
+                eips=eips,
             )
             if block.rlp is None:
                 fixture_payloads.append(
@@ -412,6 +440,7 @@ class BlockchainTest(BaseTest):
                 )
                 if block.exception is None:
                     alloc = new_alloc
+                    vkt = new_vkt
                     env = apply_new_parent(env, header)
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
         assert (
@@ -419,7 +448,7 @@ class BlockchainTest(BaseTest):
         ), "A hive fixture was requested but no forkchoice update is defined. The framework should"
         " never try to execute this test case."
 
-        self.verify_post_state(t8n, alloc)
+        self.verify_post_state(t8n=t8n, alloc=alloc, vkt=vkt)
         return HiveFixture(
             fork=self.network_info(fork, eips),
             genesis=genesis,

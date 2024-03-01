@@ -287,7 +287,9 @@ v0
 v1
 validator
 venv
+verkle
 visualstudio
+vkt
 vm
 vscode
 vv

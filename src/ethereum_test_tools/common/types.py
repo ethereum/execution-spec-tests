@@ -1,6 +1,7 @@
 """
 Useful types for generating Ethereum tests.
 """
+
 from copy import copy, deepcopy
 from dataclasses import dataclass, fields
 from itertools import count
@@ -847,6 +848,41 @@ class Environment:
             cast_type=Hash,
         ),
     )
+    verkle_conversion_address: Optional[FixedSizeBytesConvertible] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="currentConversionAddress",
+            cast_type=Address,
+        ),
+    )
+    verkle_conversion_slot_hash: Optional[FixedSizeBytesConvertible] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="currentConversionSlotHash",
+            cast_type=Hash,
+        ),
+    )
+    verkle_conversion_started: Optional[bool] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="currentConversionStarted",
+            skip_string_convert=True,
+        ),
+    )
+    verkle_conversion_ended: Optional[bool] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="currentConversionEnded",
+            skip_string_convert=True,
+        ),
+    )
+    verkle_conversion_storage_processed: Optional[bool] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="currentConversionStorageProcessed",
+            skip_string_convert=True,
+        ),
+    )
     extra_data: Optional[BytesConvertible] = field(
         default=b"\x00",
         json_encoder=JSONEncoder.Field(
@@ -907,7 +943,41 @@ class Environment:
         if fork.header_beacon_root_required(number, timestamp) and res.beacon_root is None:
             res.beacon_root = 0
 
+        if fork.environment_verkle_conversion_starts(number, timestamp):
+            if res.verkle_conversion_ended is None:
+                # Conversion is marked as completed if this is the genesis block, or we are
+                # past the conversion end fork.
+                res.verkle_conversion_ended = (
+                    number == 0 or fork.environment_verkle_conversion_completed(number, timestamp)
+                )
+
         return res
+
+    def update_from_result(self, transition_tool_result: Dict[str, Any]) -> "Environment":
+        """
+        Updates the environment with the result of a transition tool execution.
+        """
+        if "currentConversionAddress" in transition_tool_result:
+            self.verkle_conversion_address = transition_tool_result["currentConversionAddress"]
+        if "currentConversionSlotHash" in transition_tool_result:
+            self.verkle_conversion_slot_hash = transition_tool_result["currentConversionSlotHash"]
+        if "currentConversionStarted" in transition_tool_result:
+            conversion_started = transition_tool_result["currentConversionStarted"]
+            assert conversion_started is not None and isinstance(conversion_started, bool)
+            self.verkle_conversion_started = conversion_started
+        if "currentConversionEnded" in transition_tool_result:
+            conversion_ended = transition_tool_result["currentConversionEnded"]
+            assert conversion_ended is not None and isinstance(conversion_ended, bool)
+            self.verkle_conversion_ended = transition_tool_result["currentConversionEnded"]
+        if "currentConversionStorageProcessed" in transition_tool_result:
+            conversion_storage_processed = transition_tool_result[
+                "currentConversionStorageProcessed"
+            ]
+            assert conversion_storage_processed is not None and isinstance(
+                conversion_storage_processed, bool
+            )
+            self.verkle_conversion_storage_processed = conversion_storage_processed
+        return self
 
 
 @dataclass(kw_only=True)
