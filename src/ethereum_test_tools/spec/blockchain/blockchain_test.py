@@ -245,6 +245,8 @@ class BlockchainTest(BaseTest):
             pprint(result)
             pprint(previous_alloc)
             pprint(next_alloc)
+            if vkt is not None:
+                pprint(vkt)
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -310,12 +312,12 @@ class BlockchainTest(BaseTest):
             else fork.blockchain_test_network_name()
         )
 
-    def verify_post_state(self, t8n, alloc):
+    def verify_post_state(self, *, t8n, alloc, vkt=None):
         """
         Verifies the post alloc after all block/s or payload/s are generated.
         """
         try:
-            verify_post_alloc(self.post, alloc)
+            verify_post_alloc(expected_post=self.post, got_alloc=alloc, got_vkt=vkt)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
@@ -387,7 +389,7 @@ class BlockchainTest(BaseTest):
                     ),
                 )
 
-        self.verify_post_state(t8n, alloc)
+        self.verify_post_state(t8n=t8n, alloc=alloc, vkt=vkt)
         return Fixture(
             fork=self.network_info(fork, eips),
             genesis=genesis,
@@ -446,7 +448,7 @@ class BlockchainTest(BaseTest):
         ), "A hive fixture was requested but no forkchoice update is defined. The framework should"
         " never try to execute this test case."
 
-        self.verify_post_state(t8n, alloc)
+        self.verify_post_state(t8n=t8n, alloc=alloc, vkt=vkt)
         return HiveFixture(
             fork=self.network_info(fork, eips),
             genesis=genesis,

@@ -1,6 +1,7 @@
 """
 Base test class and helper functions for Ethereum state and blockchain tests.
 """
+
 from abc import abstractmethod
 from dataclasses import dataclass, field
 from itertools import count
@@ -43,11 +44,15 @@ def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
     return list(rejected_txs.keys())
 
 
-def verify_post_alloc(expected_post: Mapping, got_alloc: Mapping):
+def verify_post_alloc(
+    *, expected_post: Mapping, got_alloc: Mapping, got_vkt: Optional[Mapping] = None
+):
     """
     Verify that an allocation matches the expected post in the test.
     Raises exception on unexpected values.
     """
+    # TODO: If VKT is not None, we have an overlay of the VKT on top of the alloc and we need
+    # to verify that
     got_alloc_normalized: Dict[Address, Any] = {
         Address(address): got_alloc[address] for address in got_alloc
     }
