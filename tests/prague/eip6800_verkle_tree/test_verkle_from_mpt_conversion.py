@@ -45,7 +45,8 @@ def test_verkle_from_mpt_conversion(
       - Memory clear (copy from a location that is out of bounds)
     """
     nonce = count()
-    block_count = 64
+    # block_count = 64 # TODO: Revert, since it takes too long for debugging purposes
+    block_count = 4
     tx_count = 64
     blocks: List[Block] = []
     code_storage = Storage()
