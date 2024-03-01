@@ -288,6 +288,7 @@ v1
 validator
 venv
 visualstudio
+vkt
 vm
 vscode
 vv

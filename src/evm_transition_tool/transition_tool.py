@@ -469,6 +469,7 @@ class TransitionTool:
                     "output/alloc.json": output["alloc"],
                     "output/result.json": output["result"],
                     "output/txs.rlp": output["body"],
+                    "output/vkt.json": output.get("vkt", None),
                 },
             )
 
@@ -541,6 +542,7 @@ class TransitionTool:
                 "input/alloc.json": stdin["alloc"],
                 "input/env.json": stdin["env"],
                 "input/txs.json": stdin["txs"],
+                "input/vkt.json": stdin.get("vkt", None),
                 "returncode.txt": result.returncode,
                 "stdin.txt": stdin,
                 "stdout.txt": result.stdout.decode(),
