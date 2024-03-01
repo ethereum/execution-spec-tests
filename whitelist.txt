@@ -125,6 +125,7 @@ go-ethereum's
 gwei
 hardfork
 hash32
+Hashable
 hasher
 HeaderNonce
 hexary
