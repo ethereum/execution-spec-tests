@@ -276,12 +276,12 @@ def test_storage():
         ),
     ],
 )
-def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pass: bool):
+def test_account_verify(account: Account, alloc: Dict[Any, Any], should_pass: bool):
     if should_pass:
-        account.check_alloc(Address(1), alloc)
+        account.verify(Address(1), Account.from_dict(alloc))
     else:
         with pytest.raises(Exception) as _:
-            account.check_alloc(Address(1), alloc)
+            account.verify(Address(1), Account.from_dict(alloc))
 
 
 @pytest.mark.parametrize(

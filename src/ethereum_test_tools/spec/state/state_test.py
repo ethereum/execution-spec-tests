@@ -12,7 +12,7 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 from ...common import Account, Address, Alloc, Environment, Number, Transaction
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
-from ..base.base_test import BaseFixture, BaseTest, verify_post_alloc
+from ..base.base_test import BaseFixture, BaseTest
 from ..blockchain.blockchain_test import Block, BlockchainTest
 from ..blockchain.types import Header
 from ..debugging import print_traces
@@ -157,7 +157,7 @@ class StateTest(BaseTest):
         )
 
         try:
-            verify_post_alloc(self.post, next_alloc)
+            Alloc(next_alloc).verify_post(expected_post=self.post)  # type: ignore
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e

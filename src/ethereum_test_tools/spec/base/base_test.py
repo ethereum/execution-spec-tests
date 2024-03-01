@@ -14,7 +14,7 @@ from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Opti
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import Account, Address, Environment, Transaction, withdrawals_root
+from ...common import Environment, Transaction, withdrawals_root
 from ...common.conversions import to_hex
 from ...common.json import JSONEncoder
 from ...common.json import field as json_field
@@ -45,27 +45,6 @@ def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
             # TODO: Also we need a way to check we actually got the
             # correct error
     return list(rejected_txs.keys())
-
-
-def verify_post_alloc(expected_post: Mapping, got_alloc: Mapping):
-    """
-    Verify that an allocation matches the expected post in the test.
-    Raises exception on unexpected values.
-    """
-    got_alloc_normalized: Dict[Address, Any] = {
-        Address(address): got_alloc[address] for address in got_alloc
-    }
-    for address, account in expected_post.items():
-        address = Address(address)
-        if account is not None:
-            if account == Account.NONEXISTENT:
-                if address in got_alloc_normalized:
-                    raise Exception(f"found unexpected account: {address}")
-            else:
-                if address in got_alloc_normalized:
-                    account.check_alloc(address, got_alloc_normalized[address])
-                else:
-                    raise Exception(f"expected account not found: {address}")
 
 
 def verify_result(result: Mapping, env: Environment):
