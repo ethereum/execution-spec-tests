@@ -82,34 +82,20 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
 
 ### Quick Start
 
-This guide installs stable versions of the required external (go-ethereum) `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
+This guide installs stable versions of the required external (go-ethereum) `evm` executable and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
-1. Ensure go-ethereum's `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20), [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21), [0.8.22](https://github.com/ethereum/solidity/releases/tag/v0.8.22), [0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23)  supported) are in your path. Either build the required versions, or alternatively:
+1. Ensure `go-ethereum`'s `evm` tool is in your path. Either build the required version from source, or alternatively install the evm directly using the [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas). Help for other platforms is available in the [execution-spec-tests online doc](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
+
+2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies and additional entry points. Note the virtual environment is a requirement, as the `solc` dependency is self-contained with the venv.
 
     ```console
-    sudo add-apt-repository -y ppa:ethereum/ethereum
-    sudo apt-get update
-    sudo apt-get install ethereum solc
+    git clone https://github.com/ethereum/execution-spec-tests
+    cd execution-spec-tests
+    python src/entry_points/eest_utils.py init
+    source venv/bin/activate
     ```
 
-    More help:
-
-    - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
-    - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
-
-    Help for other platforms is available in the [online doc](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
-
-2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies (it's recommended to use a virtual environment for the installation):
-
-   ```console
-   git clone https://github.com/ethereum/execution-spec-tests
-   cd execution-spec-tests
-   python3 -m venv ./venv/
-   source ./venv/bin/activate
-   pip install -e '.[docs,lint,test]'
-   ```
-
-3. Verify the installation:
+3. Verify the installation of the `fill` command:
     1. Explore test cases:
 
        ```console
@@ -135,6 +121,14 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
            ```console
            head fixtures/berlin/eip2930_access_list/acl/access_list.json
            ```
+
+## Useful Commands
+
+After installing the execution-spec-tests framework, our repo specific command line tool can be used for convenient utilities:
+
+- `eest reset`: Performs a clean up of the repo, by removing all generated files and folders, then re-initializes and installs all required packages & dependencies (removes the virtual environment).
+- `eest clean`: Cleans up and removes all generated folders and files (doesn't remove the virtual environment).
+- `eest init`: Initializes the repo by installing all the relevant packages & dependencies (equivalent to running `python src/entry_points/eest_utils.py init` as before).
 
 ## Usage
 
