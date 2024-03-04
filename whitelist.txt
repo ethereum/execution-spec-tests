@@ -303,6 +303,7 @@ wds
 wei
 wikipedia
 wordlist
+WSL
 www
 xdist
 xF
