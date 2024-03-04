@@ -11,6 +11,9 @@ import sys
 import click
 import colorlog
 
+# Required for forks <= Constantinople
+SOLC_PRE_CONSTANTINOPLE = "0.8.22"
+
 
 def setup_logger():
     """
@@ -53,7 +56,8 @@ def init():
     solc-select use latest --always-install
     ```
     """
-    venv_create = [sys.executable, "-m", "venv", "./venv/"]
+    venv_create = [sys.executable, "-m", "venv", os.path.join(".", "venv")]
+
     logger.info(f"Creating a virtual environment: `{' '.join(venv_create)}`")
     subprocess.run(venv_create, check=True)
 
@@ -68,13 +72,11 @@ def init():
     subprocess.run(pip_install, check=True)
 
     solc_select_path = os.path.join(".", "venv", "bin", "solc-select")
-    # solc-select uses $HOME to store the solc binaries, so temporarily change it to the venv
-    original_home = os.environ.get("HOME")
-    os.environ["HOME"] = "./venv"
+    os.environ["VIRTUAL_ENV"] = os.environ.get("VIRTUAL_ENV")
 
-    # Required for forks <= Constantinople, see important note:
+    # Required for forks <= Constantinople, see important note within release note:
     # https://github.com/ethereum/solidity/releases/tag/v0.8.22
-    solc_install_0_8_22 = [solc_select_path, "install", "0.8.22"]
+    solc_install_0_8_22 = [solc_select_path, "install", SOLC_PRE_CONSTANTINOPLE]
     logger.info(f"Installing solc 0.8.22 within venv:  `{' '.join(solc_install_0_8_22)}`")
     subprocess.run(solc_install_0_8_22, check=True)
 
@@ -83,9 +85,6 @@ def init():
         f"Installing and using latest solc within venv:  `{' '.join(solc_install_latest)}`"
     )
     subprocess.run(solc_install_latest, check=True)
-
-    # Revert the $HOME environment variable
-    os.environ["HOME"] = original_home
 
 
 @eest.command()
