@@ -283,6 +283,7 @@ u256
 ubuntu
 ukiyo
 uncomment
+unixsocket
 util
 utils
 v0
