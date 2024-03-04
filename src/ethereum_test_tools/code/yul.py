@@ -80,6 +80,14 @@ class Yul(SupportsBytes, Sized):
                 )
             else:
                 solc_args = (self.binary, *DEFAULT_SOLC_ARGS)
+
+            solc_version = self.version()
+            if solc_version >= Version("0.8.23"):
+                solc_args += (
+                    "--yul-optimizations",
+                    "",
+                )
+
             result = run(
                 solc_args,
                 input=str.encode(self.source),
