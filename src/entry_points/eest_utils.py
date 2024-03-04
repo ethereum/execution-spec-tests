@@ -11,7 +11,7 @@ import sys
 import click
 import colorlog
 
-# Required for forks <= Constantinople
+# Required for forks < Constantinople
 SOLC_PRE_CONSTANTINOPLE = "0.8.22"
 
 
@@ -49,14 +49,17 @@ def init():
     """
     Initializes and installs all required packages add dependencies for the repository:
     ```
-    python3 -m venv ./venv/
+    python -m venv ./venv/
     pip install --upgrade pip
-    pip install -e '.[docs,lint,test]'
+    pip install -e '.[docs,lint,test]' --force-reinstall
     solc-select install 0.8.22
     solc-select use latest --always-install
     ```
     """
-    venv_create = [sys.executable, "-m", "venv", os.path.join(".", "venv")]
+    if not (3, 10, 0) <= sys.version_info[:3] <= (3, 12, 2):
+        raise RuntimeError("EEST requires Python 3.10.0 up to 3.12.2.")
+    python_path = shutil.which("python")
+    venv_create = [python_path, "-m", "venv", os.path.join(".", "venv")]
 
     logger.info(f"Creating a virtual environment: `{' '.join(venv_create)}`")
     subprocess.run(venv_create, check=True)
@@ -67,14 +70,14 @@ def init():
     logger.info(f"Upgrading pip to the latest version: `{' '.join(pip_upgrade)}`")
     subprocess.run(pip_upgrade, check=True)
 
-    pip_install = [pip_path, "install", "-e", ".[docs,lint,test]"]
+    pip_install = [pip_path, "install", "-e", ".[docs,lint,test]", "--force-reinstall"]
     logger.info(f"Installing required packages: `{' '.join(pip_install)}`")
     subprocess.run(pip_install, check=True)
 
     solc_select_path = os.path.join(".", "venv", "bin", "solc-select")
     os.environ["VIRTUAL_ENV"] = os.environ.get("VIRTUAL_ENV")
 
-    # Required for forks <= Constantinople, see important note within release note:
+    # Required for forks < Constantinople, see important note within release note:
     # https://github.com/ethereum/solidity/releases/tag/v0.8.22
     solc_install_0_8_22 = [solc_select_path, "install", SOLC_PRE_CONSTANTINOPLE]
     logger.info(f"Installing solc 0.8.22 within venv:  `{' '.join(solc_install_0_8_22)}`")
@@ -88,16 +91,19 @@ def init():
 
 
 @eest.command()
-def clean():
+def clean(remove_venv: bool = False):
     """
     Cleans the repository of all generated files and directories:
     ```
-    rm -rf .tox .cache .pytest_cache .mypy_cache venv fixtures build
+    rm -rf .tox .cache .pytest_cache .mypy_cache fixtures build venv
     ```
+    By default, the virtual environment is not removed.
     """
-    items_to_remove = [".tox", ".pytest_cache", ".mypy_cache", "venv", "fixtures"]
+    items_to_remove = [".tox", ".pytest_cache", ".mypy_cache", "fixtures", "build", "site", "venv"]
     for item in items_to_remove:
         if os.path.exists(item):
+            if item == "venv" and not remove_venv:
+                continue
             shutil.rmtree(item, ignore_errors=True)
             logger.warning(f"Deleted `{item}`")
 
@@ -105,10 +111,10 @@ def clean():
 @eest.command()
 def reset():
     """
-    Performs a clean and init on the repository.
+    Performs a clean and init on the repository (deletes the virtual env).
     """
     ctx = click.get_current_context()
-    ctx.invoke(clean)
+    ctx.invoke(clean, remove_venv=True)
     ctx.invoke(init)
 
 
