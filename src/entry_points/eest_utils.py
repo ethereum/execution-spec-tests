@@ -12,7 +12,7 @@ import click
 import colorlog
 
 # Required for forks < Constantinople
-SOLC_PRE_CONSTANTINOPLE = "0.8.22"
+SOLC_PRE_CONSTANTINOPLE = "0.8.21"
 
 
 def setup_logger():
@@ -52,7 +52,7 @@ def init():
     python -m venv ./venv/
     pip install --upgrade pip
     pip install -e '.[docs,lint,test]' --force-reinstall
-    solc-select install 0.8.22
+    solc-select install 0.8.21
     solc-select use latest --always-install
     ```
     """
@@ -79,9 +79,9 @@ def init():
 
     # Required for forks < Constantinople, see important note within release note:
     # https://github.com/ethereum/solidity/releases/tag/v0.8.22
-    solc_install_0_8_22 = [solc_select_path, "install", SOLC_PRE_CONSTANTINOPLE]
-    logger.info(f"Installing solc 0.8.22 within venv:  `{' '.join(solc_install_0_8_22)}`")
-    subprocess.run(solc_install_0_8_22, check=True)
+    solc_install_0_8_21 = [solc_select_path, "install", SOLC_PRE_CONSTANTINOPLE]
+    logger.info(f"Installing solc 0.8.21 within venv:  `{' '.join(solc_install_0_8_21)}`")
+    subprocess.run(solc_install_0_8_21, check=True)
 
     solc_install_latest = [solc_select_path, "use", "latest", "--always-install"]
     logger.info(
@@ -118,7 +118,7 @@ def reset():
     ctx.invoke(init)
 
 
-# TODO:
+# TODO: add this command to the CLI within the versioning PR
 @eest.command()
 def version():
     """
