@@ -17,13 +17,11 @@ jobs:
           - name: 'fixtures'
             evm-type: 'main'
             fill-params: ''
-            solc: '0.8.21'
-            python: '3.11'
+            python: '3.12'
           - name: 'fixtures_develop'
             evm-type: 'develop'
             fill-params: '--until=Cancun'
-            solc: '0.8.21'
-            python: '3.11'
+            python: '3.12'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -36,21 +34,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
-      - name: Install solc compiler
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then PLATFORM="linux-amd64"; else PLATFORM="macosx-amd64"; fi
-          RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ matrix.solc }}" '.releases[$SOLC_VERSION]')
-          wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
-          chmod a+x $GITHUB_WORKSPACE/bin/solc
-          echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
       - name: Run fixtures fill
         shell: bash
         run: |
-          pip install --upgrade pip
-          python -m venv env
+          python src/entry_points/eest_utils.py init
           source env/bin/activate
-          pip install -e .
           fill ${{ matrix.fill-params }}
       - name: Create fixtures info file
         shell: bash

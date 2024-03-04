@@ -10,22 +10,18 @@ jobs:
         include:
           - os: ubuntu-latest
             python: '3.10'
-            solc: '0.8.20'
-            evm-type: 'main'
-            tox-cmd: 'tox run-parallel --parallel-no-spinner'
-          - os: ubuntu-latest
-            python: '3.12'
-            solc: '0.8.23'
             evm-type: 'main'
             tox-cmd: 'tox run-parallel --parallel-no-spinner'
           - os: ubuntu-latest
             python: '3.11'
-            solc: '0.8.21'
             evm-type: 'develop'
             tox-cmd: 'tox -e tests-develop'
+          - os: ubuntu-latest
+            python: '3.12'
+            evm-type: 'main'
+            tox-cmd: 'tox run-parallel --parallel-no-spinner'
           - os: macos-latest
             python: '3.11'
-            solc: '0.8.22'
             evm-type: 'main'
             tox-cmd: 'tox run-parallel --parallel-no-spinner'
     steps:
@@ -41,13 +37,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           allow-prereleases: true
-      - name: Install solc compiler
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then PLATFORM="linux-amd64"; else PLATFORM="macosx-amd64"; fi
-          RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ matrix.solc }}" '.releases[$SOLC_VERSION]')
-          wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
-          chmod a+x $GITHUB_WORKSPACE/bin/solc
-          echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
       - name: Setup Tools/Dependencies Ubuntu
         if: runner.os == 'Linux'
         run: |
