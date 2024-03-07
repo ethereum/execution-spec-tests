@@ -111,6 +111,7 @@ func
 gaslimit
 gasprice
 GeneralStateTestsFiller
+gentest
 geth
 geth's
 getitem
@@ -204,6 +205,7 @@ Pre
 precompile
 prepend
 PrevRandao
+prestateTracer
 programmatically
 px
 py
@@ -212,6 +214,7 @@ pytest
 Pytest
 pytest's
 pytestArgs
+Pyspec
 qGpsxSA
 quickstart
 radd
