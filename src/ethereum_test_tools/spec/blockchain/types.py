@@ -549,7 +549,9 @@ class Block(Header):
             self.coinbase if self.coinbase is not None else environment_default.coinbase
         )
         new_env.gas_limit = (
-            self.gas_limit if self.gas_limit is not None else environment_default.gas_limit
+            env.parent_gas_limit
+            if env.parent_gas_limit is not None
+            else environment_default.gas_limit
         )
         if not isinstance(self.base_fee, Removable):
             new_env.base_fee = self.base_fee
