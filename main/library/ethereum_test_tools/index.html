@@ -30836,9 +30836,7 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 <span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">588</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Block</span><span class="p">(</span><span class="n">Header</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block type used to describe block properties in test specs</span>
@@ -30898,9 +30896,7 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
         <span class="n">new_env</span><span class="o">.</span><span class="n">coinbase</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coinbase</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coinbase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">environment_default</span><span class="o">.</span><span class="n">coinbase</span>
         <span class="p">)</span>
-        <span class="n">new_env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">gas_limit</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gas_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">environment_default</span><span class="o">.</span><span class="n">gas_limit</span>
-        <span class="p">)</span>
+        <span class="n">new_env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gas_limit</span> <span class="ow">or</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_gas_limit</span> <span class="ow">or</span> <span class="n">environment_default</span><span class="o">.</span><span class="n">gas_limit</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
             <span class="n">new_env</span><span class="o">.</span><span class="n">base_fee</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span>
         <span class="n">new_env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">withdrawals</span>
@@ -31234,9 +31230,7 @@ specific block.</p>
 <span class="normal">577</span>
 <span class="normal">578</span>
 <span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
+<span class="normal">580</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a copy of the environment with the characteristics of this</span>
 <span class="sd">    specific block.</span>
@@ -31252,9 +31246,7 @@ specific block.</p>
     <span class="n">new_env</span><span class="o">.</span><span class="n">coinbase</span> <span class="o">=</span> <span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coinbase</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coinbase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">environment_default</span><span class="o">.</span><span class="n">coinbase</span>
     <span class="p">)</span>
-    <span class="n">new_env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gas_limit</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gas_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">environment_default</span><span class="o">.</span><span class="n">gas_limit</span>
-    <span class="p">)</span>
+    <span class="n">new_env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gas_limit</span> <span class="ow">or</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_gas_limit</span> <span class="ow">or</span> <span class="n">environment_default</span><span class="o">.</span><span class="n">gas_limit</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span><span class="p">,</span> <span class="n">Removable</span><span class="p">):</span>
         <span class="n">new_env</span><span class="o">.</span><span class="n">base_fee</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_fee</span>
     <span class="n">new_env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">withdrawals</span>
@@ -31312,13 +31304,13 @@ specific block.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">584</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
 <span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_with_rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rlp</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">BytesConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Block&quot;</span><span class="p">:</span>
+<span class="normal">588</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_with_rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rlp</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">BytesConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Block&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a copy of the block and adds the specified RLP.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

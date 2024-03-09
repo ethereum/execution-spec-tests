@@ -6928,6 +6928,7 @@
 <li>🐞 Fix bug that causes an exception during test collection because the fork parameter contains <code>None</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/452">#452</a>).</li>
 <li>✨ The <code>_info</code> field in the test fixtures now contains a <code>hash</code> field, which is the hash of the test fixture, and a <code>hasher</code> script has been added which prints and performs calculations on top of the hashes of all fixtures (see <code>hasher -h</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/454">#454</a>).</li>
 <li>✨ Adds an optional <code>verify_sync</code> field to hive blockchain tests (EngineAPI). When set to true a second client attempts to sync to the first client that executed the tests.(<a href="https://github.com/ethereum/execution-spec-tests/pull/431">#431</a>).</li>
+<li>🐞 Fix manually setting the gas limit in the genesis test env for post genesis blocks in blockchain tests. (<a href="https://github.com/ethereum/execution-spec-tests/pull/472">#472</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
