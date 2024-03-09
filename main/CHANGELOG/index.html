@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
     
     
       
@@ -6927,6 +6927,7 @@
 <li>🔀 Locally calculate state root for the genesis blocks in the blockchain tests instead of calling t8n (<a href="https://github.com/ethereum/execution-spec-tests/pull/450">#450</a>).</li>
 <li>🐞 Fix bug that causes an exception during test collection because the fork parameter contains <code>None</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/452">#452</a>).</li>
 <li>✨ The <code>_info</code> field in the test fixtures now contains a <code>hash</code> field, which is the hash of the test fixture, and a <code>hasher</code> script has been added which prints and performs calculations on top of the hashes of all fixtures (see <code>hasher -h</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/454">#454</a>).</li>
+<li>✨ Adds an optional <code>verify_sync</code> field to hive blockchain tests (EngineAPI). When set to true a second client attempts to sync to the first client that executed the tests.(<a href="https://github.com/ethereum/execution-spec-tests/pull/431">#431</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>

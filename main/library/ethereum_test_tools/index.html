@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
     
     
       
@@ -27748,7 +27748,39 @@ spec type as filler for the test.</p>
 <span class="normal">449</span>
 <span class="normal">450</span>
 <span class="normal">451</span>
-<span class="normal">452</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
@@ -27758,6 +27790,7 @@ spec type as filler for the test.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span>
     <span class="n">genesis_environment</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">Environment</span><span class="p">)</span>
+    <span class="n">verify_sync</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
 
@@ -28050,6 +28083,7 @@ spec type as filler for the test.</p>
         <span class="n">pre</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
         <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">environment_from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span>
+        <span class="n">head_hash</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span>
 
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
             <span class="n">header</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">new_alloc</span><span class="p">,</span> <span class="n">new_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_block_data</span><span class="p">(</span>
@@ -28069,6 +28103,7 @@ spec type as filler for the test.</p>
                 <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">alloc</span> <span class="o">=</span> <span class="n">new_alloc</span>
                     <span class="n">env</span> <span class="o">=</span> <span class="n">apply_new_parent</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+                    <span class="n">head_hash</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">hash</span>
         <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
         <span class="k">assert</span> <span class="p">(</span>
             <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -28076,6 +28111,34 @@ spec type as filler for the test.</p>
         <span class="s2">&quot; never try to execute this test case.&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">verify_post_state</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span>
+
+        <span class="n">sync_payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_sync</span><span class="p">:</span>
+            <span class="c1"># Test is marked for syncing verification.</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="o">!=</span> <span class="n">head_hash</span>
+            <span class="p">),</span> <span class="s2">&quot;Invalid payload tests negative test via sync is not supported yet.&quot;</span>
+
+            <span class="c1"># Most clients require the header to start the sync process, so we create an empty</span>
+            <span class="c1"># block on top of the last block of the test to send it as new payload and trigger the</span>
+            <span class="c1"># sync process.</span>
+            <span class="n">sync_header</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_block_data</span><span class="p">(</span>
+                <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">Block</span><span class="p">(),</span>
+                <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+                <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
+                <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">sync_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="n">sync_header</span><span class="p">,</span>
+                <span class="n">transactions</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">withdrawals</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">validation_error</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">error_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="k">return</span> <span class="n">HiveFixture</span><span class="p">(</span>
             <span class="n">fork</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">),</span>
             <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
@@ -28083,6 +28146,7 @@ spec type as filler for the test.</p>
             <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
             <span class="n">pre_state</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post_state</span><span class="o">=</span><span class="n">alloc_to_accounts</span><span class="p">(</span><span class="n">alloc</span><span class="p">),</span>
+            <span class="n">sync_payload</span><span class="o">=</span><span class="n">sync_payload</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -28141,12 +28205,12 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
-<span class="normal">108</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">112</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the parameter name used to identify this filler in a test.</span>
@@ -28184,15 +28248,15 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">fixture_formats</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureFormats</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a list of fixture formats that can be output to the test spec.</span>
@@ -28229,8 +28293,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
-<span class="normal">125</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
@@ -28281,7 +28344,8 @@ spec type as filler for the test.</p>
 <span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
+<span class="normal">176</span>
+<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -28362,8 +28426,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
-<span class="normal">179</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
@@ -28464,7 +28527,8 @@ spec type as filler for the test.</p>
 <span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
-<span class="normal">280</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">280</span>
+<span class="normal">281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -28595,15 +28659,15 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">282</span>
-<span class="normal">283</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">283</span>
 <span class="normal">284</span>
 <span class="normal">285</span>
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
 <span class="normal">289</span>
-<span class="normal">290</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">290</span>
+<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns fixture network information for the fork &amp; EIP/s.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28640,15 +28704,15 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
-<span class="normal">293</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
 <span class="normal">296</span>
 <span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">):</span>
+<span class="normal">300</span>
+<span class="normal">301</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifies the post alloc after all block/s or payload/s are generated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28685,8 +28749,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">302</span>
-<span class="normal">303</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
 <span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
@@ -28763,7 +28826,8 @@ spec type as filler for the test.</p>
 <span class="normal">377</span>
 <span class="normal">378</span>
 <span class="normal">379</span>
-<span class="normal">380</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">380</span>
+<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -28870,8 +28934,7 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">382</span>
-<span class="normal">383</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">383</span>
 <span class="normal">384</span>
 <span class="normal">385</span>
 <span class="normal">386</span>
@@ -28918,7 +28981,39 @@ spec type as filler for the test.</p>
 <span class="normal">427</span>
 <span class="normal">428</span>
 <span class="normal">429</span>
-<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -28932,6 +29027,7 @@ spec type as filler for the test.</p>
     <span class="n">pre</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
     <span class="n">alloc</span> <span class="o">=</span> <span class="n">to_json</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">environment_from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="p">)</span>
+    <span class="n">head_hash</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span>
 
     <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
         <span class="n">header</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">new_alloc</span><span class="p">,</span> <span class="n">new_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_block_data</span><span class="p">(</span>
@@ -28951,6 +29047,7 @@ spec type as filler for the test.</p>
             <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">alloc</span> <span class="o">=</span> <span class="n">new_alloc</span>
                 <span class="n">env</span> <span class="o">=</span> <span class="n">apply_new_parent</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+                <span class="n">head_hash</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">hash</span>
     <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
     <span class="k">assert</span> <span class="p">(</span>
         <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -28958,6 +29055,34 @@ spec type as filler for the test.</p>
     <span class="s2">&quot; never try to execute this test case.&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">verify_post_state</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">)</span>
+
+    <span class="n">sync_payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_sync</span><span class="p">:</span>
+        <span class="c1"># Test is marked for syncing verification.</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">genesis</span><span class="o">.</span><span class="n">hash</span> <span class="o">!=</span> <span class="n">head_hash</span>
+        <span class="p">),</span> <span class="s2">&quot;Invalid payload tests negative test via sync is not supported yet.&quot;</span>
+
+        <span class="c1"># Most clients require the header to start the sync process, so we create an empty</span>
+        <span class="c1"># block on top of the last block of the test to send it as new payload and trigger the</span>
+        <span class="c1"># sync process.</span>
+        <span class="n">sync_header</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_block_data</span><span class="p">(</span>
+            <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">block</span><span class="o">=</span><span class="n">Block</span><span class="p">(),</span>
+            <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+            <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
+            <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">sync_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="n">sync_header</span><span class="p">,</span>
+            <span class="n">transactions</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">withdrawals</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">validation_error</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">error_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">HiveFixture</span><span class="p">(</span>
         <span class="n">fork</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">),</span>
         <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="p">,</span>
@@ -28965,6 +29090,7 @@ spec type as filler for the test.</p>
         <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
         <span class="n">pre_state</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post_state</span><span class="o">=</span><span class="n">alloc_to_accounts</span><span class="p">(</span><span class="n">alloc</span><span class="p">),</span>
+        <span class="n">sync_payload</span><span class="o">=</span><span class="n">sync_payload</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -28995,27 +29121,27 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/blockchain/blockchain_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
