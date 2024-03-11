@@ -14,6 +14,7 @@ import requests
 
 from ethereum_test_forks import Fork
 
+from .traces import EVMTransactionTrace
 from .transition_tool import TransitionTool, dump_files_to_directory
 
 
@@ -88,7 +89,7 @@ class BesuTransitionTool(TransitionTool):
         reward: int = 0,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Tuple[Dict[str, Any], Dict[str, Any], Optional[List[EVMTransactionTrace]]]:
         """
         Executes `evm t8n` with the specified arguments.
         """
@@ -175,7 +176,7 @@ class BesuTransitionTool(TransitionTool):
                 },
             )
 
-        return output["alloc"], output["result"]
+        return output["alloc"], output["result"], None
 
     def is_fork_supported(self, fork: Fork) -> bool:
         """

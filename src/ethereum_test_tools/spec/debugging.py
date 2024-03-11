@@ -1,11 +1,14 @@
 """
 Test spec debugging tools.
 """
+
 import pprint
-from typing import Dict, List
+from typing import List
+
+from evm_transition_tool import EVMTransactionTrace
 
 
-def print_traces(traces: List[List[List[Dict]]] | None):
+def print_traces(traces: List[List[EVMTransactionTrace]] | None):
     """
     Print the traces from the transition tool for debugging.
     """
@@ -16,9 +19,9 @@ def print_traces(traces: List[List[List[Dict]]] | None):
     pp = pprint.PrettyPrinter(indent=2)
     for block_number, block in enumerate(traces):
         print(f"Block {block_number}:")
-        for tx_number, tx in enumerate(block):
+        for tx_number, tx_trace in enumerate(block):
             print(f"Transaction {tx_number}:")
-            for exec_step, trace in enumerate(tx):
+            for exec_step, trace in enumerate(tx_trace.trace):
                 print(f"Step {exec_step}:")
-                pp.pprint(trace)
+                pp.pprint(dict(trace))
                 print()

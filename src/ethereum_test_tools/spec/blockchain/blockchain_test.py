@@ -8,7 +8,7 @@ from pprint import pprint
 from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
-from evm_transition_tool import FixtureFormats, TransitionTool
+from evm_transition_tool import EVMTransactionTrace, FixtureFormats, TransitionTool
 
 from ...common import (
     Address,
@@ -183,8 +183,16 @@ class BlockchainTest(BaseTest):
         block: Block,
         previous_env: Environment,
         previous_alloc: Dict[str, Any],
+        traces: Optional[List[List[EVMTransactionTrace]]] = None,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[FixtureHeader, Bytes, List[Transaction], Dict[str, Any], Environment]:
+    ) -> Tuple[
+        FixtureHeader,
+        Bytes,
+        List[Transaction],
+        Dict[str, Any],
+        Environment,
+        Optional[List[List[EVMTransactionTrace]]],
+    ]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
         """
@@ -211,7 +219,7 @@ class BlockchainTest(BaseTest):
                     + "must be the last transaction in the block"
                 )
 
-        next_alloc, result = t8n.evaluate(
+        next_alloc, result, execution_traces = t8n.evaluate(
             alloc=previous_alloc,
             txs=to_json(txs),
             env=to_json(env),
@@ -224,18 +232,23 @@ class BlockchainTest(BaseTest):
             debug_output_path=self.get_next_transition_tool_output_path(),
         )
 
+        if traces is not None and execution_traces is not None:
+            traces.append(execution_traces)
+        elif execution_traces is not None:
+            traces = [execution_traces]
+
         try:
             rejected_txs = verify_transactions(txs, result)
             verify_result(result, env)
         except Exception as e:
-            print_traces(t8n.get_traces())
+            print_traces(traces)
             pprint(result)
             pprint(previous_alloc)
             pprint(next_alloc)
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
-            print_traces(t8n.get_traces())
+            print_traces(traces)
             raise Exception(
                 "one or more transactions in `BlockchainTest` are "
                 + "intrinsically invalid, but the block was not expected "
@@ -278,7 +291,7 @@ class BlockchainTest(BaseTest):
             withdrawals=env.withdrawals,
         )
 
-        return header, rlp, txs, next_alloc, env
+        return header, rlp, txs, next_alloc, env, traces
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
         """
@@ -290,14 +303,14 @@ class BlockchainTest(BaseTest):
             else fork.blockchain_test_network_name()
         )
 
-    def verify_post_state(self, t8n, alloc):
+    def verify_post_state(self, alloc, traces):
         """
         Verifies the post alloc after all block/s or payload/s are generated.
         """
         try:
             verify_post_alloc(self.post, alloc)
         except Exception as e:
-            print_traces(t8n.get_traces())
+            print_traces(traces)
             raise e
 
     def make_fixture(
@@ -316,18 +329,20 @@ class BlockchainTest(BaseTest):
         alloc = to_json(pre)
         env = environment_from_parent_header(genesis)
         head = genesis.hash if genesis.hash is not None else Hash(0)
+        traces = None
 
         for block in self.blocks:
             if block.rlp is None:
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                header, rlp, txs, new_alloc, new_env = self.generate_block_data(
+                header, rlp, txs, new_alloc, new_env, traces = self.generate_block_data(
                     t8n=t8n,
                     fork=fork,
                     block=block,
                     previous_env=env,
                     previous_alloc=alloc,
+                    traces=traces,
                     eips=eips,
                 )
                 fixture_block = FixtureBlock(
@@ -368,7 +383,7 @@ class BlockchainTest(BaseTest):
                     ),
                 )
 
-        self.verify_post_state(t8n, alloc)
+        self.verify_post_state(alloc, traces)
         return Fixture(
             fork=self.network_info(fork, eips),
             genesis=genesis,
@@ -395,10 +410,17 @@ class BlockchainTest(BaseTest):
         alloc = to_json(pre)
         env = environment_from_parent_header(genesis)
         head_hash = genesis.hash
+        traces = None
 
         for block in self.blocks:
-            header, _, txs, new_alloc, new_env = self.generate_block_data(
-                t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
+            header, _, txs, new_alloc, new_env, traces = self.generate_block_data(
+                t8n=t8n,
+                fork=fork,
+                block=block,
+                previous_env=env,
+                previous_alloc=alloc,
+                traces=traces,
+                eips=eips,
             )
             if block.rlp is None:
                 fixture_payloads.append(
@@ -421,7 +443,7 @@ class BlockchainTest(BaseTest):
         ), "A hive fixture was requested but no forkchoice update is defined. The framework should"
         " never try to execute this test case."
 
-        self.verify_post_state(t8n, alloc)
+        self.verify_post_state(alloc, traces)
 
         sync_payload: Optional[FixtureEngineNewPayload] = None
         if self.verify_sync:
@@ -470,7 +492,6 @@ class BlockchainTest(BaseTest):
         """
         Generate the BlockchainTest fixture.
         """
-        t8n.reset_traces()
         if self.fixture_format == FixtureFormats.BLOCKCHAIN_TEST_HIVE:
             if fork.engine_forkchoice_updated_version() is None:
                 raise Exception(
