@@ -62,7 +62,7 @@ class Opcode(bytes):
         """
         Creates a new opcode instance.
         """
-        if type(opcode_or_byte) is Opcode:
+        if type(opcode_or_byte) is Opcode or type(opcode_or_byte) is Macro:
             # Required because Enum class calls the base class with the instantiated object as
             # parameter.
             return opcode_or_byte
@@ -73,7 +73,7 @@ class Opcode(bytes):
             obj.min_stack_height = min_stack_height
             obj.data_portion_length = data_portion_length
             return obj
-        assert False
+        raise TypeError("Opcode constructor '__new__' didn't return an instance!")
 
     def __call__(self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
         """
@@ -4582,8 +4582,8 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - value: value in wei to send to the new account
-    - offset: byte offset in the memory in bytes, the initialisation code for the new account
-    - size: byte size to copy (size of the initialisation code)
+    - offset: byte offset in the memory in bytes, the initialization code for the new account
+    - size: byte size to copy (size of the initialization code)
 
     Outputs
     ----
@@ -4769,8 +4769,8 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - value: value in wei to send to the new account
-    - offset: byte offset in the memory in bytes, the initialisation code of the new account
-    - size: byte size to copy (size of the initialisation code)
+    - offset: byte offset in the memory in bytes, the initialization code of the new account
+    - size: byte size to copy (size of the initialization code)
     - salt: 32-byte value used to create the new account at a deterministic address
 
     Outputs
@@ -4913,7 +4913,7 @@ class Opcodes(Opcode, Enum):
 
     OOG = Macro(SHA3(0, 100000000000))
     """
-    OOG(args)
+    OOG(args) [Macro]
     ----
 
     Halt execution by consuming all available gas
@@ -4928,6 +4928,11 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    
-    Source: SHA3(0, 100000000000)
+    This operation will result in gasprice = 19073514453125027
+    Add a little more and geth report gasprice = 30 with oog exception
+    Make it 0 - 1 and geth report gasprice > u64 error
+
+    Bytecode
+    ----
+    SHA3(0, 100000000000)
     """
