@@ -207,6 +207,18 @@ class TransitionTool:
 
         return cls.detect_binary_pattern.match(binary_output) is not None
 
+    @classmethod
+    def trace_args(cls) -> List[str]:
+        """
+        Returns returns the arguments to enable tracing
+        """
+        return [
+            "--trace.tracer",
+            "opcodeTracer",
+            "--trace.jsonconfig",
+            '{"enableCallFrames": true}',
+        ]
+
     def version(self) -> str:
         """
         Return name and version of tool used to state transition
@@ -332,8 +344,7 @@ class TransitionTool:
         ]
 
         if self.trace:
-            args.append("--trace")
-            args.append("--trace.callframes")
+            args += self.trace_args()
 
         result = subprocess.run(
             args,
@@ -480,8 +491,7 @@ class TransitionTool:
         ]
 
         if self.trace:
-            args.append("--trace")
-            args.append("--trace.callframes")
+            args += self.trace_args()
             args.append(f"--output.basedir={temp_dir.name}")
         return args
 
