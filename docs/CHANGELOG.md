@@ -15,6 +15,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🔧 EVM Tools
 
+✨ Better trace printing by selecting relevant trace lines depending on error type ([#474](https://github.com/ethereum/execution-spec-tests/pull/474)).
+
 ### 📋 Misc
 
 - 🐞 Fix CI by using Golang 1.21 in Github Actions to build geth ([#484](https://github.com/ethereum/execution-spec-tests/pull/484)).
