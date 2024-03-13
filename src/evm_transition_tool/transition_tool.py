@@ -260,7 +260,7 @@ class TransitionTool:
         """
         traces: List[EVMTransactionTrace] = []
         for i, r in enumerate(receipts):
-            trace_file_name = f"trace-{i}-{r['transactionHash']}.jsonl"
+            trace_file_name = f"trace-{i}-{r['transactionHash']}.json"
             if debug_output_path:
                 shutil.copy(
                     os.path.join(temp_dir.name, trace_file_name),

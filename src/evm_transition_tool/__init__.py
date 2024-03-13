@@ -7,7 +7,7 @@ from .evmone import EvmOneTransitionTool
 from .execution_specs import ExecutionSpecsTransitionTool
 from .geth import GethTransitionTool
 from .nimbus import NimbusTransitionTool
-from .traces import EVMTraceLine, EVMTransactionTrace
+from .traces import EVMCallFrameEnter, EVMCallFrameExit, EVMTraceLine, EVMTransactionTrace
 from .transition_tool import (
     FixtureFormats,
     TransitionTool,
@@ -19,6 +19,8 @@ TransitionTool.set_default_tool(GethTransitionTool)
 
 __all__ = (
     "BesuTransitionTool",
+    "EVMCallFrameEnter",
+    "EVMCallFrameExit",
     "EvmOneTransitionTool",
     "EVMTraceLine",
     "EVMTransactionTrace",
