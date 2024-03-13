@@ -28,7 +28,12 @@ from ethereum.frontier.state import State, set_account, set_storage, state_root
 from trie import HexaryTrie
 
 from ethereum_test_forks import Fork
-from evm_transition_tool import EVMTransactionTrace
+from evm_transition_tool import (
+    EVMCallFrameEnter,
+    EVMCallFrameExit,
+    EVMTraceLine,
+    EVMTransactionTrace,
+)
 
 from ..exceptions import ExceptionList, TransactionException
 from .base_types import Address, Bytes, Hash, HexNumber, Number, ZeroPaddedHexNumber
@@ -77,40 +82,51 @@ class TraceableException(Exception):
         """
         self.traces = traces
 
-    def get_trace_context(
+    def mark_traces(
         self,
         *,
-        context_address: Optional[Address] = None,
-        opcode_name: Optional[str] = None,
-        stack_item_0: Optional[int] = None,
-        previous_lines: int = 0,
-    ) -> List[str]:
+        trace_type: Type[EVMTraceLine] | Type[EVMCallFrameEnter] | Type[EVMCallFrameExit],
+        **kwargs,
+    ):
         """
-        Returns a list of strings with the context of the exception.
+        Used to mark traces as relevant, to be later printed.
+
+        kwargs are passed to the trace's `mark` method, and if they match the
+        trace, the trace is marked as relevant.
         """
-        lines = []
         if self.traces:
             for execution_trace in self.traces:
                 for tx_trace in execution_trace:
-                    for i, trace in enumerate(tx_trace.trace_lines()):
-                        if (
-                            (context_address is None or trace.context_address == context_address)
-                            and (opcode_name is None or trace.opcode_name == opcode_name)
-                            and (
-                                stack_item_0 is None
-                                or (len(trace.stack) > 0 and trace.stack[-1] == stack_item_0)
+                    for trace in tx_trace.trace:
+                        if isinstance(trace, trace_type):
+                            trace.mark(**kwargs)
+
+    def __str__(self):
+        """Print relevant tracing lines"""
+        if not self.traces:
+            return ""
+
+        lines = []
+        tx_count = 0
+        for execution_trace in self.traces:
+            for tx_trace in execution_trace:
+                tx_count += 1
+                if tx_trace.trace and any(t._marked for t in tx_trace.trace):
+                    lines.append(
+                        f"Trace for transaction {tx_count} " + f"({tx_trace.transaction_hash}):"
+                    )
+                    for line_number in range(len(tx_trace.trace)):
+                        if tx_trace.trace[line_number]._marked:
+                            lines += tx_trace.get_trace_line_with_context(
+                                line_number=line_number,
+                                previous_lines=2,
                             )
-                        ):
-                            lines += [
-                                *[
-                                    f"    {dict(trace)}"
-                                    for trace in tx_trace.trace_lines()[
-                                        max(0, i - previous_lines) : i
-                                    ]
-                                ],
-                                f"  {dict(trace)}",
-                            ]
-        return lines
+                            lines.append("...")
+
+        if not lines:
+            return ""
+
+        return "\n\n" + "\n".join(lines)
 
 
 MAX_STORAGE_KEY_VALUE = 2**256 - 1
@@ -213,13 +229,25 @@ class Storage(SupportsJSON, dict):
 
         def __str__(self):
             """Print exception string lines"""
-            lines = [
+            # Record an SSTORE event in the expected address and key
+            self.mark_traces(
+                trace_type=EVMTraceLine,
+                context_address=self.address,
+                opcode_name="SSTORE",
+                stack=[self.key],  # top element of the stack is the key
+            )
+
+            # Record an exit frame from the expected address with an error
+            self.mark_traces(
+                trace_type=EVMCallFrameExit,
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
+
+            return (
                 f"key {Storage.key_value_to_string(self.key)} not found in"
-                + f"storage of {self.address}"
-            ]
-            if self.traces:
-                pass
-            return "\n".join(lines)
+                + f" storage of {self.address}"
+            ) + super().__str__()
 
     @dataclass(kw_only=True)
     class KeyValueMismatch(TraceableException):
@@ -242,22 +270,27 @@ class Storage(SupportsJSON, dict):
 
         def __str__(self):
             """Print exception string lines"""
-            lines = [
-                f"incorrect value in address {self.address} for "
-                + f"key {Storage.key_value_to_string(self.key)}:",
-                f"want: {Storage.key_value_to_string(self.want)} (dec:{self.want})",
-                f"got {Storage.key_value_to_string(self.got)} (dec:{self.got})",
-            ]
-            if self.traces:
-                lines += ["", "Relevant EVM traces:"]
-                lines += self.get_trace_context(
-                    context_address=self.address,
-                    opcode_name="SSTORE",
-                    stack_item_0=self.key,
-                    previous_lines=2,
-                )
+            # Record an SSTORE event in the expected address and key
+            self.mark_traces(
+                trace_type=EVMTraceLine,
+                context_address=self.address,
+                opcode_name="SSTORE",
+                stack=[self.key],  # top element of the stack is the key
+            )
 
-            return "\n".join(lines)
+            # Record an exit frame from the expected address with an error
+            self.mark_traces(
+                trace_type=EVMCallFrameExit,
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
+
+            return (
+                f"incorrect value in address {self.address} for "
+                + f"key {Storage.key_value_to_string(self.key)}:"
+                + f" want {Storage.key_value_to_string(self.want)} (dec:{self.want}) "
+                + f" got {Storage.key_value_to_string(self.got)} (dec:{self.got})"
+            ) + super().__str__()
 
     @staticmethod
     def parse_key_value(input: str | int | bytes | SupportsBytes) -> int:
@@ -465,7 +498,7 @@ class Account:
     """
 
     @dataclass(kw_only=True)
-    class NonceMismatch(Exception):
+    class NonceMismatch(TraceableException):
         """
         Test expected a certain nonce value for an account but a different
         value was found.
@@ -483,13 +516,27 @@ class Account:
 
         def __str__(self):
             """Print exception string"""
+            # Record CREATE events in the expected address
+            self.mark_traces(
+                trace_type=EVMTraceLine,
+                context_address=self.address,
+                opcode_name="CREATE",
+            )
+
+            # Record an exit frame from the expected address with an error
+            self.mark_traces(
+                trace_type=EVMCallFrameExit,
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
+
             return (
                 f"unexpected nonce for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
-            )
+            ) + super().__str__()
 
     @dataclass(kw_only=True)
-    class BalanceMismatch(Exception):
+    class BalanceMismatch(TraceableException):
         """
         Test expected a certain balance for an account but a different
         value was found.
@@ -507,13 +554,19 @@ class Account:
 
         def __str__(self):
             """Print exception string"""
+            # Record an enter frame to the expected address
+            self.mark_traces(
+                trace_type=EVMCallFrameEnter,
+                to_address=self.address,
+            )
+
             return (
                 f"unexpected balance for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
-            )
+            ) + super().__str__()
 
     @dataclass(kw_only=True)
-    class CodeMismatch(Exception):
+    class CodeMismatch(TraceableException):
         """
         Test expected a certain bytecode for an account but a different
         one was found.
@@ -531,10 +584,31 @@ class Account:
 
         def __str__(self):
             """Print exception string"""
+            # Mark creation of the expected address
+            self.mark_traces(
+                trace_type=EVMCallFrameEnter,
+                to_address=self.address,
+                opcode_name=lambda op: op in ["CREATE", "CREATE2"],
+            )
+
+            # Mark selfdestruct of the expected address
+            self.mark_traces(
+                trace_type=EVMTraceLine,
+                context_address=self.address,
+                opcode_name="SELFDESTRUCT",
+            )
+
+            # Record an exit frame from the expected address with an error
+            self.mark_traces(
+                trace_type=EVMCallFrameExit,
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
+
             return (
                 f"unexpected code for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
-            )
+            ) + super().__str__()
 
     def check_alloc(self: "Account", address: Address, alloc: dict):
         """
