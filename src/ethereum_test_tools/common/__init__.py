@@ -1,6 +1,7 @@
 """
 Common definitions and types.
 """
+
 from .base_types import (
     Address,
     Bloom,
@@ -41,6 +42,7 @@ from .types import (
     JSONEncoder,
     Removable,
     Storage,
+    TraceableException,
     Transaction,
     Withdrawal,
     alloc_to_accounts,
@@ -75,6 +77,7 @@ __all__ = (
     "TestParameterGroup",
     "TestPrivateKey",
     "TestPrivateKey2",
+    "TraceableException",
     "Transaction",
     "Withdrawal",
     "ZeroPaddedHexNumber",

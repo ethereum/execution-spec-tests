@@ -20,6 +20,7 @@ from ...common import (
     Hash,
     HeaderNonce,
     Number,
+    TraceableException,
     Transaction,
     ZeroPaddedHexNumber,
     alloc_to_accounts,
@@ -303,12 +304,15 @@ class BlockchainTest(BaseTest):
             else fork.blockchain_test_network_name()
         )
 
-    def verify_post_state(self, alloc, traces):
+    def verify_post_state(self, alloc, traces: Optional[List[List[EVMTransactionTrace]]] = None):
         """
         Verifies the post alloc after all block/s or payload/s are generated.
         """
         try:
             verify_post_alloc(self.post, alloc)
+        except TraceableException as e:
+            e.set_traces(traces)
+            raise e
         except Exception as e:
             print_traces(traces)
             raise e
@@ -455,7 +459,7 @@ class BlockchainTest(BaseTest):
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the
             # sync process.
-            sync_header, _, _, _, _ = self.generate_block_data(
+            sync_header, _, _, _, _, _ = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=Block(),

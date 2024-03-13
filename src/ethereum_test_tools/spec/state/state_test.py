@@ -9,7 +9,7 @@ from typing import Callable, Generator, List, Mapping, Optional, Type
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import Address, Alloc, Environment, Number, Transaction
+from ...common import Address, Alloc, Environment, Number, TraceableException, Transaction
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
 from ..base.base_test import BaseFixture, BaseTest, verify_post_alloc
@@ -156,6 +156,9 @@ class StateTest(BaseTest):
 
         try:
             verify_post_alloc(self.post, next_alloc)
+        except TraceableException as e:
+            e.set_traces([traces])
+            raise e
         except Exception as e:
             print_traces([traces] if traces is not None else None)
             raise e

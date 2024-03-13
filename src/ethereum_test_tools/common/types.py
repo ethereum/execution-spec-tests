@@ -28,6 +28,7 @@ from ethereum.frontier.state import State, set_account, set_storage, state_root
 from trie import HexaryTrie
 
 from ethereum_test_forks import Fork
+from evm_transition_tool import EVMTransactionTrace
 
 from ..exceptions import ExceptionList, TransactionException
 from .base_types import Address, Bytes, Hash, HexNumber, Number, ZeroPaddedHexNumber
@@ -61,6 +62,55 @@ class Auto:
     def __repr__(self) -> str:
         """Print the correct test id."""
         return "auto"
+
+
+class TraceableException(Exception):
+    """
+    Exception that can use a trace to provide more information.
+    """
+
+    traces: List[List[EVMTransactionTrace]] | None
+
+    def set_traces(self, traces: List[List[EVMTransactionTrace]]):
+        """
+        Set the traces for the exception.
+        """
+        self.traces = traces
+
+    def get_trace_context(
+        self,
+        *,
+        context_address: Optional[Address] = None,
+        opcode_name: Optional[str] = None,
+        stack_item_0: Optional[int] = None,
+        previous_lines: int = 0,
+    ) -> List[str]:
+        """
+        Returns a list of strings with the context of the exception.
+        """
+        lines = []
+        if self.traces:
+            for execution_trace in self.traces:
+                for tx_trace in execution_trace:
+                    for i, trace in enumerate(tx_trace.trace_lines()):
+                        if (
+                            (context_address is None or trace.context_address == context_address)
+                            and (opcode_name is None or trace.opcode_name == opcode_name)
+                            and (
+                                stack_item_0 is None
+                                or (len(trace.stack) > 0 and trace.stack[-1] == stack_item_0)
+                            )
+                        ):
+                            lines += [
+                                *[
+                                    f"    {dict(trace)}"
+                                    for trace in tx_trace.trace_lines()[
+                                        max(0, i - previous_lines) : i
+                                    ]
+                                ],
+                                f"  {dict(trace)}",
+                            ]
+        return lines
 
 
 MAX_STORAGE_KEY_VALUE = 2**256 - 1
@@ -148,23 +198,31 @@ class Storage(SupportsJSON, dict):
             """
 
     @dataclass(kw_only=True)
-    class MissingKey(Exception):
+    class MissingKey(TraceableException):
         """
         Test expected to find a storage key set but key was missing.
         """
 
+        address: Address
         key: int
 
-        def __init__(self, key: int, *args):
+        def __init__(self, address: Address, key: int, *args):
             super().__init__(args)
+            self.address = address
             self.key = key
 
         def __str__(self):
-            """Print exception string"""
-            return "key {0} not found in storage".format(Storage.key_value_to_string(self.key))
+            """Print exception string lines"""
+            lines = [
+                f"key {Storage.key_value_to_string(self.key)} not found in"
+                + f"storage of {self.address}"
+            ]
+            if self.traces:
+                pass
+            return "\n".join(lines)
 
     @dataclass(kw_only=True)
-    class KeyValueMismatch(Exception):
+    class KeyValueMismatch(TraceableException):
         """
         Test expected a certain value in a storage key but value found
         was different.
@@ -183,13 +241,23 @@ class Storage(SupportsJSON, dict):
             self.got = got
 
         def __str__(self):
-            """Print exception string"""
-            return (
+            """Print exception string lines"""
+            lines = [
                 f"incorrect value in address {self.address} for "
-                + f"key {Storage.key_value_to_string(self.key)}:"
-                + f" want {Storage.key_value_to_string(self.want)} (dec:{self.want}),"
-                + f" got {Storage.key_value_to_string(self.got)} (dec:{self.got})"
-            )
+                + f"key {Storage.key_value_to_string(self.key)}:",
+                f"want: {Storage.key_value_to_string(self.want)} (dec:{self.want})",
+                f"got {Storage.key_value_to_string(self.got)} (dec:{self.got})",
+            ]
+            if self.traces:
+                lines += ["", "Relevant EVM traces:"]
+                lines += self.get_trace_context(
+                    context_address=self.address,
+                    opcode_name="SSTORE",
+                    stack_item_0=self.key,
+                    previous_lines=2,
+                )
+
+            return "\n".join(lines)
 
     @staticmethod
     def parse_key_value(input: str | int | bytes | SupportsBytes) -> int:
@@ -309,7 +377,7 @@ class Storage(SupportsJSON, dict):
             if key not in self:
                 # storage[key]==0 is equal to missing storage
                 if other[key] != 0:
-                    raise Storage.MissingKey(key=key)
+                    raise Storage.MissingKey(address=address, key=key)
             elif self[key] != other[key]:
                 raise Storage.KeyValueMismatch(
                     address=address, key=key, want=self[key], got=other[key]
