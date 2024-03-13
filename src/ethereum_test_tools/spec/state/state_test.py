@@ -157,7 +157,8 @@ class StateTest(BaseTest):
         try:
             verify_post_alloc(self.post, next_alloc)
         except TraceableException as e:
-            e.set_traces([traces])
+            if traces is not None:
+                e.set_traces([traces])
             raise e
         except Exception as e:
             print_traces([traces] if traces is not None else None)

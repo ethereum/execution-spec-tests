@@ -6,7 +6,7 @@ import pytest
 from evm_transition_tool import EVMTransactionTrace
 from evm_transition_tool.traces import EVMCallFrameEnter
 
-FIXTURES_ROOT = Path(os.path.join("src", "evm_transition_tool", "tests", "fixtures", "traces"))
+FIXTURES_ROOT = Path(os.path.join("src", "evm_transition_tool", "tests", "traces"))
 
 
 @pytest.mark.parametrize(
