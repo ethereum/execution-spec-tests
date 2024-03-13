@@ -52,7 +52,7 @@ class Opcode(bytes):
 
     def __new__(
         cls,
-        opcode_or_byte: Union[int, "Opcode"],
+        opcode_or_byte: Union[int, bytes, "Opcode"],
         *,
         popped_stack_items: int = 0,
         pushed_stack_items: int = 0,
@@ -66,8 +66,12 @@ class Opcode(bytes):
             # Required because Enum class calls the base class with the instantiated object as
             # parameter.
             return opcode_or_byte
-        elif isinstance(opcode_or_byte, int):
-            obj = super().__new__(cls, [opcode_or_byte])
+        elif isinstance(opcode_or_byte, int) or isinstance(opcode_or_byte, bytes):
+            obj = (
+                super().__new__(cls, [opcode_or_byte])
+                if isinstance(opcode_or_byte, int)
+                else super().__new__(cls, opcode_or_byte)
+            )
             obj.popped_stack_items = popped_stack_items
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
@@ -207,13 +211,16 @@ class Macro(Opcode):
 
     def __new__(
         cls,
-        macro_or_byte: Union[bytes, "Macro"],
+        macro_or_bytes: Union[bytes, "Macro"],
     ):
         """
         Creates a new opcode macro instance.
         """
-        cls.macro_bytes = macro_or_byte
-        instance = super().__new__(cls, 0xFF)
+        if type(macro_or_bytes) is Macro:
+            return macro_or_bytes
+        assert isinstance(macro_or_bytes, bytes)
+        cls.macro_bytes = macro_or_bytes
+        instance = super().__new__(cls, macro_or_bytes)
         return instance
 
     def __call__(self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
@@ -232,9 +239,9 @@ class Macro(Opcode):
 
     def int(self) -> int:
         """
-        Returns the integer representation of the byte macros.
+        Macros cannot be converted to int.
         """
-        return int.from_bytes(self.macro_bytes, byteorder="big")
+        raise NotImplementedError("Macros cannot be converted to int")
 
 
 OpcodeCallArg = Union[int, bytes, Opcode]

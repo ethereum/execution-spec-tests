@@ -157,3 +157,10 @@ def test_opcodes_repr():
     assert f"{Op.CALL}" == "CALL"
     assert f"{Op.DELEGATECALL}" == "DELEGATECALL"
     assert str(Op.ADD) == "ADD"
+
+
+def test_macros():
+    """
+    Test opcode and macros interaction
+    """
+    assert (Op.PUSH1(1) + Op.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
