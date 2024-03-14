@@ -8,7 +8,12 @@ from pprint import pprint
 from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
-from evm_transition_tool import EVMTransactionTrace, FixtureFormats, TransitionTool
+from evm_transition_tool import (
+    EVMTransactionTrace,
+    FixtureFormats,
+    TraceableException,
+    TransitionTool,
+)
 
 from ...common import (
     Address,
@@ -20,7 +25,6 @@ from ...common import (
     Hash,
     HeaderNonce,
     Number,
-    TraceableException,
     Transaction,
     ZeroPaddedHexNumber,
     alloc_to_accounts,

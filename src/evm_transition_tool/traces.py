@@ -3,7 +3,8 @@ Transition tool abstract traces.
 """
 
 import json
-from typing import List, TextIO
+from abc import ABC, abstractmethod
+from typing import List, TextIO, Type
 
 from pydantic import BaseModel, Field
 from pydantic.functional_validators import BeforeValidator
@@ -180,3 +181,79 @@ class EVMTransactionTrace(BaseModel):
         )
         instance.fill_context()
         return instance
+
+
+class TraceableException(Exception, ABC):
+    """
+    Exception that can use a trace to provide more information.
+    """
+
+    traces: List[List[EVMTransactionTrace]] | None
+
+    def set_traces(self, traces: List[List[EVMTransactionTrace]]):
+        """
+        Set the traces for the exception.
+        """
+        self.traces = traces
+        self.mark_exception_traces()
+
+    def mark_traces(
+        self,
+        *,
+        trace_type: Type[EVMTraceLine] | Type[EVMCallFrameEnter] | Type[EVMCallFrameExit],
+        **kwargs,
+    ):
+        """
+        Used to mark traces as relevant, to be later printed.
+
+        kwargs are passed to the trace's `mark` method, and if they match the
+        trace, the trace is marked as relevant.
+        """
+        if self.traces:
+            for execution_trace in self.traces:
+                for tx_trace in execution_trace:
+                    for trace in tx_trace.trace:
+                        if isinstance(trace, trace_type):
+                            trace.mark(**kwargs)
+
+    @abstractmethod
+    def mark_exception_traces(self):
+        """
+        Mark the traces that are relevant to the exception.
+        """
+        raise NotImplementedError
+
+    @property
+    @abstractmethod
+    def description(self):
+        """
+        Return the description of the exception.
+        """
+        raise NotImplementedError
+
+    def __str__(self):
+        """Print relevant tracing lines"""
+        if not self.traces:
+            return self.description
+
+        lines = []
+        tx_count = 0
+        for execution_trace in self.traces:
+            for tx_trace in execution_trace:
+                tx_count += 1
+                if tx_trace.trace and any(t._marked for t in tx_trace.trace):
+                    lines.append(
+                        f"Trace for transaction {tx_count} " + f"({tx_trace.transaction_hash}):"
+                    )
+                    for line_number in range(len(tx_trace.trace)):
+                        if tx_trace.trace[line_number]._marked:
+                            lines += tx_trace.get_trace_line_with_context(
+                                line_number=line_number,
+                                previous_lines=2,
+                            )
+                            lines.append("...")
+
+        if not lines:
+            return self.description
+
+        return self.description + "\n\n" + "\n".join(lines)

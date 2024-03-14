@@ -7,7 +7,13 @@ from .evmone import EvmOneTransitionTool
 from .execution_specs import ExecutionSpecsTransitionTool
 from .geth import GethTransitionTool
 from .nimbus import NimbusTransitionTool
-from .traces import EVMCallFrameEnter, EVMCallFrameExit, EVMTraceLine, EVMTransactionTrace
+from .traces import (
+    EVMCallFrameEnter,
+    EVMCallFrameExit,
+    EVMTraceLine,
+    EVMTransactionTrace,
+    TraceableException,
+)
 from .transition_tool import (
     FixtureFormats,
     TransitionTool,
@@ -28,6 +34,7 @@ __all__ = (
     "FixtureFormats",
     "GethTransitionTool",
     "NimbusTransitionTool",
+    "TraceableException",
     "TransitionTool",
     "TransitionToolNotFoundInPath",
     "UnknownTransitionTool",

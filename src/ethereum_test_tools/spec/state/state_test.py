@@ -7,9 +7,9 @@ from dataclasses import dataclass
 from typing import Callable, Generator, List, Mapping, Optional, Type
 
 from ethereum_test_forks import Fork
-from evm_transition_tool import FixtureFormats, TransitionTool
+from evm_transition_tool import FixtureFormats, TraceableException, TransitionTool
 
-from ...common import Address, Alloc, Environment, Number, TraceableException, Transaction
+from ...common import Address, Alloc, Environment, Number, Transaction
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
 from ..base.base_test import BaseFixture, BaseTest, verify_post_alloc
