@@ -173,7 +173,7 @@ class FixedSizeBytes(Bytes):
 
     def __eq__(self, other: object) -> bool:
         """
-        Compares two FixedSizeBytes objects.
+        Compares two FixedSizeBytes objects to be equal.
         """
         if not isinstance(other, FixedSizeBytes):
             assert (
@@ -187,17 +187,9 @@ class FixedSizeBytes(Bytes):
 
     def __ne__(self, other: object) -> bool:
         """
-        Compares two FixedSizeBytes objects.
+        Compares two FixedSizeBytes objects to be not equal.
         """
-        if not isinstance(other, FixedSizeBytes):
-            assert (
-                isinstance(other, str)
-                or isinstance(other, int)
-                or isinstance(other, bytes)
-                or isinstance(other, SupportsBytes)
-            )
-            other = self.__class__(other)
-        return super().__ne__(other)
+        return not self.__eq__(other)
 
 
 class Address(FixedSizeBytes[20]):  # type: ignore
