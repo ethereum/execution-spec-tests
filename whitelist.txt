@@ -170,6 +170,7 @@ mainnet
 marioevz
 markdownlint
 md
+mem
 metaclass
 Misspelled words:
 mkdocs

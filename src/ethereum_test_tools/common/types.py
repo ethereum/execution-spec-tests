@@ -175,7 +175,7 @@ class Storage(SupportsJSON, dict):
             self.mark_traces(
                 trace_type=EVMTraceLine,
                 context_address=self.address,
-                opcode_name="SSTORE",
+                op_name="SSTORE",
                 stack=[self.key],  # top element of the stack is the key
             )
 
@@ -223,7 +223,7 @@ class Storage(SupportsJSON, dict):
             self.mark_traces(
                 trace_type=EVMTraceLine,
                 context_address=self.address,
-                opcode_name="SSTORE",
+                op_name="SSTORE",
                 stack=[self.key],  # top element of the stack is the key
             )
 
@@ -476,7 +476,7 @@ class Account:
             self.mark_traces(
                 trace_type=EVMTraceLine,
                 context_address=self.address,
-                opcode_name="CREATE",
+                op_name="CREATE",
             )
 
             # Record an exit frame from the expected address with an error
@@ -558,14 +558,14 @@ class Account:
             self.mark_traces(
                 trace_type=EVMCallFrameEnter,
                 to_address=self.address,
-                opcode_name=lambda op: op in ["CREATE", "CREATE2"],
+                op_name=lambda op: op in ["CREATE", "CREATE2"],
             )
 
             # Mark selfdestruct of the expected address
             self.mark_traces(
                 trace_type=EVMTraceLine,
                 context_address=self.address,
-                opcode_name="SELFDESTRUCT",
+                op_name="SELFDESTRUCT",
             )
 
             # Record an exit frame from the expected address with an error

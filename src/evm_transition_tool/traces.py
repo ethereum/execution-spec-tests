@@ -6,7 +6,8 @@ import json
 from abc import ABC, abstractmethod
 from typing import List, TextIO, Type
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
+from pydantic.alias_generators import to_camel
 from pydantic.functional_validators import BeforeValidator
 from typing_extensions import Annotated
 
@@ -18,14 +19,16 @@ class EVMCallFrameEnter(BaseModel):
     Represents a single line of an EVM call entering a new frame.
     """
 
-    opcode: int | None = Field(None, alias="op")
-    opcode_name: str | None = Field(None, alias="opName")
+    op: int | None = Field(None)
+    op_name: str | None = Field(None)
     from_address: str = Field(..., alias="from")
     to_address: str = Field(..., alias="to")
     input: bytes | None = Field(None)
-    gas: HexNumber = Field(..., alias="gas")
+    gas: HexNumber
     value: HexNumber
     _marked: bool = False
+
+    model_config = ConfigDict(alias_generator=to_camel)
 
     def mark(self, **kwargs) -> bool:
         """
@@ -49,9 +52,11 @@ class EVMCallFrameExit(BaseModel):
     from_address: str = Field(..., alias="from")
     to_address: str = Field(..., alias="to")
     output: bytes | None = Field(None)
-    gas_used: HexNumber = Field(..., alias="gasUsed")
+    gas_used: HexNumber
     error: str | None = Field(None)
     _marked: bool = False
+
+    model_config = ConfigDict(alias_generator=to_camel)
 
     def mark(self, **kwargs) -> bool:
         """
@@ -73,16 +78,18 @@ class EVMTraceLine(BaseModel):
     """
 
     pc: int
-    opcode: int = Field(..., alias="op")
-    opcode_name: str = Field(..., alias="opName")
-    gas_left: HexNumber = Field(..., alias="gas")
-    gas_cost: HexNumber = Field(..., alias="gasCost")
-    memory_size: int = Field(..., alias="memSize")
+    op: int
+    op_name: str
+    gas: HexNumber
+    gas_cost: HexNumber
+    mem_size: int
     stack: List[HexNumber]
     depth: int
     refund: int
     context_address: str | None = Field(None)
     _marked: bool = False
+
+    model_config = ConfigDict(alias_generator=to_camel)
 
     def match_stack(self, other: List[HexNumber | None]) -> bool:
         """
