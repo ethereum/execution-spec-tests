@@ -104,6 +104,7 @@ order_fixtures = "cli.order_fixtures:order_fixtures"
 evm_bytes = "cli.evm_bytes:evm_bytes"
 hasher = "cli.hasher:main"
 eest = "cli.eest.cli:eest"
+filler_reader = "cli.filler_reader:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
