@@ -1,6 +1,7 @@
 """
 Common definitions and types.
 """
+
 from .base_types import (
     Address,
     Bloom,
@@ -14,6 +15,7 @@ from .base_types import (
 from .constants import (
     AddrAA,
     AddrBB,
+    EmptyOmmersRoot,
     EmptyTrieRoot,
     EngineAPIError,
     TestAddress,
@@ -61,6 +63,7 @@ __all__ = (
     "Bloom",
     "Bytes",
     "EngineAPIError",
+    "EmptyOmmersRoot",
     "EmptyTrieRoot",
     "Environment",
     "Hash",

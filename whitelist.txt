@@ -207,6 +207,7 @@ PrevRandao
 programmatically
 px
 py
+pydantic
 pyspelling
 pytest
 Pytest
@@ -289,6 +290,7 @@ utils
 v0
 v1
 validator
+validators
 venv
 visualstudio
 vm
