@@ -98,20 +98,37 @@ def to_fixed_bytes(length: int) -> Callable[[bytes], str]:
 
 
 Address = Annotated[
-    bytes, BeforeValidator(from_fixed_bytes(20)), PlainSerializer(to_fixed_bytes(20))
+    bytes,
+    BeforeValidator(from_fixed_bytes(20)),
+    PlainSerializer(to_fixed_bytes(20)),
 ]
-Hash = Annotated[bytes, BeforeValidator(from_fixed_bytes(32)), PlainSerializer(to_fixed_bytes(32))]
+Hash = Annotated[
+    bytes,
+    BeforeValidator(from_fixed_bytes(32)),
+    PlainSerializer(to_fixed_bytes(32)),
+]
 Bloom = Annotated[
-    bytes, BeforeValidator(from_fixed_bytes(256)), PlainSerializer(to_fixed_bytes(256))
+    bytes,
+    BeforeValidator(from_fixed_bytes(256)),
+    PlainSerializer(to_fixed_bytes(256)),
 ]
 HeaderNonce = Annotated[
-    bytes, BeforeValidator(from_fixed_bytes(8)), PlainSerializer(to_fixed_bytes(8))
+    bytes,
+    BeforeValidator(from_fixed_bytes(8)),
+    PlainSerializer(to_fixed_bytes(8)),
 ]
 
 
-HexNumber = Annotated[int, BeforeValidator(to_hex_number), PlainSerializer(from_hex_number)]
-
-HexBytes = Annotated[bytes, BeforeValidator(to_bytes), PlainSerializer(from_bytes)]
+HexNumber = Annotated[
+    int,
+    BeforeValidator(to_hex_number),
+    PlainSerializer(from_hex_number),
+]
+HexBytes = Annotated[
+    bytes,
+    BeforeValidator(to_bytes),
+    PlainSerializer(from_bytes),
+]
 
 # Camel models
 
