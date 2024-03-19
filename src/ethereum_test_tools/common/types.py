@@ -25,14 +25,14 @@ from ethereum.base_types import U256, Uint
 from ethereum.crypto.hash import keccak256
 from ethereum.frontier.fork_types import Account as FrontierAccount
 from ethereum.frontier.state import State, set_account, set_storage, state_root
-from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, computed_field
+from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, RootModel, computed_field
 from pydantic.alias_generators import to_camel
 from trie import HexaryTrie
 
 from ethereum_test_forks import Fork
 
 from ..exceptions import ExceptionList, TransactionException
-from .base_types import Address, Bloom, Hash, HexBytes, HexNumber, from_hash
+from .base_types import Address, Bloom, Hash, HexBytes, HexNumber, from_hash, to_hex_number
 from .constants import TestPrivateKey
 
 
@@ -86,16 +86,18 @@ MAX_STORAGE_KEY_VALUE = 2**256 - 1
 MIN_STORAGE_KEY_VALUE = -(2**255)
 
 
-StorageKeyValueType = Hash
+StorageKeyValueType = HexNumber
 StorageType = Dict[StorageKeyValueType, StorageKeyValueType]
 
 
-class Storage(SupportsJSON, dict):
+class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
     """
     Definition of a storage in pre or post state of a test
     """
 
-    current_slot: Iterator[int]
+    root: Dict[StorageKeyValueType, StorageKeyValueType]
+
+    current_slot: Iterator[StorageKeyValueType]
 
     StorageDictType: ClassVar[TypeAlias] = Dict[
         str | int | bytes | SupportsBytes, str | int | bytes | SupportsBytes
@@ -214,73 +216,31 @@ class Storage(SupportsJSON, dict):
                 + f" got {Storage.key_value_to_string(self.got)} (dec:{self.got})"
             )
 
-    @staticmethod
-    def parse_key_value(input: str | int | bytes | SupportsBytes) -> int:
-        """
-        Parses a key or value to a valid int key for storage.
-        """
-        if isinstance(input, str):
-            input = int(input, 0)
-        elif isinstance(input, int):
-            pass
-        elif isinstance(input, bytes) or isinstance(input, SupportsBytes):
-            input = int.from_bytes(bytes(input), "big")
-        else:
-            raise Storage.InvalidType(key_or_value=input)
-
-        if input > MAX_STORAGE_KEY_VALUE or input < MIN_STORAGE_KEY_VALUE:
-            raise Storage.InvalidValue(key_or_value=input)
-        return input
-
-    @staticmethod
-    def key_value_to_string(value: int) -> str:
-        """
-        Transforms a key or value into an hex string.
-        """
-        hex_str = value.to_bytes(32, "big", signed=(value < 0)).hex().lstrip("0")
-        if hex_str == "":
-            hex_str = "00"
-        if len(hex_str) % 2 != 0:
-            hex_str = "0" + hex_str
-        return "0x" + hex_str
-
-    def __init__(self, input: StorageDictType | "Storage" = {}, *, start_slot: int = 0):
-        """
-        Initializes the storage using a given mapping which can have
-        keys and values either as string or int.
-        Strings must be valid decimal or hexadecimal (starting with 0x)
-        numbers.
-        """
-        super().__init__(
-            (Storage.parse_key_value(k), Storage.parse_key_value(v)) for k, v in input.items()
-        )
-        self.current_slot = count(start_slot)
-
-    def __contains__(self, key: object) -> bool:
+    def __contains__(self, key: StorageKeyValueType) -> bool:
         """Checks for an item in the storage"""
-        assert (
-            isinstance(key, str)
-            or isinstance(key, int)
-            or isinstance(key, bytes)
-            or isinstance(key, SupportsBytes)
-        )
-        return super().__contains__(Storage.parse_key_value(key))
+        return key in self.root
 
-    def __getitem__(self, key: str | int | bytes | SupportsBytes) -> int:
+    def __getitem__(self, key: StorageKeyValueType) -> StorageKeyValueType:
         """Returns an item from the storage"""
-        return super().__getitem__(Storage.parse_key_value(key))
+        return self.root[key]
 
-    def __setitem__(
-        self, key: str | int | bytes | SupportsBytes, value: str | int | bytes | SupportsBytes
-    ):  # noqa: SC200
+    def __setitem__(self, key: StorageKeyValueType, value: StorageKeyValueType):  # noqa: SC200
         """Sets an item in the storage"""
-        super().__setitem__(Storage.parse_key_value(key), Storage.parse_key_value(value))
+        self.root[key] = to_hex_number(value)
 
-    def __delitem__(self, key: str | int | bytes | SupportsBytes):
+    def __delitem__(self, key: StorageKeyValueType):
         """Deletes an item from the storage"""
-        super().__delitem__(Storage.parse_key_value(key))
+        del self.root[key]
 
-    def store_next(self, value: str | int | bytes | SupportsBytes) -> int:
+    def __iter__(self) -> Iterator[StorageKeyValueType]:
+        """Iterates over the storage"""
+        return iter(self.root)
+
+    def keys(self) -> set[StorageKeyValueType]:
+        """Returns the keys of the storage"""
+        return set(self.root.keys())
+
+    def store_next(self, value: StorageKeyValueType) -> StorageKeyValueType:
         """
         Stores a value in the storage and returns the key where the value is stored.
 
@@ -289,22 +249,6 @@ class Storage(SupportsJSON, dict):
         """
         self[slot := next(self.current_slot)] = value
         return slot
-
-    def __json__(self, encoder: JSONEncoder) -> Mapping[str, str]:
-        """
-        Converts the storage into a string dict with appropriate 32-byte
-        hex string formatting.
-        """
-        res: Dict[str, str] = {}
-        for key, value in self.items():
-            key_repr = Storage.key_value_to_string(key)
-            val_repr = Storage.key_value_to_string(value)
-            if key_repr in res and val_repr != res[key_repr]:
-                raise Storage.AmbiguousKeyValue(
-                    key_1=key_repr, val_1=res[key_repr], key_2=key, val_2=val_repr
-                )
-            res[key_repr] = val_repr
-        return res
 
     def contains(self, other: "Storage") -> bool:
         """
