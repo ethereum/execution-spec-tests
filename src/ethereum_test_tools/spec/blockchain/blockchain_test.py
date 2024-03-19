@@ -22,7 +22,6 @@ from ...common import (
     Number,
     Transaction,
     ZeroPaddedHexNumber,
-    alloc_to_accounts,
     transaction_list_root,
     withdrawals_root,
 )
@@ -313,7 +312,7 @@ class BlockchainTest(BaseTest):
 
         pre, genesis_rlp, genesis = self.make_genesis(t8n, fork)
 
-        alloc = to_json(pre)
+        alloc = pre
         env = environment_from_parent_header(genesis)
         head = genesis.hash if genesis.hash is not None else Hash(0)
 
@@ -376,7 +375,7 @@ class BlockchainTest(BaseTest):
             blocks=fixture_blocks,
             last_block_hash=head,
             pre_state=pre,
-            post_state=alloc_to_accounts(alloc),
+            post_state=alloc,
             name=self.tag,
         )
 

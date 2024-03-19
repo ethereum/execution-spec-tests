@@ -2,16 +2,7 @@
 Common definitions and types.
 """
 
-from .base_types import (
-    Address,
-    Bloom,
-    Bytes,
-    Hash,
-    HeaderNonce,
-    HexNumber,
-    Number,
-    ZeroPaddedHexNumber,
-)
+from .base_types import Address, Bloom, Bytes, Hash, HeaderNonce, HexNumber, Number
 from .constants import (
     AddrAA,
     AddrBB,
@@ -40,14 +31,11 @@ from .types import (
     Alloc,
     Auto,
     Environment,
-    JSONEncoder,
     Removable,
     Storage,
     Transaction,
     Withdrawal,
-    alloc_to_accounts,
     serialize_transactions,
-    str_or_none,
     transaction_list_root,
     withdrawals_root,
 )
@@ -69,7 +57,6 @@ __all__ = (
     "Hash",
     "HeaderNonce",
     "HexNumber",
-    "JSONEncoder",
     "Number",
     "Removable",
     "Storage",
@@ -80,9 +67,7 @@ __all__ = (
     "TestPrivateKey2",
     "Transaction",
     "Withdrawal",
-    "ZeroPaddedHexNumber",
     "add_kzg_version",
-    "alloc_to_accounts",
     "ceiling_division",
     "compute_create_address",
     "compute_create2_address",
@@ -90,7 +75,6 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "serialize_transactions",
-    "str_or_none",
     "to_json",
     "transaction_list_root",
     "withdrawals_root",
