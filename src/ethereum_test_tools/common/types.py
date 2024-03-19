@@ -25,21 +25,15 @@ from ethereum.base_types import U256, Uint
 from ethereum.crypto.hash import keccak256
 from ethereum.frontier.fork_types import Account as FrontierAccount
 from ethereum.frontier.state import State, set_account, set_storage, state_root
+from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, computed_field
+from pydantic.alias_generators import to_camel
 from trie import HexaryTrie
 
 from ethereum_test_forks import Fork
 
 from ..exceptions import ExceptionList, TransactionException
-from .base_types import Address, Bytes, Hash, HexNumber, Number, ZeroPaddedHexNumber
+from .base_types import Address, Bloom, Hash, HexBytes, HexNumber, from_hash
 from .constants import TestPrivateKey
-from .conversions import (
-    BytesConvertible,
-    FixedSizeBytesConvertible,
-    NumberConvertible,
-    int_or_none,
-    str_or_none,
-)
-from .json import JSONEncoder, SupportsJSON, field
 
 
 # Sentinel classes
@@ -63,8 +57,37 @@ class Auto:
         return "auto"
 
 
+# Base Models
+
+
+class CamelModel(BaseModel):
+    """
+    Model that uses camel case
+    """
+
+    model_config = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True,
+    )
+
+
+class SerializationCamelModel(BaseModel):
+    """
+    Model that uses camel case for serialization
+    """
+
+    model_config = ConfigDict(
+        alias_generator=AliasGenerator(serialization_alias=to_camel),
+        populate_by_name=True,
+    )
+
+
 MAX_STORAGE_KEY_VALUE = 2**256 - 1
 MIN_STORAGE_KEY_VALUE = -(2**255)
+
+
+StorageKeyValueType = Hash
+StorageType = Dict[StorageKeyValueType, StorageKeyValueType]
 
 
 class Storage(SupportsJSON, dict):
@@ -336,44 +359,22 @@ class Storage(SupportsJSON, dict):
                 raise Storage.KeyValueMismatch(address=address, key=key, want=0, got=other[key])
 
 
-@dataclass(kw_only=True)
-class Account:
+class Account(BaseModel):
     """
     State associated with an address.
     """
 
-    nonce: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="nonce",
-            cast_type=ZeroPaddedHexNumber,
-            default_value=0,
-        ),
-    )
+    nonce: HexNumber | None = None
     """
     The scalar value equal to a) the number of transactions sent by
     an Externally Owned Account, b) the amount of contracts created by a
     contract.
     """
-    balance: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="balance",
-            cast_type=ZeroPaddedHexNumber,
-            default_value=0,
-        ),
-    )
+    balance: HexNumber | None = None
     """
     The amount of Wei (10<sup>-18</sup> Eth) the account has.
     """
-    code: Optional[BytesConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="code",
-            cast_type=Bytes,
-            default_value=bytes(),
-        ),
-    )
+    code: HexBytes | None = None
     """
     Bytecode contained by the account.
     """
@@ -655,34 +656,15 @@ def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:
     return accounts
 
 
-@dataclass(kw_only=True)
-class Withdrawal:
+class Withdrawal(CamelModel):
     """
-    Structure to represent a single withdrawal of a validator's balance from
-    the beacon chain.
+    Withdrawal type
     """
 
-    index: NumberConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=HexNumber,
-        ),
-    )
-    validator: NumberConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            name="validatorIndex",
-            cast_type=HexNumber,
-        ),
-    )
-    address: FixedSizeBytesConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=Address,
-        ),
-    )
-    amount: NumberConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=HexNumber,
-        ),
-    )
+    index: HexNumber
+    validator_index: HexNumber
+    address: Address
+    amount: HexNumber
 
     def to_serializable_list(self) -> List[Any]:
         """
@@ -690,10 +672,10 @@ class Withdrawal:
         be serialized.
         """
         return [
-            Uint(Number(self.index)),
-            Uint(Number(self.validator)),
-            Address(self.address),
-            Uint(Number(self.amount)),
+            Uint(self.index),
+            Uint(self.validator_index),
+            self.address,
+            Uint(self.amount),
         ]
 
 
@@ -710,170 +692,46 @@ def withdrawals_root(withdrawals: List[Withdrawal]) -> bytes:
 DEFAULT_BASE_FEE = 7
 
 
-@dataclass(kw_only=True)
-class Environment:
+class Environment(CamelModel):
     """
     Structure used to keep track of the context in which a block
     must be executed.
     """
 
-    coinbase: FixedSizeBytesConvertible = field(
-        default="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        json_encoder=JSONEncoder.Field(
-            name="currentCoinbase",
-            cast_type=Address,
-        ),
+    fee_recipient: Address = Field(
+        "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        serialization_alias="currentCoinbase",
+        validate_default=True,
     )
-    gas_limit: NumberConvertible = field(
-        default=100000000000000000,
-        json_encoder=JSONEncoder.Field(
-            name="currentGasLimit",
-            cast_type=Number,
-        ),
-    )
-    number: NumberConvertible = field(
-        default=1,
-        json_encoder=JSONEncoder.Field(
-            name="currentNumber",
-            cast_type=Number,
-        ),
-    )
-    timestamp: NumberConvertible = field(
-        default=1000,
-        json_encoder=JSONEncoder.Field(
-            name="currentTimestamp",
-            cast_type=Number,
-        ),
-    )
-    prev_randao: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentRandom",
-            cast_type=Number,
-        ),
-    )
-    difficulty: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentDifficulty",
-            cast_type=Number,
-        ),
-    )
-    block_hashes: Dict[NumberConvertible, FixedSizeBytesConvertible] = field(
-        default_factory=dict,
-        json_encoder=JSONEncoder.Field(
-            name="blockHashes",
-            cast_type=lambda x: {str(Number(k)): str(Hash(v)) for k, v in x.items()},
-            skip_string_convert=True,
-        ),
-    )
-    ommers: List[FixedSizeBytesConvertible] = field(
-        default_factory=list,
-        json_encoder=JSONEncoder.Field(
-            name="ommers",
-            cast_type=lambda x: [str(Hash(y)) for y in x],
-            skip_string_convert=True,
-        ),
-    )
-    withdrawals: Optional[List[Withdrawal]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="withdrawals",
-            to_json=True,
-        ),
-    )
-    base_fee: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentBaseFee",
-            cast_type=Number,
-        ),
-    )
-    parent_difficulty: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentDifficulty",
-            cast_type=Number,
-        ),
-    )
-    parent_timestamp: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentTimestamp",
-            cast_type=Number,
-        ),
-    )
-    parent_base_fee: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentBaseFee",
-            cast_type=Number,
-        ),
-    )
-    parent_gas_used: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentGasUsed",
-            cast_type=Number,
-        ),
-    )
-    parent_gas_limit: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentGasLimit",
-            cast_type=Number,
-        ),
-    )
-    parent_ommers_hash: FixedSizeBytesConvertible = field(
-        default=0,
-        json_encoder=JSONEncoder.Field(
-            name="parentUncleHash",
-            cast_type=Hash,
-        ),
-    )
-    parent_blob_gas_used: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentBlobGasUsed",
-            cast_type=Number,
-        ),
-    )
-    parent_excess_blob_gas: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentExcessBlobGas",
-            cast_type=Number,
-        ),
-    )
-    blob_gas_used: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentBlobGasUsed",
-            cast_type=Number,
-        ),
-    )
-    excess_blob_gas: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentExcessBlobGas",
-            cast_type=Number,
-        ),
-    )
-    beacon_root: Optional[FixedSizeBytesConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="parentBeaconBlockRoot",
-            cast_type=Hash,
-        ),
-    )
-    extra_data: Optional[BytesConvertible] = field(
-        default=b"\x00",
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
+    gas_limit: HexNumber = Field(100_000_000_000_000_000, serialization_alias="currentGasLimit")
+    number: HexNumber = Field(1, serialization_alias="currentNumber")
+    timestamp: HexNumber = Field(1_000, serialization_alias="currentTimestamp")
+    prev_randao: HexNumber | None = Field(None, serialization_alias="currentRandom")
+    difficulty: HexNumber | None = Field(None, serialization_alias="currentDifficulty")
+    base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="currentBaseFee")
+    blob_gas_used: HexNumber | None = Field(None, serialization_alias="currentBlobGasUsed")
+    excess_blob_gas: HexNumber | None = Field(None, serialization_alias="currentExcessBlobGas")
 
-    def parent_hash(self) -> bytes:
+    parent_difficulty: HexNumber | None = Field(None)
+    parent_timestamp: HexNumber | None = Field(None)
+    parent_base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="parentBaseFee")
+    parent_gas_used: HexNumber | None = Field(None)
+    parent_gas_limit: HexNumber | None = Field(None)
+    parent_ommers_hash: Hash = Field(
+        0, serialization_alias="parentUncleHash", validate_default=True
+    )
+    parent_blob_gas_used: HexNumber | None = Field(None)
+    parent_excess_blob_gas: HexNumber | None = Field(None)
+    parent_beacon_block_root: Hash | None = Field(None)
+
+    block_hashes: Dict[HexNumber, Hash] = Field(default_factory=dict)
+    ommers: List[Hash] = Field(default_factory=list)
+    withdrawals: List[Withdrawal] | None = Field(None)
+    extra_data: HexBytes = Field(b"\x00")
+
+    @computed_field  # type: ignore[misc]
+    @property
+    def parent_hash(self) -> Hash:
         """
         Obtains the latest hash according to the highest block number in
         `block_hashes`.
@@ -881,252 +739,107 @@ class Environment:
         if len(self.block_hashes) == 0:
             return bytes([0] * 32)
 
-        last_index = max([Number(k) for k in self.block_hashes.keys()])
+        last_index = max(self.block_hashes.keys())
         return Hash(self.block_hashes[last_index])
 
-    def set_fork_requirements(self, fork: Fork, in_place: bool = False) -> "Environment":
+    def set_fork_requirements(self, fork: Fork) -> "Environment":
         """
         Fills the required fields in an environment depending on the fork.
         """
-        res = self if in_place else copy(self)
-        number = Number(res.number)
-        timestamp = Number(res.timestamp)
-        if fork.header_prev_randao_required(number, timestamp) and res.prev_randao is None:
-            res.prev_randao = 0
+        number = self.number
+        timestamp = self.timestamp
 
-        if fork.header_withdrawals_required(number, timestamp) and res.withdrawals is None:
-            res.withdrawals = []
+        updated_values: Dict[str, Any] = {}
+
+        if fork.header_prev_randao_required(number, timestamp) and self.prev_randao is None:
+            updated_values["prev_randao"] = 0
+
+        if fork.header_withdrawals_required(number, timestamp) and self.withdrawals is None:
+            updated_values["withdrawals"] = []
 
         if (
             fork.header_base_fee_required(number, timestamp)
-            and res.base_fee is None
-            and res.parent_base_fee is None
+            and self.base_fee_per_gas is None
+            and self.parent_base_fee_per_gas is None
         ):
-            res.base_fee = DEFAULT_BASE_FEE
+            updated_values["base_fee_per_gas"] = DEFAULT_BASE_FEE
 
         if fork.header_zero_difficulty_required(number, timestamp):
-            res.difficulty = 0
-        elif res.difficulty is None and res.parent_difficulty is None:
-            res.difficulty = 0x20000
+            updated_values["difficulty"] = 0
+        elif self.difficulty is None and self.parent_difficulty is None:
+            updated_values["difficulty"] = 0x20000
 
         if (
             fork.header_excess_blob_gas_required(number, timestamp)
-            and res.excess_blob_gas is None
-            and res.parent_excess_blob_gas is None
+            and self.excess_blob_gas is None
+            and self.parent_excess_blob_gas is None
         ):
-            res.excess_blob_gas = 0
+            updated_values["excess_blob_gas"] = 0
 
         if (
             fork.header_blob_gas_used_required(number, timestamp)
-            and res.blob_gas_used is None
-            and res.parent_blob_gas_used is None
+            and self.blob_gas_used is None
+            and self.parent_blob_gas_used is None
         ):
-            res.blob_gas_used = 0
+            updated_values["blob_gas_used"] = 0
 
-        if fork.header_beacon_root_required(number, timestamp) and res.beacon_root is None:
-            res.beacon_root = 0
+        if (
+            fork.header_beacon_root_required(number, timestamp)
+            and self.parent_beacon_block_root is None
+        ):
+            updated_values["parent_beacon_block_root"] = 0
 
-        return res
+        return self.model_copy(update=updated_values)
 
 
-@dataclass(kw_only=True)
-class AccessList:
+class AccessList(CamelModel):
     """
     Access List for transactions.
     """
 
-    address: FixedSizeBytesConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=Address,
-        ),
-    )
-    storage_keys: List[FixedSizeBytesConvertible] = field(
-        default_factory=list,
-        json_encoder=JSONEncoder.Field(
-            name="storageKeys",
-            cast_type=lambda x: [str(Hash(k)) for k in x],
-            skip_string_convert=True,
-        ),
-    )
+    address: Address
+    storage_keys: List[Hash]
 
-    def to_list(self) -> List[bytes | List[bytes]]:
+    def to_list(self) -> List[Address | List[Hash]]:
         """
         Returns the access list as a list of serializable elements.
         """
-        return [Address(self.address), [Hash(k) for k in self.storage_keys]]
+        return [self.address, self.storage_keys]
 
 
-@dataclass(kw_only=True)
-class Transaction:
+class Transaction(CamelModel):
     """
     Generic object that can represent all Ethereum transaction types.
     """
 
-    ty: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="type",
-            cast_type=HexNumber,
-        ),
-    )
+    ty: HexNumber | None = Field(None, alias="type")
     """
     Transaction type value.
     """
-    chain_id: int = field(
-        default=1,
-        json_encoder=JSONEncoder.Field(
-            name="chainId",
-            cast_type=HexNumber,
-        ),
-    )
-    nonce: int = field(
-        default=0,
-        json_encoder=JSONEncoder.Field(
-            cast_type=HexNumber,
-        ),
-    )
-    gas_price: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="gasPrice",
-            cast_type=HexNumber,
-        ),
-    )
-    max_priority_fee_per_gas: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="maxPriorityFeePerGas",
-            cast_type=HexNumber,
-        ),
-    )
-    max_fee_per_gas: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="maxFeePerGas",
-            cast_type=HexNumber,
-        ),
-    )
-    gas_limit: int = field(
-        default=21000,
-        json_encoder=JSONEncoder.Field(
-            name="gas",
-            cast_type=HexNumber,
-        ),
-    )
-    to: Optional[FixedSizeBytesConvertible | Address] = field(
-        default=Address(0xAA),
-        json_encoder=JSONEncoder.Field(
-            cast_type=Address,
-        ),
-    )
-    value: int = field(
-        default=0,
-        json_encoder=JSONEncoder.Field(
-            cast_type=HexNumber,
-        ),
-    )
-    data: BytesConvertible = field(
-        default_factory=bytes,
-        json_encoder=JSONEncoder.Field(
-            name="input",
-            cast_type=Bytes,
-        ),
-    )
-    access_list: Optional[List[AccessList]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="accessList",
-            to_json=True,
-        ),
-    )
-    max_fee_per_blob_gas: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="maxFeePerBlobGas",
-            cast_type=HexNumber,
-        ),
-    )
-    blob_versioned_hashes: Optional[Sequence[FixedSizeBytesConvertible]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="blobVersionedHashes",
-            cast_type=lambda x: [Hash(k) for k in x],
-            to_json=True,
-        ),
-    )
-    v: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            cast_type=HexNumber,
-        ),
-    )
-    r: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            cast_type=HexNumber,
-        ),
-    )
-    s: Optional[int] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            cast_type=HexNumber,
-        ),
-    )
-    wrapped_blob_transaction: bool = field(
-        default=False,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    blobs: Optional[Sequence[bytes]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    blob_kzg_commitments: Optional[Sequence[bytes]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    blob_kzg_proofs: Optional[Sequence[bytes]] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    sender: Optional[FixedSizeBytesConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            cast_type=Address,
-        ),
-    )
-    secret_key: Optional[FixedSizeBytesConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="secretKey",
-            cast_type=Hash,
-        ),
-    )
-    protected: bool = field(
-        default=True,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    error: Optional[TransactionException | ExceptionList] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-    rlp: Optional[bytes] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
+    chain_id: HexNumber = 1
+    nonce: HexNumber = 0
+    gas_price: HexNumber | None = None
+    max_priority_fee_per_gas: HexNumber | None = None
+    max_fee_per_gas: HexNumber | None = None
+    gas_limit: HexNumber = Field(21000, alias="gas")
+    to: Address | None = Field(0xAA, validate_default=True)
+    value: HexNumber = 0
+    data: HexBytes = Field(b"", alias="input")
+    access_list: List[AccessList] | None = None
+    max_fee_per_blob_gas: HexNumber | None = None
+    blob_versioned_hashes: Sequence[Hash] | None = None
+    v: HexNumber | None = None
+    r: HexNumber | None = None
+    s: HexNumber | None = None
+    wrapped_blob_transaction: bool = Field(False, exclude=True)
+    blobs: Sequence[HexBytes] = Field(None, exclude=True)
+    blob_kzg_commitments: Sequence[bytes] | None = Field(None, exclude=True)
+    blob_kzg_proofs: Sequence[bytes] | None = Field(None, exclude=True)
+    sender: Address | None = None
+    secret_key: Hash | None = None
+    protected: bool = Field(True, exclude=True)
+    error: TransactionException | ExceptionList | None = Field(None, exclude=True)
+    rlp: HexBytes | None = Field(None, exclude=True)
 
     class InvalidFeePayment(Exception):
         """
@@ -1147,10 +860,12 @@ class Transaction:
             """Print exception string"""
             return "can't define both 'signature' and 'private_key'"
 
-    def __post_init__(self) -> None:
+    def model_post_init(self, __context):
         """
         Ensures the transaction has no conflicting properties.
         """
+        super().model_post_init(__context)
+
         if self.gas_price is not None and (
             self.max_fee_per_gas is not None
             or self.max_priority_fee_per_gas is not None
@@ -1170,7 +885,7 @@ class Transaction:
             raise Transaction.InvalidSignaturePrivateKey()
 
         if self.v is None and self.secret_key is None:
-            self.secret_key = TestPrivateKey
+            self.secret_key = from_hash(TestPrivateKey)
 
         if self.ty is None:
             # Try to deduce transaction type from included fields
@@ -1194,29 +909,19 @@ class Transaction:
         """
         Create a copy of the transaction with an added error.
         """
-        tx = copy(self)
-        tx.error = error
-        return tx
+        return self.model_copy(update={"error": error})
 
     def with_nonce(self, nonce: int) -> "Transaction":
         """
         Create a copy of the transaction with a modified nonce.
         """
-        tx = copy(self)
-        tx.nonce = nonce
-        return tx
+        return self.model_copy(update={"nonce": nonce})
 
     def with_fields(self, **kwargs) -> "Transaction":
         """
         Create a deepcopy of the transaction with modified fields.
         """
-        tx = deepcopy(self)
-        for key, value in kwargs.items():
-            if hasattr(tx, key):
-                setattr(tx, key, value)
-            else:
-                raise ValueError(f"Invalid field '{key}' for Transaction")
-        return tx
+        return self.model_copy(update=kwargs, deep=True)
 
     def payload_body(self) -> List[Any]:
         """
@@ -1263,7 +968,7 @@ class Transaction:
                         Uint(self.gas_limit),
                         to,
                         Uint(self.value),
-                        Bytes(self.data),
+                        self.data,
                         [a.to_list() for a in self.access_list],
                         Uint(self.max_fee_per_blob_gas),
                         [Hash(h) for h in self.blob_versioned_hashes],
@@ -1284,7 +989,7 @@ class Transaction:
                     Uint(self.gas_limit),
                     to,
                     Uint(self.value),
-                    Bytes(self.data),
+                    self.data,
                     [a.to_list() for a in self.access_list],
                     Uint(self.max_fee_per_blob_gas),
                     [Hash(h) for h in self.blob_versioned_hashes],
@@ -1308,7 +1013,7 @@ class Transaction:
                 Uint(self.gas_limit),
                 to,
                 Uint(self.value),
-                Bytes(self.data),
+                self.data,
                 [a.to_list() for a in self.access_list],
                 Uint(self.v),
                 Uint(self.r),
@@ -1328,7 +1033,7 @@ class Transaction:
                 Uint(self.gas_limit),
                 to,
                 Uint(self.value),
-                Bytes(self.data),
+                self.data,
                 [a.to_list() for a in self.access_list],
                 Uint(self.v),
                 Uint(self.r),
@@ -1344,7 +1049,7 @@ class Transaction:
                 Uint(self.gas_limit),
                 to,
                 Uint(self.value),
-                Bytes(self.data),
+                self.data,
                 Uint(self.v),
                 Uint(self.r),
                 Uint(self.s),
@@ -1394,7 +1099,7 @@ class Transaction:
                 Uint(self.gas_limit),
                 to,
                 Uint(self.value),
-                Bytes(self.data),
+                self.data,
                 [a.to_list() for a in self.access_list] if self.access_list is not None else [],
                 Uint(self.max_fee_per_blob_gas),
                 [Hash(h) for h in self.blob_versioned_hashes],
@@ -1413,7 +1118,7 @@ class Transaction:
                 Uint(self.gas_limit),
                 to,
                 Uint(self.value),
-                Bytes(self.data),
+                self.data,
                 [a.to_list() for a in self.access_list] if self.access_list is not None else [],
             ]
         elif self.ty == 1:
@@ -1428,7 +1133,7 @@ class Transaction:
                 Uint(self.gas_limit),
                 to,
                 Uint(self.value),
-                Bytes(self.data),
+                self.data,
                 [a.to_list() for a in self.access_list] if self.access_list is not None else [],
             ]
         elif self.ty == 0:
@@ -1443,7 +1148,7 @@ class Transaction:
                     Uint(self.gas_limit),
                     to,
                     Uint(self.value),
-                    Bytes(self.data),
+                    self.data,
                     Uint(self.chain_id),
                     Uint(0),
                     Uint(0),
@@ -1455,7 +1160,7 @@ class Transaction:
                     Uint(self.gas_limit),
                     to,
                     Uint(self.value),
-                    Bytes(self.data),
+                    self.data,
                 ]
         raise NotImplementedError("signing for transaction type {self.ty} not implemented")
 
@@ -1493,49 +1198,59 @@ class Transaction:
         """
         Returns a signed version of the transaction using the private key.
         """
-        tx = copy(self)
+        updated_values: Dict[str, Any] = {}
 
-        if tx.v is not None:
+        if self.v is not None:
             # Transaction already signed
-            if tx.sender is None:
-                public_key = PublicKey.from_signature_and_message(
-                    tx.signature_bytes(), keccak256(tx.signing_bytes()), hasher=None
-                )
-                tx.sender = keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
-            return tx
+            if self.sender is not None:
+                return self.model_copy()
 
-        if tx.secret_key is None:
+            public_key = PublicKey.from_signature_and_message(
+                self.signature_bytes(), keccak256(self.signing_bytes()), hasher=None
+            )
+            updated_values["sender"] = keccak256(public_key.format(compressed=False)[1:])[
+                32 - 20 :
+            ]
+            return self.model_copy(update=updated_values)
+
+        if self.secret_key is None:
             raise ValueError("secret_key must be set to sign a transaction")
 
         # Get the signing bytes
-        signing_hash = keccak256(tx.signing_bytes())
+        signing_hash = keccak256(self.signing_bytes())
 
         # Sign the bytes
 
-        private_key = PrivateKey(
-            secret=Hash(tx.secret_key) if tx.secret_key is not None else bytes(32)
-        )
+        # TODO: unnecessary check
+        private_key = PrivateKey(secret=self.secret_key if self.secret_key else bytes(32))
         signature_bytes = private_key.sign_recoverable(signing_hash, hasher=None)
         public_key = PublicKey.from_signature_and_message(
             signature_bytes, signing_hash, hasher=None
         )
-        tx.sender = keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
 
-        tx.v, tx.r, tx.s = (
+        sender = keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
+        updated_values["sender"] = sender
+
+        v, r, s = (
             signature_bytes[64],
             int.from_bytes(signature_bytes[0:32], byteorder="big"),
             int.from_bytes(signature_bytes[32:64], byteorder="big"),
         )
-        if tx.ty == 0:
-            if tx.protected:
-                tx.v += 35 + (tx.chain_id * 2)
+        if self.ty == 0:
+            if self.protected:
+                v += 35 + (self.chain_id * 2)
             else:  # not protected
-                tx.v += 27
+                v += 27
+
+        updated_values["v"] = v
+        updated_values["r"] = r
+        updated_values["s"] = s
 
         # Remove the secret key if requested
         if not keep_secret_key:
-            tx.secret_key = None
-        return tx
+            updated_values["secret_key"] = None
+
+        return self.model_copy(update=updated_values)
 
 
 def transaction_list_root(input_txs: List[Transaction] | None) -> Hash:
@@ -1576,11 +1291,11 @@ def serialize_transactions(input_txs: List[Transaction] | None) -> bytes:
 
 def blob_versioned_hashes_from_transactions(
     input_txs: List[Transaction] | None,
-) -> List[FixedSizeBytesConvertible]:
+) -> List[Hash]:
     """
     Gets a list of ordered blob versioned hashes from a list of transactions.
     """
-    versioned_hashes: List[FixedSizeBytesConvertible] = []
+    versioned_hashes: List[Hash] = []
 
     if input_txs is None:
         return versioned_hashes
@@ -1590,3 +1305,58 @@ def blob_versioned_hashes_from_transactions(
             versioned_hashes.extend(tx.blob_versioned_hashes)
 
     return versioned_hashes
+
+
+# TODO: Move to other file
+
+# Transition tool models
+
+
+class TransactionReceipt(CamelModel):
+    """
+    Transaction receipt
+    """
+
+    root: HexBytes
+    status: HexNumber
+    cumulative_gas_used: HexNumber
+    logs_bloom: Bloom
+    logs: List[Dict[str, str]] | None = None
+    transaction_hash: Hash
+    contract_address: Address
+    gas_used: HexNumber
+    effective_gas_price: HexNumber | None = None
+    block_hash: Hash
+    transaction_index: HexNumber
+    blob_gas_used: HexNumber | None = None
+    blob_gas_price: HexNumber | None = None
+
+
+class RejectedTransaction(CamelModel):
+    """
+    Rejected transaction
+    """
+
+    index: HexNumber
+    error: str
+
+
+class Result(CamelModel):
+    """
+    Result of a t8n
+    """
+
+    state_root: Hash
+    ommers_hash: Hash | None = Field(None, validation_alias="sha3Uncles")
+    transactions_trie: Hash = Field(..., alias="txRoot")
+    receipts_root: Hash
+    logs_hash: Hash
+    logs_bloom: Bloom
+    receipts: List[TransactionReceipt]
+    rejected_transactions: List[RejectedTransaction] | None = Field(None, alias="rejected")
+    difficulty: HexNumber | None = Field(None, alias="currentDifficulty")
+    gas_used: HexNumber
+    base_fee_per_gas: HexNumber | None = Field(None, alias="currentBaseFee")
+    withdrawals_root: Hash | None = None
+    excess_blob_gas: HexNumber | None = Field(None, alias="currentExcessBlobGas")
+    blob_gas_used: HexNumber | None = None
