@@ -168,10 +168,26 @@ class Withdrawal(CamelModel):
     address: Address
     amount: HexNumber
 
+    def to_serializable_list(self) -> List[Any]:
+        """
+        Returns a list of the withdrawal's attributes in the order they should
+        be serialized.
+        """
+        return [
+            Uint(self.index),
+            Uint(self.validator_index),
+            self.address,
+            Uint(self.amount),
+        ]
+
+
+DEFAULT_BASE_FEE = 7
+
 
 class Environment(CamelModel):
     """
-    Environment to be sent to the t8n
+    Structure used to keep track of the context in which a block
+    must be executed.
     """
 
     fee_recipient: Address = Field(
@@ -205,7 +221,9 @@ class Environment(CamelModel):
     withdrawals: List[Withdrawal] | None = Field(None)
     extra_data: HexBytes = Field(b"\x00")
 
-    def parent_hash(self) -> bytes:
+    @computed_field  # type: ignore[misc]
+    @property
+    def parent_hash(self) -> Hash:
         """
         Obtains the latest hash according to the highest block number in
         `block_hashes`.
@@ -215,6 +233,55 @@ class Environment(CamelModel):
 
         last_index = max(self.block_hashes.keys())
         return Hash(self.block_hashes[last_index])
+
+    def set_fork_requirements(self, fork: Fork) -> "Environment":
+        """
+        Fills the required fields in an environment depending on the fork.
+        """
+        number = self.number
+        timestamp = self.timestamp
+
+        updated_values: Dict[str, Any] = {}
+
+        if fork.header_prev_randao_required(number, timestamp) and self.prev_randao is None:
+            updated_values["prev_randao"] = 0
+
+        if fork.header_withdrawals_required(number, timestamp) and self.withdrawals is None:
+            updated_values["withdrawals"] = []
+
+        if (
+            fork.header_base_fee_required(number, timestamp)
+            and self.base_fee_per_gas is None
+            and self.parent_base_fee_per_gas is None
+        ):
+            updated_values["base_fee_per_gas"] = DEFAULT_BASE_FEE
+
+        if fork.header_zero_difficulty_required(number, timestamp):
+            updated_values["difficulty"] = 0
+        elif self.difficulty is None and self.parent_difficulty is None:
+            updated_values["difficulty"] = 0x20000
+
+        if (
+            fork.header_excess_blob_gas_required(number, timestamp)
+            and self.excess_blob_gas is None
+            and self.parent_excess_blob_gas is None
+        ):
+            updated_values["excess_blob_gas"] = 0
+
+        if (
+            fork.header_blob_gas_used_required(number, timestamp)
+            and self.blob_gas_used is None
+            and self.parent_blob_gas_used is None
+        ):
+            updated_values["blob_gas_used"] = 0
+
+        if (
+            fork.header_beacon_root_required(number, timestamp)
+            and self.parent_beacon_block_root is None
+        ):
+            updated_values["parent_beacon_block_root"] = 0
+
+        return self.model_copy(update=updated_values)
 
 
 class TransactionReceipt(CamelModel):
@@ -454,6 +521,7 @@ def test_sanity():
         "currentBaseFee": "0x7",
         "parentUncleHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "extraData": "0x00",
+        "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
     }
 
     assert "fee_recipient" in dict(env)
@@ -489,7 +557,6 @@ def test_sanity():
     # We combine the environment and the result to create a FixtureHeader
     fixture_header = FixtureHeader(
         **(env.model_dump(exclude_none=True) | result.model_dump(exclude_none=True)),
-        parent_hash=env.parent_hash(),
         fork=Shanghai,
     )
     assert fixture_header.fee_recipient == env.fee_recipient
@@ -501,7 +568,6 @@ def test_sanity():
     with pytest.raises(ValueError):
         FixtureHeader(
             **(env.model_dump(exclude_none=True) | result.model_dump(exclude_none=True)),
-            parent_hash=env.parent_hash(),
             fork=Cancun,
         )
 
