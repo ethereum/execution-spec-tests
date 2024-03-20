@@ -106,4 +106,5 @@ def fill(pytest_args, help_flag, pytest_help_flag):
     Entry point for the fill command.
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    pytest.main(args)
+    result = pytest.main(args)
+    sys.exit(result)
