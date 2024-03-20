@@ -133,7 +133,7 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
         2. The corresponding fixture file has been generated:
 
            ```console
-           head fixtures/berlin/eip2930_access_list/acl/access_list.json
+           head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json
            ```
 
 ## Usage
