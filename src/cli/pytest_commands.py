@@ -25,7 +25,7 @@ They can also be executed (and debugged) directly in an interactive python
 shell:
 
 ```
-from src.entry_points.cli_pytest import fill
+from src.cli.pytest_commands import fill
 from click.testing import CliRunner
 
 runner = CliRunner()
