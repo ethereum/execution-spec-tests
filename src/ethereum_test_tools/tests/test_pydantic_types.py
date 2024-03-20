@@ -2,21 +2,238 @@
 Types experiment
 """
 
+import json
 from functools import cached_property
-from typing import Any, Callable, Dict, List, get_args, get_type_hints
+from typing import Any, Dict, List, get_args, get_type_hints
 
 import pytest
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
-from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, computed_field
+from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, TypeAdapter, computed_field
 from pydantic.alias_generators import to_camel
-from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import BeforeValidator
 from typing_extensions import Annotated
 
 from ethereum_test_forks import Cancun, Fork, Shanghai
-from ethereum_test_tools.common import EmptyOmmersRoot
+from ethereum_test_tools.common import (
+    Address,
+    Bloom,
+    Bytes,
+    EmptyOmmersRoot,
+    Hash,
+    HeaderNonce,
+    HexNumber,
+    Number,
+    ZeroPaddedHexNumber,
+)
+
+# Camel models
+
+
+class CamelModel(BaseModel):
+    """
+    Model that uses camel case
+    """
+
+    model_config = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True,
+    )
+
+
+class SerializationCamelModel(BaseModel):
+    """
+    Model that uses camel case for serialization
+    """
+
+    model_config = ConfigDict(
+        alias_generator=AliasGenerator(serialization_alias=to_camel),
+        populate_by_name=True,
+    )
+
+
+# Test models
+
+
+class Withdrawal(CamelModel):
+    """
+    Withdrawal type
+    """
+
+    index: HexNumber
+    validator_index: HexNumber
+    address: Address
+    amount: HexNumber
+
+    def to_serializable_list(self) -> List[Any]:
+        """
+        Returns a list of the withdrawal's attributes in the order they should
+        be serialized.
+        """
+        return [
+            Uint(self.index),
+            Uint(self.validator_index),
+            self.address,
+            Uint(self.amount),
+        ]
+
+
+DEFAULT_BASE_FEE = 7
+
+
+class Environment(CamelModel):
+    """
+    Structure used to keep track of the context in which a block
+    must be executed.
+    """
+
+    fee_recipient: Address = Field(
+        "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        serialization_alias="currentCoinbase",
+        validate_default=True,
+    )
+    gas_limit: HexNumber = Field(
+        100_000_000_000_000_000, serialization_alias="currentGasLimit", validate_default=True
+    )
+    number: HexNumber = Field(1, serialization_alias="currentNumber", validate_default=True)
+    timestamp: HexNumber = Field(
+        1_000, serialization_alias="currentTimestamp", validate_default=True
+    )
+    prev_randao: HexNumber | None = Field(None, serialization_alias="currentRandom")
+    difficulty: HexNumber | None = Field(None, serialization_alias="currentDifficulty")
+    base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="currentBaseFee")
+    blob_gas_used: HexNumber | None = Field(None, serialization_alias="currentBlobGasUsed")
+    excess_blob_gas: HexNumber | None = Field(None, serialization_alias="currentExcessBlobGas")
+
+    parent_difficulty: HexNumber | None = Field(None)
+    parent_timestamp: HexNumber | None = Field(None)
+    parent_base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="parentBaseFee")
+    parent_gas_used: HexNumber | None = Field(None)
+    parent_gas_limit: HexNumber | None = Field(None)
+    parent_ommers_hash: Hash = Field(
+        0, serialization_alias="parentUncleHash", validate_default=True
+    )
+    parent_blob_gas_used: HexNumber | None = Field(None)
+    parent_excess_blob_gas: HexNumber | None = Field(None)
+    parent_beacon_block_root: Hash | None = Field(None)
+
+    block_hashes: Dict[HexNumber, Hash] = Field(default_factory=dict)
+    ommers: List[Hash] = Field(default_factory=list)
+    withdrawals: List[Withdrawal] | None = Field(None)
+    extra_data: Bytes = Field(b"\x00", validate_default=True)
+
+    @computed_field  # type: ignore[misc]
+    @property
+    def parent_hash(self) -> Hash:
+        """
+        Obtains the latest hash according to the highest block number in
+        `block_hashes`.
+        """
+        if len(self.block_hashes) == 0:
+            return Hash(0)
+
+        last_index = max(self.block_hashes.keys())
+        return Hash(self.block_hashes[last_index])
+
+    def set_fork_requirements(self, fork: Fork) -> "Environment":
+        """
+        Fills the required fields in an environment depending on the fork.
+        """
+        number = self.number
+        timestamp = self.timestamp
+
+        updated_values: Dict[str, Any] = {}
+
+        if fork.header_prev_randao_required(number, timestamp) and self.prev_randao is None:
+            updated_values["prev_randao"] = 0
+
+        if fork.header_withdrawals_required(number, timestamp) and self.withdrawals is None:
+            updated_values["withdrawals"] = []
+
+        if (
+            fork.header_base_fee_required(number, timestamp)
+            and self.base_fee_per_gas is None
+            and self.parent_base_fee_per_gas is None
+        ):
+            updated_values["base_fee_per_gas"] = DEFAULT_BASE_FEE
+
+        if fork.header_zero_difficulty_required(number, timestamp):
+            updated_values["difficulty"] = 0
+        elif self.difficulty is None and self.parent_difficulty is None:
+            updated_values["difficulty"] = 0x20000
+
+        if (
+            fork.header_excess_blob_gas_required(number, timestamp)
+            and self.excess_blob_gas is None
+            and self.parent_excess_blob_gas is None
+        ):
+            updated_values["excess_blob_gas"] = 0
+
+        if (
+            fork.header_blob_gas_used_required(number, timestamp)
+            and self.blob_gas_used is None
+            and self.parent_blob_gas_used is None
+        ):
+            updated_values["blob_gas_used"] = 0
+
+        if (
+            fork.header_beacon_root_required(number, timestamp)
+            and self.parent_beacon_block_root is None
+        ):
+            updated_values["parent_beacon_block_root"] = 0
+
+        return self.model_copy(update=updated_values)
+
+
+class TransactionReceipt(CamelModel):
+    """
+    Transaction receipt
+    """
+
+    root: Bytes
+    status: HexNumber
+    cumulative_gas_used: HexNumber
+    logs_bloom: Bloom
+    logs: List[Dict[str, str]] | None = None
+    transaction_hash: Hash
+    contract_address: Address
+    gas_used: HexNumber
+    effective_gas_price: HexNumber | None = None
+    block_hash: Hash
+    transaction_index: HexNumber
+    blob_gas_used: HexNumber | None = None
+    blob_gas_price: HexNumber | None = None
+
+
+class RejectedTransaction(CamelModel):
+    """
+    Rejected transaction
+    """
+
+    index: HexNumber
+    error: str
+
+
+class Result(CamelModel):
+    """
+    Result of a t8n
+    """
+
+    state_root: Hash
+    ommers_hash: Hash | None = Field(None, validation_alias="sha3Uncles")
+    transactions_trie: Hash = Field(..., alias="txRoot")
+    receipts_root: Hash
+    logs_hash: Hash
+    logs_bloom: Bloom
+    receipts: List[TransactionReceipt]
+    rejected_transactions: List[RejectedTransaction] | None = Field(None, alias="rejected")
+    difficulty: HexNumber | None = Field(None, alias="currentDifficulty")
+    gas_used: HexNumber
+    base_fee_per_gas: HexNumber | None = Field(None, alias="currentBaseFee")
+    withdrawals_root: Hash | None = None
+    excess_blob_gas: HexNumber | None = Field(None, alias="currentExcessBlobGas")
+    blob_gas_used: HexNumber | None = None
 
 
 class HeaderForkRequirement(str):
@@ -64,12 +281,12 @@ class FixtureHeader(SerializationCamelModel):
     transactions_trie: Hash
     receipts_root: Hash
     logs_bloom: Bloom
-    difficulty: HexNumber = 0
+    difficulty: HexNumber = Field(0)
     number: HexNumber
     gas_limit: HexNumber
     gas_used: HexNumber
     timestamp: HexNumber
-    extra_data: HexBytes
+    extra_data: Bytes
     prev_randao: Hash = Field(..., serialization_alias="mixHash")
     nonce: HeaderNonce = Field(0, validate_default=True)
     base_fee_per_gas: Annotated[HexNumber, HeaderForkRequirement("base_fee")] | None = Field(None)
@@ -131,11 +348,11 @@ class FixtureHeader(SerializationCamelModel):
 
     @computed_field(alias="rlp")  # type: ignore[misc]
     @cached_property
-    def rlp(self) -> HexBytes:
+    def rlp(self) -> Bytes:
         """
         Compute the RLP of the header
         """
-        return eth_rlp.encode(self.rlp_encode_list)
+        return Bytes(eth_rlp.encode(self.rlp_encode_list))
 
     @computed_field(alias="block_hash")  # type: ignore[misc]
     @cached_property
@@ -143,7 +360,7 @@ class FixtureHeader(SerializationCamelModel):
         """
         Compute the RLP of the header
         """
-        return keccak256(self.rlp)
+        return Hash(keccak256(self.rlp))
 
 
 class FixtureExecutionPayload(SerializationCamelModel):
@@ -162,7 +379,7 @@ class FixtureExecutionPayload(SerializationCamelModel):
     gas_limit: HexNumber
     gas_used: HexNumber
     timestamp: HexNumber
-    extra_data: HexBytes
+    extra_data: Bytes
     prev_randao: Hash
 
     base_fee_per_gas: HexNumber | None = Field(None)
@@ -172,8 +389,45 @@ class FixtureExecutionPayload(SerializationCamelModel):
 
     block_hash: Hash
 
-    transactions: List[Annotated[HexBytes, BeforeValidator(lambda x: x.serialized_bytes())]]
+    transactions: List[Annotated[Bytes, BeforeValidator(lambda x: x.serialized_bytes())]]
     withdrawals: List[Withdrawal] | None = None
+
+
+@pytest.mark.parametrize(
+    "test_type,expected_serialization",
+    [
+        pytest.param(Number, '"1"', id="Number"),
+        pytest.param(HexNumber, '"0x1"', id="HexNumber"),
+        pytest.param(ZeroPaddedHexNumber, '"0x01"', id="ZeroPaddedHexNumber"),
+        pytest.param(Address, '"0x0000000000000000000000000000000000000001"', id="Address"),
+        pytest.param(
+            Hash, '"0x0000000000000000000000000000000000000000000000000000000000000001"', id="Hash"
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    "validate_python",
+    [
+        pytest.param(1, id="int"),
+        pytest.param("1", id="str"),
+        pytest.param("0x1", id="hex"),
+    ],
+)
+def test_base_types(test_type: type, validate_python: Any, expected_serialization: str):
+    """
+    Test pydantic aspect of base types
+    """
+    adapter = TypeAdapter(test_type)  # type: ignore
+    validated = adapter.validate_python(validate_python)
+    assert isinstance(validated, test_type)
+    assert adapter.dump_json(validated).decode(encoding="utf-8") == expected_serialization
+
+
+def model_dump(model: Any, **kwargs) -> Dict:
+    """
+    Dump the model
+    """
+    return json.loads(model.model_dump_json(**kwargs).encode(encoding="utf-8"))
 
 
 def test_sanity():
@@ -184,7 +438,7 @@ def test_sanity():
         prev_randao=0,
         base_fee_per_gas=7,
         withdrawals=[],
-        difficulty=0,
+        difficulty=HexNumber("0"),
     )
     assert (
         env.fee_recipient
@@ -193,7 +447,7 @@ def test_sanity():
     assert env.base_fee_per_gas == 7
 
     # We send the environment to the t8n
-    assert env.model_dump(by_alias=True, exclude_none=True) == {
+    assert model_dump(env, by_alias=True, exclude_none=True) == {
         "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         "currentGasLimit": "0x16345785d8a0000",
         "currentNumber": "0x1",
@@ -237,7 +491,7 @@ def test_sanity():
         "withdrawalsRoot": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
     }
     result = Result(**result_dump)
-    assert result.model_dump(by_alias=True, exclude_none=True) == result_dump
+    assert model_dump(result, by_alias=True, exclude_none=True) == result_dump
 
     # We combine the environment and the result to create a FixtureHeader
     fixture_header = FixtureHeader(

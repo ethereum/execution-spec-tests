@@ -2,7 +2,16 @@
 Common definitions and types.
 """
 
-from .base_types import Address, Bloom, Bytes, Hash, HeaderNonce, HexNumber, Number
+from .base_types import (
+    Address,
+    Bloom,
+    Bytes,
+    Hash,
+    HeaderNonce,
+    HexNumber,
+    Number,
+    ZeroPaddedHexNumber,
+)
 from .constants import (
     AddrAA,
     AddrBB,
@@ -67,6 +76,7 @@ __all__ = (
     "TestPrivateKey2",
     "Transaction",
     "Withdrawal",
+    "ZeroPaddedHexNumber",
     "add_kzg_version",
     "ceiling_division",
     "compute_create_address",

@@ -232,6 +232,7 @@ runtime
 sandboxed
 secp256k1
 selfbalance
+ser
 setitem
 sha
 SHA
