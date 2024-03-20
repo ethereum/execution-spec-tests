@@ -16,6 +16,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 📋 Misc
 
+- ✨ Port entry point scripts to use [click](https://click.palletsprojects.com) and add tests ([#483](https://github.com/ethereum/execution-spec-tests/pull/483)).
+
 ## 🔜 [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 
 ### 🧪 Test Cases
