@@ -35,13 +35,17 @@ print(result.output)
 """
 
 import sys
+from typing import Any, Callable, List
 
 import click
 import pytest
 
+# Define a custom type for decorators, which are functions that return functions.
+Decorator = Callable[[Callable[..., Any]], Callable[..., Any]]
+
 
 @click.command(context_settings=dict(ignore_unknown_options=True))
-def tf():  # noqa: D103
+def tf() -> None:
     """
     The `tf` command, deprecated as of 2023-06.
     """
@@ -54,7 +58,7 @@ def tf():  # noqa: D103
     sys.exit(1)
 
 
-def common_click_options(func):
+def common_click_options(func: Callable[..., Any]) -> Decorator:
     """
     Define common click options for fill and other pytest-based commands.
 
@@ -83,12 +87,14 @@ def common_click_options(func):
     return click.argument("pytest_args", nargs=-1, type=click.UNPROCESSED)(func)
 
 
-def handle_help_flags(pytest_args, help_flag, pytest_help_flag):
+def handle_help_flags(
+    pytest_args: List[str], help_flag: bool, pytest_help_flag: bool
+) -> List[str]:
     """
-    Modify the arguments passed to the click cli command before forwarding to
-    to the pytest command.
+    Modify the arguments passed to the click CLI command before forwarding to
+    the pytest command.
 
-    This is to make `--help` more useful because`pytest --help` is extremely
+    This is to make `--help` more useful because `pytest --help` is extremely
     verbose and lists all flags from pytest and pytest plugins.
     """
     if help_flag:
@@ -101,7 +107,7 @@ def handle_help_flags(pytest_args, help_flag, pytest_help_flag):
 
 @click.command(context_settings=dict(ignore_unknown_options=True))
 @common_click_options
-def fill(pytest_args, help_flag, pytest_help_flag):
+def fill(pytest_args: List[str], help_flag: bool, pytest_help_flag: bool) -> None:
     """
     Entry point for the fill command.
     """
