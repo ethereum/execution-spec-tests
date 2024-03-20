@@ -1,6 +1,7 @@
 """
 Common definitions and types.
 """
+
 from .base_types import (
     Address,
     Bloom,
@@ -21,6 +22,7 @@ from .constants import (
     TestPrivateKey,
     TestPrivateKey2,
 )
+from .conversions import str_or_none
 from .helpers import (
     TestParameterGroup,
     add_kzg_version,
@@ -45,7 +47,6 @@ from .types import (
     Withdrawal,
     alloc_to_accounts,
     serialize_transactions,
-    str_or_none,
     transaction_list_root,
     withdrawals_root,
 )

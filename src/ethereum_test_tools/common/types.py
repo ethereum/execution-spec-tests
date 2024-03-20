@@ -37,7 +37,6 @@ from .conversions import (
     FixedSizeBytesConvertible,
     NumberConvertible,
     int_or_none,
-    str_or_none,
 )
 from .json import JSONEncoder, SupportsJSON, field
 
@@ -452,10 +451,10 @@ class Account:
         """
 
         address: Address
-        want: str | None
-        got: str | None
+        want: bytes | None
+        got: bytes | None
 
-        def __init__(self, address: Address, want: str | None, got: str | None, *args):
+        def __init__(self, address: Address, want: bytes | None, got: bytes | None, *args):
             super().__init__(args)
             self.address = address
             self.want = want
@@ -465,37 +464,82 @@ class Account:
             """Print exception string"""
             return (
                 f"unexpected code for account {self.address}: "
-                + f"want {self.want}, got {self.got}"
+                + f"want {self.want.hex()}, got {self.got.hex()}"
             )
 
-    def check_alloc(self: "Account", address: Address, alloc: dict):
+    def get_nonce(self: "Account") -> int:
+        """
+        Returns the nonce of the account.
+        """
+        return Number(self.nonce) if self.nonce is not None else 0
+
+    def get_balance(self: "Account") -> int:
+        """
+        Returns the balance of the account.
+        """
+        return Number(self.balance) if self.balance is not None else 0
+
+    def get_code(self: "Account") -> bytes:
+        """
+        Returns the bytecode of the account.
+        """
+        return Bytes(self.code) if self.code is not None else b""
+
+    def get_storage(self: "Account") -> Storage:
+        """
+        Returns the storage of the account.
+        """
+        return (
+            self.storage
+            if isinstance(self.storage, Storage)
+            else Storage(self.storage if self.storage else {})
+        )
+
+    def has_empty_code(self: "Account") -> bool:
+        """
+        Returns true if an account has no bytecode.
+        """
+        return self.get_code() == b""
+
+    def is_empty(self: "Account") -> bool:
+        """
+        Returns true if an account deemed empty.
+        """
+        return (
+            self.get_nonce() == 0
+            and self.get_balance() == 0
+            and self.has_empty_code()
+            and (not self.storage or self.storage == {} or self.storage is None)
+        )
+
+    def verify(self: "Account", address: Address, other: "Account"):
         """
         Checks the returned alloc against an expected account in post state.
         Raises exception on failure.
         """
         if self.nonce is not None:
-            actual_nonce = int_or_none(alloc.get("nonce"), 0)
-            nonce = int(Number(self.nonce))
-            if nonce != actual_nonce:
+            expected_nonce = self.get_nonce()
+            actual_nonce = other.get_nonce()
+            if expected_nonce != actual_nonce:
                 raise Account.NonceMismatch(
                     address=address,
-                    want=nonce,
+                    want=expected_nonce,
                     got=actual_nonce,
                 )
 
         if self.balance is not None:
-            actual_balance = int_or_none(alloc.get("balance"), 0)
-            balance = int(Number(self.balance))
-            if balance != actual_balance:
+            expected_balance = self.get_balance()
+            actual_balance = other.get_balance()
+            if expected_balance != actual_balance:
                 raise Account.BalanceMismatch(
                     address=address,
-                    want=balance,
+                    want=expected_balance,
                     got=actual_balance,
                 )
 
         if self.code is not None:
-            expected_code = Bytes(self.code).hex()
-            actual_code = str_or_none(alloc.get("code"), "0x")
+            expected_code = self.get_code()
+            actual_code = other.get_code()
             if expected_code != actual_code:
                 raise Account.CodeMismatch(
                     address=address,
@@ -504,28 +548,9 @@ class Account:
                 )
 
         if self.storage is not None:
-            expected_storage = (
-                self.storage if isinstance(self.storage, Storage) else Storage(self.storage)
-            )
-            actual_storage = Storage(alloc["storage"]) if "storage" in alloc else Storage({})
+            expected_storage = self.get_storage()
+            actual_storage = other.get_storage()
             expected_storage.must_be_equal(address=address, other=actual_storage)
-
-    def has_empty_code(self: "Account") -> bool:
-        """
-        Returns true if an account has no bytecode.
-        """
-        return not self.code or Bytes(self.code) == b""
-
-    def is_empty(self: "Account") -> bool:
-        """
-        Returns true if an account deemed empty.
-        """
-        return (
-            (self.nonce == 0 or self.nonce is None)
-            and (self.balance == 0 or self.balance is None)
-            and self.has_empty_code()
-            and (not self.storage or self.storage == {} or self.storage is None)
-        )
 
     @classmethod
     def from_dict(cls: Type, data: "Dict | Account") -> "Account":
@@ -611,6 +636,12 @@ class Alloc(dict, Mapping[Address, Account], SupportsJSON):
             {Address(address): Account.from_dict(account) for address, account in self.items()}
         )
 
+    def get_account(self, address: Address) -> Account:
+        """
+        Returns the account at the given address.
+        """
+        return self[address] if address in self else Account()
+
     def state_root(self) -> bytes:
         """
         Returns the state root of the allocation.
@@ -637,6 +668,27 @@ class Alloc(dict, Mapping[Address, Account], SupportsJSON):
                         value=U256(Number(value)),
                     )
         return state_root(state)
+
+    def verify_post(self, *, expected_post: Mapping) -> None:
+        """
+        Verify that an allocation matches the expected post in the test.
+        Raises exception on unexpected values.
+        """
+        for address, expected_account in expected_post.items():
+            address = Address(address)
+            assert (
+                expected_account is not None
+            ), f"None account at address {address}: {expected_account}"
+            actual_account = self.get_account(address)
+            if expected_account == Account.NONEXISTENT:
+                assert actual_account.is_empty(), f"found unexpected account: {address}"
+            else:
+                assert not actual_account.is_empty(), f"expected account not found: {address}"
+                assert isinstance(expected_account, Account), (
+                    f"unexpected type for account at address {address}: "
+                    + f"{type(expected_account)}"
+                )
+                expected_account.verify(address, actual_account)
 
 
 def alloc_to_accounts(got_alloc: Dict[str, Any]) -> Mapping[str, Account]:

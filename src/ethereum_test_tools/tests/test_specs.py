@@ -2,12 +2,11 @@
 Test suite for test spec submodules of the `ethereum_test` module.
 """
 
-from typing import Any, Mapping
+from typing import Mapping
 
 import pytest
 
-from ..common import Account
-from ..spec import verify_post_alloc
+from ..common import Account, Alloc
 
 
 @pytest.mark.parametrize(
@@ -86,11 +85,12 @@ from ..spec import verify_post_alloc
         ),
     ],
 )
-def test_verify_post_alloc(
-    post: Mapping[str, Account], alloc: Mapping[str, Any], should_pass: bool
-):
+def test_verify_post_alloc(post: Mapping[str, Account], alloc: Mapping, should_pass: bool):
+    """
+    Test post alloc verification
+    """
     if should_pass:
-        verify_post_alloc(post, alloc)
+        Alloc(alloc).verify_post(expected_post=post)
     else:
         with pytest.raises(Exception) as _:
-            verify_post_alloc(post, alloc)
+            Alloc(alloc).verify_post(expected_post=post)

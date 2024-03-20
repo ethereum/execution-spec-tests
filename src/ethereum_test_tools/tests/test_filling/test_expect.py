@@ -1,6 +1,7 @@
 """
 Test fixture post state (expect section) during state fixture generation.
 """
+
 from typing import Any, Mapping
 
 import pytest
@@ -8,7 +9,7 @@ import pytest
 from ethereum_test_forks import Fork, get_deployed_forks
 from evm_transition_tool import FixtureFormats, GethTransitionTool
 
-from ...common import Account, Address, Environment, Transaction
+from ...common import Account, Address, Bytes, Environment, Transaction
 from ...common.types import Storage
 from ...spec import StateTest
 
@@ -164,7 +165,7 @@ def test_post_code_value_mismatch(pre, post, state_test, t8n, fork):
     with pytest.raises(Account.CodeMismatch) as e_info:
         state_test.generate(t8n=t8n, fork=fork)
     assert e_info.value == Account.CodeMismatch(
-        address=ADDRESS_UNDER_TEST, want=post_code, got=pre_code
+        address=ADDRESS_UNDER_TEST, want=Bytes(post_code), got=Bytes(pre_code)
     )
 
 
