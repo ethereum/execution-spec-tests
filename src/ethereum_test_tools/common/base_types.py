@@ -2,16 +2,13 @@
 Basic type primitives used to define other types.
 """
 
-from typing import Any, ClassVar, Optional, SupportsBytes, Type, TypeVar
+from typing import Any, ClassVar, SupportsBytes, Type, TypeVar
 
 from pydantic import GetCoreSchemaHandler
 from pydantic_core.core_schema import (
     PlainValidatorFunctionSchema,
-    ValidationInfo,
-    int_schema,
     no_info_plain_validator_function,
     to_string_ser_schema,
-    with_info_before_validator_function,
 )
 
 from .conversions import (
@@ -26,7 +23,25 @@ from .conversions import (
 N = TypeVar("N", bound="Number")
 
 
-class Number(int):
+class ToStringSchema:
+    """
+    Type converter to add a simple pydantic schema that correctly parses and serializes the type.
+    """
+
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """
+        Calls the class constructor without info and appends the serialization schema.
+        """
+        return no_info_plain_validator_function(
+            source_type,
+            serialization=to_string_ser_schema(),
+        )
+
+
+class Number(int, ToStringSchema):
     """
     Class that helps represent numbers in tests.
     """
@@ -36,15 +51,6 @@ class Number(int):
         Creates a new Number object.
         """
         return super(Number, cls).__new__(cls, to_number(input))
-
-    @classmethod
-    def __get_pydantic_core_schema__(
-        cls, source_type: Any, handler: GetCoreSchemaHandler
-    ) -> PlainValidatorFunctionSchema:
-        return no_info_plain_validator_function(
-            cls,
-            serialization=to_string_ser_schema(),
-        )
 
     def __str__(self) -> str:
         """
@@ -97,19 +103,10 @@ class ZeroPaddedHexNumber(HexNumber):
         return "0x" + hex_str
 
 
-class Bytes(bytes):
+class Bytes(bytes, ToStringSchema):
     """
     Class that helps represent bytes of variable length in tests.
     """
-
-    @classmethod
-    def __get_pydantic_core_schema__(
-        cls, source_type: Any, handler: GetCoreSchemaHandler
-    ) -> PlainValidatorFunctionSchema:
-        return no_info_plain_validator_function(
-            cls,
-            serialization=to_string_ser_schema(),
-        )
 
     def __new__(cls, input: BytesConvertible):
         """

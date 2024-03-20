@@ -12,12 +12,21 @@ from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
 from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, TypeAdapter, computed_field
 from pydantic.alias_generators import to_camel
-from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import BeforeValidator
 from typing_extensions import Annotated
 
 from ethereum_test_forks import Cancun, Fork, Shanghai
-from ethereum_test_tools.common import EmptyOmmersRoot, HexNumber, Number, ZeroPaddedHexNumber
+from ethereum_test_tools.common import (
+    Address,
+    Bloom,
+    Bytes,
+    EmptyOmmersRoot,
+    Hash,
+    HeaderNonce,
+    HexNumber,
+    Number,
+    ZeroPaddedHexNumber,
+)
 
 # Type primitives
 
@@ -97,34 +106,6 @@ def to_fixed_bytes(length: int) -> Callable[[bytes], str]:
 
     return _to_fixed_bytes
 
-
-Address = Annotated[
-    bytes,
-    BeforeValidator(from_fixed_bytes(20)),
-    PlainSerializer(to_fixed_bytes(20)),
-]
-Hash = Annotated[
-    bytes,
-    BeforeValidator(from_fixed_bytes(32)),
-    PlainSerializer(to_fixed_bytes(32)),
-]
-Bloom = Annotated[
-    bytes,
-    BeforeValidator(from_fixed_bytes(256)),
-    PlainSerializer(to_fixed_bytes(256)),
-]
-HeaderNonce = Annotated[
-    bytes,
-    BeforeValidator(from_fixed_bytes(8)),
-    PlainSerializer(to_fixed_bytes(8)),
-]
-
-
-Bytes = Annotated[
-    bytes,
-    BeforeValidator(to_bytes),
-    PlainSerializer(from_bytes),
-]
 
 # Camel models
 
@@ -229,7 +210,7 @@ class Environment(CamelModel):
         `block_hashes`.
         """
         if len(self.block_hashes) == 0:
-            return bytes([0] * 32)
+            return Hash(0)
 
         last_index = max(self.block_hashes.keys())
         return Hash(self.block_hashes[last_index])
@@ -450,7 +431,7 @@ class FixtureHeader(SerializationCamelModel):
         """
         Compute the RLP of the header
         """
-        return eth_rlp.encode(self.rlp_encode_list)
+        return Bytes(eth_rlp.encode(self.rlp_encode_list))
 
     @computed_field(alias="block_hash")  # type: ignore[misc]
     @cached_property
@@ -458,7 +439,7 @@ class FixtureHeader(SerializationCamelModel):
         """
         Compute the RLP of the header
         """
-        return keccak256(self.rlp)
+        return Hash(keccak256(self.rlp))
 
 
 class FixtureExecutionPayload(SerializationCamelModel):
@@ -497,6 +478,10 @@ class FixtureExecutionPayload(SerializationCamelModel):
         pytest.param(Number, '"1"', id="Number"),
         pytest.param(HexNumber, '"0x1"', id="HexNumber"),
         pytest.param(ZeroPaddedHexNumber, '"0x01"', id="ZeroPaddedHexNumber"),
+        pytest.param(Address, '"0x0000000000000000000000000000000000000001"', id="Address"),
+        pytest.param(
+            Hash, '"0x0000000000000000000000000000000000000000000000000000000000000001"', id="Hash"
+        ),
     ],
 )
 @pytest.mark.parametrize(
