@@ -4,11 +4,13 @@ Basic type primitives used to define other types.
 
 from typing import Any, ClassVar, Optional, SupportsBytes, Type, TypeVar
 
+from pydantic import GetCoreSchemaHandler
 from pydantic_core.core_schema import (
-    CoreSchema,
+    PlainValidatorFunctionSchema,
     ValidationInfo,
     int_schema,
-    plain_serializer_function_ser_schema,
+    no_info_plain_validator_function,
+    to_string_ser_schema,
     with_info_before_validator_function,
 )
 
@@ -36,12 +38,13 @@ class Number(int):
         return super(Number, cls).__new__(cls, to_number(input))
 
     @classmethod
-    def __get_pydantic_core_schema__(cls, value, handle=None) -> CoreSchema:
-        schema = with_info_before_validator_function(
-            function=cls.__eth_pydantic_validate__, schema=int_schema()
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        return no_info_plain_validator_function(
+            cls,
+            serialization=to_string_ser_schema(),
         )
-        schema["serialization"] = plain_serializer_function_ser_schema(cls.serialize)
-        return schema
 
     def __str__(self) -> str:
         """
@@ -49,27 +52,11 @@ class Number(int):
         """
         return str(int(self))
 
-    @classmethod
-    def __eth_pydantic_validate__(
-        cls, value: Any, info: Optional[ValidationInfo] = None
-    ) -> "Number":
-        """
-        Validates the input and returns a Number object.
-        """
-        return cls(value)
-
     def hex(self) -> str:
         """
         Returns the hexadecimal representation of the number.
         """
         return hex(self)
-
-    @staticmethod
-    def serialize(value: int) -> str:
-        """
-        Returns the serialized representation of the number.
-        """
-        return str(value)
 
     @classmethod
     def or_none(cls: Type[N], input: N | NumberConvertible | None) -> N | None:
@@ -86,38 +73,17 @@ class HexNumber(Number):
     Class that helps represent an hexadecimal numbers in tests.
     """
 
-    @classmethod
-    def __get_pydantic_core_schema__(cls, value, handle=None) -> CoreSchema:
-        schema = with_info_before_validator_function(
-            cls.__eth_pydantic_validate__,
-            int_schema(serialization=plain_serializer_function_ser_schema(cls.serialize)),
-        )
-        return schema
-
     def __str__(self) -> str:
         """
         Returns the string representation of the number.
         """
         return self.hex()
 
-    @staticmethod
-    def serialize(value: int) -> str:
-        """
-        Returns the serialized representation of the number.
-        """
-        return hex(value)
-
 
 class ZeroPaddedHexNumber(HexNumber):
     """
     Class that helps represent zero padded hexadecimal numbers in tests.
     """
-
-    @classmethod
-    def __get_pydantic_core_schema__(cls, value, handle=None) -> CoreSchema:
-        schema = with_info_before_validator_function(cls.__eth_pydantic_validate__, int_schema())
-        schema["serialization"] = plain_serializer_function_ser_schema(cls.serialize)
-        return schema
 
     def hex(self) -> str:
         """
@@ -130,23 +96,20 @@ class ZeroPaddedHexNumber(HexNumber):
             return "0x0" + hex_str
         return "0x" + hex_str
 
-    @staticmethod
-    def serialize(value: int) -> str:
-        """
-        Returns the serialized representation of the number.
-        """
-        if value == 0:
-            return "0x00"
-        hex_str = hex(value)[2:]
-        if len(hex_str) % 2 == 1:
-            return "0x0" + hex_str
-        return "0x" + hex_str
-
 
 class Bytes(bytes):
     """
     Class that helps represent bytes of variable length in tests.
     """
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        return no_info_plain_validator_function(
+            cls,
+            serialization=to_string_ser_schema(),
+        )
 
     def __new__(cls, input: BytesConvertible):
         """

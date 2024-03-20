@@ -2,6 +2,7 @@
 Types experiment
 """
 
+import json
 from functools import cached_property
 from typing import Any, Callable, Dict, List, get_args, get_type_hints
 
@@ -9,14 +10,14 @@ import pytest
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
-from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, computed_field
+from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, TypeAdapter, computed_field
 from pydantic.alias_generators import to_camel
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import BeforeValidator
 from typing_extensions import Annotated
 
 from ethereum_test_forks import Cancun, Fork, Shanghai
-from ethereum_test_tools.common import EmptyOmmersRoot, HexNumber
+from ethereum_test_tools.common import EmptyOmmersRoot, HexNumber, Number, ZeroPaddedHexNumber
 
 # Type primitives
 
@@ -193,8 +194,10 @@ class Environment(CamelModel):
     gas_limit: HexNumber = Field(
         100_000_000_000_000_000, serialization_alias="currentGasLimit", validate_default=True
     )
-    number: HexNumber = Field(1, serialization_alias="currentNumber")
-    timestamp: HexNumber = Field(1_000, serialization_alias="currentTimestamp")
+    number: HexNumber = Field(1, serialization_alias="currentNumber", validate_default=True)
+    timestamp: HexNumber = Field(
+        1_000, serialization_alias="currentTimestamp", validate_default=True
+    )
     prev_randao: HexNumber | None = Field(None, serialization_alias="currentRandom")
     difficulty: HexNumber | None = Field(None, serialization_alias="currentDifficulty")
     base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="currentBaseFee")
@@ -216,7 +219,7 @@ class Environment(CamelModel):
     block_hashes: Dict[HexNumber, Hash] = Field(default_factory=dict)
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
-    extra_data: Bytes = Field(b"\x00")
+    extra_data: Bytes = Field(b"\x00", validate_default=True)
 
     @computed_field  # type: ignore[misc]
     @property
@@ -488,6 +491,39 @@ class FixtureExecutionPayload(SerializationCamelModel):
     withdrawals: List[Withdrawal] | None = None
 
 
+@pytest.mark.parametrize(
+    "test_type,expected_serialization",
+    [
+        pytest.param(Number, '"1"', id="Number"),
+        pytest.param(HexNumber, '"0x1"', id="HexNumber"),
+        pytest.param(ZeroPaddedHexNumber, '"0x01"', id="ZeroPaddedHexNumber"),
+    ],
+)
+@pytest.mark.parametrize(
+    "validate_python",
+    [
+        pytest.param(1, id="int"),
+        pytest.param("1", id="str"),
+        pytest.param("0x1", id="hex"),
+    ],
+)
+def test_base_types(test_type: type, validate_python: Any, expected_serialization: str):
+    """
+    Test pydantic aspect of base types
+    """
+    adapter = TypeAdapter(test_type)  # type: ignore
+    validated = adapter.validate_python(validate_python)
+    assert isinstance(validated, test_type)
+    assert adapter.dump_json(validated).decode(encoding="utf-8") == expected_serialization
+
+
+def model_dump(model: Any, **kwargs) -> Dict:
+    """
+    Dump the model
+    """
+    return json.loads(model.model_dump_json(**kwargs).encode(encoding="utf-8"))
+
+
 def test_sanity():
     """
     Sanity test
@@ -505,7 +541,7 @@ def test_sanity():
     assert env.base_fee_per_gas == 7
 
     # We send the environment to the t8n
-    assert env.model_dump(by_alias=True, exclude_none=True) == {
+    assert model_dump(env, by_alias=True, exclude_none=True) == {
         "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         "currentGasLimit": "0x16345785d8a0000",
         "currentNumber": "0x1",
@@ -549,7 +585,7 @@ def test_sanity():
         "withdrawalsRoot": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
     }
     result = Result(**result_dump)
-    assert result.model_dump(by_alias=True, exclude_none=True) == result_dump
+    assert model_dump(result, by_alias=True, exclude_none=True) == result_dump
 
     # We combine the environment and the result to create a FixtureHeader
     fixture_header = FixtureHeader(
