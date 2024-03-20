@@ -30,7 +30,51 @@ def _get_int_size(n: int) -> int:
 _push_opcodes_byte_list = [bytes([0x5F + x]) for x in range(33)]
 
 
-class Opcode(bytes):
+class OpcodeMacroBase(bytes):
+    """
+    Base class for Macro and Opcode, inherits from bytes.
+
+    This class is designed to represent a base structure for individual evm opcodes
+    and opcode macros.
+    """
+
+    _name_: str
+
+    def __new__(cls, *args):
+        """
+        Since OpcodeMacroBase is never instantiated directly but through
+        subclassing, this method simply forwards the arguments to the
+        bytes constructor.
+        """
+        return super().__new__(cls, *args)
+
+    def __call__(self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
+        """
+        Make OpcodeMacroBase callable, so that arguments can directly be
+        provided to an Opcode in order to more conveniently generate
+        bytecode (implemented in the subclass).
+        """
+        # ignore opcode arguments
+        args_t.count
+        return bytes(self)
+
+    def __str__(self) -> str:
+        """
+        Return the name of the opcode, assigned at Enum creation.
+        """
+        return self._name_
+
+    def __eq__(self, other):
+        """
+        Required to differentiate between SELFDESTRUCT and SENDALL type of cases
+        And to register the Macro opcodes which are defined from same bytes
+        """
+        if isinstance(other, OpcodeMacroBase):
+            return self._name_ == other._name_
+        return NotImplemented
+
+
+class Opcode(OpcodeMacroBase):
     """
     Represents a single Opcode instruction in the EVM, with extra metadata useful to parametrize
     tests.
@@ -48,11 +92,10 @@ class Opcode(bytes):
     pushed_stack_items: int
     min_stack_height: int
     data_portion_length: int
-    _name_: str
 
     def __new__(
         cls,
-        opcode_or_byte: Union[int, bytes, "Opcode"],
+        opcode_or_byte: Union[int, "Opcode"],
         *,
         popped_stack_items: int = 0,
         pushed_stack_items: int = 0,
@@ -62,16 +105,12 @@ class Opcode(bytes):
         """
         Creates a new opcode instance.
         """
-        if type(opcode_or_byte) is Opcode or type(opcode_or_byte) is Macro:
+        if type(opcode_or_byte) is Opcode:
             # Required because Enum class calls the base class with the instantiated object as
             # parameter.
             return opcode_or_byte
-        elif isinstance(opcode_or_byte, int) or isinstance(opcode_or_byte, bytes):
-            obj = (
-                super().__new__(cls, [opcode_or_byte])
-                if isinstance(opcode_or_byte, int)
-                else super().__new__(cls, opcode_or_byte)
-            )
+        elif isinstance(opcode_or_byte, int):
+            obj = super().__new__(cls, [opcode_or_byte])
             obj.popped_stack_items = popped_stack_items
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
@@ -186,28 +225,11 @@ class Opcode(bytes):
         """
         return int.from_bytes(self, byteorder="big")
 
-    def __str__(self) -> str:
-        """
-        Return the name of the opcode, assigned at Enum creation.
-        """
-        return self._name_
 
-    def __eq__(self, other):
-        """
-        Required to differentiate between SELFDESTRUCT and SENDALL type of cases
-        And to register the Macro opcodes which are defined from same bytes
-        """
-        if isinstance(other, Opcode):
-            return self._name_ == other._name_
-        return NotImplemented
-
-
-class Macro(Opcode):
+class Macro(OpcodeMacroBase):
     """
-    Represents opcode macro replacement
+    Represents opcode macro replacement, basically holds bytes
     """
-
-    macro_bytes: bytes
 
     def __new__(
         cls,
@@ -217,31 +239,12 @@ class Macro(Opcode):
         Creates a new opcode macro instance.
         """
         if type(macro_or_bytes) is Macro:
+            # Required because Enum class calls the base class with the instantiated object as
+            # parameter.
             return macro_or_bytes
-        assert isinstance(macro_or_bytes, bytes)
-        cls.macro_bytes = macro_or_bytes
-        instance = super().__new__(cls, macro_or_bytes)
-        return instance
-
-    def __call__(self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
-        """
-        Makes a macro instances callable to return formatted bytecode
-        """
-        # ignore opcode arguments
-        args_t.count
-        return self.macro_bytes
-
-    def __len__(self) -> int:
-        """
-        Returns the total bytecode length of the macro.
-        """
-        return len(self.macro_bytes)
-
-    def int(self) -> int:
-        """
-        Macros cannot be converted to int.
-        """
-        raise NotImplementedError("Macros cannot be converted to int")
+        else:
+            instance = super().__new__(cls, macro_or_bytes)
+            return instance
 
 
 OpcodeCallArg = Union[int, bytes, Opcode]
@@ -4918,9 +4921,15 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#FF](https://www.evm.codes/#FF)
     """
 
-    OOG = Macro(SHA3(0, 100000000000))
+
+class Macros(Macro, Enum):
     """
-    OOG(args) [Macro]
+    Enum containing all macros.
+    """
+
+    OOG = Macro(Opcodes.SHA3(0, 100000000000))
+    """
+    OOG(args)
     ----
 
     Halt execution by consuming all available gas
@@ -4939,7 +4948,7 @@ class Opcodes(Opcode, Enum):
     Add a little more and geth report gasprice = 30 with oog exception
     Make it 0 - 1 and geth report gasprice > u64 error
 
-    Bytecode
+    Source
     ----
     SHA3(0, 100000000000)
     """

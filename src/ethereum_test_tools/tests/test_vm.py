@@ -5,6 +5,7 @@ Test suite for `ethereum_test_tools.vm` module.
 import pytest
 
 from ..common.base_types import Address
+from ..vm.opcode import Macros as Om
 from ..vm.opcode import Opcodes as Op
 
 
@@ -163,4 +164,4 @@ def test_macros():
     """
     Test opcode and macros interaction
     """
-    assert (Op.PUSH1(1) + Op.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
+    assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
