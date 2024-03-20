@@ -16,7 +16,7 @@ from pydantic.functional_validators import BeforeValidator
 from typing_extensions import Annotated
 
 from ethereum_test_forks import Cancun, Fork, Shanghai
-from ethereum_test_tools.common import EmptyOmmersRoot
+from ethereum_test_tools.common import EmptyOmmersRoot, HexNumber
 
 # Type primitives
 
@@ -119,12 +119,7 @@ HeaderNonce = Annotated[
 ]
 
 
-HexNumber = Annotated[
-    int,
-    BeforeValidator(to_hex_number),
-    PlainSerializer(from_hex_number),
-]
-HexBytes = Annotated[
+Bytes = Annotated[
     bytes,
     BeforeValidator(to_bytes),
     PlainSerializer(from_bytes),
@@ -195,7 +190,9 @@ class Environment(CamelModel):
         serialization_alias="currentCoinbase",
         validate_default=True,
     )
-    gas_limit: HexNumber = Field(100_000_000_000_000_000, serialization_alias="currentGasLimit")
+    gas_limit: HexNumber = Field(
+        100_000_000_000_000_000, serialization_alias="currentGasLimit", validate_default=True
+    )
     number: HexNumber = Field(1, serialization_alias="currentNumber")
     timestamp: HexNumber = Field(1_000, serialization_alias="currentTimestamp")
     prev_randao: HexNumber | None = Field(None, serialization_alias="currentRandom")
@@ -219,7 +216,7 @@ class Environment(CamelModel):
     block_hashes: Dict[HexNumber, Hash] = Field(default_factory=dict)
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
-    extra_data: HexBytes = Field(b"\x00")
+    extra_data: Bytes = Field(b"\x00")
 
     @computed_field  # type: ignore[misc]
     @property
@@ -289,7 +286,7 @@ class TransactionReceipt(CamelModel):
     Transaction receipt
     """
 
-    root: HexBytes
+    root: Bytes
     status: HexNumber
     cumulative_gas_used: HexNumber
     logs_bloom: Bloom
@@ -379,12 +376,12 @@ class FixtureHeader(SerializationCamelModel):
     transactions_trie: Hash
     receipts_root: Hash
     logs_bloom: Bloom
-    difficulty: HexNumber = 0
+    difficulty: HexNumber = Field(0)
     number: HexNumber
     gas_limit: HexNumber
     gas_used: HexNumber
     timestamp: HexNumber
-    extra_data: HexBytes
+    extra_data: Bytes
     prev_randao: Hash = Field(..., serialization_alias="mixHash")
     nonce: HeaderNonce = Field(0, validate_default=True)
     base_fee_per_gas: Annotated[HexNumber, HeaderForkRequirement("base_fee")] | None = Field(None)
@@ -446,7 +443,7 @@ class FixtureHeader(SerializationCamelModel):
 
     @computed_field(alias="rlp")  # type: ignore[misc]
     @cached_property
-    def rlp(self) -> HexBytes:
+    def rlp(self) -> Bytes:
         """
         Compute the RLP of the header
         """
@@ -477,7 +474,7 @@ class FixtureExecutionPayload(SerializationCamelModel):
     gas_limit: HexNumber
     gas_used: HexNumber
     timestamp: HexNumber
-    extra_data: HexBytes
+    extra_data: Bytes
     prev_randao: Hash
 
     base_fee_per_gas: HexNumber | None = Field(None)
@@ -487,7 +484,7 @@ class FixtureExecutionPayload(SerializationCamelModel):
 
     block_hash: Hash
 
-    transactions: List[Annotated[HexBytes, BeforeValidator(lambda x: x.serialized_bytes())]]
+    transactions: List[Annotated[Bytes, BeforeValidator(lambda x: x.serialized_bytes())]]
     withdrawals: List[Withdrawal] | None = None
 
 
@@ -499,7 +496,7 @@ def test_sanity():
         prev_randao=0,
         base_fee_per_gas=7,
         withdrawals=[],
-        difficulty=0,
+        difficulty=HexNumber("0"),
     )
     assert (
         env.fee_recipient

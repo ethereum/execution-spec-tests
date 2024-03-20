@@ -33,14 +33,13 @@ from .helpers import (
     cost_memory_bytes,
     eip_2028_transaction_data_cost,
 )
-from .json import to_json
+from .json import JSONEncoder, to_json
 from .types import (
     AccessList,
     Account,
     Alloc,
     Auto,
     Environment,
-    JSONEncoder,
     Removable,
     Storage,
     Transaction,
