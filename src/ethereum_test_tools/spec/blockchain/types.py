@@ -410,7 +410,6 @@ class FixtureExecutionPayload(SerializationCamelModel):
     base_fee_per_gas: HexNumber | None = Field(None)
     blob_gas_used: HexNumber | None = Field(None)
     excess_blob_gas: HexNumber | None = Field(None)
-    parent_beacon_block_root: Hash | None = Field(None)
 
     block_hash: Hash
 
