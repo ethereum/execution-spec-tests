@@ -3,13 +3,32 @@ Exceptions for invalid execution.
 """
 
 from enum import Enum, auto, unique
-from typing import List, Union
+from typing import Any, List, Union
+
+from pydantic import GetCoreSchemaHandler
+from pydantic_core.core_schema import (
+    PlainValidatorFunctionSchema,
+    no_info_plain_validator_function,
+    to_string_ser_schema,
+)
 
 
 class ExceptionList(list):
     """
     A list of exceptions.
     """
+
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """
+        Calls the class constructor without info and appends the serialization schema.
+        """
+        return no_info_plain_validator_function(
+            source_type,
+            serialization=to_string_ser_schema(),
+        )
 
     def __init__(self, *exceptions: "ExceptionBase") -> None:
         """
@@ -42,6 +61,18 @@ class ExceptionBase(Enum):
     """
     Base class for exceptions.
     """
+
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """
+        Calls the class constructor without info and appends the serialization schema.
+        """
+        return no_info_plain_validator_function(
+            source_type,
+            serialization=to_string_ser_schema(),
+        )
 
     def __contains__(self, exception) -> bool:
         """
