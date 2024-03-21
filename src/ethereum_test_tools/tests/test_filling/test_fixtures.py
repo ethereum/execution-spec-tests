@@ -545,7 +545,7 @@ class TestFillBlockchainValidTxs:
         assert updated_block_header.difficulty == new_difficulty
         assert updated_block_header.state_root == new_state_root
         assert updated_block_header.transactions_trie == Hash(new_transactions_root)
-        assert updated_block_header.block_hash == block.block_header.block_hash  # type: ignore
+        assert updated_block_header.block_hash != block.block_header.block_hash  # type: ignore
         assert isinstance(updated_block_header.transactions_trie, Hash)
 
 
