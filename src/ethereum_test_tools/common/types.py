@@ -510,7 +510,7 @@ class Alloc(RootModel[Dict[Address, Account]]):
     Allocation of accounts in the state, pre and post test execution.
     """
 
-    root: Dict[Address, Account | Literal["NONEXISTENT"]] = Field(
+    root: Dict[Address, Account] = Field(
         default_factory=dict, validate_default=True
     )
 
