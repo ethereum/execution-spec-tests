@@ -11,7 +11,7 @@ from pydantic.alias_generators import to_camel
 
 from evm_transition_tool import FixtureFormats
 
-from ...common.base_types import Address, Bytes, Hash, ZeroPaddedHexNumber
+from ...common.base_types import Address, Bytes, Hash, Number, ZeroPaddedHexNumber
 from ...common.types import (
     AccessList,
     Alloc,
@@ -25,21 +25,16 @@ from ...exceptions import TransactionException
 from ..base.base_test import BaseFixture
 
 
-class FixtureEnvironment(Environment):
+class FixtureEnvironment(CamelModel):
     """
     Type used to describe the environment of a state test.
     """
 
-    gas_limit: ZeroPaddedHexNumber = Field(
-        ZeroPaddedHexNumber(100_000_000_000_000_000), serialization_alias="currentGasLimit"
-    )
-    number: ZeroPaddedHexNumber = Field(
-        ZeroPaddedHexNumber(1), serialization_alias="currentNumber"
-    )
-    timestamp: ZeroPaddedHexNumber = Field(
-        ZeroPaddedHexNumber(1_000), serialization_alias="currentTimestamp"
-    )
-    prev_randao: ZeroPaddedHexNumber | None = Field(None, serialization_alias="currentRandom")
+    fee_recipient: Address = Field(..., serialization_alias="currentCoinbase")
+    gas_limit: ZeroPaddedHexNumber = Field(..., serialization_alias="currentGasLimit")
+    number: ZeroPaddedHexNumber = Field(..., serialization_alias="currentNumber")
+    timestamp: ZeroPaddedHexNumber = Field(..., serialization_alias="currentTimestamp")
+    prev_randao: Hash | None = Field(None, serialization_alias="currentRandom")
     difficulty: ZeroPaddedHexNumber | None = Field(None, serialization_alias="currentDifficulty")
     base_fee_per_gas: ZeroPaddedHexNumber | None = Field(
         None, serialization_alias="currentBaseFee"
@@ -50,6 +45,15 @@ class FixtureEnvironment(Environment):
     excess_blob_gas: ZeroPaddedHexNumber | None = Field(
         None, serialization_alias="currentExcessBlobGas"
     )
+
+    parent_difficulty: Number | None = Field(None)
+    parent_timestamp: Number | None = Field(None)
+    parent_base_fee_per_gas: Number | None = Field(None, serialization_alias="parentBaseFee")
+    parent_gas_used: Number | None = Field(None)
+    parent_gas_limit: Number | None = Field(None)
+    parent_blob_gas_used: Number | None = Field(None)
+    parent_excess_blob_gas: Number | None = Field(None)
+    parent_beacon_block_root: Hash | None = Field(None)
 
     @classmethod
     def from_env(cls, env: Environment) -> "FixtureEnvironment":
@@ -68,8 +72,6 @@ class FixtureTransaction(CamelModel):
     Type used to describe a transaction in a state test.
     """
 
-    ty: ZeroPaddedHexNumber | None = Field(None, alias="type")
-    chain_id: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(1))
     nonce: ZeroPaddedHexNumber
     gas_price: ZeroPaddedHexNumber | None = None
     max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
@@ -83,9 +85,6 @@ class FixtureTransaction(CamelModel):
     access_list: Annotated[List[List[AccessList]], BeforeValidator(to_list)] | None = Field(None)
     max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
     blob_versioned_hashes: Sequence[Hash] | None = None
-    v: ZeroPaddedHexNumber | None = None
-    r: ZeroPaddedHexNumber | None = None
-    s: ZeroPaddedHexNumber | None = None
     sender: Address | None = None
     secret_key: Hash | None = None
 
@@ -118,8 +117,8 @@ class FixtureForkPost(SerializationCamelModel):
     Type used to describe the post state of a single Fork.
     """
 
-    state_root: Hash
-    logs_hash: Hash
+    state_root: Hash = Field(..., serialization_alias="hash")
+    logs_hash: Hash = Field(..., serialization_alias="logs")
     tx_bytes: Bytes = Field(..., serialization_alias="txbytes")
     expected_exception: Optional[TransactionException] = Field(
         None,
@@ -152,7 +151,7 @@ class Fixture(BaseFixture):
     """
 
     env: Annotated[FixtureEnvironment, BeforeValidator(FixtureEnvironment.from_env)]
-    pre_state: Alloc
+    pre_state: Alloc = Field(..., serialization_alias="pre")
     transaction: Annotated[
         FixtureTransaction,
         BeforeValidator(FixtureTransaction.from_transaction),
