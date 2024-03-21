@@ -265,9 +265,8 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         Increments the key counter so the next time this function is called,
         the next key is used.
         """
-        self[slot := HexNumber(next(self._current_slot))] = (
-            StorageKeyValueTypeAdapter.validate_python(value)
-        )
+        slot = HexNumber(next(self._current_slot))
+        self[slot] = StorageKeyValueTypeAdapter.validate_python(value)
         return slot
 
     def contains(self, other: "Storage") -> bool:
