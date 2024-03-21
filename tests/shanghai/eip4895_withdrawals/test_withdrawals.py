@@ -72,7 +72,7 @@ class TestUseValueInTx:
     def withdrawal(self, tx: Transaction):  # noqa: D102
         return Withdrawal(
             index=0,
-            validator=0,
+            validator_index=0,
             address=TestAddress,
             amount=tx.gas_limit + 1,
         )
@@ -150,7 +150,7 @@ def test_use_value_in_contract(blockchain_test: BlockchainTestFiller):
     )
     withdrawal = Withdrawal(
         index=0,
-        validator=0,
+        validator_index=0,
         address=Address(0x100),
         amount=1,
     )
@@ -210,7 +210,7 @@ def test_balance_within_block(blockchain_test: BlockchainTestFiller):
             withdrawals=[
                 Withdrawal(
                     index=0,
-                    validator=0,
+                    validator_index=0,
                     address=Address(0x200),
                     amount=1,
                 )
@@ -274,7 +274,7 @@ class TestMultipleWithdrawalsSameAddress:
                     withdrawals=[
                         Withdrawal(
                             index=i,
-                            validator=i,
+                            validator_index=i,
                             address=self.ADDRESSES[i % len(self.ADDRESSES)],
                             amount=1,
                         )
@@ -290,7 +290,7 @@ class TestMultipleWithdrawalsSameAddress:
                     withdrawals=[
                         Withdrawal(
                             index=i * 16 + j,
-                            validator=i,
+                            validator_index=i,
                             address=self.ADDRESSES[i],
                             amount=1,
                         )
@@ -351,7 +351,7 @@ def test_many_withdrawals(blockchain_test: BlockchainTestFiller):
         withdrawals.append(
             Withdrawal(
                 index=i,
-                validator=i,
+                validator_index=i,
                 address=addr,
                 amount=amount,
             )
@@ -400,7 +400,7 @@ def test_self_destructing_account(blockchain_test: BlockchainTestFiller):
 
     withdrawal = Withdrawal(
         index=0,
-        validator=0,
+        validator_index=0,
         address=Address(0x100),
         amount=(99),
     )
@@ -457,7 +457,7 @@ def test_newly_created_contract(
 
     withdrawal = Withdrawal(
         index=0,
-        validator=0,
+        validator_index=0,
         address=created_contract,
         amount=1,
     )
@@ -517,13 +517,13 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
             withdrawals=[
                 Withdrawal(
                     index=0,
-                    validator=0,
+                    validator_index=0,
                     address=Address(0x100),
                     amount=1,
                 ),
                 Withdrawal(
                     index=1,
-                    validator=1,
+                    validator_index=1,
                     address=Address(0x200),
                     amount=1,
                 ),
@@ -545,13 +545,13 @@ def test_no_evm_execution(blockchain_test: BlockchainTestFiller):
             withdrawals=[
                 Withdrawal(
                     index=0,
-                    validator=0,
+                    validator_index=0,
                     address=Address(0x300),
                     amount=1,
                 ),
                 Withdrawal(
                     index=1,
-                    validator=1,
+                    validator_index=1,
                     address=Address(0x400),
                     amount=1,
                 ),
@@ -610,28 +610,28 @@ def test_zero_amount(
         # No value, untouched account
         Withdrawal(
             index=0,
-            validator=0,
+            validator_index=0,
             address=Address(0x100),
             amount=0,
         ),
         # No value, touched account
         Withdrawal(
             index=0,
-            validator=0,
+            validator_index=0,
             address=Address(0x200),
             amount=0,
         ),
         # Withdrawal with value
         Withdrawal(
             index=1,
-            validator=0,
+            validator_index=0,
             address=Address(0x300),
             amount=1,
         ),
         # Withdrawal with maximum amount
         Withdrawal(
             index=2,
-            validator=0,
+            validator_index=0,
             address=Address(0x400),
             amount=2**64 - 1,
         ),
@@ -710,7 +710,7 @@ def test_large_amount(blockchain_test: BlockchainTestFiller):
         withdrawals.append(
             Withdrawal(
                 index=i,
-                validator=i,
+                validator_index=i,
                 address=addr,
                 amount=amount,
             )
@@ -746,7 +746,7 @@ def test_withdrawing_to_precompiles(
             withdrawals=[
                 Withdrawal(
                     index=0,
-                    validator=0,
+                    validator_index=0,
                     address=Address(precompile),
                     amount=amount,
                 )
