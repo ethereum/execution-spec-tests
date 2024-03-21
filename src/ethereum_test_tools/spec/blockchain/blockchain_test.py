@@ -19,7 +19,6 @@ from ...common import (
     Environment,
     Hash,
     HeaderNonce,
-    HexNumber,
     Number,
     Transaction,
     ZeroPaddedHexNumber,
@@ -262,7 +261,7 @@ class BlockchainTest(BaseTest):
         if (
             blob_gas_per_blob := fork.blob_gas_per_blob(Number(env.number), Number(env.timestamp))
         ) > 0:
-            header.blob_gas_used = HexNumber(blob_gas_per_blob * count_blobs(txs))
+            header.blob_gas_used = ZeroPaddedHexNumber(blob_gas_per_blob * count_blobs(txs))
 
         if block.header_verify is not None:
             # Verify the header after transition tool processing.
