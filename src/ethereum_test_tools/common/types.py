@@ -719,15 +719,15 @@ class Transaction(CamelModel):
     """
 
     ty: HexNumber | None = Field(None, alias="type")
-    chain_id: HexNumber = Field(1)
-    nonce: HexNumber = Field(0)
+    chain_id: HexNumber = Field(HexNumber(1))
+    nonce: HexNumber = Field(HexNumber(0))
     gas_price: HexNumber | None = None
     max_priority_fee_per_gas: HexNumber | None = None
     max_fee_per_gas: HexNumber | None = None
-    gas_limit: HexNumber = Field(21000, alias="gas")
-    to: Address | None = Field(0xAA)
-    value: HexNumber = Field(0)
-    data: Bytes = Field(b"", alias="input")
+    gas_limit: HexNumber = Field(HexNumber(21000), alias="gas")
+    to: Address | None = Field(Address(0xAA))
+    value: HexNumber = Field(HexNumber(0))
+    data: Bytes = Field(Bytes(b""), alias="input")
     access_list: List[AccessList] | None = None
     max_fee_per_blob_gas: HexNumber | None = None
     blob_versioned_hashes: Sequence[Hash] | None = None
