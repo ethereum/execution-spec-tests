@@ -14,8 +14,8 @@ note: Adding a new test
     All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test cases.
 
 """  # noqa: E501
+
 import itertools
-from dataclasses import replace
 from typing import Dict, List, Optional, Tuple
 
 import pytest
@@ -1145,8 +1145,10 @@ def test_invalid_blob_tx_contract_creation(
     assert len(txs) == 1
     assert txs[0].blob_versioned_hashes is not None and len(txs[0].blob_versioned_hashes) == 1
     # Replace the transaction with a contract creating one, only in the RLP version
-    contract_creating_tx = replace(txs[0], to=None).with_signature_and_sender()
-    txs[0] = replace(txs[0], rlp=contract_creating_tx.serialized_bytes())
+    contract_creating_tx = (
+        txs[0].model_copy_validate(update={"to": None}).with_signature_and_sender()
+    )
+    txs[0] = txs[0].model_copy_validate(update={"rlp": contract_creating_tx.serialized_bytes()})
     blockchain_test(
         pre=pre,
         post={},
