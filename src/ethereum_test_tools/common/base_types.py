@@ -142,6 +142,67 @@ class Bytes(bytes, ToStringSchema):
         return cls(input)
 
 
+S = TypeVar("S", bound="FixedSizeHexNumber")
+
+
+class FixedSizeHexNumber(int, ToStringSchema):
+    """
+    Class that helps represent a number of fixed byte-length in tests.
+    """
+
+    byte_length: ClassVar[int]
+    max_value: ClassVar[int]
+
+    def __class_getitem__(cls, length: int) -> Type["FixedSizeBytes"]:
+        """
+        Creates a new FixedSizeBytes class with the given length.
+        """
+
+        class Sized(cls):  # type: ignore
+            byte_length = length
+            max_value = 2 ** (8 * length) - 1
+
+        return Sized
+
+    def __new__(cls, input: NumberConvertible | N):
+        """
+        Creates a new Number object.
+        """
+        i = to_number(input)
+        if i > cls.max_value:
+            raise ValueError(f"Value {i} is too large for {cls.byte_length} bytes")
+        if i < 0:
+            i += cls.max_value + 1
+            if i <= 0:
+                raise ValueError(f"Value {i} is too small for {cls.byte_length} bytes")
+        return super(FixedSizeHexNumber, cls).__new__(cls, i)
+
+    def __str__(self) -> str:
+        """
+        Returns the string representation of the number.
+        """
+        return self.hex()
+
+    def hex(self) -> str:
+        """
+        Returns the hexadecimal representation of the number.
+        """
+        if self == 0:
+            return "0x00"
+        hex_str = hex(self)[2:]
+        if len(hex_str) % 2 == 1:
+            return "0x0" + hex_str
+        return "0x" + hex_str
+
+
+class HashInt(FixedSizeHexNumber[32]):  # type: ignore
+    """
+    Class that helps represent hashes in tests.
+    """
+
+    pass
+
+
 T = TypeVar("T", bound="FixedSizeBytes")
 
 

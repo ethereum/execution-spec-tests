@@ -40,9 +40,18 @@ from trie import HexaryTrie
 from ethereum_test_forks import Fork
 
 from ..exceptions import ExceptionList, TransactionException
-from .base_types import Address, Bloom, Bytes, Hash, HexNumber
+from .base_types import (
+    Address,
+    Bloom,
+    Bytes,
+    Hash,
+    HashInt,
+    HexNumber,
+    Number,
+    ZeroPaddedHexNumber,
+)
 from .constants import TestPrivateKey
-from .conversions import BytesConvertible
+from .conversions import BytesConvertible, NumberConvertible
 
 
 # Sentinel classes
@@ -107,7 +116,8 @@ MAX_STORAGE_KEY_VALUE = 2**256 - 1
 MIN_STORAGE_KEY_VALUE = -(2**255)
 
 
-StorageKeyValueType = HexNumber  # TODO: Perhaps something like HashInt would be better
+StorageKeyValueTypeConvertible = NumberConvertible
+StorageKeyValueType = HashInt
 StorageKeyValueTypeAdapter = TypeAdapter(StorageKeyValueType)
 StorageType = Dict[StorageKeyValueType, StorageKeyValueType]
 
@@ -162,39 +172,6 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             return f"invalid value for key/value: {self.key_or_value}"
 
     @dataclass(kw_only=True)
-    class AmbiguousKeyValue(Exception):
-        """
-        Key is represented twice in the storage.
-        """
-
-        key_1: str | int
-        val_1: str | int
-        key_2: str | int
-        val_2: str | int
-
-        def __init__(
-            self,
-            key_1: str | int,
-            val_1: str | int,
-            key_2: str | int,
-            val_2: str | int,
-            *args,
-        ):
-            super().__init__(args)
-            self.key_1 = key_1
-            self.val_1 = val_1
-            self.key_2 = key_2
-            self.val_2 = val_2
-
-        def __str__(self):
-            """Print exception string"""
-            return f"""
-            Key is represented twice (due to negative numbers) with different
-            values in storage:
-            s[{self.key_1}] = {self.val_1} and s[{self.key_2}] = {self.val_2}
-            """
-
-    @dataclass(kw_only=True)
     class MissingKey(Exception):
         """
         Test expected to find a storage key set but key was missing.
@@ -238,34 +215,64 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
                 + f" got {Storage.key_value_to_string(self.got)} (dec:{self.got})"
             )
 
-    def __contains__(self, key: StorageKeyValueType) -> bool:
+    def __contains__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType) -> bool:
         """Checks for an item in the storage"""
-        return key in self.root
+        return StorageKeyValueTypeAdapter.validate_python(key) in self.root
 
-    def __getitem__(self, key: StorageKeyValueType) -> StorageKeyValueType:
+    def __getitem__(
+        self, key: StorageKeyValueTypeConvertible | StorageKeyValueType
+    ) -> StorageKeyValueType:
         """Returns an item from the storage"""
-        return self.root[key]
+        return self.root[StorageKeyValueTypeAdapter.validate_python(key)]
 
-    def __setitem__(self, key: StorageKeyValueType, value: StorageKeyValueType):  # noqa: SC200
+    def __setitem__(
+        self,
+        key: StorageKeyValueTypeConvertible | StorageKeyValueType,
+        value: StorageKeyValueTypeConvertible | StorageKeyValueType,
+    ):  # noqa: SC200
         """Sets an item in the storage"""
-        self.root[key] = StorageKeyValueTypeAdapter.validate_python(value)
+        self.root[StorageKeyValueTypeAdapter.validate_python(key)] = (
+            StorageKeyValueTypeAdapter.validate_python(value)
+        )
 
-    def __delitem__(self, key: StorageKeyValueType):
+    def __delitem__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType):
         """Deletes an item from the storage"""
-        del self.root[key]
+        del self.root[StorageKeyValueTypeAdapter.validate_python(key)]
+
+    def __iter__(self):
+        """Returns an iterator over the storage"""
+        return iter(self.root)
+
+    def __eq__(self, other) -> bool:
+        """
+        Returns True if both storages are equal.
+        """
+        if not isinstance(other, Storage):
+            return False
+        return self.root == other.root
+
+    def __ne__(self, other) -> bool:
+        """
+        Returns True if both storages are not equal.
+        """
+        if not isinstance(other, Storage):
+            return False
+        return self.root != other.root
 
     def keys(self) -> set[StorageKeyValueType]:
         """Returns the keys of the storage"""
         return set(self.root.keys())
 
-    def store_next(self, value: StorageKeyValueType) -> StorageKeyValueType:
+    def store_next(
+        self, value: StorageKeyValueTypeConvertible | StorageKeyValueType
+    ) -> StorageKeyValueType:
         """
         Stores a value in the storage and returns the key where the value is stored.
 
         Increments the key counter so the next time this function is called,
         the next key is used.
         """
-        slot = HexNumber(next(self._current_slot))
+        slot = StorageKeyValueTypeAdapter.validate_python(next(self._current_slot))
         self[slot] = StorageKeyValueTypeAdapter.validate_python(value)
         return slot
 
@@ -329,13 +336,13 @@ class Account(BaseModel):
     State associated with an address.
     """
 
-    nonce: HexNumber = HexNumber(0)
+    nonce: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     """
     The scalar value equal to a) the number of transactions sent by
     an Externally Owned Account, b) the amount of contracts created by a
     contract.
     """
-    balance: HexNumber = HexNumber(0)
+    balance: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     """
     The amount of Wei (10<sup>-18</sup> Eth) the account has.
     """
@@ -496,7 +503,7 @@ class Account(BaseModel):
             if isinstance(account, dict):
                 return account
             elif isinstance(account, cls):
-                return account.model_dump()
+                return account.model_dump(exclude_unset=True)
             raise TypeError(f"Unexpected type for account merge: {type(account)}")
 
         kwargs = to_kwargs_dict(account_1)
@@ -609,28 +616,28 @@ class Environment(CamelModel):
         Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
         serialization_alias="currentCoinbase",
     )
-    gas_limit: HexNumber = Field(
-        HexNumber(100_000_000_000_000_000), serialization_alias="currentGasLimit"
+    gas_limit: Number = Field(
+        Number(100_000_000_000_000_000), serialization_alias="currentGasLimit"
     )
-    number: HexNumber = Field(HexNumber(1), serialization_alias="currentNumber")
-    timestamp: HexNumber = Field(HexNumber(1_000), serialization_alias="currentTimestamp")
-    prev_randao: HexNumber | None = Field(None, serialization_alias="currentRandom")
-    difficulty: HexNumber | None = Field(None, serialization_alias="currentDifficulty")
-    base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="currentBaseFee")
-    blob_gas_used: HexNumber | None = Field(None, serialization_alias="currentBlobGasUsed")
-    excess_blob_gas: HexNumber | None = Field(None, serialization_alias="currentExcessBlobGas")
+    number: Number = Field(Number(1), serialization_alias="currentNumber")
+    timestamp: Number = Field(Number(1_000), serialization_alias="currentTimestamp")
+    prev_randao: Number | None = Field(None, serialization_alias="currentRandom")
+    difficulty: Number | None = Field(None, serialization_alias="currentDifficulty")
+    base_fee_per_gas: Number | None = Field(None, serialization_alias="currentBaseFee")
+    blob_gas_used: Number | None = Field(None, serialization_alias="currentBlobGasUsed")
+    excess_blob_gas: Number | None = Field(None, serialization_alias="currentExcessBlobGas")
 
-    parent_difficulty: HexNumber | None = Field(None)
-    parent_timestamp: HexNumber | None = Field(None)
-    parent_base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="parentBaseFee")
-    parent_gas_used: HexNumber | None = Field(None)
-    parent_gas_limit: HexNumber | None = Field(None)
+    parent_difficulty: Number | None = Field(None)
+    parent_timestamp: Number | None = Field(None)
+    parent_base_fee_per_gas: Number | None = Field(None, serialization_alias="parentBaseFee")
+    parent_gas_used: Number | None = Field(None)
+    parent_gas_limit: Number | None = Field(None)
     parent_ommers_hash: Hash = Field(Hash(0), serialization_alias="parentUncleHash")
-    parent_blob_gas_used: HexNumber | None = Field(None)
-    parent_excess_blob_gas: HexNumber | None = Field(None)
+    parent_blob_gas_used: Number | None = Field(None)
+    parent_excess_blob_gas: Number | None = Field(None)
     parent_beacon_block_root: Hash | None = Field(None)
 
-    block_hashes: Dict[HexNumber, Hash] = Field(default_factory=dict)
+    block_hashes: Dict[Number, Hash] = Field(default_factory=dict)
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
     extra_data: Bytes = Field(Bytes(b"\x00"))
