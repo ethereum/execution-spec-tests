@@ -9,6 +9,7 @@ from typing import Dict, List, Mapping
 
 import pytest
 
+from ethereum_test_forks import Cancun, Fork
 from ethereum_test_tools import (
     Account,
     Address,
@@ -371,16 +372,17 @@ def test_many_withdrawals(blockchain_test: BlockchainTestFiller):
     blockchain_test(pre=pre, post=post, blocks=blocks)
 
 
-def test_self_destructing_account(blockchain_test: BlockchainTestFiller):
+def test_self_destructing_account(blockchain_test: BlockchainTestFiller, fork: Fork):
     """
     Test withdrawals can be done to self-destructed accounts.
     Account `0x100` self-destructs and sends all its balance to `0x200`.
     Then, a withdrawal is received at `0x100` with 99 wei.
     """
+    self_destruct_code = Op.SELFDESTRUCT(Op.CALLDATALOAD(0))
     pre = {
         TestAddress: Account(balance=1000000000000000000000, nonce=0),
         Address(0x100): Account(
-            code=Op.SELFDESTRUCT(Op.CALLDATALOAD(0)),
+            code=self_destruct_code,
             balance=(100 * ONE_GWEI),
         ),
         Address(0x200): Account(
@@ -412,11 +414,11 @@ def test_self_destructing_account(blockchain_test: BlockchainTestFiller):
 
     post = {
         Address(0x100): Account(
-            code=None,
+            code=self_destruct_code if fork >= Cancun else b"",
             balance=(99 * ONE_GWEI),
         ),
         Address(0x200): Account(
-            code=None,
+            code=b"",
             balance=(100 * ONE_GWEI) + 1,
         ),
     }
