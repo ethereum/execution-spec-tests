@@ -79,7 +79,21 @@ class Auto:
 Model = TypeVar("Model", bound=BaseModel)
 
 
-class CamelModel(BaseModel):
+class CopyValidateModel(BaseModel):
+    """
+    Base model for Ethereum tests.
+    """
+
+    def model_copy_validate(self: Model, update: Dict | None = None) -> Model:
+        """
+        Copies the model and validates the input.
+        """
+        if update is None:
+            update = {}
+        return self.__class__(**(self.model_dump() | update))
+
+
+class CamelModel(CopyValidateModel):
     """
     Model that uses camel case
     """
@@ -89,14 +103,6 @@ class CamelModel(BaseModel):
         populate_by_name=True,
         validate_default=True,
     )
-
-    def model_copy_validate(self: Model, update: Dict | None = None) -> Model:
-        """
-        Copies the model and validates the input.
-        """
-        if update is None:
-            update = {}
-        return self.__class__(**(self.model_dump() | update))
 
 
 class SerializationCamelModel(CamelModel):
@@ -330,7 +336,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
                 raise Storage.KeyValueMismatch(address=address, key=key, want=0, got=other[key])
 
 
-class Account(BaseModel):
+class Account(CopyValidateModel):
     """
     State associated with an address.
     """
