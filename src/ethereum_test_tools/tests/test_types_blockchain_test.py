@@ -93,7 +93,7 @@ fixture_header_ones = FixtureHeader(
             Header(state_root="0x100", logs_bloom=Hash(200), difficulty=300),
             fixture_header_ones.model_copy_validate(
                 update={
-                    "state_root": Hash(100),
+                    "state_root": Hash(0x100),
                     "logs_bloom": Bloom(200),
                     "difficulty": 300,
                 }
