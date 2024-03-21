@@ -246,9 +246,9 @@ class BlockchainTest(BaseTest):
                 + "`block.exception`"
             )
 
-        env.extra_data = block.extra_data if block.extra_data is not None else env.extra_data
         header = FixtureHeader(
             **(result.model_dump(exclude_none=True) | env.model_dump(exclude_none=True)),
+            extra_data=block.extra_data if block.extra_data is not None else b"",
             fork=fork,
         )
 
