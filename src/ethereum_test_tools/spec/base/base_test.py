@@ -47,26 +47,6 @@ def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
     return list(rejected_txs.keys())
 
 
-def verify_post_alloc(expected_post: Alloc, got_alloc: Alloc):
-    """
-    Verify that an allocation matches the expected post in the test.
-    Raises exception on unexpected values.
-    """
-    for address, account in expected_post.root.items():
-        if account is not None:
-            if account == Account.NONEXISTENT:
-                if address in got_alloc.root:
-                    raise Exception(f"found unexpected account: {address}")
-            else:
-                if address in got_alloc.root:
-                    got_account = got_alloc.root[address]
-                    assert isinstance(got_account, Account)
-                    assert isinstance(account, Account)
-                    account.check_alloc(address, got_account)
-                else:
-                    raise Exception(f"expected account not found: {address}")
-
-
 def verify_result(result: Result, env: Environment):
     """
     Verify that values in the t8n result match the expected values.

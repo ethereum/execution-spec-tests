@@ -29,13 +29,7 @@ from ...common import (
 from ...common.constants import EmptyOmmersRoot
 from ...common.json import to_json
 from ...common.types import Result
-from ..base.base_test import (
-    BaseFixture,
-    BaseTest,
-    verify_post_alloc,
-    verify_result,
-    verify_transactions,
-)
+from ..base.base_test import BaseFixture, BaseTest, verify_result, verify_transactions
 from ..debugging import print_traces
 from .types import (
     Block,
@@ -302,7 +296,7 @@ class BlockchainTest(BaseTest):
         Verifies the post alloc after all block/s or payload/s are generated.
         """
         try:
-            verify_post_alloc(self.post, alloc)
+            self.post.verify_post_alloc(alloc)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e

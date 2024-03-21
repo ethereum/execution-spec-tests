@@ -10,7 +10,6 @@ from typing import (
     Dict,
     Iterator,
     List,
-    Literal,
     Sequence,
     SupportsBytes,
     Type,
@@ -355,7 +354,7 @@ class Account(BaseModel):
     Storage within a contract.
     """
 
-    NONEXISTENT: ClassVar[str] = "NONEXISTENT"
+    NONEXISTENT: ClassVar[None] = None
     """
     Sentinel object used to specify when an account should not exist in the
     state.
@@ -512,14 +511,46 @@ class Account(BaseModel):
         return cls(**kwargs)
 
 
-class Alloc(RootModel[Dict[Address, Account]]):
+class Alloc(RootModel[Dict[Address, Account | None]]):
     """
     Allocation of accounts in the state, pre and post test execution.
     """
 
-    root: Dict[Address, Account] = Field(
-        default_factory=dict, validate_default=True
-    )
+    root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
+
+    @dataclass(kw_only=True)
+    class UnexpectedAccount(Exception):
+        """
+        Unexpected account found in the allocation.
+        """
+
+        address: Address
+        account: Account | None
+
+        def __init__(self, address: Address, account: Account | None, *args):
+            super().__init__(args)
+            self.address = address
+            self.account = account
+
+        def __str__(self):
+            """Print exception string"""
+            return f"unexpected account in allocation {self.address}: {self.account}"
+
+    @dataclass(kw_only=True)
+    class MissingAccount(Exception):
+        """
+        Expected account not found in the allocation.
+        """
+
+        address: Address
+
+        def __init__(self, address: Address, *args):
+            super().__init__(args)
+            self.address = address
+
+        def __str__(self):
+            """Print exception string"""
+            return f"Account missing from allocation {self.address}"
 
     @classmethod
     def merge(cls, alloc_1: "Alloc", alloc_2: "Alloc") -> "Alloc":
@@ -542,7 +573,11 @@ class Alloc(RootModel[Dict[Address, Account]]):
         """
         Returns a list of addresses of empty accounts.
         """
-        return [address for address, account in self.root.items() if account.is_empty()]
+        return [
+            address
+            for address, account in self.root.items()
+            if account is None or account.is_empty()
+        ]
 
     def state_root(self) -> bytes:
         """
@@ -550,6 +585,8 @@ class Alloc(RootModel[Dict[Address, Account]]):
         """
         state = State()
         for address, account in self.root.items():
+            if account is None:
+                continue
             set_account(
                 state=state,
                 address=FrontierAddress(address),
@@ -568,6 +605,26 @@ class Alloc(RootModel[Dict[Address, Account]]):
                         value=U256(value),
                     )
         return state_root(state)
+
+    def verify_post_alloc(self, got_alloc: "Alloc"):
+        """
+        Verify that the allocation matches the expected post in the test.
+        Raises exception on unexpected values.
+        """
+        assert isinstance(got_alloc, Alloc), f"got_alloc is not an Alloc: {got_alloc}"
+        for address, account in self.root.items():
+            if account is None:
+                # Account must not exist
+                if address in got_alloc.root and got_alloc.root[address] is not None:
+                    raise Alloc.UnexpectedAccount(address, got_alloc.root[address])
+            else:
+                if address in got_alloc.root:
+                    got_account = got_alloc.root[address]
+                    assert isinstance(got_account, Account)
+                    assert isinstance(account, Account)
+                    account.check_alloc(address, got_account)
+                else:
+                    raise Alloc.MissingAccount(address)
 
 
 class Withdrawal(CamelModel):

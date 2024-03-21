@@ -11,7 +11,7 @@ from ...common import Address, Alloc, Environment, Number, Transaction
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
 from ...common.types import Result
-from ..base.base_test import BaseFixture, BaseTest, verify_post_alloc
+from ..base.base_test import BaseFixture, BaseTest
 from ..blockchain.blockchain_test import Block, BlockchainTest
 from ..blockchain.types import Header
 from ..debugging import print_traces
@@ -156,7 +156,7 @@ class StateTest(BaseTest):
         next_alloc = Alloc.model_validate(next_alloc_dict)
 
         try:
-            verify_post_alloc(self.post, next_alloc)
+            self.post.verify_post_alloc(next_alloc)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
