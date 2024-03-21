@@ -139,24 +139,26 @@ class FixtureHeader(SerializationCamelModel):
     fee_recipient: Address = Field(..., serialization_alias="coinbase")
     state_root: Hash
     transactions_trie: Hash
-    receipts_root: Hash
-    logs_bloom: Bloom
-    difficulty: HexNumber = HexNumber(0)
-    number: HexNumber
-    gas_limit: HexNumber
-    gas_used: HexNumber
-    timestamp: HexNumber
+    receipts_root: Hash = Field(..., serialization_alias="receiptTrie")
+    logs_bloom: Bloom = Field(..., serialization_alias="bloom")
+    difficulty: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
+    number: ZeroPaddedHexNumber
+    gas_limit: ZeroPaddedHexNumber
+    gas_used: ZeroPaddedHexNumber
+    timestamp: ZeroPaddedHexNumber
     extra_data: Bytes
     prev_randao: Hash = Field(..., serialization_alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
-    base_fee_per_gas: Annotated[HexNumber, HeaderForkRequirement("base_fee")] | None = Field(None)
+    base_fee_per_gas: Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")] | None = (
+        Field(None)
+    )
     withdrawals_root: Annotated[Hash, HeaderForkRequirement("withdrawals")] | None = Field(None)
-    blob_gas_used: Annotated[HexNumber, HeaderForkRequirement("blob_gas_used")] | None = Field(
-        None
-    )
-    excess_blob_gas: Annotated[HexNumber, HeaderForkRequirement("excess_blob_gas")] | None = Field(
-        None
-    )
+    blob_gas_used: (
+        Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("blob_gas_used")] | None
+    ) = Field(None)
+    excess_blob_gas: (
+        Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("excess_blob_gas")] | None
+    ) = Field(None)
     parent_beacon_block_root: Annotated[Hash, HeaderForkRequirement("beacon_root")] | None = Field(
         None
     )
