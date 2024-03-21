@@ -11,8 +11,7 @@ from pydantic.alias_generators import to_camel
 
 from evm_transition_tool import FixtureFormats
 
-from ...common.base_types import Address, Bytes, Hash, HexNumber, ZeroPaddedHexNumber
-from ...common.conversions import BytesConvertible, FixedSizeBytesConvertible
+from ...common.base_types import Address, Bytes, Hash, ZeroPaddedHexNumber
 from ...common.types import (
     AccessList,
     Alloc,
