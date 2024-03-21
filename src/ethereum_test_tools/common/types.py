@@ -50,7 +50,7 @@ from .base_types import (
     ZeroPaddedHexNumber,
 )
 from .constants import TestPrivateKey
-from .conversions import BytesConvertible, NumberConvertible
+from .conversions import BytesConvertible, FixedSizeBytesConvertible, NumberConvertible
 
 
 # Sentinel classes
@@ -568,6 +568,28 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                 merged[address] = merged_account
 
         return Alloc(merged)
+
+    def __iter__(self):
+        """
+        Returns an iterator over the allocation.
+        """
+        return iter(self.root)
+
+    def __getitem__(self, address: Address | FixedSizeBytesConvertible) -> Account | None:
+        """
+        Returns the account associated with an address.
+        """
+        if not isinstance(address, Address):
+            address = Address(address)
+        return self.root[address]
+
+    def __contains__(self, address: Address | FixedSizeBytesConvertible) -> bool:
+        """
+        Checks if an account is in the allocation.
+        """
+        if not isinstance(address, Address):
+            address = Address(address)
+        return address in self.root
 
     def empty_accounts(self) -> List[Address]:
         """
