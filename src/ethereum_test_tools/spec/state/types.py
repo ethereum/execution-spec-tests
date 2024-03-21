@@ -39,9 +39,6 @@ class FixtureEnvironment(CamelModel):
     base_fee_per_gas: ZeroPaddedHexNumber | None = Field(
         None, serialization_alias="currentBaseFee"
     )
-    blob_gas_used: ZeroPaddedHexNumber | None = Field(
-        None, serialization_alias="currentBlobGasUsed"
-    )
     excess_blob_gas: ZeroPaddedHexNumber | None = Field(
         None, serialization_alias="currentExcessBlobGas"
     )
@@ -51,9 +48,6 @@ class FixtureEnvironment(CamelModel):
     parent_base_fee_per_gas: Number | None = Field(None, serialization_alias="parentBaseFee")
     parent_gas_used: Number | None = Field(None)
     parent_gas_limit: Number | None = Field(None)
-    parent_blob_gas_used: Number | None = Field(None)
-    parent_excess_blob_gas: Number | None = Field(None)
-    parent_beacon_block_root: Hash | None = Field(None)
 
     @classmethod
     def from_env(cls, env: Environment) -> "FixtureEnvironment":
