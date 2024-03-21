@@ -17,6 +17,7 @@ from ethereum_test_tools.common import (
     Number,
     ZeroPaddedHexNumber,
 )
+from ethereum_test_tools.common.json import to_json
 from ethereum_test_tools.common.types import Result
 from ethereum_test_tools.spec.blockchain.types import FixtureExecutionPayload, FixtureHeader
 
@@ -66,7 +67,7 @@ def test_sanity():
         prev_randao=0,
         base_fee_per_gas=7,
         withdrawals=[],
-        difficulty=HexNumber("0"),
+        difficulty="0",
     )
     assert (
         env.fee_recipient
@@ -75,20 +76,18 @@ def test_sanity():
     assert env.base_fee_per_gas == 7
 
     # We send the environment to the t8n
-    assert model_dump(env, by_alias=True, exclude_none=True) == {
+    assert to_json(env) == {
         "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        "currentGasLimit": "0x16345785d8a0000",
-        "currentNumber": "0x1",
-        "currentTimestamp": "0x3e8",
-        "currentRandom": "0x0",
-        "currentDifficulty": "0x0",
+        "currentGasLimit": "100000000000000000",
+        "currentNumber": "1",
+        "currentTimestamp": "1000",
+        "currentRandom": "0",
+        "currentDifficulty": "0",
         "blockHashes": {},
         "ommers": [],
         "withdrawals": [],
-        "currentBaseFee": "0x7",
+        "currentBaseFee": "7",
         "parentUncleHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-        "extraData": "0x00",
-        "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
     }
 
     assert "fee_recipient" in dict(env)
@@ -119,11 +118,13 @@ def test_sanity():
         "withdrawalsRoot": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
     }
     result = Result(**result_dump)
-    assert model_dump(result, by_alias=True, exclude_none=True) == result_dump
+    assert to_json(result) == result_dump
 
     # We combine the environment and the result to create a FixtureHeader
     fixture_header = FixtureHeader(
         **(env.model_dump(exclude_none=True) | result.model_dump(exclude_none=True)),
+        parent_hash=0,
+        extra_data=b"",
         fork=Shanghai,
     )
     assert fixture_header.fee_recipient == env.fee_recipient

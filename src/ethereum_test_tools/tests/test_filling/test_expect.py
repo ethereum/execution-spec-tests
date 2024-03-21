@@ -2,7 +2,7 @@
 Test fixture post state (expect section) during state fixture generation.
 """
 
-from typing import Any, Mapping
+from typing import Any, Mapping, Type
 
 import pytest
 
@@ -10,26 +10,26 @@ from ethereum_test_forks import Fork, get_deployed_forks
 from evm_transition_tool import FixtureFormats, GethTransitionTool
 
 from ...common import Account, Address, Environment, Transaction
-from ...common.types import Storage
+from ...common.types import Alloc, Storage
 from ...spec import StateTest
 
 ADDRESS_UNDER_TEST = Address(0x01)
 
 
 @pytest.fixture
-def pre(request) -> Mapping[Any, Any]:
+def pre(request) -> Alloc:
     """
     The pre state: Set from the test's indirectly parametrized `pre` parameter.
     """
-    return request.param
+    return Alloc(request.param)
 
 
 @pytest.fixture
-def post(request) -> Mapping[Any, Any]:  # noqa: D103
+def post(request) -> Alloc:  # noqa: D103
     """
     The post state: Set from the test's indirectly parametrized `post` parameter.
     """
-    return request.param
+    return Alloc(request.param)
 
 
 @pytest.fixture
@@ -106,8 +106,11 @@ def t8n() -> GethTransitionTool:  # noqa: D103
             Storage.KeyValueMismatch(address=ADDRESS_UNDER_TEST, key=2, want=3, got=0),
         ),
     ],
+    indirect=["pre", "post"],
 )
-def test_post_storage_value_mismatch(pre, post, expected_exception, state_test, t8n, fork):
+def test_post_storage_value_mismatch(
+    pre: Alloc, post: Alloc, expected_exception, state_test, t8n, fork
+):
     """
     Test post state `Account.storage` exceptions during state test fixture generation.
     """
@@ -124,15 +127,16 @@ def test_post_storage_value_mismatch(pre, post, expected_exception, state_test, 
         ({ADDRESS_UNDER_TEST: Account(nonce=1)}, {ADDRESS_UNDER_TEST: Account(nonce=0)}),
         ({ADDRESS_UNDER_TEST: Account(nonce=1)}, {ADDRESS_UNDER_TEST: Account()}),
     ],
+    indirect=["pre", "post"],
 )
-def test_post_nonce_value_mismatch(pre, post, state_test, t8n, fork):
+def test_post_nonce_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, fork):
     """
     Test post state `Account.nonce` verification and exceptions during state test
     fixture generation.
     """
     pre_nonce = pre[ADDRESS_UNDER_TEST].nonce
     post_nonce = post[ADDRESS_UNDER_TEST].nonce
-    if post_nonce is None:  # no exception
+    if "nonce" not in post[ADDRESS_UNDER_TEST].model_fields_set:  # no exception
         state_test.generate(t8n=t8n, fork=fork)
         return
     with pytest.raises(Account.NonceMismatch) as e_info:
@@ -152,14 +156,14 @@ def test_post_nonce_value_mismatch(pre, post, state_test, t8n, fork):
     ],
     indirect=["pre", "post"],
 )
-def test_post_code_value_mismatch(pre, post, state_test, t8n, fork):
+def test_post_code_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, fork):
     """
     Test post state `Account.code` verification and exceptions during state test
     fixture generation.
     """
     pre_code = pre[ADDRESS_UNDER_TEST].code
     post_code = post[ADDRESS_UNDER_TEST].code
-    if post_code is None:  # no exception
+    if "code" not in post[ADDRESS_UNDER_TEST].model_fields_set:  # no exception
         state_test.generate(t8n=t8n, fork=fork)
         return
     with pytest.raises(Account.CodeMismatch) as e_info:
@@ -179,14 +183,14 @@ def test_post_code_value_mismatch(pre, post, state_test, t8n, fork):
     ],
     indirect=["pre", "post"],
 )
-def test_post_balance_value_mismatch(pre, post, state_test, t8n, fork):
+def test_post_balance_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, fork):
     """
     Test post state `Account.balance` verification and exceptions during state test
     fixture generation.
     """
     pre_balance = pre[ADDRESS_UNDER_TEST].balance
     post_balance = post[ADDRESS_UNDER_TEST].balance
-    if post_balance is None:  # no exception
+    if "balance" not in post[ADDRESS_UNDER_TEST].model_fields_set:  # no exception
         state_test.generate(t8n=t8n, fork=fork)
         return
     with pytest.raises(Account.BalanceMismatch) as e_info:
@@ -198,7 +202,7 @@ def test_post_balance_value_mismatch(pre, post, state_test, t8n, fork):
 
 # Account mismatch tests
 @pytest.mark.parametrize(
-    "pre,post,error_str",
+    "pre,post,exception_type",
     [
         (
             {ADDRESS_UNDER_TEST: Account(balance=1)},
@@ -208,7 +212,7 @@ def test_post_balance_value_mismatch(pre, post, state_test, t8n, fork):
         (
             {ADDRESS_UNDER_TEST: Account(balance=1)},
             {ADDRESS_UNDER_TEST: Account(balance=1), Address(0x02): Account(balance=1)},
-            "expected account not found",
+            Alloc.MissingAccount,
         ),
         (
             {ADDRESS_UNDER_TEST: Account(balance=1)},
@@ -218,19 +222,18 @@ def test_post_balance_value_mismatch(pre, post, state_test, t8n, fork):
         (
             {ADDRESS_UNDER_TEST: Account(balance=1)},
             {ADDRESS_UNDER_TEST: Account.NONEXISTENT},
-            "found unexpected account",
+            Alloc.UnexpectedAccount,
         ),
     ],
     indirect=["pre", "post"],
 )
-def test_post_account_mismatch(state_test, t8n, fork, error_str):
+def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Exception] | None):
     """
     Test post state `Account` verification and exceptions during state test
     fixture generation.
     """
-    if error_str is None:
+    if exception_type is None:
         state_test.generate(t8n=t8n, fork=fork)
         return
-    with pytest.raises(Exception) as e_info:
+    with pytest.raises(exception_type) as _:
         state_test.generate(t8n=t8n, fork=fork)
-    assert error_str in str(e_info.value)
