@@ -56,7 +56,7 @@ def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
     return Environment(
         parent_difficulty=parent.difficulty,
         parent_timestamp=parent.timestamp,
-        parent_base_fee=parent.base_fee_per_gas,
+        parent_base_fee_per_gas=parent.base_fee_per_gas,
         parent_blob_gas_used=parent.blob_gas_used,
         parent_excess_blob_gas=parent.excess_blob_gas,
         parent_gas_used=parent.gas_used,
