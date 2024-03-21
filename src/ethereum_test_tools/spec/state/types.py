@@ -31,10 +31,14 @@ class FixtureEnvironment(Environment):
     """
 
     gas_limit: ZeroPaddedHexNumber = Field(
-        100_000_000_000_000_000, serialization_alias="currentGasLimit"
+        ZeroPaddedHexNumber(100_000_000_000_000_000), serialization_alias="currentGasLimit"
     )
-    number: ZeroPaddedHexNumber = Field(1, serialization_alias="currentNumber")
-    timestamp: ZeroPaddedHexNumber = Field(1_000, serialization_alias="currentTimestamp")
+    number: ZeroPaddedHexNumber = Field(
+        ZeroPaddedHexNumber(1), serialization_alias="currentNumber"
+    )
+    timestamp: ZeroPaddedHexNumber = Field(
+        ZeroPaddedHexNumber(1_000), serialization_alias="currentTimestamp"
+    )
     prev_randao: ZeroPaddedHexNumber | None = Field(None, serialization_alias="currentRandom")
     difficulty: ZeroPaddedHexNumber | None = Field(None, serialization_alias="currentDifficulty")
     base_fee_per_gas: ZeroPaddedHexNumber | None = Field(
@@ -153,7 +157,7 @@ class Fixture(BaseFixture):
         FixtureTransaction,
         BeforeValidator(FixtureTransaction.from_transaction),
     ]
-    post: Mapping[str, List[FixtureForkPost]] = Field(..., default_factory=dict)
+    post: Mapping[str, List[FixtureForkPost]] = Field(...)
 
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
