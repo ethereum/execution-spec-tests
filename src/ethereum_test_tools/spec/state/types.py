@@ -4,9 +4,16 @@ StateTest types
 
 import json
 from pathlib import Path
-from typing import Annotated, Any, Dict, List, Mapping, Optional, Sequence, TextIO
+from typing import Annotated, Any, Dict, List, Mapping, Sequence, TextIO
 
-from pydantic import AfterValidator, AliasGenerator, BaseModel, BeforeValidator, ConfigDict, Field
+from pydantic import (
+    AliasGenerator,
+    BaseModel,
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    model_serializer,
+)
 from pydantic.alias_generators import to_camel
 
 from evm_transition_tool import FixtureFormats
@@ -68,9 +75,7 @@ class FixtureTransaction(CamelModel):
     max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
     max_fee_per_gas: ZeroPaddedHexNumber | None = None
     gas_limit: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
-    to: Address | Annotated[None, AfterValidator(lambda _: "")] = Field(
-        None, validate_default=True
-    )
+    to: Address | None = Field(None)
     value: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
     data: Annotated[List[Bytes], BeforeValidator(to_list)] = Field()
     access_list: Annotated[List[List[AccessList]], BeforeValidator(to_list)] | None = Field(None)
@@ -84,6 +89,16 @@ class FixtureTransaction(CamelModel):
         populate_by_name=True,
         validate_default=True,
     )
+
+    @model_serializer(mode="wrap", when_used="json-unless-none")
+    def serialize_to_as_empty_string(self, handler):
+        """
+        Serializes the field `to` an empty string if the value is None.
+        """
+        default = handler(self)
+        if default is not None and "to" not in default:
+            default["to"] = ""
+        return default
 
     @classmethod
     def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
