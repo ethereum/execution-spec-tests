@@ -353,7 +353,7 @@ class BlockchainTest(BaseTest):
                             rlp_decoded=(
                                 None
                                 if BlockException.RLP_STRUCTURES_ENCODING in block.exception
-                                else fixture_block.model_copy_validate(update={"rlp": None})
+                                else fixture_block.model_copy(update={"rlp": None})
                             ),
                         ),
                     )
