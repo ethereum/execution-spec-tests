@@ -18,6 +18,7 @@ from ..common import (
 )
 from ..common.base_types import Address, Bloom, Bytes, Hash, HeaderNonce, ZeroPaddedHexNumber
 from ..common.constants import TestPrivateKey
+from ..common.json import to_json
 from ..common.types import Alloc
 from ..exceptions import BlockException, TransactionException
 from ..spec.blockchain.types import (
@@ -66,9 +67,9 @@ def test_storage():
     assert 10 not in s
 
     s = Storage({-1: -1, -2: -2})
-    assert s[-1] == -1
-    assert s[-2] == -2
-    d = s.model_dump()
+    assert s[-1] == 2**256 - 1
+    assert s[-2] == 2**256 - 2
+    d = to_json(s)
     assert (
         d["0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"]
         == "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
@@ -81,18 +82,14 @@ def test_storage():
     # time)
     # same value, ok
     s[2**256 - 1] = 2**256 - 1
-    s.model_dump()
-    # different value, not ok
-    s[2**256 - 1] = 0
-    with pytest.raises(Storage.AmbiguousKeyValue):
-        s.model_dump()
+    to_json(s)
 
     # Check store counter
     s = Storage({})
     s.store_next(0x100)
     s.store_next("0x200")
     s.store_next(b"\x03\x00".rjust(32, b"\x00"))
-    d = s.model_dump()
+    d = to_json(s)
     assert d == {
         "0x00": ("0x0100"),
         "0x01": ("0x0200"),
@@ -101,7 +98,7 @@ def test_storage():
 
 
 @pytest.mark.parametrize(
-    ["account", "alloc", "should_pass"],
+    ["account", "alloc_dict", "should_pass"],
     [
         # All None: Pass
         (
@@ -275,12 +272,13 @@ def test_storage():
         ),
     ],
 )
-def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pass: bool):
+def test_account_check_alloc(account: Account, alloc_dict: Dict[Any, Any], should_pass: bool):
+    alloc_account = Account(**alloc_dict)
     if should_pass:
-        account.check_alloc(Address(1), alloc)
+        account.check_alloc(Address(1), alloc_account)
     else:
         with pytest.raises(Exception) as _:
-            account.check_alloc(Address(1), alloc)
+            account.check_alloc(Address(1), alloc_account)
 
 
 @pytest.mark.parametrize(
@@ -317,7 +315,7 @@ def test_alloc_append(alloc1: Alloc, alloc2: Alloc, expected_alloc: Alloc):
 
 
 @pytest.mark.parametrize(
-    ["account1", "account2", "expected_account"],
+    ["account_1", "account_2", "expected_account"],
     [
         pytest.param(
             Account(),
@@ -346,9 +344,9 @@ def test_alloc_append(alloc1: Alloc, alloc2: Alloc, expected_alloc: Alloc):
     ],
 )
 def test_account_merge(
-    account1: Account | None, account2: Account | None, expected_account: Account
+    account_1: Account | None, account_2: Account | None, expected_account: Account
 ):
-    assert Account.merge(account1, account2) == expected_account
+    assert Account.merge(account_1, account_2) == expected_account
 
 
 CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
@@ -1108,7 +1106,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
     ],
 )
 def test_json_conversions(obj: Any, expected_json: str | Dict[str, Any]):
-    assert obj.model_dump() == expected_json
+    assert to_json(obj) == expected_json
 
 
 @pytest.mark.parametrize(
