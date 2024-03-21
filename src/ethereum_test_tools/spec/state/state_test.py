@@ -2,9 +2,7 @@
 Ethereum state test spec definition and filler.
 """
 
-from copy import copy
-from dataclasses import dataclass
-from typing import Callable, Generator, List, Mapping, Optional, Type
+from typing import Any, Callable, Dict, Generator, List, Optional, Type
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
@@ -12,6 +10,7 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 from ...common import Address, Alloc, Environment, Number, Transaction
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
+from ...common.types import Result
 from ..base.base_test import BaseFixture, BaseTest, verify_post_alloc
 from ..blockchain.blockchain_test import Block, BlockchainTest
 from ..blockchain.types import Header
@@ -22,15 +21,14 @@ BEACON_ROOTS_ADDRESS = Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02)
 TARGET_BLOB_GAS_PER_BLOCK = 393216
 
 
-@dataclass(kw_only=True)
 class StateTest(BaseTest):
     """
     Filler type that tests transactions over the period of a single block.
     """
 
     env: Environment
-    pre: Mapping
-    post: Mapping
+    pre: Alloc
+    post: Alloc
     tx: Transaction
     engine_api_error_code: Optional[EngineAPIError] = None
     blockchain_test_header_verify: Optional[Header] = None
@@ -60,27 +58,28 @@ class StateTest(BaseTest):
         """
         Generate the genesis environment for the BlockchainTest formatted test.
         """
-        genesis_env = copy(self.env)
+        assert (
+            self.env.number >= 1
+        ), "genesis block number cannot be negative, set state test env.number to 1"
 
         # Modify values to the proper values for the genesis block
         # TODO: All of this can be moved to a new method in `Fork`
-        genesis_env.withdrawals = None
-        genesis_env.beacon_root = None
-        genesis_env.number = Number(genesis_env.number) - 1
-        assert (
-            genesis_env.number >= 0
-        ), "genesis block number cannot be negative, set state test env.number to 1"
-        if genesis_env.excess_blob_gas:
+        updated_values: Dict[str, Any] = {
+            "withdrawals": None,
+            "parent_beacon_block_root": None,
+            "number": self.env.number - 1,
+        }
+        if self.env.excess_blob_gas:
             # The excess blob gas environment value means the value of the context (block header)
             # where the transaction is executed. In a blockchain test, we need to indirectly
             # set the excess blob gas by setting the excess blob gas of the genesis block
             # to the expected value plus the TARGET_BLOB_GAS_PER_BLOCK, which is the value
             # that will be subtracted from the excess blob gas when the first block is mined.
-            genesis_env.excess_blob_gas = (
-                Number(genesis_env.excess_blob_gas) + TARGET_BLOB_GAS_PER_BLOCK
+            updated_values["excess_blob_gas"] = (
+                self.env.excess_blob_gas + TARGET_BLOB_GAS_PER_BLOCK
             )
 
-        return genesis_env
+        return self.env.model_copy_validate(update=updated_values)
 
     def _generate_blockchain_blocks(self) -> List[Block]:
         """
@@ -90,12 +89,12 @@ class StateTest(BaseTest):
             Block(
                 number=self.env.number,
                 timestamp=self.env.timestamp,
-                coinbase=self.env.coinbase,
+                fee_recipient=self.env.fee_recipient,
                 difficulty=self.env.difficulty,
                 gas_limit=self.env.gas_limit,
                 extra_data=self.env.extra_data,
                 withdrawals=self.env.withdrawals,
-                beacon_root=self.env.beacon_root,
+                parent_beacon_block_root=self.env.parent_beacon_block_root,
                 txs=[self.tx],
                 ommers=[],
                 exception=self.tx.error,
@@ -114,7 +113,7 @@ class StateTest(BaseTest):
             post=self.post,
             blocks=self._generate_blockchain_blocks(),
             fixture_format=self.fixture_format,
-            t8n_dump_dir=self.t8n_dump_dir,
+            _t8n_dump_dir=self._t8n_dump_dir,
         )
 
     def make_state_test_fixture(
@@ -129,8 +128,8 @@ class StateTest(BaseTest):
         env = self.env.set_fork_requirements(fork)
         tx = self.tx.with_signature_and_sender(keep_secret_key=True)
         pre_alloc = Alloc.merge(
-            Alloc(fork.pre_allocation()),
-            Alloc(self.pre),
+            Alloc.model_validate(fork.pre_allocation()),
+            self.pre,
         )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
@@ -143,9 +142,9 @@ class StateTest(BaseTest):
             if eips
             else transition_tool_name
         )
-        next_alloc, result = t8n.evaluate(
+        next_alloc_dict, result_dict = t8n.evaluate(
             alloc=to_json(pre_alloc),
-            txs=to_json([tx]),
+            txs=[to_json(tx)],
             env=to_json(env),
             fork_name=fork_name,
             chain_id=self.chain_id,
@@ -153,6 +152,8 @@ class StateTest(BaseTest):
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),
         )
+        result = Result(**result_dict)
+        next_alloc = Alloc.model_validate(next_alloc_dict)
 
         try:
             verify_post_alloc(self.post, next_alloc)

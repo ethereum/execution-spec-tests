@@ -435,7 +435,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         class BaseTestWrapper(cls):
             def __init__(self, *args, **kwargs):
                 kwargs["fixture_format"] = fixture_format
-                kwargs["t8n_dump_dir"] = dump_dir_parameter_level
+                kwargs["_t8n_dump_dir"] = dump_dir_parameter_level
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 fixture = self.generate(
                     t8n,

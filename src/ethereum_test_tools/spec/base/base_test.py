@@ -5,20 +5,20 @@ Base test class and helper functions for Ethereum state and blockchain tests.
 import hashlib
 import json
 from abc import abstractmethod
-from dataclasses import dataclass, field
 from itertools import count
 from os import path
 from pathlib import Path
-from typing import Any, Callable, Dict, Generator, Iterator, List, Mapping, Optional, TextIO
+from typing import Any, Callable, Dict, Generator, Iterator, List, Optional, TextIO
+
+from pydantic import BaseModel, Field
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import Account, Address, Environment, Transaction, withdrawals_root
+from ...common import Account, Environment, Transaction, withdrawals_root
 from ...common.conversions import to_hex
-from ...common.json import JSONEncoder
-from ...common.json import field as json_field
 from ...common.json import to_json
+from ...common.types import Alloc, Result, SerializationCamelModel
 from ...reference_spec.reference_spec import ReferenceSpec
 
 
@@ -47,48 +47,43 @@ def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
     return list(rejected_txs.keys())
 
 
-def verify_post_alloc(expected_post: Mapping, got_alloc: Mapping):
+def verify_post_alloc(expected_post: Alloc, got_alloc: Alloc):
     """
     Verify that an allocation matches the expected post in the test.
     Raises exception on unexpected values.
     """
-    got_alloc_normalized: Dict[Address, Any] = {
-        Address(address): got_alloc[address] for address in got_alloc
-    }
-    for address, account in expected_post.items():
-        address = Address(address)
+    for address, account in expected_post.root.items():
         if account is not None:
             if account == Account.NONEXISTENT:
-                if address in got_alloc_normalized:
+                if address in got_alloc.root:
                     raise Exception(f"found unexpected account: {address}")
             else:
-                if address in got_alloc_normalized:
-                    account.check_alloc(address, got_alloc_normalized[address])
+                if address in got_alloc.root:
+                    got_account = got_alloc.root[address]
+                    assert isinstance(got_account, Account)
+                    assert isinstance(account, Account)
+                    account.check_alloc(address, got_account)
                 else:
                     raise Exception(f"expected account not found: {address}")
 
 
-def verify_result(result: Mapping, env: Environment):
+def verify_result(result: Result, env: Environment):
     """
     Verify that values in the t8n result match the expected values.
     Raises exception on unexpected values.
     """
     if env.withdrawals is not None:
-        assert result["withdrawalsRoot"] == to_hex(withdrawals_root(env.withdrawals))
+        assert result.withdrawals_root == to_hex(withdrawals_root(env.withdrawals))
 
 
-@dataclass(kw_only=True)
-class BaseFixture:
+class BaseFixture(SerializationCamelModel):
     """
     Represents a base Ethereum test fixture of any type.
     """
 
-    info: Dict[str, str] = json_field(
+    info: Dict[str, str] = Field(
         default_factory=dict,
-        json_encoder=JSONEncoder.Field(
-            name="_info",
-            to_json=True,
-        ),
+        serialization_alias="_info",
     )
 
     _json: Optional[Dict[str, Any]] = None
@@ -107,10 +102,12 @@ class BaseFixture:
         if ref_spec is not None:
             ref_spec.write_info(self.info)
 
-    def __post_init__(self):
+    def model_post_init(self, __context):
         """
         Post init hook to convert to JSON after instantiation.
         """
+        super().model_post_init(__context)
+
         self._json = to_json(self)
         json_str = json.dumps(self._json, sort_keys=True, separators=(",", ":"))
         h = hashlib.sha256(json_str.encode("utf-8")).hexdigest()
@@ -159,21 +156,20 @@ class BaseFixture:
         return ".json"
 
 
-@dataclass(kw_only=True)
-class BaseTest:
+class BaseTest(BaseModel):
     """
     Represents a base Ethereum test which must return a single test fixture.
     """
 
-    pre: Mapping
+    pre: Alloc
     tag: str = ""
     # Setting a default here is just for type checking, the correct value is automatically set
     # by pytest.
     fixture_format: FixtureFormats = FixtureFormats.UNSET_TEST_FORMAT
 
     # Transition tool specific fields
-    t8n_dump_dir: Optional[str] = ""
-    t8n_call_counter: Iterator[int] = field(init=False, default_factory=count)
+    _t8n_dump_dir: Optional[str] = ""
+    _t8n_call_counter: Iterator[int] = count(0)
 
     @abstractmethod
     def generate(
@@ -217,11 +213,11 @@ class BaseTest:
         """
         Returns the path to the next transition tool output file.
         """
-        if not self.t8n_dump_dir:
+        if not self._t8n_dump_dir:
             return ""
         return path.join(
-            self.t8n_dump_dir,
-            str(next(self.t8n_call_counter)),
+            self._t8n_dump_dir,
+            str(next(self._t8n_call_counter)),
         )
 
 

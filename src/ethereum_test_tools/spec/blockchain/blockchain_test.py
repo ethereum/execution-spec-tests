@@ -2,10 +2,10 @@
 Ethereum blockchain test spec definition and filler.
 """
 
-from copy import copy
-from dataclasses import dataclass, field, replace
 from pprint import pprint
-from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
+from typing import Any, Callable, Dict, Generator, List, Optional, Tuple, Type
+
+from pydantic import Field
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
@@ -19,6 +19,7 @@ from ...common import (
     Environment,
     Hash,
     HeaderNonce,
+    HexNumber,
     Number,
     Transaction,
     ZeroPaddedHexNumber,
@@ -27,6 +28,7 @@ from ...common import (
 )
 from ...common.constants import EmptyOmmersRoot
 from ...common.json import to_json
+from ...common.types import Result
 from ..base.base_test import (
     BaseFixture,
     BaseTest,
@@ -54,13 +56,13 @@ def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
     return Environment(
         parent_difficulty=parent.difficulty,
         parent_timestamp=parent.timestamp,
-        parent_base_fee=parent.base_fee,
+        parent_base_fee=parent.base_fee_per_gas,
         parent_blob_gas_used=parent.blob_gas_used,
         parent_excess_blob_gas=parent.excess_blob_gas,
         parent_gas_used=parent.gas_used,
         parent_gas_limit=parent.gas_limit,
         parent_ommers_hash=parent.ommers_hash,
-        block_hashes={parent.number: parent.hash if parent.hash is not None else 0},
+        block_hashes={parent.number: parent.block_hash if parent.block_hash is not None else 0},
     )
 
 
@@ -68,17 +70,21 @@ def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> "Environmen
     """
     Applies a header as parent to a copy of this environment.
     """
-    env = copy(env)
-    env.parent_difficulty = new_parent.difficulty
-    env.parent_timestamp = new_parent.timestamp
-    env.parent_base_fee = new_parent.base_fee
-    env.parent_blob_gas_used = new_parent.blob_gas_used
-    env.parent_excess_blob_gas = new_parent.excess_blob_gas
-    env.parent_gas_used = new_parent.gas_used
-    env.parent_gas_limit = new_parent.gas_limit
-    env.parent_ommers_hash = new_parent.ommers_hash
-    env.block_hashes[new_parent.number] = new_parent.hash if new_parent.hash is not None else 0
-    return env
+    updated: Dict[str, Any] = {}
+    updated["parent_difficulty"] = new_parent.difficulty
+    updated["parent_timestamp"] = new_parent.timestamp
+    updated["parent_base_fee_per_gas"] = new_parent.base_fee_per_gas
+    updated["parent_blob_gas_used"] = new_parent.blob_gas_used
+    updated["parent_excess_blob_gas"] = new_parent.excess_blob_gas
+    updated["parent_gas_used"] = new_parent.gas_used
+    updated["parent_gas_limit"] = new_parent.gas_limit
+    updated["parent_ommers_hash"] = new_parent.ommers_hash
+    block_hashes = env.block_hashes.copy()
+    block_hashes[new_parent.number] = (
+        new_parent.block_hash if new_parent.block_hash is not None else 0
+    )
+    updated["block_hashes"] = block_hashes
+    return env.model_copy_validate(update=updated)
 
 
 def count_blobs(txs: List[Transaction]) -> int:
@@ -90,16 +96,15 @@ def count_blobs(txs: List[Transaction]) -> int:
     )
 
 
-@dataclass(kw_only=True)
 class BlockchainTest(BaseTest):
     """
     Filler type that tests multiple blocks (valid or invalid) in a chain.
     """
 
-    pre: Mapping
-    post: Mapping
+    pre: Alloc
+    post: Alloc
     blocks: List[Block]
-    genesis_environment: Environment = field(default_factory=Environment)
+    genesis_environment: Environment = Field(default_factory=Environment)
     verify_sync: Optional[bool] = None
     tag: str = ""
     chain_id: int = 1
@@ -132,12 +137,14 @@ class BlockchainTest(BaseTest):
         env = self.genesis_environment.set_fork_requirements(fork)
         if env.withdrawals is not None:
             assert len(env.withdrawals) == 0, "withdrawals must be empty at genesis"
-        if env.beacon_root is not None:
-            assert Hash(env.beacon_root) == Hash(0), "beacon_root must be empty at genesis"
+        if env.parent_beacon_block_root is not None:
+            assert Hash(env.parent_beacon_block_root) == Hash(
+                0
+            ), "parent_beacon_block_root must be empty at genesis"
 
         pre_alloc = Alloc.merge(
-            Alloc(fork.pre_allocation_blockchain()),
-            Alloc(self.pre),
+            Alloc.model_validate(fork.pre_allocation_blockchain()),
+            self.pre,
         )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
@@ -145,29 +152,29 @@ class BlockchainTest(BaseTest):
         genesis = FixtureHeader(
             parent_hash=Hash(0),
             ommers_hash=Hash(EmptyOmmersRoot),
-            coinbase=Address(0),
+            fee_recipient=Address(0),
             state_root=Hash(state_root),
-            transactions_root=Hash(EmptyTrieRoot),
-            receipt_root=Hash(EmptyTrieRoot),
-            bloom=Bloom(0),
+            transactions_trie=Hash(EmptyTrieRoot),
+            receipts_root=Hash(EmptyTrieRoot),
+            logs_bloom=Bloom(0),
             difficulty=ZeroPaddedHexNumber(0x20000 if env.difficulty is None else env.difficulty),
             number=0,
             gas_limit=ZeroPaddedHexNumber(env.gas_limit),
             gas_used=0,
             timestamp=0,
             extra_data=Bytes([0]),
-            mix_digest=Hash(0),
+            prev_randao=Hash(0),
             nonce=HeaderNonce(0),
-            base_fee=ZeroPaddedHexNumber.or_none(env.base_fee),
+            base_fee_per_gas=ZeroPaddedHexNumber.or_none(env.base_fee_per_gas),
             blob_gas_used=ZeroPaddedHexNumber.or_none(env.blob_gas_used),
             excess_blob_gas=ZeroPaddedHexNumber.or_none(env.excess_blob_gas),
             withdrawals_root=Hash.or_none(
                 withdrawals_root(env.withdrawals) if env.withdrawals is not None else None
             ),
-            beacon_root=Hash.or_none(env.beacon_root),
+            parent_beacon_block_root=env.parent_beacon_block_root,
         )
 
-        genesis_rlp, genesis.hash = genesis.build(
+        genesis_rlp, _ = genesis.build(
             txs=[],
             ommers=[],
             withdrawals=env.withdrawals,
@@ -181,9 +188,9 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         block: Block,
         previous_env: Environment,
-        previous_alloc: Dict[str, Any],
+        previous_alloc: Alloc,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[FixtureHeader, Bytes, List[Transaction], Dict[str, Any], Environment]:
+    ) -> Tuple[FixtureHeader, Bytes, List[Transaction], Alloc, Environment]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
         """
@@ -210,9 +217,9 @@ class BlockchainTest(BaseTest):
                     + "must be the last transaction in the block"
                 )
 
-        next_alloc, result = t8n.evaluate(
-            alloc=previous_alloc,
-            txs=to_json(txs),
+        next_alloc_dict, result_dict = t8n.evaluate(
+            alloc=to_json(previous_alloc),
+            txs=[to_json(tx) for tx in txs],
             env=to_json(env),
             fork_name=fork.transition_tool_name(
                 block_number=Number(env.number), timestamp=Number(env.timestamp)
@@ -222,6 +229,8 @@ class BlockchainTest(BaseTest):
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),
         )
+        next_alloc = Alloc.model_validate(next_alloc_dict)
+        result = Result(**result_dict)
 
         try:
             rejected_txs = verify_transactions(txs, result)
@@ -243,15 +252,14 @@ class BlockchainTest(BaseTest):
                 + "`block.exception`"
             )
 
-        env.extra_data = block.extra_data
-        header = FixtureHeader.collect(
+        env.extra_data = block.extra_data if block.extra_data is not None else env.extra_data
+        header = FixtureHeader(
+            **(result.model_dump(exclude_none=True) | env.model_dump(exclude_none=True)),
             fork=fork,
-            transition_tool_result=result,
-            environment=env,
         )
 
         # Update the transactions root to the one calculated locally.
-        header.transactions_root = transaction_list_root(txs)
+        header.transactions_trie = transaction_list_root(txs)
 
         # One special case of the invalid transactions is the blob gas used, since this value
         # is not included in the transition tool result, but it is included in the block header,
@@ -260,7 +268,7 @@ class BlockchainTest(BaseTest):
         if (
             blob_gas_per_blob := fork.blob_gas_per_blob(Number(env.number), Number(env.timestamp))
         ) > 0:
-            header.blob_gas_used = blob_gas_per_blob * count_blobs(txs)
+            header.blob_gas_used = HexNumber(blob_gas_per_blob * count_blobs(txs))
 
         if block.header_verify is not None:
             # Verify the header after transition tool processing.
@@ -271,7 +279,7 @@ class BlockchainTest(BaseTest):
             # transition tool processing.
             header = header.join(block.rlp_modifier)
 
-        rlp, header.hash = header.build(
+        rlp, _ = header.build(
             txs=txs,
             ommers=[],
             withdrawals=env.withdrawals,
@@ -289,7 +297,7 @@ class BlockchainTest(BaseTest):
             else fork.blockchain_test_network_name()
         )
 
-    def verify_post_state(self, t8n, alloc):
+    def verify_post_state(self, t8n, alloc: Alloc):
         """
         Verifies the post alloc after all block/s or payload/s are generated.
         """
@@ -314,7 +322,7 @@ class BlockchainTest(BaseTest):
 
         alloc = pre
         env = environment_from_parent_header(genesis)
-        head = genesis.hash if genesis.hash is not None else Hash(0)
+        head = genesis.block_hash if genesis.block_hash is not None else Hash(0)
 
         for block in self.blocks:
             if block.rlp is None:
@@ -342,7 +350,7 @@ class BlockchainTest(BaseTest):
                     # Update env, alloc and last block hash for the next block.
                     alloc = new_alloc
                     env = apply_new_parent(new_env, header)
-                    head = header.hash if header.hash is not None else Hash(0)
+                    head = header.block_hash if header.block_hash is not None else Hash(0)
                 else:
                     fixture_blocks.append(
                         InvalidFixtureBlock(
@@ -351,7 +359,7 @@ class BlockchainTest(BaseTest):
                             rlp_decoded=(
                                 None
                                 if BlockException.RLP_STRUCTURES_ENCODING in block.exception
-                                else replace(fixture_block, rlp=None)
+                                else fixture_block.model_copy_validate(update={"rlp": None})
                             ),
                         ),
                     )
@@ -391,9 +399,9 @@ class BlockchainTest(BaseTest):
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
         pre, _, genesis = self.make_genesis(t8n, fork)
-        alloc = to_json(pre)
+        alloc = pre
         env = environment_from_parent_header(genesis)
-        head_hash = genesis.hash
+        head_hash = genesis.block_hash
 
         for block in self.blocks:
             header, _, txs, new_alloc, new_env = self.generate_block_data(
@@ -413,7 +421,7 @@ class BlockchainTest(BaseTest):
                 if block.exception is None:
                     alloc = new_alloc
                     env = apply_new_parent(env, header)
-                    head_hash = header.hash
+                    head_hash = header.block_hash
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
         assert (
             fcu_version is not None
@@ -426,7 +434,7 @@ class BlockchainTest(BaseTest):
         if self.verify_sync:
             # Test is marked for syncing verification.
             assert (
-                genesis.hash != head_hash
+                genesis.block_hash != head_hash
             ), "Invalid payload tests negative test via sync is not supported yet."
 
             # Most clients require the header to start the sync process, so we create an empty
@@ -455,7 +463,7 @@ class BlockchainTest(BaseTest):
             payloads=fixture_payloads,
             fcu_version=fcu_version,
             pre_state=pre,
-            post_state=alloc_to_accounts(alloc),
+            post_state=alloc,
             sync_payload=sync_payload,
             name=self.tag,
         )

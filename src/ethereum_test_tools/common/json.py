@@ -7,7 +7,9 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from dataclasses import field as dataclass_field
 from dataclasses import fields, is_dataclass
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional
+
+from pydantic import BaseModel
 
 
 class SupportsJSON(ABC):
@@ -153,8 +155,8 @@ def field(*args, json_encoder: Optional[JSONEncoder.Field] = None, **kwargs) -> 
     return dataclass_field(*args, **kwargs)
 
 
-def to_json(input: Any) -> Dict[str, Any]:
+def to_json(input: BaseModel) -> Dict[str, Any]:
     """
     Converts a value to its json representation.
     """
-    return JSONEncoder().default(input)
+    return input.model_dump(mode="json", by_alias=True, exclude_none=True)

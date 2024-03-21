@@ -1,6 +1,7 @@
 """
 Test fixture post state (expect section) during state fixture generation.
 """
+
 from typing import Any, Mapping
 
 import pytest
@@ -121,7 +122,7 @@ def test_post_storage_value_mismatch(pre, post, expected_exception, state_test, 
     [
         ({ADDRESS_UNDER_TEST: Account(nonce=1)}, {ADDRESS_UNDER_TEST: Account(nonce=2)}),
         ({ADDRESS_UNDER_TEST: Account(nonce=1)}, {ADDRESS_UNDER_TEST: Account(nonce=0)}),
-        ({ADDRESS_UNDER_TEST: Account(nonce=1)}, {ADDRESS_UNDER_TEST: Account(nonce=None)}),
+        ({ADDRESS_UNDER_TEST: Account(nonce=1)}, {ADDRESS_UNDER_TEST: Account()}),
     ],
 )
 def test_post_nonce_value_mismatch(pre, post, state_test, t8n, fork):
@@ -147,7 +148,7 @@ def test_post_nonce_value_mismatch(pre, post, state_test, t8n, fork):
     [
         ({ADDRESS_UNDER_TEST: Account(code="0x02")}, {ADDRESS_UNDER_TEST: Account(code="0x01")}),
         ({ADDRESS_UNDER_TEST: Account(code="0x02")}, {ADDRESS_UNDER_TEST: Account(code="0x")}),
-        ({ADDRESS_UNDER_TEST: Account(code="0x02")}, {ADDRESS_UNDER_TEST: Account(code=None)}),
+        ({ADDRESS_UNDER_TEST: Account(code="0x02")}, {ADDRESS_UNDER_TEST: Account()}),
     ],
     indirect=["pre", "post"],
 )
@@ -174,7 +175,7 @@ def test_post_code_value_mismatch(pre, post, state_test, t8n, fork):
     [
         ({ADDRESS_UNDER_TEST: Account(balance=1)}, {ADDRESS_UNDER_TEST: Account(balance=2)}),
         ({ADDRESS_UNDER_TEST: Account(balance=1)}, {ADDRESS_UNDER_TEST: Account(balance=0)}),
-        ({ADDRESS_UNDER_TEST: Account(balance=1)}, {ADDRESS_UNDER_TEST: Account(balance=None)}),
+        ({ADDRESS_UNDER_TEST: Account(balance=1)}, {ADDRESS_UNDER_TEST: Account()}),
     ],
     indirect=["pre", "post"],
 )

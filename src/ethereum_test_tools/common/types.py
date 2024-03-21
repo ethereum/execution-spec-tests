@@ -4,7 +4,19 @@ Useful types for generating Ethereum tests.
 
 from dataclasses import dataclass
 from itertools import count
-from typing import Any, ClassVar, Dict, Iterator, List, Sequence, SupportsBytes, Type, TypeAlias
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    Iterator,
+    List,
+    Literal,
+    Sequence,
+    SupportsBytes,
+    Type,
+    TypeAlias,
+    TypeVar,
+)
 
 from coincurve.keys import PrivateKey, PublicKey
 from ethereum import rlp as eth_rlp
@@ -28,15 +40,7 @@ from trie import HexaryTrie
 from ethereum_test_forks import Fork
 
 from ..exceptions import ExceptionList, TransactionException
-from .base_types import (
-    AddressType,
-    BloomType,
-    HashType,
-    HexBytesType,
-    HexNumberType,
-    from_hash,
-    to_hex_number,
-)
+from .base_types import Address, Bloom, Bytes, Hash, HexNumber
 from .constants import TestPrivateKey
 from .conversions import BytesConvertible
 
@@ -64,6 +68,8 @@ class Auto:
 
 # Base Models
 
+Model = TypeVar("Model", bound=BaseModel)
+
 
 class CamelModel(BaseModel):
     """
@@ -73,10 +79,19 @@ class CamelModel(BaseModel):
     model_config = ConfigDict(
         alias_generator=to_camel,
         populate_by_name=True,
+        validate_default=True,
     )
 
+    def model_copy_validate(self: Model, update: Dict | None = None) -> Model:
+        """
+        Copies the model and validates the input.
+        """
+        if update is None:
+            update = {}
+        return self.__class__(**(self.model_dump() | update))
 
-class SerializationCamelModel(BaseModel):
+
+class SerializationCamelModel(CamelModel):
     """
     Model that uses camel case for serialization
     """
@@ -84,6 +99,7 @@ class SerializationCamelModel(BaseModel):
     model_config = ConfigDict(
         alias_generator=AliasGenerator(serialization_alias=to_camel),
         populate_by_name=True,
+        validate_default=True,
     )
 
 
@@ -91,7 +107,7 @@ MAX_STORAGE_KEY_VALUE = 2**256 - 1
 MIN_STORAGE_KEY_VALUE = -(2**255)
 
 
-StorageKeyValueType = HexNumberType
+StorageKeyValueType = HexNumber  # TODO: Perhaps something like HashInt would be better
 StorageKeyValueTypeAdapter = TypeAdapter(StorageKeyValueType)
 StorageType = Dict[StorageKeyValueType, StorageKeyValueType]
 
@@ -101,9 +117,9 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
     Definition of a storage in pre or post state of a test
     """
 
-    root: Dict[StorageKeyValueType, StorageKeyValueType]
+    root: Dict[StorageKeyValueType, StorageKeyValueType] = Field(default_factory=dict)
 
-    _current_slot: Iterator[StorageKeyValueType] = count(0)
+    _current_slot: Iterator[int] = count(0)
 
     StorageDictType: ClassVar[TypeAlias] = Dict[
         str | int | bytes | SupportsBytes, str | int | bytes | SupportsBytes
@@ -201,12 +217,12 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         was different.
         """
 
-        address: AddressType
+        address: Address
         key: int
         want: int
         got: int
 
-        def __init__(self, address: AddressType, key: int, want: int, got: int, *args):
+        def __init__(self, address: Address, key: int, want: int, got: int, *args):
             super().__init__(args)
             self.address = address
             self.key = key
@@ -249,7 +265,9 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         Increments the key counter so the next time this function is called,
         the next key is used.
         """
-        self[slot := next(self._current_slot)] = StorageKeyValueTypeAdapter.validate_python(value)
+        self[slot := HexNumber(next(self._current_slot))] = (
+            StorageKeyValueTypeAdapter.validate_python(value)
+        )
         return slot
 
     def contains(self, other: "Storage") -> bool:
@@ -266,7 +284,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
                 return False
         return True
 
-    def must_contain(self, address: AddressType, other: "Storage"):
+    def must_contain(self, address: Address, other: "Storage"):
         """
         Succeeds only if self contains all keys with equal value as
         contained by second storage.
@@ -284,7 +302,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
                     address=address, key=key, want=self[key], got=other[key]
                 )
 
-    def must_be_equal(self, address: AddressType, other: "Storage | None"):
+    def must_be_equal(self, address: Address, other: "Storage | None"):
         """
         Succeeds only if "self" is equal to "other" storage.
         """
@@ -312,26 +330,26 @@ class Account(BaseModel):
     State associated with an address.
     """
 
-    nonce: HexNumberType | None = None
+    nonce: HexNumber = HexNumber(0)
     """
     The scalar value equal to a) the number of transactions sent by
     an Externally Owned Account, b) the amount of contracts created by a
     contract.
     """
-    balance: HexNumberType | None = None
+    balance: HexNumber = HexNumber(0)
     """
     The amount of Wei (10<sup>-18</sup> Eth) the account has.
     """
-    code: HexBytesType | None = None
+    code: Bytes = Bytes(b"")
     """
     Bytecode contained by the account.
     """
-    storage: Storage | None = None
+    storage: Storage = Field(default_factory=Storage)
     """
     Storage within a contract.
     """
 
-    NONEXISTENT: ClassVar[object] = object()
+    NONEXISTENT: ClassVar[str] = "NONEXISTENT"
     """
     Sentinel object used to specify when an account should not exist in the
     state.
@@ -344,11 +362,11 @@ class Account(BaseModel):
         value was found.
         """
 
-        address: AddressType
+        address: Address
         want: int | None
         got: int | None
 
-        def __init__(self, address: AddressType, want: int | None, got: int | None, *args):
+        def __init__(self, address: Address, want: int | None, got: int | None, *args):
             super().__init__(args)
             self.address = address
             self.want = want
@@ -368,11 +386,11 @@ class Account(BaseModel):
         value was found.
         """
 
-        address: AddressType
+        address: Address
         want: int | None
         got: int | None
 
-        def __init__(self, address: AddressType, want: int | None, got: int | None, *args):
+        def __init__(self, address: Address, want: int | None, got: int | None, *args):
             super().__init__(args)
             self.address = address
             self.want = want
@@ -392,11 +410,11 @@ class Account(BaseModel):
         one was found.
         """
 
-        address: AddressType
+        address: Address
         want: bytes | None
         got: bytes | None
 
-        def __init__(self, address: AddressType, want: bytes | None, got: bytes | None, *args):
+        def __init__(self, address: Address, want: bytes | None, got: bytes | None, *args):
             super().__init__(args)
             self.address = address
             self.want = want
@@ -409,12 +427,12 @@ class Account(BaseModel):
                 + f"want {self.want}, got {self.got}"
             )
 
-    def check_alloc(self: "Account", address: AddressType, account: "Account"):
+    def check_alloc(self: "Account", address: Address, account: "Account"):
         """
         Checks the returned alloc against an expected account in post state.
         Raises exception on failure.
         """
-        if self.nonce is not None:
+        if "nonce" in self.model_fields_set:
             if self.nonce != account.nonce:
                 raise Account.NonceMismatch(
                     address=address,
@@ -422,7 +440,7 @@ class Account(BaseModel):
                     got=account.nonce,
                 )
 
-        if self.balance is not None:
+        if "balance" in self.model_fields_set:
             if self.balance != account.balance:
                 raise Account.BalanceMismatch(
                     address=address,
@@ -430,7 +448,7 @@ class Account(BaseModel):
                     got=account.balance,
                 )
 
-        if self.code is not None:
+        if "code" in self.model_fields_set:
             if self.code != account.code:
                 raise Account.CodeMismatch(
                     address=address,
@@ -438,7 +456,7 @@ class Account(BaseModel):
                     got=account.code,
                 )
 
-        if self.storage is not None:
+        if "storage" in self.model_fields_set:
             self.storage.must_be_equal(address=address, other=account.storage)
 
     def has_empty_code(self: "Account") -> bool:
@@ -463,7 +481,7 @@ class Account(BaseModel):
         """
         Create account with provided `code` and nonce of `1`.
         """
-        return Account(nonce=1, code=code)
+        return Account(nonce=HexNumber(1), code=Bytes(code))
 
     @classmethod
     def merge(
@@ -488,12 +506,14 @@ class Account(BaseModel):
         return cls(**kwargs)
 
 
-class Alloc(RootModel[Dict[AddressType, Account]]):
+class Alloc(RootModel[Dict[Address, Account]]):
     """
     Allocation of accounts in the state, pre and post test execution.
     """
 
-    root: Dict[AddressType, Account]
+    root: Dict[Address, Account | Literal["NONEXISTENT"]] = Field(
+        default_factory=dict, validate_default=True
+    )
 
     @classmethod
     def merge(cls, alloc_1: "Alloc", alloc_2: "Alloc") -> "Alloc":
@@ -512,7 +532,7 @@ class Alloc(RootModel[Dict[AddressType, Account]]):
 
         return Alloc(merged)
 
-    def empty_accounts(self) -> List[AddressType]:
+    def empty_accounts(self) -> List[Address]:
         """
         Returns a list of addresses of empty accounts.
         """
@@ -538,7 +558,7 @@ class Alloc(RootModel[Dict[AddressType, Account]]):
                     set_storage(
                         state=state,
                         address=FrontierAddress(address),
-                        key=from_hash(key),
+                        key=Hash(key),
                         value=U256(value),
                     )
         return state_root(state)
@@ -549,10 +569,10 @@ class Withdrawal(CamelModel):
     Withdrawal type
     """
 
-    index: HexNumberType
-    validator_index: HexNumberType
-    address: AddressType
-    amount: HexNumberType
+    index: HexNumber
+    validator_index: HexNumber
+    address: Address
+    amount: HexNumber
 
     def to_serializable_list(self) -> List[Any]:
         """
@@ -586,53 +606,48 @@ class Environment(CamelModel):
     must be executed.
     """
 
-    fee_recipient: AddressType = Field(
-        "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+    fee_recipient: Address = Field(
+        Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
         serialization_alias="currentCoinbase",
-        validate_default=True,
     )
-    gas_limit: HexNumberType = Field(
-        100_000_000_000_000_000, serialization_alias="currentGasLimit"
+    gas_limit: HexNumber = Field(
+        HexNumber(100_000_000_000_000_000), serialization_alias="currentGasLimit"
     )
-    number: HexNumberType = Field(1, serialization_alias="currentNumber")
-    timestamp: HexNumberType = Field(1_000, serialization_alias="currentTimestamp")
-    prev_randao: HexNumberType | None = Field(None, serialization_alias="currentRandom")
-    difficulty: HexNumberType | None = Field(None, serialization_alias="currentDifficulty")
-    base_fee_per_gas: HexNumberType | None = Field(None, serialization_alias="currentBaseFee")
-    blob_gas_used: HexNumberType | None = Field(None, serialization_alias="currentBlobGasUsed")
-    excess_blob_gas: HexNumberType | None = Field(None, serialization_alias="currentExcessBlobGas")
+    number: HexNumber = Field(HexNumber(1), serialization_alias="currentNumber")
+    timestamp: HexNumber = Field(HexNumber(1_000), serialization_alias="currentTimestamp")
+    prev_randao: HexNumber | None = Field(None, serialization_alias="currentRandom")
+    difficulty: HexNumber | None = Field(None, serialization_alias="currentDifficulty")
+    base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="currentBaseFee")
+    blob_gas_used: HexNumber | None = Field(None, serialization_alias="currentBlobGasUsed")
+    excess_blob_gas: HexNumber | None = Field(None, serialization_alias="currentExcessBlobGas")
 
-    parent_difficulty: HexNumberType | None = Field(None)
-    parent_timestamp: HexNumberType | None = Field(None)
-    parent_base_fee_per_gas: HexNumberType | None = Field(
-        None, serialization_alias="parentBaseFee"
-    )
-    parent_gas_used: HexNumberType | None = Field(None)
-    parent_gas_limit: HexNumberType | None = Field(None)
-    parent_ommers_hash: HashType = Field(
-        0, serialization_alias="parentUncleHash", validate_default=True
-    )
-    parent_blob_gas_used: HexNumberType | None = Field(None)
-    parent_excess_blob_gas: HexNumberType | None = Field(None)
-    parent_beacon_block_root: HashType | None = Field(None)
+    parent_difficulty: HexNumber | None = Field(None)
+    parent_timestamp: HexNumber | None = Field(None)
+    parent_base_fee_per_gas: HexNumber | None = Field(None, serialization_alias="parentBaseFee")
+    parent_gas_used: HexNumber | None = Field(None)
+    parent_gas_limit: HexNumber | None = Field(None)
+    parent_ommers_hash: Hash = Field(Hash(0), serialization_alias="parentUncleHash")
+    parent_blob_gas_used: HexNumber | None = Field(None)
+    parent_excess_blob_gas: HexNumber | None = Field(None)
+    parent_beacon_block_root: Hash | None = Field(None)
 
-    block_hashes: Dict[HexNumberType, HashType] = Field(default_factory=dict)
-    ommers: List[HashType] = Field(default_factory=list)
+    block_hashes: Dict[HexNumber, Hash] = Field(default_factory=dict)
+    ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
-    extra_data: HexBytesType = Field(b"\x00")
+    extra_data: Bytes = Field(Bytes(b"\x00"))
 
     @computed_field  # type: ignore[misc]
     @property
-    def parent_hash(self) -> HashType:
+    def parent_hash(self) -> Hash:
         """
         Obtains the latest hash according to the highest block number in
         `block_hashes`.
         """
         if len(self.block_hashes) == 0:
-            return bytes([0] * 32)
+            return Hash(0)
 
         last_index = max(self.block_hashes.keys())
-        return HashType(self.block_hashes[last_index])
+        return Hash(self.block_hashes[last_index])
 
     def set_fork_requirements(self, fork: Fork) -> "Environment":
         """
@@ -681,7 +696,7 @@ class Environment(CamelModel):
         ):
             updated_values["parent_beacon_block_root"] = 0
 
-        return self.model_copy(update=updated_values)
+        return self.model_copy_validate(update=updated_values)
 
 
 class AccessList(CamelModel):
@@ -689,10 +704,10 @@ class AccessList(CamelModel):
     Access List for transactions.
     """
 
-    address: AddressType
-    storage_keys: List[HashType]
+    address: Address
+    storage_keys: List[Hash]
 
-    def to_list(self) -> List[AddressType | List[HashType]]:
+    def to_list(self) -> List[Address | List[Hash]]:
         """
         Returns the access list as a list of serializable elements.
         """
@@ -704,34 +719,31 @@ class Transaction(CamelModel):
     Generic object that can represent all Ethereum transaction types.
     """
 
-    ty: HexNumberType | None = Field(None, alias="type")
-    """
-    Transaction type value.
-    """
-    chain_id: HexNumberType = 1
-    nonce: HexNumberType = 0
-    gas_price: HexNumberType | None = None
-    max_priority_fee_per_gas: HexNumberType | None = None
-    max_fee_per_gas: HexNumberType | None = None
-    gas_limit: HexNumberType = Field(21000, alias="gas")
-    to: AddressType | None = Field(0xAA, validate_default=True)
-    value: HexNumberType = 0
-    data: HexBytesType = Field(b"", alias="input")
+    ty: HexNumber | None = Field(None, alias="type")
+    chain_id: HexNumber = Field(1)
+    nonce: HexNumber = Field(0)
+    gas_price: HexNumber | None = None
+    max_priority_fee_per_gas: HexNumber | None = None
+    max_fee_per_gas: HexNumber | None = None
+    gas_limit: HexNumber = Field(21000, alias="gas")
+    to: Address | None = Field(0xAA)
+    value: HexNumber = Field(0)
+    data: Bytes = Field(b"", alias="input")
     access_list: List[AccessList] | None = None
-    max_fee_per_blob_gas: HexNumberType | None = None
-    blob_versioned_hashes: Sequence[HashType] | None = None
-    v: HexNumberType | None = None
-    r: HexNumberType | None = None
-    s: HexNumberType | None = None
+    max_fee_per_blob_gas: HexNumber | None = None
+    blob_versioned_hashes: Sequence[Hash] | None = None
+    v: HexNumber | None = None
+    r: HexNumber | None = None
+    s: HexNumber | None = None
     wrapped_blob_transaction: bool = Field(False, exclude=True)
-    blobs: Sequence[HexBytesType] = Field(None, exclude=True)
+    blobs: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_commitments: Sequence[bytes] | None = Field(None, exclude=True)
     blob_kzg_proofs: Sequence[bytes] | None = Field(None, exclude=True)
-    sender: AddressType | None = None
-    secret_key: HashType | None = None
+    sender: Address | None = None
+    secret_key: Hash | None = None
     protected: bool = Field(True, exclude=True)
     error: TransactionException | None = Field(None, exclude=True)  # TODO: Add ExceptionList
-    rlp: HexBytesType | None = Field(None, exclude=True)
+    rlp: Bytes | None = Field(None, exclude=True)
 
     class InvalidFeePayment(Exception):
         """
@@ -777,7 +789,7 @@ class Transaction(CamelModel):
             raise Transaction.InvalidSignaturePrivateKey()
 
         if self.v is None and self.secret_key is None:
-            self.secret_key = from_hash(TestPrivateKey)
+            self.secret_key = Hash(TestPrivateKey)
 
         if self.ty is None:
             # Try to deduce transaction type from included fields
@@ -801,19 +813,19 @@ class Transaction(CamelModel):
         """
         Create a copy of the transaction with an added error.
         """
-        return self.model_copy(update={"error": error})
+        return self.model_copy_validate(update={"error": error})
 
     def with_nonce(self, nonce: int) -> "Transaction":
         """
         Create a copy of the transaction with a modified nonce.
         """
-        return self.model_copy(update={"nonce": nonce})
+        return self.model_copy_validate(update={"nonce": nonce})
 
     def with_fields(self, **kwargs) -> "Transaction":
         """
         Create a deepcopy of the transaction with modified fields.
         """
-        return self.model_copy(update=kwargs, deep=True)
+        return self.model_copy_validate(update=kwargs)
 
     def payload_body(self) -> List[Any]:
         """
@@ -824,7 +836,7 @@ class Transaction(CamelModel):
 
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = AddressType(self.to) if self.to is not None else bytes()
+        to = Address(self.to) if self.to is not None else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
@@ -971,7 +983,7 @@ class Transaction(CamelModel):
         """
         if self.gas_limit is None:
             raise ValueError("gas_limit must be set for all tx types")
-        to = AddressType(self.to) if self.to is not None else bytes()
+        to = Address(self.to) if self.to is not None else bytes()
 
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
@@ -1073,7 +1085,7 @@ class Transaction(CamelModel):
         Returns the serialized bytes of the transaction signature.
         """
         assert self.v is not None and self.r is not None and self.s is not None
-        v = self.v
+        v = int(self.v)
         if self.ty == 0:
             if self.protected:
                 assert self.chain_id is not None
@@ -1095,7 +1107,7 @@ class Transaction(CamelModel):
         if self.v is not None:
             # Transaction already signed
             if self.sender is not None:
-                return self.model_copy()
+                return self
 
             public_key = PublicKey.from_signature_and_message(
                 self.signature_bytes(), keccak256(self.signing_bytes()), hasher=None
@@ -1103,7 +1115,7 @@ class Transaction(CamelModel):
             updated_values["sender"] = keccak256(public_key.format(compressed=False)[1:])[
                 32 - 20 :
             ]
-            return self.model_copy(update=updated_values)
+            return self.model_copy_validate(update=updated_values)
 
         if self.secret_key is None:
             raise ValueError("secret_key must be set to sign a transaction")
@@ -1138,21 +1150,24 @@ class Transaction(CamelModel):
         updated_values["r"] = r
         updated_values["s"] = s
 
+        updated_values["secret_key"] = None
+
+        updated_tx = self.model_copy_validate(update=updated_values)
+
         # Remove the secret key if requested
-        if not keep_secret_key:
-            updated_values["secret_key"] = None
+        if keep_secret_key:
+            updated_tx.secret_key = self.secret_key
+        return updated_tx
 
-        return self.model_copy(update=updated_values)
 
-
-def transaction_list_root(input_txs: List[Transaction] | None) -> HashType:
+def transaction_list_root(input_txs: List[Transaction] | None) -> Hash:
     """
     Returns the transactions root of a list of transactions.
     """
     t = HexaryTrie(db={})
     for i, tx in enumerate(input_txs or []):
         t.set(eth_rlp.encode(Uint(i)), tx.serialized_bytes())
-    return HashType(t.root_hash)
+    return Hash(t.root_hash)
 
 
 def transaction_list_to_serializable_list(input_txs: List[Transaction] | None) -> List[Any]:
@@ -1183,11 +1198,11 @@ def serialize_transactions(input_txs: List[Transaction] | None) -> bytes:
 
 def blob_versioned_hashes_from_transactions(
     input_txs: List[Transaction] | None,
-) -> List[HashType]:
+) -> List[Hash]:
     """
     Gets a list of ordered blob versioned hashes from a list of transactions.
     """
-    versioned_hashes: List[HashType] = []
+    versioned_hashes: List[Hash] = []
 
     if input_txs is None:
         return versioned_hashes
@@ -1209,19 +1224,19 @@ class TransactionReceipt(CamelModel):
     Transaction receipt
     """
 
-    root: HexBytesType
-    status: HexNumberType
-    cumulative_gas_used: HexNumberType
-    logs_bloom: BloomType
+    root: Bytes
+    status: HexNumber
+    cumulative_gas_used: HexNumber
+    logs_bloom: Bloom
     logs: List[Dict[str, str]] | None = None
-    transaction_hash: HashType
-    contract_address: AddressType
-    gas_used: HexNumberType
-    effective_gas_price: HexNumberType | None = None
-    block_hash: HashType
-    transaction_index: HexNumberType
-    blob_gas_used: HexNumberType | None = None
-    blob_gas_price: HexNumberType | None = None
+    transaction_hash: Hash
+    contract_address: Address
+    gas_used: HexNumber
+    effective_gas_price: HexNumber | None = None
+    block_hash: Hash
+    transaction_index: HexNumber
+    blob_gas_used: HexNumber | None = None
+    blob_gas_price: HexNumber | None = None
 
 
 class RejectedTransaction(CamelModel):
@@ -1229,7 +1244,7 @@ class RejectedTransaction(CamelModel):
     Rejected transaction
     """
 
-    index: HexNumberType
+    index: HexNumber
     error: str
 
 
@@ -1238,17 +1253,17 @@ class Result(CamelModel):
     Result of a t8n
     """
 
-    state_root: HashType
-    ommers_hash: HashType | None = Field(None, validation_alias="sha3Uncles")
-    transactions_trie: HashType = Field(..., alias="txRoot")
-    receipts_root: HashType
-    logs_hash: HashType
-    logs_bloom: BloomType
+    state_root: Hash
+    ommers_hash: Hash | None = Field(None, validation_alias="sha3Uncles")
+    transactions_trie: Hash = Field(..., alias="txRoot")
+    receipts_root: Hash
+    logs_hash: Hash
+    logs_bloom: Bloom
     receipts: List[TransactionReceipt]
     rejected_transactions: List[RejectedTransaction] | None = Field(None, alias="rejected")
-    difficulty: HexNumberType | None = Field(None, alias="currentDifficulty")
-    gas_used: HexNumberType
-    base_fee_per_gas: HexNumberType | None = Field(None, alias="currentBaseFee")
-    withdrawals_root: HashType | None = None
-    excess_blob_gas: HexNumberType | None = Field(None, alias="currentExcessBlobGas")
-    blob_gas_used: HexNumberType | None = None
+    difficulty: HexNumber | None = Field(None, alias="currentDifficulty")
+    gas_used: HexNumber
+    base_fee_per_gas: HexNumber | None = Field(None, alias="currentBaseFee")
+    withdrawals_root: Hash | None = None
+    excess_blob_gas: HexNumber | None = Field(None, alias="currentExcessBlobGas")
+    blob_gas_used: HexNumber | None = None

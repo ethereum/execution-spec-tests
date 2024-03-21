@@ -92,8 +92,8 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
     assert isinstance(fixture, BlockchainFixture)
     assert fixture.genesis is not None
 
-    assert fixture.genesis.hash is not None
-    assert fixture.genesis.hash.startswith(hash)
+    assert fixture.genesis.block_hash is not None
+    assert fixture.genesis.block_hash.startswith(hash)
 
 
 @pytest.mark.parametrize(
@@ -115,7 +115,7 @@ def test_fill_state_test(
     Test `ethereum_test.filler.fill_fixtures` with `StateTest`.
     """
     env = Environment(
-        coinbase="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
         gas_limit=10000000000,
         number=1,
@@ -157,7 +157,7 @@ def test_fill_state_test(
     )
     assert generated_fixture.format() == fixture_format
     fixture = {
-        f"000/my_chain_id_test/{fork}": generated_fixture.to_json(),
+        f"000/my_chain_id_test/{fork}": to_json(generated_fixture),
     }
 
     expected_json_file = f"chainid_{fork.name().lower()}_{fixture_format.value}.json"
@@ -173,9 +173,8 @@ def test_fill_state_test(
     ) as f:
         expected = json.load(f)
 
-    fixture_json = to_json(fixture)
-    remove_info_metadata(fixture_json)
-    assert fixture_json == expected
+    remove_info_metadata(fixture)
+    assert fixture == expected
 
 
 class TestFillBlockchainValidTxs:
@@ -272,7 +271,7 @@ class TestFillBlockchainValidTxs:
     def blocks(self):  # noqa: D102
         blocks: List[Block] = [
             Block(
-                coinbase="0xba5e000000000000000000000000000000000000",
+                fee_recipient="0xba5e000000000000000000000000000000000000",
                 txs=[
                     Transaction(
                         data="0x01",
@@ -285,7 +284,7 @@ class TestFillBlockchainValidTxs:
                 ],
             ),
             Block(
-                coinbase="0xba5e000000000000000000000000000000000000",
+                fee_recipient="0xba5e000000000000000000000000000000000000",
                 txs=[
                     Transaction(
                         data="0x0201",
@@ -314,7 +313,7 @@ class TestFillBlockchainValidTxs:
                 ],
             ),
             Block(
-                coinbase="0xba5e000000000000000000000000000000000000",
+                fee_recipient="0xba5e000000000000000000000000000000000000",
                 txs=[
                     Transaction(
                         data="0x0301",
@@ -343,7 +342,7 @@ class TestFillBlockchainValidTxs:
                 ],
             ),
             Block(
-                coinbase="0xba5e000000000000000000000000000000000000",
+                fee_recipient="0xba5e000000000000000000000000000000000000",
                 txs=[
                     Transaction(
                         data="0x0401",
@@ -453,8 +452,8 @@ class TestFillBlockchainValidTxs:
     @pytest.fixture
     def genesis_environment(self):  # noqa: D102
         return Environment(
-            base_fee=1000,
-            coinbase="0xba5e000000000000000000000000000000000000",
+            base_fee_per_gas=1000,
+            fee_recipient="0xba5e000000000000000000000000000000000000",
         )
 
     @pytest.fixture
@@ -501,7 +500,7 @@ class TestFillBlockchainValidTxs:
         assert isinstance(blockchain_test_fixture, BlockchainFixtureCommon)
 
         fixture = {
-            f"000/my_blockchain_test/{fork.name()}": blockchain_test_fixture.to_json(),
+            f"000/my_blockchain_test/{fork.name()}": to_json(blockchain_test_fixture),
         }
 
         with open(
@@ -516,15 +515,14 @@ class TestFillBlockchainValidTxs:
         ) as f:
             expected = json.load(f)
 
-        fixture_json = to_json(fixture)
-        remove_info_metadata(fixture_json)
+        remove_info_metadata(fixture)
 
         if solc_version >= SOLC_PADDING_VERSION:
             expected = expected["solc=padding_version"]
         else:
             expected = expected[f"solc={solc_version}"]
 
-        assert fixture_json == expected
+        assert fixture == expected
 
     @pytest.mark.parametrize("fork", [London], indirect=True)
     def test_fixture_header_join(self, blockchain_test_fixture: BlockchainFixture):
@@ -540,15 +538,15 @@ class TestFillBlockchainValidTxs:
         header_new_fields = Header(
             difficulty=new_difficulty,
             state_root=new_state_root,
-            transactions_root=new_transactions_root,
+            transactions_trie=new_transactions_root,
         )
 
         updated_block_header = block.block_header.join(header_new_fields)  # type: ignore
         assert updated_block_header.difficulty == new_difficulty
         assert updated_block_header.state_root == new_state_root
-        assert updated_block_header.transactions_root == Hash(new_transactions_root)
-        assert updated_block_header.hash == block.block_header.hash  # type: ignore
-        assert isinstance(updated_block_header.transactions_root, Hash)
+        assert updated_block_header.transactions_trie == Hash(new_transactions_root)
+        assert updated_block_header.block_hash == block.block_header.block_hash  # type: ignore
+        assert isinstance(updated_block_header.transactions_trie, Hash)
 
 
 @pytest.mark.parametrize(
@@ -632,7 +630,7 @@ def test_fill_blockchain_invalid_txs(
 
     blocks: List[Block] = [
         Block(
-            coinbase="0xba5e000000000000000000000000000000000000",
+            fee_recipient="0xba5e000000000000000000000000000000000000",
             txs=[
                 Transaction(
                     data="0x01",
@@ -645,7 +643,7 @@ def test_fill_blockchain_invalid_txs(
             ],
         ),
         Block(
-            coinbase="0xba5e000000000000000000000000000000000000",
+            fee_recipient="0xba5e000000000000000000000000000000000000",
             txs=[
                 Transaction(
                     data="0x0201",
@@ -674,7 +672,7 @@ def test_fill_blockchain_invalid_txs(
             ],
         ),
         Block(
-            coinbase="0xba5e000000000000000000000000000000000000",
+            fee_recipient="0xba5e000000000000000000000000000000000000",
             txs=[
                 Transaction(
                     data="0x0301",
@@ -697,7 +695,7 @@ def test_fill_blockchain_invalid_txs(
             exception=TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS,
         ),
         Block(
-            coinbase="0xba5e000000000000000000000000000000000000",
+            fee_recipient="0xba5e000000000000000000000000000000000000",
             txs=[
                 Transaction(
                     data="0x0301",
@@ -726,7 +724,7 @@ def test_fill_blockchain_invalid_txs(
             ],
         ),
         Block(
-            coinbase="0xba5e000000000000000000000000000000000000",
+            fee_recipient="0xba5e000000000000000000000000000000000000",
             txs=[
                 Transaction(
                     data="0x0401",
@@ -749,7 +747,7 @@ def test_fill_blockchain_invalid_txs(
             exception=TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS,
         ),
         Block(
-            coinbase="0xba5e000000000000000000000000000000000000",
+            fee_recipient="0xba5e000000000000000000000000000000000000",
             txs=[
                 Transaction(
                     data="0x0401",
@@ -854,8 +852,8 @@ def test_fill_blockchain_invalid_txs(
 
     # We start genesis with a baseFee of 1000
     genesis_environment = Environment(
-        base_fee=1000,
-        coinbase="0xba5e000000000000000000000000000000000000",
+        base_fee_per_gas=1000,
+        fee_recipient="0xba5e000000000000000000000000000000000000",
     )
 
     t8n = GethTransitionTool()
@@ -875,7 +873,7 @@ def test_fill_blockchain_invalid_txs(
     assert generated_fixture.format() == fixture_format
     assert isinstance(generated_fixture, BlockchainFixtureCommon)
     fixture = {
-        f"000/my_blockchain_test/{fork.name()}": generated_fixture.to_json(),
+        f"000/my_blockchain_test/{fork.name()}": to_json(generated_fixture),
     }
 
     with open(
@@ -890,12 +888,11 @@ def test_fill_blockchain_invalid_txs(
     ) as f:
         expected = json.load(f)
 
-    fixture_json = to_json(fixture)
-    remove_info_metadata(fixture_json)
+    remove_info_metadata(fixture)
 
     if solc_version >= SOLC_PADDING_VERSION:
         expected = expected["solc=padding_version"]
     else:
         expected = expected[f"solc={solc_version}"]
 
-    assert fixture_json == expected
+    assert fixture == expected

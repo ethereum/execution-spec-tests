@@ -3,81 +3,49 @@ StateTest types
 """
 
 import json
-from dataclasses import dataclass, fields
 from pathlib import Path
-from typing import Any, Dict, List, Mapping, Optional, Sequence, TextIO
+from typing import Annotated, Any, Dict, List, Mapping, Optional, Sequence, TextIO
+
+from pydantic import AfterValidator, AliasGenerator, BaseModel, BeforeValidator, ConfigDict, Field
+from pydantic.alias_generators import to_camel
 
 from evm_transition_tool import FixtureFormats
 
 from ...common.base_types import Address, Bytes, Hash, HexNumber, ZeroPaddedHexNumber
-from ...common.conversions import BytesConvertible, FixedSizeBytesConvertible, NumberConvertible
-from ...common.json import JSONEncoder, field
-from ...common.types import AccessList, Alloc, Environment, Transaction
-from ...exceptions import ExceptionList, TransactionException
+from ...common.conversions import BytesConvertible, FixedSizeBytesConvertible
+from ...common.types import (
+    AccessList,
+    Alloc,
+    CamelModel,
+    Environment,
+    Result,
+    SerializationCamelModel,
+    Transaction,
+)
+from ...exceptions import TransactionException
 from ..base.base_test import BaseFixture
 
 
-@dataclass(kw_only=True)
-class FixtureEnvironment:
+class FixtureEnvironment(Environment):
     """
     Type used to describe the environment of a state test.
     """
 
-    coinbase: FixedSizeBytesConvertible = field(
-        default="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        json_encoder=JSONEncoder.Field(
-            name="currentCoinbase",
-            cast_type=Address,
-        ),
+    gas_limit: ZeroPaddedHexNumber = Field(
+        100_000_000_000_000_000, serialization_alias="currentGasLimit"
     )
-    gas_limit: NumberConvertible = field(
-        default=100000000000000000,
-        json_encoder=JSONEncoder.Field(
-            name="currentGasLimit",
-            cast_type=ZeroPaddedHexNumber,
-        ),
+    number: ZeroPaddedHexNumber = Field(1, serialization_alias="currentNumber")
+    timestamp: ZeroPaddedHexNumber = Field(1_000, serialization_alias="currentTimestamp")
+    prev_randao: ZeroPaddedHexNumber | None = Field(None, serialization_alias="currentRandom")
+    difficulty: ZeroPaddedHexNumber | None = Field(None, serialization_alias="currentDifficulty")
+    base_fee_per_gas: ZeroPaddedHexNumber | None = Field(
+        None, serialization_alias="currentBaseFee"
     )
-    number: NumberConvertible = field(
-        default=1,
-        json_encoder=JSONEncoder.Field(
-            name="currentNumber",
-            cast_type=ZeroPaddedHexNumber,
-        ),
+    blob_gas_used: ZeroPaddedHexNumber | None = Field(
+        None, serialization_alias="currentBlobGasUsed"
     )
-    timestamp: NumberConvertible = field(
-        default=1000,
-        json_encoder=JSONEncoder.Field(
-            name="currentTimestamp",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-    prev_randao: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentRandom",
-            cast_type=Hash,
-        ),
-    )
-    difficulty: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentDifficulty",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-    base_fee: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentBaseFee",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-    excess_blob_gas: Optional[NumberConvertible] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="currentExcessBlobGas",
-            cast_type=ZeroPaddedHexNumber,
-        ),
+    excess_blob_gas: ZeroPaddedHexNumber | None = Field(
+        None, serialization_alias="currentExcessBlobGas"
     )
 
     @classmethod
@@ -85,95 +53,42 @@ class FixtureEnvironment:
         """
         Returns a FixtureEnvironment from an Environment.
         """
-        kwargs = {field.name: getattr(env, field.name) for field in fields(cls)}
-        return cls(**kwargs)
+        return cls(**env.model_dump(exclude_none=True))
 
 
-@dataclass(kw_only=True)
-class FixtureTransaction:
+to_list = lambda x: [x]
+
+
+class FixtureTransaction(CamelModel):
     """
     Type used to describe a transaction in a state test.
     """
 
-    nonce: int = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=ZeroPaddedHexNumber,
-        ),
+    ty: ZeroPaddedHexNumber | None = Field(None, alias="type")
+    chain_id: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(1))
+    nonce: ZeroPaddedHexNumber
+    gas_price: ZeroPaddedHexNumber | None = None
+    max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
+    max_fee_per_gas: ZeroPaddedHexNumber | None = None
+    gas_limit: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
+    to: Address | Annotated[None, AfterValidator(lambda _: "")] = Field(
+        None, validate_default=True
     )
-    gas_price: Optional[int] = field(
-        json_encoder=JSONEncoder.Field(
-            name="gasPrice",
-            cast_type=ZeroPaddedHexNumber,
-        ),
-    )
-    max_priority_fee_per_gas: Optional[int] = field(
-        json_encoder=JSONEncoder.Field(
-            name="maxPriorityFeePerGas",
-            cast_type=HexNumber,
-        ),
-    )
-    max_fee_per_gas: Optional[int] = field(
-        json_encoder=JSONEncoder.Field(
-            name="maxFeePerGas",
-            cast_type=HexNumber,
-        ),
-    )
-    gas_limit: int = field(
-        json_encoder=JSONEncoder.Field(
-            name="gasLimit",
-            cast_type=lambda x: [ZeroPaddedHexNumber(x)],  # Converted to list
-            to_json=True,
-        ),
-    )
-    to: Optional[FixedSizeBytesConvertible] = field(
-        json_encoder=JSONEncoder.Field(
-            default_value_skip_cast="",  # Empty string for None
-            cast_type=Address,
-        ),
-    )
-    value: int = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=lambda x: [ZeroPaddedHexNumber(x)],  # Converted to list
-            to_json=True,
-        ),
-    )
-    data: BytesConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=lambda x: [Bytes(x)],
-            to_json=True,
-        ),
-    )
-    access_list: Optional[List[AccessList]] = field(
-        json_encoder=JSONEncoder.Field(
-            name="accessLists",
-            cast_type=lambda x: [x],  # Converted to list of lists
-            to_json=True,
-        ),
-    )
-    max_fee_per_blob_gas: Optional[int] = field(
-        json_encoder=JSONEncoder.Field(
-            name="maxFeePerBlobGas",
-            cast_type=HexNumber,
-        ),
-    )
-    blob_versioned_hashes: Optional[Sequence[FixedSizeBytesConvertible]] = field(
-        json_encoder=JSONEncoder.Field(
-            name="blobVersionedHashes",
-            cast_type=lambda x: [Hash(k) for k in x],
-            to_json=True,
-        ),
-    )
+    value: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
+    data: Annotated[List[Bytes], BeforeValidator(to_list)] = Field()
+    access_list: Annotated[List[List[AccessList]], BeforeValidator(to_list)] | None = Field(None)
+    max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
+    blob_versioned_hashes: Sequence[Hash] | None = None
+    v: ZeroPaddedHexNumber | None = None
+    r: ZeroPaddedHexNumber | None = None
+    s: ZeroPaddedHexNumber | None = None
+    sender: Address | None = None
+    secret_key: Hash | None = None
 
-    sender: FixedSizeBytesConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=Address,
-        ),
-    )
-    secret_key: Optional[FixedSizeBytesConvertible] = field(
-        json_encoder=JSONEncoder.Field(
-            name="secretKey",
-            cast_type=Hash,
-        ),
+    model_config = ConfigDict(
+        alias_generator=AliasGenerator(serialization_alias=to_camel),
+        populate_by_name=True,
+        validate_default=True,
     )
 
     @classmethod
@@ -181,112 +96,64 @@ class FixtureTransaction:
         """
         Returns a FixtureTransaction from a Transaction.
         """
-        kwargs = {field.name: getattr(tx, field.name) for field in fields(cls)}
-        return cls(**kwargs)
+        return cls(**tx.model_dump(exclude_none=True))
 
 
-@dataclass(kw_only=True)
-class FixtureForkPostIndexes:
+class FixtureForkPostIndexes(BaseModel):
     """
     Type used to describe the indexes of a single post state of a single Fork.
     """
 
-    data: int = field(default=0, json_encoder=JSONEncoder.Field(skip_string_convert=True))
-    gas: int = field(default=0, json_encoder=JSONEncoder.Field(skip_string_convert=True))
-    value: int = field(default=0, json_encoder=JSONEncoder.Field(skip_string_convert=True))
+    data: int = 0
+    gas: int = 0
+    value: int = 0
 
 
-@dataclass(kw_only=True)
-class FixtureForkPost:
+class FixtureForkPost(SerializationCamelModel):
     """
     Type used to describe the post state of a single Fork.
     """
 
-    state_root: Hash = field(
-        json_encoder=JSONEncoder.Field(
-            name="hash",
-        ),
-    )
-    logs_hash: Hash = field(
-        json_encoder=JSONEncoder.Field(
-            name="logs",
-        ),
-    )
-    tx_bytes: BytesConvertible = field(
-        json_encoder=JSONEncoder.Field(
-            name="txbytes",
-            cast_type=Bytes,
-        ),
-    )
-    expected_exception: Optional[ExceptionList | TransactionException] = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            name="expectException",
-        ),
-    )
-    indexes: FixtureForkPostIndexes = field(
-        json_encoder=JSONEncoder.Field(
-            to_json=True,
-        ),
-    )
+    state_root: Hash
+    logs_hash: Hash
+    tx_bytes: Bytes = Field(..., serialization_alias="txbytes")
+    expected_exception: Optional[TransactionException] = Field(
+        None,
+        serialization_alias="expectException",
+    )  # TODO: Add ExceptionList
+    indexes: FixtureForkPostIndexes
 
     @classmethod
     def collect(
         cls,
         *,
-        transition_tool_result: Dict[str, Any],
+        transition_tool_result: Result,
         transaction: Transaction,
     ) -> "FixtureForkPost":
         """
         Collects the post state of a single Fork from the transition tool result.
         """
-        state_root = Hash(transition_tool_result["stateRoot"])
-        logs_hash = Hash(transition_tool_result["logsHash"])
-        indexes = FixtureForkPostIndexes()
         return cls(
-            state_root=state_root,
-            logs_hash=logs_hash,
-            tx_bytes=transaction.serialized_bytes(),
+            state_root=transition_tool_result.state_root,
+            logs_hash=transition_tool_result.logs_hash,
+            tx_bytes=Bytes(transaction.serialized_bytes()),
             expected_exception=transaction.error,
-            indexes=indexes,
+            indexes=FixtureForkPostIndexes(),
         )
 
 
-@dataclass(kw_only=True)
 class Fixture(BaseFixture):
     """
     Fixture for a single StateTest.
     """
 
-    env: Environment = field(
-        json_encoder=JSONEncoder.Field(
-            cast_type=FixtureEnvironment.from_env,
-            to_json=True,
-        ),
-    )
-
-    pre_state: Alloc = field(
-        json_encoder=JSONEncoder.Field(
-            name="pre",
-            cast_type=Alloc,
-            to_json=True,
-        ),
-    )
-
-    transaction: Transaction = field(
-        json_encoder=JSONEncoder.Field(
-            to_json=True,
-            cast_type=FixtureTransaction.from_transaction,
-        ),
-    )
-
-    post: Mapping[str, List[FixtureForkPost]] = field(
-        default_factory=dict,
-        json_encoder=JSONEncoder.Field(
-            name="post",
-            to_json=True,
-        ),
-    )
+    env: Annotated[FixtureEnvironment, BeforeValidator(FixtureEnvironment.from_env)]
+    pre_state: Alloc
+    transaction: Annotated[
+        FixtureTransaction,
+        BeforeValidator(FixtureTransaction.from_transaction),
+    ]
+    post: Mapping[str, List[FixtureForkPost]] = Field(..., default_factory=dict)
 
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
