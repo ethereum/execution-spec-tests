@@ -40,7 +40,6 @@ from ...common.base_types import (
 from ...common.constants import EmptyOmmersRoot, EngineAPIError
 from ...common.conversions import BytesConvertible
 from ...common.types import (
-    Account,
     Alloc,
     Environment,
     Removable,
@@ -50,7 +49,7 @@ from ...common.types import (
     blob_versioned_hashes_from_transactions,
     transaction_list_to_serializable_list,
 )
-from ...exceptions import BlockException, ExceptionList, TransactionException
+from ...exceptions import BlockException, TransactionException
 from ..base.base_test import BaseFixture
 
 
@@ -496,15 +495,15 @@ class FixtureTransaction(Transaction):
     """
     Transaction type value.
     """
-    chain_id: ZeroPaddedHexNumber = Field(1)
-    nonce: ZeroPaddedHexNumber = Field(0)
+    chain_id: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(1))
+    nonce: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(0))
     gas_price: ZeroPaddedHexNumber | None = None
     max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
     max_fee_per_gas: ZeroPaddedHexNumber | None = None
-    gas_limit: ZeroPaddedHexNumber = Field(21000)
+    gas_limit: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(21000))
     to: Address | None = Field(None)  # TODO: None translates to empty string
-    value: ZeroPaddedHexNumber = Field(0)
-    data: Bytes = Field(b"")
+    value: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(0))
+    data: Bytes = Field(Bytes(b""))
     max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
     v: ZeroPaddedHexNumber | None = None
     r: ZeroPaddedHexNumber | None = None
@@ -623,8 +622,11 @@ class HiveFixture(FixtureCommon):
     """
 
     genesis: FixtureHeader = Field(..., serialization_alias="genesisBlockHeader")
-    payloads: List[FixtureEngineNewPayload] = Field(None, serialization_alias="engineNewPayloads")
-    fcu_version: Number = Field(1, serialization_alias="engineFcuVersion")
+    payloads: List[FixtureEngineNewPayload] = Field(
+        default_factory=list,
+        serialization_alias="engineNewPayloads",
+    )
+    fcu_version: Number = Field(Number(1), serialization_alias="engineFcuVersion")
     sync_payload: Optional[FixtureEngineNewPayload] = Field(None)
     pre_state: Alloc = Field(..., serialization_alias="pre")
     post_state: Optional[Alloc] = Field(None)
