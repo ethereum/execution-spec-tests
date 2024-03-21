@@ -825,7 +825,7 @@ class Transaction(CamelModel):
     sender: Address | None = None
     secret_key: Hash | None = None
     protected: bool = Field(True, exclude=True)
-    error: TransactionException | None = Field(None, exclude=True)  # TODO: Add ExceptionList
+    error: TransactionException | ExceptionList | None = Field(None, exclude=True)
     rlp: Bytes | None = Field(None, exclude=True)
 
     class InvalidFeePayment(Exception):

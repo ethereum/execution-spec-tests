@@ -56,7 +56,7 @@ from ...common.types import (
     blob_versioned_hashes_from_transactions,
     transaction_list_to_serializable_list,
 )
-from ...exceptions import BlockException, TransactionException
+from ...exceptions import BlockException, ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
 
 
@@ -312,7 +312,7 @@ class Block(Header):
     An RLP modifying header which values would be used to override the ones
     returned by the  `evm_transition_tool`.
     """
-    exception: Optional[BlockException | TransactionException] = None  # TODO: Add ExceptionList
+    exception: Optional[BlockException | TransactionException | ExceptionList] = None
     """
     If set, the block is expected to be rejected by the client.
     """
@@ -446,9 +446,7 @@ class FixtureEngineNewPayload(SerializationCamelModel):
     version: Number
     blob_versioned_hashes: List[Hash] | None = Field(None, alias="expectedBlobVersionedHashes")
     parent_beacon_block_root: Hash | None = Field(None, alias="parentBeaconBlockRoot")
-    validation_error: TransactionException | BlockException | None = (
-        None  # TODO: Add ExceptionList
-    )
+    validation_error: TransactionException | BlockException | ExceptionList | None = None
     error_code: (
         Annotated[
             EngineAPIError,
@@ -581,7 +579,7 @@ class InvalidFixtureBlock(SerializationCamelModel):
     """
 
     rlp: Bytes
-    expected_exception: TransactionException | BlockException = Field(  # TODO: Add ExceptionList
+    expected_exception: TransactionException | BlockException | ExceptionList = Field(
         ..., alias="expectException"
     )
     rlp_decoded: Optional[FixtureBlock] = Field(None, alias="rlp_decoded")

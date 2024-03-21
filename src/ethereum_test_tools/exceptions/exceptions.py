@@ -36,6 +36,9 @@ class ExceptionList(list):
         """
         exceptions_set: List[ExceptionBase] = []
         for exception in exceptions:
+            if isinstance(exception, ExceptionList):
+                exceptions_set.extend(exception)
+                continue
             if not isinstance(exception, ExceptionBase):
                 raise TypeError(f"Expected ExceptionBase, got {type(exception)}")
             if exception not in exceptions_set:

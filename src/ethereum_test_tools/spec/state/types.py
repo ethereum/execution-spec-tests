@@ -21,7 +21,7 @@ from ...common.types import (
     SerializationCamelModel,
     Transaction,
 )
-from ...exceptions import TransactionException
+from ...exceptions import ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
 
 
@@ -111,10 +111,10 @@ class FixtureForkPost(SerializationCamelModel):
     state_root: Hash = Field(..., alias="hash")
     logs_hash: Hash = Field(..., alias="logs")
     tx_bytes: Bytes = Field(..., alias="txbytes")
-    expected_exception: Optional[TransactionException] = Field(
+    expected_exception: TransactionException | ExceptionList | None = Field(
         None,
         alias="expectException",
-    )  # TODO: Add ExceptionList
+    )
     indexes: FixtureForkPostIndexes
 
     @classmethod
