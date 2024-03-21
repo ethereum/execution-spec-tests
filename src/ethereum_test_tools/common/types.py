@@ -640,17 +640,17 @@ class Environment(CamelModel):
     block_hashes: Dict[Number, Hash] = Field(default_factory=dict)
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
-    extra_data: Bytes = Field(Bytes(b"\x00"))
+    extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
 
     @computed_field  # type: ignore[misc]
     @property
-    def parent_hash(self) -> Hash:
+    def parent_hash(self) -> Hash | None:
         """
         Obtains the latest hash according to the highest block number in
         `block_hashes`.
         """
         if len(self.block_hashes) == 0:
-            return Hash(0)
+            return None
 
         last_index = max(self.block_hashes.keys())
         return Hash(self.block_hashes[last_index])
