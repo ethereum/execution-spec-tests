@@ -55,7 +55,8 @@ class FixtureEnvironment(Environment):
         return cls(**env.model_dump(exclude_none=True))
 
 
-to_list = lambda x: [x]
+def to_list(x):  # noqa: D103
+    return [x]
 
 
 class FixtureTransaction(CamelModel):
