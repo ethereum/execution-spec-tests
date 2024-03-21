@@ -22,7 +22,7 @@ from typing import (
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
-from pydantic import BeforeValidator, ConfigDict, Field, computed_field
+from pydantic import BeforeValidator, ConfigDict, Field, computed_field, model_serializer
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats
@@ -503,13 +503,23 @@ class FixtureTransaction(Transaction):
     max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
     max_fee_per_gas: ZeroPaddedHexNumber | None = None
     gas_limit: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(21000))
-    to: Address | None = Field(None)  # TODO: None translates to empty string
+    to: Address | None = Field(None)
     value: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(0))
     data: Bytes = Field(Bytes(b""))
     max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
     v: ZeroPaddedHexNumber | None = None
     r: ZeroPaddedHexNumber | None = None
     s: ZeroPaddedHexNumber | None = None
+
+    @model_serializer(mode="wrap", when_used="json-unless-none")
+    def serialize_to_as_empty_string(self, handler):
+        """
+        Serializes the field `to` an empty string if the value is None.
+        """
+        default = handler(self)
+        if default is not None and "to" not in default:
+            default["to"] = ""
+        return default
 
     @classmethod
     def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
