@@ -22,7 +22,14 @@ from typing import (
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
-from pydantic import BeforeValidator, ConfigDict, Field, computed_field, model_serializer
+from pydantic import (
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    PlainSerializer,
+    computed_field,
+    model_serializer,
+)
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats
@@ -60,7 +67,7 @@ class Header(SerializationCamelModel):
 
     parent_hash: Hash | None = None
     ommers_hash: Hash | None = None
-    coinbase: Address | None = None
+    fee_recipient: Address | None = None
     state_root: Hash | None = None
     transactions_trie: Hash | None = None
     receipts_root: Hash | None = None
@@ -147,7 +154,7 @@ class FixtureHeader(SerializationCamelModel):
     gas_used: ZeroPaddedHexNumber
     timestamp: ZeroPaddedHexNumber
     extra_data: Bytes
-    prev_randao: Hash = Field(..., serialization_alias="mixHash")
+    prev_randao: Hash = Field(Hash(0), serialization_alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
     base_fee_per_gas: Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")] | None = (
         Field(None)
@@ -196,6 +203,7 @@ class FixtureHeader(SerializationCamelModel):
                 ):
                     raise ValueError(f"Field {field} is required for fork {self.fork}")
 
+    @cached_property
     def rlp_encode_list(self) -> List:
         """
         Compute the RLP of the header
@@ -209,15 +217,14 @@ class FixtureHeader(SerializationCamelModel):
                 header_list.append(value if isinstance(value, bytes) else Uint(value))
         return header_list
 
-    @computed_field(alias="rlp")  # type: ignore[misc]
     @cached_property
     def rlp(self) -> Bytes:
         """
         Compute the RLP of the header
         """
-        return Bytes(eth_rlp.encode(self.rlp_encode_list()))
+        return Bytes(eth_rlp.encode(self.rlp_encode_list))
 
-    @computed_field(alias="block_hash")  # type: ignore[misc]
+    @computed_field(alias="hash")  # type: ignore[misc]
     @cached_property
     def block_hash(self) -> Hash:
         """
@@ -267,7 +274,7 @@ class FixtureHeader(SerializationCamelModel):
         """
         Returns the serialized version of the block and its hash.
         """
-        header = self.rlp_encode_list()
+        header = self.rlp_encode_list
 
         block = [
             header,
@@ -338,14 +345,14 @@ class Block(Header):
         this block need to be set to their defaults.
         """
         new_env_values["difficulty"] = self.difficulty
-        new_env_values["coinbase"] = (
-            self.coinbase if self.coinbase is not None else Environment().fee_recipient
+        new_env_values["fee_recipient"] = (
+            self.fee_recipient if self.fee_recipient is not None else Environment().fee_recipient
         )
         new_env_values["gas_limit"] = (
             self.gas_limit or env.parent_gas_limit or Environment().gas_limit
         )
         if not isinstance(self.base_fee_per_gas, Removable):
-            new_env_values["base_fee"] = self.base_fee_per_gas
+            new_env_values["base_fee_per_gas"] = self.base_fee_per_gas
         new_env_values["withdrawals"] = self.withdrawals
         if not isinstance(self.excess_blob_gas, Removable):
             new_env_values["excess_blob_gas"] = self.excess_blob_gas
@@ -372,7 +379,7 @@ class Block(Header):
             assert env.parent_timestamp is not None
             new_env_values["timestamp"] = int(Number(env.parent_timestamp) + 12)
 
-        return Environment(**new_env_values)
+        return env.model_copy_validate(update=new_env_values)
 
     def copy_with_rlp(self, rlp: Bytes | BytesConvertible | None) -> "Block":
         """
@@ -393,7 +400,7 @@ class FixtureExecutionPayload(SerializationCamelModel):
     receipts_root: Hash
     logs_bloom: Bloom
 
-    number: HexNumber
+    number: HexNumber = Field(..., alias="blockNumber")
     gas_limit: HexNumber
     gas_used: HexNumber
     timestamp: HexNumber
@@ -437,7 +444,7 @@ class FixtureEngineNewPayload(SerializationCamelModel):
     """
 
     execution_payload: FixtureExecutionPayload
-    version: int
+    version: Number
     blob_versioned_hashes: List[Hash] | None = Field(
         None, serialization_alias="expectedBlobVersionedHashes"
     )
@@ -447,7 +454,16 @@ class FixtureEngineNewPayload(SerializationCamelModel):
     validation_error: TransactionException | BlockException | None = (
         None  # TODO: Add ExceptionList
     )
-    error_code: EngineAPIError | None = None
+    error_code: (
+        Annotated[
+            EngineAPIError,
+            PlainSerializer(
+                lambda x: str(x.value),
+                return_type=str,
+            ),
+        ]
+        | None
+    ) = None
 
     @classmethod
     def from_fixture_header(
@@ -455,11 +471,8 @@ class FixtureEngineNewPayload(SerializationCamelModel):
         fork: Fork,
         header: FixtureHeader,
         transactions: List[Transaction],
-        withdrawals: Optional[List[Withdrawal]],
-        validation_error: Optional[
-            TransactionException | BlockException
-        ],  # TODO: Add ExceptionList
-        error_code: Optional[EngineAPIError],
+        withdrawals: List[Withdrawal] | None,
+        **kwargs,
     ) -> "FixtureEngineNewPayload":
         """
         Creates a `FixtureEngineNewPayload` from a `FixtureHeader`.
@@ -475,14 +488,13 @@ class FixtureEngineNewPayload(SerializationCamelModel):
                 withdrawals=withdrawals,
             ),
             version=new_payload_version,
-            validation_error=validation_error,
-            error_code=error_code,
             blob_versioned_hashes=(
                 blob_versioned_hashes_from_transactions(transactions)
                 if fork.engine_new_payload_blob_hashes(header.number, header.timestamp)
                 else None
             ),
             parent_beacon_block_root=header.parent_beacon_block_root,
+            **kwargs,
         )
 
         return new_payload
