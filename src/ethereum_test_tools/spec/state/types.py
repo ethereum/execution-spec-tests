@@ -30,22 +30,19 @@ class FixtureEnvironment(CamelModel):
     Type used to describe the environment of a state test.
     """
 
-    fee_recipient: Address = Field(..., serialization_alias="currentCoinbase")
-    gas_limit: ZeroPaddedHexNumber = Field(..., serialization_alias="currentGasLimit")
-    number: ZeroPaddedHexNumber = Field(..., serialization_alias="currentNumber")
-    timestamp: ZeroPaddedHexNumber = Field(..., serialization_alias="currentTimestamp")
-    prev_randao: Hash | None = Field(None, serialization_alias="currentRandom")
-    difficulty: ZeroPaddedHexNumber | None = Field(None, serialization_alias="currentDifficulty")
-    base_fee_per_gas: ZeroPaddedHexNumber | None = Field(
-        None, serialization_alias="currentBaseFee"
-    )
-    excess_blob_gas: ZeroPaddedHexNumber | None = Field(
-        None, serialization_alias="currentExcessBlobGas"
-    )
+    fee_recipient: Address = Field(..., alias="currentCoinbase")
+    gas_limit: ZeroPaddedHexNumber = Field(..., alias="currentGasLimit")
+    number: ZeroPaddedHexNumber = Field(..., alias="currentNumber")
+    timestamp: ZeroPaddedHexNumber = Field(..., alias="currentTimestamp")
+    prev_randao: Hash | None = Field(None, alias="currentRandom")
+    difficulty: ZeroPaddedHexNumber | None = Field(None, alias="currentDifficulty")
+    base_fee_per_gas: ZeroPaddedHexNumber | None = Field(None, alias="currentBaseFee")
+    blob_gas_used: ZeroPaddedHexNumber | None = Field(None, alias="currentBlobGasUsed")
+    excess_blob_gas: ZeroPaddedHexNumber | None = Field(None, alias="currentExcessBlobGas")
 
     parent_difficulty: Number | None = Field(None)
     parent_timestamp: Number | None = Field(None)
-    parent_base_fee_per_gas: Number | None = Field(None, serialization_alias="parentBaseFee")
+    parent_base_fee_per_gas: Number | None = Field(None, alias="parentBaseFee")
     parent_gas_used: Number | None = Field(None)
     parent_gas_limit: Number | None = Field(None)
 
@@ -83,7 +80,7 @@ class FixtureTransaction(CamelModel):
     secret_key: Hash | None = None
 
     model_config = ConfigDict(
-        alias_generator=AliasGenerator(serialization_alias=to_camel),
+        alias_generator=AliasGenerator(alias=to_camel),
         populate_by_name=True,
         validate_default=True,
     )
@@ -111,12 +108,12 @@ class FixtureForkPost(SerializationCamelModel):
     Type used to describe the post state of a single Fork.
     """
 
-    state_root: Hash = Field(..., serialization_alias="hash")
-    logs_hash: Hash = Field(..., serialization_alias="logs")
-    tx_bytes: Bytes = Field(..., serialization_alias="txbytes")
+    state_root: Hash = Field(..., alias="hash")
+    logs_hash: Hash = Field(..., alias="logs")
+    tx_bytes: Bytes = Field(..., alias="txbytes")
     expected_exception: Optional[TransactionException] = Field(
         None,
-        serialization_alias="expectException",
+        alias="expectException",
     )  # TODO: Add ExceptionList
     indexes: FixtureForkPostIndexes
 
@@ -145,7 +142,7 @@ class Fixture(BaseFixture):
     """
 
     env: Annotated[FixtureEnvironment, BeforeValidator(FixtureEnvironment.from_env)]
-    pre_state: Alloc = Field(..., serialization_alias="pre")
+    pre_state: Alloc = Field(..., alias="pre")
     transaction: Annotated[
         FixtureTransaction,
         BeforeValidator(FixtureTransaction.from_transaction),

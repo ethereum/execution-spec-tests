@@ -142,19 +142,19 @@ class FixtureHeader(SerializationCamelModel):
     """
 
     parent_hash: Hash
-    ommers_hash: Hash = Field(Hash(EmptyOmmersRoot), serialization_alias="uncleHash")
-    fee_recipient: Address = Field(..., serialization_alias="coinbase")
+    ommers_hash: Hash = Field(Hash(EmptyOmmersRoot), alias="uncleHash")
+    fee_recipient: Address = Field(..., alias="coinbase")
     state_root: Hash
     transactions_trie: Hash
-    receipts_root: Hash = Field(..., serialization_alias="receiptTrie")
-    logs_bloom: Bloom = Field(..., serialization_alias="bloom")
+    receipts_root: Hash = Field(..., alias="receiptTrie")
+    logs_bloom: Bloom = Field(..., alias="bloom")
     difficulty: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     number: ZeroPaddedHexNumber
     gas_limit: ZeroPaddedHexNumber
     gas_used: ZeroPaddedHexNumber
     timestamp: ZeroPaddedHexNumber
     extra_data: Bytes
-    prev_randao: Hash = Field(Hash(0), serialization_alias="mixHash")
+    prev_randao: Hash = Field(Hash(0), alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
     base_fee_per_gas: Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")] | None = (
         Field(None)
@@ -444,12 +444,8 @@ class FixtureEngineNewPayload(SerializationCamelModel):
 
     execution_payload: FixtureExecutionPayload
     version: Number
-    blob_versioned_hashes: List[Hash] | None = Field(
-        None, serialization_alias="expectedBlobVersionedHashes"
-    )
-    parent_beacon_block_root: Hash | None = Field(
-        None, serialization_alias="parentBeaconBlockRoot"
-    )
+    blob_versioned_hashes: List[Hash] | None = Field(None, alias="expectedBlobVersionedHashes")
+    parent_beacon_block_root: Hash | None = Field(None, alias="parentBeaconBlockRoot")
     validation_error: TransactionException | BlockException | None = (
         None  # TODO: Add ExceptionList
     )
@@ -537,6 +533,7 @@ class FixtureTransaction(Transaction):
         """
         Returns a FixtureTransaction from a Transaction.
         """
+        # return cls(**Transaction(**tx).model_dump())
         return cls(**tx.model_dump())
 
 
@@ -565,14 +562,14 @@ class FixtureBlock(SerializationCamelModel):
 
     rlp: Bytes | None = Field(None)
     block_header: FixtureHeader = Field(...)
-    block_number: Number = Field(..., serialization_alias="blocknumber")
+    block_number: Number = Field(..., alias="blocknumber")
     txs: List[
         Annotated[
             FixtureTransaction,
             BeforeValidator(FixtureTransaction.from_transaction),
         ]
-    ] = Field(default_factory=list, serialization_alias="transactions")
-    ommers: List[FixtureHeader] = Field(default_factory=list, serialization_alias="uncleHeaders")
+    ] = Field(default_factory=list, alias="transactions")
+    ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: Optional[
         List[Annotated[Withdrawal, BeforeValidator(FixtureWithdrawal.from_withdrawal)]]
     ] = Field(None)
@@ -585,9 +582,9 @@ class InvalidFixtureBlock(SerializationCamelModel):
 
     rlp: Bytes
     expected_exception: TransactionException | BlockException = Field(  # TODO: Add ExceptionList
-        ..., serialization_alias="expectException"
+        ..., alias="expectException"
     )
-    rlp_decoded: Optional[FixtureBlock] = Field(None, serialization_alias="rlp_decoded")
+    rlp_decoded: Optional[FixtureBlock] = Field(None, alias="rlp_decoded")
 
 
 class FixtureCommon(BaseFixture):
@@ -596,7 +593,7 @@ class FixtureCommon(BaseFixture):
     """
 
     name: str = Field("", exclude=True)
-    fork: str = Field(..., serialization_alias="network")
+    fork: str = Field(..., alias="network")
 
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
@@ -615,12 +612,12 @@ class Fixture(FixtureCommon):
     Cross-client specific test fixture information.
     """
 
-    genesis_rlp: Bytes = Field(..., serialization_alias="genesisRLP")
-    genesis: FixtureHeader = Field(..., serialization_alias="genesisBlockHeader")
+    genesis_rlp: Bytes = Field(..., alias="genesisRLP")
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     blocks: List[FixtureBlock | InvalidFixtureBlock]
-    last_block_hash: Hash = Field(..., serialization_alias="lastblockhash")
-    pre_state: Alloc = Field(..., serialization_alias="pre")
-    post_state: Optional[Alloc] = Field(None, serialization_alias="postState")
+    last_block_hash: Hash = Field(..., alias="lastblockhash")
+    pre_state: Alloc = Field(..., alias="pre")
+    post_state: Optional[Alloc] = Field(None, alias="postState")
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
     @classmethod
@@ -644,14 +641,14 @@ class HiveFixture(FixtureCommon):
     Hive specific test fixture information.
     """
 
-    genesis: FixtureHeader = Field(..., serialization_alias="genesisBlockHeader")
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     payloads: List[FixtureEngineNewPayload] = Field(
         default_factory=list,
-        serialization_alias="engineNewPayloads",
+        alias="engineNewPayloads",
     )
-    fcu_version: Number = Field(Number(1), serialization_alias="engineFcuVersion")
+    fcu_version: Number = Field(Number(1), alias="engineFcuVersion")
     sync_payload: Optional[FixtureEngineNewPayload] = Field(None)
-    pre_state: Alloc = Field(..., serialization_alias="pre")
+    pre_state: Alloc = Field(..., alias="pre")
     post_state: Optional[Alloc] = Field(None)
 
     @classmethod

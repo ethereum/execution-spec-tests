@@ -105,7 +105,7 @@ class SerializationCamelModel(CamelModel):
     """
 
     model_config = ConfigDict(
-        alias_generator=AliasGenerator(serialization_alias=to_camel),
+        alias_generator=AliasGenerator(alias=to_camel),
         populate_by_name=True,
         validate_default=True,
     )
@@ -693,25 +693,23 @@ class Environment(CamelModel):
 
     fee_recipient: Address = Field(
         Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
-        serialization_alias="currentCoinbase",
+        alias="currentCoinbase",
     )
-    gas_limit: Number = Field(
-        Number(100_000_000_000_000_000), serialization_alias="currentGasLimit"
-    )
-    number: Number = Field(Number(1), serialization_alias="currentNumber")
-    timestamp: Number = Field(Number(1_000), serialization_alias="currentTimestamp")
-    prev_randao: Number | None = Field(None, serialization_alias="currentRandom")
-    difficulty: Number | None = Field(None, serialization_alias="currentDifficulty")
-    base_fee_per_gas: Number | None = Field(None, serialization_alias="currentBaseFee")
-    blob_gas_used: Number | None = Field(None, serialization_alias="currentBlobGasUsed")
-    excess_blob_gas: Number | None = Field(None, serialization_alias="currentExcessBlobGas")
+    gas_limit: Number = Field(Number(100_000_000_000_000_000), alias="currentGasLimit")
+    number: Number = Field(Number(1), alias="currentNumber")
+    timestamp: Number = Field(Number(1_000), alias="currentTimestamp")
+    prev_randao: Number | None = Field(None, alias="currentRandom")
+    difficulty: Number | None = Field(None, alias="currentDifficulty")
+    base_fee_per_gas: Number | None = Field(None, alias="currentBaseFee")
+    blob_gas_used: Number | None = Field(None, alias="currentBlobGasUsed")
+    excess_blob_gas: Number | None = Field(None, alias="currentExcessBlobGas")
 
     parent_difficulty: Number | None = Field(None)
     parent_timestamp: Number | None = Field(None)
-    parent_base_fee_per_gas: Number | None = Field(None, serialization_alias="parentBaseFee")
+    parent_base_fee_per_gas: Number | None = Field(None, alias="parentBaseFee")
     parent_gas_used: Number | None = Field(None)
     parent_gas_limit: Number | None = Field(None)
-    parent_ommers_hash: Hash = Field(Hash(0), serialization_alias="parentUncleHash")
+    parent_ommers_hash: Hash = Field(Hash(0), alias="parentUncleHash")
     parent_blob_gas_used: Number | None = Field(None)
     parent_excess_blob_gas: Number | None = Field(None)
     parent_beacon_block_root: Hash | None = Field(None)

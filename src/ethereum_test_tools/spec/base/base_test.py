@@ -61,10 +61,7 @@ class BaseFixture(SerializationCamelModel):
     Represents a base Ethereum test fixture of any type.
     """
 
-    info: Dict[str, str] = Field(
-        default_factory=dict,
-        serialization_alias="_info",
-    )
+    info: Dict[str, str] = Field(default_factory=dict, alias="_info")
 
     _json: Optional[Dict[str, Any]] = None
 
