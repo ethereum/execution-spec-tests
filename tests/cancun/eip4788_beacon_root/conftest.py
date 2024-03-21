@@ -1,4 +1,4 @@
-*"""
+"""
 Shared pytest definitions local to EIP-4788 tests.
 """
 
