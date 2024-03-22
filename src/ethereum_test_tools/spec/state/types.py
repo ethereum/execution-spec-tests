@@ -44,7 +44,6 @@ class FixtureEnvironment(CamelModel):
     prev_randao: Hash | None = Field(None, alias="currentRandom")
     difficulty: ZeroPaddedHexNumber | None = Field(None, alias="currentDifficulty")
     base_fee_per_gas: ZeroPaddedHexNumber | None = Field(None, alias="currentBaseFee")
-    blob_gas_used: ZeroPaddedHexNumber | None = Field(None, alias="currentBlobGasUsed")
     excess_blob_gas: ZeroPaddedHexNumber | None = Field(None, alias="currentExcessBlobGas")
 
     parent_difficulty: Number | None = Field(None)
