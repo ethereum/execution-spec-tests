@@ -115,10 +115,7 @@ class FixtureForkPost(SerializationCamelModel):
     state_root: Hash = Field(..., alias="hash")
     logs_hash: Hash = Field(..., alias="logs")
     tx_bytes: Bytes = Field(..., alias="txbytes")
-    expected_exception: TransactionException | ExceptionList | None = Field(
-        None,
-        alias="expectException",
-    )
+    expect_exception: TransactionException | ExceptionList | None = None
     indexes: FixtureForkPostIndexes
 
     @classmethod
@@ -135,7 +132,7 @@ class FixtureForkPost(SerializationCamelModel):
             state_root=transition_tool_result.state_root,
             logs_hash=transition_tool_result.logs_hash,
             tx_bytes=Bytes(transaction.serialized_bytes()),
-            expected_exception=transaction.error,
+            expect_exception=transaction.error,
             indexes=FixtureForkPostIndexes(),
         )
 

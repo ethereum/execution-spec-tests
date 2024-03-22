@@ -562,9 +562,7 @@ class InvalidFixtureBlock(SerializationCamelModel):
     """
 
     rlp: Bytes
-    expected_exception: TransactionException | BlockException | ExceptionList = Field(
-        ..., alias="expectException"
-    )
+    expect_exception: TransactionException | BlockException | ExceptionList
     rlp_decoded: Optional[FixtureBlock] = Field(None, alias="rlp_decoded")
 
 

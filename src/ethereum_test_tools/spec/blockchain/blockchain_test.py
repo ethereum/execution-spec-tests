@@ -348,7 +348,7 @@ class BlockchainTest(BaseTest):
                     fixture_blocks.append(
                         InvalidFixtureBlock(
                             rlp=rlp,
-                            expected_exception=block.exception,
+                            expect_exception=block.exception,
                             rlp_decoded=(
                                 None
                                 if BlockException.RLP_STRUCTURES_ENCODING in block.exception
@@ -364,7 +364,7 @@ class BlockchainTest(BaseTest):
                 fixture_blocks.append(
                     InvalidFixtureBlock(
                         rlp=Bytes(block.rlp),
-                        expected_exception=block.exception,
+                        expect_exception=block.exception,
                     ),
                 )
 
