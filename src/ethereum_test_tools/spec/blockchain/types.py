@@ -527,11 +527,12 @@ class FixtureTransaction(Transaction):
         return default
 
     @classmethod
-    def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
+    def from_transaction(cls, tx: Transaction | dict) -> "FixtureTransaction":
         """
         Returns a FixtureTransaction from a Transaction.
         """
-        # return cls(**Transaction(**tx).model_dump())
+        if isinstance(tx, dict):
+            return cls(**Transaction(**tx).model_dump())
         return cls(**tx.model_dump())
 
 
