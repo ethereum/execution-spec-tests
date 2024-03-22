@@ -277,6 +277,10 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             return False
         return self.root != other.root
 
+    def __bool__(self) -> bool:
+        """Returns True if the storage is not empty"""
+        return bool(self.root)
+
     def keys(self) -> set[StorageKeyValueType]:
         """Returns the keys of the storage"""
         return set(self.root.keys())
@@ -483,22 +487,11 @@ class Account(CopyValidateModel):
         if "storage" in self.model_fields_set:
             self.storage.must_be_equal(address=address, other=account.storage)
 
-    def has_empty_code(self: "Account") -> bool:
+    def __bool__(self: "Account") -> bool:
         """
-        Returns true if an account has no bytecode.
+        Returns True on a non-empty account.
         """
-        return not self.code or self.code == b""
-
-    def is_empty(self: "Account") -> bool:
-        """
-        Returns true if an account deemed empty.
-        """
-        return (
-            (self.nonce == 0 or self.nonce is None)
-            and (self.balance == 0 or self.balance is None)
-            and self.has_empty_code()
-            and (not self.storage or self.storage.root == {} or self.storage is None)
-        )
+        return bool(self.nonce) or bool(self.balance) or bool(self.code) or bool(self.storage)
 
     @classmethod
     def with_code(cls: Type, code: BytesConvertible) -> "Account":
@@ -580,11 +573,10 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
 
         for address, other_account in alloc_2.root.items():
             merged_account = Account.merge(merged.get(address, None), other_account)
-            if merged_account.is_empty():
-                if address in merged:
-                    merged.pop(address, None)
-            else:
+            if merged_account:
                 merged[address] = merged_account
+            elif address in merged:
+                merged.pop(address, None)
 
         return Alloc(merged)
 
@@ -614,11 +606,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         """
         Returns a list of addresses of empty accounts.
         """
-        return [
-            address
-            for address, account in self.root.items()
-            if account is None or account.is_empty()
-        ]
+        return [address for address, account in self.root.items() if not account]
 
     def state_root(self) -> bytes:
         """
