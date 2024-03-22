@@ -53,6 +53,7 @@ from ...common.types import (
     SerializationCamelModel,
     Transaction,
     Withdrawal,
+    WithdrawalGeneric,
     blob_versioned_hashes_from_transactions,
     transaction_list_to_serializable_list,
 )
@@ -156,9 +157,9 @@ class FixtureHeader(SerializationCamelModel):
     extra_data: Bytes
     prev_randao: Hash = Field(Hash(0), alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
-    base_fee_per_gas: Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")] | None = (
-        Field(None)
-    )
+    base_fee_per_gas: Annotated[
+        ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")
+    ] | None = Field(None)
     withdrawals_root: Annotated[Hash, HeaderForkRequirement("withdrawals")] | None = Field(None)
     blob_gas_used: (
         Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("blob_gas_used")] | None
@@ -536,18 +537,14 @@ class FixtureTransaction(Transaction):
         return cls(**tx.model_dump())
 
 
-class FixtureWithdrawal(Withdrawal):
+class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
     """
     Structure to represent a single withdrawal of a validator's balance from
     the beacon chain in the output fixture.
     """
 
-    index: ZeroPaddedHexNumber
-    validator_index: ZeroPaddedHexNumber
-    amount: ZeroPaddedHexNumber
-
     @classmethod
-    def from_withdrawal(cls, w: Withdrawal | dict) -> "FixtureWithdrawal":
+    def from_withdrawal(cls, w: WithdrawalGeneric | dict) -> "FixtureWithdrawal":
         """
         Returns a FixtureWithdrawal from a Withdrawal.
         """
@@ -572,7 +569,7 @@ class FixtureBlock(SerializationCamelModel):
     ] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: Optional[
-        List[Annotated[Withdrawal, BeforeValidator(FixtureWithdrawal.from_withdrawal)]]
+        List[Annotated[FixtureWithdrawal, BeforeValidator(FixtureWithdrawal.from_withdrawal)]]
     ] = Field(None)
 
 
@@ -596,6 +593,10 @@ class FixtureCommon(BaseFixture):
     name: str = Field("", exclude=True)
     fork: str = Field(..., alias="network")
 
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
+    pre_state: Alloc = Field(..., alias="pre")
+    post_state: Optional[Alloc] = Field(None)
+
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
         """
@@ -614,11 +615,8 @@ class Fixture(FixtureCommon):
     """
 
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
-    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     blocks: List[FixtureBlock | InvalidFixtureBlock]
     last_block_hash: Hash = Field(..., alias="lastblockhash")
-    pre_state: Alloc = Field(..., alias="pre")
-    post_state: Optional[Alloc] = Field(None, alias="postState")
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
     @classmethod
@@ -642,15 +640,12 @@ class HiveFixture(FixtureCommon):
     Hive specific test fixture information.
     """
 
-    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     payloads: List[FixtureEngineNewPayload] = Field(
         default_factory=list,
         alias="engineNewPayloads",
     )
     fcu_version: Number = Field(Number(1), alias="engineFcuVersion")
     sync_payload: Optional[FixtureEngineNewPayload] = Field(None)
-    pre_state: Alloc = Field(..., alias="pre")
-    post_state: Optional[Alloc] = Field(None)
 
     @classmethod
     def output_base_dir_name(cls) -> Path:

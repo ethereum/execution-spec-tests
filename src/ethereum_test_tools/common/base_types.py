@@ -103,6 +103,9 @@ class ZeroPaddedHexNumber(HexNumber):
         return "0x" + hex_str
 
 
+NumberBoundTypeVar = TypeVar("NumberBoundTypeVar", Number, HexNumber, ZeroPaddedHexNumber)
+
+
 class Bytes(bytes, ToStringSchema):
     """
     Class that helps represent bytes of variable length in tests.

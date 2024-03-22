@@ -18,12 +18,13 @@ from pydantic.alias_generators import to_camel
 
 from evm_transition_tool import FixtureFormats
 
-from ...common.base_types import Address, Bytes, Hash, Number, ZeroPaddedHexNumber
+from ...common.base_types import Address, Bytes, Hash, ZeroPaddedHexNumber
 from ...common.types import (
     AccessList,
     Alloc,
     CamelModel,
     Environment,
+    EnvironmentGeneric,
     Result,
     SerializationCamelModel,
     Transaction,
@@ -32,25 +33,12 @@ from ...exceptions import ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
 
 
-class FixtureEnvironment(CamelModel):
+class FixtureEnvironment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     """
     Type used to describe the environment of a state test.
     """
 
-    fee_recipient: Address = Field(..., alias="currentCoinbase")
-    gas_limit: ZeroPaddedHexNumber = Field(..., alias="currentGasLimit")
-    number: ZeroPaddedHexNumber = Field(..., alias="currentNumber")
-    timestamp: ZeroPaddedHexNumber = Field(..., alias="currentTimestamp")
-    prev_randao: Hash | None = Field(None, alias="currentRandom")
-    difficulty: ZeroPaddedHexNumber | None = Field(None, alias="currentDifficulty")
-    base_fee_per_gas: ZeroPaddedHexNumber | None = Field(None, alias="currentBaseFee")
-    excess_blob_gas: ZeroPaddedHexNumber | None = Field(None, alias="currentExcessBlobGas")
-
-    parent_difficulty: Number | None = Field(None)
-    parent_timestamp: Number | None = Field(None)
-    parent_base_fee_per_gas: Number | None = Field(None, alias="parentBaseFee")
-    parent_gas_used: Number | None = Field(None)
-    parent_gas_limit: Number | None = Field(None)
+    prev_randao: Hash | None = Field(None, alias="currentRandom")  # type: ignore
 
     @classmethod
     def from_env(cls, env: Environment) -> "FixtureEnvironment":

@@ -8,6 +8,7 @@ from typing import (
     Any,
     ClassVar,
     Dict,
+    Generic,
     Iterator,
     List,
     Sequence,
@@ -47,6 +48,7 @@ from .base_types import (
     HashInt,
     HexNumber,
     Number,
+    NumberBoundTypeVar,
     ZeroPaddedHexNumber,
 )
 from .constants import TestPrivateKey
@@ -656,15 +658,15 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                     raise Alloc.MissingAccount(address)
 
 
-class Withdrawal(CamelModel):
+class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     """
-    Withdrawal type
+    Withdrawal generic type, used as a parent class for `Withdrawal` and `FixtureWithdrawal`.
     """
 
-    index: HexNumber
-    validator_index: HexNumber
+    index: NumberBoundTypeVar
+    validator_index: NumberBoundTypeVar
     address: Address
-    amount: HexNumber
+    amount: NumberBoundTypeVar
 
     def to_serializable_list(self) -> List[Any]:
         """
@@ -679,7 +681,15 @@ class Withdrawal(CamelModel):
         ]
 
 
-def withdrawals_root(withdrawals: List[Withdrawal]) -> bytes:
+class Withdrawal(WithdrawalGeneric[HexNumber]):
+    """
+    Withdrawal type
+    """
+
+    pass
+
+
+def withdrawals_root(withdrawals: Sequence[WithdrawalGeneric]) -> bytes:
     """
     Returns the withdrawals root of a list of withdrawals.
     """
@@ -692,30 +702,39 @@ def withdrawals_root(withdrawals: List[Withdrawal]) -> bytes:
 DEFAULT_BASE_FEE = 7
 
 
-class Environment(CamelModel):
+class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     """
-    Structure used to keep track of the context in which a block
-    must be executed.
+    Used as a parent class for `Environment` and `FixtureEnvironment`.
     """
 
     fee_recipient: Address = Field(
         Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
         alias="currentCoinbase",
     )
-    gas_limit: Number = Field(Number(100_000_000_000_000_000), alias="currentGasLimit")
-    number: Number = Field(Number(1), alias="currentNumber")
-    timestamp: Number = Field(Number(1_000), alias="currentTimestamp")
-    prev_randao: Number | None = Field(None, alias="currentRandom")
-    difficulty: Number | None = Field(None, alias="currentDifficulty")
-    base_fee_per_gas: Number | None = Field(None, alias="currentBaseFee")
-    blob_gas_used: Number | None = Field(None, alias="currentBlobGasUsed")
-    excess_blob_gas: Number | None = Field(None, alias="currentExcessBlobGas")
+    gas_limit: NumberBoundTypeVar = Field(
+        100_000_000_000_000_000, alias="currentGasLimit"
+    )  # type: ignore
+    number: NumberBoundTypeVar = Field(1, alias="currentNumber")  # type: ignore
+    timestamp: NumberBoundTypeVar = Field(1_000, alias="currentTimestamp")  # type: ignore
+    prev_randao: NumberBoundTypeVar | None = Field(None, alias="currentRandom")
+    difficulty: NumberBoundTypeVar | None = Field(None, alias="currentDifficulty")
+    base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="currentBaseFee")
+    excess_blob_gas: NumberBoundTypeVar | None = Field(None, alias="currentExcessBlobGas")
 
-    parent_difficulty: Number | None = Field(None)
-    parent_timestamp: Number | None = Field(None)
-    parent_base_fee_per_gas: Number | None = Field(None, alias="parentBaseFee")
-    parent_gas_used: Number | None = Field(None)
-    parent_gas_limit: Number | None = Field(None)
+    parent_difficulty: NumberBoundTypeVar | None = Field(None)
+    parent_timestamp: NumberBoundTypeVar | None = Field(None)
+    parent_base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="parentBaseFee")
+    parent_gas_used: NumberBoundTypeVar | None = Field(None)
+    parent_gas_limit: NumberBoundTypeVar | None = Field(None)
+
+
+class Environment(EnvironmentGeneric[Number]):
+    """
+    Structure used to keep track of the context in which a block
+    must be executed.
+    """
+
+    blob_gas_used: Number | None = Field(None, alias="currentBlobGasUsed")
     parent_ommers_hash: Hash = Field(Hash(0), alias="parentUncleHash")
     parent_blob_gas_used: Number | None = Field(None)
     parent_excess_blob_gas: Number | None = Field(None)
