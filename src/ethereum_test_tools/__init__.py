@@ -40,7 +40,6 @@ from .common import (
     eip_2028_transaction_data_cost,
     transaction_list_root,
 )
-from .common.json import JSONEncoder
 from .exceptions import BlockException, ExceptionList, ExceptionType, TransactionException
 from .reference_spec import ReferenceSpec, ReferenceSpecTypes
 from .spec import (
@@ -82,7 +81,6 @@ __all__ = (
     "Hash",
     "Header",
     "Initcode",
-    "JSONEncoder",
     "Opcode",
     "OpcodeCallArg",
     "Opcodes",
