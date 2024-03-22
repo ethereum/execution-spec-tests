@@ -116,7 +116,7 @@ class FixtureForkPost(SerializationCamelModel):
     logs_hash: Hash = Field(..., alias="logs")
     tx_bytes: Bytes = Field(..., alias="txbytes")
     expect_exception: TransactionException | ExceptionList | None = None
-    indexes: FixtureForkPostIndexes
+    indexes: FixtureForkPostIndexes = Field(default_factory=FixtureForkPostIndexes)
 
     @classmethod
     def collect(
@@ -133,7 +133,6 @@ class FixtureForkPost(SerializationCamelModel):
             logs_hash=transition_tool_result.logs_hash,
             tx_bytes=Bytes(transaction.serialized_bytes()),
             expect_exception=transaction.error,
-            indexes=FixtureForkPostIndexes(),
         )
 
 
