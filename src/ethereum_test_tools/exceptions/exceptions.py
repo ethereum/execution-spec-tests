@@ -79,7 +79,7 @@ class ExceptionList(list):
         return "|".join(
             # reverse=True is used to better match the order prior to pydantic refactor
             str(exception)
-            for exception in sorted(self, key=lambda x: str(x), reverse=True)
+            for exception in sorted(self, key=lambda x: str(x))
         )
 
 

@@ -16,6 +16,9 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 📋 Misc
 
+As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes:
+- `expectException` fields now print the exceptions in sorted order ([#PYDANTIC](https://github.com/ethereum/execution-spec-tests/pull/PYDANTIC))
+
 ## 🔜 [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 
 ### 🧪 Test Cases
