@@ -823,32 +823,42 @@ class AccessList(CamelModel):
         return [self.address, self.storage_keys]
 
 
-class Transaction(ValidateOnAssignmentCamelModel):
+class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
+    """
+    Generic transaction type used as a parent for Transaction and FixtureTransaction (blockchain).
+    """
+
+    ty: NumberBoundTypeVar | None = Field(None, alias="type")
+    chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
+    nonce: NumberBoundTypeVar = Field(0)  # type: ignore
+    gas_price: NumberBoundTypeVar | None = None
+    max_priority_fee_per_gas: NumberBoundTypeVar | None = None
+    max_fee_per_gas: NumberBoundTypeVar | None = None
+    gas_limit: NumberBoundTypeVar = Field(21_000)  # type: ignore
+    to: Address | None = Field(Address(0xAA))
+    value: NumberBoundTypeVar = Field(0)  # type: ignore
+    data: Bytes = Field(Bytes(b""))
+    access_list: List[AccessList] | None = None
+    max_fee_per_blob_gas: NumberBoundTypeVar | None = None
+    blob_versioned_hashes: Sequence[Hash] | None = None
+    v: NumberBoundTypeVar | None = None
+    r: NumberBoundTypeVar | None = None
+    s: NumberBoundTypeVar | None = None
+    sender: Address | None = None
+
+
+class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber]):
     """
     Generic object that can represent all Ethereum transaction types.
     """
 
-    ty: HexNumber | None = Field(None, alias="type")
-    chain_id: HexNumber = Field(HexNumber(1))
-    nonce: HexNumber = Field(HexNumber(0))
-    gas_price: HexNumber | None = None
-    max_priority_fee_per_gas: HexNumber | None = None
-    max_fee_per_gas: HexNumber | None = None
-    gas_limit: HexNumber = Field(HexNumber(21000), serialization_alias="gas")
-    to: Address | None = Field(Address(0xAA))
-    value: HexNumber = Field(HexNumber(0))
+    gas_limit: HexNumber = Field(HexNumber(21_000), serialization_alias="gas")
     data: Bytes = Field(Bytes(b""), alias="input")
-    access_list: List[AccessList] | None = None
-    max_fee_per_blob_gas: HexNumber | None = None
-    blob_versioned_hashes: Sequence[Hash] | None = None
-    v: HexNumber | None = None
-    r: HexNumber | None = None
-    s: HexNumber | None = None
+
     wrapped_blob_transaction: bool = Field(False, exclude=True)
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
-    sender: Address | None = None
     secret_key: Hash | None = None
     protected: bool = Field(True, exclude=True)
     error: TransactionException | ExceptionList | None = Field(None, exclude=True)
@@ -1233,10 +1243,9 @@ class Transaction(ValidateOnAssignmentCamelModel):
         signing_hash = keccak256(self.signing_bytes())
 
         # Sign the bytes
-
-        # TODO: unnecessary check
-        private_key = PrivateKey(secret=self.secret_key if self.secret_key else bytes(32))
-        signature_bytes = private_key.sign_recoverable(signing_hash, hasher=None)
+        signature_bytes = PrivateKey(secret=self.secret_key).sign_recoverable(
+            signing_hash, hasher=None
+        )
         public_key = PublicKey.from_signature_and_message(
             signature_bytes, signing_hash, hasher=None
         )

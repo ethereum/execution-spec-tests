@@ -52,6 +52,7 @@ from ...common.types import (
     Removable,
     SerializationCamelModel,
     Transaction,
+    TransactionGeneric,
     Withdrawal,
     WithdrawalGeneric,
     blob_versioned_hashes_from_transactions,
@@ -494,28 +495,10 @@ class FixtureEngineNewPayload(SerializationCamelModel):
         return new_payload
 
 
-class FixtureTransaction(Transaction):
+class FixtureTransaction(SerializationCamelModel, TransactionGeneric[ZeroPaddedHexNumber]):
     """
     Representation of an Ethereum transaction within a test Fixture.
     """
-
-    ty: ZeroPaddedHexNumber | None = Field(None, alias="type")
-    """
-    Transaction type value.
-    """
-    chain_id: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(1))
-    nonce: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(0))
-    gas_price: ZeroPaddedHexNumber | None = None
-    max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
-    max_fee_per_gas: ZeroPaddedHexNumber | None = None
-    gas_limit: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(21000))
-    to: Address | None = Field(None)
-    value: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(0))
-    data: Bytes = Field(Bytes(b""))
-    max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
-    v: ZeroPaddedHexNumber | None = None
-    r: ZeroPaddedHexNumber | None = None
-    s: ZeroPaddedHexNumber | None = None
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_empty_string(self, handler):
