@@ -815,7 +815,7 @@ class Transaction(ValidateOnAssignmentCamelModel):
     gas_price: HexNumber | None = None
     max_priority_fee_per_gas: HexNumber | None = None
     max_fee_per_gas: HexNumber | None = None
-    gas_limit: HexNumber = Field(HexNumber(21000), alias="gas")
+    gas_limit: HexNumber = Field(HexNumber(21000), serialization_alias="gas")
     to: Address | None = Field(Address(0xAA))
     value: HexNumber = Field(HexNumber(0))
     data: Bytes = Field(Bytes(b""), alias="input")
