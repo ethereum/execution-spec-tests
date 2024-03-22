@@ -484,7 +484,7 @@ class Account(CopyValidateModel):
             (self.nonce == 0 or self.nonce is None)
             and (self.balance == 0 or self.balance is None)
             and self.has_empty_code()
-            and (not self.storage or self.storage == {} or self.storage is None)
+            and (not self.storage or self.storage.root == {} or self.storage is None)
         )
 
     @classmethod
