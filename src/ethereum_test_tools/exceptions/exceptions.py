@@ -56,8 +56,15 @@ class ExceptionList(list):
     def __str__(self) -> str:
         """
         String representation of the ExceptionList.
+
+        Obtain a deterministic ordering by ordering using the exception string
+        representations.
         """
-        return "|".join(str(exception) for exception in self)
+        return "|".join(
+            # reverse=True is used to better match the order prior to pydantic refactor
+            str(exception)
+            for exception in sorted(self, key=lambda x: str(x), reverse=True)
+        )
 
 
 class ExceptionBase(Enum):
