@@ -320,7 +320,7 @@ class Block(Header):
     """
     If set, the block is expected to produce an error response from the Engine API.
     """
-    txs: Optional[List[Transaction]] = None
+    txs: List[Transaction] = Field(default_factory=list)
     """
     List of transactions included in the block.
     """

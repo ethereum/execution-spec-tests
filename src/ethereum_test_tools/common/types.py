@@ -1349,7 +1349,9 @@ class Result(CamelModel):
     logs_hash: Hash
     logs_bloom: Bloom
     receipts: List[TransactionReceipt]
-    rejected_transactions: List[RejectedTransaction] | None = Field(None, alias="rejected")
+    rejected_transactions: List[RejectedTransaction] = Field(
+        default_factory=list, alias="rejected"
+    )
     difficulty: HexNumber | None = Field(None, alias="currentDifficulty")
     gas_used: HexNumber
     base_fee_per_gas: HexNumber | None = Field(None, alias="currentBaseFee")

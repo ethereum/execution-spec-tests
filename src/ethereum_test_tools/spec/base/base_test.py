@@ -15,35 +15,31 @@ from pydantic import BaseModel, Field
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import Account, Environment, Transaction, withdrawals_root
+from ...common import Environment, Transaction, withdrawals_root
 from ...common.conversions import to_hex
 from ...common.json import to_json
 from ...common.types import Alloc, Result, SerializationCamelModel
 from ...reference_spec.reference_spec import ReferenceSpec
 
 
-def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
+def verify_transactions(txs: List[Transaction], result: Result) -> List[int]:
     """
     Verify rejected transactions (if any) against the expected outcome.
     Raises exception on unexpected rejections or unexpected successful txs.
     """
-    rejected_txs: Dict[int, Any] = {}
-    if "rejected" in result:
-        for rejected_tx in result["rejected"]:
-            if "index" not in rejected_tx or "error" not in rejected_tx:
-                raise Exception("badly formatted result")
-            rejected_txs[rejected_tx["index"]] = rejected_tx["error"]
+    rejected_txs: Dict[int, str] = {
+        rejected_tx.index: rejected_tx.error for rejected_tx in result.rejected_transactions
+    }
 
-    if txs is not None:
-        for i, tx in enumerate(txs):
-            error = rejected_txs[i] if i in rejected_txs else None
-            if tx.error and not error:
-                raise Exception(f"tx expected to fail succeeded: pos={i}, nonce={tx.nonce}")
-            elif not tx.error and error:
-                raise Exception(f"tx unexpectedly failed: {error}")
+    for i, tx in enumerate(txs):
+        error = rejected_txs[i] if i in rejected_txs else None
+        if tx.error and not error:
+            raise Exception(f"tx expected to fail succeeded: pos={i}, nonce={tx.nonce}")
+        elif not tx.error and error:
+            raise Exception(f"tx unexpectedly failed: {error}")
 
-            # TODO: Also we need a way to check we actually got the
-            # correct error
+        # TODO: Also we need a way to check we actually got the
+        # correct error
     return list(rejected_txs.keys())
 
 
