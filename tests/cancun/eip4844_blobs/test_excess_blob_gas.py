@@ -343,7 +343,9 @@ BLOB_GAS_COST_INCREASES = [
         2**32,  # blob gas cost 2^32
         2**64 // Spec.GAS_PER_BLOB,  # Data tx wei cost 2^64
         2**64,  # blob gas cost 2^64
-        (120_000_000 * (10**18) // Spec.GAS_PER_BLOB),  # Data tx wei is current total Ether supply
+        (
+            120_000_000 * (10**18) // Spec.GAS_PER_BLOB
+        ),  # Data tx wei is current total Ether supply
     ]
 ]
 
