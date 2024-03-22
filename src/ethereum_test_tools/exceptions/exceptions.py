@@ -3,7 +3,7 @@ Exceptions for invalid execution.
 """
 
 from enum import Enum, auto, unique
-from typing import Any, List, Union
+from typing import Any, List, Tuple, Union
 
 from pydantic import GetCoreSchemaHandler
 from pydantic_core.core_schema import (
@@ -30,20 +30,36 @@ class ExceptionList(list):
             serialization=to_string_ser_schema(),
         )
 
-    def __init__(self, *exceptions: "ExceptionBase") -> None:
+    def __init__(self, *exceptions: "ExceptionBase" | Tuple[str]) -> None:
         """
         Create a new ExceptionList.
         """
         exceptions_set: List[ExceptionBase] = []
-        for exception in exceptions:
-            if isinstance(exception, ExceptionList):
-                exceptions_set.extend(exception)
-                continue
-            if not isinstance(exception, ExceptionBase):
-                raise TypeError(f"Expected ExceptionBase, got {type(exception)}")
-            if exception not in exceptions_set:
-                exceptions_set.append(exception)
+        if isinstance(exceptions, tuple) and isinstance(exceptions[0], str):
+            exceptions_set = self._create_set_from_string(exceptions[0])
+        else:
+            for exception in exceptions:
+                if isinstance(exception, ExceptionList):
+                    exceptions_set.extend(exception)
+                    continue
+                if not isinstance(exception, ExceptionBase):
+                    raise TypeError(f"Expected ExceptionBase, got {type(exception)}")
+                if exception not in exceptions_set:
+                    exceptions_set.append(exception)
         super().__init__(exceptions_set)
+
+    @staticmethod
+    def _create_set_from_string(fixture_exception_string: str) -> set:
+        exceptions_set = set()
+        exception_names = fixture_exception_string.split("|")
+        for name in exception_names:
+            class_name, exception_attr = name.split(".")
+            exception_class = globals().get(class_name)  # TODO(dan): make more robust
+            if exception_class and hasattr(exception_class, exception_attr):
+                exceptions_set.add(getattr(exception_class, exception_attr))
+            else:
+                raise ValueError(f"Exception {name} not found.")
+        return exceptions_set
 
     def __or__(self, other: Union["ExceptionBase", "ExceptionList"]) -> "ExceptionList":
         """
