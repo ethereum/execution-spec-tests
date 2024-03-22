@@ -24,6 +24,7 @@ from ...common.types import (
     Alloc,
     CamelModel,
     Environment,
+    HexNumber,
     Result,
     SerializationCamelModel,
     Transaction,
@@ -71,8 +72,8 @@ class FixtureTransaction(CamelModel):
 
     nonce: ZeroPaddedHexNumber
     gas_price: ZeroPaddedHexNumber | None = None
-    max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
-    max_fee_per_gas: ZeroPaddedHexNumber | None = None
+    max_priority_fee_per_gas: HexNumber | None = None  # TODO: Use ZeroPaddedHexNumber
+    max_fee_per_gas: HexNumber | None = None  # TODO: Use ZeroPaddedHexNumber
     gas_limit: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
     to: Address | None = Field(None)
     value: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
@@ -80,6 +81,7 @@ class FixtureTransaction(CamelModel):
     access_list: Annotated[List[List[AccessList]], BeforeValidator(to_list)] | None = Field(
         None, alias="accessLists"
     )
+    max_fee_per_blob_gas: HexNumber | None = None  # TODO: Use ZeroPaddedHexNumber
     blob_versioned_hashes: Sequence[Hash] | None = None
     sender: Address | None = None
     secret_key: Hash | None = None
