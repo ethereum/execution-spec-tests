@@ -134,9 +134,13 @@ def test_post_nonce_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, for
     Test post state `Account.nonce` verification and exceptions during state test
     fixture generation.
     """
-    pre_nonce = pre[ADDRESS_UNDER_TEST].nonce
-    post_nonce = post[ADDRESS_UNDER_TEST].nonce
-    if "nonce" not in post[ADDRESS_UNDER_TEST].model_fields_set:  # no exception
+    pre_account = pre[ADDRESS_UNDER_TEST]
+    post_account = post[ADDRESS_UNDER_TEST]
+    assert pre_account is not None
+    assert post_account is not None
+    pre_nonce = pre_account.nonce
+    post_nonce = post_account.nonce
+    if "nonce" not in post_account.model_fields_set:  # no exception
         state_test.generate(t8n=t8n, fork=fork)
         return
     with pytest.raises(Account.NonceMismatch) as e_info:
@@ -161,9 +165,13 @@ def test_post_code_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, fork
     Test post state `Account.code` verification and exceptions during state test
     fixture generation.
     """
-    pre_code = pre[ADDRESS_UNDER_TEST].code
-    post_code = post[ADDRESS_UNDER_TEST].code
-    if "code" not in post[ADDRESS_UNDER_TEST].model_fields_set:  # no exception
+    pre_account = pre[ADDRESS_UNDER_TEST]
+    post_account = post[ADDRESS_UNDER_TEST]
+    assert pre_account is not None
+    assert post_account is not None
+    pre_code = pre_account.code
+    post_code = post_account.code
+    if "code" not in post_account.model_fields_set:  # no exception
         state_test.generate(t8n=t8n, fork=fork)
         return
     with pytest.raises(Account.CodeMismatch) as e_info:
@@ -188,9 +196,13 @@ def test_post_balance_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, f
     Test post state `Account.balance` verification and exceptions during state test
     fixture generation.
     """
-    pre_balance = pre[ADDRESS_UNDER_TEST].balance
-    post_balance = post[ADDRESS_UNDER_TEST].balance
-    if "balance" not in post[ADDRESS_UNDER_TEST].model_fields_set:  # no exception
+    pre_account = pre[ADDRESS_UNDER_TEST]
+    post_account = post[ADDRESS_UNDER_TEST]
+    assert pre_account is not None
+    assert post_account is not None
+    pre_balance = pre_account.balance
+    post_balance = post_account.balance
+    if "balance" not in post_account.model_fields_set:  # no exception
         state_test.generate(t8n=t8n, fork=fork)
         return
     with pytest.raises(Account.BalanceMismatch) as e_info:

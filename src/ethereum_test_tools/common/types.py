@@ -236,9 +236,9 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         value: StorageKeyValueTypeConvertible | StorageKeyValueType,
     ):  # noqa: SC200
         """Sets an item in the storage"""
-        self.root[StorageKeyValueTypeAdapter.validate_python(key)] = (
-            StorageKeyValueTypeAdapter.validate_python(value)
-        )
+        self.root[
+            StorageKeyValueTypeAdapter.validate_python(key)
+        ] = StorageKeyValueTypeAdapter.validate_python(value)
 
     def __delitem__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType):
         """Deletes an item from the storage"""
