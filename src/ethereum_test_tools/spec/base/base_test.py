@@ -145,7 +145,7 @@ class BaseTest(BaseModel):
     fixture_format: FixtureFormats = FixtureFormats.UNSET_TEST_FORMAT
 
     # Transition tool specific fields
-    _t8n_dump_dir: Optional[str] = ""
+    t8n_dump_dir: Path | None = Field(None, exclude=True)
     _t8n_call_counter: Iterator[int] = count(0)
 
     @abstractmethod
@@ -190,10 +190,10 @@ class BaseTest(BaseModel):
         """
         Returns the path to the next transition tool output file.
         """
-        if not self._t8n_dump_dir:
+        if not self.t8n_dump_dir:
             return ""
         return path.join(
-            self._t8n_dump_dir,
+            self.t8n_dump_dir,
             str(next(self._t8n_call_counter)),
         )
 
