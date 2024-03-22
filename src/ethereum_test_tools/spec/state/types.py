@@ -77,8 +77,9 @@ class FixtureTransaction(CamelModel):
     to: Address | None = Field(None)
     value: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
     data: Annotated[List[Bytes], BeforeValidator(to_list)] = Field()
-    access_list: Annotated[List[List[AccessList]], BeforeValidator(to_list)] | None = Field(None)
-    max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
+    access_list: Annotated[List[List[AccessList]], BeforeValidator(to_list)] | None = Field(
+        None, alias="accessLists"
+    )
     blob_versioned_hashes: Sequence[Hash] | None = None
     sender: Address | None = None
     secret_key: Hash | None = None
