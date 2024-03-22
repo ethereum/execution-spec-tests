@@ -105,6 +105,19 @@ class CamelModel(CopyValidateModel):
     )
 
 
+class ValidateOnAssignmentCamelModel(CamelModel):
+    """
+    Model that validates the input on assignment
+    """
+
+    model_config = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True,
+        validate_default=True,
+        validate_assignment=True,
+    )
+
+
 class SerializationCamelModel(CamelModel):
     """
     Model that uses camel case for serialization
@@ -803,7 +816,7 @@ class AccessList(CamelModel):
         return [self.address, self.storage_keys]
 
 
-class Transaction(CamelModel):
+class Transaction(ValidateOnAssignmentCamelModel):
     """
     Generic object that can represent all Ethereum transaction types.
     """
@@ -826,8 +839,8 @@ class Transaction(CamelModel):
     s: HexNumber | None = None
     wrapped_blob_transaction: bool = Field(False, exclude=True)
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)
-    blob_kzg_commitments: Sequence[bytes] | None = Field(None, exclude=True)
-    blob_kzg_proofs: Sequence[bytes] | None = Field(None, exclude=True)
+    blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
+    blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
     sender: Address | None = None
     secret_key: Hash | None = None
     protected: bool = Field(True, exclude=True)
@@ -1201,9 +1214,9 @@ class Transaction(CamelModel):
             public_key = PublicKey.from_signature_and_message(
                 self.signature_bytes(), keccak256(self.signing_bytes()), hasher=None
             )
-            updated_values["sender"] = keccak256(public_key.format(compressed=False)[1:])[
-                32 - 20 :
-            ]
+            updated_values["sender"] = Address(
+                keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
+            )
             return self.model_copy_validate(update=updated_values)
 
         if self.secret_key is None:
@@ -1222,7 +1235,7 @@ class Transaction(CamelModel):
         )
 
         sender = keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
-        updated_values["sender"] = sender
+        updated_values["sender"] = Address(sender)
 
         v, r, s = (
             signature_bytes[64],
@@ -1235,13 +1248,13 @@ class Transaction(CamelModel):
             else:  # not protected
                 v += 27
 
-        updated_values["v"] = v
-        updated_values["r"] = r
-        updated_values["s"] = s
+        updated_values["v"] = HexNumber(v)
+        updated_values["r"] = HexNumber(r)
+        updated_values["s"] = HexNumber(s)
 
         updated_values["secret_key"] = None
 
-        updated_tx = self.model_copy_validate(update=updated_values)
+        updated_tx = self.model_copy(update=updated_values)
 
         # Remove the secret key if requested
         if keep_secret_key:
