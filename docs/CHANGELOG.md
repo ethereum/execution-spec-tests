@@ -16,8 +16,10 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 📋 Misc
 
-As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes:
-- `expectException` fields now print the exceptions in sorted order ([#PYDANTIC](https://github.com/ethereum/execution-spec-tests/pull/PYDANTIC))
+As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes ([#PYDANTIC](https://github.com/ethereum/execution-spec-tests/pull/PYDANTIC)):
+
+- `expectException` fields now print the exceptions in sorted order.
+- State test field `transaction` now uses the proper zero-padded hex number format for fields `maxPriorityFeePerGas`, `maxFeePerGas`, and `maxFeePerBlobGas`
 
 ## 🔜 [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 
