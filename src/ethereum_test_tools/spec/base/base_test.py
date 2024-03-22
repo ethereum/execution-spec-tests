@@ -22,6 +22,19 @@ from ...common.types import Alloc, Result, SerializationCamelModel
 from ...reference_spec.reference_spec import ReferenceSpec
 
 
+class HashMismatchException(Exception):
+    """Exception raised when the expected and actual hashes don't match."""
+
+    def __init__(self, expected_hash, actual_hash, message="Hashes do not match"):
+        self.expected_hash = expected_hash
+        self.actual_hash = actual_hash
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):  # noqa: D105
+        return f"{self.message}: Expected {self.expected_hash}, got {self.actual_hash}"
+
+
 def verify_transactions(txs: List[Transaction], result: Result) -> List[int]:
     """
     Verify rejected transactions (if any) against the expected outcome.
@@ -80,11 +93,13 @@ class BaseFixture(SerializationCamelModel):
         Post init hook to convert to JSON after instantiation.
         """
         super().model_post_init(__context)
-
+        previous_hash = None
+        if "hash" in self.info:  # e.g., we're loading an existing fixture from file
+            previous_hash = self.info["hash"]
         self._json = to_json(self)
-        json_str = json.dumps(self._json, sort_keys=True, separators=(",", ":"))
-        h = hashlib.sha256(json_str.encode("utf-8")).hexdigest()
-        self.info["hash"] = f"0x{h}"
+        self.add_hash()
+        if previous_hash and previous_hash != self.info["hash"]:
+            raise HashMismatchException(previous_hash, self.info["hash"])
 
     def to_json(self) -> Dict[str, Any]:
         """
@@ -93,6 +108,18 @@ class BaseFixture(SerializationCamelModel):
         assert self._json is not None, "Fixture not initialized"
         self._json["_info"] = self.info
         return self._json
+
+    def add_hash(self) -> None:
+        """
+        Calculate the hash of the fixture and add it to the fixture and fixture's
+        json.
+        """
+        assert self._json is not None, "Fixture not initialized"
+        self._json["_info"] = {}
+        json_str = json.dumps(self._json, sort_keys=True, separators=(",", ":"))
+        h = hashlib.sha256(json_str.encode("utf-8")).hexdigest()
+        self.info["hash"] = f"0x{h}"
+        self._json["_info"] = self.info
 
     @classmethod
     @abstractmethod
