@@ -547,10 +547,12 @@ class FixtureWithdrawal(Withdrawal):
     amount: ZeroPaddedHexNumber
 
     @classmethod
-    def from_withdrawal(cls, w: Withdrawal) -> "FixtureWithdrawal":
+    def from_withdrawal(cls, w: Withdrawal | dict) -> "FixtureWithdrawal":
         """
         Returns a FixtureWithdrawal from a Withdrawal.
         """
+        if isinstance(w, dict):
+            return cls(**Withdrawal(**w).model_dump())
         return cls(**w.model_dump())
 
 
