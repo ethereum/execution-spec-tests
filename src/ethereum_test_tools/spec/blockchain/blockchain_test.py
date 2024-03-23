@@ -12,7 +12,6 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import (
     Alloc,
-    Bytes,
     EmptyTrieRoot,
     Environment,
     Hash,
@@ -51,7 +50,7 @@ def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
         parent_gas_used=parent.gas_used,
         parent_gas_limit=parent.gas_limit,
         parent_ommers_hash=parent.ommers_hash,
-        block_hashes={parent.number: parent.block_hash if parent.block_hash is not None else 0},
+        block_hashes={parent.number: parent.block_hash},
     )
 
 
@@ -69,9 +68,7 @@ def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> "Environmen
     updated["parent_gas_limit"] = new_parent.gas_limit
     updated["parent_ommers_hash"] = new_parent.ommers_hash
     block_hashes = env.block_hashes.copy()
-    block_hashes[new_parent.number] = (
-        new_parent.block_hash if new_parent.block_hash is not None else 0
-    )
+    block_hashes[new_parent.number] = new_parent.block_hash
     updated["block_hashes"] = block_hashes
     return env.model_copy_validate(update=updated)
 
@@ -118,17 +115,17 @@ class BlockchainTest(BaseTest):
     def make_genesis(
         self,
         fork: Fork,
-    ) -> Tuple[Alloc, Bytes, FixtureHeader]:
+    ) -> Tuple[Alloc, FixtureBlock]:
         """
         Create a genesis block from the blockchain test definition.
         """
         env = self.genesis_environment.set_fork_requirements(fork)
-        if env.withdrawals is not None:
-            assert len(env.withdrawals) == 0, "withdrawals must be empty at genesis"
-        if env.parent_beacon_block_root is not None:
-            assert env.parent_beacon_block_root == Hash(
-                0
-            ), "parent_beacon_block_root must be empty at genesis"
+        assert (
+            env.withdrawals is None or len(env.withdrawals) == 0
+        ), "withdrawals must be empty at genesis"
+        assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(
+            0
+        ), "parent_beacon_block_root must be empty at genesis"
 
         pre_alloc = Alloc.merge(
             Alloc.model_validate(fork.pre_allocation_blockchain()),
@@ -162,13 +159,7 @@ class BlockchainTest(BaseTest):
             parent_beacon_block_root=env.parent_beacon_block_root,
         )
 
-        genesis_rlp, _ = genesis.build(
-            txs=[],
-            ommers=[],
-            withdrawals=env.withdrawals,
-        )
-
-        return pre_alloc, genesis_rlp, genesis
+        return pre_alloc, FixtureBlock(header=genesis, withdrawals=env.withdrawals)
 
     def generate_block_data(
         self,
@@ -178,7 +169,7 @@ class BlockchainTest(BaseTest):
         previous_env: Environment,
         previous_alloc: Alloc,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[FixtureHeader, Bytes, List[Transaction], Alloc, Environment]:
+    ) -> Tuple[FixtureHeader, List[Transaction], Alloc, Environment]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
         """
@@ -268,13 +259,7 @@ class BlockchainTest(BaseTest):
             # transition tool processing.
             header = header.join(block.rlp_modifier)
 
-        rlp, _ = header.build(
-            txs=txs,
-            ommers=[],
-            withdrawals=env.withdrawals,
-        )
-
-        return header, rlp, txs, transition_tool_output.alloc, env
+        return header, txs, transition_tool_output.alloc, env
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
         """
@@ -307,18 +292,18 @@ class BlockchainTest(BaseTest):
         """
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
-        pre, genesis_rlp, genesis = self.make_genesis(fork)
+        pre, genesis = self.make_genesis(fork)
 
         alloc = pre
-        env = environment_from_parent_header(genesis)
-        head = genesis.block_hash if genesis.block_hash is not None else Hash(0)
+        env = environment_from_parent_header(genesis.header)
+        head = genesis.header.block_hash
 
         for block in self.blocks:
             if block.rlp is None:
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                header, rlp, txs, new_alloc, new_env = self.generate_block_data(
+                header, txs, new_alloc, new_env = self.generate_block_data(
                     t8n=t8n,
                     fork=fork,
                     block=block,
@@ -327,9 +312,7 @@ class BlockchainTest(BaseTest):
                     eips=eips,
                 )
                 fixture_block = FixtureBlock(
-                    rlp=rlp,
-                    block_header=header,
-                    block_number=header.number,
+                    header=header,
                     txs=txs,
                     ommers=[],
                     withdrawals=new_env.withdrawals,
@@ -339,16 +322,16 @@ class BlockchainTest(BaseTest):
                     # Update env, alloc and last block hash for the next block.
                     alloc = new_alloc
                     env = apply_new_parent(new_env, header)
-                    head = header.block_hash if header.block_hash is not None else Hash(0)
+                    head = header.block_hash
                 else:
                     fixture_blocks.append(
                         InvalidFixtureBlock(
-                            rlp=rlp,
+                            rlp=fixture_block.rlp,
                             expect_exception=block.exception,
                             rlp_decoded=(
                                 None
                                 if BlockException.RLP_STRUCTURES_ENCODING in block.exception
-                                else fixture_block.model_copy(update={"rlp": None})
+                                else fixture_block
                             ),
                         ),
                     )
@@ -359,7 +342,7 @@ class BlockchainTest(BaseTest):
                 )
                 fixture_blocks.append(
                     InvalidFixtureBlock(
-                        rlp=Bytes(block.rlp),
+                        rlp=block.rlp,
                         expect_exception=block.exception,
                     ),
                 )
@@ -367,8 +350,8 @@ class BlockchainTest(BaseTest):
         self.verify_post_state(t8n, alloc)
         return Fixture(
             fork=self.network_info(fork, eips),
-            genesis=genesis,
-            genesis_rlp=genesis_rlp,
+            genesis=genesis.header,
+            genesis_rlp=genesis.rlp,
             blocks=fixture_blocks,
             last_block_hash=head,
             pre_state=pre,
@@ -387,13 +370,13 @@ class BlockchainTest(BaseTest):
         """
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
-        pre, _, genesis = self.make_genesis(fork)
+        pre, genesis = self.make_genesis(fork)
         alloc = pre
-        env = environment_from_parent_header(genesis)
-        head_hash = genesis.block_hash
+        env = environment_from_parent_header(genesis.header)
+        head_hash = genesis.header.block_hash
 
         for block in self.blocks:
-            header, _, txs, new_alloc, new_env = self.generate_block_data(
+            header, txs, new_alloc, new_env = self.generate_block_data(
                 t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
             )
             if block.rlp is None:
@@ -423,13 +406,13 @@ class BlockchainTest(BaseTest):
         if self.verify_sync:
             # Test is marked for syncing verification.
             assert (
-                genesis.block_hash != head_hash
+                genesis.header.block_hash != head_hash
             ), "Invalid payload tests negative test via sync is not supported yet."
 
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the
             # sync process.
-            sync_header, _, _, _, _ = self.generate_block_data(
+            sync_header, _, _, _ = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=Block(),
@@ -448,7 +431,7 @@ class BlockchainTest(BaseTest):
 
         return HiveFixture(
             fork=self.network_info(fork, eips),
-            genesis=genesis,
+            genesis=genesis.header,
             payloads=fixture_payloads,
             fcu_version=fcu_version,
             pre_state=pre,

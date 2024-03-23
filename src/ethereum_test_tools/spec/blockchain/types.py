@@ -8,13 +8,13 @@ from pathlib import Path
 from typing import (
     Annotated,
     Any,
+    Callable,
     ClassVar,
     Dict,
     List,
     Literal,
     Optional,
     TextIO,
-    Tuple,
     get_args,
     get_type_hints,
 )
@@ -28,6 +28,7 @@ from pydantic import (
     Field,
     PlainSerializer,
     computed_field,
+    field_serializer,
     model_serializer,
 )
 
@@ -265,31 +266,6 @@ class FixtureHeader(SerializationCamelModel):
                     + f"got {value}, want {baseline_value}"
                 )
 
-    def build(
-        self,
-        *,
-        txs: List[Transaction],
-        ommers: List[Header],
-        withdrawals: List[Withdrawal] | None,
-    ) -> Tuple[Bytes, Hash]:
-        """
-        Returns the serialized version of the block and its hash.
-        """
-        header = self.rlp_encode_list
-
-        block = [
-            header,
-            [tx.serializable_list for tx in txs],
-            ommers,  # TODO: This is incorrect, and we probably need to serialize the ommers
-        ]
-
-        if withdrawals is not None:
-            block.append([w.to_serializable_list() for w in withdrawals])
-
-        serialized_bytes = Bytes(eth_rlp.encode(block))
-
-        return serialized_bytes, self.block_hash
-
 
 class Block(Header):
     """
@@ -499,6 +475,8 @@ class FixtureTransaction(SerializationCamelModel, TransactionGeneric[ZeroPaddedH
     Representation of an Ethereum transaction within a test Fixture.
     """
 
+    serializable_list: Any = Field(..., exclude=True)
+
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_empty_string(self, handler):
         """
@@ -516,7 +494,7 @@ class FixtureTransaction(SerializationCamelModel, TransactionGeneric[ZeroPaddedH
         """
         if isinstance(tx, dict):
             return cls(**Transaction(**tx).model_dump())
-        return cls(**tx.model_dump())
+        return cls(**tx.model_dump(), serializable_list=tx.serializable_list)
 
 
 class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
@@ -540,9 +518,7 @@ class FixtureBlock(SerializationCamelModel):
     Representation of an Ethereum block within a test Fixture.
     """
 
-    rlp: Bytes | None = Field(None)
-    block_header: FixtureHeader = Field(...)
-    block_number: Number = Field(..., alias="blocknumber")
+    header: FixtureHeader = Field(..., alias="blockHeader")
     txs: List[
         Annotated[
             FixtureTransaction,
@@ -554,6 +530,33 @@ class FixtureBlock(SerializationCamelModel):
         List[Annotated[FixtureWithdrawal, BeforeValidator(FixtureWithdrawal.from_withdrawal)]]
     ] = Field(None)
 
+    @computed_field(alias="blocknumber")  # type: ignore[misc]
+    @cached_property
+    def block_number(self) -> Number:
+        """
+        Get the block number from the header
+        """
+        return Number(self.header.number)
+
+    @computed_field()  # type: ignore[misc]
+    @cached_property
+    def rlp(self) -> Bytes:
+        """
+        Returns the serialized version of the block and its hash.
+        """
+        header = self.header.rlp_encode_list
+
+        block = [
+            header,
+            [tx.serializable_list for tx in self.txs],
+            self.ommers,  # TODO: This is incorrect, and we probably need to serialize the ommers
+        ]
+
+        if self.withdrawals is not None:
+            block.append([w.to_serializable_list() for w in self.withdrawals])
+
+        return Bytes(eth_rlp.encode(block))
+
 
 class InvalidFixtureBlock(SerializationCamelModel):
     """
@@ -562,7 +565,21 @@ class InvalidFixtureBlock(SerializationCamelModel):
 
     rlp: Bytes
     expect_exception: TransactionException | BlockException | ExceptionList
-    rlp_decoded: Optional[FixtureBlock] = Field(None, alias="rlp_decoded")
+    rlp_decoded: FixtureBlock | None = Field(None, alias="rlp_decoded")
+
+    @field_serializer("rlp_decoded", when_used="json", mode="wrap")
+    @staticmethod
+    def serialize_remove_rlp_from_rlp_decoded(
+        rlp_decoded: FixtureBlock | None, handler: Callable[[FixtureBlock | None], Dict]
+    ) -> Dict:
+        """
+        Removes the `rlp` field from the `rlp_decoded` field when serializing to json.
+        """
+        if rlp_decoded is None:
+            return handler(rlp_decoded)
+        d = handler(rlp_decoded)
+        d.pop("rlp", None)
+        return d
 
 
 class FixtureCommon(BaseFixture):
