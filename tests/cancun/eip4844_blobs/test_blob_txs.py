@@ -1148,7 +1148,7 @@ def test_invalid_blob_tx_contract_creation(
     contract_creating_tx = (
         txs[0].model_copy_validate(update={"to": None}).with_signature_and_sender()
     )
-    txs[0] = txs[0].model_copy_validate(update={"rlp": contract_creating_tx.serialized_bytes()})
+    txs[0]._rlp_override = contract_creating_tx.rlp
     blockchain_test(
         pre=pre,
         post={},
