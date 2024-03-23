@@ -7,7 +7,7 @@ from typing import Any, Callable, Dict, Generator, List, Optional, Type
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import Address, Alloc, Environment, Number, Transaction
+from ...common import Alloc, Environment, Transaction
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
 from ...common.types import TransitionToolOutput
@@ -17,7 +17,6 @@ from ..blockchain.types import Header
 from ..debugging import print_traces
 from .types import Fixture, FixtureForkPost
 
-BEACON_ROOTS_ADDRESS = Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02)
 TARGET_BLOB_GAS_PER_BLOCK = 393216
 
 
@@ -134,8 +133,8 @@ class StateTest(BaseTest):
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
         transition_tool_name = fork.transition_tool_name(
-            block_number=Number(self.env.number),
-            timestamp=Number(self.env.timestamp),
+            block_number=self.env.number,
+            timestamp=self.env.timestamp,
         )
         fork_name = (
             "+".join([transition_tool_name] + [str(eip) for eip in eips])
@@ -189,7 +188,7 @@ class StateTest(BaseTest):
         elif self.fixture_format == FixtureFormats.STATE_TEST:
             # We can't generate a state test fixture that names a transition fork,
             # so we get the fork at the block number and timestamp of the state test
-            fork = fork.fork_at(Number(self.env.number), Number(self.env.timestamp))
+            fork = fork.fork_at(self.env.number, self.env.timestamp)
             return self.make_state_test_fixture(t8n, fork, eips)
 
         raise Exception(f"Unknown fixture format: {self.fixture_format}")

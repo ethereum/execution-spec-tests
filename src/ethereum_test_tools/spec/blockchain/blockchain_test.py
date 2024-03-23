@@ -11,15 +11,11 @@ from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import (
-    Address,
     Alloc,
-    Bloom,
     Bytes,
     EmptyTrieRoot,
     Environment,
     Hash,
-    HeaderNonce,
-    Number,
     Transaction,
     ZeroPaddedHexNumber,
     transaction_list_root,
@@ -121,7 +117,6 @@ class BlockchainTest(BaseTest):
 
     def make_genesis(
         self,
-        t8n: TransitionTool,
         fork: Fork,
     ) -> Tuple[Alloc, Bytes, FixtureHeader]:
         """
@@ -131,7 +126,7 @@ class BlockchainTest(BaseTest):
         if env.withdrawals is not None:
             assert len(env.withdrawals) == 0, "withdrawals must be empty at genesis"
         if env.parent_beacon_block_root is not None:
-            assert Hash(env.parent_beacon_block_root) == Hash(
+            assert env.parent_beacon_block_root == Hash(
                 0
             ), "parent_beacon_block_root must be empty at genesis"
 
@@ -143,27 +138,27 @@ class BlockchainTest(BaseTest):
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
         state_root = pre_alloc.state_root()
         genesis = FixtureHeader(
-            parent_hash=Hash(0),
-            ommers_hash=Hash(EmptyOmmersRoot),
-            fee_recipient=Address(0),
-            state_root=Hash(state_root),
-            transactions_trie=Hash(EmptyTrieRoot),
-            receipts_root=Hash(EmptyTrieRoot),
-            logs_bloom=Bloom(0),
-            difficulty=ZeroPaddedHexNumber(0x20000 if env.difficulty is None else env.difficulty),
+            parent_hash=0,
+            ommers_hash=EmptyOmmersRoot,
+            fee_recipient=0,
+            state_root=state_root,
+            transactions_trie=EmptyTrieRoot,
+            receipts_root=EmptyTrieRoot,
+            logs_bloom=0,
+            difficulty=0x20000 if env.difficulty is None else env.difficulty,
             number=0,
-            gas_limit=ZeroPaddedHexNumber(env.gas_limit),
+            gas_limit=env.gas_limit,
             gas_used=0,
             timestamp=0,
-            extra_data=Bytes([0]),
-            prev_randao=Hash(0),
-            nonce=HeaderNonce(0),
-            base_fee_per_gas=ZeroPaddedHexNumber.or_none(env.base_fee_per_gas),
-            blob_gas_used=ZeroPaddedHexNumber.or_none(env.blob_gas_used),
-            excess_blob_gas=ZeroPaddedHexNumber.or_none(env.excess_blob_gas),
-            withdrawals_root=Hash.or_none(
-                withdrawals_root(env.withdrawals) if env.withdrawals is not None else None
-            ),
+            extra_data=b"\x00",
+            prev_randao=0,
+            nonce=0,
+            base_fee_per_gas=env.base_fee_per_gas,
+            blob_gas_used=env.blob_gas_used,
+            excess_blob_gas=env.excess_blob_gas,
+            withdrawals_root=withdrawals_root(env.withdrawals)
+            if env.withdrawals is not None
+            else None,
             parent_beacon_block_root=env.parent_beacon_block_root,
         )
 
@@ -197,7 +192,7 @@ class BlockchainTest(BaseTest):
         env = block.set_environment(previous_env)
         env = env.set_fork_requirements(fork)
 
-        txs = [tx.with_signature_and_sender() for tx in block.txs] if block.txs is not None else []
+        txs = [tx.with_signature_and_sender() for tx in block.txs]
 
         if failing_tx_count := len([tx for tx in txs if tx.error]) > 0:
             if failing_tx_count > 1:
@@ -216,10 +211,10 @@ class BlockchainTest(BaseTest):
                 txs=[to_json(tx) for tx in txs],
                 env=to_json(env),
                 fork_name=fork.transition_tool_name(
-                    block_number=Number(env.number), timestamp=Number(env.timestamp)
+                    block_number=env.number, timestamp=env.timestamp
                 ),
                 chain_id=self.chain_id,
-                reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
+                reward=fork.get_reward(env.number, env.timestamp),
                 eips=eips,
                 debug_output_path=self.get_next_transition_tool_output_path(),
             )
@@ -261,9 +256,7 @@ class BlockchainTest(BaseTest):
         # is not included in the transition tool result, but it is included in the block header,
         # and some clients check it before executing the block by simply counting the type-3 txs,
         # we need to set the correct value by default.
-        if (
-            blob_gas_per_blob := fork.blob_gas_per_blob(Number(env.number), Number(env.timestamp))
-        ) > 0:
+        if (blob_gas_per_blob := fork.blob_gas_per_blob(env.number, env.timestamp)) > 0:
             header.blob_gas_used = ZeroPaddedHexNumber(blob_gas_per_blob * count_blobs(txs))
 
         if block.header_verify is not None:
@@ -314,7 +307,7 @@ class BlockchainTest(BaseTest):
         """
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
-        pre, genesis_rlp, genesis = self.make_genesis(t8n, fork)
+        pre, genesis_rlp, genesis = self.make_genesis(fork)
 
         alloc = pre
         env = environment_from_parent_header(genesis)
@@ -336,7 +329,7 @@ class BlockchainTest(BaseTest):
                 fixture_block = FixtureBlock(
                     rlp=rlp,
                     block_header=header,
-                    block_number=Number(header.number),
+                    block_number=header.number,
                     txs=txs,
                     ommers=[],
                     withdrawals=new_env.withdrawals,
@@ -394,7 +387,7 @@ class BlockchainTest(BaseTest):
         """
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
-        pre, _, genesis = self.make_genesis(t8n, fork)
+        pre, _, genesis = self.make_genesis(fork)
         alloc = pre
         env = environment_from_parent_header(genesis)
         head_hash = genesis.block_hash
