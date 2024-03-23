@@ -131,7 +131,7 @@ class FixtureForkPost(SerializationCamelModel):
         return cls(
             state_root=transition_tool_result.state_root,
             logs_hash=transition_tool_result.logs_hash,
-            tx_bytes=Bytes(transaction.serialized_bytes()),
+            tx_bytes=Bytes(transaction.rlp),
             expect_exception=transaction.error,
         )
 

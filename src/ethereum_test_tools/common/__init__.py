@@ -44,7 +44,6 @@ from .types import (
     Storage,
     Transaction,
     Withdrawal,
-    serialize_transactions,
     transaction_list_root,
     withdrawals_root,
 )
@@ -84,7 +83,6 @@ __all__ = (
     "copy_opcode_cost",
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
-    "serialize_transactions",
     "to_json",
     "transaction_list_root",
     "withdrawals_root",

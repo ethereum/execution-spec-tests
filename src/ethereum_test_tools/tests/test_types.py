@@ -894,8 +894,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                         blob_versioned_hashes=[0, 1],
                     )
                     .with_signature_and_sender()
-                    .serialized_bytes()
-                    .hex()
+                    .rlp.hex()
                 ],
                 "withdrawals": [
                     to_json(Withdrawal(index=0, validator_index=1, address=0x1234, amount=2))
@@ -992,8 +991,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                             blob_versioned_hashes=[0, 1],
                         )
                         .with_signature_and_sender()
-                        .serialized_bytes()
-                        .hex()
+                        .rlp.hex()
                     ],
                     "withdrawals": [
                         to_json(
@@ -1094,8 +1092,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                             blob_versioned_hashes=[0, 1],
                         )
                         .with_signature_and_sender()
-                        .serialized_bytes()
-                        .hex()
+                        .rlp.hex()
                     ],
                     "withdrawals": [
                         to_json(

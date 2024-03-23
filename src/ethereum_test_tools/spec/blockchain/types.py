@@ -56,7 +56,6 @@ from ...common.types import (
     Withdrawal,
     WithdrawalGeneric,
     blob_versioned_hashes_from_transactions,
-    transaction_list_to_serializable_list,
 )
 from ...exceptions import BlockException, ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
@@ -280,7 +279,7 @@ class FixtureHeader(SerializationCamelModel):
 
         block = [
             header,
-            transaction_list_to_serializable_list(txs),
+            [tx.serializable_list for tx in txs],
             ommers,  # TODO: This is incorrect, and we probably need to serialize the ommers
         ]
 
@@ -415,7 +414,7 @@ class FixtureExecutionPayload(SerializationCamelModel):
 
     block_hash: Hash
 
-    transactions: List[Annotated[Bytes, BeforeValidator(lambda x: x.serialized_bytes())]] = Field(
+    transactions: List[Annotated[Bytes, BeforeValidator(lambda x: Bytes(x.rlp))]] = Field(
         default_factory=list
     )
     withdrawals: List[Withdrawal] | None = None

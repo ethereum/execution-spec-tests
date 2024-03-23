@@ -3,6 +3,7 @@ Useful types for generating Ethereum tests.
 """
 
 from dataclasses import dataclass
+from functools import cached_property
 from itertools import count
 from typing import (
     Any,
@@ -828,7 +829,7 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     Generic transaction type used as a parent for Transaction and FixtureTransaction (blockchain).
     """
 
-    ty: NumberBoundTypeVar | None = Field(None, alias="type")
+    ty: NumberBoundTypeVar = Field(0, alias="type")  # type: ignore
     chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
     nonce: NumberBoundTypeVar = Field(0)  # type: ignore
     gas_price: NumberBoundTypeVar | None = None
@@ -841,111 +842,20 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     access_list: List[AccessList] | None = None
     max_fee_per_blob_gas: NumberBoundTypeVar | None = None
     blob_versioned_hashes: Sequence[Hash] | None = None
+
+    protected: bool = Field(True, exclude=True)
     v: NumberBoundTypeVar | None = None
     r: NumberBoundTypeVar | None = None
     s: NumberBoundTypeVar | None = None
     sender: Address | None = None
-
-
-class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber]):
-    """
-    Generic object that can represent all Ethereum transaction types.
-    """
-
-    gas_limit: HexNumber = Field(HexNumber(21_000), serialization_alias="gas")
-    data: Bytes = Field(Bytes(b""), alias="input")
+    _rlp_override: bytes | None = None
 
     wrapped_blob_transaction: bool = Field(False, exclude=True)
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
-    secret_key: Hash | None = None
-    protected: bool = Field(True, exclude=True)
-    error: TransactionException | ExceptionList | None = Field(None, exclude=True)
-    rlp: Bytes | None = Field(None, exclude=True)
 
-    class InvalidFeePayment(Exception):
-        """
-        Transaction described more than one fee payment type.
-        """
-
-        def __str__(self):
-            """Print exception string"""
-            return "only one type of fee payment field can be used in a single tx"
-
-    class InvalidSignaturePrivateKey(Exception):
-        """
-        Transaction describes both the signature and private key of
-        source account.
-        """
-
-        def __str__(self):
-            """Print exception string"""
-            return "can't define both 'signature' and 'private_key'"
-
-    def model_post_init(self, __context):
-        """
-        Ensures the transaction has no conflicting properties.
-        """
-        super().model_post_init(__context)
-
-        if self.gas_price is not None and (
-            self.max_fee_per_gas is not None
-            or self.max_priority_fee_per_gas is not None
-            or self.max_fee_per_blob_gas is not None
-        ):
-            raise Transaction.InvalidFeePayment()
-
-        if (
-            self.gas_price is None
-            and self.max_fee_per_gas is None
-            and self.max_priority_fee_per_gas is None
-            and self.max_fee_per_blob_gas is None
-        ):
-            self.gas_price = 10
-
-        if self.v is not None and self.secret_key is not None:
-            raise Transaction.InvalidSignaturePrivateKey()
-
-        if self.v is None and self.secret_key is None:
-            self.secret_key = Hash(TestPrivateKey)
-
-        if self.ty is None:
-            # Try to deduce transaction type from included fields
-            if self.max_fee_per_blob_gas is not None:
-                self.ty = 3
-            elif self.max_fee_per_gas is not None:
-                self.ty = 2
-            elif self.access_list is not None:
-                self.ty = 1
-            else:
-                self.ty = 0
-
-        # Set default values for fields that are required for certain tx types
-        if self.ty >= 1 and self.access_list is None:
-            self.access_list = []
-
-        if self.ty >= 2 and self.max_priority_fee_per_gas is None:
-            self.max_priority_fee_per_gas = 0
-
-    def with_error(self, error: TransactionException | ExceptionList) -> "Transaction":
-        """
-        Create a copy of the transaction with an added error.
-        """
-        return self.model_copy_validate(update={"error": error})
-
-    def with_nonce(self, nonce: int) -> "Transaction":
-        """
-        Create a copy of the transaction with a modified nonce.
-        """
-        return self.model_copy_validate(update={"nonce": nonce})
-
-    def with_fields(self, **kwargs) -> "Transaction":
-        """
-        Create a deepcopy of the transaction with modified fields.
-        """
-        return self.model_copy_validate(update=kwargs)
-
+    @cached_property
     def payload_body(self) -> List[Any]:
         """
         Returns the list of values included in the transaction body.
@@ -953,8 +863,6 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
         if self.v is None or self.r is None or self.s is None:
             raise ValueError("signature must be set before serializing any tx type")
 
-        if self.gas_limit is None:
-            raise ValueError("gas_limit must be set for all tx types")
         to = Address(self.to) if self.to is not None else bytes()
 
         if self.ty == 3:
@@ -1080,28 +988,24 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
 
         raise NotImplementedError(f"serialized_bytes not implemented for tx type {self.ty}")
 
-    def serialized_bytes(self) -> bytes:
+    @cached_property
+    def rlp(self) -> bytes:
         """
         Returns bytes of the serialized representation of the transaction,
         which is almost always RLP encoding.
         """
-        if self.rlp is not None:
-            return self.rlp
-
-        if self.ty is None:
-            raise ValueError("ty must be set for all tx types")
-
+        if self._rlp_override is not None:
+            return self._rlp_override
         if self.ty > 0:
-            return bytes([self.ty]) + eth_rlp.encode(self.payload_body())
+            return bytes([self.ty]) + eth_rlp.encode(self.payload_body)
         else:
-            return eth_rlp.encode(self.payload_body())
+            return eth_rlp.encode(self.payload_body)
 
+    @cached_property
     def signing_envelope(self) -> List[Any]:
         """
         Returns the list of values included in the envelope used for signing.
         """
-        if self.gas_limit is None:
-            raise ValueError("gas_limit must be set for all tx types")
         to = Address(self.to) if self.to is not None else bytes()
 
         if self.ty == 3:
@@ -1187,18 +1091,18 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
                 ]
         raise NotImplementedError("signing for transaction type {self.ty} not implemented")
 
+    @cached_property
     def signing_bytes(self) -> bytes:
         """
         Returns the serialized bytes of the transaction used for signing.
         """
-        if self.ty is None:
-            raise ValueError("ty must be set for all tx types")
+        return (
+            bytes([self.ty]) + eth_rlp.encode(self.signing_envelope)
+            if self.ty > 0
+            else eth_rlp.encode(self.signing_envelope)
+        )
 
-        if self.ty > 0:
-            return bytes([self.ty]) + eth_rlp.encode(self.signing_envelope())
-        else:
-            return eth_rlp.encode(self.signing_envelope())
-
+    @cached_property
     def signature_bytes(self) -> bytes:
         """
         Returns the serialized bytes of the transaction signature.
@@ -1217,6 +1121,107 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
             + bytes([v])
         )
 
+    @cached_property
+    def serializable_list(self) -> Any:
+        """
+        Returns the list of values included in the transaction as a serializable object.
+        """
+        return self.rlp if self.ty > 0 else self.payload_body
+
+
+class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber]):
+    """
+    Generic object that can represent all Ethereum transaction types.
+    """
+
+    gas_limit: HexNumber = Field(HexNumber(21_000), serialization_alias="gas")
+    data: Bytes = Field(Bytes(b""), alias="input")
+
+    secret_key: Hash | None = None
+    error: TransactionException | ExceptionList | None = Field(None, exclude=True)
+
+    class InvalidFeePayment(Exception):
+        """
+        Transaction described more than one fee payment type.
+        """
+
+        def __str__(self):
+            """Print exception string"""
+            return "only one type of fee payment field can be used in a single tx"
+
+    class InvalidSignaturePrivateKey(Exception):
+        """
+        Transaction describes both the signature and private key of
+        source account.
+        """
+
+        def __str__(self):
+            """Print exception string"""
+            return "can't define both 'signature' and 'private_key'"
+
+    def model_post_init(self, __context):
+        """
+        Ensures the transaction has no conflicting properties.
+        """
+        super().model_post_init(__context)
+
+        if self.gas_price is not None and (
+            self.max_fee_per_gas is not None
+            or self.max_priority_fee_per_gas is not None
+            or self.max_fee_per_blob_gas is not None
+        ):
+            raise Transaction.InvalidFeePayment()
+
+        if (
+            self.gas_price is None
+            and self.max_fee_per_gas is None
+            and self.max_priority_fee_per_gas is None
+            and self.max_fee_per_blob_gas is None
+        ):
+            self.gas_price = 10
+
+        if self.v is not None and self.secret_key is not None:
+            raise Transaction.InvalidSignaturePrivateKey()
+
+        if self.v is None and self.secret_key is None:
+            self.secret_key = Hash(TestPrivateKey)
+
+        if "ty" not in self.model_fields_set:
+            # Try to deduce transaction type from included fields
+            if self.max_fee_per_blob_gas is not None:
+                self.ty = 3
+            elif self.max_fee_per_gas is not None:
+                self.ty = 2
+            elif self.access_list is not None:
+                self.ty = 1
+            else:
+                self.ty = 0
+
+        # Set default values for fields that are required for certain tx types
+        if self.ty >= 1 and self.access_list is None:
+            self.access_list = []
+
+        if self.ty >= 2 and self.max_priority_fee_per_gas is None:
+            self.max_priority_fee_per_gas = 0
+
+    def with_error(self, error: TransactionException | ExceptionList) -> "Transaction":
+        """
+        Create a copy of the transaction with an added error.
+        """
+        return self.model_copy_validate(update={"error": error})
+
+    def with_nonce(self, nonce: int) -> "Transaction":
+        """
+        Create a copy of the transaction with a modified nonce.
+        """
+        return self.model_copy_validate(update={"nonce": nonce})
+
+    def with_fields(self, **kwargs) -> "Transaction":
+        """
+        Create a deepcopy of the transaction with modified fields.
+        """
+        return self.model_copy_validate(update=kwargs)
+
     def with_signature_and_sender(self, *, keep_secret_key: bool = False) -> "Transaction":
         """
         Returns a signed version of the transaction using the private key.
@@ -1229,7 +1234,7 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
                 return self
 
             public_key = PublicKey.from_signature_and_message(
-                self.signature_bytes(), keccak256(self.signing_bytes()), hasher=None
+                self.signature_bytes, keccak256(self.signing_bytes), hasher=None
             )
             updated_values["sender"] = Address(
                 keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
@@ -1240,7 +1245,7 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
             raise ValueError("secret_key must be set to sign a transaction")
 
         # Get the signing bytes
-        signing_hash = keccak256(self.signing_bytes())
+        signing_hash = keccak256(self.signing_bytes)
 
         # Sign the bytes
         signature_bytes = PrivateKey(secret=self.secret_key).sign_recoverable(
@@ -1284,56 +1289,25 @@ def transaction_list_root(input_txs: List[Transaction] | None) -> Hash:
     """
     t = HexaryTrie(db={})
     for i, tx in enumerate(input_txs or []):
-        t.set(eth_rlp.encode(Uint(i)), tx.serialized_bytes())
+        t.set(eth_rlp.encode(Uint(i)), tx.rlp)
     return Hash(t.root_hash)
 
 
-def transaction_list_to_serializable_list(input_txs: List[Transaction] | None) -> List[Any]:
-    """
-    Returns the transaction list as a list of serializable objects.
-    """
-    if input_txs is None:
-        return []
-
-    txs: List[Any] = []
-    for tx in input_txs:
-        if tx.ty is None:
-            raise ValueError("ty must be set for all tx types")
-
-        if tx.ty > 0:
-            txs.append(tx.serialized_bytes())
-        else:
-            txs.append(tx.payload_body())
-    return txs
-
-
-def serialize_transactions(input_txs: List[Transaction] | None) -> bytes:
-    """
-    Serialize a list of transactions into a single byte string, usually RLP encoded.
-    """
-    return eth_rlp.encode(transaction_list_to_serializable_list(input_txs))
-
-
 def blob_versioned_hashes_from_transactions(
-    input_txs: List[Transaction] | None,
+    input_txs: List[Transaction],
 ) -> List[Hash]:
     """
     Gets a list of ordered blob versioned hashes from a list of transactions.
     """
-    versioned_hashes: List[Hash] = []
-
-    if input_txs is None:
-        return versioned_hashes
-
-    for tx in input_txs:
-        if tx.blob_versioned_hashes is not None and tx.ty == 3:
-            versioned_hashes.extend(tx.blob_versioned_hashes)
-
-    return versioned_hashes
+    return [
+        blob_versioned_hash
+        for tx in input_txs
+        if tx.blob_versioned_hashes is not None
+        for blob_versioned_hash in tx.blob_versioned_hashes
+    ]
 
 
 # TODO: Move to other file
-
 # Transition tool models
 
 

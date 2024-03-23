@@ -260,4 +260,4 @@ def test_transaction_signing(
     assert signature == expected_signature
     assert type(tx.sender) == Address
     assert tx.sender.hex() == expected_sender
-    assert ("0x" + tx.serialized_bytes().hex()) == expected_serialized
+    assert ("0x" + tx.rlp.hex()) == expected_serialized
