@@ -747,7 +747,7 @@ class Environment(EnvironmentGeneric[Number]):
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
 
     @computed_field  # type: ignore[misc]
-    @property
+    @cached_property
     def parent_hash(self) -> Hash | None:
         """
         Obtains the latest hash according to the highest block number in
@@ -843,290 +843,10 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     max_fee_per_blob_gas: NumberBoundTypeVar | None = None
     blob_versioned_hashes: Sequence[Hash] | None = None
 
-    protected: bool = Field(True, exclude=True)
     v: NumberBoundTypeVar | None = None
     r: NumberBoundTypeVar | None = None
     s: NumberBoundTypeVar | None = None
     sender: Address | None = None
-    _rlp_override: bytes | None = None
-
-    wrapped_blob_transaction: bool = Field(False, exclude=True)
-    blobs: Sequence[Bytes] | None = Field(None, exclude=True)
-    blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
-    blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
-
-    @cached_property
-    def payload_body(self) -> List[Any]:
-        """
-        Returns the list of values included in the transaction body.
-        """
-        if self.v is None or self.r is None or self.s is None:
-            raise ValueError("signature must be set before serializing any tx type")
-
-        to = Address(self.to) if self.to is not None else bytes()
-
-        if self.ty == 3:
-            # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
-            if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
-            if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 3 tx")
-            if self.max_fee_per_blob_gas is None:
-                raise ValueError("max_fee_per_blob_gas must be set for type 3 tx")
-            if self.blob_versioned_hashes is None:
-                raise ValueError("blob_versioned_hashes must be set for type 3 tx")
-            if self.access_list is None:
-                raise ValueError("access_list must be set for type 3 tx")
-
-            if self.wrapped_blob_transaction:
-                if self.blobs is None:
-                    raise ValueError("blobs must be set for network version of type 3 tx")
-                if self.blob_kzg_commitments is None:
-                    raise ValueError(
-                        "blob_kzg_commitments must be set for network version of type 3 tx"
-                    )
-                if self.blob_kzg_proofs is None:
-                    raise ValueError(
-                        "blob_kzg_proofs must be set for network version of type 3 tx"
-                    )
-
-                return [
-                    [
-                        Uint(self.chain_id),
-                        Uint(self.nonce),
-                        Uint(self.max_priority_fee_per_gas),
-                        Uint(self.max_fee_per_gas),
-                        Uint(self.gas_limit),
-                        to,
-                        Uint(self.value),
-                        self.data,
-                        [a.to_list() for a in self.access_list],
-                        Uint(self.max_fee_per_blob_gas),
-                        list(self.blob_versioned_hashes),
-                        Uint(self.v),
-                        Uint(self.r),
-                        Uint(self.s),
-                    ],
-                    self.blobs,
-                    self.blob_kzg_commitments,
-                    self.blob_kzg_proofs,
-                ]
-            else:
-                return [
-                    Uint(self.chain_id),
-                    Uint(self.nonce),
-                    Uint(self.max_priority_fee_per_gas),
-                    Uint(self.max_fee_per_gas),
-                    Uint(self.gas_limit),
-                    to,
-                    Uint(self.value),
-                    self.data,
-                    [a.to_list() for a in self.access_list],
-                    Uint(self.max_fee_per_blob_gas),
-                    list(self.blob_versioned_hashes),
-                    Uint(self.v),
-                    Uint(self.r),
-                    Uint(self.s),
-                ]
-        elif self.ty == 2:
-            # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
-            if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
-            if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 2 tx")
-            if self.access_list is None:
-                raise ValueError("access_list must be set for type 2 tx")
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.max_priority_fee_per_gas),
-                Uint(self.max_fee_per_gas),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list],
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-        elif self.ty == 1:
-            # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
-            if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 1 tx")
-            if self.access_list is None:
-                raise ValueError("access_list must be set for type 1 tx")
-
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.gas_price),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list],
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-        elif self.ty == 0:
-            if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 0 tx")
-            # EIP-155: https://eips.ethereum.org/EIPS/eip-155
-            return [
-                Uint(self.nonce),
-                Uint(self.gas_price),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-
-        raise NotImplementedError(f"serialized_bytes not implemented for tx type {self.ty}")
-
-    @cached_property
-    def rlp(self) -> bytes:
-        """
-        Returns bytes of the serialized representation of the transaction,
-        which is almost always RLP encoding.
-        """
-        if self._rlp_override is not None:
-            return self._rlp_override
-        if self.ty > 0:
-            return bytes([self.ty]) + eth_rlp.encode(self.payload_body)
-        else:
-            return eth_rlp.encode(self.payload_body)
-
-    @cached_property
-    def signing_envelope(self) -> List[Any]:
-        """
-        Returns the list of values included in the envelope used for signing.
-        """
-        to = Address(self.to) if self.to is not None else bytes()
-
-        if self.ty == 3:
-            # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
-            if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
-            if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 3 tx")
-            if self.max_fee_per_blob_gas is None:
-                raise ValueError("max_fee_per_blob_gas must be set for type 3 tx")
-            if self.blob_versioned_hashes is None:
-                raise ValueError("blob_versioned_hashes must be set for type 3 tx")
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.max_priority_fee_per_gas),
-                Uint(self.max_fee_per_gas),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
-                Uint(self.max_fee_per_blob_gas),
-                list(self.blob_versioned_hashes),
-            ]
-        elif self.ty == 2:
-            # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
-            if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
-            if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 2 tx")
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.max_priority_fee_per_gas),
-                Uint(self.max_fee_per_gas),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
-            ]
-        elif self.ty == 1:
-            # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
-            if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 1 tx")
-
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.gas_price),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
-            ]
-        elif self.ty == 0:
-            if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 0 tx")
-
-            if self.protected:
-                # EIP-155: https://eips.ethereum.org/EIPS/eip-155
-                return [
-                    Uint(self.nonce),
-                    Uint(self.gas_price),
-                    Uint(self.gas_limit),
-                    to,
-                    Uint(self.value),
-                    self.data,
-                    Uint(self.chain_id),
-                    Uint(0),
-                    Uint(0),
-                ]
-            else:
-                return [
-                    Uint(self.nonce),
-                    Uint(self.gas_price),
-                    Uint(self.gas_limit),
-                    to,
-                    Uint(self.value),
-                    self.data,
-                ]
-        raise NotImplementedError("signing for transaction type {self.ty} not implemented")
-
-    @cached_property
-    def signing_bytes(self) -> bytes:
-        """
-        Returns the serialized bytes of the transaction used for signing.
-        """
-        return (
-            bytes([self.ty]) + eth_rlp.encode(self.signing_envelope)
-            if self.ty > 0
-            else eth_rlp.encode(self.signing_envelope)
-        )
-
-    @cached_property
-    def signature_bytes(self) -> bytes:
-        """
-        Returns the serialized bytes of the transaction signature.
-        """
-        assert self.v is not None and self.r is not None and self.s is not None
-        v = int(self.v)
-        if self.ty == 0:
-            if self.protected:
-                assert self.chain_id is not None
-                v -= 35 + (self.chain_id * 2)
-            else:
-                v -= 27
-        return (
-            self.r.to_bytes(32, byteorder="big")
-            + self.s.to_bytes(32, byteorder="big")
-            + bytes([v])
-        )
-
-    @cached_property
-    def serializable_list(self) -> Any:
-        """
-        Returns the list of values included in the transaction as a serializable object.
-        """
-        return self.rlp if self.ty > 0 else self.payload_body
 
 
 class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber]):
@@ -1139,6 +859,14 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
 
     secret_key: Hash | None = None
     error: TransactionException | ExceptionList | None = Field(None, exclude=True)
+
+    protected: bool = Field(True, exclude=True)
+    rlp_override: bytes | None = Field(None, exclude=True)
+
+    wrapped_blob_transaction: bool = Field(False, exclude=True)
+    blobs: Sequence[Bytes] | None = Field(None, exclude=True)
+    blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
+    blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
 
     class InvalidFeePayment(Exception):
         """
@@ -1281,6 +1009,279 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
         if keep_secret_key:
             updated_tx.secret_key = self.secret_key
         return updated_tx
+
+    @cached_property
+    def payload_body(self) -> List[Any]:
+        """
+        Returns the list of values included in the transaction body.
+        """
+        if self.v is None or self.r is None or self.s is None:
+            raise ValueError("signature must be set before serializing any tx type")
+
+        to = Address(self.to) if self.to is not None else bytes()
+
+        if self.ty == 3:
+            # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
+            if self.max_priority_fee_per_gas is None:
+                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
+            if self.max_fee_per_gas is None:
+                raise ValueError("max_fee_per_gas must be set for type 3 tx")
+            if self.max_fee_per_blob_gas is None:
+                raise ValueError("max_fee_per_blob_gas must be set for type 3 tx")
+            if self.blob_versioned_hashes is None:
+                raise ValueError("blob_versioned_hashes must be set for type 3 tx")
+            if self.access_list is None:
+                raise ValueError("access_list must be set for type 3 tx")
+
+            if self.wrapped_blob_transaction:
+                if self.blobs is None:
+                    raise ValueError("blobs must be set for network version of type 3 tx")
+                if self.blob_kzg_commitments is None:
+                    raise ValueError(
+                        "blob_kzg_commitments must be set for network version of type 3 tx"
+                    )
+                if self.blob_kzg_proofs is None:
+                    raise ValueError(
+                        "blob_kzg_proofs must be set for network version of type 3 tx"
+                    )
+
+                return [
+                    [
+                        Uint(self.chain_id),
+                        Uint(self.nonce),
+                        Uint(self.max_priority_fee_per_gas),
+                        Uint(self.max_fee_per_gas),
+                        Uint(self.gas_limit),
+                        to,
+                        Uint(self.value),
+                        self.data,
+                        [a.to_list() for a in self.access_list],
+                        Uint(self.max_fee_per_blob_gas),
+                        list(self.blob_versioned_hashes),
+                        Uint(self.v),
+                        Uint(self.r),
+                        Uint(self.s),
+                    ],
+                    self.blobs,
+                    self.blob_kzg_commitments,
+                    self.blob_kzg_proofs,
+                ]
+            else:
+                return [
+                    Uint(self.chain_id),
+                    Uint(self.nonce),
+                    Uint(self.max_priority_fee_per_gas),
+                    Uint(self.max_fee_per_gas),
+                    Uint(self.gas_limit),
+                    to,
+                    Uint(self.value),
+                    self.data,
+                    [a.to_list() for a in self.access_list],
+                    Uint(self.max_fee_per_blob_gas),
+                    list(self.blob_versioned_hashes),
+                    Uint(self.v),
+                    Uint(self.r),
+                    Uint(self.s),
+                ]
+        elif self.ty == 2:
+            # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
+            if self.max_priority_fee_per_gas is None:
+                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
+            if self.max_fee_per_gas is None:
+                raise ValueError("max_fee_per_gas must be set for type 2 tx")
+            if self.access_list is None:
+                raise ValueError("access_list must be set for type 2 tx")
+            return [
+                Uint(self.chain_id),
+                Uint(self.nonce),
+                Uint(self.max_priority_fee_per_gas),
+                Uint(self.max_fee_per_gas),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                [a.to_list() for a in self.access_list],
+                Uint(self.v),
+                Uint(self.r),
+                Uint(self.s),
+            ]
+        elif self.ty == 1:
+            # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
+            if self.gas_price is None:
+                raise ValueError("gas_price must be set for type 1 tx")
+            if self.access_list is None:
+                raise ValueError("access_list must be set for type 1 tx")
+
+            return [
+                Uint(self.chain_id),
+                Uint(self.nonce),
+                Uint(self.gas_price),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                [a.to_list() for a in self.access_list],
+                Uint(self.v),
+                Uint(self.r),
+                Uint(self.s),
+            ]
+        elif self.ty == 0:
+            if self.gas_price is None:
+                raise ValueError("gas_price must be set for type 0 tx")
+            # EIP-155: https://eips.ethereum.org/EIPS/eip-155
+            return [
+                Uint(self.nonce),
+                Uint(self.gas_price),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                Uint(self.v),
+                Uint(self.r),
+                Uint(self.s),
+            ]
+
+        raise NotImplementedError(f"serialized_bytes not implemented for tx type {self.ty}")
+
+    @cached_property
+    def rlp(self) -> bytes:
+        """
+        Returns bytes of the serialized representation of the transaction,
+        which is almost always RLP encoding.
+        """
+        if self.rlp_override is not None:
+            return self.rlp_override
+        if self.ty > 0:
+            return bytes([self.ty]) + eth_rlp.encode(self.payload_body)
+        else:
+            return eth_rlp.encode(self.payload_body)
+
+    @cached_property
+    def signing_envelope(self) -> List[Any]:
+        """
+        Returns the list of values included in the envelope used for signing.
+        """
+        to = Address(self.to) if self.to is not None else bytes()
+
+        if self.ty == 3:
+            # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
+            if self.max_priority_fee_per_gas is None:
+                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
+            if self.max_fee_per_gas is None:
+                raise ValueError("max_fee_per_gas must be set for type 3 tx")
+            if self.max_fee_per_blob_gas is None:
+                raise ValueError("max_fee_per_blob_gas must be set for type 3 tx")
+            if self.blob_versioned_hashes is None:
+                raise ValueError("blob_versioned_hashes must be set for type 3 tx")
+            return [
+                Uint(self.chain_id),
+                Uint(self.nonce),
+                Uint(self.max_priority_fee_per_gas),
+                Uint(self.max_fee_per_gas),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
+                Uint(self.max_fee_per_blob_gas),
+                list(self.blob_versioned_hashes),
+            ]
+        elif self.ty == 2:
+            # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
+            if self.max_priority_fee_per_gas is None:
+                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
+            if self.max_fee_per_gas is None:
+                raise ValueError("max_fee_per_gas must be set for type 2 tx")
+            return [
+                Uint(self.chain_id),
+                Uint(self.nonce),
+                Uint(self.max_priority_fee_per_gas),
+                Uint(self.max_fee_per_gas),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
+            ]
+        elif self.ty == 1:
+            # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
+            if self.gas_price is None:
+                raise ValueError("gas_price must be set for type 1 tx")
+
+            return [
+                Uint(self.chain_id),
+                Uint(self.nonce),
+                Uint(self.gas_price),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
+            ]
+        elif self.ty == 0:
+            if self.gas_price is None:
+                raise ValueError("gas_price must be set for type 0 tx")
+
+            if self.protected:
+                # EIP-155: https://eips.ethereum.org/EIPS/eip-155
+                return [
+                    Uint(self.nonce),
+                    Uint(self.gas_price),
+                    Uint(self.gas_limit),
+                    to,
+                    Uint(self.value),
+                    self.data,
+                    Uint(self.chain_id),
+                    Uint(0),
+                    Uint(0),
+                ]
+            else:
+                return [
+                    Uint(self.nonce),
+                    Uint(self.gas_price),
+                    Uint(self.gas_limit),
+                    to,
+                    Uint(self.value),
+                    self.data,
+                ]
+        raise NotImplementedError("signing for transaction type {self.ty} not implemented")
+
+    @cached_property
+    def signing_bytes(self) -> bytes:
+        """
+        Returns the serialized bytes of the transaction used for signing.
+        """
+        return (
+            bytes([self.ty]) + eth_rlp.encode(self.signing_envelope)
+            if self.ty > 0
+            else eth_rlp.encode(self.signing_envelope)
+        )
+
+    @cached_property
+    def signature_bytes(self) -> bytes:
+        """
+        Returns the serialized bytes of the transaction signature.
+        """
+        assert self.v is not None and self.r is not None and self.s is not None
+        v = int(self.v)
+        if self.ty == 0:
+            if self.protected:
+                assert self.chain_id is not None
+                v -= 35 + (self.chain_id * 2)
+            else:
+                v -= 27
+        return (
+            self.r.to_bytes(32, byteorder="big")
+            + self.s.to_bytes(32, byteorder="big")
+            + bytes([v])
+        )
+
+    @cached_property
+    def serializable_list(self) -> Any:
+        """
+        Returns the list of values included in the transaction as a serializable object.
+        """
+        return self.rlp if self.ty > 0 else self.payload_body
 
 
 def transaction_list_root(input_txs: List[Transaction] | None) -> Hash:
