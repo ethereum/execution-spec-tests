@@ -10,7 +10,7 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 from ...common import Address, Alloc, Environment, Number, Transaction
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
-from ...common.types import Result
+from ...common.types import TransitionToolOutput
 from ..base.base_test import BaseFixture, BaseTest
 from ..blockchain.blockchain_test import Block, BlockchainTest
 from ..blockchain.types import Header
@@ -142,21 +142,21 @@ class StateTest(BaseTest):
             if eips
             else transition_tool_name
         )
-        next_alloc_dict, result_dict = t8n.evaluate(
-            alloc=to_json(pre_alloc),
-            txs=[to_json(tx)],
-            env=to_json(env),
-            fork_name=fork_name,
-            chain_id=self.chain_id,
-            reward=0,  # Reward on state tests is always zero
-            eips=eips,
-            debug_output_path=self.get_next_transition_tool_output_path(),
+        transition_tool_output = TransitionToolOutput(
+            **t8n.evaluate(
+                alloc=to_json(pre_alloc),
+                txs=[to_json(tx)],
+                env=to_json(env),
+                fork_name=fork_name,
+                chain_id=self.chain_id,
+                reward=0,  # Reward on state tests is always zero
+                eips=eips,
+                debug_output_path=self.get_next_transition_tool_output_path(),
+            )
         )
-        result = Result(**result_dict)
-        next_alloc = Alloc.model_validate(next_alloc_dict)
 
         try:
-            self.post.verify_post_alloc(next_alloc)
+            self.post.verify_post_alloc(transition_tool_output.alloc)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
@@ -167,7 +167,7 @@ class StateTest(BaseTest):
             post={
                 fork.blockchain_test_network_name(): [
                     FixtureForkPost.collect(
-                        transition_tool_result=result,
+                        transition_tool_result=transition_tool_output.result,
                         transaction=tx.with_signature_and_sender(),
                     )
                 ]

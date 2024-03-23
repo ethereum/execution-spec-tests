@@ -27,7 +27,7 @@ from ...common import (
 )
 from ...common.constants import EmptyOmmersRoot
 from ...common.json import to_json
-from ...common.types import Result
+from ...common.types import TransitionToolOutput
 from ..base.base_test import BaseFixture, BaseTest, verify_result, verify_transactions
 from ..debugging import print_traces
 from .types import (
@@ -210,29 +210,29 @@ class BlockchainTest(BaseTest):
                     + "must be the last transaction in the block"
                 )
 
-        next_alloc_dict, result_dict = t8n.evaluate(
-            alloc=to_json(previous_alloc),
-            txs=[to_json(tx) for tx in txs],
-            env=to_json(env),
-            fork_name=fork.transition_tool_name(
-                block_number=Number(env.number), timestamp=Number(env.timestamp)
-            ),
-            chain_id=self.chain_id,
-            reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
-            eips=eips,
-            debug_output_path=self.get_next_transition_tool_output_path(),
+        transition_tool_output = TransitionToolOutput(
+            **t8n.evaluate(
+                alloc=to_json(previous_alloc),
+                txs=[to_json(tx) for tx in txs],
+                env=to_json(env),
+                fork_name=fork.transition_tool_name(
+                    block_number=Number(env.number), timestamp=Number(env.timestamp)
+                ),
+                chain_id=self.chain_id,
+                reward=fork.get_reward(Number(env.number), Number(env.timestamp)),
+                eips=eips,
+                debug_output_path=self.get_next_transition_tool_output_path(),
+            )
         )
-        next_alloc = Alloc.model_validate(next_alloc_dict)
-        result = Result(**result_dict)
 
         try:
-            rejected_txs = verify_transactions(txs, result)
-            verify_result(result, env)
+            rejected_txs = verify_transactions(txs, transition_tool_output.result)
+            verify_result(transition_tool_output.result, env)
         except Exception as e:
             print_traces(t8n.get_traces())
-            pprint(result)
+            pprint(transition_tool_output.result)
             pprint(previous_alloc)
-            pprint(next_alloc)
+            pprint(transition_tool_output.alloc)
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -246,7 +246,10 @@ class BlockchainTest(BaseTest):
             )
 
         header = FixtureHeader(
-            **(result.model_dump(exclude_none=True) | env.model_dump(exclude_none=True)),
+            **(
+                transition_tool_output.result.model_dump(exclude_none=True)
+                | env.model_dump(exclude_none=True)
+            ),
             extra_data=block.extra_data if block.extra_data is not None else b"",
             fork=fork,
         )
@@ -278,7 +281,7 @@ class BlockchainTest(BaseTest):
             withdrawals=env.withdrawals,
         )
 
-        return header, rlp, txs, next_alloc, env
+        return header, rlp, txs, transition_tool_output.alloc, env
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
         """

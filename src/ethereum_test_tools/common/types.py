@@ -1387,3 +1387,12 @@ class Result(CamelModel):
     withdrawals_root: Hash | None = None
     excess_blob_gas: HexNumber | None = Field(None, alias="currentExcessBlobGas")
     blob_gas_used: HexNumber | None = None
+
+
+class TransitionToolOutput(CamelModel):
+    """
+    Transition tool output
+    """
+
+    alloc: Alloc
+    result: Result

@@ -14,7 +14,7 @@ from enum import Enum
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Type
 
 from ethereum_test_forks import Fork
 
@@ -298,7 +298,7 @@ class TransitionTool:
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes a transition tool using the filesystem for its inputs and outputs.
         """
@@ -408,14 +408,14 @@ class TransitionTool:
 
         temp_dir.cleanup()
 
-        return output_contents["alloc"], output_contents["result"]
+        return output_contents
 
     def _evaluate_stream(
         self,
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes a transition tool using stdin and stdout for its inputs and outputs.
         """
@@ -459,7 +459,7 @@ class TransitionTool:
             self.collect_traces(output["result"]["receipts"], temp_dir, debug_output_path)
             temp_dir.cleanup()
 
-        return output["alloc"], output["result"]
+        return output
 
     def construct_args_stream(
         self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
@@ -540,7 +540,7 @@ class TransitionTool:
         reward: int = 0,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes the relevant evaluate method as required by the `t8n` tool.
 
