@@ -102,6 +102,7 @@ class TransitionTool:
     blocktest_subcommand: Optional[str] = None
     cached_version: Optional[str] = None
     t8n_use_stream: bool = True
+    verkle_subcommand: Optional[str] = None
 
     # Abstract methods that each tool must implement
 

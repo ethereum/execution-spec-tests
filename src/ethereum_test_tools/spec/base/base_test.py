@@ -44,15 +44,11 @@ def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
     return list(rejected_txs.keys())
 
 
-def verify_post_alloc(
-    *, expected_post: Mapping, got_alloc: Mapping, got_vkt: Optional[Mapping] = None
-):
+def verify_post_alloc(*, expected_post: Mapping, got_alloc: Mapping):
     """
-    Verify that an allocation matches the expected post in the test.
+    Verify that the final allocation mapping matches the expected post in the test.
     Raises exception on unexpected values.
     """
-    # TODO: If VKT is not None, we have an overlay of the VKT on top of the alloc and we need
-    # to verify that
     got_alloc_normalized: Dict[Address, Any] = {
         Address(address): got_alloc[address] for address in got_alloc
     }
@@ -67,6 +63,14 @@ def verify_post_alloc(
                     account.check_alloc(address, got_alloc_normalized[address])
                 else:
                     raise Exception(f"expected account not found: {address}")
+
+
+def verify_post_vkt(*, expected_post: Mapping, got_vkt: Mapping):
+    """
+    Verify that the final verkle tree mapping matches the expected post in the test.
+    Raises exception on unexpected values.
+    """
+    # TODO: Add the use the verkle subcommand to get the keys for each value in the tree.
 
 
 def verify_result(result: Mapping, env: Environment):

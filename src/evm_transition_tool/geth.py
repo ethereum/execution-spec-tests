@@ -13,6 +13,7 @@ from typing import Optional
 import pytest
 
 from ethereum_test_forks import Fork
+from ethereum_test_tools import Address
 
 from .transition_tool import FixtureFormats, TransitionTool, dump_files_to_directory
 
@@ -27,6 +28,7 @@ class GethTransitionTool(TransitionTool):
     t8n_subcommand: Optional[str] = "t8n"
     statetest_subcommand: Optional[str] = "statetest"
     blocktest_subcommand: Optional[str] = "blocktest"
+    verkle_subcommand: Optional[str] = "verkle"
 
     binary: Path
     cached_version: Optional[str] = None
@@ -125,3 +127,29 @@ class GethTransitionTool(TransitionTool):
                 f"Failed to verify fixture via: '{' '.join(command)}'. "
                 f"Error: '{result.stderr.decode()}'"
             )
+
+        def verkle_tree_key(self, account: Address, storage_slot: Optional[str]) -> str:
+            """
+            Returns the verkle tree key for the input account using the verkle subcommand.
+            Optionally the key for the storage slot if specified.
+            """
+            command: list[str] = [str(self.binary)]
+            command.append(self.verkle_subcommand)
+
+            command.append(str(account))
+            if storage_slot:
+                command.append(storage_slot)
+
+            command = [str(self.binary), self.verkle_subcommand]
+            result = subprocess.run(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+
+            if result.returncode != 0:
+                raise Exception(
+                    f"Failed to run verkle subcommand: '{' '.join(command)}'. "
+                    f"Error: '{result.stderr.decode()}'"
+                )
+            return result.stdout.decode()

@@ -32,6 +32,7 @@ from ..base.base_test import (
     BaseFixture,
     BaseTest,
     verify_post_alloc,
+    verify_post_vkt,
     verify_result,
     verify_transactions,
 )
@@ -314,10 +315,13 @@ class BlockchainTest(BaseTest):
 
     def verify_post_state(self, *, t8n, alloc, vkt=None):
         """
-        Verifies the post alloc after all block/s or payload/s are generated.
+        Verifies the post state after all block/s or payload/s are generated.
         """
         try:
-            verify_post_alloc(expected_post=self.post, got_alloc=alloc, got_vkt=vkt)
+            if vkt is not None and alloc is None:
+                verify_post_vkt(expected_post=self.post, got_vkt=vkt)
+            else:
+                verify_post_alloc(expected_post=self.post, got_alloc=alloc)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
