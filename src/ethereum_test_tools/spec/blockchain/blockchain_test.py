@@ -319,7 +319,7 @@ class BlockchainTest(BaseTest):
         """
         try:
             if vkt is not None and alloc is None:
-                verify_post_vkt(expected_post=self.post, got_vkt=vkt)
+                verify_post_vkt(transition_tool=t8n, expected_post=self.post, got_vkt=vkt)
             else:
                 verify_post_alloc(expected_post=self.post, got_alloc=alloc)
         except Exception as e:

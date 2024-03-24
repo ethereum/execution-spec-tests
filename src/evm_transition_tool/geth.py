@@ -8,7 +8,7 @@ import subprocess
 import textwrap
 from pathlib import Path
 from re import compile
-from typing import Optional
+from typing import Any, Dict, Optional
 
 import pytest
 
@@ -153,3 +153,12 @@ class GethTransitionTool(TransitionTool):
                     f"Error: '{result.stderr.decode()}'"
                 )
             return result.stdout.decode()
+
+        def post_alloc_to_vkt(self, post_alloc: Dict[str, Dict[str, str]]) -> Dict[str, Any]:
+            """
+            Converts the expected post alloc to verkle tree representation using the verkle
+            subcommand.
+            """
+            raise Exception(
+                "`create_post_vkt()` function is not supported by this tool. Use geth's evm tool."
+            )

@@ -65,12 +65,37 @@ def verify_post_alloc(*, expected_post: Mapping, got_alloc: Mapping):
                     raise Exception(f"expected account not found: {address}")
 
 
-def verify_post_vkt(*, expected_post: Mapping, got_vkt: Mapping):
+def verify_post_vkt(transition_tool: TransitionTool, expected_post: Mapping, got_vkt: Mapping):
     """
     Verify that the final verkle tree mapping matches the expected post in the test.
     Raises exception on unexpected values.
     """
-    # TODO: Add the use the verkle subcommand to get the keys for each value in the tree.
+    # TODO: Add this check before filling within the filler cli plugin.
+    if not transition_tool.verkle_subcommand:
+        raise Exception("Only geth's evm tool is supported to verify verkle trees.")
+
+    # Convert the expected post alloc to a verkle tree for comparison.
+    # TODO: Maintain an intermediate type VerkleKeyMap: that maps verkle keys to alloc keys
+    expected_vkt = transition_tool.post_alloc_to_vkt(post_alloc=expected_post)
+
+    # Check for keys that are missing or unexpected in the actual VKT
+    missing_keys = [key for key in expected_vkt if key not in got_vkt]
+    unexpected_keys = [key for key in got_vkt if key not in expected_vkt]
+    if missing_keys or unexpected_keys:
+        error_messages = []
+        if missing_keys:
+            error_messages.append(f"Missing keys in actual VKT: {missing_keys}")
+        if unexpected_keys:
+            error_messages.append(f"Unexpected keys in actual VKT: {unexpected_keys}")
+        raise Exception("Verkle tree mismatch:\n" + "\n".join(error_messages))
+
+    # Compare the values for each key in the expected VKT
+    for key, expected_value in expected_vkt.items():
+        actual_value = got_vkt.get(key)
+        if expected_value != actual_value:
+            raise Exception(
+                f"Mismatch at key {key}: expected {expected_value}, got {actual_value}"
+            )
 
 
 def verify_result(result: Mapping, env: Environment):

@@ -14,7 +14,7 @@ from enum import Enum
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Mapping, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
 
@@ -646,4 +646,14 @@ class TransitionTool:
         """
         raise Exception(
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
+        )
+
+    def post_alloc_to_vkt(self, post_alloc: Mapping) -> Mapping:
+        """
+        Converts the expected post alloc to verkle tree representation using the verkle subcommand.
+
+        Currently only implemented by geth's evm.
+        """
+        raise Exception(
+            "The `create_post_vkt()` function is not supported by this tool. Use geth's evm tool."
         )
