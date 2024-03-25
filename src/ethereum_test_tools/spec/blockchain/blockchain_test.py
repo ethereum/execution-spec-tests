@@ -363,7 +363,6 @@ class BlockchainTest(BaseTest):
             last_block_hash=head,
             pre_state=pre,
             post_state=alloc,
-            name=self.tag,
         )
 
     def make_hive_fixture(
@@ -444,7 +443,6 @@ class BlockchainTest(BaseTest):
             pre_state=pre,
             post_state=alloc,
             sync_payload=sync_payload,
-            name=self.tag,
         )
 
     def generate(

@@ -573,12 +573,10 @@ class FixtureCommon(BaseFixture):
     Base Ethereum test fixture fields class.
     """
 
-    name: str = Field("", exclude=True)
     fork: str = Field(..., alias="network")
-
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre_state: Alloc = Field(..., alias="pre")
-    post_state: Alloc | None = None
+    post_state: Alloc
 
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
