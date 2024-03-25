@@ -161,13 +161,15 @@ class StateTest(BaseTest):
             raise e
 
         return Fixture(
-            env=FixtureEnvironment.from_env(env),
+            env=FixtureEnvironment(**env.model_dump(exclude_none=True)),
             pre_state=pre_alloc,
             post={
                 fork.blockchain_test_network_name(): [
-                    FixtureForkPost.collect(
-                        transition_tool_result=transition_tool_output.result,
-                        transaction=tx.with_signature_and_sender(),
+                    FixtureForkPost(
+                        state_root=transition_tool_output.result.state_root,
+                        logs_hash=transition_tool_output.result.logs_hash,
+                        tx_bytes=tx.rlp,
+                        expect_exception=tx.error,
                     )
                 ]
             },

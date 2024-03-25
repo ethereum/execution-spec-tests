@@ -16,9 +16,7 @@ from ...common.types import (
     AccessList,
     Alloc,
     CamelModel,
-    Environment,
     EnvironmentGeneric,
-    Result,
     SerializationCamelModel,
     Transaction,
 )
@@ -32,17 +30,6 @@ class FixtureEnvironment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     """
 
     prev_randao: Hash | None = Field(None, alias="currentRandom")  # type: ignore
-
-    @classmethod
-    def from_env(cls, env: Environment) -> "FixtureEnvironment":
-        """
-        Returns a FixtureEnvironment from an Environment.
-        """
-        return cls(**env.model_dump(exclude_none=True))
-
-
-def to_list(x):  # noqa: D103
-    return [x]
 
 
 class FixtureTransaction(CamelModel):
@@ -116,23 +103,6 @@ class FixtureForkPost(SerializationCamelModel):
     tx_bytes: Bytes = Field(..., alias="txbytes")
     expect_exception: TransactionException | ExceptionList | None = None
     indexes: FixtureForkPostIndexes = Field(default_factory=FixtureForkPostIndexes)
-
-    @classmethod
-    def collect(
-        cls,
-        *,
-        transition_tool_result: Result,
-        transaction: Transaction,
-    ) -> "FixtureForkPost":
-        """
-        Collects the post state of a single Fork from the transition tool result.
-        """
-        return cls(
-            state_root=transition_tool_result.state_root,
-            logs_hash=transition_tool_result.logs_hash,
-            tx_bytes=transaction.rlp,
-            expect_exception=transaction.error,
-        )
 
 
 class Fixture(BaseFixture):
