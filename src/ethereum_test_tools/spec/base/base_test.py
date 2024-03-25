@@ -150,6 +150,8 @@ class BaseTest(BaseModel):
     t8n_dump_dir: Path | None = Field(None, exclude=True)
     _t8n_call_counter: Iterator[int] = count(0)
 
+    supported_fixture_formats: ClassVar[List[FixtureFormats]] = []
+
     @abstractmethod
     def generate(
         self,
@@ -171,19 +173,11 @@ class BaseTest(BaseModel):
         """
         pass
 
-    @classmethod
-    @abstractmethod
-    def fixture_formats(cls) -> List[FixtureFormats]:
-        """
-        Returns a list of fixture formats that can be output to the test spec.
-        """
-        pass
-
     def __post_init__(self) -> None:
         """
         Validate the fixture format.
         """
-        if self.fixture_format not in self.fixture_formats():
+        if self.fixture_format not in self.supported_fixture_formats:
             raise ValueError(
                 f"Invalid fixture format {self.fixture_format} for {self.__class__.__name__}."
             )

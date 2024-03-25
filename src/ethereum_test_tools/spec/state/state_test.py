@@ -2,7 +2,7 @@
 Ethereum state test spec definition and filler.
 """
 
-from typing import Any, Callable, Dict, Generator, List, Optional, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Type
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
@@ -35,23 +35,18 @@ class StateTest(BaseTest):
     tag: str = ""
     chain_id: int = 1
 
+    supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
+        FixtureFormats.BLOCKCHAIN_TEST,
+        FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+        FixtureFormats.STATE_TEST,
+    ]
+
     @classmethod
     def pytest_parameter_name(cls) -> str:
         """
         Returns the parameter name used to identify this filler in a test.
         """
         return "state_test"
-
-    @classmethod
-    def fixture_formats(cls) -> List[FixtureFormats]:
-        """
-        Returns a list of fixture formats that can be output to the test spec.
-        """
-        return [
-            FixtureFormats.BLOCKCHAIN_TEST,
-            FixtureFormats.BLOCKCHAIN_TEST_HIVE,
-            FixtureFormats.STATE_TEST,
-        ]
 
     def _generate_blockchain_genesis_environment(self) -> Environment:
         """
@@ -185,7 +180,7 @@ class StateTest(BaseTest):
         """
         Generate the BlockchainTest fixture.
         """
-        if self.fixture_format in BlockchainTest.fixture_formats():
+        if self.fixture_format in BlockchainTest.supported_fixture_formats:
             return self.generate_blockchain_test().generate(t8n, fork, eips)
         elif self.fixture_format == FixtureFormats.STATE_TEST:
             # We can't generate a state test fixture that names a transition fork,
@@ -201,19 +196,14 @@ class StateTestOnly(StateTest):
     StateTest filler that only generates a state test fixture.
     """
 
+    supported_fixture_formats: ClassVar[List[FixtureFormats]] = [FixtureFormats.STATE_TEST]
+
     @classmethod
     def pytest_parameter_name(cls) -> str:
         """
         Returns the parameter name used to identify this filler in a test.
         """
         return "state_test_only"
-
-    @classmethod
-    def fixture_formats(cls) -> List[FixtureFormats]:
-        """
-        Returns a list of fixture formats that can be output to the test spec.
-        """
-        return [FixtureFormats.STATE_TEST]
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]

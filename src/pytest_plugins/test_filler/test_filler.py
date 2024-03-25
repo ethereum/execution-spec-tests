@@ -475,7 +475,7 @@ def pytest_generate_tests(metafunc):
                         id=fixture_format.name.lower(),
                         marks=[getattr(pytest.mark, fixture_format.name.lower())],
                     )
-                    for fixture_format in test_type.fixture_formats()
+                    for fixture_format in test_type.supported_fixture_formats
                 ],
                 scope="function",
                 indirect=True,

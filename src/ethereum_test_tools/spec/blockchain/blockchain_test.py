@@ -3,7 +3,7 @@ Ethereum blockchain test spec definition and filler.
 """
 
 from pprint import pprint
-from typing import Any, Callable, Dict, Generator, List, Optional, Tuple, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tuple, Type
 
 from pydantic import Field
 
@@ -88,22 +88,17 @@ class BlockchainTest(BaseTest):
     tag: str = ""
     chain_id: int = 1
 
+    supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
+            FixtureFormats.BLOCKCHAIN_TEST,
+            FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+        ]
+
     @classmethod
     def pytest_parameter_name(cls) -> str:
         """
         Returns the parameter name used to identify this filler in a test.
         """
         return "blockchain_test"
-
-    @classmethod
-    def fixture_formats(cls) -> List[FixtureFormats]:
-        """
-        Returns a list of fixture formats that can be output to the test spec.
-        """
-        return [
-            FixtureFormats.BLOCKCHAIN_TEST,
-            FixtureFormats.BLOCKCHAIN_TEST_HIVE,
-        ]
 
     def make_genesis(
         self,
