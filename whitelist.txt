@@ -123,6 +123,7 @@ Github
 glightbox
 globals
 go-ethereum's
+Golang
 gwei
 hardfork
 hash32
