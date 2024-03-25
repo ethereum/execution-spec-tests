@@ -33,15 +33,6 @@ pytestmark = pytest.mark.valid_from("Shanghai")
 ONE_GWEI = 10**9
 
 
-def set_withdrawal_index(withdrawals: List[Withdrawal], start_index: int = 0) -> None:
-    """
-    Automatically set the index of each withdrawal in a list in sequential
-    order.
-    """
-    for i, w in enumerate(withdrawals):
-        w.index = start_index + i
-
-
 @pytest.mark.parametrize(
     "test_case",
     ["tx_in_withdrawals_block", "tx_after_withdrawals_block"],
@@ -464,20 +455,22 @@ def test_newly_created_contract(
         amount=1,
     )
 
-    block = Block(
-        txs=[tx],
-        withdrawals=[withdrawal],
-    )
+    created_contract_balance = ONE_GWEI
+    if include_value_in_tx:
+        tx = tx.copy(value=ONE_GWEI)
+        created_contract_balance = 2 * ONE_GWEI
 
     post = {
         created_contract: Account(
             code="0x00",
-            balance=ONE_GWEI,
+            balance=created_contract_balance,
         ),
     }
-    if include_value_in_tx:
-        tx.value = ONE_GWEI
-        post[created_contract].balance = 2 * ONE_GWEI
+
+    block = Block(
+        txs=[tx],
+        withdrawals=[withdrawal],
+    )
 
     tag = request.node.callspec.id.split("-")[0]  # remove fork; brittle
     blockchain_test(pre=pre, post=post, blocks=[block], tag=tag)
@@ -670,9 +663,16 @@ def test_zero_amount(
         withdrawals = all_withdrawals
         post = all_post
     elif test_case == ZeroAmountTestCases.FOUR_ONE_WITH_MAX_REVERSED:
-        withdrawals = all_withdrawals
-        withdrawals.reverse()
-        set_withdrawal_index(withdrawals)
+        for i in range(len(all_withdrawals)):
+            w = all_withdrawals[len(all_withdrawals) - i - 1]
+            withdrawals.append(
+                Withdrawal(
+                    index=i,
+                    validator_index=w.validator_index,
+                    address=w.address,
+                    amount=w.amount,
+                )
+            )
         post = all_post
     else:
         raise Exception("Unknown test case.")

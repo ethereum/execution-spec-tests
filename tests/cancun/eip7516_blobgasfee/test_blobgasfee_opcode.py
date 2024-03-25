@@ -164,10 +164,8 @@ def test_blobbasefee_before_fork(
     # Fork happens at timestamp 15_000
     timestamp = 7_500
     code_caller_pre_storage = Storage({1: 1})
-    pre[code_caller_address] = pre[code_caller_address].model_copy_validate(
-        update={
-            "storage": code_caller_pre_storage,
-        }
+    pre[code_caller_address] = pre[code_caller_address].copy(
+        storage=code_caller_pre_storage,
     )
     post = {
         code_caller_address: Account(
@@ -217,8 +215,8 @@ def test_blobbasefee_during_fork(
         code_caller_pre_storage[block_number] = 0xFF
         code_caller_post_storage[block_number] = 0 if timestamp < 15_000 else 1
 
-    pre[code_caller_address] = pre[code_caller_address].model_copy_validate(
-        update={"storage": code_caller_pre_storage}
+    pre[code_caller_address] = pre[code_caller_address].copy(
+        storage=code_caller_pre_storage,
     )
     post = {
         code_caller_address: Account(

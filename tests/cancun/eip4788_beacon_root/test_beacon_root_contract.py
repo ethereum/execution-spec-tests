@@ -419,7 +419,7 @@ def test_multi_block_beacon_root_timestamp_calls(
         blocks.append(
             Block(
                 txs=[
-                    tx.with_fields(
+                    tx.copy(
                         nonce=i,
                         to=Address(0x100 + i),
                         data=Hash(timestamp),
@@ -544,7 +544,7 @@ def test_beacon_root_transition(
         blocks.append(
             Block(
                 txs=[
-                    tx.with_fields(
+                    tx.copy(
                         nonce=i,
                         to=Address(0x100 + i),
                         data=Hash(timestamp),
