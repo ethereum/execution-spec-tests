@@ -4932,7 +4932,7 @@ class Macros(Macro, Enum):
     OOG(args)
     ----
 
-    Halt execution by consuming all available gas
+    Halt execution by consuming all available gas.
 
     Inputs
     ----
@@ -4946,9 +4946,9 @@ class Macros(Macro, Enum):
     ----
     This operation will result in gasprice = 19073514453125027
     Add a little more and geth report gasprice = 30 with oog exception
-    Make it 0 - 1 and geth report gasprice > u64 error
+    Make it 0 - 1 and geth report gasprice > u64 error.
 
-    Source
+    Bytecode
     ----
     SHA3(0, 100000000000)
     """
