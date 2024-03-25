@@ -66,17 +66,6 @@ class Removable:
     pass
 
 
-class Auto:
-    """
-    Class to use as a sentinel value for parameters that should be
-    automatically calculated.
-    """
-
-    def __repr__(self) -> str:
-        """Print the correct test id."""
-        return "auto"
-
-
 # Base Models
 
 Model = TypeVar("Model", bound=BaseModel)
