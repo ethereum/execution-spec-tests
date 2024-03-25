@@ -50,7 +50,6 @@ from ...common.types import (
     TransactionGeneric,
     Withdrawal,
     WithdrawalGeneric,
-    blob_versioned_hashes_from_transactions,
 )
 from ...exceptions import BlockException, ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
@@ -446,7 +445,7 @@ class FixtureEngineNewPayload(CamelModel):
             ),
             version=new_payload_version,
             blob_versioned_hashes=(
-                blob_versioned_hashes_from_transactions(transactions)
+                Transaction.list_blob_versioned_hashes(transactions)
                 if fork.engine_new_payload_blob_hashes(header.number, header.timestamp)
                 else None
             ),

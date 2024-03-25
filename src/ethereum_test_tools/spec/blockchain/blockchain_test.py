@@ -10,15 +10,7 @@ from pydantic import Field
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import (
-    Alloc,
-    EmptyTrieRoot,
-    Environment,
-    Hash,
-    Transaction,
-    transaction_list_root,
-    withdrawals_root,
-)
+from ...common import Alloc, EmptyTrieRoot, Environment, Hash, Transaction, Withdrawal
 from ...common.constants import EmptyOmmersRoot
 from ...common.json import to_json
 from ...common.types import TransitionToolOutput
@@ -154,7 +146,7 @@ class BlockchainTest(BaseTest):
             base_fee_per_gas=env.base_fee_per_gas,
             blob_gas_used=env.blob_gas_used,
             excess_blob_gas=env.excess_blob_gas,
-            withdrawals_root=withdrawals_root(env.withdrawals)
+            withdrawals_root=Withdrawal.list_root(env.withdrawals)
             if env.withdrawals is not None
             else None,
             parent_beacon_block_root=env.parent_beacon_block_root,
@@ -250,7 +242,7 @@ class BlockchainTest(BaseTest):
                 | env.model_dump(exclude_none=True, exclude={"blob_gas_used"})
             ),
             blob_gas_used=blob_gas_used,
-            transactions_trie=transaction_list_root(txs),
+            transactions_trie=Transaction.list_root(txs),
             extra_data=block.extra_data if block.extra_data is not None else b"",
             fork=fork,
         )

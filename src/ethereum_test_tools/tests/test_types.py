@@ -14,7 +14,6 @@ from ..common import (
     Storage,
     Transaction,
     Withdrawal,
-    withdrawals_root,
 )
 from ..common.base_types import Address, Bloom, Bytes, Hash, HeaderNonce, ZeroPaddedHexNumber
 from ..common.constants import TestPrivateKey
@@ -1292,4 +1291,4 @@ def test_withdrawals_root(withdrawals: List[Withdrawal], expected_root: bytes):
     """
     Test that withdrawals_root returns the expected hash.
     """
-    assert withdrawals_root(withdrawals) == expected_root
+    assert Withdrawal.list_root(withdrawals) == expected_root

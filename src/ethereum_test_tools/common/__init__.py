@@ -43,8 +43,6 @@ from .types import (
     Storage,
     Transaction,
     Withdrawal,
-    transaction_list_root,
-    withdrawals_root,
 )
 
 __all__ = (
@@ -82,6 +80,4 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "to_json",
-    "transaction_list_root",
-    "withdrawals_root",
 )

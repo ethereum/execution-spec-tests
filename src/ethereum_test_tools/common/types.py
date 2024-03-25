@@ -635,6 +635,16 @@ class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
             Uint(self.amount),
         ]
 
+    @staticmethod
+    def list_root(withdrawals: Sequence["WithdrawalGeneric"]) -> bytes:
+        """
+        Returns the withdrawals root of a list of withdrawals.
+        """
+        t = HexaryTrie(db={})
+        for i, w in enumerate(withdrawals):
+            t.set(eth_rlp.encode(Uint(i)), eth_rlp.encode(w.to_serializable_list()))
+        return t.root_hash
+
 
 class Withdrawal(WithdrawalGeneric[HexNumber]):
     """
@@ -642,16 +652,6 @@ class Withdrawal(WithdrawalGeneric[HexNumber]):
     """
 
     pass
-
-
-def withdrawals_root(withdrawals: Sequence[WithdrawalGeneric]) -> bytes:
-    """
-    Returns the withdrawals root of a list of withdrawals.
-    """
-    t = HexaryTrie(db={})
-    for i, w in enumerate(withdrawals):
-        t.set(eth_rlp.encode(Uint(i)), eth_rlp.encode(w.to_serializable_list()))
-    return t.root_hash
 
 
 DEFAULT_BASE_FEE = 7
@@ -1135,29 +1135,27 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
         """
         return self.rlp if self.ty > 0 else self.payload_body
 
+    @staticmethod
+    def list_root(input_txs: List["Transaction"]) -> Hash:
+        """
+        Returns the transactions root of a list of transactions.
+        """
+        t = HexaryTrie(db={})
+        for i, tx in enumerate(input_txs):
+            t.set(eth_rlp.encode(Uint(i)), tx.rlp)
+        return Hash(t.root_hash)
 
-def transaction_list_root(input_txs: List[Transaction]) -> Hash:
-    """
-    Returns the transactions root of a list of transactions.
-    """
-    t = HexaryTrie(db={})
-    for i, tx in enumerate(input_txs):
-        t.set(eth_rlp.encode(Uint(i)), tx.rlp)
-    return Hash(t.root_hash)
-
-
-def blob_versioned_hashes_from_transactions(
-    input_txs: List[Transaction],
-) -> List[Hash]:
-    """
-    Gets a list of ordered blob versioned hashes from a list of transactions.
-    """
-    return [
-        blob_versioned_hash
-        for tx in input_txs
-        if tx.blob_versioned_hashes is not None
-        for blob_versioned_hash in tx.blob_versioned_hashes
-    ]
+    @staticmethod
+    def list_blob_versioned_hashes(input_txs: List["Transaction"]) -> List[Hash]:
+        """
+        Gets a list of ordered blob versioned hashes from a list of transactions.
+        """
+        return [
+            blob_versioned_hash
+            for tx in input_txs
+            if tx.blob_versioned_hashes is not None
+            for blob_versioned_hash in tx.blob_versioned_hashes
+        ]
 
 
 # TODO: Move to other file

@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import Environment, Transaction, withdrawals_root
+from ...common import Environment, Transaction, Withdrawal
 from ...common.conversions import to_hex
 from ...common.json import to_json
 from ...common.types import Alloc, CamelModel, Result
@@ -62,7 +62,7 @@ def verify_result(result: Result, env: Environment):
     Raises exception on unexpected values.
     """
     if env.withdrawals is not None:
-        assert result.withdrawals_root == to_hex(withdrawals_root(env.withdrawals))
+        assert result.withdrawals_root == to_hex(Withdrawal.list_root(env.withdrawals))
 
 
 class BaseFixture(CamelModel):
