@@ -16,7 +16,6 @@ from ...common import (
     Environment,
     Hash,
     Transaction,
-    ZeroPaddedHexNumber,
     transaction_list_root,
     withdrawals_root,
 )
@@ -91,7 +90,7 @@ class BlockchainTest(BaseTest):
     post: Alloc
     blocks: List[Block]
     genesis_environment: Environment = Field(default_factory=Environment)
-    verify_sync: Optional[bool] = None
+    verify_sync: bool = False
     tag: str = ""
     chain_id: int = 1
 
@@ -231,24 +230,26 @@ class BlockchainTest(BaseTest):
                 + "`block.exception`"
             )
 
-        header = FixtureHeader(
-            **(
-                transition_tool_output.result.model_dump(exclude_none=True)
-                | env.model_dump(exclude_none=True)
-            ),
-            extra_data=block.extra_data if block.extra_data is not None else b"",
-            fork=fork,
-        )
-
-        # Update the transactions root to the one calculated locally.
-        header.transactions_trie = transaction_list_root(txs)
-
         # One special case of the invalid transactions is the blob gas used, since this value
         # is not included in the transition tool result, but it is included in the block header,
         # and some clients check it before executing the block by simply counting the type-3 txs,
         # we need to set the correct value by default.
+        blob_gas_used: int | None = None
         if (blob_gas_per_blob := fork.blob_gas_per_blob(env.number, env.timestamp)) > 0:
-            header.blob_gas_used = ZeroPaddedHexNumber(blob_gas_per_blob * count_blobs(txs))
+            blob_gas_used = blob_gas_per_blob * count_blobs(txs)
+
+        header = FixtureHeader(
+            **(
+                transition_tool_output.result.model_dump(
+                    exclude_none=True, exclude={"blob_gas_used", "transactions_trie"}
+                )
+                | env.model_dump(exclude_none=True, exclude={"blob_gas_used"})
+            ),
+            blob_gas_used=blob_gas_used,
+            transactions_trie=transaction_list_root(txs),
+            extra_data=block.extra_data if block.extra_data is not None else b"",
+            fork=fork,
+        )
 
         if block.header_verify is not None:
             # Verify the header after transition tool processing.
