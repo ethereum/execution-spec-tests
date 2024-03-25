@@ -18,6 +18,7 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
 )
+from ethereum_test_tools.vm.opcode import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-1153.md"
@@ -27,7 +28,7 @@ address_code = Address("B00000000000000000000000000000000000000B")
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL])
-@pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Op.OOG])
+@pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Om.OOG])
 @pytest.mark.parametrize("call_dest", [Op.ADDRESS(), address_code])
 def test_tload_reentrancy(
     state_test: StateTestFiller, call_type: Op, call_return: Op, call_dest: bytes
@@ -38,13 +39,15 @@ def test_tload_reentrancy(
     (05_tloadReentrancyFiller.yml)
     Reentrant calls access the same transient storage
     """
-
     address_to = Address("A00000000000000000000000000000000000000A")
+    tload_value = 44
+    empty_value = 0
 
-    # Storages
+    # Storage variables
     str_tload_in_subcall_result = 1
     str_tload_after_subcall_result = 2
     str_subcall_worked = 3
+    str_code_worked = 4
 
     # Function names
     do_load = 1
@@ -70,12 +73,13 @@ def test_tload_reentrancy(
                     ),
                     Case(
                         condition=Op.EQ(Op.CALLDATALOAD(0), do_reenter),
-                        action=Op.TSTORE(0, 44)
+                        action=Op.TSTORE(0, tload_value)
                         + Op.MSTORE(0, do_load)
                         + Op.MSTORE(32, 0xFF)
                         + Op.SSTORE(str_subcall_worked, make_call(call_type))
                         + Op.SSTORE(str_tload_in_subcall_result, Op.MLOAD(32))
-                        + Op.SSTORE(str_tload_after_subcall_result, Op.TLOAD(0)),
+                        + Op.SSTORE(str_tload_after_subcall_result, Op.TLOAD(0))
+                        + Op.SSTORE(str_code_worked, 1),
                     ),
                 ],
                 default_action=b"",
@@ -84,6 +88,7 @@ def test_tload_reentrancy(
                 str_tload_in_subcall_result: 0xFF,
                 str_tload_after_subcall_result: 0xFF,
                 str_subcall_worked: 0xFF,
+                str_code_worked: 0xFF,
             },
         ),
         address_code: Account(
@@ -102,15 +107,16 @@ def test_tload_reentrancy(
 
     post: Dict[Address, Union[Account, object]] = {}
 
-    if call_dest == Op.ADDRESS:
+    if call_dest == Op.ADDRESS():
         # if reentrancy
         post[address_to] = Account(
             storage={
+                str_code_worked: 1,
                 # if call OOG, we fail to obtain the result
-                str_tload_in_subcall_result: 0xFF if call_return == Op.OOG else 44,
-                str_tload_after_subcall_result: 44,
+                str_tload_in_subcall_result: 0xFF if call_return == Om.OOG else tload_value,
+                str_tload_after_subcall_result: tload_value,
                 str_subcall_worked: (
-                    0 if call_return == Op.REVERT or call_return == Op.OOG else 1
+                    0 if call_return == Op.REVERT or call_return == Om.OOG else 1
                 ),
             }
         )
@@ -118,16 +124,21 @@ def test_tload_reentrancy(
         # if external call
         post[address_to] = Account(
             storage={
+                str_code_worked: 1,
                 str_tload_in_subcall_result: (
                     0xFF  # if call OOG, we fail to obtain the result
-                    if call_return == Op.OOG
+                    if call_return == Om.OOG
                     # else delegate and callcode are working in the same context so tload works
-                    else 44 if call_type == Op.DELEGATECALL or call_type == Op.CALLCODE else 0
+                    else (
+                        tload_value
+                        if call_type == Op.DELEGATECALL or call_type == Op.CALLCODE
+                        else empty_value
+                    )
                 ),
                 # no subcall errors can change the tload result
                 str_tload_after_subcall_result: 44,
                 str_subcall_worked: (
-                    0 if call_return == Op.REVERT or call_return == Op.OOG else 1
+                    0 if call_return == Op.REVERT or call_return == Om.OOG else 1
                 ),
             }
         )
