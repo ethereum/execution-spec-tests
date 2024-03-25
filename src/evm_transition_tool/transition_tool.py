@@ -83,6 +83,22 @@ class FixtureFormats(Enum):
             return "Tests that generate a blockchain test fixture in hive format."
         raise Exception(f"Unknown fixture format: {format}.")
 
+    @property
+    def output_base_dir_name(self) -> Path:
+        """
+        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        """
+        return Path(self.value.replace("test", "tests"))
+
+    @property
+    def output_file_extension(self) -> str:
+        """
+        Returns the file extension for this type of fixture.
+
+        By default, fixtures are dumped as JSON files.
+        """
+        return ".json"
+
 
 class TransitionTool:
     """
