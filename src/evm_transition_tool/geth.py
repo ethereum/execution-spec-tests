@@ -8,11 +8,13 @@ import subprocess
 import textwrap
 from pathlib import Path
 from re import compile
-from typing import Optional
+from typing import Mapping, Optional
 
 import pytest
+from ethereum.crypto.hash import keccak256
 
 from ethereum_test_forks import Fork
+from ethereum_test_tools import Hash
 
 from .transition_tool import FixtureFormats, TransitionTool, dump_files_to_directory
 
@@ -27,6 +29,7 @@ class GethTransitionTool(TransitionTool):
     t8n_subcommand: Optional[str] = "t8n"
     statetest_subcommand: Optional[str] = "statetest"
     blocktest_subcommand: Optional[str] = "blocktest"
+    verkle_subcommand: Optional[str] = "verkle"
 
     binary: Path
     cached_version: Optional[str] = None
@@ -125,3 +128,63 @@ class GethTransitionTool(TransitionTool):
                 f"Failed to verify fixture via: '{' '.join(command)}'. "
                 f"Error: '{result.stderr.decode()}'"
             )
+
+    def verkle_tree_key(self, account: str, storage_slot: Optional[str] = None) -> str:
+        """
+        Returns the verkle tree key for the input account using the verkle subcommand.
+        Optionally the key for the storage slot if specified.
+        """
+        command = [
+            str(self.binary),
+            str(self.t8n_subcommand),
+            str(self.verkle_subcommand),
+            str(account),
+        ]
+        if storage_slot:
+            command.append(storage_slot)
+
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        if result.returncode != 0:
+            raise Exception(
+                f"Failed to run verkle subcommand: '{' '.join(command)}'. "
+                f"Error: '{result.stderr.decode()}'"
+            )
+        return result.stdout.decode().strip()  # strip the newline character
+
+    def post_alloc_to_vkt(self, post_alloc: Mapping) -> Mapping:
+        """
+        Converts the expected post alloc to verkle tree representation using the verkle
+        subcommand.
+        """
+        vkt = {}
+        for address, account in post_alloc.items():
+            # Add the account address: value is simply "0x000...000"
+            address_key = self.verkle_tree_key(address)
+            vkt[address_key] = Hash(0).hex()
+
+            # Add account balance: numbers are little-endian
+            balance_key = address_key[:-2] + "01"
+            balance_value = Hash(account.balance.to_bytes(32, "little")).hex()
+            vkt[balance_key] = balance_value
+
+            # Add account nonce: numbers are little-endian
+            nonce_key = address_key[:-2] + "02"
+            nonce_value = Hash(account.nonce.to_bytes(32, "little")).hex()
+            vkt[nonce_key] = nonce_value
+
+            # Add account code hash: keccak256 hash of the code
+            code_hash_key = address_key[:-2] + "03"
+            code_hash_value = Hash(keccak256(account.code)).hex()
+            vkt[code_hash_key] = code_hash_value
+
+            # Add account storage: each slot has a unique key
+            for slot, value in account.storage.data.items():
+                slot_key = self.verkle_tree_key(address, Hash(slot).hex())
+                vkt[slot_key] = Hash(value).hex()
+
+        return vkt

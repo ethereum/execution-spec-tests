@@ -44,15 +44,11 @@ def verify_transactions(txs: List[Transaction] | None, result) -> List[int]:
     return list(rejected_txs.keys())
 
 
-def verify_post_alloc(
-    *, expected_post: Mapping, got_alloc: Mapping, got_vkt: Optional[Mapping] = None
-):
+def verify_post_alloc(*, expected_post: Mapping, got_alloc: Mapping):
     """
-    Verify that an allocation matches the expected post in the test.
+    Verify that the final allocation mapping matches the expected post in the test.
     Raises exception on unexpected values.
     """
-    # TODO: If VKT is not None, we have an overlay of the VKT on top of the alloc and we need
-    # to verify that
     got_alloc_normalized: Dict[Address, Any] = {
         Address(address): got_alloc[address] for address in got_alloc
     }
@@ -67,6 +63,37 @@ def verify_post_alloc(
                     account.check_alloc(address, got_alloc_normalized[address])
                 else:
                     raise Exception(f"expected account not found: {address}")
+
+
+def verify_post_vkt(
+    transition_tool: TransitionTool, expected_post: Mapping, got_vkt: Mapping, got_alloc: Mapping
+):
+    """
+    Verify that the final verkle tree mapping matches the expected post in the test.
+    Raises exception on unexpected values.
+    """
+    # TODO: Add this check before filling within the filler cli plugin.
+    if not transition_tool.verkle_subcommand:
+        raise Exception("Only geth's evm tool is supported to verify verkle trees.")
+
+    # Convert the expected post alloc to a verkle tree for comparison.
+    expected_vkt = transition_tool.post_alloc_to_vkt(post_alloc=expected_post)
+
+    # Check for keys that are missing the actual VKT
+    missing_keys = [key for key in expected_vkt if key not in got_vkt]
+    if missing_keys:
+        raise Exception(f"Missing keys in actual VKT: {missing_keys}")
+
+    # TODO: how to determine what is unexpected, i.e TestAddress is expected but not in post state
+    unexpected_keys = [key for key in got_vkt if key not in expected_vkt]
+
+    # Compare the values for each key in the expected VKT
+    for key, expected_value in expected_vkt.items():
+        actual_value = got_vkt.get(key)
+        if expected_value != actual_value:
+            raise Exception(
+                f"VKT mismatch at key {key}: expected {expected_value}, got {actual_value}"
+            )
 
 
 def verify_result(result: Mapping, env: Environment):
