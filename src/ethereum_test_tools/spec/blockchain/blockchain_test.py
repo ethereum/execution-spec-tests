@@ -93,13 +93,6 @@ class BlockchainTest(BaseTest):
             FixtureFormats.BLOCKCHAIN_TEST_HIVE,
         ]
 
-    @classmethod
-    def pytest_parameter_name(cls) -> str:
-        """
-        Returns the parameter name used to identify this filler in a test.
-        """
-        return "blockchain_test"
-
     def make_genesis(
         self,
         fork: Fork,

@@ -41,13 +41,6 @@ class StateTest(BaseTest):
         FixtureFormats.STATE_TEST,
     ]
 
-    @classmethod
-    def pytest_parameter_name(cls) -> str:
-        """
-        Returns the parameter name used to identify this filler in a test.
-        """
-        return "state_test"
-
     def _generate_blockchain_genesis_environment(self) -> Environment:
         """
         Generate the genesis environment for the BlockchainTest formatted test.
@@ -197,13 +190,6 @@ class StateTestOnly(StateTest):
     """
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [FixtureFormats.STATE_TEST]
-
-    @classmethod
-    def pytest_parameter_name(cls) -> str:
-        """
-        Returns the parameter name used to identify this filler in a test.
-        """
-        return "state_test_only"
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]

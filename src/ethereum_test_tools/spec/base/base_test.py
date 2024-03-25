@@ -5,6 +5,7 @@ Base test class and helper functions for Ethereum state and blockchain tests.
 import hashlib
 import json
 from abc import abstractmethod
+from functools import reduce
 from itertools import count
 from os import path
 from pathlib import Path
@@ -165,13 +166,14 @@ class BaseTest(BaseModel):
         pass
 
     @classmethod
-    @abstractmethod
     def pytest_parameter_name(cls) -> str:
         """
         Must return the name of the parameter used in pytest to select this
         spec type as filler for the test.
+
+        By default, it returns the underscore separated name of the class.
         """
-        pass
+        return reduce(lambda x, y: x + ("_" if y.isupper() else "") + y, cls.__name__).lower()
 
     def __post_init__(self) -> None:
         """
