@@ -156,9 +156,9 @@ class FixedSizeHexNumber(int, ToStringSchema):
     byte_length: ClassVar[int]
     max_value: ClassVar[int]
 
-    def __class_getitem__(cls, length: int) -> Type["FixedSizeBytes"]:
+    def __class_getitem__(cls, length: int) -> Type["FixedSizeHexNumber"]:
         """
-        Creates a new FixedSizeBytes class with the given length.
+        Creates a new FixedSizeHexNumber class with the given length.
         """
 
         class Sized(cls):  # type: ignore
