@@ -11,6 +11,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🛠️ Framework
 
 - 🐞 Fix incorrect `!=` operator for `FixedSizeBytes` ([#477](https://github.com/ethereum/execution-spec-tests/pull/477)).
+- ✨ Add Macro enum that represents byte sequence of Op instructions ([#457](https://github.com/ethereum/execution-spec-tests/pull/457))
 
 ### 🔧 EVM Tools
 
