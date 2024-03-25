@@ -19,7 +19,7 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 from ...common import Environment, Transaction, Withdrawal
 from ...common.conversions import to_hex
 from ...common.json import to_json
-from ...common.types import Alloc, CamelModel, Result
+from ...common.types import CamelModel, Result
 from ...reference_spec.reference_spec import ReferenceSpec
 
 
@@ -141,7 +141,6 @@ class BaseTest(BaseModel):
     Represents a base Ethereum test which must return a single test fixture.
     """
 
-    pre: Alloc
     tag: str = ""
 
     # Transition tool specific fields

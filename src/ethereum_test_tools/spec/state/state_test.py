@@ -32,7 +32,6 @@ class StateTest(BaseTest):
     engine_api_error_code: Optional[EngineAPIError] = None
     blockchain_test_header_verify: Optional[Header] = None
     blockchain_test_rlp_modifier: Optional[Header] = None
-    tag: str = ""
     chain_id: int = 1
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
