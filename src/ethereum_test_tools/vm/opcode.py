@@ -4944,9 +4944,13 @@ class Macros(Macro, Enum):
 
     Gas
     ----
-    This operation will result in gasprice = 19073514453125027
-    Add a little more and geth report gasprice = 30 with oog exception
-    Make it 0 - 1 and geth report gasprice > u64 error.
+    `SHA3(0, 100000000000)` results in 19073514453125027 gas used and an OOG
+    exception.
+
+    Note:
+    If a value > `100000000000` is used as second argument, the resulting geth
+     trace reports gas `30` and an OOG exception.
+    `SHA3(0, SUB(0, 1))` causes a gas > u64 exception and an OOG exception.
 
     Bytecode
     ----
