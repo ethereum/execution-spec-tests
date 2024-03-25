@@ -13,7 +13,6 @@ from typing import (
     Dict,
     List,
     Literal,
-    Optional,
     TextIO,
     get_args,
     get_type_hints,
@@ -23,7 +22,6 @@ from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
 from pydantic import (
-    BeforeValidator,
     ConfigDict,
     Field,
     PlainSerializer,
@@ -181,6 +179,7 @@ class FixtureHeader(SerializationCamelModel):
         super().model_post_init(__context)
 
         if self.fork is None:
+            # No validation done when we are importing the fixture from file
             return
 
         # Get the timestamp and block number
@@ -280,20 +279,20 @@ class Block(Header):
     Only meant to be used to simulate blocks with bad formats, and therefore
     requires the block to produce an exception.
     """
-    header_verify: Optional[Header] = None
+    header_verify: Header | None = None
     """
     If set, the block header will be verified against the specified values.
     """
-    rlp_modifier: Optional[Header] = None
+    rlp_modifier: Header | None = None
     """
     An RLP modifying header which values would be used to override the ones
     returned by the  `evm_transition_tool`.
     """
-    exception: Optional[BlockException | TransactionException | ExceptionList] = None
+    exception: BlockException | TransactionException | ExceptionList | None = None
     """
     If set, the block is expected to be rejected by the client.
     """
-    engine_api_error_code: Optional[EngineAPIError] = None
+    engine_api_error_code: EngineAPIError | None = None
     """
     If set, the block is expected to produce an error response from the Engine API.
     """
@@ -301,11 +300,11 @@ class Block(Header):
     """
     List of transactions included in the block.
     """
-    ommers: Optional[List[Header]] = None
+    ommers: List[Header] | None = None
     """
     List of ommer headers included in the block.
     """
-    withdrawals: Optional[List[Withdrawal]] = None
+    withdrawals: List[Withdrawal] | None = None
     """
     List of withdrawals to perform for this block.
     """
@@ -384,31 +383,29 @@ class FixtureExecutionPayload(SerializationCamelModel):
     extra_data: Bytes
     prev_randao: Hash
 
-    base_fee_per_gas: HexNumber | None = Field(None)
+    base_fee_per_gas: HexNumber
     blob_gas_used: HexNumber | None = Field(None)
     excess_blob_gas: HexNumber | None = Field(None)
 
     block_hash: Hash
 
-    transactions: List[Annotated[Bytes, BeforeValidator(lambda x: Bytes(x.rlp))]] = Field(
-        default_factory=list
-    )
+    transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
 
     @classmethod
     def from_fixture_header(
         cls,
         header: FixtureHeader,
-        transactions: Optional[List[Transaction]] = None,
-        withdrawals: Optional[List[Withdrawal]] = None,
+        transactions: List[Transaction],
+        withdrawals: List[Withdrawal] | None = None,
     ) -> "FixtureExecutionPayload":
         """
         Returns a FixtureExecutionPayload from a FixtureHeader, a list
         of transactions and a list of withdrawals.
         """
         return cls(
-            **header.model_dump(exclude_none=True),
-            transactions=transactions,
+            **header.model_dump(exclude={"rlp"}, exclude_none=True),
+            transactions=[tx.rlp for tx in transactions],
             withdrawals=withdrawals,
         )
 
@@ -452,8 +449,8 @@ class FixtureEngineNewPayload(SerializationCamelModel):
         assert new_payload_version is not None, "Invalid header for engine_newPayload"
 
         new_payload = cls(
-            execution_payload=FixtureExecutionPayload(
-                **header.model_dump(exclude={"rlp"}, exclude_none=True),
+            execution_payload=FixtureExecutionPayload.from_fixture_header(
+                header=header,
                 transactions=transactions,
                 withdrawals=withdrawals,
             ),
@@ -488,12 +485,10 @@ class FixtureTransaction(SerializationCamelModel, TransactionGeneric[ZeroPaddedH
         return default
 
     @classmethod
-    def from_transaction(cls, tx: Transaction | dict) -> "FixtureTransaction":
+    def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
         """
         Returns a FixtureTransaction from a Transaction.
         """
-        if isinstance(tx, dict):
-            return cls(**Transaction(**tx).model_dump())
         return cls(**tx.model_dump(), serializable_list=tx.serializable_list)
 
 
@@ -504,12 +499,10 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
     """
 
     @classmethod
-    def from_withdrawal(cls, w: WithdrawalGeneric | dict) -> "FixtureWithdrawal":
+    def from_withdrawal(cls, w: WithdrawalGeneric) -> "FixtureWithdrawal":
         """
         Returns a FixtureWithdrawal from a Withdrawal.
         """
-        if isinstance(w, dict):
-            return cls(**Withdrawal(**w).model_dump())
         return cls(**w.model_dump())
 
 
@@ -519,16 +512,9 @@ class FixtureBlock(SerializationCamelModel):
     """
 
     header: FixtureHeader = Field(..., alias="blockHeader")
-    txs: List[
-        Annotated[
-            FixtureTransaction,
-            BeforeValidator(FixtureTransaction.from_transaction),
-        ]
-    ] = Field(default_factory=list, alias="transactions")
+    txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
-    withdrawals: Optional[
-        List[Annotated[FixtureWithdrawal, BeforeValidator(FixtureWithdrawal.from_withdrawal)]]
-    ] = Field(None)
+    withdrawals: List[FixtureWithdrawal] | None = None
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
@@ -592,7 +578,7 @@ class FixtureCommon(BaseFixture):
 
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre_state: Alloc = Field(..., alias="pre")
-    post_state: Optional[Alloc] = Field(None)
+    post_state: Alloc | None = None
 
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
@@ -637,12 +623,9 @@ class HiveFixture(FixtureCommon):
     Hive specific test fixture information.
     """
 
-    payloads: List[FixtureEngineNewPayload] = Field(
-        default_factory=list,
-        alias="engineNewPayloads",
-    )
-    fcu_version: Number = Field(Number(1), alias="engineFcuVersion")
-    sync_payload: Optional[FixtureEngineNewPayload] = Field(None)
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    fcu_version: Number = Field(..., alias="engineFcuVersion")
+    sync_payload: FixtureEngineNewPayload | None = None
 
     @classmethod
     def output_base_dir_name(cls) -> Path:

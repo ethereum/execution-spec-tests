@@ -31,6 +31,8 @@ from .types import (
     FixtureBlock,
     FixtureEngineNewPayload,
     FixtureHeader,
+    FixtureTransaction,
+    FixtureWithdrawal,
     HiveFixture,
     InvalidFixtureBlock,
 )
@@ -158,7 +160,9 @@ class BlockchainTest(BaseTest):
             parent_beacon_block_root=env.parent_beacon_block_root,
         )
 
-        return pre_alloc, FixtureBlock(header=genesis, withdrawals=env.withdrawals)
+        return pre_alloc, FixtureBlock(
+            header=genesis, withdrawals=None if env.withdrawals is None else []
+        )
 
     def generate_block_data(
         self,
@@ -314,9 +318,11 @@ class BlockchainTest(BaseTest):
                 )
                 fixture_block = FixtureBlock(
                     header=header,
-                    txs=txs,
+                    txs=[FixtureTransaction.from_transaction(tx) for tx in txs],
                     ommers=[],
-                    withdrawals=new_env.withdrawals,
+                    withdrawals=[FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
+                    if new_env.withdrawals is not None
+                    else None,
                 )
                 if block.exception is None:
                     fixture_blocks.append(fixture_block)

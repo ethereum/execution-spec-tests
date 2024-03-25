@@ -4,16 +4,9 @@ StateTest types
 
 import json
 from pathlib import Path
-from typing import Annotated, Any, Dict, List, Mapping, Sequence, TextIO
+from typing import Any, Dict, List, Mapping, Sequence, TextIO
 
-from pydantic import (
-    AliasGenerator,
-    BaseModel,
-    BeforeValidator,
-    ConfigDict,
-    Field,
-    model_serializer,
-)
+from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, model_serializer
 from pydantic.alias_generators import to_camel
 
 from evm_transition_tool import FixtureFormats
@@ -61,13 +54,11 @@ class FixtureTransaction(CamelModel):
     gas_price: ZeroPaddedHexNumber | None = None
     max_priority_fee_per_gas: ZeroPaddedHexNumber | None = None
     max_fee_per_gas: ZeroPaddedHexNumber | None = None
-    gas_limit: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
-    to: Address | None = Field(None)
-    value: Annotated[List[ZeroPaddedHexNumber], BeforeValidator(to_list)]
-    data: Annotated[List[Bytes], BeforeValidator(to_list)] = Field()
-    access_list: Annotated[List[List[AccessList]], BeforeValidator(to_list)] | None = Field(
-        None, alias="accessLists"
-    )
+    gas_limit: List[ZeroPaddedHexNumber]
+    to: Address | None = None
+    value: List[ZeroPaddedHexNumber]
+    data: List[Bytes]
+    access_lists: List[List[AccessList]] | None = None
     max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
     blob_versioned_hashes: Sequence[Hash] | None = None
     sender: Address | None = None
@@ -94,7 +85,15 @@ class FixtureTransaction(CamelModel):
         """
         Returns a FixtureTransaction from a Transaction.
         """
-        return cls(**tx.model_dump(exclude_none=True))
+        return cls(
+            **tx.model_dump(
+                exclude={"gas_limit", "value", "data", "access_list"}, exclude_none=True
+            ),
+            gas_limit=[tx.gas_limit],
+            value=[tx.value],
+            data=[tx.data],
+            access_lists=[tx.access_list] if tx.access_list is not None else None,
+        )
 
 
 class FixtureForkPostIndexes(BaseModel):
@@ -131,7 +130,7 @@ class FixtureForkPost(SerializationCamelModel):
         return cls(
             state_root=transition_tool_result.state_root,
             logs_hash=transition_tool_result.logs_hash,
-            tx_bytes=Bytes(transaction.rlp),
+            tx_bytes=transaction.rlp,
             expect_exception=transaction.error,
         )
 
@@ -141,12 +140,9 @@ class Fixture(BaseFixture):
     Fixture for a single StateTest.
     """
 
-    env: Annotated[FixtureEnvironment, BeforeValidator(FixtureEnvironment.from_env)]
+    env: FixtureEnvironment
     pre_state: Alloc = Field(..., alias="pre")
-    transaction: Annotated[
-        FixtureTransaction,
-        BeforeValidator(FixtureTransaction.from_transaction),
-    ]
+    transaction: FixtureTransaction
     post: Mapping[str, List[FixtureForkPost]] = Field(...)
 
     @classmethod

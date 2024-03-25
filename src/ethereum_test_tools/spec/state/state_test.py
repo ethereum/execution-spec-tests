@@ -15,7 +15,7 @@ from ..base.base_test import BaseFixture, BaseTest
 from ..blockchain.blockchain_test import Block, BlockchainTest
 from ..blockchain.types import Header
 from ..debugging import print_traces
-from .types import Fixture, FixtureForkPost
+from .types import Fixture, FixtureEnvironment, FixtureForkPost, FixtureTransaction
 
 TARGET_BLOB_GAS_PER_BLOCK = 393216
 
@@ -161,7 +161,7 @@ class StateTest(BaseTest):
             raise e
 
         return Fixture(
-            env=env,
+            env=FixtureEnvironment.from_env(env),
             pre_state=pre_alloc,
             post={
                 fork.blockchain_test_network_name(): [
@@ -171,7 +171,7 @@ class StateTest(BaseTest):
                     )
                 ]
             },
-            transaction=tx,
+            transaction=FixtureTransaction.from_transaction(tx),
         )
 
     def generate(
