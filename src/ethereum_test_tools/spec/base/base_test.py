@@ -18,7 +18,7 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 from ...common import Environment, Transaction, withdrawals_root
 from ...common.conversions import to_hex
 from ...common.json import to_json
-from ...common.types import Alloc, Result, SerializationCamelModel
+from ...common.types import Alloc, CamelModel, Result
 from ...reference_spec.reference_spec import ReferenceSpec
 
 
@@ -65,7 +65,7 @@ def verify_result(result: Result, env: Environment):
         assert result.withdrawals_root == to_hex(withdrawals_root(env.withdrawals))
 
 
-class BaseFixture(SerializationCamelModel):
+class BaseFixture(CamelModel):
     """
     Represents a base Ethereum test fixture of any type.
     """

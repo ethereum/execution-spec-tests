@@ -47,9 +47,9 @@ from ...common.constants import EmptyOmmersRoot, EngineAPIError
 from ...common.conversions import BytesConvertible
 from ...common.types import (
     Alloc,
+    CamelModel,
     Environment,
     Removable,
-    SerializationCamelModel,
     Transaction,
     TransactionGeneric,
     Withdrawal,
@@ -60,7 +60,7 @@ from ...exceptions import BlockException, ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
 
 
-class Header(SerializationCamelModel):
+class Header(CamelModel):
     """
     Header type used to describe block header properties in test specs.
     """
@@ -134,7 +134,7 @@ class HeaderForkRequirement(str):
         return None
 
 
-class FixtureHeader(SerializationCamelModel):
+class FixtureHeader(CamelModel):
     """
     Representation of an Ethereum header within a test Fixture.
 
@@ -364,7 +364,7 @@ class Block(Header):
         return self.copy(rlp=rlp)
 
 
-class FixtureExecutionPayload(SerializationCamelModel):
+class FixtureExecutionPayload(CamelModel):
     """
     Representation of an Ethereum execution payload within a test Fixture.
     """
@@ -410,7 +410,7 @@ class FixtureExecutionPayload(SerializationCamelModel):
         )
 
 
-class FixtureEngineNewPayload(SerializationCamelModel):
+class FixtureEngineNewPayload(CamelModel):
     """
     Representation of the `engine_newPayloadVX` information to be
     sent using the block information.
@@ -467,7 +467,7 @@ class FixtureEngineNewPayload(SerializationCamelModel):
         return new_payload
 
 
-class FixtureTransaction(SerializationCamelModel, TransactionGeneric[ZeroPaddedHexNumber]):
+class FixtureTransaction(CamelModel, TransactionGeneric[ZeroPaddedHexNumber]):
     """
     Representation of an Ethereum transaction within a test Fixture.
     """
@@ -506,7 +506,7 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
         return cls(**w.model_dump())
 
 
-class FixtureBlock(SerializationCamelModel):
+class FixtureBlock(CamelModel):
     """
     Representation of an Ethereum block within a test Fixture.
     """
@@ -544,7 +544,7 @@ class FixtureBlock(SerializationCamelModel):
         return Bytes(eth_rlp.encode(block))
 
 
-class InvalidFixtureBlock(SerializationCamelModel):
+class InvalidFixtureBlock(CamelModel):
     """
     Representation of an invalid Ethereum block within a test Fixture.
     """

@@ -6,20 +6,12 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Mapping, Sequence, TextIO
 
-from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, model_serializer
-from pydantic.alias_generators import to_camel
+from pydantic import BaseModel, Field, model_serializer
 
 from evm_transition_tool import FixtureFormats
 
 from ...common.base_types import Address, Bytes, Hash, ZeroPaddedHexNumber
-from ...common.types import (
-    AccessList,
-    Alloc,
-    CamelModel,
-    EnvironmentGeneric,
-    SerializationCamelModel,
-    Transaction,
-)
+from ...common.types import AccessList, Alloc, CamelModel, EnvironmentGeneric, Transaction
 from ...exceptions import ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
 
@@ -50,12 +42,6 @@ class FixtureTransaction(CamelModel):
     blob_versioned_hashes: Sequence[Hash] | None = None
     sender: Address | None = None
     secret_key: Hash | None = None
-
-    model_config = ConfigDict(
-        alias_generator=AliasGenerator(alias=to_camel),
-        populate_by_name=True,
-        validate_default=True,
-    )
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_empty_string(self, handler):
@@ -93,7 +79,7 @@ class FixtureForkPostIndexes(BaseModel):
     value: int = 0
 
 
-class FixtureForkPost(SerializationCamelModel):
+class FixtureForkPost(CamelModel):
     """
     Type used to describe the post state of a single Fork.
     """

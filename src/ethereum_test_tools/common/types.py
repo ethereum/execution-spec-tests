@@ -26,15 +26,7 @@ from ethereum.crypto.hash import keccak256
 from ethereum.frontier.fork_types import Account as FrontierAccount
 from ethereum.frontier.fork_types import Address as FrontierAddress
 from ethereum.frontier.state import State, set_account, set_storage, state_root
-from pydantic import (
-    AliasGenerator,
-    BaseModel,
-    ConfigDict,
-    Field,
-    RootModel,
-    TypeAdapter,
-    computed_field,
-)
+from pydantic import BaseModel, ConfigDict, Field, RootModel, TypeAdapter, computed_field
 from pydantic.alias_generators import to_camel
 from trie import HexaryTrie
 
@@ -90,31 +82,6 @@ class CamelModel(CopyValidateModel):
 
     model_config = ConfigDict(
         alias_generator=to_camel,
-        populate_by_name=True,
-        validate_default=True,
-    )
-
-
-class ValidateOnAssignmentCamelModel(CamelModel):
-    """
-    Model that validates the input on assignment
-    """
-
-    model_config = ConfigDict(
-        alias_generator=to_camel,
-        populate_by_name=True,
-        validate_default=True,
-        validate_assignment=True,
-    )
-
-
-class SerializationCamelModel(CamelModel):
-    """
-    Model that uses camel case for serialization
-    """
-
-    model_config = ConfigDict(
-        alias_generator=AliasGenerator(alias=to_camel),
         populate_by_name=True,
         validate_default=True,
     )
@@ -836,7 +803,7 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     sender: Address | None = None
 
 
-class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber]):
+class Transaction(CamelModel, TransactionGeneric[HexNumber]):
     """
     Generic object that can represent all Ethereum transaction types.
     """
@@ -854,6 +821,8 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
+
+    model_config = ConfigDict(validate_assignment=True)
 
     class InvalidFeePayment(Exception):
         """
