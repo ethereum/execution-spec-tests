@@ -78,7 +78,7 @@ class StateTest(BaseTest):
                 self.env.excess_blob_gas + TARGET_BLOB_GAS_PER_BLOCK
             )
 
-        return self.env.model_copy_validate(update=updated_values)
+        return self.env.copy(**updated_values)
 
     def _generate_blockchain_blocks(self) -> List[Block]:
         """

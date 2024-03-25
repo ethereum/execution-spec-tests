@@ -69,7 +69,7 @@ def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> "Environmen
     block_hashes = env.block_hashes.copy()
     block_hashes[new_parent.number] = new_parent.block_hash
     updated["block_hashes"] = block_hashes
-    return env.model_copy_validate(update=updated)
+    return env.copy(**updated)
 
 
 def count_blobs(txs: List[Transaction]) -> int:

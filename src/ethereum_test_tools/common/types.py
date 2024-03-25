@@ -87,13 +87,11 @@ class CopyValidateModel(BaseModel):
     Base model for Ethereum tests.
     """
 
-    def model_copy_validate(self: Model, update: Dict | None = None) -> Model:
+    def copy(self: Model, **kwargs) -> Model:
         """
-        Copies the model and validates the input.
+        Creates a copy of the model with the updated fields.
         """
-        if update is None:
-            update = {}
-        return self.__class__(**(self.model_dump() | update))
+        return self.__class__(**(self.model_dump() | kwargs))
 
 
 class CamelModel(CopyValidateModel):
@@ -806,7 +804,7 @@ class Environment(EnvironmentGeneric[Number]):
         ):
             updated_values["parent_beacon_block_root"] = 0
 
-        return self.model_copy_validate(update=updated_values)
+        return self.copy(**updated_values)
 
 
 class AccessList(CamelModel):
@@ -936,19 +934,13 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
         """
         Create a copy of the transaction with an added error.
         """
-        return self.model_copy_validate(update={"error": error})
+        return self.copy(error=error)
 
     def with_nonce(self, nonce: int) -> "Transaction":
         """
         Create a copy of the transaction with a modified nonce.
         """
-        return self.model_copy_validate(update={"nonce": nonce})
-
-    def with_fields(self, **kwargs) -> "Transaction":
-        """
-        Create a deepcopy of the transaction with modified fields.
-        """
-        return self.model_copy_validate(update=kwargs)
+        return self.copy(nonce=nonce)
 
     def with_signature_and_sender(self, *, keep_secret_key: bool = False) -> "Transaction":
         """
@@ -967,7 +959,7 @@ class Transaction(ValidateOnAssignmentCamelModel, TransactionGeneric[HexNumber])
             updated_values["sender"] = Address(
                 keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
             )
-            return self.model_copy_validate(update=updated_values)
+            return self.copy(**updated_values)
 
         if self.secret_key is None:
             raise ValueError("secret_key must be set to sign a transaction")

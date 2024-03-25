@@ -43,25 +43,25 @@ fixture_header_ones = FixtureHeader(
         pytest.param(
             fixture_header_ones,
             Header(state_root="0x100"),
-            fixture_header_ones.model_copy_validate(update={"state_root": Hash("0x100")}),
+            fixture_header_ones.copy(state_root="0x100"),
             id="state_root_as_str",
         ),
         pytest.param(
             fixture_header_ones,
             Header(state_root=100),
-            fixture_header_ones.model_copy_validate(update={"state_root": Hash(100)}),
+            fixture_header_ones.copy(state_root=100),
             id="state_root_as_int",
         ),
         pytest.param(
             fixture_header_ones,
             Header(state_root=Hash(100)),
-            fixture_header_ones.model_copy_validate(update={"state_root": Hash(100)}),
+            fixture_header_ones.copy(state_root=100),
             id="state_root_as_hash",
         ),
         pytest.param(
             fixture_header_ones,
             Header(withdrawals_root=Header.REMOVE_FIELD),  # state_root is not removable
-            fixture_header_ones.model_copy_validate(update={"withdrawals_root": None}),
+            fixture_header_ones.copy(withdrawals_root=None),
             id="state_root_as_header_remove_field",
         ),
         pytest.param(
@@ -73,30 +73,28 @@ fixture_header_ones = FixtureHeader(
         pytest.param(
             fixture_header_ones,
             Header(logs_bloom="0x100"),
-            fixture_header_ones.model_copy_validate(update={"logs_bloom": Bloom("0x100")}),
+            fixture_header_ones.copy(logs_bloom="0x100"),
             id="bloom_as_str",
         ),
         pytest.param(
             fixture_header_ones,
             Header(logs_bloom=100),
-            fixture_header_ones.model_copy_validate(update={"logs_bloom": Bloom(100)}),
+            fixture_header_ones.copy(logs_bloom=100),
             id="bloom_as_int",
         ),
         pytest.param(
             fixture_header_ones,
             Header(logs_bloom=Hash(100)),
-            fixture_header_ones.model_copy_validate(update={"logs_bloom": Bloom(100)}),
+            fixture_header_ones.copy(logs_bloom=100),
             id="bloom_as_hash",
         ),
         pytest.param(
             fixture_header_ones,
             Header(state_root="0x100", logs_bloom=Hash(200), difficulty=300),
-            fixture_header_ones.model_copy_validate(
-                update={
-                    "state_root": Hash(0x100),
-                    "logs_bloom": Bloom(200),
-                    "difficulty": 300,
-                }
+            fixture_header_ones.copy(
+                state_root=0x100,
+                logs_bloom=200,
+                difficulty=300,
             ),
             id="multiple_fields",
         ),

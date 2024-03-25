@@ -245,7 +245,7 @@ class FixtureHeader(SerializationCamelModel):
             if value is not None:
                 updated_values[field_name] = None if value is Header.REMOVE_FIELD else value
 
-        return self.model_copy_validate(update=updated_values)
+        return self.copy(**updated_values)
 
     def verify(self, baseline: Header):
         """
@@ -356,13 +356,13 @@ class Block(Header):
             assert env.parent_timestamp is not None
             new_env_values["timestamp"] = int(Number(env.parent_timestamp) + 12)
 
-        return env.model_copy_validate(update=new_env_values)
+        return env.copy(**new_env_values)
 
     def copy_with_rlp(self, rlp: Bytes | BytesConvertible | None) -> "Block":
         """
         Creates a copy of the block and adds the specified RLP.
         """
-        return self.model_copy_validate(update={"rlp": rlp})
+        return self.copy(rlp=rlp)
 
 
 class FixtureExecutionPayload(SerializationCamelModel):
