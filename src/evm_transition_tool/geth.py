@@ -165,26 +165,26 @@ class GethTransitionTool(TransitionTool):
         for address, account in post_alloc.items():
             # Add the account address: value is simply "0x000...000"
             address_key = self.verkle_tree_key(address)
-            vkt[address_key] = Hash(0)
+            vkt[address_key] = Hash(0).hex()
 
             # Add account balance: numbers are little-endian
             balance_key = address_key[:-2] + "01"
-            balance_value = Hash(int(account["balance"], 16).to_bytes(32, "little"))
+            balance_value = Hash(account.balance.to_bytes(32, "little")).hex()
             vkt[balance_key] = balance_value
 
             # Add account nonce: numbers are little-endian
             nonce_key = address_key[:-2] + "02"
-            nonce_value = Hash(int(account["nonce"], 16).to_bytes(32, "little"))
+            nonce_value = Hash(account.nonce.to_bytes(32, "little")).hex()
             vkt[nonce_key] = nonce_value
 
             # Add account code hash: keccak256 hash of the code
             code_hash_key = address_key[:-2] + "03"
-            code_hash_value = Hash(keccak256(bytes.fromhex(account["code"][2:])).hex())
+            code_hash_value = Hash(keccak256(account.code)).hex()
             vkt[code_hash_key] = code_hash_value
 
             # Add account storage: each slot has a unique key
-            for slot, value in account["storage"].items():
-                slot_key = self.verkle_tree_key(address, slot)
-                vkt[slot_key] = Hash(value)
+            for slot, value in account.storage.data.items():
+                slot_key = self.verkle_tree_key(address, Hash(slot).hex())
+                vkt[slot_key] = Hash(value).hex()
 
         return vkt

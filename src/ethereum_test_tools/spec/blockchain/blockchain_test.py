@@ -318,8 +318,10 @@ class BlockchainTest(BaseTest):
         Verifies the post state after all block/s or payload/s are generated.
         """
         try:
-            if vkt is not None and alloc is None:
-                verify_post_vkt(transition_tool=t8n, expected_post=self.post, got_vkt=vkt)
+            if vkt is not None:
+                verify_post_vkt(
+                    transition_tool=t8n, expected_post=self.post, got_vkt=vkt, got_alloc=alloc
+                )
             else:
                 verify_post_alloc(expected_post=self.post, got_alloc=alloc)
         except Exception as e:

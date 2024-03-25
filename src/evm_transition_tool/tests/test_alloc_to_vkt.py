@@ -7,6 +7,7 @@ import pytest
 from evm_transition_tool import GethTransitionTool
 
 
+# TODO: Update to use correct types.
 @pytest.mark.parametrize(
     "post_alloc, expected_vkt",
     [
