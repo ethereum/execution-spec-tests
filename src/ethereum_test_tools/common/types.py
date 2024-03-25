@@ -448,7 +448,7 @@ class Account(CopyValidateModel):
         """
         Returns True on a non-empty account.
         """
-        return bool(self.nonce) or bool(self.balance) or bool(self.code) or bool(self.storage)
+        return any((self.nonce, self.balance, self.code, self.storage))
 
     @classmethod
     def with_code(cls: Type, code: BytesConvertible) -> "Account":
