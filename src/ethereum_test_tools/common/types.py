@@ -961,15 +961,11 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
         return updated_tx
 
     @cached_property
-    def payload_body(self) -> List[Any]:
+    def signing_envelope(self) -> List[Any]:
         """
-        Returns the list of values included in the transaction body.
+        Returns the list of values included in the envelope used for signing.
         """
-        if self.v is None or self.r is None or self.s is None:
-            raise ValueError("signature must be set before serializing any tx type")
-
-        to = Address(self.to) if self.to is not None else bytes()
-
+        to = self.to if self.to else bytes()
         if self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
             if self.max_priority_fee_per_gas is None:
@@ -982,57 +978,19 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
                 raise ValueError("blob_versioned_hashes must be set for type 3 tx")
             if self.access_list is None:
                 raise ValueError("access_list must be set for type 3 tx")
-
-            if self.wrapped_blob_transaction:
-                if self.blobs is None:
-                    raise ValueError("blobs must be set for network version of type 3 tx")
-                if self.blob_kzg_commitments is None:
-                    raise ValueError(
-                        "blob_kzg_commitments must be set for network version of type 3 tx"
-                    )
-                if self.blob_kzg_proofs is None:
-                    raise ValueError(
-                        "blob_kzg_proofs must be set for network version of type 3 tx"
-                    )
-
-                return [
-                    [
-                        Uint(self.chain_id),
-                        Uint(self.nonce),
-                        Uint(self.max_priority_fee_per_gas),
-                        Uint(self.max_fee_per_gas),
-                        Uint(self.gas_limit),
-                        to,
-                        Uint(self.value),
-                        self.data,
-                        [a.to_list() for a in self.access_list],
-                        Uint(self.max_fee_per_blob_gas),
-                        list(self.blob_versioned_hashes),
-                        Uint(self.v),
-                        Uint(self.r),
-                        Uint(self.s),
-                    ],
-                    self.blobs,
-                    self.blob_kzg_commitments,
-                    self.blob_kzg_proofs,
-                ]
-            else:
-                return [
-                    Uint(self.chain_id),
-                    Uint(self.nonce),
-                    Uint(self.max_priority_fee_per_gas),
-                    Uint(self.max_fee_per_gas),
-                    Uint(self.gas_limit),
-                    to,
-                    Uint(self.value),
-                    self.data,
-                    [a.to_list() for a in self.access_list],
-                    Uint(self.max_fee_per_blob_gas),
-                    list(self.blob_versioned_hashes),
-                    Uint(self.v),
-                    Uint(self.r),
-                    Uint(self.s),
-                ]
+            return [
+                Uint(self.chain_id),
+                Uint(self.nonce),
+                Uint(self.max_priority_fee_per_gas),
+                Uint(self.max_fee_per_gas),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                [a.to_list() for a in self.access_list],
+                Uint(self.max_fee_per_blob_gas),
+                list(self.blob_versioned_hashes),
+            ]
         elif self.ty == 2:
             # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
             if self.max_priority_fee_per_gas is None:
@@ -1051,9 +1009,6 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
                 Uint(self.value),
                 self.data,
                 [a.to_list() for a in self.access_list],
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
             ]
         elif self.ty == 1:
             # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
@@ -1071,102 +1026,6 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
                 Uint(self.value),
                 self.data,
                 [a.to_list() for a in self.access_list],
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-        elif self.ty == 0:
-            if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 0 tx")
-            # EIP-155: https://eips.ethereum.org/EIPS/eip-155
-            return [
-                Uint(self.nonce),
-                Uint(self.gas_price),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-
-        raise NotImplementedError(f"serialized_bytes not implemented for tx type {self.ty}")
-
-    @cached_property
-    def rlp(self) -> bytes:
-        """
-        Returns bytes of the serialized representation of the transaction,
-        which is almost always RLP encoding.
-        """
-        if self.rlp_override is not None:
-            return self.rlp_override
-        if self.ty > 0:
-            return bytes([self.ty]) + eth_rlp.encode(self.payload_body)
-        else:
-            return eth_rlp.encode(self.payload_body)
-
-    @cached_property
-    def signing_envelope(self) -> List[Any]:
-        """
-        Returns the list of values included in the envelope used for signing.
-        """
-        to = Address(self.to) if self.to is not None else bytes()
-
-        if self.ty == 3:
-            # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
-            if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
-            if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 3 tx")
-            if self.max_fee_per_blob_gas is None:
-                raise ValueError("max_fee_per_blob_gas must be set for type 3 tx")
-            if self.blob_versioned_hashes is None:
-                raise ValueError("blob_versioned_hashes must be set for type 3 tx")
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.max_priority_fee_per_gas),
-                Uint(self.max_fee_per_gas),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
-                Uint(self.max_fee_per_blob_gas),
-                list(self.blob_versioned_hashes),
-            ]
-        elif self.ty == 2:
-            # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
-            if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
-            if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 2 tx")
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.max_priority_fee_per_gas),
-                Uint(self.max_fee_per_gas),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
-            ]
-        elif self.ty == 1:
-            # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
-            if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 1 tx")
-
-            return [
-                Uint(self.chain_id),
-                Uint(self.nonce),
-                Uint(self.gas_price),
-                Uint(self.gas_limit),
-                to,
-                Uint(self.value),
-                self.data,
-                [a.to_list() for a in self.access_list] if self.access_list is not None else [],
             ]
         elif self.ty == 0:
             if self.gas_price is None:
@@ -1195,6 +1054,49 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
                     self.data,
                 ]
         raise NotImplementedError("signing for transaction type {self.ty} not implemented")
+
+    @cached_property
+    def payload_body(self) -> List[Any]:
+        """
+        Returns the list of values included in the transaction body.
+        """
+        if self.v is None or self.r is None or self.s is None:
+            raise ValueError("signature must be set before serializing any tx type")
+
+        signing_envelope = self.signing_envelope
+
+        if self.ty == 0 and self.protected:
+            # Remove the chain_id and the two zeros from the signing envelope
+            signing_envelope = signing_envelope[:-3]
+        elif self.ty == 3 and self.wrapped_blob_transaction:
+            # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
+            if self.blobs is None:
+                raise ValueError("blobs must be set for type 3 tx")
+            if self.blob_kzg_commitments is None:
+                raise ValueError("blob_kzg_commitments must be set for type 3 tx")
+            if self.blob_kzg_proofs is None:
+                raise ValueError("blob_kzg_proofs must be set for type 3 tx")
+            return [
+                signing_envelope + [Uint(self.v), Uint(self.r), Uint(self.s)],
+                list(self.blobs),
+                list(self.blob_kzg_commitments),
+                list(self.blob_kzg_proofs),
+            ]
+
+        return signing_envelope + [Uint(self.v), Uint(self.r), Uint(self.s)]
+
+    @cached_property
+    def rlp(self) -> bytes:
+        """
+        Returns bytes of the serialized representation of the transaction,
+        which is almost always RLP encoding.
+        """
+        if self.rlp_override is not None:
+            return self.rlp_override
+        if self.ty > 0:
+            return bytes([self.ty]) + eth_rlp.encode(self.payload_body)
+        else:
+            return eth_rlp.encode(self.payload_body)
 
     @cached_property
     def signing_bytes(self) -> bytes:
@@ -1234,12 +1136,12 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
         return self.rlp if self.ty > 0 else self.payload_body
 
 
-def transaction_list_root(input_txs: List[Transaction] | None) -> Hash:
+def transaction_list_root(input_txs: List[Transaction]) -> Hash:
     """
     Returns the transactions root of a list of transactions.
     """
     t = HexaryTrie(db={})
-    for i, tx in enumerate(input_txs or []):
+    for i, tx in enumerate(input_txs):
         t.set(eth_rlp.encode(Uint(i)), tx.rlp)
     return Hash(t.root_hash)
 
