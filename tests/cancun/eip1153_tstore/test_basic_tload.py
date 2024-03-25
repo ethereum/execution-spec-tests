@@ -43,7 +43,6 @@ def test_basic_tload(
     (18_tloadAfterStoreFiller.yml)
     tload from same slot after store returns 0
     """
-
     address_to = Address("A00000000000000000000000000000000000000A")
     tload_at_transaction_begin_result = 1
 
@@ -52,15 +51,17 @@ def test_basic_tload(
     tload_after_tstore_result_second_time = 3
     tload_wrong_after_tstore_result = 4
 
-    # N         OPNAME       GAS_COST  TOTAL_GAS REMAINING_GAS     STACK
-    # 28-1         MSTORE         2     20748   4958252    2:[4ba82f,0,]
-    #              MSTORE [0] = 4958255
-    # 29-1          PUSH1         3     20754   4958246
-    # 30-1          TLOAD       100     20757   4958243    1:[10,]
-    # 31-1            GAS         2     20857   4958143    1:[2,]
-    # 32-1          PUSH1         3     20859   4958141    2:[2,4ba7bd,]
-    # 33-1         MSTORE         6     20862   4958138    3:[2,4ba7bd,20,]
-    #              MSTORE [32] = 4958141
+    """
+    N         OPNAME       GAS_COST  TOTAL_GAS REMAINING_GAS     STACK
+    28-1         MSTORE         2     20748   4958252    2:[4ba82f,0,]
+                 MSTORE [0] = 4958255
+    29-1          PUSH1         3     20754   4958246
+    30-1          TLOAD       100     20757   4958243    1:[10,]
+    31-1            GAS         2     20857   4958143    1:[2,]
+    32-1          PUSH1         3     20859   4958141    2:[2,4ba7bd,]
+    33-1         MSTORE         6     20862   4958138    3:[2,4ba7bd,20,]
+                 MSTORE [32] = 4958141
+    """
     extra_opcode_gas = 11  # mstore(3), push1(3),gas(2),push1(3)
 
     tload_nonzero_gas_price_result = 16
@@ -73,17 +74,17 @@ def test_basic_tload(
             balance=1000000000000000000,
             nonce=0,
             code=Op.JUMPDEST()
-            # 01_tloadBeginningTxnFiller.yml
+            # 01 test
             + Op.SSTORE(tload_at_transaction_begin_result, Op.TLOAD(0))
-            # 02_tloadAfterTstoreFiller.yml
+            # 02 test
             + Op.TSTORE(2, tstore_value)
             + Op.SSTORE(tload_after_tstore_result, Op.TLOAD(2))
             + Op.SSTORE(tload_after_tstore_result_second_time, Op.TLOAD(2))
-            # 03_tloadAfterStoreIs0Filler.yml
+            # 03 test
             + Op.TSTORE(3, tstore_value) + Op.SSTORE(tload_wrong_after_tstore_result, Op.TLOAD(0))
-            # 16_tloadGasFiller.yml calculate tload gas
+            # 16 test
             + Op.TSTORE(16, 2)
-            + Op.MSTORE(0, Op.GAS())  # hot load the memory
+            + Op.MSTORE(0, Op.GAS())  # hot load the memory to make the extra_opcode_gas be 11
             + Op.MSTORE(0, Op.GAS())
             + Op.TLOAD(16)
             + Op.MSTORE(32, Op.GAS())
@@ -95,7 +96,7 @@ def test_basic_tload(
             + Op.MSTORE(32, Op.GAS())
             + Op.SSTORE(tload_zero_gas_price_result, Op.SUB(Op.MLOAD(0), Op.MLOAD(32)))
             + Op.SSTORE(tload_zero_gas_price_result, Op.SUB(Op.SLOAD(1601), extra_opcode_gas))
-            # 18_tloadAfterStoreFiller.yml
+            # 18 test
             + Op.SSTORE(18, 22) + Op.SSTORE(tload_from_sstore_result, Op.TLOAD(18)),
             storage={
                 tload_at_transaction_begin_result: 0xFF,

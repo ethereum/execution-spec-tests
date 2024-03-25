@@ -470,6 +470,7 @@ div
 sdiv
 mod
 smod
+smlxl
 addmod
 mulmod
 exp
