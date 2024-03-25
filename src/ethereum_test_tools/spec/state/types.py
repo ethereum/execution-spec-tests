@@ -2,8 +2,7 @@
 StateTest types
 """
 
-import json
-from typing import Any, Dict, List, Mapping, Sequence, TextIO
+from typing import ClassVar, List, Mapping, Sequence
 
 from pydantic import BaseModel, Field, model_serializer
 
@@ -96,28 +95,8 @@ class Fixture(BaseFixture):
     """
 
     env: FixtureEnvironment
-    pre_state: Alloc = Field(..., alias="pre")
+    pre: Alloc
     transaction: FixtureTransaction
-    post: Mapping[str, List[FixtureForkPost]] = Field(...)
+    post: Mapping[str, List[FixtureForkPost]]
 
-    @classmethod
-    def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
-        """
-        For StateTest format, we simply join the json fixtures into a single file.
-
-        We could do extra processing like combining tests that use the same pre-state,
-        and similar transaction, but this is not done for now.
-        """
-        json_fixtures: Dict[str, Dict[str, Any]] = {}
-        for name, fixture in fixtures.items():
-            assert isinstance(fixture, Fixture), f"Invalid fixture type: {type(fixture)}"
-            json_fixtures[name] = fixture.to_json()
-        json.dump(json_fixtures, fd, indent=4)
-
-    @classmethod
-    def format(cls) -> FixtureFormats:
-        """
-        Returns the fixture format which the evm tool can use to determine how to verify the
-        fixture.
-        """
-        return FixtureFormats.STATE_TEST
+    format: ClassVar[FixtureFormats] = FixtureFormats.STATE_TEST

@@ -2,7 +2,6 @@
 BlockchainTest types
 """
 
-import json
 from functools import cached_property
 from typing import (
     Annotated,
@@ -12,7 +11,6 @@ from typing import (
     Dict,
     List,
     Literal,
-    TextIO,
     get_args,
     get_type_hints,
 )
@@ -43,7 +41,6 @@ from ...common.base_types import (
     ZeroPaddedHexNumber,
 )
 from ...common.constants import EmptyOmmersRoot, EngineAPIError
-from ...common.conversions import BytesConvertible
 from ...common.types import (
     Alloc,
     CamelModel,
@@ -356,12 +353,6 @@ class Block(Header):
 
         return env.copy(**new_env_values)
 
-    def copy_with_rlp(self, rlp: Bytes | BytesConvertible | None) -> "Block":
-        """
-        Creates a copy of the block and adds the specified RLP.
-        """
-        return self.copy(rlp=rlp)
-
 
 class FixtureExecutionPayload(CamelModel):
     """
@@ -574,19 +565,8 @@ class FixtureCommon(BaseFixture):
 
     fork: str = Field(..., alias="network")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
-    pre_state: Alloc = Field(..., alias="pre")
+    pre: Alloc
     post_state: Alloc
-
-    @classmethod
-    def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
-        """
-        For BlockchainTest format, we simply join the json fixtures into a single file.
-        """
-        json_fixtures: Dict[str, Dict[str, Any]] = {}
-        for name, fixture in fixtures.items():
-            assert isinstance(fixture, FixtureCommon), f"Invalid fixture type: {type(fixture)}"
-            json_fixtures[name] = fixture.to_json()
-        json.dump(json_fixtures, fd, indent=4)
 
 
 class Fixture(FixtureCommon):
@@ -599,13 +579,7 @@ class Fixture(FixtureCommon):
     last_block_hash: Hash = Field(..., alias="lastblockhash")
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
-    @classmethod
-    def format(cls) -> FixtureFormats:
-        """
-        Returns the fixture format which the evm tool can use to determine how to verify the
-        fixture.
-        """
-        return FixtureFormats.BLOCKCHAIN_TEST
+    format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST
 
 
 class HiveFixture(FixtureCommon):
@@ -617,10 +591,4 @@ class HiveFixture(FixtureCommon):
     fcu_version: Number = Field(..., alias="engineFcuVersion")
     sync_payload: FixtureEngineNewPayload | None = None
 
-    @classmethod
-    def format(cls) -> FixtureFormats:
-        """
-        Returns the fixture format which the evm tool can use to determine how to verify the
-        fixture.
-        """
-        return FixtureFormats.BLOCKCHAIN_TEST_HIVE
+    format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST_HIVE

@@ -155,7 +155,7 @@ def test_fill_state_test(
         t8n=t8n,
         fork=fork,
     )
-    assert generated_fixture.format() == fixture_format
+    assert generated_fixture.format == fixture_format
     fixture = {
         f"000/my_chain_id_test/{fork}": to_json(generated_fixture),
     }
@@ -496,7 +496,7 @@ class TestFillBlockchainValidTxs:
         expected_json_file: str,
         blockchain_test_fixture: BlockchainFixture,
     ):
-        assert blockchain_test_fixture.format() == fixture_format
+        assert blockchain_test_fixture.format == fixture_format
         assert isinstance(blockchain_test_fixture, BlockchainFixtureCommon)
 
         fixture = {
@@ -870,7 +870,7 @@ def test_fill_blockchain_invalid_txs(
         t8n=t8n,
         fork=fork,
     )
-    assert generated_fixture.format() == fixture_format
+    assert generated_fixture.format == fixture_format
     assert isinstance(generated_fixture, BlockchainFixtureCommon)
     fixture = {
         f"000/my_blockchain_test/{fork.name()}": to_json(generated_fixture),

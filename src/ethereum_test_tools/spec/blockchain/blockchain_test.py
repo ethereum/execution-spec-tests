@@ -361,7 +361,7 @@ class BlockchainTest(BaseTest):
             genesis_rlp=genesis.rlp,
             blocks=fixture_blocks,
             last_block_hash=head,
-            pre_state=pre,
+            pre=pre,
             post_state=alloc,
         )
 
@@ -440,7 +440,7 @@ class BlockchainTest(BaseTest):
             genesis=genesis.header,
             payloads=fixture_payloads,
             fcu_version=fcu_version,
-            pre_state=pre,
+            pre=pre,
             post_state=alloc,
             sync_payload=sync_payload,
         )

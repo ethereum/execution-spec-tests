@@ -162,7 +162,7 @@ class StateTest(BaseTest):
 
         return Fixture(
             env=FixtureEnvironment(**env.model_dump(exclude_none=True)),
-            pre_state=pre_alloc,
+            pre=pre_alloc,
             post={
                 fork.blockchain_test_network_name(): [
                     FixtureForkPost(

@@ -8,7 +8,7 @@ from abc import abstractmethod
 from itertools import count
 from os import path
 from pathlib import Path
-from typing import Any, Callable, Dict, Generator, Iterator, List, Optional, TextIO
+from typing import Any, Callable, ClassVar, Dict, Generator, Iterator, List, Optional, TextIO
 
 from pydantic import BaseModel, Field
 
@@ -74,6 +74,8 @@ class BaseFixture(CamelModel):
 
     _json: Optional[Dict[str, Any]] = None
 
+    format: ClassVar[FixtureFormats] = FixtureFormats.UNSET_TEST_FORMAT
+
     def fill_info(
         self,
         t8n: TransitionTool,
@@ -122,21 +124,15 @@ class BaseFixture(CamelModel):
         self._json["_info"] = self.info
 
     @classmethod
-    @abstractmethod
-    def format(cls) -> FixtureFormats:
-        """
-        Returns the fixture format which the evm tool can use to determine how to verify the
-        fixture.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
         """
-        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        For all formats, we simply join the json fixtures into a single file.
         """
-        pass
+        json_fixtures: Dict[str, Dict[str, Any]] = {}
+        for name, fixture in fixtures.items():
+            assert isinstance(fixture, cls), f"Invalid fixture type: {type(fixture)}"
+            json_fixtures[name] = fixture.to_json()
+        json.dump(json_fixtures, fd, indent=4)
 
 
 class BaseTest(BaseModel):
