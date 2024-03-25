@@ -33,15 +33,20 @@ def test_tload_calls(state_test: StateTestFiller, call_type: Op):
     (12_tloadDelegateCallFiller.yml)
     delegatecall reads transient storage in the context of the current address
     """
-
     address_to = Address("A00000000000000000000000000000000000000A")
     address_call = Address("B00000000000000000000000000000000000000B")
 
-    # Storages
+    # Storage variables
     str_a_tload_after_subcall_result = 0
     str_a_subcall_result = 1
     str_b_subcall_tload_result = 2
     str_b_subcall_updated_tload_result = 3
+
+    def make_call(call_type: Op) -> bytes:
+        if call_type == Op.DELEGATECALL or call_type == Op.STATICCALL:
+            return call_type(Op.GAS(), address_call, 0, 32, 0, 0)
+        else:
+            return call_type(Op.GAS(), address_call, 0, 0, 32, 0, 0)
 
     pre = {
         address_to: Account(
@@ -49,7 +54,7 @@ def test_tload_calls(state_test: StateTestFiller, call_type: Op):
             nonce=0,
             code=Op.JUMPDEST()
             + Op.TSTORE(0, 10)
-            + Op.SSTORE(str_a_subcall_result, call_type(Op.GAS(), address_call, 0, 0, 32, 0, 0))
+            + Op.SSTORE(str_a_subcall_result, make_call(call_type))
             + Op.SSTORE(str_a_tload_after_subcall_result, Op.TLOAD(0)),
             storage={
                 str_a_subcall_result: 0xFF,
