@@ -99,7 +99,6 @@ class StateTest(BaseTest):
             pre=self.pre,
             post=self.post,
             blocks=self._generate_blockchain_blocks(),
-            fixture_format=self.fixture_format,
             t8n_dump_dir=self.t8n_dump_dir,
         )
 
@@ -112,6 +111,10 @@ class StateTest(BaseTest):
         """
         Create a fixture from the state test definition.
         """
+        # We can't generate a state test fixture that names a transition fork,
+        # so we get the fork at the block number and timestamp of the state test
+        fork = fork.fork_at(self.env.number, self.env.timestamp)
+
         env = self.env.set_fork_requirements(fork)
         tx = self.tx.with_signature_and_sender(keep_secret_key=True)
         pre_alloc = Alloc.merge(
@@ -168,20 +171,20 @@ class StateTest(BaseTest):
         self,
         t8n: TransitionTool,
         fork: Fork,
+        fixture_format: FixtureFormats,
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """
         Generate the BlockchainTest fixture.
         """
-        if self.fixture_format in BlockchainTest.supported_fixture_formats:
-            return self.generate_blockchain_test().generate(t8n, fork, eips)
-        elif self.fixture_format == FixtureFormats.STATE_TEST:
-            # We can't generate a state test fixture that names a transition fork,
-            # so we get the fork at the block number and timestamp of the state test
-            fork = fork.fork_at(self.env.number, self.env.timestamp)
+        if fixture_format in BlockchainTest.supported_fixture_formats:
+            return self.generate_blockchain_test().generate(
+                t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips
+            )
+        elif fixture_format == FixtureFormats.STATE_TEST:
             return self.make_state_test_fixture(t8n, fork, eips)
 
-        raise Exception(f"Unknown fixture format: {self.fixture_format}")
+        raise Exception(f"Unknown fixture format: {fixture_format}")
 
 
 class StateTestOnly(StateTest):

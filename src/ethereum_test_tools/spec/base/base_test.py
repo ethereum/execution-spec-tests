@@ -143,9 +143,6 @@ class BaseTest(BaseModel):
 
     pre: Alloc
     tag: str = ""
-    # Setting a default here is just for type checking, the correct value is automatically set
-    # by pytest.
-    fixture_format: FixtureFormats = FixtureFormats.UNSET_TEST_FORMAT
 
     # Transition tool specific fields
     t8n_dump_dir: Path | None = Field(None, exclude=True)
@@ -156,8 +153,10 @@ class BaseTest(BaseModel):
     @abstractmethod
     def generate(
         self,
+        *,
         t8n: TransitionTool,
         fork: Fork,
+        fixture_format: FixtureFormats,
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """
@@ -174,15 +173,6 @@ class BaseTest(BaseModel):
         By default, it returns the underscore separated name of the class.
         """
         return reduce(lambda x, y: x + ("_" if y.isupper() else "") + y, cls.__name__).lower()
-
-    def __post_init__(self) -> None:
-        """
-        Validate the fixture format.
-        """
-        if self.fixture_format not in self.supported_fixture_formats:
-            raise ValueError(
-                f"Invalid fixture format {self.fixture_format} for {self.__class__.__name__}."
-            )
 
     def get_next_transition_tool_output_path(self) -> str:
         """

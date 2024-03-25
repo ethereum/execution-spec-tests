@@ -87,8 +87,7 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
         post={},
         blocks=[],
         tag="some_state_test",
-        fixture_format=FixtureFormats.BLOCKCHAIN_TEST,
-    ).generate(t8n, fork)
+    ).generate(t8n, fork, fixture_format=FixtureFormats.BLOCKCHAIN_TEST)
     assert isinstance(fixture, BlockchainFixture)
     assert fixture.genesis is not None
 
@@ -150,10 +149,10 @@ def test_fill_state_test(
         post=post,
         tx=tx,
         tag="my_chain_id_test",
-        fixture_format=fixture_format,
     ).generate(
         t8n=t8n,
         fork=fork,
+        fixture_format=fixture_format,
     )
     assert generated_fixture.format == fixture_format
     fixture = {
@@ -480,10 +479,10 @@ class TestFillBlockchainValidTxs:
             blocks=blocks,
             genesis_environment=genesis_environment,
             tag="my_blockchain_test_valid_txs",
-            fixture_format=fixture_format,
         ).generate(
             t8n=t8n,
             fork=fork,
+            fixture_format=fixture_format,
         )
 
     @pytest.mark.parametrize("fork", [London, Shanghai], indirect=True)
@@ -865,10 +864,10 @@ def test_fill_blockchain_invalid_txs(
         post=post,
         blocks=blocks,
         genesis_environment=genesis_environment,
-        fixture_format=fixture_format,
     ).generate(
         t8n=t8n,
         fork=fork,
+        fixture_format=fixture_format,
     )
     assert generated_fixture.format == fixture_format
     assert isinstance(generated_fixture, BlockchainFixtureCommon)

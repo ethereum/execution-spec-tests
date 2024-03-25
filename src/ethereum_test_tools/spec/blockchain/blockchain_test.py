@@ -89,9 +89,9 @@ class BlockchainTest(BaseTest):
     chain_id: int = 1
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
-            FixtureFormats.BLOCKCHAIN_TEST,
-            FixtureFormats.BLOCKCHAIN_TEST_HIVE,
-        ]
+        FixtureFormats.BLOCKCHAIN_TEST,
+        FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+    ]
 
     def make_genesis(
         self,
@@ -354,6 +354,12 @@ class BlockchainTest(BaseTest):
         """
         Create a hive fixture from the blocktest definition.
         """
+        if fork.engine_forkchoice_updated_version() is None:
+            raise Exception(
+                "A hive fixture was requested but no forkchoice update is defined. "
+                "The framework should never try to execute this test case."
+            )
+
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
         pre, genesis = self.make_genesis(fork)
@@ -429,23 +435,19 @@ class BlockchainTest(BaseTest):
         self,
         t8n: TransitionTool,
         fork: Fork,
+        fixture_format: FixtureFormats,
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """
         Generate the BlockchainTest fixture.
         """
         t8n.reset_traces()
-        if self.fixture_format == FixtureFormats.BLOCKCHAIN_TEST_HIVE:
-            if fork.engine_forkchoice_updated_version() is None:
-                raise Exception(
-                    "A hive fixture was requested but no forkchoice update is defined. "
-                    "The framework should never try to execute this test case."
-                )
+        if fixture_format == FixtureFormats.BLOCKCHAIN_TEST_HIVE:
             return self.make_hive_fixture(t8n, fork, eips)
-        elif self.fixture_format == FixtureFormats.BLOCKCHAIN_TEST:
+        elif fixture_format == FixtureFormats.BLOCKCHAIN_TEST:
             return self.make_fixture(t8n, fork, eips)
 
-        raise Exception(f"Unknown fixture format: {self.fixture_format}")
+        raise Exception(f"Unknown fixture format: {fixture_format}")
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]
