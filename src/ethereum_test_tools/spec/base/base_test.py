@@ -138,23 +138,6 @@ class BaseFixture(CamelModel):
         """
         pass
 
-    @classmethod
-    @abstractmethod
-    def output_base_dir_name(cls) -> Path:
-        """
-        Returns the name of the subdirectory where this type of fixture should be dumped to.
-        """
-        pass
-
-    @classmethod
-    def output_file_extension(cls) -> str:
-        """
-        Returns the file extension for this type of fixture.
-
-        By default, fixtures are dumped as JSON files.
-        """
-        return ".json"
-
 
 class BaseTest(BaseModel):
     """

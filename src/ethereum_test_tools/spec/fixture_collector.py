@@ -135,8 +135,8 @@ class FixtureCollector:
 
         fixture_path = (
             self.output_dir
-            / fixture.output_base_dir_name()
-            / fixture_basename.with_suffix(fixture.output_file_extension())
+            / fixture.format().output_base_dir_name
+            / fixture_basename.with_suffix(fixture.format().output_file_extension)
         )
         if fixture_path not in self.all_fixtures:  # relevant when we group by test function
             self.all_fixtures[fixture_path] = {}

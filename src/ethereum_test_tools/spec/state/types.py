@@ -3,7 +3,6 @@ StateTest types
 """
 
 import json
-from pathlib import Path
 from typing import Any, Dict, List, Mapping, Sequence, TextIO
 
 from pydantic import BaseModel, Field, model_serializer
@@ -114,13 +113,6 @@ class Fixture(BaseFixture):
             assert isinstance(fixture, Fixture), f"Invalid fixture type: {type(fixture)}"
             json_fixtures[name] = fixture.to_json()
         json.dump(json_fixtures, fd, indent=4)
-
-    @classmethod
-    def output_base_dir_name(cls) -> Path:
-        """
-        Returns the name of the subdirectory where this type of fixture should be dumped to.
-        """
-        return Path("state_tests")
 
     @classmethod
     def format(cls) -> FixtureFormats:

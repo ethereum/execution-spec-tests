@@ -4,7 +4,6 @@ BlockchainTest types
 
 import json
 from functools import cached_property
-from pathlib import Path
 from typing import (
     Annotated,
     Any,
@@ -601,13 +600,6 @@ class Fixture(FixtureCommon):
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
     @classmethod
-    def output_base_dir_name(cls) -> Path:
-        """
-        Returns the name of the subdirectory where this type of fixture should be dumped to.
-        """
-        return Path("blockchain_tests")
-
-    @classmethod
     def format(cls) -> FixtureFormats:
         """
         Returns the fixture format which the evm tool can use to determine how to verify the
@@ -624,13 +616,6 @@ class HiveFixture(FixtureCommon):
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     fcu_version: Number = Field(..., alias="engineFcuVersion")
     sync_payload: FixtureEngineNewPayload | None = None
-
-    @classmethod
-    def output_base_dir_name(cls) -> Path:
-        """
-        Returns the name of the subdirectory where this type of fixture should be dumped to.
-        """
-        return Path("blockchain_tests_hive")
 
     @classmethod
     def format(cls) -> FixtureFormats:
