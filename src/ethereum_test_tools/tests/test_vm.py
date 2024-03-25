@@ -142,6 +142,10 @@ from ..vm.opcode import Opcodes as Op
             b"\x60\x08\x60\x07\x60\x06\x60\x05\x60\x04\x73\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
             + b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0c\x60\x01\xf0",
         ),
+        (
+            Om.OOG(),
+            bytes([0x64, 0x17, 0x48, 0x76, 0xE8, 0x00, 0x60, 0x00, 0x20]),
+        ),
     ],
 )
 def test_opcodes(opcodes: bytes, expected: bytes):
@@ -157,6 +161,7 @@ def test_opcodes_repr():
     """
     assert f"{Op.CALL}" == "CALL"
     assert f"{Op.DELEGATECALL}" == "DELEGATECALL"
+    assert f"{Om.OOG}" == "OOG"
     assert str(Op.ADD) == "ADD"
 
 
@@ -165,3 +170,5 @@ def test_macros():
     Test opcode and macros interaction
     """
     assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
+    for opcode in Op:
+        assert opcode != Om.OOG
