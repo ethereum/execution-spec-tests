@@ -3,7 +3,14 @@ Exceptions for invalid execution.
 """
 
 from enum import Enum, auto, unique
-from typing import List, Union
+from typing import Any, List, Tuple, Union
+
+from pydantic import GetCoreSchemaHandler
+from pydantic_core.core_schema import (
+    PlainValidatorFunctionSchema,
+    no_info_plain_validator_function,
+    to_string_ser_schema,
+)
 
 
 class ExceptionList(list):
@@ -11,17 +18,48 @@ class ExceptionList(list):
     A list of exceptions.
     """
 
-    def __init__(self, *exceptions: "ExceptionBase") -> None:
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """
+        Calls the class constructor without info and appends the serialization schema.
+        """
+        return no_info_plain_validator_function(
+            source_type,
+            serialization=to_string_ser_schema(),
+        )
+
+    def __init__(self, *exceptions: "ExceptionBase" | Tuple[str]) -> None:
         """
         Create a new ExceptionList.
         """
         exceptions_set: List[ExceptionBase] = []
-        for exception in exceptions:
-            if not isinstance(exception, ExceptionBase):
-                raise TypeError(f"Expected ExceptionBase, got {type(exception)}")
-            if exception not in exceptions_set:
-                exceptions_set.append(exception)
+        if isinstance(exceptions, tuple) and isinstance(exceptions[0], str):
+            exceptions_set = self._create_set_from_string(exceptions[0])
+        else:
+            for exception in exceptions:
+                if isinstance(exception, ExceptionList):
+                    exceptions_set.extend(exception)
+                    continue
+                if not isinstance(exception, ExceptionBase):
+                    raise TypeError(f"Expected ExceptionBase, got {type(exception)}")
+                if exception not in exceptions_set:
+                    exceptions_set.append(exception)
         super().__init__(exceptions_set)
+
+    @staticmethod
+    def _create_set_from_string(fixture_exception_string: str) -> set:
+        exceptions_set = set()
+        exception_names = fixture_exception_string.split("|")
+        for name in exception_names:
+            class_name, exception_attr = name.split(".")
+            exception_class = globals().get(class_name)  # TODO(dan): make more robust
+            if exception_class and hasattr(exception_class, exception_attr):
+                exceptions_set.add(getattr(exception_class, exception_attr))
+            else:
+                raise ValueError(f"Exception {name} not found.")
+        return exceptions_set
 
     def __or__(self, other: Union["ExceptionBase", "ExceptionList"]) -> "ExceptionList":
         """
@@ -34,14 +72,33 @@ class ExceptionList(list):
     def __str__(self) -> str:
         """
         String representation of the ExceptionList.
+
+        Obtain a deterministic ordering by ordering using the exception string
+        representations.
         """
-        return "|".join(str(exception) for exception in self)
+        return "|".join(
+            # reverse=True is used to better match the order prior to pydantic refactor
+            str(exception)
+            for exception in sorted(self, key=lambda x: str(x))
+        )
 
 
 class ExceptionBase(Enum):
     """
     Base class for exceptions.
     """
+
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """
+        Calls the class constructor without info and appends the serialization schema.
+        """
+        return no_info_plain_validator_function(
+            source_type,
+            serialization=to_string_ser_schema(),
+        )
 
     def __contains__(self, exception) -> bool:
         """
