@@ -288,4 +288,6 @@ def test_macros():
     """
     Test opcode and macros interaction
     """
-    assert (Op.PUSH1(1) + Op.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
+    assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
+    for opcode in Op:
+        assert opcode != Om.OOG
