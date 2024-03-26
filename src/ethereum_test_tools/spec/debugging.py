@@ -8,7 +8,7 @@ from rich.console import Console
 
 from evm_transition_tool import EVMTransactionTrace, TraceableException
 
-console = Console()
+console = Console(width=160)
 
 
 def print_traces(*, exception: Exception | None, traces: List[List[EVMTransactionTrace]] | None):
