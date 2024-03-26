@@ -70,7 +70,7 @@ class OpcodeMacroBase(bytes):
         """
         if isinstance(other, OpcodeMacroBase):
             return self._name_ == other._name_
-        return NotImplemented
+        return False
 
 
 class Opcode(OpcodeMacroBase):
