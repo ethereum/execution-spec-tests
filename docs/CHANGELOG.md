@@ -12,12 +12,18 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - 🐞 Fix incorrect `!=` operator for `FixedSizeBytes` ([#477](https://github.com/ethereum/execution-spec-tests/pull/477)).
 - ✨ Add Macro enum that represents byte sequence of Op instructions ([#457](https://github.com/ethereum/execution-spec-tests/pull/457))
+- ✨ Libraries have been refactored to use `pydantic` for type checking in most test types ([#PYDANTIC](https://github.com/ethereum/execution-spec-tests/pull/PYDANTIC)).
 
 ### 🔧 EVM Tools
 
 ### 📋 Misc
 
 - 🐞 Fix CI by using Golang 1.21 in Github Actions to build geth ([#484](https://github.com/ethereum/execution-spec-tests/pull/484)).
+
+As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes ([#PYDANTIC](https://github.com/ethereum/execution-spec-tests/pull/PYDANTIC)):
+
+- `expectException` fields now print the exceptions in sorted order.
+- State test field `transaction` now uses the proper zero-padded hex number format for fields `maxPriorityFeePerGas`, `maxFeePerGas`, and `maxFeePerBlobGas`
 
 ## 🔜 [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 
