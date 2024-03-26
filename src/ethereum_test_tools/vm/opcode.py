@@ -66,11 +66,13 @@ class OpcodeMacroBase(bytes):
     def __eq__(self, other):
         """
         Required to differentiate between SELFDESTRUCT and SENDALL type of cases
-        And to register the Macro opcodes which are defined from same bytes
+        And to compare with the Macro opcodes
         """
         if isinstance(other, OpcodeMacroBase):
             return self._name_ == other._name_
-        return False
+        if isinstance(other, bytes):
+            return bytes(self) == other
+        raise NotImplementedError(f"Unsupported type for comparison f{type(other)}")
 
 
 class Opcode(OpcodeMacroBase):
