@@ -18,11 +18,9 @@ from .common import (
     AccessList,
     Account,
     Address,
-    Auto,
     EngineAPIError,
     Environment,
     Hash,
-    JSONEncoder,
     Removable,
     Storage,
     TestAddress,
@@ -39,7 +37,6 @@ from .common import (
     copy_opcode_cost,
     cost_memory_bytes,
     eip_2028_transaction_data_cost,
-    transaction_list_root,
 )
 from .exceptions import BlockException, ExceptionList, ExceptionType, TransactionException
 from .reference_spec import ReferenceSpec, ReferenceSpecTypes
@@ -62,7 +59,6 @@ __all__ = (
     "AccessList",
     "Account",
     "Address",
-    "Auto",
     "BaseFixture",
     "BaseTest",
     "Block",
@@ -82,7 +78,6 @@ __all__ = (
     "Hash",
     "Header",
     "Initcode",
-    "JSONEncoder",
     "Opcode",
     "Macro",
     "OpcodeCallArg",
@@ -113,5 +108,4 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
-    "transaction_list_root",
 )
