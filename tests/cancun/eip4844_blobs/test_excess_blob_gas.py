@@ -20,6 +20,7 @@ note: Adding a new test
     cases.
 
 """  # noqa: E501
+
 import itertools
 from typing import Dict, Iterator, List, Mapping, Optional, Tuple
 
@@ -119,10 +120,12 @@ def env(  # noqa: D103
     parent_blobs: int,
 ) -> Environment:
     return Environment(
-        excess_blob_gas=parent_excess_blob_gas
-        if parent_blobs == 0
-        else parent_excess_blob_gas + Spec.TARGET_BLOB_GAS_PER_BLOCK,
-        base_fee=block_base_fee,
+        excess_blob_gas=(
+            parent_excess_blob_gas
+            if parent_blobs == 0
+            else parent_excess_blob_gas + Spec.TARGET_BLOB_GAS_PER_BLOCK
+        ),
+        base_fee_per_gas=block_base_fee,
     )
 
 

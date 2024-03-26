@@ -14,8 +14,8 @@ note: Adding a new test
     All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test cases.
 
 """  # noqa: E501
+
 import itertools
-from dataclasses import replace
 from typing import Dict, List, Optional, Tuple
 
 import pytest
@@ -478,11 +478,11 @@ def header_verify(
     """
     Header fields to verify from the transition tool.
     """
-    header_verify = Header()
-    header_verify.blob_gas_used = expected_blob_gas_used
-    header_verify.excess_blob_gas = expected_excess_blob_gas
-    if len([tx for tx in txs if not tx.error]) == 0:
-        header_verify.gas_used = 0
+    header_verify = Header(
+        blob_gas_used=expected_blob_gas_used,
+        excess_blob_gas=expected_excess_blob_gas,
+        gas_used=0 if len([tx for tx in txs if not tx.error]) == 0 else None,
+    )
     return header_verify
 
 
@@ -1145,8 +1145,8 @@ def test_invalid_blob_tx_contract_creation(
     assert len(txs) == 1
     assert txs[0].blob_versioned_hashes is not None and len(txs[0].blob_versioned_hashes) == 1
     # Replace the transaction with a contract creating one, only in the RLP version
-    contract_creating_tx = replace(txs[0], to=None).with_signature_and_sender()
-    txs[0] = replace(txs[0], rlp=contract_creating_tx.serialized_bytes())
+    contract_creating_tx = txs[0].copy(to=None).with_signature_and_sender()
+    txs[0].rlp_override = contract_creating_tx.rlp
     blockchain_test(
         pre=pre,
         post={},
