@@ -4,16 +4,12 @@ Ethereum blockchain test spec definition and filler.
 
 from copy import copy
 from dataclasses import dataclass, field, replace
-from pprint import pprint
 from typing import Any, Callable, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
+from rich import print
+
 from ethereum_test_forks import Fork
-from evm_transition_tool import (
-    EVMTransactionTrace,
-    FixtureFormats,
-    TraceableException,
-    TransitionTool,
-)
+from evm_transition_tool import EVMTransactionTrace, FixtureFormats, TransitionTool
 
 from ...common import (
     Address,
@@ -246,14 +242,14 @@ class BlockchainTest(BaseTest):
             rejected_txs = verify_transactions(txs, result)
             verify_result(result, env)
         except Exception as e:
-            print_traces(traces)
-            pprint(result)
-            pprint(previous_alloc)
-            pprint(next_alloc)
+            print_traces(exception=e, traces=traces)
+            print(result)
+            print(previous_alloc)
+            print(next_alloc)
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
-            print_traces(traces)
+            print_traces(exception=None, traces=traces)
             raise Exception(
                 "one or more transactions in `BlockchainTest` are "
                 + "intrinsically invalid, but the block was not expected "
@@ -314,12 +310,8 @@ class BlockchainTest(BaseTest):
         """
         try:
             verify_post_alloc(self.post, alloc)
-        except TraceableException as e:
-            if traces is not None:
-                e.set_traces(traces)
-            raise e
         except Exception as e:
-            print_traces(traces)
+            print_traces(exception=e, traces=traces)
             raise e
 
     def make_fixture(

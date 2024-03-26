@@ -128,16 +128,26 @@ class EVMTransactionTrace(BaseModel):
 
     def get_trace_line_with_context(
         self, *, line_number: int, previous_lines: int = 0
+    ) -> List[EVMCallFrameEnter | EVMTraceLine | EVMCallFrameExit]:
+        """
+        Get the trace line plus context.
+        """
+        if not self.trace:
+            return []
+        return self.trace[max(0, line_number - previous_lines) : line_number + 1]
+
+    def get_trace_line_with_context_as_str(
+        self, *, line_number: int, previous_lines: int = 0
     ) -> List[str]:
         """
         Get the trace line as string plus context of previous lines if required.
         """
-        if self.trace:
-            return [
-                f"  {dict(trace)}"
-                for trace in self.trace[max(0, line_number - previous_lines) : line_number + 1]
-            ]
-        return []
+        return [
+            f"  {dict(trace)}"
+            for trace in self.get_trace_line_with_context(
+                line_number=line_number, previous_lines=previous_lines
+            )
+        ]
 
     @classmethod
     def from_file(cls, *, file_handler: TextIO, transaction_hash: str):
@@ -181,21 +191,21 @@ class TraceMarkerDescriptor:
                         trace.mark(**self.kwargs)
 
 
+class RelevantTraceContext(BaseModel):
+    """
+    Context for a trace line.
+    """
+
+    execution_index: int
+    transaction_index: int
+    transaction_hash: str
+    traces: List[EVMCallFrameEnter | EVMTraceLine | EVMCallFrameExit]
+
+
 class TraceableException(Exception, ABC):
     """
     Exception that can use a trace to provide more information.
     """
-
-    traces: List[List[EVMTransactionTrace]] | None
-    context_previous_lines: int = 2
-
-    def set_traces(self, traces: List[List[EVMTransactionTrace]]):
-        """
-        Set the traces for the exception.
-        """
-        self.traces = traces
-        for marker in self.markers:
-            marker.mark_traces(self.traces)
 
     @property
     @abstractmethod
@@ -205,37 +215,29 @@ class TraceableException(Exception, ABC):
         """
         raise NotImplementedError
 
-    @property
-    @abstractmethod
-    def description(self):
+    def get_relevant_traces(
+        self,
+        traces: List[List[EVMTransactionTrace]] | None,
+        context_previous_lines: int = 2,
+    ) -> Generator[RelevantTraceContext, None, None]:
         """
-        Return the description of the exception.
+        Get the relevant traces for the exception.
         """
-        raise NotImplementedError
+        if not traces:
+            return
 
-    def __str__(self):
-        """Print relevant tracing lines"""
-        if not self.traces:
-            return self.description
+        for marker in self.markers:
+            marker.mark_traces(traces)
 
-        lines = []
-        tx_count = 0
-        for execution_trace in self.traces:
-            for tx_trace in execution_trace:
-                tx_count += 1
-                if tx_trace.trace and any(t._marked for t in tx_trace.trace):
-                    lines.append(
-                        f"Trace for transaction {tx_count} " + f"({tx_trace.transaction_hash}):"
-                    )
-                    for line_number in range(len(tx_trace.trace)):
-                        if tx_trace.trace[line_number]._marked:
-                            lines += tx_trace.get_trace_line_with_context(
-                                line_number=line_number,
-                                previous_lines=self.context_previous_lines,
-                            )
-                            lines.append("...")
-
-        if not lines:
-            return self.description
-
-        return self.description + "\n\n" + "\n".join(lines)
+        for execution_index, execution_trace in enumerate(traces):
+            for tx_index, tx_trace in enumerate(execution_trace):
+                for line_number, trace in enumerate(tx_trace.trace):
+                    if trace._marked:
+                        yield RelevantTraceContext(
+                            execution_index=execution_index,
+                            transaction_index=tx_index,
+                            transaction_hash=tx_trace.transaction_hash,
+                            traces=tx_trace.get_trace_line_with_context(
+                                line_number=line_number, previous_lines=context_previous_lines
+                            ),
+                        )

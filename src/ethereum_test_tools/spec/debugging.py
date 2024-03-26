@@ -2,26 +2,27 @@
 Test spec debugging tools.
 """
 
-import pprint
 from typing import List
 
-from evm_transition_tool import EVMTransactionTrace
+from rich.console import Console
+from rich.text import Text
+
+from evm_transition_tool import EVMTransactionTrace, TraceableException
+
+console = Console()
 
 
-def print_traces(traces: List[List[EVMTransactionTrace]] | None):
+def print_traces(*, exception: Exception | None, traces: List[List[EVMTransactionTrace]] | None):
     """
     Print the traces from the transition tool for debugging.
     """
     if traces is None:
-        print("Traces not collected. Use `--traces` to see detailed execution information.")
+        console.print(
+            Text("Traces not collected. Use `--traces` to see detailed execution information.")
+        )
         return
-    print("Printing traces for debugging purposes:")
-    pp = pprint.PrettyPrinter(indent=2)
-    for block_number, block in enumerate(traces):
-        print(f"Block {block_number}:")
-        for tx_number, tx_trace in enumerate(block):
-            print(f"Transaction {tx_number}:")
-            for exec_step, trace in enumerate(tx_trace.trace):
-                print(f"Step {exec_step}:")
-                pp.pprint(dict(trace))
-                print()
+
+    if exception is not None and isinstance(exception, TraceableException):
+        console.print(dict(enumerate(exception.get_relevant_traces(traces), start=1)))
+    else:
+        console.print(traces)

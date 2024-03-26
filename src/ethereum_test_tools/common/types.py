@@ -161,11 +161,8 @@ class Storage(SupportsJSON, dict):
                 error=lambda e: e is not None,
             )
 
-        @property
-        def description(self):
-            """
-            Return the description of the exception.
-            """
+        def __str__(self):
+            """Return the description of the exception."""
             return (
                 f"key {Storage.key_value_to_string(self.key)} not found in"
                 + f" storage of {self.address}"
@@ -203,11 +200,8 @@ class Storage(SupportsJSON, dict):
                 error=lambda e: e is not None,
             )
 
-        @property
-        def description(self):
-            """
-            Return the description of the exception.
-            """
+        def __str__(self):
+            """Return the description of the exception."""
             return (
                 f"incorrect value in address {self.address} for "
                 + f"key {Storage.key_value_to_string(self.key)}:"
@@ -450,11 +444,8 @@ class Account:
                 error=lambda e: e is not None,
             )
 
-        @property
-        def description(self):
-            """
-            Return the description of the exception.
-            """
+        def __str__(self):
+            """Return the description of the exception."""
             return (
                 f"unexpected nonce for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
@@ -482,11 +473,8 @@ class Account:
                 to_address=self.address,
             )
 
-        @property
-        def description(self):
-            """
-            Return the description of the exception.
-            """
+        def __str__(self):
+            """Return the description of the exception."""
             return (
                 f"unexpected balance for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
@@ -529,11 +517,8 @@ class Account:
                 error=lambda e: e is not None,
             )
 
-        @property
-        def description(self):
-            """
-            Return the description of the exception.
-            """
+        def __str__(self):
+            """Return the description of the exception."""
             return (
                 f"unexpected code for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
