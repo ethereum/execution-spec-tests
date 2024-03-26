@@ -97,10 +97,6 @@ class Storage(SupportsJSON, dict):
 
         key_or_value: Any
 
-        def __init__(self, key_or_value: Any, *args):
-            super().__init__(args)
-            self.key_or_value = key_or_value
-
         def __str__(self):
             """Print exception string"""
             return f"invalid type for key/value: {self.key_or_value}"
@@ -113,10 +109,6 @@ class Storage(SupportsJSON, dict):
         """
 
         key_or_value: Any
-
-        def __init__(self, key_or_value: Any, *args):
-            super().__init__(args)
-            self.key_or_value = key_or_value
 
         def __str__(self):
             """Print exception string"""
@@ -132,20 +124,6 @@ class Storage(SupportsJSON, dict):
         val_1: str | int
         key_2: str | int
         val_2: str | int
-
-        def __init__(
-            self,
-            key_1: str | int,
-            val_1: str | int,
-            key_2: str | int,
-            val_2: str | int,
-            *args,
-        ):
-            super().__init__(args)
-            self.key_1 = key_1
-            self.val_1 = val_1
-            self.key_2 = key_2
-            self.val_2 = val_2
 
         def __str__(self):
             """Print exception string"""
@@ -163,11 +141,6 @@ class Storage(SupportsJSON, dict):
 
         address: Address
         key: int
-
-        def __init__(self, address: Address, key: int, *args):
-            super().__init__(args)
-            self.address = address
-            self.key = key
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
@@ -209,13 +182,6 @@ class Storage(SupportsJSON, dict):
         key: int
         want: int
         got: int
-
-        def __init__(self, address: Address, key: int, want: int, got: int, *args):
-            super().__init__(args)
-            self.address = address
-            self.key = key
-            self.want = want
-            self.got = got
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
@@ -465,12 +431,6 @@ class Account:
         want: int | None
         got: int | None
 
-        def __init__(self, address: Address, want: int | None, got: int | None, *args):
-            super().__init__(args)
-            self.address = address
-            self.want = want
-            self.got = got
-
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
             """
@@ -511,12 +471,6 @@ class Account:
         want: int | None
         got: int | None
 
-        def __init__(self, address: Address, want: int | None, got: int | None, *args):
-            super().__init__(args)
-            self.address = address
-            self.want = want
-            self.got = got
-
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
             """
@@ -548,12 +502,6 @@ class Account:
         address: Address
         want: str | None
         got: str | None
-
-        def __init__(self, address: Address, want: str | None, got: str | None, *args):
-            super().__init__(args)
-            self.address = address
-            self.want = want
-            self.got = got
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
