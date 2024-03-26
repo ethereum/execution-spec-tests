@@ -232,14 +232,12 @@ class FixtureHeader(CamelModel):
         """
         Produces a fixture header copy with the set values from the modifier.
         """
-        updated_values: Dict[str, Any] = {}
-        for field_name in modifier.model_fields:
-            assert field_name in self.model_fields, f"Field {field_name} is not a header field"
-            value = getattr(modifier, field_name)
-            if value is not None:
-                updated_values[field_name] = None if value is Header.REMOVE_FIELD else value
-
-        return self.copy(**updated_values)
+        return self.copy(
+            **{
+                k: (v if v is not Header.REMOVE_FIELD else None)
+                for k, v in modifier.model_dump(exclude_none=True).items()
+            }
+        )
 
     def verify(self, baseline: Header):
         """
