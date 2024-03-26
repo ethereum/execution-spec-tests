@@ -1,0 +1,8 @@
+{"from": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","to": "0x0000000000000000000000000000000000000100","input": "0x","gas": "0x74f18","value": "0x0","type": "CALL"}
+{"pc": 0,"op": 96,"gas": "0x74f18","gasCost": "0x3","memSize": 0,"stack": [],"depth": 1,"refund": 0,"opName": "PUSH1"}
+{"pc": 2,"op": 96,"gas": "0x74f15","gasCost": "0x3","memSize": 0,"stack": ["0x0"],"depth": 1,"refund": 0,"opName": "PUSH1"}
+{"pc": 4,"op": 96,"gas": "0x74f12","gasCost": "0x3","memSize": 0,"stack": ["0x0","0x1"],"depth": 1,"refund": 0,"opName": "PUSH1"}
+{"from": "0x0000000000000000000000000000000000000100","to": "0x0000000000000000000000000000000000000200","gas": "0x74000","value": "0x0","type": "CALL"}
+{"from": "0x0000000000000000000000000000000000000200","to": "0x0000000000000000000000000000000000000100","output": "0x","gasUsed": "0x0"}
+{"pc": 0,"op": 96,"gas": "0x74000","gasCost": "0x3","memSize": 0,"stack": [],"depth": 1,"refund": 0,"opName": "PUSH1"}
+{"from": "0x0000000000000000000000000000000000000100","to": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","output": "0x","gasUsed": "0x53089"}

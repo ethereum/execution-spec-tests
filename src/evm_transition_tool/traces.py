@@ -12,23 +12,30 @@ from pydantic.functional_validators import BeforeValidator
 from typing_extensions import Annotated
 
 HexNumber = Annotated[int, BeforeValidator(lambda x: int(x, 16))]
+Bytes = Annotated[bytes, BeforeValidator(lambda x: bytes.fromhex(x[2:]))]
 
 
-class EVMCallFrameEnter(BaseModel):
+class CamelModel(BaseModel):
+    """
+    Base class for models that use camel case.
+    """
+
+    model_config = ConfigDict(alias_generator=to_camel)
+
+
+class EVMCallFrameEnter(CamelModel):
     """
     Represents a single line of an EVM call entering a new frame.
     """
 
-    op: int | None = Field(None)
-    op_name: str | None = Field(None)
+    # op: int | None = Field(None)
+    op_name: str | None = Field(None, alias="type")
     from_address: str = Field(..., alias="from")
     to_address: str = Field(..., alias="to")
-    input: bytes | None = Field(None)
+    input: Bytes | None = Field(None)
     gas: HexNumber
     value: HexNumber
     _marked: bool = False
-
-    model_config = ConfigDict(alias_generator=to_camel)
 
     def mark(self, **kwargs) -> bool:
         """
@@ -44,19 +51,16 @@ class EVMCallFrameEnter(BaseModel):
         return True
 
 
-class EVMCallFrameExit(BaseModel):
+class EVMCallFrameExit(CamelModel):
     """
     Represents a single line of an EVM call entering a new frame.
     """
 
-    from_address: str = Field(..., alias="from")
-    to_address: str = Field(..., alias="to")
-    output: bytes | None = Field(None)
+    from_address: str | None = Field(None, alias="from")
+    output: Bytes | None = Field(None)
     gas_used: HexNumber
     error: str | None = Field(None)
     _marked: bool = False
-
-    model_config = ConfigDict(alias_generator=to_camel)
 
     def mark(self, **kwargs) -> bool:
         """
@@ -72,7 +76,7 @@ class EVMCallFrameExit(BaseModel):
         return True
 
 
-class EVMTraceLine(BaseModel):
+class EVMTraceLine(CamelModel):
     """
     Represents a single line of an EVM trace.
     """
@@ -88,8 +92,6 @@ class EVMTraceLine(BaseModel):
     refund: int
     context_address: str | None = Field(None)
     _marked: bool = False
-
-    model_config = ConfigDict(alias_generator=to_camel)
 
     def match_stack(self, other: List[HexNumber | None]) -> bool:
         """
@@ -135,16 +137,16 @@ class EVMTransactionTrace(BaseModel):
     trace: List[EVMCallFrameEnter | EVMTraceLine | EVMCallFrameExit]
     transaction_hash: str
 
-    def fill_context(self):
+    def fill_context(self: "EVMTransactionTrace"):  # TODO: model_post_init(__context)
         """
         Fill the context address of the trace lines.
         """
-        context_stack = []
+        context_stack: List[str] = []
         for line in self.trace:
             if isinstance(line, EVMCallFrameEnter):
                 context_stack.append(line.to_address)
             elif isinstance(line, EVMCallFrameExit):
-                context_stack.pop()
+                line.from_address = context_stack.pop()
             elif isinstance(line, EVMTraceLine):
                 line.context_address = context_stack[-1] if context_stack else None
 
@@ -183,7 +185,7 @@ class EVMTransactionTrace(BaseModel):
         Create an EVMTransactionTrace from a file handler.
         """
         instance = cls(
-            trace=json.load(file_handler),
+            trace=[json.loads(line.strip()) for line in file_handler],
             transaction_hash=transaction_hash,
         )
         instance.fill_context()

@@ -213,10 +213,8 @@ class TransitionTool:
         Returns returns the arguments to enable tracing
         """
         return [
-            "--trace.tracer",
-            "opcodeTracer",
-            "--trace.jsonconfig",
-            '{"enableCallFrames": true}',
+            "--trace",
+            "--trace.callframes",
         ]
 
     def version(self) -> str:
@@ -260,7 +258,7 @@ class TransitionTool:
         """
         traces: List[EVMTransactionTrace] = []
         for i, r in enumerate(receipts):
-            trace_file_name = f"trace-{i}-{r['transactionHash']}.json"
+            trace_file_name = f"trace-{i}-{r['transactionHash']}.jsonl"
             if debug_output_path:
                 shutil.copy(
                     os.path.join(temp_dir.name, trace_file_name),
