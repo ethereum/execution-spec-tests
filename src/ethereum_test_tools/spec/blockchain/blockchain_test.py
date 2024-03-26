@@ -353,12 +353,6 @@ class BlockchainTest(BaseTest):
         """
         Create a hive fixture from the blocktest definition.
         """
-        if fork.engine_forkchoice_updated_version() is None:
-            raise Exception(
-                "A hive fixture was requested but no forkchoice update is defined. "
-                "The framework should never try to execute this test case."
-            )
-
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
         pre, genesis = self.make_genesis(fork)
