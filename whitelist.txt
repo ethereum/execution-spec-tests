@@ -340,6 +340,7 @@ makepyfile
 metafunc
 modifyitems
 nodeid
+oog
 optparser
 originalname
 parametrized
