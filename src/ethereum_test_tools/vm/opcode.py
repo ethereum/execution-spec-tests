@@ -48,14 +48,13 @@ class OpcodeMacroBase(bytes):
         """
         return super().__new__(cls, *args)
 
-    def __call__(self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
+    def __call__(self, *_: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
         """
         Make OpcodeMacroBase callable, so that arguments can directly be
         provided to an Opcode in order to more conveniently generate
         bytecode (implemented in the subclass).
         """
         # ignore opcode arguments
-        args_t.count
         return bytes(self)
 
     def __str__(self) -> str:
