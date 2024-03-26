@@ -5,7 +5,6 @@ Test spec debugging tools.
 from typing import List
 
 from rich.console import Console
-from rich.text import Text
 
 from evm_transition_tool import EVMTransactionTrace, TraceableException
 
@@ -18,7 +17,7 @@ def print_traces(*, exception: Exception | None, traces: List[List[EVMTransactio
     """
     if traces is None:
         console.print(
-            Text("Traces not collected. Use `--traces` to see detailed execution information.")
+            "Traces not collected. Use `--traces` to see detailed execution information."
         )
         return
 
