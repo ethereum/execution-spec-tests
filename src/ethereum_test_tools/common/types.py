@@ -162,7 +162,7 @@ class Storage(SupportsJSON, dict):
             )
 
         def __str__(self):
-            """Return the description of the exception."""
+            """Print exception string"""
             return (
                 f"key {Storage.key_value_to_string(self.key)} not found in"
                 + f" storage of {self.address}"
@@ -201,7 +201,7 @@ class Storage(SupportsJSON, dict):
             )
 
         def __str__(self):
-            """Return the description of the exception."""
+            """Print exception string"""
             return (
                 f"incorrect value in address {self.address} for "
                 + f"key {Storage.key_value_to_string(self.key)}:"
@@ -445,7 +445,7 @@ class Account:
             )
 
         def __str__(self):
-            """Return the description of the exception."""
+            """Print exception string"""
             return (
                 f"unexpected nonce for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
@@ -474,7 +474,7 @@ class Account:
             )
 
         def __str__(self):
-            """Return the description of the exception."""
+            """Print exception string"""
             return (
                 f"unexpected balance for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
@@ -518,7 +518,7 @@ class Account:
             )
 
         def __str__(self):
-            """Return the description of the exception."""
+            """Print exception string"""
             return (
                 f"unexpected code for account {self.address}: "
                 + f"want {self.want}, got {self.got}"
