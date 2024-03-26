@@ -17,10 +17,10 @@ Bytes = Annotated[bytes, BeforeValidator(lambda x: bytes.fromhex(x[2:]))]
 
 class TraceModel(BaseModel):
     """
-    Base class for models that use camel case.
+    Base class all trace line types.
     """
 
-    _marked: bool = False
+    _mark_info: str = ""
 
     model_config = ConfigDict(alias_generator=to_camel)
 
@@ -45,7 +45,7 @@ class TraceModel(BaseModel):
 
         return True
 
-    def mark(self, **kwargs):
+    def mark(self, description: str, **kwargs):
         """
         Check if the trace call frame enter matches the given values.
         """
@@ -58,7 +58,7 @@ class TraceModel(BaseModel):
                     return
             elif value != getattr(self, key):
                 return
-        self._marked = True
+        self._mark_info = description
 
 
 class EVMCallFrameEnter(TraceModel):
@@ -166,15 +166,18 @@ class TraceMarkerDescriptor:
     """
 
     trace_type: Type[TraceModel]
+    description: str
     kwargs: Dict[str, Any] = {}
 
     def __init__(
         self,
         *,
         trace_type: Type[TraceModel],
+        description: str,
         **kwargs,
     ):
         self.trace_type = trace_type
+        self.description = description
         self.kwargs = kwargs
 
     def mark_traces(self, traces: List[List[EVMTransactionTrace]] | None):
@@ -188,7 +191,7 @@ class TraceMarkerDescriptor:
             for tx_trace in execution_trace:
                 for trace in tx_trace.trace:
                     if isinstance(trace, self.trace_type):
-                        trace.mark(**self.kwargs)
+                        trace.mark(description=self.description, **self.kwargs)
 
 
 class RelevantTraceContext(BaseModel):
@@ -200,6 +203,7 @@ class RelevantTraceContext(BaseModel):
     transaction_index: int
     transaction_hash: str
     traces: List[EVMCallFrameEnter | EVMTraceLine | EVMCallFrameExit]
+    description: str
 
 
 class TraceableException(Exception, ABC):
@@ -232,7 +236,7 @@ class TraceableException(Exception, ABC):
         for execution_index, execution_trace in enumerate(traces):
             for tx_index, tx_trace in enumerate(execution_trace):
                 for line_number, trace in enumerate(tx_trace.trace):
-                    if trace._marked:
+                    if trace._mark_info:
                         yield RelevantTraceContext(
                             execution_index=execution_index,
                             transaction_index=tx_index,
@@ -240,4 +244,5 @@ class TraceableException(Exception, ABC):
                             traces=tx_trace.get_trace_line_with_context(
                                 line_number=line_number, previous_lines=context_previous_lines
                             ),
+                            description=trace._mark_info,
                         )

@@ -144,19 +144,17 @@ class Storage(SupportsJSON, dict):
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
-            """
-            Mark the traces that are relevant to the exception.
-            """
-            # Record an SSTORE event in the expected address and key
+            """Mark the traces that are relevant to the exception."""
             yield TraceMarkerDescriptor(
                 trace_type=EVMTraceLine,
+                description=f"SSTORE event on address {self.address} and key {hex(self.key)}",
                 context_address=self.address,
                 op_name="SSTORE",
                 stack=[self.key],  # top element of the stack must be the key that caused the error
             )
-            # Record an exit frame from the expected address with an error
             yield TraceMarkerDescriptor(
                 trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
                 from_address=self.address,
                 error=lambda e: e is not None,
             )
@@ -182,20 +180,17 @@ class Storage(SupportsJSON, dict):
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
-            """
-            Mark the traces that are relevant to the exception.
-            """
-            # Record an SSTORE event in the expected address and key
+            """Mark the traces that are relevant to the exception."""
             yield TraceMarkerDescriptor(
                 trace_type=EVMTraceLine,
+                description=f"SSTORE event on address {self.address} and key {hex(self.key)}",
                 context_address=self.address,
                 op_name="SSTORE",
                 stack=[self.key],  # top element of the stack must be the key that caused the error
             )
-
-            # Record an exit frame from the expected address with an error
             yield TraceMarkerDescriptor(
                 trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
                 from_address=self.address,
                 error=lambda e: e is not None,
             )
@@ -427,19 +422,16 @@ class Account:
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
-            """
-            Mark the traces that are relevant to the exception.
-            """
-            # Record CREATE events in the expected address
+            """Mark the traces that are relevant to the exception."""
             yield TraceMarkerDescriptor(
                 trace_type=EVMTraceLine,
+                description=f"CREATE event from address {self.address}",
                 context_address=self.address,
                 op_name="CREATE",
             )
-
-            # Record an exit frame from the expected address with an error
             yield TraceMarkerDescriptor(
                 trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
                 from_address=self.address,
                 error=lambda e: e is not None,
             )
@@ -464,12 +456,10 @@ class Account:
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
-            """
-            Mark the traces that are relevant to the exception.
-            """
-            # Record an enter frame to the expected address
+            """Mark the traces that are relevant to the exception."""
             yield TraceMarkerDescriptor(
                 trace_type=EVMCallFrameEnter,
+                description=f"Enter frame to address {self.address}",
                 to_address=self.address,
             )
 
@@ -493,26 +483,22 @@ class Account:
 
         @property
         def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
-            """
-            Mark the traces that are relevant to the exception.
-            """
-            # Mark creation of the expected address
+            """Mark the traces that are relevant to the exception."""
             yield TraceMarkerDescriptor(
                 trace_type=EVMCallFrameEnter,
+                description=f"CREATE/CREATE2 event to address {self.address}",
                 to_address=self.address,
                 op_name=lambda op: op in ["CREATE", "CREATE2"],
             )
-
-            # Mark selfdestruct of the expected address
             yield TraceMarkerDescriptor(
                 trace_type=EVMTraceLine,
+                description=f"SELFDESTRUCT event from address {self.address}",
                 context_address=self.address,
                 op_name="SELFDESTRUCT",
             )
-
-            # Record an exit frame from the expected address with an error
             yield TraceMarkerDescriptor(
                 trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
                 from_address=self.address,
                 error=lambda e: e is not None,
             )
