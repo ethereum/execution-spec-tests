@@ -13,6 +13,7 @@ from .traces import (
     EVMTraceLine,
     EVMTransactionTrace,
     TraceableException,
+    TraceMarkerDescriptor,
 )
 from .transition_tool import (
     FixtureFormats,
@@ -30,6 +31,7 @@ __all__ = (
     "EvmOneTransitionTool",
     "EVMTraceLine",
     "EVMTransactionTrace",
+    "TraceMarkerDescriptor",
     "ExecutionSpecsTransitionTool",
     "FixtureFormats",
     "GethTransitionTool",

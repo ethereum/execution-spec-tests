@@ -4,7 +4,7 @@ Transition tool abstract traces.
 
 import json
 from abc import ABC, abstractmethod
-from typing import Any, List, TextIO, Type
+from typing import Any, Dict, Generator, List, TextIO, Type
 
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
@@ -15,15 +15,53 @@ HexNumber = Annotated[int, BeforeValidator(lambda x: int(x, 16))]
 Bytes = Annotated[bytes, BeforeValidator(lambda x: bytes.fromhex(x[2:]))]
 
 
-class CamelModel(BaseModel):
+class TraceModel(BaseModel):
     """
     Base class for models that use camel case.
     """
 
+    _marked: bool = False
+
     model_config = ConfigDict(alias_generator=to_camel)
 
+    def match_stack(self, other: List[HexNumber | None]) -> bool:
+        """
+        Check if the trace line matches the given stack.
 
-class EVMCallFrameEnter(CamelModel):
+        The comparison happens in reverse order, so the last element of the
+        stack is compared to the first element of the other stack.
+
+        If an element of the other stack is None, it is considered a wildcard
+        and will mark any value.
+        """
+        stack = getattr(self, "stack", [])
+        assert isinstance(stack, list)
+        if len(other) > len(stack):
+            return False
+
+        for i, value in enumerate(other):
+            if value is not None and value != stack[-(i + 1)]:
+                return False
+
+        return True
+
+    def mark(self, **kwargs):
+        """
+        Check if the trace call frame enter matches the given values.
+        """
+        for key, value in kwargs.items():
+            if key == "stack":
+                if not self.match_stack(value):
+                    return
+            elif callable(value):
+                if not value(getattr(self, key)):
+                    return
+            elif value != getattr(self, key):
+                return
+        self._marked = True
+
+
+class EVMCallFrameEnter(TraceModel):
     """
     Represents a single line of an EVM call entering a new frame.
     """
@@ -35,23 +73,9 @@ class EVMCallFrameEnter(CamelModel):
     input: Bytes | None = Field(None)
     gas: HexNumber
     value: HexNumber
-    _marked: bool = False
-
-    def mark(self, **kwargs) -> bool:
-        """
-        Check if the trace call frame enter matches the given values.
-        """
-        for key, value in kwargs.items():
-            if callable(value):
-                if not value(getattr(self, key)):
-                    return False
-            elif value != getattr(self, key):
-                return False
-        self._marked = True
-        return True
 
 
-class EVMCallFrameExit(CamelModel):
+class EVMCallFrameExit(TraceModel):
     """
     Represents a single line of an EVM call entering a new frame.
     """
@@ -60,23 +84,9 @@ class EVMCallFrameExit(CamelModel):
     output: Bytes | None = Field(None)
     gas_used: HexNumber
     error: str | None = Field(None)
-    _marked: bool = False
-
-    def mark(self, **kwargs) -> bool:
-        """
-        Check if the trace call frame exit matches the given values.
-        """
-        for key, value in kwargs.items():
-            if callable(value):
-                if not value(getattr(self, key)):
-                    return False
-            elif value != getattr(self, key):
-                return False
-        self._marked = True
-        return True
 
 
-class EVMTraceLine(CamelModel):
+class EVMTraceLine(TraceModel):
     """
     Represents a single line of an EVM trace.
     """
@@ -91,42 +101,6 @@ class EVMTraceLine(CamelModel):
     depth: int
     refund: int
     context_address: str | None = Field(None)
-    _marked: bool = False
-
-    def match_stack(self, other: List[HexNumber | None]) -> bool:
-        """
-        Check if the trace line matches the given stack.
-
-        The comparison happens in reverse order, so the last element of the
-        stack is compared to the first element of the other stack.
-
-        If an element of the other stack is None, it is considered a wildcard
-        and will mark any value.
-        """
-        if len(other) > len(self.stack):
-            return False
-
-        for i, value in enumerate(other):
-            if value is not None and value != self.stack[-(i + 1)]:
-                return False
-
-        return True
-
-    def mark(self, **kwargs) -> bool:
-        """
-        Check if the trace line matches the given values.
-        """
-        for key, value in kwargs.items():
-            if key == "stack":
-                if not self.match_stack(value):
-                    return False
-            elif callable(value):
-                if not value(getattr(self, key)):
-                    return False
-            elif value != getattr(self, key):
-                return False
-        self._marked = True
-        return True
 
 
 class EVMTransactionTrace(BaseModel):
@@ -152,22 +126,6 @@ class EVMTransactionTrace(BaseModel):
             elif isinstance(line, EVMTraceLine):
                 line.context_address = context_stack[-1] if context_stack else None
 
-    def call_frames(self):
-        """
-        Return the call frames of the transaction.
-        """
-        return [
-            line
-            for line in self.trace
-            if isinstance(line, EVMCallFrameEnter) or isinstance(line, EVMCallFrameExit)
-        ]
-
-    def trace_lines(self):
-        """
-        Return the trace lines of the transaction.
-        """
-        return [line for line in self.trace if isinstance(line, EVMTraceLine)]
-
     def get_trace_line_with_context(
         self, *, line_number: int, previous_lines: int = 0
     ) -> List[str]:
@@ -192,45 +150,58 @@ class EVMTransactionTrace(BaseModel):
         )
 
 
+class TraceMarkerDescriptor:
+    """
+    Class used to describe a marker for traces.
+    """
+
+    trace_type: Type[TraceModel]
+    kwargs: Dict[str, Any] = {}
+
+    def __init__(
+        self,
+        *,
+        trace_type: Type[TraceModel],
+        **kwargs,
+    ):
+        self.trace_type = trace_type
+        self.kwargs = kwargs
+
+    def mark_traces(self, traces: List[List[EVMTransactionTrace]] | None):
+        """
+        Mark the traces that are relevant to the exception.
+        """
+        if not traces:
+            return
+
+        for execution_trace in traces:
+            for tx_trace in execution_trace:
+                for trace in tx_trace.trace:
+                    if isinstance(trace, self.trace_type):
+                        trace.mark(**self.kwargs)
+
+
 class TraceableException(Exception, ABC):
     """
     Exception that can use a trace to provide more information.
     """
 
     traces: List[List[EVMTransactionTrace]] | None
+    context_previous_lines: int = 2
 
     def set_traces(self, traces: List[List[EVMTransactionTrace]]):
         """
         Set the traces for the exception.
         """
         self.traces = traces
-        self.mark_exception_traces()
+        for marker in self.markers:
+            marker.mark_traces(self.traces)
 
-    def mark_traces(
-        self,
-        *,
-        trace_type: Type[EVMTraceLine] | Type[EVMCallFrameEnter] | Type[EVMCallFrameExit],
-        **kwargs,
-    ):
-        """
-        Used to mark traces as relevant, to be later printed.
-
-        kwargs are passed to the trace's `mark` method, and if they match the
-        trace, the trace is marked as relevant.
-        """
-        if not self.traces:
-            return
-
-        for execution_trace in self.traces:
-            for tx_trace in execution_trace:
-                for trace in tx_trace.trace:
-                    if isinstance(trace, trace_type):
-                        trace.mark(**kwargs)
-
+    @property
     @abstractmethod
-    def mark_exception_traces(self):
+    def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
         """
-        Mark the traces that are relevant to the exception.
+        Return the description of the exception.
         """
         raise NotImplementedError
 
@@ -260,7 +231,7 @@ class TraceableException(Exception, ABC):
                         if tx_trace.trace[line_number]._marked:
                             lines += tx_trace.get_trace_line_with_context(
                                 line_number=line_number,
-                                previous_lines=2,
+                                previous_lines=self.context_previous_lines,
                             )
                             lines.append("...")
 
