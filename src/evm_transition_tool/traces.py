@@ -4,7 +4,7 @@ Transition tool abstract traces.
 
 import json
 from abc import ABC, abstractmethod
-from typing import List, TextIO, Type
+from typing import Any, List, TextIO, Type
 
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
@@ -137,10 +137,12 @@ class EVMTransactionTrace(BaseModel):
     trace: List[EVMCallFrameEnter | EVMTraceLine | EVMCallFrameExit]
     transaction_hash: str
 
-    def fill_context(self: "EVMTransactionTrace"):  # TODO: model_post_init(__context)
+    def model_post_init(self: "EVMTransactionTrace", __context: Any):
         """
         Fill the context address of the trace lines.
         """
+        super().model_post_init(__context)
+
         context_stack: List[str] = []
         for line in self.trace:
             if isinstance(line, EVMCallFrameEnter):
@@ -184,12 +186,10 @@ class EVMTransactionTrace(BaseModel):
         """
         Create an EVMTransactionTrace from a file handler.
         """
-        instance = cls(
+        return cls(
             trace=[json.loads(line.strip()) for line in file_handler],
             transaction_hash=transaction_hash,
         )
-        instance.fill_context()
-        return instance
 
 
 class TraceableException(Exception, ABC):
@@ -218,12 +218,14 @@ class TraceableException(Exception, ABC):
         kwargs are passed to the trace's `mark` method, and if they match the
         trace, the trace is marked as relevant.
         """
-        if self.traces:
-            for execution_trace in self.traces:
-                for tx_trace in execution_trace:
-                    for trace in tx_trace.trace:
-                        if isinstance(trace, trace_type):
-                            trace.mark(**kwargs)
+        if not self.traces:
+            return
+
+        for execution_trace in self.traces:
+            for tx_trace in execution_trace:
+                for trace in tx_trace.trace:
+                    if isinstance(trace, trace_type):
+                        trace.mark(**kwargs)
 
     @abstractmethod
     def mark_exception_traces(self):
