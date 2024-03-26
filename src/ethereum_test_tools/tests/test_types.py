@@ -14,11 +14,10 @@ from ..common import (
     Storage,
     Transaction,
     Withdrawal,
-    to_json,
-    withdrawals_root,
 )
 from ..common.base_types import Address, Bloom, Bytes, Hash, HeaderNonce, ZeroPaddedHexNumber
 from ..common.constants import TestPrivateKey
+from ..common.json import to_json
 from ..common.types import Alloc
 from ..exceptions import BlockException, TransactionException
 from ..spec.blockchain.types import (
@@ -67,8 +66,8 @@ def test_storage():
     assert 10 not in s
 
     s = Storage({-1: -1, -2: -2})
-    assert s[-1] == -1
-    assert s[-2] == -2
+    assert s[-1] == 2**256 - 1
+    assert s[-2] == 2**256 - 2
     d = to_json(s)
     assert (
         d["0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"]
@@ -83,10 +82,6 @@ def test_storage():
     # same value, ok
     s[2**256 - 1] = 2**256 - 1
     to_json(s)
-    # different value, not ok
-    s[2**256 - 1] = 0
-    with pytest.raises(Storage.AmbiguousKeyValue):
-        to_json(s)
 
     # Check store counter
     s = Storage({})
@@ -102,7 +97,7 @@ def test_storage():
 
 
 @pytest.mark.parametrize(
-    ["account", "alloc", "should_pass"],
+    ["account", "alloc_dict", "should_pass"],
     [
         # All None: Pass
         (
@@ -276,16 +271,17 @@ def test_storage():
         ),
     ],
 )
-def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pass: bool):
+def test_account_check_alloc(account: Account, alloc_dict: Dict[Any, Any], should_pass: bool):
+    alloc_account = Account(**alloc_dict)
     if should_pass:
-        account.check_alloc(Address(1), alloc)
+        account.check_alloc(Address(1), alloc_account)
     else:
         with pytest.raises(Exception) as _:
-            account.check_alloc(Address(1), alloc)
+            account.check_alloc(Address(1), alloc_account)
 
 
 @pytest.mark.parametrize(
-    ["alloc1", "alloc2", "expected_alloc"],
+    ["alloc_1", "alloc_2", "expected_alloc"],
     [
         pytest.param(
             Alloc(),
@@ -313,12 +309,15 @@ def test_account_check_alloc(account: Account, alloc: Dict[Any, Any], should_pas
         ),
     ],
 )
-def test_alloc_append(alloc1: Alloc, alloc2: Alloc, expected_alloc: Alloc):
-    assert Alloc.merge(alloc1, alloc2) == expected_alloc
+def test_alloc_append(alloc_1: Alloc, alloc_2: Alloc, expected_alloc: Alloc):
+    """
+    Test `ethereum_test.types.alloc` merging.
+    """
+    assert Alloc.merge(alloc_1, alloc_2) == expected_alloc
 
 
 @pytest.mark.parametrize(
-    ["account1", "account2", "expected_account"],
+    ["account_1", "account_2", "expected_account"],
     [
         pytest.param(
             Account(),
@@ -347,9 +346,12 @@ def test_alloc_append(alloc1: Alloc, alloc2: Alloc, expected_alloc: Alloc):
     ],
 )
 def test_account_merge(
-    account1: Account | None, account2: Account | None, expected_account: Account
+    account_1: Account | None, account_2: Account | None, expected_account: Account
 ):
-    assert Account.merge(account1, account2) == expected_account
+    """
+    Test `ethereum_test.types.account` merging.
+    """
+    assert Account.merge(account_1, account_2) == expected_account
 
 
 CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
@@ -410,7 +412,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
             id="access_list",
         ),
         pytest.param(
-            Withdrawal(index=0, validator=1, address=0x1234, amount=2),
+            Withdrawal(index=0, validator_index=1, address=0x1234, amount=2),
             {
                 "index": "0x0",
                 "validatorIndex": "0x1",
@@ -436,17 +438,17 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
         ),
         pytest.param(
             Environment(
-                coinbase=0x1234,
+                fee_recipient=0x1234,
                 difficulty=0x5,
                 prev_randao=0x6,
-                base_fee=0x7,
+                base_fee_per_gas=0x7,
                 parent_difficulty=0x8,
                 parent_timestamp=0x9,
-                parent_base_fee=0xA,
+                parent_base_fee_per_gas=0xA,
                 parent_gas_used=0xB,
                 parent_gas_limit=0xC,
                 parent_ommers_hash=0xD,
-                withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+                withdrawals=[Withdrawal(index=0, validator_index=1, address=0x1234, amount=2)],
                 parent_blob_gas_used=0xE,
                 parent_excess_blob_gas=0xF,
                 blob_gas_used=0x10,
@@ -485,6 +487,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     "1": "0x0000000000000000000000000000000000000000000000000000000000000002",
                     "3": "0x0000000000000000000000000000000000000000000000000000000000000004",
                 },
+                "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000004",
                 "ommers": [],
             },
             id="environment_2",
@@ -734,18 +737,18 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
             FixtureHeader(
                 parent_hash=Hash(0),
                 ommers_hash=Hash(1),
-                coinbase=Address(2),
+                fee_recipient=Address(2),
                 state_root=Hash(3),
-                transactions_root=Hash(4),
-                receipt_root=Hash(5),
-                bloom=Bloom(6),
+                transactions_trie=Hash(4),
+                receipts_root=Hash(5),
+                logs_bloom=Bloom(6),
                 difficulty=7,
                 number=8,
                 gas_limit=9,
                 gas_used=10,
                 timestamp=11,
                 extra_data=Bytes([12]),
-                mix_digest=Hash(13),
+                prev_randao=Hash(13),
                 nonce=HeaderNonce(14),
             ),
             {
@@ -764,6 +767,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "extraData": Bytes([12]).hex(),
                 "mixHash": Hash(13).hex(),
                 "nonce": HeaderNonce(14).hex(),
+                "hash": "0x1dc087517148c2d6a1dd1ea5de107bc5f728414f9d210ed18286d305abe6ba5e",
             },
             id="fixture_header_1",
         ),
@@ -771,24 +775,24 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
             FixtureHeader(
                 parent_hash=Hash(0),
                 ommers_hash=Hash(1),
-                coinbase=Address(2),
+                fee_recipient=Address(2),
                 state_root=Hash(3),
-                transactions_root=Hash(4),
-                receipt_root=Hash(5),
-                bloom=Bloom(6),
+                transactions_trie=Hash(4),
+                receipts_root=Hash(5),
+                logs_bloom=Bloom(6),
                 difficulty=7,
                 number=8,
                 gas_limit=9,
                 gas_used=10,
                 timestamp=11,
                 extra_data=Bytes([12]),
-                mix_digest=Hash(13),
+                prev_randao=Hash(13),
                 nonce=HeaderNonce(14),
-                base_fee=15,
+                base_fee_per_gas=15,
                 withdrawals_root=Hash(16),
                 blob_gas_used=17,
                 excess_blob_gas=18,
-                hash=Hash(19),
+                # hash=Hash(19),
             ),
             {
                 "parentHash": Hash(0).hex(),
@@ -810,7 +814,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "withdrawalsRoot": Hash(16).hex(),
                 "blobGasUsed": ZeroPaddedHexNumber(17).hex(),
                 "excessBlobGas": ZeroPaddedHexNumber(18).hex(),
-                "hash": Hash(19).hex(),
+                "hash": "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211",
             },
             id="fixture_header_2",
         ),
@@ -819,24 +823,24 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 header=FixtureHeader(
                     parent_hash=Hash(0),
                     ommers_hash=Hash(1),
-                    coinbase=Address(2),
+                    fee_recipient=Address(2),
                     state_root=Hash(3),
-                    transactions_root=Hash(4),
-                    receipt_root=Hash(5),
-                    bloom=Bloom(6),
+                    transactions_trie=Hash(4),
+                    receipts_root=Hash(5),
+                    logs_bloom=Bloom(6),
                     difficulty=7,
                     number=8,
                     gas_limit=9,
                     gas_used=10,
                     timestamp=11,
                     extra_data=Bytes([12]),
-                    mix_digest=Hash(13),
+                    prev_randao=Hash(13),
                     nonce=HeaderNonce(14),
-                    base_fee=15,
+                    base_fee_per_gas=15,
                     withdrawals_root=Hash(16),
                     blob_gas_used=17,
                     excess_blob_gas=18,
-                    hash=Hash(19),
+                    # hash=Hash(19),
                 ),
                 transactions=[
                     Transaction(
@@ -854,7 +858,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                         blob_versioned_hashes=[0, 1],
                     ).with_signature_and_sender(),
                 ],
-                withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+                withdrawals=[Withdrawal(index=0, validator_index=1, address=0x1234, amount=2)],
             ),
             {
                 "parentHash": Hash(0).hex(),
@@ -871,7 +875,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "baseFeePerGas": hex(15),
                 "blobGasUsed": hex(17),
                 "excessBlobGas": hex(18),
-                "blockHash": Hash(19).hex(),
+                "blockHash": "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211",
                 "transactions": [
                     "0x"
                     + Transaction(
@@ -889,35 +893,34 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                         blob_versioned_hashes=[0, 1],
                     )
                     .with_signature_and_sender()
-                    .serialized_bytes()
-                    .hex()
+                    .rlp.hex()
                 ],
                 "withdrawals": [
-                    to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
+                    to_json(Withdrawal(index=0, validator_index=1, address=0x1234, amount=2))
                 ],
             },
             id="fixture_execution_payload_1",
         ),
         pytest.param(
             FixtureEngineNewPayload(
-                payload=FixtureExecutionPayload.from_fixture_header(
+                execution_payload=FixtureExecutionPayload.from_fixture_header(
                     header=FixtureHeader(
                         parent_hash=Hash(0),
                         ommers_hash=Hash(1),
-                        coinbase=Address(2),
+                        fee_recipient=Address(2),
                         state_root=Hash(3),
-                        transactions_root=Hash(4),
-                        receipt_root=Hash(5),
-                        bloom=Bloom(6),
+                        transactions_trie=Hash(4),
+                        receipts_root=Hash(5),
+                        logs_bloom=Bloom(6),
                         difficulty=7,
                         number=8,
                         gas_limit=9,
                         gas_used=10,
                         timestamp=11,
                         extra_data=Bytes([12]),
-                        mix_digest=Hash(13),
+                        prev_randao=Hash(13),
                         nonce=HeaderNonce(14),
-                        base_fee=15,
+                        base_fee_per_gas=15,
                         withdrawals_root=Hash(16),
                         blob_gas_used=17,
                         excess_blob_gas=18,
@@ -939,7 +942,14 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                             blob_versioned_hashes=[0, 1],
                         ).with_signature_and_sender(),
                     ],
-                    withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+                    withdrawals=[
+                        Withdrawal(
+                            index=0,
+                            validator_index=1,
+                            address=0x1234,
+                            amount=2,
+                        )
+                    ],
                 ),
                 validation_error=TransactionException.INTRINSIC_GAS_TOO_LOW,
                 version=1,
@@ -960,7 +970,9 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     "baseFeePerGas": hex(15),
                     "blobGasUsed": hex(17),
                     "excessBlobGas": hex(18),
-                    "blockHash": Hash(19).hex(),
+                    "blockHash": (
+                        "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211"
+                    ),
                     "transactions": [
                         "0x"
                         + Transaction(
@@ -978,11 +990,17 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                             blob_versioned_hashes=[0, 1],
                         )
                         .with_signature_and_sender()
-                        .serialized_bytes()
-                        .hex()
+                        .rlp.hex()
                     ],
                     "withdrawals": [
-                        to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
+                        to_json(
+                            Withdrawal(
+                                index=0,
+                                validator_index=1,
+                                address=0x1234,
+                                amount=2,
+                            )
+                        )
                     ],
                 },
                 "validationError": "TransactionException.INTRINSIC_GAS_TOO_LOW",
@@ -992,28 +1010,27 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
         ),
         pytest.param(
             FixtureEngineNewPayload(
-                payload=FixtureExecutionPayload.from_fixture_header(
+                execution_payload=FixtureExecutionPayload.from_fixture_header(
                     header=FixtureHeader(
                         parent_hash=Hash(0),
                         ommers_hash=Hash(1),
-                        coinbase=Address(2),
+                        fee_recipient=Address(2),
                         state_root=Hash(3),
-                        transactions_root=Hash(4),
-                        receipt_root=Hash(5),
-                        bloom=Bloom(6),
+                        transactions_trie=Hash(4),
+                        receipts_root=Hash(5),
+                        logs_bloom=Bloom(6),
                         difficulty=7,
                         number=8,
                         gas_limit=9,
                         gas_used=10,
                         timestamp=11,
                         extra_data=Bytes([12]),
-                        mix_digest=Hash(13),
+                        prev_randao=Hash(13),
                         nonce=HeaderNonce(14),
-                        base_fee=15,
+                        base_fee_per_gas=15,
                         withdrawals_root=Hash(16),
                         blob_gas_used=17,
                         excess_blob_gas=18,
-                        hash=Hash(19),
                     ),
                     transactions=[
                         Transaction(
@@ -1031,7 +1048,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                             blob_versioned_hashes=[0, 1],
                         ).with_signature_and_sender(),
                     ],
-                    withdrawals=[Withdrawal(index=0, validator=1, address=0x1234, amount=2)],
+                    withdrawals=[Withdrawal(index=0, validator_index=1, address=0x1234, amount=2)],
                 ),
                 version=1,
                 validation_error=BlockException.INCORRECT_BLOCK_FORMAT,
@@ -1054,7 +1071,9 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     "baseFeePerGas": hex(15),
                     "blobGasUsed": hex(17),
                     "excessBlobGas": hex(18),
-                    "blockHash": Hash(19).hex(),
+                    "blockHash": (
+                        "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211"
+                    ),
                     "transactions": [
                         "0x"
                         + Transaction(
@@ -1072,11 +1091,17 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                             blob_versioned_hashes=[0, 1],
                         )
                         .with_signature_and_sender()
-                        .serialized_bytes()
-                        .hex()
+                        .rlp.hex()
                     ],
                     "withdrawals": [
-                        to_json(Withdrawal(index=0, validator=1, address=0x1234, amount=2))
+                        to_json(
+                            Withdrawal(
+                                index=0,
+                                validator_index=1,
+                                address=0x1234,
+                                amount=2,
+                            )
+                        )
                     ],
                 },
                 "version": "1",
@@ -1092,6 +1117,9 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
     ],
 )
 def test_json_conversions(obj: Any, expected_json: str | Dict[str, Any]):
+    """
+    Test that to_json returns the expected JSON for the given object.
+    """
     assert to_json(obj) == expected_json
 
 
@@ -1213,7 +1241,7 @@ def test_transaction_post_init_defaults(tx_args, expected_attributes_and_values)
             [
                 Withdrawal(
                     index=0,
-                    validator=1,
+                    validator_index=1,
                     address=0x1234,
                     amount=2,
                 )
@@ -1225,13 +1253,13 @@ def test_transaction_post_init_defaults(tx_args, expected_attributes_and_values)
             [
                 Withdrawal(
                     index=0,
-                    validator=1,
+                    validator_index=1,
                     address=0x1234,
                     amount=2,
                 ),
                 Withdrawal(
                     index=1,
-                    validator=2,
+                    validator_index=2,
                     address=0xABCD,
                     amount=0,
                 ),
@@ -1243,13 +1271,13 @@ def test_transaction_post_init_defaults(tx_args, expected_attributes_and_values)
             [
                 Withdrawal(
                     index=0,
-                    validator=0,
+                    validator_index=0,
                     address=0x100,
                     amount=0,
                 ),
                 Withdrawal(
                     index=0,
-                    validator=0,
+                    validator_index=0,
                     address=0x200,
                     amount=0,
                 ),
@@ -1263,4 +1291,4 @@ def test_withdrawals_root(withdrawals: List[Withdrawal], expected_root: bytes):
     """
     Test that withdrawals_root returns the expected hash.
     """
-    assert withdrawals_root(withdrawals) == expected_root
+    assert Withdrawal.list_root(withdrawals) == expected_root
