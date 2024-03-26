@@ -65,8 +65,11 @@ class OpcodeMacroBase(bytes):
 
     def __eq__(self, other):
         """
-        Required to differentiate between SELFDESTRUCT and SENDALL type of cases
-        And to compare with the Macro opcodes
+        Allows comparison between OpcodeMacroBase instances and bytes objects.
+
+        Raises:
+        - NotImplementedError: if the comparison is not between an OpcodeMacroBase
+            or a bytes object.
         """
         if isinstance(other, OpcodeMacroBase):
             return self._name_ == other._name_
