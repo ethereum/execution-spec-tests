@@ -212,6 +212,7 @@ prestateTracer
 programmatically
 px
 py
+pydantic
 pyspelling
 pytest
 Pytest
@@ -237,6 +238,7 @@ runtime
 sandboxed
 secp256k1
 selfbalance
+ser
 setitem
 sha
 SHA
@@ -296,6 +298,7 @@ utils
 v0
 v1
 validator
+validators
 venv
 visualstudio
 vm
