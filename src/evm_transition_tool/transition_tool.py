@@ -212,10 +212,7 @@ class TransitionTool:
         """
         Returns returns the arguments to enable tracing
         """
-        return [
-            "--trace",
-            "--trace.callframes",
-        ]
+        return ["--trace"]
 
     def version(self) -> str:
         """
