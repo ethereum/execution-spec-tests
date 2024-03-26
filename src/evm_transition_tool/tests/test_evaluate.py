@@ -116,7 +116,7 @@ def test_evm_t8n(t8n: TransitionTool, test_dir: str) -> None:  # noqa: D103
         env_json = json.load(env)
         expected = json.load(exp)
 
-        result_alloc, result = t8n.evaluate(
+        result_alloc, result, _ = t8n.evaluate(
             alloc=alloc,
             txs=txs,
             env=env_json,

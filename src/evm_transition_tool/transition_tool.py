@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional, Tuple, Type
 from ethereum_test_forks import Fork
 
 from .file_utils import dump_files_to_directory, write_json_file
+from .traces import EVMTransactionTrace
 
 
 class UnknownTransitionTool(Exception):
@@ -206,6 +207,13 @@ class TransitionTool:
 
         return cls.detect_binary_pattern.match(binary_output) is not None
 
+    @classmethod
+    def trace_args(cls) -> List[str]:
+        """
+        Returns returns the arguments to enable tracing
+        """
+        return ["--trace"]
+
     def version(self) -> str:
         """
         Return name and version of tool used to state transition
@@ -236,36 +244,16 @@ class TransitionTool:
         """
         pass
 
-    def reset_traces(self):
-        """
-        Resets the internal trace storage for a new test to begin
-        """
-        self.traces = None
-
-    def append_traces(self, new_traces: List[List[Dict]]):
-        """
-        Appends a list of traces of a state transition to the current list
-        """
-        if self.traces is None:
-            self.traces = []
-        self.traces.append(new_traces)
-
-    def get_traces(self) -> List[List[List[Dict]]] | None:
-        """
-        Returns the accumulated traces
-        """
-        return self.traces
-
     def collect_traces(
         self,
         receipts: List[Any],
         temp_dir: tempfile.TemporaryDirectory,
         debug_output_path: str = "",
-    ) -> None:
+    ) -> List[EVMTransactionTrace]:
         """
         Collect the traces from the t8n tool output and store them in the traces list.
         """
-        traces: List[List[Dict]] = []
+        traces: List[EVMTransactionTrace] = []
         for i, r in enumerate(receipts):
             trace_file_name = f"trace-{i}-{r['transactionHash']}.jsonl"
             if debug_output_path:
@@ -274,11 +262,13 @@ class TransitionTool:
                     os.path.join(debug_output_path, trace_file_name),
                 )
             with open(os.path.join(temp_dir.name, trace_file_name), "r") as trace_file:
-                tx_traces: List[Dict] = []
-                for trace_line in trace_file.readlines():
-                    tx_traces.append(json.loads(trace_line))
-                traces.append(tx_traces)
-        self.append_traces(traces)
+                traces.append(
+                    EVMTransactionTrace.from_file(
+                        file_handler=trace_file,
+                        transaction_hash=r["transactionHash"],
+                    )
+                )
+        return traces
 
     @dataclass
     class TransitionToolData:
@@ -298,7 +288,7 @@ class TransitionTool:
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Tuple[Dict[str, Any], Dict[str, Any], Optional[List[EVMTransactionTrace]]]:
         """
         Executes a transition tool using the filesystem for its inputs and outputs.
         """
@@ -349,7 +339,7 @@ class TransitionTool:
         ]
 
         if self.trace:
-            args.append("--trace")
+            args += self.trace_args()
 
         result = subprocess.run(
             args,
@@ -403,19 +393,26 @@ class TransitionTool:
             with open(file_path, "r+") as file:
                 output_contents[key] = json.load(file)
 
-        if self.trace:
-            self.collect_traces(output_contents["result"]["receipts"], temp_dir, debug_output_path)
+        traces = (
+            None
+            if not self.trace
+            else self.collect_traces(
+                output_contents["result"]["receipts"],
+                temp_dir,
+                debug_output_path,
+            )
+        )
 
         temp_dir.cleanup()
 
-        return output_contents["alloc"], output_contents["result"]
+        return output_contents["alloc"], output_contents["result"], traces
 
     def _evaluate_stream(
         self,
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Tuple[Dict[str, Any], Dict[str, Any], Optional[List[EVMTransactionTrace]]]:
         """
         Executes a transition tool using stdin and stdout for its inputs and outputs.
         """
@@ -455,11 +452,16 @@ class TransitionTool:
                 },
             )
 
+        traces = None
         if self.trace:
-            self.collect_traces(output["result"]["receipts"], temp_dir, debug_output_path)
+            traces = self.collect_traces(
+                output["result"]["receipts"],
+                temp_dir,
+                debug_output_path,
+            )
             temp_dir.cleanup()
 
-        return output["alloc"], output["result"]
+        return output["alloc"], output["result"], traces
 
     def construct_args_stream(
         self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
@@ -484,7 +486,7 @@ class TransitionTool:
         ]
 
         if self.trace:
-            args.append("--trace")
+            args += self.trace_args()
             args.append(f"--output.basedir={temp_dir.name}")
         return args
 
@@ -540,7 +542,7 @@ class TransitionTool:
         reward: int = 0,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Tuple[Dict[str, Any], Dict[str, Any], Optional[List[EVMTransactionTrace]]]:
         """
         Executes the relevant evaluate method as required by the `t8n` tool.
 

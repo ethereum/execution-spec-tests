@@ -143,7 +143,7 @@ class StateTest(BaseTest):
             if eips
             else transition_tool_name
         )
-        next_alloc, result = t8n.evaluate(
+        next_alloc, result, traces = t8n.evaluate(
             alloc=to_json(pre_alloc),
             txs=to_json([tx]),
             env=to_json(env),
@@ -157,7 +157,10 @@ class StateTest(BaseTest):
         try:
             verify_post_alloc(self.post, next_alloc)
         except Exception as e:
-            print_traces(t8n.get_traces())
+            print_traces(
+                exception=e,
+                traces=[traces] if traces is not None else None,
+            )
             raise e
 
         return Fixture(

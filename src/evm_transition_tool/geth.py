@@ -8,7 +8,7 @@ import subprocess
 import textwrap
 from pathlib import Path
 from re import compile
-from typing import Optional
+from typing import List, Optional
 
 import pytest
 
@@ -55,6 +55,16 @@ class GethTransitionTool(TransitionTool):
         If the fork is a transition fork, we want to check the fork it transitions to.
         """
         return fork.transition_tool_name() in self.help_string
+
+    @classmethod
+    def trace_args(cls) -> List[str]:
+        """
+        Returns returns the arguments to enable tracing
+        """
+        return [
+            "--trace",
+            "--trace.callframes",
+        ]
 
     def process_statetest_result(self, result: str):
         """

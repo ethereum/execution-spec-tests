@@ -9,6 +9,7 @@ from typing import (
     Any,
     ClassVar,
     Dict,
+    Generator,
     Iterator,
     List,
     Mapping,
@@ -28,6 +29,13 @@ from ethereum.frontier.state import State, set_account, set_storage, state_root
 from trie import HexaryTrie
 
 from ethereum_test_forks import Fork
+from evm_transition_tool import (
+    EVMCallFrameEnter,
+    EVMCallFrameExit,
+    EVMTraceLine,
+    TraceableException,
+    TraceMarkerDescriptor,
+)
 
 from ..exceptions import ExceptionList, TransactionException
 from .base_types import Address, Bytes, Hash, HexNumber, Number, ZeroPaddedHexNumber
@@ -89,10 +97,6 @@ class Storage(SupportsJSON, dict):
 
         key_or_value: Any
 
-        def __init__(self, key_or_value: Any, *args):
-            super().__init__(args)
-            self.key_or_value = key_or_value
-
         def __str__(self):
             """Print exception string"""
             return f"invalid type for key/value: {self.key_or_value}"
@@ -105,10 +109,6 @@ class Storage(SupportsJSON, dict):
         """
 
         key_or_value: Any
-
-        def __init__(self, key_or_value: Any, *args):
-            super().__init__(args)
-            self.key_or_value = key_or_value
 
         def __str__(self):
             """Print exception string"""
@@ -125,20 +125,6 @@ class Storage(SupportsJSON, dict):
         key_2: str | int
         val_2: str | int
 
-        def __init__(
-            self,
-            key_1: str | int,
-            val_1: str | int,
-            key_2: str | int,
-            val_2: str | int,
-            *args,
-        ):
-            super().__init__(args)
-            self.key_1 = key_1
-            self.val_1 = val_1
-            self.key_2 = key_2
-            self.val_2 = val_2
-
         def __str__(self):
             """Print exception string"""
             return f"""
@@ -148,23 +134,40 @@ class Storage(SupportsJSON, dict):
             """
 
     @dataclass(kw_only=True)
-    class MissingKey(Exception):
+    class MissingKey(TraceableException):
         """
         Test expected to find a storage key set but key was missing.
         """
 
+        address: Address
         key: int
 
-        def __init__(self, key: int, *args):
-            super().__init__(args)
-            self.key = key
+        @property
+        def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
+            """Mark the traces that are relevant to the exception."""
+            yield TraceMarkerDescriptor(
+                trace_type=EVMTraceLine,
+                description=f"SSTORE event on address {self.address} and key {hex(self.key)}",
+                context_address=self.address,
+                op_name="SSTORE",
+                stack=[self.key],  # top element of the stack must be the key that caused the error
+            )
+            yield TraceMarkerDescriptor(
+                trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
 
         def __str__(self):
             """Print exception string"""
-            return "key {0} not found in storage".format(Storage.key_value_to_string(self.key))
+            return (
+                f"key {Storage.key_value_to_string(self.key)} not found in"
+                + f" storage of {self.address}"
+            )
 
     @dataclass(kw_only=True)
-    class KeyValueMismatch(Exception):
+    class KeyValueMismatch(TraceableException):
         """
         Test expected a certain value in a storage key but value found
         was different.
@@ -175,19 +178,29 @@ class Storage(SupportsJSON, dict):
         want: int
         got: int
 
-        def __init__(self, address: Address, key: int, want: int, got: int, *args):
-            super().__init__(args)
-            self.address = address
-            self.key = key
-            self.want = want
-            self.got = got
+        @property
+        def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
+            """Mark the traces that are relevant to the exception."""
+            yield TraceMarkerDescriptor(
+                trace_type=EVMTraceLine,
+                description=f"SSTORE event on address {self.address} and key {hex(self.key)}",
+                context_address=self.address,
+                op_name="SSTORE",
+                stack=[self.key],  # top element of the stack must be the key that caused the error
+            )
+            yield TraceMarkerDescriptor(
+                trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
 
         def __str__(self):
             """Print exception string"""
             return (
                 f"incorrect value in address {self.address} for "
                 + f"key {Storage.key_value_to_string(self.key)}:"
-                + f" want {Storage.key_value_to_string(self.want)} (dec:{self.want}),"
+                + f" want {Storage.key_value_to_string(self.want)} (dec:{self.want}) "
                 + f" got {Storage.key_value_to_string(self.got)} (dec:{self.got})"
             )
 
@@ -309,7 +322,7 @@ class Storage(SupportsJSON, dict):
             if key not in self:
                 # storage[key]==0 is equal to missing storage
                 if other[key] != 0:
-                    raise Storage.MissingKey(key=key)
+                    raise Storage.MissingKey(address=address, key=key)
             elif self[key] != other[key]:
                 raise Storage.KeyValueMismatch(
                     address=address, key=key, want=self[key], got=other[key]
@@ -397,7 +410,7 @@ class Account:
     """
 
     @dataclass(kw_only=True)
-    class NonceMismatch(Exception):
+    class NonceMismatch(TraceableException):
         """
         Test expected a certain nonce value for an account but a different
         value was found.
@@ -407,11 +420,21 @@ class Account:
         want: int | None
         got: int | None
 
-        def __init__(self, address: Address, want: int | None, got: int | None, *args):
-            super().__init__(args)
-            self.address = address
-            self.want = want
-            self.got = got
+        @property
+        def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
+            """Mark the traces that are relevant to the exception."""
+            yield TraceMarkerDescriptor(
+                trace_type=EVMTraceLine,
+                description=f"CREATE event from address {self.address}",
+                context_address=self.address,
+                op_name="CREATE",
+            )
+            yield TraceMarkerDescriptor(
+                trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
 
         def __str__(self):
             """Print exception string"""
@@ -421,7 +444,7 @@ class Account:
             )
 
     @dataclass(kw_only=True)
-    class BalanceMismatch(Exception):
+    class BalanceMismatch(TraceableException):
         """
         Test expected a certain balance for an account but a different
         value was found.
@@ -431,11 +454,14 @@ class Account:
         want: int | None
         got: int | None
 
-        def __init__(self, address: Address, want: int | None, got: int | None, *args):
-            super().__init__(args)
-            self.address = address
-            self.want = want
-            self.got = got
+        @property
+        def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
+            """Mark the traces that are relevant to the exception."""
+            yield TraceMarkerDescriptor(
+                trace_type=EVMCallFrameEnter,
+                description=f"Enter frame to address {self.address}",
+                to_address=self.address,
+            )
 
         def __str__(self):
             """Print exception string"""
@@ -445,7 +471,7 @@ class Account:
             )
 
     @dataclass(kw_only=True)
-    class CodeMismatch(Exception):
+    class CodeMismatch(TraceableException):
         """
         Test expected a certain bytecode for an account but a different
         one was found.
@@ -455,11 +481,27 @@ class Account:
         want: str | None
         got: str | None
 
-        def __init__(self, address: Address, want: str | None, got: str | None, *args):
-            super().__init__(args)
-            self.address = address
-            self.want = want
-            self.got = got
+        @property
+        def markers(self) -> Generator[TraceMarkerDescriptor, None, None]:
+            """Mark the traces that are relevant to the exception."""
+            yield TraceMarkerDescriptor(
+                trace_type=EVMCallFrameEnter,
+                description=f"CREATE/CREATE2 event to address {self.address}",
+                to_address=self.address,
+                op_name=lambda op: op in ["CREATE", "CREATE2"],
+            )
+            yield TraceMarkerDescriptor(
+                trace_type=EVMTraceLine,
+                description=f"SELFDESTRUCT event from address {self.address}",
+                context_address=self.address,
+                op_name="SELFDESTRUCT",
+            )
+            yield TraceMarkerDescriptor(
+                trace_type=EVMCallFrameExit,
+                description=f"Exit frame from address {self.address} with error",
+                from_address=self.address,
+                error=lambda e: e is not None,
+            )
 
         def __str__(self):
             """Print exception string"""
