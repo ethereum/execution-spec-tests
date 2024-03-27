@@ -21,6 +21,7 @@ from .types import (
     BlockException,
     Fixture,
     FixtureBlock,
+    FixtureBlockBase,
     FixtureEngineNewPayload,
     FixtureHeader,
     FixtureTransaction,
@@ -139,8 +140,12 @@ class BlockchainTest(BaseTest):
             parent_beacon_block_root=env.parent_beacon_block_root,
         )
 
-        return pre_alloc, FixtureBlock(
-            header=genesis, withdrawals=None if env.withdrawals is None else []
+        return (
+            pre_alloc,
+            FixtureBlockBase(
+                header=genesis,
+                withdrawals=None if env.withdrawals is None else [],
+            ).with_rlp(txs=[]),
         )
 
     def generate_block_data(
@@ -295,14 +300,14 @@ class BlockchainTest(BaseTest):
                     previous_alloc=alloc,
                     eips=eips,
                 )
-                fixture_block = FixtureBlock(
+                fixture_block = FixtureBlockBase(
                     header=header,
                     txs=[FixtureTransaction.from_transaction(tx) for tx in txs],
                     ommers=[],
                     withdrawals=[FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
                     if new_env.withdrawals is not None
                     else None,
-                )
+                ).with_rlp(txs=txs)
                 if block.exception is None:
                     fixture_blocks.append(fixture_block)
                     # Update env, alloc and last block hash for the next block.
@@ -317,7 +322,7 @@ class BlockchainTest(BaseTest):
                             rlp_decoded=(
                                 None
                                 if BlockException.RLP_STRUCTURES_ENCODING in block.exception
-                                else fixture_block
+                                else fixture_block.without_rlp()
                             ),
                         ),
                     )
