@@ -5,7 +5,7 @@ Base test class and helper functions for Ethereum state and blockchain tests.
 import hashlib
 import json
 from abc import abstractmethod
-from functools import reduce
+from functools import cached_property, reduce
 from itertools import count
 from os import path
 from pathlib import Path
@@ -18,7 +18,6 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import Environment, Transaction, Withdrawal
 from ...common.conversions import to_hex
-from ...common.json import to_json
 from ...common.types import CamelModel, Result
 from ...reference_spec.reference_spec import ReferenceSpec
 
@@ -67,15 +66,36 @@ def verify_result(result: Result, env: Environment):
 
 
 class BaseFixture(CamelModel):
-    """
-    Represents a base Ethereum test fixture of any type.
-    """
+    """Represents a base Ethereum test fixture of any type."""
 
     info: Dict[str, str] = Field(default_factory=dict, alias="_info")
-
-    _json: Optional[Dict[str, Any]] = None
-
     format: ClassVar[FixtureFormats] = FixtureFormats.UNSET_TEST_FORMAT
+
+    @cached_property
+    def json_dict(self) -> Dict[str, Any]:
+        """
+        Returns the JSON representation of the fixture.
+        """
+        return self.model_dump(mode="json", by_alias=True, exclude_none=True, exclude={"_info"})
+
+    @cached_property
+    def hash(self) -> str:
+        """
+        Returns the hash of the fixture.
+        """
+        json_str = json.dumps(self.json_dict, sort_keys=True, separators=(",", ":"))
+        h = hashlib.sha256(json_str.encode("utf-8")).hexdigest()
+        return f"0x{h}"
+
+    def json_dict_with_info(self, hash_only: bool = False) -> Dict[str, Any]:
+        """
+        Returns the JSON representation of the fixture with the info field.
+        """
+        dict_with_info = self.json_dict.copy()
+        dict_with_info["_info"] = {"hash": self.hash}
+        if not hash_only:
+            dict_with_info["_info"].update(self.info)
+        return dict_with_info
 
     def fill_info(
         self,
@@ -91,39 +111,6 @@ class BaseFixture(CamelModel):
         if ref_spec is not None:
             ref_spec.write_info(self.info)
 
-    def model_post_init(self, __context):
-        """
-        Post init hook to convert to JSON after instantiation.
-        """
-        super().model_post_init(__context)
-        previous_hash = None
-        if "hash" in self.info:  # e.g., we're loading an existing fixture from file
-            previous_hash = self.info["hash"]
-        self._json = to_json(self)
-        self.add_hash()
-        if previous_hash and previous_hash != self.info["hash"]:
-            raise HashMismatchException(previous_hash, self.info["hash"])
-
-    def to_json(self) -> Dict[str, Any]:
-        """
-        Convert to JSON.
-        """
-        assert self._json is not None, "Fixture not initialized"
-        self._json["_info"] = self.info
-        return self._json
-
-    def add_hash(self) -> None:
-        """
-        Calculate the hash of the fixture and add it to the fixture and fixture's
-        json.
-        """
-        assert self._json is not None, "Fixture not initialized"
-        self._json["_info"] = {}
-        json_str = json.dumps(self._json, sort_keys=True, separators=(",", ":"))
-        h = hashlib.sha256(json_str.encode("utf-8")).hexdigest()
-        self.info["hash"] = f"0x{h}"
-        self._json["_info"] = self.info
-
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
         """
@@ -132,7 +119,7 @@ class BaseFixture(CamelModel):
         json_fixtures: Dict[str, Dict[str, Any]] = {}
         for name, fixture in fixtures.items():
             assert isinstance(fixture, cls), f"Invalid fixture type: {type(fixture)}"
-            json_fixtures[name] = fixture.to_json()
+            json_fixtures[name] = fixture.json_dict_with_info()
         json.dump(json_fixtures, fd, indent=4)
 
 

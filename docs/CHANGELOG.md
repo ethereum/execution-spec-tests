@@ -28,6 +28,7 @@ As part of the pydantic conversion, the fixtures have the following (possibly br
 
 - `expectException` fields now print the exceptions in sorted order.
 - State test field `transaction` now uses the proper zero-padded hex number format for fields `maxPriorityFeePerGas`, `maxFeePerGas`, and `maxFeePerBlobGas`
+- Fixtures' hashes (in the `_info` field) are now calculated by removing the "_info" field entirely instead of it being set to an empty dict.
 
 ## 🔜 [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 
