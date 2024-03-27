@@ -4,7 +4,6 @@ abstract: Tests [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/ei
 
 """  # noqa: E501
 
-from dataclasses import replace
 from itertools import count
 from typing import Dict
 
@@ -156,7 +155,7 @@ def test_blobbasefee_out_of_gas(
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blobbasefee_before_fork(
     state_test: StateTestFiller,
-    pre: Dict,
+    pre: Dict[Address, Account],
     tx: Transaction,
 ):
     """
@@ -165,7 +164,9 @@ def test_blobbasefee_before_fork(
     # Fork happens at timestamp 15_000
     timestamp = 7_500
     code_caller_pre_storage = Storage({1: 1})
-    pre[code_caller_address] = replace(pre[code_caller_address], storage=code_caller_pre_storage)
+    pre[code_caller_address] = pre[code_caller_address].copy(
+        storage=code_caller_pre_storage,
+    )
     post = {
         code_caller_address: Account(
             storage={1: 0},
@@ -187,7 +188,7 @@ def test_blobbasefee_before_fork(
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blobbasefee_during_fork(
     blockchain_test: BlockchainTestFiller,
-    pre: Dict,
+    pre: Dict[Address, Account],
     tx: Transaction,
 ):
     """
@@ -214,7 +215,9 @@ def test_blobbasefee_during_fork(
         code_caller_pre_storage[block_number] = 0xFF
         code_caller_post_storage[block_number] = 0 if timestamp < 15_000 else 1
 
-    pre[code_caller_address] = replace(pre[code_caller_address], storage=code_caller_pre_storage)
+    pre[code_caller_address] = pre[code_caller_address].copy(
+        storage=code_caller_pre_storage,
+    )
     post = {
         code_caller_address: Account(
             storage=code_caller_post_storage,
