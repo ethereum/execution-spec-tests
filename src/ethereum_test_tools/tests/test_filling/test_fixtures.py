@@ -14,7 +14,7 @@ from evm_transition_tool import FixtureFormats, GethTransitionTool
 
 from ... import Header
 from ...code import Yul
-from ...common import Account, Environment, Hash, TestAddress, Transaction, to_json
+from ...common import Account, Environment, Hash, TestAddress, Transaction
 from ...exceptions import TransactionException
 from ...spec import BlockchainTest, StateTest
 from ...spec.blockchain.types import Block
@@ -156,7 +156,7 @@ def test_fill_state_test(
     )
     assert generated_fixture.format == fixture_format
     fixture = {
-        f"000/my_chain_id_test/{fork}": to_json(generated_fixture),
+        f"000/my_chain_id_test/{fork}": generated_fixture.json_dict_with_info(hash_only=True),
     }
 
     expected_json_file = f"chainid_{fork.name().lower()}_{fixture_format.value}.json"
@@ -499,7 +499,9 @@ class TestFillBlockchainValidTxs:
         assert isinstance(blockchain_test_fixture, BlockchainFixtureCommon)
 
         fixture = {
-            f"000/my_blockchain_test/{fork.name()}": to_json(blockchain_test_fixture),
+            f"000/my_blockchain_test/{fork.name()}": blockchain_test_fixture.json_dict_with_info(
+                hash_only=True
+            ),
         }
 
         with open(
@@ -872,7 +874,9 @@ def test_fill_blockchain_invalid_txs(
     assert generated_fixture.format == fixture_format
     assert isinstance(generated_fixture, BlockchainFixtureCommon)
     fixture = {
-        f"000/my_blockchain_test/{fork.name()}": to_json(generated_fixture),
+        f"000/my_blockchain_test/{fork.name()}": generated_fixture.json_dict_with_info(
+            hash_only=True
+        ),
     }
 
     with open(
