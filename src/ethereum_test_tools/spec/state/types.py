@@ -4,12 +4,19 @@ StateTest types
 
 from typing import ClassVar, List, Mapping, Sequence
 
-from pydantic import BaseModel, Field, model_serializer
+from pydantic import BaseModel, Field
 
 from evm_transition_tool import FixtureFormats
 
 from ...common.base_types import Address, Bytes, Hash, ZeroPaddedHexNumber
-from ...common.types import AccessList, Alloc, CamelModel, EnvironmentGeneric, Transaction
+from ...common.types import (
+    AccessList,
+    Alloc,
+    CamelModel,
+    EnvironmentGeneric,
+    Transaction,
+    TransactionToEmptyStringHandler,
+)
 from ...exceptions import ExceptionList, TransactionException
 from ..base.base_test import BaseFixture
 
@@ -22,7 +29,7 @@ class FixtureEnvironment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     prev_randao: Hash | None = Field(None, alias="currentRandom")  # type: ignore
 
 
-class FixtureTransaction(CamelModel):
+class FixtureTransaction(TransactionToEmptyStringHandler):
     """
     Type used to describe a transaction in a state test.
     """
@@ -40,16 +47,6 @@ class FixtureTransaction(CamelModel):
     blob_versioned_hashes: Sequence[Hash] | None = None
     sender: Address | None = None
     secret_key: Hash | None = None
-
-    @model_serializer(mode="wrap", when_used="json-unless-none")
-    def serialize_to_as_empty_string(self, handler):
-        """
-        Serializes the field `to` an empty string if the value is None.
-        """
-        default = handler(self)
-        if default is not None and "to" not in default:
-            default["to"] = ""
-        return default
 
     @classmethod
     def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":

@@ -26,7 +26,16 @@ from ethereum.crypto.hash import keccak256
 from ethereum.frontier.fork_types import Account as FrontierAccount
 from ethereum.frontier.fork_types import Address as FrontierAddress
 from ethereum.frontier.state import State, set_account, set_storage, state_root
-from pydantic import BaseModel, ConfigDict, Field, RootModel, TypeAdapter, computed_field
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    RootModel,
+    TypeAdapter,
+    computed_field,
+    model_serializer,
+    model_validator,
+)
 from pydantic.alias_generators import to_camel
 from trie import HexaryTrie
 
@@ -790,7 +799,7 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     max_priority_fee_per_gas: NumberBoundTypeVar | None = None
     max_fee_per_gas: NumberBoundTypeVar | None = None
     gas_limit: NumberBoundTypeVar = Field(21_000)  # type: ignore
-    to: Address | None = Field(Address(0xAA))
+    to: Address | None = None
     value: NumberBoundTypeVar = Field(0)  # type: ignore
     data: Bytes = Field(Bytes(b""))
     access_list: List[AccessList] | None = None
@@ -803,12 +812,37 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     sender: Address | None = None
 
 
+class TransactionToEmptyStringHandler(CamelModel):
+    """Handler for serializing and validating the `to` field as an empty string."""
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_to_as_empty_string(cls, data: Any) -> Any:
+        """
+        Validates the field `to` is an empty string if the value is None.
+        """
+        if isinstance(data, dict) and "to" in data and data["to"] == "":
+            del data["to"]
+        return data
+
+    @model_serializer(mode="wrap", when_used="json-unless-none")
+    def serialize_to_as_empty_string(self, serializer):
+        """
+        Serializes the field `to` an empty string if the value is None.
+        """
+        default = serializer(self)
+        if default is not None and "to" not in default:
+            default["to"] = ""
+        return default
+
+
 class Transaction(CamelModel, TransactionGeneric[HexNumber]):
     """
     Generic object that can represent all Ethereum transaction types.
     """
 
     gas_limit: HexNumber = Field(HexNumber(21_000), serialization_alias="gas")
+    to: Address | None = Field(Address(0xAA))
     data: Bytes = Field(Bytes(b""), alias="input")
 
     secret_key: Hash | None = None
