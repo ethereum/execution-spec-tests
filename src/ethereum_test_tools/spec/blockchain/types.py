@@ -8,7 +8,7 @@ from typing import Annotated, Any, ClassVar, Dict, List, Literal, get_args, get_
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
-from pydantic import ConfigDict, Field, PlainSerializer, computed_field, model_serializer
+from pydantic import ConfigDict, Field, PlainSerializer, computed_field
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats
@@ -31,6 +31,7 @@ from ...common.types import (
     Removable,
     Transaction,
     TransactionGeneric,
+    TransactionToEmptyStringHandler,
     Withdrawal,
     WithdrawalGeneric,
 )
@@ -437,20 +438,10 @@ class FixtureEngineNewPayload(CamelModel):
         return new_payload
 
 
-class FixtureTransaction(CamelModel, TransactionGeneric[ZeroPaddedHexNumber]):
+class FixtureTransaction(TransactionToEmptyStringHandler, TransactionGeneric[ZeroPaddedHexNumber]):
     """
     Representation of an Ethereum transaction within a test Fixture.
     """
-
-    @model_serializer(mode="wrap", when_used="json-unless-none")
-    def serialize_to_as_empty_string(self, handler):
-        """
-        Serializes the field `to` an empty string if the value is None.
-        """
-        default = handler(self)
-        if default is not None and "to" not in default:
-            default["to"] = ""
-        return default
 
     @classmethod
     def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
