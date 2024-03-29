@@ -8,7 +8,7 @@ from functools import cached_property
 from pathlib import Path
 from shutil import which
 from subprocess import CompletedProcess, run
-from typing import Optional, Sized, SupportsBytes, Tuple, Type
+from typing import Optional, Sized, SupportsBytes, Type
 
 from semver import Version
 
@@ -87,7 +87,7 @@ class Yul(Solc, SupportsBytes, Sized):
     def compiled(self) -> bytes:
         """Returns the compiled Yul source code."""
         solc_args = ("--evm-version", self.evm_version) if self.evm_version else ()
-        
+
         result = self.run(*solc_args, *DEFAULT_SOLC_ARGS, input=self.source)
 
         if result.returncode:
