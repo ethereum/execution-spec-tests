@@ -45,7 +45,7 @@ Artifacts can be downloaded directly from [the release page](https://github.com/
 # The following two artifacts are intended for consumption by clients:
 # - fixtures.tar.gz: Generated up to the last deployed fork.
 # - fixtures_develop.tar.gz: Generated up to and including the latest dev fork.
-# As of Oct 2023, dev is Cancun, deployed is Shanghai.
+# As of March 2024, dev is Prague, deployed is Cancun.
 
 ARTIFACT="fixtures_develop.tar.gz"  
 
