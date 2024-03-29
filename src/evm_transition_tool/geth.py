@@ -2,11 +2,15 @@
 Go-ethereum Transition tool interface.
 """
 
+import json
+import shutil
 import subprocess
 import textwrap
 from pathlib import Path
 from re import compile
 from typing import Optional
+
+import pytest
 
 from ethereum_test_forks import Fork
 
@@ -50,7 +54,18 @@ class GethTransitionTool(TransitionTool):
 
         If the fork is a transition fork, we want to check the fork it transitions to.
         """
-        return fork.fork() in self.help_string
+        return fork.transition_tool_name() in self.help_string
+
+    def process_statetest_result(self, result: str):
+        """
+        Process the result of a `evm statetest` to parse as JSON and raise if any test failed.
+        """
+        result_json = json.loads(result)
+        if not isinstance(result_json, list):
+            raise Exception(f"Unexpected result from evm statetest: {result_json}")
+        for test_result in result_json:
+            if not test_result["pass"]:
+                pytest.fail(f"Test failed: {test_result['name']}. Error: {test_result['error']}")
 
     def verify_fixture(
         self, fixture_format: FixtureFormats, fixture_path: Path, debug_output_path: Optional[Path]
@@ -80,8 +95,12 @@ class GethTransitionTool(TransitionTool):
             stderr=subprocess.PIPE,
         )
 
+        if FixtureFormats.is_state_test(fixture_format):
+            self.process_statetest_result(result.stdout.decode())
+
         if debug_output_path:
-            debug_fixture_path = debug_output_path / fixture_path.name
+            debug_fixture_path = debug_output_path / "fixtures.json"
+            shutil.copyfile(fixture_path, debug_fixture_path)
             # Use the local copy of the fixture in the debug directory
             verify_fixtures_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
             verify_fixtures_script = textwrap.dedent(

@@ -1,15 +1,16 @@
 """
 abstract: Tests [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/eip-7516)
-
     Test BLOBGASFEE opcode [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/eip-7516)
 
 """  # noqa: E501
+
+from dataclasses import replace
 from itertools import count
 from typing import Dict
 
 import pytest
 
-from ethereum_test_tools import Account, Block, BlockchainTestFiller, Environment
+from ethereum_test_tools import Account, Address, Block, BlockchainTestFiller, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Storage, TestAddress, Transaction
 
@@ -17,8 +18,8 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7516.md"
 REFERENCE_SPEC_VERSION = "2ade0452efe8124378f35284676ddfd16dd56ecd"
 
 # Code address used to call the test bytecode on every test case.
-code_caller_address = 0x100
-code_callee_address = 0x200
+code_caller_address = Address(0x100)
+code_callee_address = Address(0x200)
 
 BLOBBASEFEE_GAS = 2
 
@@ -38,7 +39,7 @@ def caller_code(
     """
     Bytecode used to call the bytecode containing the BLOBBASEFEE opcode.
     """
-    return Op.SSTORE(Op.NUMBER, Op.CALL(call_gas, Op.PUSH20(code_callee_address), 0, 0, 0, 0, 0))
+    return Op.SSTORE(Op.NUMBER, Op.CALL(call_gas, code_callee_address, 0, 0, 0, 0, 0))
 
 
 @pytest.fixture
@@ -114,7 +115,7 @@ def test_blobbasefee_stack_overflow(
     state_test(
         env=Environment(),
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
@@ -147,21 +148,54 @@ def test_blobbasefee_out_of_gas(
     state_test(
         env=Environment(),
         pre=pre,
-        txs=[tx],
+        tx=tx,
         post=post,
     )
 
 
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blobbasefee_before_fork(
-    blockchain_test: BlockchainTestFiller,
+    state_test: StateTestFiller,
     pre: Dict,
     tx: Transaction,
 ):
     """
     Tests that the BLOBBASEFEE opcode results on exception when called before the fork.
     """
-    code_caller_storage = Storage()
+    # Fork happens at timestamp 15_000
+    timestamp = 7_500
+    code_caller_pre_storage = Storage({1: 1})
+    pre[code_caller_address] = replace(pre[code_caller_address], storage=code_caller_pre_storage)
+    post = {
+        code_caller_address: Account(
+            storage={1: 0},
+        ),
+        code_callee_address: Account(
+            balance=0,
+        ),
+    }
+    state_test(
+        env=Environment(
+            timestamp=timestamp,
+        ),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.valid_at_transition_to("Cancun")
+def test_blobbasefee_during_fork(
+    blockchain_test: BlockchainTestFiller,
+    pre: Dict,
+    tx: Transaction,
+):
+    """
+    Tests that the BLOBBASEFEE opcode results on exception when called before the fork and
+    succeeds when called after the fork.
+    """
+    code_caller_pre_storage = Storage()
+    code_caller_post_storage = Storage()
 
     nonce = count(0)
 
@@ -169,18 +203,21 @@ def test_blobbasefee_before_fork(
 
     blocks = []
 
-    for number, timestamp in enumerate(timestamps):
+    for block_number, timestamp in enumerate(timestamps, start=1):
         blocks.append(
             Block(
                 txs=[tx.with_nonce(next(nonce))],
                 timestamp=timestamp,
             ),
         )
-        code_caller_storage[number + 1] = 0 if timestamp < 15_000 else 1
+        # pre-set storage just to make sure we detect the change
+        code_caller_pre_storage[block_number] = 0xFF
+        code_caller_post_storage[block_number] = 0 if timestamp < 15_000 else 1
 
+    pre[code_caller_address] = replace(pre[code_caller_address], storage=code_caller_pre_storage)
     post = {
         code_caller_address: Account(
-            storage=code_caller_storage,
+            storage=code_caller_post_storage,
         ),
         code_callee_address: Account(
             balance=0,

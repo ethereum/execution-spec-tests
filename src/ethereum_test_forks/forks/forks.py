@@ -1,23 +1,44 @@
 """
 All Ethereum fork class definitions.
 """
+
 from typing import List, Mapping, Optional
+
+from semver import Version
 
 from ..base_fork import BaseFork
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
-class Frontier(BaseFork):
+class Frontier(BaseFork, solc_name="homestead"):
     """
     Frontier fork
     """
 
     @classmethod
-    def fork(cls, block_number: int = 0, timestamp: int = 0) -> str:
+    def transition_tool_name(cls, block_number: int = 0, timestamp: int = 0) -> str:
         """
         Returns fork name as it's meant to be passed to the transition tool for execution.
         """
+        if cls._transition_tool_name is not None:
+            return cls._transition_tool_name
         return cls.name()
+
+    @classmethod
+    def solc_name(cls) -> str:
+        """
+        Returns fork name as it's meant to be passed to the solc compiler.
+        """
+        if cls._solc_name is not None:
+            return cls._solc_name
+        return cls.name().lower()
+
+    @classmethod
+    def solc_min_version(cls) -> Version:
+        """
+        Returns the minimum version of solc that supports this fork.
+        """
+        return Version.parse("0.8.20")
 
     @classmethod
     def header_base_fee_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
@@ -60,6 +81,13 @@ class Frontier(BaseFork):
         At genesis, header must not contain blob gas used
         """
         return False
+
+    @classmethod
+    def blob_gas_per_blob(cls, block_number: int, timestamp: int) -> int:
+        """
+        Returns the amount of blob gas used per blob for a given fork.
+        """
+        return 0
 
     @classmethod
     def engine_new_payload_version(
@@ -123,7 +151,16 @@ class Frontier(BaseFork):
         return []
 
     @classmethod
-    def pre_allocation(cls, block_number: int = 0, timestamp: int = 0) -> Mapping:
+    def pre_allocation(cls) -> Mapping:
+        """
+        Returns whether the fork expects pre-allocation of accounts
+
+        Frontier does not require pre-allocated accounts
+        """
+        return {}
+
+    @classmethod
+    def pre_allocation_blockchain(cls) -> Mapping:
         """
         Returns whether the fork expects pre-allocation of accounts
 
@@ -182,7 +219,7 @@ class Constantinople(Byzantium):
         return 2_000_000_000_000_000_000
 
 
-class ConstantinopleFix(Constantinople):
+class ConstantinopleFix(Constantinople, solc_name="constantinople"):
     """
     Constantinople Fix fork
     """
@@ -204,7 +241,7 @@ class Istanbul(ConstantinopleFix):
 
 
 # Glacier forks skipped, unless explicitly specified
-class MuirGlacier(Istanbul):
+class MuirGlacier(Istanbul, solc_name="istanbul", ignore=True):
     """
     Muir Glacier fork
     """
@@ -246,7 +283,7 @@ class London(Berlin):
 
 
 # Glacier forks skipped, unless explicitly specified
-class ArrowGlacier(London):
+class ArrowGlacier(London, solc_name="london", ignore=True):
     """
     Arrow Glacier fork
     """
@@ -254,7 +291,7 @@ class ArrowGlacier(London):
     pass
 
 
-class GrayGlacier(ArrowGlacier):
+class GrayGlacier(ArrowGlacier, solc_name="london", ignore=True):
     """
     Gray Glacier fork
     """
@@ -262,29 +299,33 @@ class GrayGlacier(ArrowGlacier):
     pass
 
 
-class Merge(London):
+class Paris(
+    London,
+    transition_tool_name="Merge",
+    blockchain_test_network_name="Merge",
+):
     """
-    Merge fork
+    Paris (Merge) fork
     """
 
     @classmethod
     def header_prev_randao_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
-        Prev Randao is required starting from Merge.
+        Prev Randao is required starting from Paris.
         """
         return True
 
     @classmethod
     def header_zero_difficulty_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
-        Zero difficulty is required starting from Merge.
+        Zero difficulty is required starting from Paris.
         """
         return True
 
     @classmethod
     def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
-        Merge updates the reward to 0.
+        Paris updates the reward to 0.
         """
         return 0
 
@@ -293,12 +334,12 @@ class Merge(London):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> Optional[int]:
         """
-        Starting at the merge, payloads can be sent through the engine API
+        Starting at Paris, payloads can be sent through the engine API
         """
         return 1
 
 
-class Shanghai(Merge):
+class Shanghai(Paris):
     """
     Shanghai fork
     """
@@ -334,6 +375,13 @@ class Cancun(Shanghai):
         return False
 
     @classmethod
+    def solc_min_version(cls) -> Version:
+        """
+        Returns the minimum version of solc that supports this fork.
+        """
+        return Version.parse("0.8.24")
+
+    @classmethod
     def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         Excess blob gas is required starting from Cancun.
@@ -355,6 +403,13 @@ class Cancun(Shanghai):
         return True
 
     @classmethod
+    def blob_gas_per_blob(cls, block_number: int, timestamp: int) -> int:
+        """
+        Blobs are enabled started from Cancun.
+        """
+        return 2**17
+
+    @classmethod
     def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
         """
         At Cancun, blob type transactions are introduced
@@ -369,9 +424,10 @@ class Cancun(Shanghai):
         return [0xA] + super(Cancun, cls).precompiles(block_number, timestamp)
 
     @classmethod
-    def pre_allocation(cls, block_number: int = 0, timestamp: int = 0) -> Mapping:
+    def pre_allocation_blockchain(cls) -> Mapping:
         """
-        Cancun requires pre-allocation of the beacon root contract for EIP-4788
+        Cancun requires pre-allocation of the beacon root contract for EIP-4788 on blockchain
+        type tests
         """
         new_allocation = {
             0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02: {
@@ -381,7 +437,7 @@ class Cancun(Shanghai):
                 "5ffd5b62001fff42064281555f359062001fff015500",
             }
         }
-        return new_allocation | super(Cancun, cls).pre_allocation(block_number, timestamp)
+        return new_allocation | super(Cancun, cls).pre_allocation_blockchain()
 
     @classmethod
     def engine_new_payload_version(
@@ -405,3 +461,24 @@ class Cancun(Shanghai):
         Starting at Cancun, payloads must have a parent beacon block root.
         """
         return True
+
+
+class Prague(Cancun):
+    """
+    Prague fork
+    """
+
+    @classmethod
+    def is_deployed(cls) -> bool:
+        """
+        Flags that the fork has not been deployed to mainnet; it is under active
+        development.
+        """
+        return False
+
+    @classmethod
+    def solc_min_version(cls) -> Version:
+        """
+        Returns the minimum version of solc that supports this fork.
+        """
+        return Version.parse("1.0.0")  # set a high version; currently unknown

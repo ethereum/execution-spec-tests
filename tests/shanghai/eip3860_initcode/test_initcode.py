@@ -1,10 +1,8 @@
 """
 abstract: Test [EIP-3860: Limit and meter initcode](https://eips.ethereum.org/EIPS/eip-3860)
-
     Tests for  [EIP-3860: Limit and meter initcode](https://eips.ethereum.org/EIPS/eip-3860).
 
 note: Tests ported from:
-
     - [ethereum/tests/pull/990](https://github.com/ethereum/tests/pull/990)
     - [ethereum/tests/pull/1012](https://github.com/ethereum/tests/pull/990)
 """
@@ -15,19 +13,18 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
-    Block,
-    BlockchainTestFiller,
+    Address,
     Environment,
     Initcode,
     StateTestFiller,
     TestAddress,
     Transaction,
+    TransactionException,
     Yul,
     ceiling_division,
     compute_create2_address,
     compute_create_address,
     eip_2028_transaction_data_cost,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -200,7 +197,7 @@ def get_initcode_name(val):
     ],
     ids=get_initcode_name,
 )
-def test_contract_creating_tx(blockchain_test: BlockchainTestFiller, initcode: Initcode):
+def test_contract_creating_tx(state_test: StateTestFiller, initcode: Initcode):
     """
     Test cases using a contract creating transaction
 
@@ -232,24 +229,21 @@ def test_contract_creating_tx(blockchain_test: BlockchainTestFiller, initcode: I
         gas_price=10,
     )
 
-    block = Block(txs=[tx])
-
     if len(initcode) > MAX_INITCODE_SIZE and eip_3860_active:
         # Initcode is above the max size, tx inclusion in the block makes
         # it invalid.
         post[created_contract_address] = Account.NONEXISTENT
-        tx.error = "max initcode size exceeded"
-        block.exception = "max initcode size exceeded"
+        tx.error = TransactionException.INITCODE_SIZE_EXCEEDED
     else:
         # Initcode is at or below the max size, tx inclusion in the block
         # is ok and the contract is successfully created.
         post[created_contract_address] = Account(code=Op.STOP)
 
-    blockchain_test(
+    state_test(
         pre=pre,
         post=post,
-        blocks=[block],
-        genesis_environment=env,
+        tx=tx,
+        env=env,
         tag=f"{initcode.name}",
     )
 
@@ -339,13 +333,13 @@ class TestContractCreationGasUsage:
         }
 
     @pytest.fixture
-    def tx_error(self, gas_test_case) -> str | None:
+    def tx_error(self, gas_test_case) -> TransactionException | None:
         """
         Test that the transaction is invalid if too little intrinsic gas is
         specified, otherwise the tx succeeds.
         """
         if gas_test_case == "too_little_intrinsic_gas":
-            return "intrinsic gas too low"
+            return TransactionException.INTRINSIC_GAS_TOO_LOW
         return None
 
     @pytest.fixture
@@ -383,14 +377,6 @@ class TestContractCreationGasUsage:
         )
 
     @pytest.fixture
-    def block(self, tx, tx_error) -> Block:
-        """
-        Test that the tx_error is also propagated on the Block for the case of
-        too little intrinsic gas.
-        """
-        return Block(txs=[tx], exception=tx_error)
-
-    @pytest.fixture
     def post(
         self,
         gas_test_case,
@@ -413,14 +399,14 @@ class TestContractCreationGasUsage:
 
     def test_gas_usage(
         self,
-        blockchain_test: BlockchainTestFiller,
+        state_test: StateTestFiller,
         gas_test_case: str,
         initcode: Initcode,
         exact_intrinsic_gas,
         exact_execution_gas,
         env,
         pre,
-        block,
+        tx,
         post,
     ):
         """
@@ -436,11 +422,11 @@ class TestContractCreationGasUsage:
                 "equivalent to that of 'test_exact_intrinsic_gas'."
             )
 
-        blockchain_test(
+        state_test(
             pre=pre,
             post=post,
-            blocks=[block],
-            genesis_environment=env,
+            tx=tx,
+            env=env,
             tag=f"{initcode.name}_{gas_test_case}",
         )
 
@@ -544,11 +530,11 @@ class TestCreateInitcode:
 
         pre = {
             TestAddress: Account(balance=1000000000000000000000),
-            to_address(0x100): Account(
+            Address(0x100): Account(
                 code=create_code,
                 nonce=1,
             ),
-            to_address(0x200): Account(
+            Address(0x200): Account(
                 code=call_code,
                 nonce=1,
             ),
@@ -558,7 +544,7 @@ class TestCreateInitcode:
 
         tx = Transaction(
             nonce=0,
-            to=to_address(0x200),
+            to=Address(0x200),
             data=initcode,
             gas_limit=10000000,
             gas_price=10,
@@ -577,7 +563,7 @@ class TestCreateInitcode:
 
         if len(initcode) > MAX_INITCODE_SIZE and eip_3860_active:
             # Call returns 0 as out of gas s[0]==1
-            post[to_address(0x200)] = Account(
+            post[Address(0x200)] = Account(
                 nonce=1,
                 storage={
                     0: 1,
@@ -586,7 +572,7 @@ class TestCreateInitcode:
             )
 
             post[created_contract_address] = Account.NONEXISTENT
-            post[to_address(0x100)] = Account(
+            post[Address(0x100)] = Account(
                 nonce=1,
                 storage={
                     0: 0,
@@ -611,7 +597,7 @@ class TestCreateInitcode:
                 expected_gas_usage += calculate_initcode_word_cost(len(initcode))
 
             # Call returns 1 as valid initcode length s[0]==1 && s[1]==1
-            post[to_address(0x200)] = Account(
+            post[Address(0x200)] = Account(
                 nonce=1,
                 storage={
                     0: 0,
@@ -620,7 +606,7 @@ class TestCreateInitcode:
             )
 
             post[created_contract_address] = Account(code=initcode.deploy_code)
-            post[to_address(0x100)] = Account(
+            post[Address(0x100)] = Account(
                 nonce=2,
                 storage={
                     0: created_contract_address,
@@ -632,6 +618,6 @@ class TestCreateInitcode:
             env=env,
             pre=pre,
             post=post,
-            txs=[tx],
+            tx=tx,
             tag=f"{initcode.name}_{opcode}",
         )

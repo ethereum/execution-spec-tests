@@ -5,9 +5,9 @@ Common pytest fixtures for ethereum_test_tools tests.
 import pytest
 from semver import Version
 
-from ..code import Yul
+from ethereum_test_forks import Frontier
 
-SUPPORTED_SOLC_VERSIONS = [Version.parse(v) for v in ["0.8.20", "0.8.21", "0.8.22"]]
+from ..code import Yul
 
 SOLC_PADDING_VERSION = Version.parse("0.8.21")
 
@@ -16,6 +16,6 @@ SOLC_PADDING_VERSION = Version.parse("0.8.21")
 def solc_version() -> Version:
     """Return the version of solc being used for tests."""
     solc_version = Yul("").version().finalize_version()
-    if solc_version not in SUPPORTED_SOLC_VERSIONS:
+    if solc_version < Frontier.solc_min_version():
         raise Exception("Unsupported solc version: {}".format(solc_version))
     return solc_version

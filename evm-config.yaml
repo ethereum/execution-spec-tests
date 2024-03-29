@@ -4,5 +4,5 @@ main:
   ref: master
 develop:
   impl: geth
-  repo: marioevz/go-ethereum
-  ref: cancun-t8n 
+  repo: ethereum/go-ethereum
+  ref: master

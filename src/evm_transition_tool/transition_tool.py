@@ -5,19 +5,20 @@ Transition tool abstract class.
 import json
 import os
 import shutil
-import stat
 import subprocess
 import tempfile
 import textwrap
 from abc import abstractmethod
+from dataclasses import dataclass, field
 from enum import Enum
 from itertools import groupby
-from json import dump
 from pathlib import Path
 from re import Pattern
 from typing import Any, Dict, List, Optional, Tuple, Type
 
 from ethereum_test_forks import Fork
+
+from .file_utils import dump_files_to_directory, write_json_file
 
 
 class UnknownTransitionTool(Exception):
@@ -35,46 +36,19 @@ class TransitionToolNotFoundInPath(Exception):
         super().__init__(message)
 
 
-def dump_files_to_directory(output_path: str, files: Dict[str, Any]) -> None:
-    """
-    Dump the files to the given directory.
-    """
-    os.makedirs(output_path, exist_ok=True)
-    for file_rel_path_flags, file_contents in files.items():
-        file_rel_path, flags = (
-            file_rel_path_flags.split("+")
-            if "+" in file_rel_path_flags
-            else (file_rel_path_flags, "")
-        )
-        rel_path = os.path.dirname(file_rel_path)
-        if rel_path:
-            os.makedirs(os.path.join(output_path, rel_path), exist_ok=True)
-        file_path = os.path.join(output_path, file_rel_path)
-        with open(file_path, "w") as f:
-            if isinstance(file_contents, str):
-                f.write(file_contents)
-            else:
-                dump(file_contents, f, ensure_ascii=True, indent=4)
-        if flags:
-            file_mode = os.stat(file_path).st_mode
-            if "x" in flags:
-                file_mode |= stat.S_IEXEC
-            os.chmod(file_path, file_mode)
-
-
 class FixtureFormats(Enum):
     """
     Helper class to define fixture formats.
     """
 
+    UNSET_TEST_FORMAT = "unset_test_format"
     STATE_TEST = "state_test"
-    STATE_TEST_HIVE = "state_test_hive"
     BLOCKCHAIN_TEST = "blockchain_test"
     BLOCKCHAIN_TEST_HIVE = "blockchain_test_hive"
 
     @classmethod
     def is_state_test(cls, format):  # noqa: D102
-        return format in (cls.STATE_TEST, cls.STATE_TEST_HIVE)
+        return format == cls.STATE_TEST
 
     @classmethod
     def is_blockchain_test(cls, format):  # noqa: D102
@@ -82,11 +56,32 @@ class FixtureFormats(Enum):
 
     @classmethod
     def is_hive_format(cls, format):  # noqa: D102
-        return format in (cls.STATE_TEST_HIVE, cls.BLOCKCHAIN_TEST_HIVE)
+        return format == cls.BLOCKCHAIN_TEST_HIVE
 
     @classmethod
     def is_standard_format(cls, format):  # noqa: D102
         return format in (cls.STATE_TEST, cls.BLOCKCHAIN_TEST)
+
+    @classmethod
+    def is_verifiable(cls, format):  # noqa: D102
+        return format in (cls.STATE_TEST, cls.BLOCKCHAIN_TEST)
+
+    @classmethod
+    def get_format_description(cls, format):
+        """
+        Returns a description of the fixture format.
+
+        Used to add a description to the generated pytest marks.
+        """
+        if format == cls.UNSET_TEST_FORMAT:
+            return "Unknown fixture format; it has not been set."
+        elif format == cls.STATE_TEST:
+            return "Tests that generate a state test fixture."
+        elif format == cls.BLOCKCHAIN_TEST:
+            return "Tests that generate a blockchain test fixture."
+        elif format == cls.BLOCKCHAIN_TEST_HIVE:
+            return "Tests that generate a blockchain test fixture in hive format."
+        raise Exception(f"Unknown fixture format: {format}.")
 
 
 class TransitionTool:
@@ -106,6 +101,7 @@ class TransitionTool:
     statetest_subcommand: Optional[str] = None
     blocktest_subcommand: Optional[str] = None
     cached_version: Optional[str] = None
+    t8n_use_stream: bool = True
 
     # Abstract methods that each tool must implement
 
@@ -284,92 +280,162 @@ class TransitionTool:
                 traces.append(tx_traces)
         self.append_traces(traces)
 
-    def evaluate(
+    @dataclass
+    class TransitionToolData:
+        """
+        Transition tool files and data to pass between methods
+        """
+
+        alloc: Any
+        txs: Any
+        env: Any
+        fork_name: str
+        chain_id: int = field(default=1)
+        reward: int = field(default=0)
+
+    def _evaluate_filesystem(
         self,
         *,
-        alloc: Any,
-        txs: Any,
-        env: Any,
-        fork_name: str,
-        chain_id: int = 1,
-        reward: int = 0,
-        eips: Optional[List[int]] = None,
+        t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
-        Executes `evm t8n` with the specified arguments.
-
-        If a client's `t8n` tool varies from the default behavior, this method
-        should be overridden.
+        Executes a transition tool using the filesystem for its inputs and outputs.
         """
-        if eips is not None:
-            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
+        temp_dir = tempfile.TemporaryDirectory()
+        os.mkdir(os.path.join(temp_dir.name, "input"))
+        os.mkdir(os.path.join(temp_dir.name, "output"))
 
-        if int(env["currentNumber"], 0) == 0:
-            reward = -1
+        input_contents = {
+            "alloc": t8n_data.alloc,
+            "env": t8n_data.env,
+            "txs": t8n_data.txs,
+        }
 
-        command: list[str] = [str(self.binary)]
-        if self.t8n_subcommand:
-            command.append(self.t8n_subcommand)
+        input_paths = {
+            k: os.path.join(temp_dir.name, "input", f"{k}.json") for k in input_contents.keys()
+        }
+        for key, file_path in input_paths.items():
+            write_json_file(input_contents[key], file_path)
 
-        args = command + [
-            "--input.alloc=stdin",
-            "--input.txs=stdin",
-            "--input.env=stdin",
-            "--output.result=stdout",
-            "--output.alloc=stdout",
-            "--output.body=stdout",
-            f"--state.fork={fork_name}",
-            f"--state.chainid={chain_id}",
-            f"--state.reward={reward}",
+        output_paths = {
+            output: os.path.join("output", f"{output}.json") for output in ["alloc", "result"]
+        }
+        output_paths["body"] = os.path.join("output", "txs.rlp")
+
+        # Construct args for evmone-t8n binary
+        args = [
+            str(self.binary),
+            "--state.fork",
+            t8n_data.fork_name,
+            "--input.alloc",
+            input_paths["alloc"],
+            "--input.env",
+            input_paths["env"],
+            "--input.txs",
+            input_paths["txs"],
+            "--output.basedir",
+            temp_dir.name,
+            "--output.result",
+            output_paths["result"],
+            "--output.alloc",
+            output_paths["alloc"],
+            "--output.body",
+            output_paths["body"],
+            "--state.reward",
+            str(t8n_data.reward),
+            "--state.chainid",
+            str(t8n_data.chain_id),
         ]
 
         if self.trace:
-            temp_dir = tempfile.TemporaryDirectory()
             args.append("--trace")
-            args.append(f"--output.basedir={temp_dir.name}")
 
-        stdin = {
-            "alloc": alloc,
-            "txs": txs,
-            "env": env,
-        }
-
-        encoded_input = str.encode(json.dumps(stdin))
         result = subprocess.run(
             args,
-            input=encoded_input,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
 
         if debug_output_path:
-            t8n_call = " ".join(args)
+            if os.path.exists(debug_output_path):
+                shutil.rmtree(debug_output_path)
+            shutil.copytree(temp_dir.name, debug_output_path)
             t8n_output_base_dir = os.path.join(debug_output_path, "t8n.sh.out")
-            if self.trace:
-                t8n_call = t8n_call.replace(temp_dir.name, t8n_output_base_dir)
+            t8n_call = " ".join(args)
+            for file_path in input_paths.values():  # update input paths
+                t8n_call = t8n_call.replace(
+                    os.path.dirname(file_path), os.path.join(debug_output_path, "input")
+                )
+            t8n_call = t8n_call.replace(  # use a new output path for basedir and outputs
+                temp_dir.name,
+                t8n_output_base_dir,
+            )
             t8n_script = textwrap.dedent(
                 f"""\
                 #!/bin/bash
                 rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
-                mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not enabled
-                {t8n_call} < {debug_output_path}/stdin.txt
+                mkdir -p {debug_output_path}/t8n.sh.out/output
+                {t8n_call}
                 """
             )
             dump_files_to_directory(
                 debug_output_path,
                 {
                     "args.py": args,
-                    "input/alloc.json": stdin["alloc"],
-                    "input/env.json": stdin["env"],
-                    "input/txs.json": stdin["txs"],
                     "returncode.txt": result.returncode,
-                    "stdin.txt": stdin,
                     "stdout.txt": result.stdout.decode(),
                     "stderr.txt": result.stderr.decode(),
                     "t8n.sh+x": t8n_script,
                 },
             )
+
+        if result.returncode != 0:
+            raise Exception("failed to evaluate: " + result.stderr.decode())
+
+        for key, file_path in output_paths.items():
+            output_paths[key] = os.path.join(temp_dir.name, file_path)
+
+        output_contents = {}
+        for key, file_path in output_paths.items():
+            if "txs.rlp" in file_path:
+                continue
+            with open(file_path, "r+") as file:
+                output_contents[key] = json.load(file)
+
+        if self.trace:
+            self.collect_traces(output_contents["result"]["receipts"], temp_dir, debug_output_path)
+
+        temp_dir.cleanup()
+
+        return output_contents["alloc"], output_contents["result"]
+
+    def _evaluate_stream(
+        self,
+        *,
+        t8n_data: TransitionToolData,
+        debug_output_path: str = "",
+    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        """
+        Executes a transition tool using stdin and stdout for its inputs and outputs.
+        """
+        temp_dir = tempfile.TemporaryDirectory()
+        args = self.construct_args_stream(t8n_data, temp_dir)
+
+        stdin = {
+            "alloc": t8n_data.alloc,
+            "txs": t8n_data.txs,
+            "env": t8n_data.env,
+        }
+
+        result = subprocess.run(
+            args,
+            input=str.encode(json.dumps(stdin)),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        self.dump_debug_stream(debug_output_path, temp_dir, stdin, args, result)
 
         if result.returncode != 0:
             raise Exception("failed to evaluate: " + result.stderr.decode())
@@ -395,48 +461,107 @@ class TransitionTool:
 
         return output["alloc"], output["result"]
 
-    def calc_state_root(
-        self, *, alloc: Any, fork: Fork, debug_output_path: str = ""
-    ) -> Tuple[Dict, bytes]:
+    def construct_args_stream(
+        self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
+    ) -> List[str]:
         """
-        Calculate the state root for the given `alloc`.
+        Construct arguments for t8n interaction via streams
         """
-        env: Dict[str, Any] = {
-            "currentCoinbase": "0x0000000000000000000000000000000000000000",
-            "currentDifficulty": "0x0",
-            "currentGasLimit": "0x0",
-            "currentNumber": "0",
-            "currentTimestamp": "0",
-        }
+        command: list[str] = [str(self.binary)]
+        if self.t8n_subcommand:
+            command.append(self.t8n_subcommand)
 
-        if fork.header_base_fee_required(0, 0):
-            env["currentBaseFee"] = "7"
+        args = command + [
+            "--input.alloc=stdin",
+            "--input.txs=stdin",
+            "--input.env=stdin",
+            "--output.result=stdout",
+            "--output.alloc=stdout",
+            "--output.body=stdout",
+            f"--state.fork={t8n_data.fork_name}",
+            f"--state.chainid={t8n_data.chain_id}",
+            f"--state.reward={t8n_data.reward}",
+        ]
 
-        if fork.header_prev_randao_required(0, 0):
-            env["currentRandom"] = "0"
+        if self.trace:
+            args.append("--trace")
+            args.append(f"--output.basedir={temp_dir.name}")
+        return args
 
-        if fork.header_withdrawals_required(0, 0):
-            env["withdrawals"] = []
+    def dump_debug_stream(
+        self,
+        debug_output_path: str,
+        temp_dir: tempfile.TemporaryDirectory,
+        stdin: Dict[str, Any],
+        args: List[str],
+        result: subprocess.CompletedProcess,
+    ):
+        """
+        Export debug files if requested when interacting with t8n via streams
+        """
+        if not debug_output_path:
+            return
 
-        if fork.header_excess_blob_gas_required(0, 0):
-            env["currentExcessBlobGas"] = "0"
-
-        if fork.header_beacon_root_required(0, 0):
-            env[
-                "parentBeaconBlockRoot"
-            ] = "0x0000000000000000000000000000000000000000000000000000000000000000"
-
-        new_alloc, result = self.evaluate(
-            alloc=alloc,
-            txs=[],
-            env=env,
-            fork_name=fork.fork(block_number=0, timestamp=0),
-            debug_output_path=debug_output_path,
+        t8n_call = " ".join(args)
+        t8n_output_base_dir = os.path.join(debug_output_path, "t8n.sh.out")
+        if self.trace:
+            t8n_call = t8n_call.replace(temp_dir.name, t8n_output_base_dir)
+        t8n_script = textwrap.dedent(
+            f"""\
+            #!/bin/bash
+            rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
+            mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not enabled
+            {t8n_call} < {debug_output_path}/stdin.txt
+            """
         )
-        state_root = result.get("stateRoot")
-        if state_root is None or not isinstance(state_root, str):
-            raise Exception("Unable to calculate state root")
-        return new_alloc, bytes.fromhex(state_root[2:])
+        dump_files_to_directory(
+            debug_output_path,
+            {
+                "args.py": args,
+                "input/alloc.json": stdin["alloc"],
+                "input/env.json": stdin["env"],
+                "input/txs.json": stdin["txs"],
+                "returncode.txt": result.returncode,
+                "stdin.txt": stdin,
+                "stdout.txt": result.stdout.decode(),
+                "stderr.txt": result.stderr.decode(),
+                "t8n.sh+x": t8n_script,
+            },
+        )
+
+    def evaluate(
+        self,
+        *,
+        alloc: Any,
+        txs: Any,
+        env: Any,
+        fork_name: str,
+        chain_id: int = 1,
+        reward: int = 0,
+        eips: Optional[List[int]] = None,
+        debug_output_path: str = "",
+    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        """
+        Executes the relevant evaluate method as required by the `t8n` tool.
+
+        If a client's `t8n` tool varies from the default behavior, this method
+        can be overridden.
+        """
+        if eips is not None:
+            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
+        if int(env["currentNumber"], 0) == 0:
+            reward = -1
+        t8n_data = TransitionTool.TransitionToolData(
+            alloc=alloc, txs=txs, env=env, fork_name=fork_name, chain_id=chain_id, reward=reward
+        )
+
+        if self.t8n_use_stream:
+            return self._evaluate_stream(t8n_data=t8n_data, debug_output_path=debug_output_path)
+        else:
+            return self._evaluate_filesystem(
+                t8n_data=t8n_data,
+                debug_output_path=debug_output_path,
+            )
 
     def verify_fixture(
         self, fixture_format: FixtureFormats, fixture_path: Path, debug_output_path: Optional[Path]

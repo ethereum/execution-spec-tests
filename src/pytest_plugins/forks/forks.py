@@ -1,6 +1,7 @@
 """
 Pytest plugin to enable fork range configuration for the test session.
 """
+
 import itertools
 import sys
 import textwrap
@@ -13,7 +14,6 @@ from pytest import Metafunc
 from ethereum_test_forks import (
     Fork,
     ForkAttribute,
-    forks_from_until,
     get_deployed_forks,
     get_forks,
     get_transition_forks,
@@ -176,14 +176,17 @@ def pytest_configure(config):
     for d in fork_covariant_descriptors:
         config.addinivalue_line("markers", f"{d.marker_name}: {d.description}")
 
-    single_fork = config.getoption("single_fork")
-    forks_from = config.getoption("forks_from")
-    forks_until = config.getoption("forks_until")
+    def get_fork_option(config, option_name):
+        """Post-process get option to allow for external fork conditions."""
+        option = config.getoption(option_name)
+        return "Paris" if option == "Merge" else option
+
+    single_fork = get_fork_option(config, "single_fork")
+    forks_from = get_fork_option(config, "forks_from")
+    forks_until = get_fork_option(config, "forks_until")
     show_fork_help = config.getoption("show_fork_help")
 
-    all_forks = get_forks()
-    # TODO: Tricky, this removes the *Glacier forks.
-    config.all_forks = forks_from_until(all_forks[0], all_forks[-1])
+    config.all_forks = [fork for fork in get_forks() if not fork.ignore()]
     config.fork_map = {fork.name(): fork for fork in config.all_forks}
     config.fork_names = list(config.fork_map.keys())
 
@@ -428,17 +431,19 @@ def pytest_generate_tests(metafunc):
                 )
         else:
             pytest_params = [
-                ForkParametrizer(
-                    fork=fork,
-                    mark=pytest.mark.skip(
-                        reason=(
-                            f"Fork '{fork}' unsupported by "
-                            f"'{metafunc.config.getoption('evm_bin')}'."
-                        )
-                    ),
+                (
+                    ForkParametrizer(
+                        fork=fork,
+                        mark=pytest.mark.skip(
+                            reason=(
+                                f"Fork '{fork}' unsupported by "
+                                f"'{metafunc.config.getoption('evm_bin')}'."
+                            )
+                        ),
+                    )
+                    if fork.name() in metafunc.config.unsupported_forks
+                    else ForkParametrizer(fork=fork)
                 )
-                if fork.name() in metafunc.config.unsupported_forks
-                else ForkParametrizer(fork=fork)
                 for fork in intersection_range
             ]
             add_fork_covariant_parameters(metafunc, pytest_params)

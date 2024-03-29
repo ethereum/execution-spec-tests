@@ -18,7 +18,7 @@ flowchart LR
   style G stroke:#F9A825,stroke-width:2px
   style H stroke:#F9A825,stroke-width:2px
   
-  subgraph ethereum/go-ethereum, ...
+  subgraph ethereum/go-ethereum
     C[<code>evm t8n</code>\nexternal executable]
   end
 
@@ -55,6 +55,8 @@ The generated test fixtures can be used:
 
 1. Directly by client teams' test frameworks, and,
 2. In the integration tests executed in the @ethereum/hive framework.
+
+More information on how to use and download the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found [here](consuming_tests/index.md).
 
 ## Transition Tool Support
 

@@ -1,6 +1,5 @@
 """
 abstract: Tests [EIP-1153: Transient Storage Opcodes](https://eips.ethereum.org/EIPS/eip-1153)
-
     Test [EIP-1153: Transient Storage Opcodes](https://eips.ethereum.org/EIPS/eip-1153). Ports
     and extends some tests from
     [ethereum/tests/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage)
@@ -42,13 +41,11 @@ def test_transient_storage_unset_values(state_test: StateTestFiller):
         code_address: Account(code=code, storage={slot: 1 for slot in slots_under_test}),
     }
 
-    txs = [
-        Transaction(
-            to=code_address,
-            data=b"",
-            gas_limit=1_000_000,
-        )
-    ]
+    tx = Transaction(
+        to=code_address,
+        data=b"",
+        gas_limit=1_000_000,
+    )
 
     post = {code_address: Account(storage={slot: 0 for slot in slots_under_test})}
 
@@ -56,7 +53,7 @@ def test_transient_storage_unset_values(state_test: StateTestFiller):
         env=env,
         pre=pre,
         post=post,
-        txs=txs,
+        tx=tx,
     )
 
 
@@ -76,16 +73,14 @@ def test_tload_after_tstore(state_test: StateTestFiller):
 
     pre = {
         TestAddress: Account(balance=10_000_000),
-        code_address: Account(code=code, storage={slot: 0 for slot in slots_under_test}),
+        code_address: Account(code=code, storage={slot: 0xFF for slot in slots_under_test}),
     }
 
-    txs = [
-        Transaction(
-            to=code_address,
-            data=b"",
-            gas_limit=1_000_000,
-        )
-    ]
+    tx = Transaction(
+        to=code_address,
+        data=b"",
+        gas_limit=1_000_000,
+    )
 
     post = {code_address: Account(storage={slot: slot for slot in slots_under_test})}
 
@@ -93,7 +88,7 @@ def test_tload_after_tstore(state_test: StateTestFiller):
         env=env,
         pre=pre,
         post=post,
-        txs=txs,
+        tx=tx,
     )
 
 
@@ -119,13 +114,11 @@ def test_tload_after_sstore(state_test: StateTestFiller):
         code_address: Account(code=code, storage={slot: 1 for slot in slots_under_test}),
     }
 
-    txs = [
-        Transaction(
-            to=code_address,
-            data=b"",
-            gas_limit=1_000_000,
-        )
-    ]
+    tx = Transaction(
+        to=code_address,
+        data=b"",
+        gas_limit=1_000_000,
+    )
 
     post = {
         code_address: Account(
@@ -139,7 +132,7 @@ def test_tload_after_sstore(state_test: StateTestFiller):
         env=env,
         pre=pre,
         post=post,
-        txs=txs,
+        tx=tx,
     )
 
 
@@ -166,13 +159,11 @@ def test_tload_after_tstore_is_zero(state_test: StateTestFiller):
         ),
     }
 
-    txs = [
-        Transaction(
-            to=code_address,
-            data=b"",
-            gas_limit=1_000_000,
-        )
-    ]
+    tx = Transaction(
+        to=code_address,
+        data=b"",
+        gas_limit=1_000_000,
+    )
 
     post = {
         code_address: Account(
@@ -184,7 +175,7 @@ def test_tload_after_tstore_is_zero(state_test: StateTestFiller):
         env=env,
         pre=pre,
         post=post,
-        txs=txs,
+        tx=tx,
     )
 
 
@@ -244,15 +235,62 @@ def test_gas_usage(
         TestAddress: Account(balance=10_000_000, nonce=0),
         code_address: Account(code=gas_measure_bytecode),
     }
-    txs = [
-        Transaction(
-            to=code_address,
-            data=b"",
-            gas_limit=1_000_000,
-        )
-    ]
+    tx = Transaction(
+        to=code_address,
+        data=b"",
+        gas_limit=1_000_000,
+    )
     post = {
         code_address: Account(code=gas_measure_bytecode, storage={0: expected_gas}),
         TestAddress: Account(nonce=1),
     }
-    state_test(env=env, pre=pre, txs=txs, post=post)
+    state_test(env=env, pre=pre, tx=tx, post=post)
+
+
+@unique
+class LoopRunUntilOutOfGasCases(PytestParameterEnum):
+    """
+    Test cases to run until out of gas.
+    """
+
+    TSTORE = {
+        "description": "Run tstore in loop until out of gas",
+        "repeat_bytecode": Op.TSTORE(Op.GAS, Op.GAS),
+        "bytecode_repeat_times": 1000,
+    }
+    TSTORE_WIDE_ADDRESS_SPACE = {
+        "description": "Run tstore in loop until out of gas, using a wide address space",
+        "repeat_bytecode": Op.TSTORE(Op.ADD(Op.SHL(Op.PC, 1), Op.GAS), Op.GAS),
+        "bytecode_repeat_times": 32,
+    }
+    TSTORE_TLOAD = {
+        "description": "Run tstore and tload in loop until out of gas",
+        "repeat_bytecode": Op.GAS + Op.DUP1 + Op.DUP1 + Op.TSTORE + Op.TLOAD + Op.POP,
+        "bytecode_repeat_times": 1000,
+    }
+
+
+@LoopRunUntilOutOfGasCases.parametrize()
+def test_run_until_out_of_gas(
+    state_test: StateTestFiller,
+    repeat_bytecode: bytes,
+    bytecode_repeat_times: int,
+):
+    """
+    Use TSTORE over and over to different keys until we run out of gas.
+    """
+    bytecode = Op.JUMPDEST + repeat_bytecode * bytecode_repeat_times + Op.JUMP(Op.PUSH0)
+    pre = {
+        TestAddress: Account(balance=10_000_000_000_000, nonce=0),
+        code_address: Account(code=bytecode),
+    }
+    tx = Transaction(
+        to=code_address,
+        data=b"",
+        gas_limit=30_000_000,
+    )
+    post = {
+        code_address: Account(code=bytecode, storage={}),
+        TestAddress: Account(nonce=1),
+    }
+    state_test(env=Environment(), pre=pre, tx=tx, post=post)

@@ -14,64 +14,45 @@ In particular, a script `t8n.sh` is generated for each call to the `t8n` command
 For example, running:
 
 ```console
-fill tests/berlin/eip2930_access_list/ --fork Berlin \
+fill tests/berlin/eip2930_access_list/ --fork Berlin -m blockchain_test \
     --evm-dump-dir=/tmp/evm-dump
 ```
 
 will produce the directory structure:
 
 ```text
-📁 /tmp/evm-dump/
-└── 📁 berlin__eip2930_access_list__test_acl__test_access_list
-    ├── 📁 fork_Berlin
-    │   ├── 📁 0
-    │   │   ├── 📄 args.py
-    │   │   ├── 📁 input
-    │   │   │   ├── 📄 alloc.json
-    │   │   │   ├── 📄 env.json
-    │   │   │   └── 📄 txs.json
-    │   │   ├── 📁 output
-    │   │   │   ├── 📄 alloc.json
-    │   │   │   ├── 📄 result.json
-    │   │   │   └── 📄 txs.rlp
-    │   │   ├── 📄 returncode.txt
-    │   │   ├── 📄 stderr.txt
-    │   │   ├── 📄 stdin.txt
-    │   │   ├── 📄 stdout.txt
-    │   │   └── 📄 t8n.sh
-    │   └── 📁 1
-    │       ├── 📄 args.py
-    │       ├── 📁 input
-    │       │   ├── 📄 alloc.json
-    │       │   ├── 📄 env.json
-    │       │   └── 📄 txs.json
-    │       ├── 📁 output
-    │       │   ├── 📄 alloc.json
-    │       │   ├── 📄 result.json
-    │       │   └── 📄 txs.rlp
-    │       ├── 📄 returncode.txt
-    │       ├── 📄 stderr.txt
-    │       ├── 📄 stdin.txt
-    │       ├── 📄 stdout.txt
-    │       └── 📄 t8n.sh
-    └── 📄 access_list.json
+📂 /tmp/evm-dump
+└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+    └── 📂 fork_Berlin_blockchain_test
+        └── 📂 0
+            ├── 📄 args.py
+            ├── 📂 input
+            │   ├── 📄 alloc.json
+            │   ├── 📄 env.json
+            │   └── 📄 txs.json
+            ├── 📂 output
+            │   ├── 📄 alloc.json
+            │   ├── 📄 result.json
+            │   └── 📄 txs.rlp
+            ├── 📄 returncode.txt
+            ├── 📄 stderr.txt
+            ├── 📄 stdin.txt
+            ├── 📄 stdout.txt
+            └── 📄 t8n.sh
 ```
 
-where the directories `0` and `1` correspond to the different calls made to the `t8n` tool executed during the test:
+where the directory `0` is the starting index of the different calls made to the `t8n` tool executed during the test, and since the test only contains one block, there is only one directory present.
 
-- `0` corresponds to the call used to calculate the state root of the test's initial alloc (which is why it has an empty transaction list).
-- `1` corresponds to the call used to execute the first transaction or block from the test.
-
-Note, there may be more directories present `2`, `3`, `4`,... if the test executes more transactions/blocks.
+Note, there may be more directories present `1`, `2`, `3`,... if the test executes more blocks.
 
 Each directory contains files containing information corresponding to the call, for example, the `args.py` file contains the arguments passed to the `t8n` command and the `output/alloc.json` file contains the output of the `t8n` command's `--output-alloc` flag.
 
 ### The `t8n.sh` Script
 
-The `t8n.sh` script written to the debug directory can be used to reproduce a specific call made to the `t8n` command during the test session. For example, if a Besu `t8n-server` has been started on port `3001`, the request made by the test for first transaction can be reproduced as:
+The `t8n.sh` script written to the debug directory can be used to reproduce a specific call made to the `t8n` command during the test session. For example, if a Besu `t8n-server` has been started on port `3001`, the request made by the test for first block can be reproduced as:
 
 ```console
-/tmp/besu/test_access_list_fork_Berlin/1/t8n.sh 3001
+/tmp/besu/test_access_list_fork_Berlin/0/t8n.sh 3001
 ```
 
 which writes the response the from the `t8n-server` to the console output:
@@ -110,7 +91,7 @@ The `--verify-fixtures` flag can be used to run go-ethereum's `evm blocktest` co
 For example, running:
 
 ```console
-fill tests/berlin/eip2930_access_list/ --fork Berlin \
+fill tests/berlin/eip2930_access_list/ --fork Berlin -m blockchain_test \
     --evm-dump-dir==/tmp/evm-dump \
     --evm-bin=../evmone/build/bin/evmone-t8n \
     --verify-fixtures-bin=../go-ethereum/build/bin/evm \
@@ -122,8 +103,8 @@ will additionally run the `evm blocktest` command on every JSON fixture file and
 ```text
 📂 /tmp/evm-dump
 └── 📂 berlin__eip2930_access_list__test_acl__test_access_list
-    ├── 📄 access_list.json
-    ├── 📂 fork_Berlin
+    ├── 📄 fixtures.json
+    ├── 📂 fork_Berlin_blockchain_test
     │   ├── 📂 0
     │   │   ├── 📄 args.py
     │   │   ├── 📂 input
@@ -171,13 +152,22 @@ where the `verify_fixtures.sh` script can be used to reproduce the `evm blocktes
       --evm-dump-dir=/tmp/evm-dump
     ```
 
+5. Additionally use `--single-fixture-per-file` to improve the granularity of the reporting of the `evm blocktest` command by writing the fixture generated by each parametrized test case to its own file.
+
+    ```console
+    fill --evm-bin=../evmone/build/bin/evmone-t8n \
+      --verify-fixtures-bin=../go-ethereum/build/bin/evm \
+      --evm-dump-dir=/tmp/evm-dump \
+      --single-fixture-per-file
+    ```
+
 !!! note "Execution scope of `evm blocktest`"
 
-    Note, that `evm blocktest` is not executed per parametrized test case, but rather per test function. This is because each fixture JSON file contains all the parametrized test cases for one test function. 
+    Note, by default, that `evm blocktest` is not executed per parametrized test case, but rather per test function. This is because each fixture JSON file contains fixtures for all the parametrized test cases for one test function. This means only one error will be reported, even if multiple fixtures fail within one fixture file.
     
-    Additionally, it is executed once for all test functions in one module only after all the test cases in the module have been executed and only report the first fixtures from the first failing test function[^1].
+    Additionally, it is only executed after all the test cases in the module have been executed[^1] and will only report the first failing test fixture in all files, even if there are multiple failing fixture files.
     
-    This means that the feedback is not as granular as for test case execution. To improve granularity, and get feedback per fork, for example, the `--fork` flag can be used to only execute test cases for one particular fork.
+    This means, by default, that the feedback is not as granular as for test case execution. To improve granularity, and get feedback per parametrized test case use `--single-fixture-per-file`.
 
 [^1]: <!-- markdownlint-disable MD053 (53=link-image-reference-definitions) -->
     This limitation is required to enable support of the [`pytest-xdist` plugin](https://github.com/pytest-dev/pytest-xdist) for concurrent test execution across multiple CPUs. To achieve this we use the we apply the `--dist loadscope` xdist flag in our `pytest.ini`.

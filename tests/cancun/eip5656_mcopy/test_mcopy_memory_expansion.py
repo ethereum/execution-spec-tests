@@ -1,6 +1,5 @@
 """
 abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
-
     Test copy operations of [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
     that produce a memory expansion, and potentially an out-of-gas error.
 
@@ -215,7 +214,7 @@ def test_mcopy_memory_expansion(
         env=Environment(),
         pre=pre,
         post=post,
-        txs=[tx],
+        tx=tx,
     )
 
 
@@ -276,5 +275,5 @@ def test_mcopy_huge_memory_expansion(
         env=Environment(),
         pre=pre,
         post=post,
-        txs=[tx],
+        tx=tx,
     )

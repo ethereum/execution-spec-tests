@@ -7,7 +7,7 @@
 
 The following requires a Python 3.10, 3.11 or 3.12 installation.
 
-1. Ensure `go-ethereum`'s `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20) or [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21)) are in your path. Either build the required versions, or alternatively:
+1. Ensure `go-ethereum`'s `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20), [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21), [0.8.22](https://github.com/ethereum/solidity/releases/tag/v0.8.22), [0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23)  supported) are in your path. Either build the required versions, or alternatively:
 
     === "Ubuntu"
 
@@ -84,7 +84,7 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
         2. The corresponding fixture file has been generated:
 
             ```console
-            head fixtures/berlin/eip2930_access_list/acl/access_list.json
+            head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json
             ```
 
 ## Next Steps

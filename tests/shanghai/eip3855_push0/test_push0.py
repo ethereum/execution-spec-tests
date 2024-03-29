@@ -1,10 +1,8 @@
 """
 abstract: Tests [EIP-3855: PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855)
-
     Tests for [EIP-3855: PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855).
 
 note: Tests ported from:
-
     - [ethereum/tests/pull/1033](https://github.com/ethereum/tests/pull/1033).
 """
 
@@ -12,12 +10,12 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     CodeGasMeasure,
     Environment,
     StateTestFiller,
     TestAddress,
     Transaction,
-    to_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -44,7 +42,7 @@ def post():  # noqa: D103
 
 @pytest.fixture
 def addr_1():  # noqa: D103
-    return to_address(0x100)
+    return Address(0x100)
 
 
 @pytest.fixture
@@ -71,7 +69,7 @@ def test_push0_key_sstore(
     pre[addr_1] = Account(code=code)
     post[addr_1] = Account(storage={0x00: 0x01})
 
-    state_test(env=env, pre=pre, post=post, txs=[tx], tag="key_sstore")
+    state_test(env=env, pre=pre, post=post, tx=tx, tag="key_sstore")
 
 
 def test_push0_fill_stack(
@@ -92,7 +90,7 @@ def test_push0_fill_stack(
     pre[addr_1] = Account(code=code)
     post[addr_1] = Account(storage={0x00: 0x01})
 
-    state_test(env=env, pre=pre, post=post, txs=[tx], tag="fill_stack")
+    state_test(env=env, pre=pre, post=post, tx=tx, tag="fill_stack")
 
 
 def test_push0_stack_overflow(
@@ -112,7 +110,7 @@ def test_push0_stack_overflow(
     pre[addr_1] = Account(code=code)
     post[addr_1] = Account(storage={0x00: 0x00})
 
-    state_test(env=env, pre=pre, post=post, txs=[tx], tag="stack_overflow")
+    state_test(env=env, pre=pre, post=post, tx=tx, tag="stack_overflow")
 
 
 def test_push0_storage_overwrite(
@@ -131,7 +129,7 @@ def test_push0_storage_overwrite(
     pre[addr_1] = Account(code=code, storage={0x00: 0x0A, 0x01: 0x0A})
     post[addr_1] = Account(storage={0x00: 0x02, 0x01: 0x00})
 
-    state_test(env=env, pre=pre, post=post, txs=[tx], tag="storage_overwrite")
+    state_test(env=env, pre=pre, post=post, tx=tx, tag="storage_overwrite")
 
 
 def test_push0_during_staticcall(
@@ -145,7 +143,7 @@ def test_push0_during_staticcall(
     """
     Test PUSH0 during STATICCALL.
     """
-    addr_2 = to_address(0x200)
+    addr_2 = Address(0x200)
 
     code_1 = (
         Op.SSTORE(0, Op.STATICCALL(100000, 0x200, 0, 0, 0, 0))
@@ -159,7 +157,7 @@ def test_push0_during_staticcall(
     pre[addr_2] = Account(code=code_2)
     post[addr_1] = Account(storage={0x00: 0x01, 0x01: 0xFF})
 
-    state_test(env=env, pre=pre, post=post, txs=[tx], tag="during_staticcall")
+    state_test(env=env, pre=pre, post=post, tx=tx, tag="during_staticcall")
 
 
 def test_push0_before_jumpdest(
@@ -178,7 +176,7 @@ def test_push0_before_jumpdest(
     pre[addr_1] = Account(code=code)
     post[addr_1] = Account(storage={0x00: 0x01})
 
-    state_test(env=env, pre=pre, post=post, txs=[tx], tag="before_jumpdest")
+    state_test(env=env, pre=pre, post=post, tx=tx, tag="before_jumpdest")
 
 
 def test_push0_gas_cost(
@@ -200,4 +198,4 @@ def test_push0_gas_cost(
     pre[addr_1] = Account(code=code)
     post[addr_1] = Account(storage={0x00: 0x02})
 
-    state_test(env=env, pre=pre, post=post, txs=[tx], tag="gas_cost")
+    state_test(env=env, pre=pre, post=post, tx=tx, tag="gas_cost")

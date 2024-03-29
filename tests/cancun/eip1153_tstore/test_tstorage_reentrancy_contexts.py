@@ -1,6 +1,5 @@
 """
 abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-
     Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy contexts.
 """  # noqa: E501
 
@@ -8,9 +7,9 @@ from enum import EnumMeta, unique
 
 import pytest
 
-from ethereum_test_tools import Account, CalldataCase, Conditional, Environment
+from ethereum_test_tools import Account, CalldataCase, Conditional, Environment, Hash
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Switch, TestAddress, Transaction, to_hash_bytes
+from ethereum_test_tools import StateTestFiller, Switch, TestAddress, Transaction
 
 from . import PytestParameterEnum
 from .spec import ref_spec_1153
@@ -273,10 +272,10 @@ def test_reentrant_call(state_test: StateTestFiller, bytecode, expected_storage)
 
     tx = Transaction(
         to=callee_address,
-        data=to_hash_bytes(1),
+        data=Hash(1),
         gas_limit=10_000_000,
     )
 
     post = {callee_address: Account(code=bytecode, storage=expected_storage)}
 
-    state_test(env=env, pre=pre, post=post, txs=[tx])
+    state_test(env=env, pre=pre, post=post, tx=tx)
