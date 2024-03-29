@@ -8,7 +8,7 @@ from typing import Mapping, SupportsBytes
 import pytest
 from semver import Version
 
-from ethereum_test_forks import Fork, Homestead, Shanghai, get_deployed_forks
+from ethereum_test_forks import Cancun, Fork, Homestead, Shanghai, get_deployed_forks
 from evm_transition_tool import FixtureFormats, GethTransitionTool
 
 from ..code import CalldataCase, Case, Code, Conditional, Initcode, Switch, Yul
@@ -83,7 +83,7 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: Version, fork: 
             solc_padding = "00"
         return bytes.fromhex(expected_bytes.substitute(solc_padding=solc_padding))
     if isinstance(expected_bytes, bytes):
-        if fork == Shanghai:
+        if fork >= Shanghai:
             expected_bytes = b"\x5f" + expected_bytes[2:]
         if solc_version < SOLC_PADDING_VERSION or fork <= Homestead:
             return expected_bytes
@@ -650,7 +650,7 @@ def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mappin
     )
     state_test.generate(
         t8n=GethTransitionTool(),
-        fork=Shanghai,
+        fork=Cancun,
         fixture_format=FixtureFormats.BLOCKCHAIN_TEST,
         eips=None,
     )
