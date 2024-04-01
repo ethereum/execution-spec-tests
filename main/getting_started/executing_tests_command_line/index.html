@@ -6365,7 +6365,7 @@
 <div class="admonition note">
 <p class="admonition-title">Options specific to execution-spec-tests</p>
 <p>The command-line options specific to filling tests can be listed via:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --test-help</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill --help</span>
 </code></pre></div>
 <p>See <a href="#custom-fill-command-line-options">Custom <code>fill</code> Command-Line Options</a> for all options.</p>
 </div>
@@ -6421,8 +6421,9 @@
 <span class="go">fill -s             # Print stdout from tests to the console during execution</span>
 </code></pre></div>
 <h2 id="custom-fill-command-line-options">Custom <code>fill</code> Command-Line Options<a class="headerlink" href="#custom-fill-command-line-options" title="Permanent link">&para;</a></h2>
-<p>Options added by the execution-spec-tests pytest plugins can be listed with:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --test-help</span>
+<p>To see all the options available to fill, including pytest and pytest plugin options, use <code>--pytest-help</code>.</p>
+<p>To list the options that only specific to fill, use:</p>
+<div class="highlight"><pre><span></span><code><span class="go">fill --help</span>
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code>usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--verify-fixtures]
