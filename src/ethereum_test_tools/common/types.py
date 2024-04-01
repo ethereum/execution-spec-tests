@@ -245,7 +245,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
     def __bool__(self) -> bool:
         """Returns True if the storage is not empty"""
-        return bool(self.root)
+        return any(v != 0 for _, v in self.root.items())
 
     def keys(self) -> set[StorageKeyValueType]:
         """Returns the keys of the storage"""
