@@ -4,57 +4,58 @@ Define an entry point wrapper for test generator.
 
 import json
 import os
-import sys
 from dataclasses import asdict, dataclass
-from typing import Dict, List
+from sys import stderr
+from typing import Dict, List, TextIO
 
+import click
 import requests
 
 from ethereum_test_tools import Account, Address, Transaction, common
 
 
-def main():  # noqa: D103
-    if len(sys.argv) != 3:
-        print_help()
-        sys.exit(1)
-    if sys.argv[1] in ["-h", "--help"]:
-        print_help()
-        sys.exit(0)
-    make_test(sys.argv)
+@click.command()
+@click.option(
+    "--config-file",
+    "-c",
+    envvar="GENTEST_CONFIG_FILE",
+    type=click.File("r"),
+    default=os.path.expanduser("~/.eest/gentest"),
+    help="Config file with remote node data.",
+)
+@click.argument("transaction_hash")
+@click.argument("output_file", type=click.File("w", lazy=True))
+def make_test(transaction_hash: str, output_file: TextIO, config_file: TextIO):
+    """
+    Extracts a transaction and required state from a network to make a blockchain test out of it.
 
+    TRANSACTION_HASH is the hash of the transaction to be used.
 
-def print_help():  # noqa: D103
-    print("Extracts transaction and required state from the mainnet to make a BC test out of it")
-    print("Usage: gentest <tx_hash> <file.py>")
-
-
-if __name__ == "__main__":
-    main()
-
-
-def make_test(args):  # noqa: D103
-    transaction_hash = args[1]
-    output_file = args[2]
-    print("Load configs...")
-    config = PyspecConfig(os.path.expanduser("~/.pyspec/config"))
+    OUTPUT_FILE is the path to the output python script.
+    """
+    print("Load configs...", file=stderr)
+    config = Config(config_file)
     request = RequestManager(config.remote_nodes[0])
 
-    print("Perform tx request: eth_get_transaction_by_hash(" + f"{transaction_hash}" + ")")
+    print(
+        "Perform tx request: eth_get_transaction_by_hash(" + f"{transaction_hash}" + ")",
+        file=stderr,
+    )
     tr = request.eth_get_transaction_by_hash(transaction_hash)
 
-    print("Perform debug_trace_call")
+    print("Perform debug_trace_call", file=stderr)
     state = request.debug_trace_call(tr)
 
-    print("Perform eth_get_block_by_number")
+    print("Perform eth_get_block_by_number", file=stderr)
     block = request.eth_get_block_by_number(tr.block_number)
 
-    print("Generate py test >> " + output_file)
+    print("Generate py test", file=stderr)
     constructor = TestConstructor(PYTEST_TEMPLATE)
     test = constructor.make_test_template(block, tr, state)
-    with open(output_file, "w") as file:
-        file.write(test)
 
-    print("Finished")
+    output_file.write(test)
+
+    print("Finished", file=stderr)
 
 
 class TestConstructor:
@@ -101,16 +102,16 @@ class TestConstructor:
             if isinstance(account, dict):
                 account_obj = Account(**account)
                 state_str += f'        "{address}": Account(\n'
-                state_str += f"{pad}balance={account_obj.balance},\n"
+                state_str += f"{pad}balance={str(account_obj.balance)},\n"
                 if address == tr.transaction.sender:
                     state_str += f"{pad}nonce={tr.transaction.nonce},\n"
                 else:
-                    state_str += f"{pad}nonce={account_obj.nonce},\n"
+                    state_str += f"{pad}nonce={str(account_obj.nonce)},\n"
 
                 if account_obj.code is None:
                     state_str += f'{pad}code="0x",\n'
                 else:
-                    state_str += f'{pad}code="{account_obj.code}",\n'
+                    state_str += f'{pad}code="{str(account_obj.code)}",\n'
                 state_str += pad + "storage={\n"
 
                 if account_obj.storage is not None:
@@ -172,7 +173,7 @@ class TestConstructor:
         return test
 
 
-class PyspecConfig:
+class Config:
     """
     Main class to manage Pyspec config
     """
@@ -188,15 +189,14 @@ class PyspecConfig:
         client_id: str
         secret: str
 
-    remote_nodes: List["PyspecConfig.RemoteNode"]
+    remote_nodes: List["Config.RemoteNode"]
 
-    def __init__(self, config_path: str):
+    def __init__(self, file: TextIO):
         """
         Initialize pyspec config from file
         """
-        with open(config_path, "r") as file:
-            data = json.load(file)
-            self.remote_nodes = [PyspecConfig.RemoteNode(**node) for node in data["remote_nodes"]]
+        data = json.load(file)
+        self.remote_nodes = [Config.RemoteNode(**node) for node in data["remote_nodes"]]
 
 
 class RequestManager:
@@ -229,7 +229,7 @@ class RequestManager:
     node_url: str
     headers: dict[str, str]
 
-    def __init__(self, node_config: PyspecConfig.RemoteNode):
+    def __init__(self, node_config: Config.RemoteNode):
         """
         Initialize the RequestManager with specific client config.
         """
@@ -247,10 +247,10 @@ class RequestManager:
             if response.status_code >= 200 and response.status_code < 300:
                 return response
             else:
-                print(error_str + response.text)
+                print(error_str + response.text, file=stderr)
                 raise requests.exceptions.HTTPError
         except requests.exceptions.RequestException as e:
-            print(error_str, e)
+            print(error_str, e, file=stderr)
             raise e
 
     def eth_get_transaction_by_hash(self, transaction_hash: str) -> RemoteTransaction:
@@ -316,9 +316,9 @@ class RequestManager:
             "method": "debug_traceCall",
             "params": [
                 {
-                    "from": f"{tr.transaction.sender}",
-                    "to": f"{tr.transaction.to}",
-                    "data": f"{tr.transaction.data}",
+                    "from": f"{str(tr.transaction.sender)}",
+                    "to": f"{str(tr.transaction.to)}",
+                    "data": f"{str(tr.transaction.data)}",
                 },
                 f"{tr.block_number}",
                 {"tracer": "prestateTracer"},
@@ -326,8 +326,11 @@ class RequestManager:
             "id": 1,
         }
 
-        response = self._make_request(data)
-        return response.json().get("result", None)
+        response = self._make_request(data).json()
+        if "error" in response:
+            raise Exception(response["error"]["message"])
+        assert "result" in response, "No result in response on debug_traceCall"
+        return response["result"]
 
 
 PYTEST_TEMPLATE = """
@@ -365,7 +368,7 @@ def $TEST_NAME(
     \"\"\"
     $TEST_COMMENT
     \"\"\"
-    
+
     pre = {
 $PRE
     }

@@ -85,6 +85,7 @@ endianness
 EngineAPI
 enum
 env
+envvar
 eof
 esbenp
 eth
