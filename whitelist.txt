@@ -123,6 +123,7 @@ Github
 glightbox
 globals
 go-ethereum's
+Golang
 gwei
 hardfork
 hash32
@@ -339,6 +340,7 @@ makepyfile
 metafunc
 modifyitems
 nodeid
+oog
 optparser
 originalname
 parametrized
