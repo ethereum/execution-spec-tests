@@ -9,7 +9,7 @@ The Python code in the tests subdirectory `./tests` must fulfill the following c
 | 3 | `black tests --check --diff` | Python source must be black-formatted.                              |
 | 4 | `flake8 tests`          | Python lint and spell-checked.                                           |
 | 5 | `mypy tests`            | Objects that provide typehints pass type-checking via mypy.              |
-| 6 | `fill`                  | All tests must execute correctly.                                   |
+| 6 | `fill`                  | All tests must execute correctly.                                        |
 | 7 | `mkdocs build --strict` | Documentation generated without warnings.                                |
 | 8 | `pyspelling`            | Markdown spell-check.                                                    |
 | 9 | `markdownlint-cli2`     | Markdown lint check.                                                     |
