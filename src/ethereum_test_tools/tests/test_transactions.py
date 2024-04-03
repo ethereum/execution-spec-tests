@@ -490,8 +490,8 @@ def test_transaction_signing(
     ],
 )
 def test_transactions(txs: Transactions, expected_txs: List[Transaction]):
-    for tx1, tx2 in zip(txs, expected_txs):
-        assert tx1 == tx2
+    for tx_1, tx_2 in zip(txs, expected_txs):
+        assert tx_1 == tx_2
 
 
 @pytest.mark.parametrize(
@@ -749,6 +749,6 @@ def test_chunked_transactions(
     chunked_txs: List[List[Transaction]] = []
     for _ in range(chunks):
         chunked_txs.append(list(txs))
-    for chunk1, chunk2 in zip(chunked_txs, expected_txs):
-        for tx1, tx2 in zip(chunk1, chunk2):
-            assert tx1 == tx2
+    for chunk_1, chunk_2 in zip(chunked_txs, expected_txs):
+        for tx_1, tx_2 in zip(chunk_1, chunk_2):
+            assert tx_1 == tx_2
