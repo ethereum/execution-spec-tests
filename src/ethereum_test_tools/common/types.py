@@ -46,22 +46,16 @@ from .base_types import (
     Address,
     Bloom,
     Bytes,
-    DataclassGenerator,
     Hash,
     HashInt,
     HexNumber,
+    ModelGenerator,
     Number,
     NumberBoundTypeVar,
     ZeroPaddedHexNumber,
 )
 from .constants import TestPrivateKey
-from .conversions import (
-    BytesConvertible,
-    FixedSizeBytesConvertible,
-    NumberConvertible,
-    int_or_none,
-    str_or_none,
-)
+from .conversions import BytesConvertible, FixedSizeBytesConvertible, NumberConvertible
 
 
 # Sentinel classes
@@ -684,7 +678,7 @@ class Withdrawal(WithdrawalGeneric[HexNumber]):
     pass
 
 
-class Withdrawals(DataclassGenerator, dataclass=Withdrawal, index_field="index"):
+class Withdrawals(ModelGenerator, model=Withdrawal, index_field="index"):
     """
     Withdrawals generator.
 
@@ -1230,7 +1224,7 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
         ]
 
 
-class Transactions(DataclassGenerator, dataclass=Transaction, index_field="nonce"):
+class Transactions(ModelGenerator, model=Transaction, index_field="nonce"):
     """
     Transaction generator.
 

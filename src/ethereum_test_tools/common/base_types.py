@@ -323,13 +323,13 @@ class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
 C = TypeVar("C")
 
 
-class DataclassGenerator(Iterable[C]):
+class ModelGenerator(Iterable[C]):
     """
-    Class that creates dataclass generators.
+    Class that creates model generators.
     """
 
     # Class fields
-    _dataclass: ClassVar[Type]
+    _model: ClassVar[Type]
     _iterable_fields: ClassVar[List[str]]
     _max_iterations: ClassVar[int] = 1000
     _index_field: ClassVar[Optional[str]] = None
@@ -352,17 +352,17 @@ class DataclassGenerator(Iterable[C]):
         )
 
     def __init_subclass__(
-        cls, *, dataclass: Type[C], index_field: Optional[str] = None, max_iterations: int = 1000
+        cls, *, model: Type[C], index_field: Optional[str] = None, max_iterations: int = 1000
     ) -> None:
         """
         Initializes the subclass.
 
-        Dataclass might behave incorrectly if it has a field named `limit`.
+        Model might behave incorrectly if it has a field named `limit`.
         """
-        cls._dataclass = dataclass
+        cls._model = model
         cls._iterable_fields = [
             field
-            for field, field_type in get_type_hints(dataclass).items()
+            for field, field_type in get_type_hints(model).items()
             if cls._field_type_is_iterable(field_type)
         ]
         cls._index_field = index_field
@@ -370,7 +370,7 @@ class DataclassGenerator(Iterable[C]):
 
     def __init__(self, *, limit: int | Iterable[int] | Iterator[int] = -1, **kwargs: Any):
         """
-        Initializes the dataclass generator.
+        Initializes the model generator.
         """
         self.iterators: Dict[str, Iterator[Any]] = {}
         for field in self._iterable_fields:
@@ -428,11 +428,11 @@ class DataclassGenerator(Iterable[C]):
 
     def __next__(self) -> C:
         """
-        Returns the next dataclass element in the sequence.
+        Returns the next model element in the sequence.
         """
         if self.current_limit >= 0 and self.current_iterations >= self.current_limit:
             raise StopIteration
         if self.current_iterations > self._max_iterations:
             raise ValueError(f"exceeded maximum number of iterations ({self._max_iterations})")
         self.current_iterations += 1
-        return self._dataclass(**{arg: next(iterator) for arg, iterator in self.iterators.items()})
+        return self._model(**{arg: next(iterator) for arg, iterator in self.iterators.items()})
