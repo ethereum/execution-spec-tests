@@ -12,7 +12,7 @@ To test for an exception, the test can use either of the following types from `e
 
 2. [`BlockException`](../consuming_tests/exceptions.md#blockexception): To be added to the `exception` field of the `Block` object; this exception type is used when a block is expected to be invalid, but the exception is related to a block property, e.g. an invalid value of the block header.
 
-    For an example, see [`eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas`](../tests/cancun/eip4844_blobs/test_excess_blob_gas/index.md#tests.cancun.eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas) which raises `BlockException.INCORRECT_EXCESS_BLOB_GAS` in the case that the the `excessBlobGas` remains unchanged
+    For an example, see [`eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas`](../tests/cancun/eip4844_blobs/test_excess_blob_gas/index.md#tests.cancun.eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas) which raises `BlockException.INCORRECT_EXCESS_BLOB_GAS` in the case that the `excessBlobGas` remains unchanged
     but the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.
 
 Although exceptions can be combined with the `|` operator to indicate that a test vector can throw either one of multiple exceptions, ideally the tester should aim to use only one exception per test vector, and only use multiple exceptions on the rare instance when it is not possible to know which exception will be thrown because it depends on client implementation.

@@ -72,6 +72,7 @@ dev
 devnet
 difficulty
 dir
+dirs
 dirname
 discordapp
 docstring
@@ -84,6 +85,7 @@ endianness
 EngineAPI
 enum
 env
+envvar
 eof
 esbenp
 eth
@@ -111,6 +113,7 @@ func
 gaslimit
 gasprice
 GeneralStateTestsFiller
+gentest
 geth
 geth's
 getitem
@@ -206,6 +209,7 @@ Pre
 precompile
 prepend
 PrevRandao
+prestateTracer
 programmatically
 px
 py
@@ -215,6 +219,7 @@ pytest
 Pytest
 pytest's
 pytestArgs
+Pyspec
 qGpsxSA
 quickstart
 radd
@@ -268,6 +273,7 @@ TestAddress
 TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 textwrap
+tf
 ThreeHrSleep
 time15k
 timestamp
