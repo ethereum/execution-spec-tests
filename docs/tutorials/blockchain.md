@@ -201,7 +201,7 @@ block1 = Block(txs=txs)
 block2 = Block(txs=txs)
 ```
 
-This will create two blocks, each with 10 transactions, each with a different `to` address, starting from `0x100` and incrementing by `0x100` for each transaction.
+This will create two blocks, each with 10 transactions, each with a different `to` address, starting from `0x100` and incrementing by `0x100` for each transaction, so the first block will have transactions to `0x100`, `0x200`, `0x300`, ..., and the second block will have transactions to `0x1100`, `0x1200`, `0x1300`, ...
 
 We can also create multiple blocks with different number of transactions by passing an iterable to the `limit` parameter.
 
@@ -221,7 +221,7 @@ block3 = Block(txs=txs)
 
 This will create three blocks, with 10, 5, and 3 transactions.
 
-The only caveat of using an iterable for the `limit` parameter is that if we exhaust the iterator, the rest of the transaction lists will be empty.
+The only caveat of using an iterable for the `limit` parameter is that if we exhaust the iterator, the rest of the transaction lists will be empty, but this can be easily overcomed by using the `cycle` function from the `itertools` module.
 
 ```python
 txs = Transactions(
