@@ -26,7 +26,9 @@ from ..spec.blockchain.types import (
     FixtureExecutionPayload,
     FixtureHeader,
     FixtureTransaction,
+    InvalidFixtureBlock,
 )
+from ..spec.state.types import FixtureForkPost
 
 
 def test_storage():
@@ -966,6 +968,54 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
             id="fixture_block_2",
         ),
         pytest.param(
+            InvalidFixtureBlock(
+                rlp="0x00",
+                expect_exception=BlockException.RLP_STRUCTURES_ENCODING,
+            ),
+            {
+                "rlp": "0x00",
+                "expectException": "BlockException.RLP_STRUCTURES_ENCODING",
+            },
+            id="invalid_fixture_block_1",
+        ),
+        pytest.param(
+            InvalidFixtureBlock(
+                rlp="0x00",
+                expect_exception=TransactionException.INTRINSIC_GAS_TOO_LOW,
+            ),
+            {
+                "rlp": "0x00",
+                "expectException": "TransactionException.INTRINSIC_GAS_TOO_LOW",
+            },
+            id="invalid_fixture_block_2",
+        ),
+        pytest.param(
+            InvalidFixtureBlock(
+                rlp="0x00",
+                expect_exception=[TransactionException.INTRINSIC_GAS_TOO_LOW],
+            ),
+            {
+                "rlp": "0x00",
+                "expectException": "TransactionException.INTRINSIC_GAS_TOO_LOW",
+            },
+            id="invalid_fixture_block_3",
+        ),
+        pytest.param(
+            InvalidFixtureBlock(
+                rlp="0x00",
+                expect_exception=[
+                    BlockException.RLP_STRUCTURES_ENCODING,
+                    TransactionException.INTRINSIC_GAS_TOO_LOW,
+                ],
+            ),
+            {
+                "rlp": "0x00",
+                "expectException": "BlockException.RLP_STRUCTURES_ENCODING|"
+                "TransactionException.INTRINSIC_GAS_TOO_LOW",
+            },
+            id="invalid_fixture_block_4",
+        ),
+        pytest.param(
             FixtureExecutionPayload.from_fixture_header(
                 header=FixtureHeader(
                     parent_hash=Hash(0),
@@ -1198,7 +1248,10 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     withdrawals=[Withdrawal(index=0, validator_index=1, address=0x1234, amount=2)],
                 ),
                 version=1,
-                validation_error=BlockException.INCORRECT_BLOCK_FORMAT,
+                validation_error=[
+                    BlockException.INCORRECT_BLOCK_FORMAT,
+                    TransactionException.INTRINSIC_GAS_TOO_LOW,
+                ],
                 blob_versioned_hashes=[bytes([0]), bytes([1])],
                 error_code=EngineAPIError.InvalidRequest,
             ),
@@ -1252,7 +1305,8 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                     ],
                 },
                 "version": "1",
-                "validationError": "BlockException.INCORRECT_BLOCK_FORMAT",
+                "validationError": "BlockException.INCORRECT_BLOCK_FORMAT"
+                "|TransactionException.INTRINSIC_GAS_TOO_LOW",
                 "expectedBlobVersionedHashes": [
                     "0x0000000000000000000000000000000000000000000000000000000000000000",
                     "0x0000000000000000000000000000000000000000000000000000000000000001",
@@ -1260,6 +1314,72 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "errorCode": "-32600",
             },
             id="fixture_engine_new_payload_2",
+        ),
+        pytest.param(
+            FixtureForkPost(
+                state_root="0x00",
+                logs_hash="0x01",
+                tx_bytes="0x02",
+            ),
+            {
+                "hash": Hash(0).hex(),
+                "logs": Hash(1).hex(),
+                "txbytes": Bytes(b"\x02").hex(),
+                "indexes": {"data": 0, "gas": 0, "value": 0},
+            },
+            id="state_fixture_fork_post",
+        ),
+        pytest.param(
+            FixtureForkPost(
+                state_root="0x00",
+                logs_hash="0x01",
+                tx_bytes="0x02",
+                expect_exception=TransactionException.INITCODE_SIZE_EXCEEDED,
+            ),
+            {
+                "hash": Hash(0).hex(),
+                "logs": Hash(1).hex(),
+                "txbytes": Bytes(b"\x02").hex(),
+                "expectException": "TransactionException.INITCODE_SIZE_EXCEEDED",
+                "indexes": {"data": 0, "gas": 0, "value": 0},
+            },
+            id="state_fixture_fork_post_exception",
+        ),
+        pytest.param(
+            FixtureForkPost(
+                state_root="0x00",
+                logs_hash="0x01",
+                tx_bytes="0x02",
+                expect_exception=[TransactionException.INITCODE_SIZE_EXCEEDED],
+            ),
+            {
+                "hash": Hash(0).hex(),
+                "logs": Hash(1).hex(),
+                "txbytes": Bytes(b"\x02").hex(),
+                "expectException": "TransactionException.INITCODE_SIZE_EXCEEDED",
+                "indexes": {"data": 0, "gas": 0, "value": 0},
+            },
+            id="state_fixture_fork_post_exception_list_1",
+        ),
+        pytest.param(
+            FixtureForkPost(
+                state_root="0x00",
+                logs_hash="0x01",
+                tx_bytes="0x02",
+                expect_exception=[
+                    TransactionException.INITCODE_SIZE_EXCEEDED,
+                    TransactionException.INSUFFICIENT_ACCOUNT_FUNDS,
+                ],
+            ),
+            {
+                "hash": Hash(0).hex(),
+                "logs": Hash(1).hex(),
+                "txbytes": Bytes(b"\x02").hex(),
+                "expectException": "TransactionException.INITCODE_SIZE_EXCEEDED|"
+                "TransactionException.INSUFFICIENT_ACCOUNT_FUNDS",
+                "indexes": {"data": 0, "gas": 0, "value": 0},
+            },
+            id="state_fixture_fork_post_exception_list_2",
         ),
     ],
 )

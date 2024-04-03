@@ -38,7 +38,7 @@ from .common import (
     cost_memory_bytes,
     eip_2028_transaction_data_cost,
 )
-from .exceptions import BlockException, ExceptionList, ExceptionType, TransactionException
+from .exceptions import BlockException, TransactionException
 from .reference_spec import ReferenceSpec, ReferenceSpecTypes
 from .spec import (
     SPEC_TYPES,
@@ -72,8 +72,6 @@ __all__ = (
     "Conditional",
     "EngineAPIError",
     "Environment",
-    "ExceptionList",
-    "ExceptionType",
     "FixtureCollector",
     "Hash",
     "Header",

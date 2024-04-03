@@ -265,7 +265,9 @@ class Block(Header):
     An RLP modifying header which values would be used to override the ones
     returned by the  `evm_transition_tool`.
     """
-    exception: BlockException | TransactionException | ExceptionList | None = None
+    exception: List[
+        TransactionException | BlockException
+    ] | TransactionException | BlockException | None = None
     """
     If set, the block is expected to be rejected by the client.
     """
@@ -391,7 +393,7 @@ class FixtureEngineNewPayload(CamelModel):
     version: Number
     blob_versioned_hashes: List[Hash] | None = Field(None, alias="expectedBlobVersionedHashes")
     parent_beacon_block_root: Hash | None = Field(None, alias="parentBeaconBlockRoot")
-    validation_error: TransactionException | BlockException | ExceptionList | None = None
+    validation_error: ExceptionList | TransactionException | BlockException | None = None
     error_code: (
         Annotated[
             EngineAPIError,
@@ -520,7 +522,7 @@ class InvalidFixtureBlock(CamelModel):
     """
 
     rlp: Bytes
-    expect_exception: TransactionException | BlockException | ExceptionList
+    expect_exception: ExceptionList | TransactionException | BlockException
     rlp_decoded: FixtureBlockBase | None = Field(None, alias="rlp_decoded")
 
 

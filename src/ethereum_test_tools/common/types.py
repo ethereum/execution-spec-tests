@@ -41,7 +41,7 @@ from trie import HexaryTrie
 
 from ethereum_test_forks import Fork
 
-from ..exceptions import ExceptionList, TransactionException
+from ..exceptions import TransactionException
 from .base_types import (
     Address,
     Bloom,
@@ -846,7 +846,7 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
     data: Bytes = Field(Bytes(b""), alias="input")
 
     secret_key: Hash | None = None
-    error: TransactionException | ExceptionList | None = Field(None, exclude=True)
+    error: List[TransactionException] | TransactionException | None = Field(None, exclude=True)
 
     protected: bool = Field(True, exclude=True)
     rlp_override: bytes | None = Field(None, exclude=True)
@@ -922,7 +922,9 @@ class Transaction(CamelModel, TransactionGeneric[HexNumber]):
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
             self.max_priority_fee_per_gas = 0
 
-    def with_error(self, error: TransactionException | ExceptionList) -> "Transaction":
+    def with_error(
+        self, error: List[TransactionException] | TransactionException
+    ) -> "Transaction":
         """
         Create a copy of the transaction with an added error.
         """
