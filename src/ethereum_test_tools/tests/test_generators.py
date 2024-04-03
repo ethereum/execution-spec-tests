@@ -3,11 +3,36 @@ Test suite for model generators (Transactions, Withdrawals, Blocks).
 """
 
 from itertools import count
-from typing import Any, List
+from typing import List
 
 import pytest
 
-from ..common import Transaction, Transactions, Withdrawal, Withdrawals
+from ..common import Address, Transaction, Transactions, Withdrawal, Withdrawals
+from ..common.base_types import ModelGenerator
+from ..spec.blockchain.types import Block
+
+
+# Blocks is currently broken, single test involving Blocks is expected to fail
+class Blocks(ModelGenerator, model=Block):
+    """
+    Block generator.
+
+    This class is used to generate blocks for a blockchain test case.
+
+    Takes the same arguments as `Block`, but if an iterable is provided for a
+    field, it will generate a block for each element in the iterable.
+
+    If none of the values are iterables, an exception will be raised because none of the provided
+    values will be bounded, unless the `limit` argument is provided, which will limit the number
+    of blocks generated.
+
+    Fields that are already supposed to be iterables, such as `txs` and
+    `withdrawals`, can be parametrized as `txs_iter` and
+    `withdrawals_iter` respectively and an iterable of iterables can be provided to be
+    used in each generated block.
+    """
+
+    pass
 
 
 @pytest.mark.parametrize(
@@ -533,14 +558,53 @@ from ..common import Transaction, Transactions, Withdrawal, Withdrawals
             ],
             id="withdrawals-1",
         ),
+        pytest.param(
+            Blocks(
+                txs_iter=Transactions(
+                    to=(Address(i * 0x100) for i in count(1)),
+                    limit=[3, 2],
+                ),
+                limit=2,
+            ),
+            1,
+            [
+                [
+                    Block(
+                        txs=[
+                            Transaction(
+                                to=Address(0x100),
+                            ),
+                            Transaction(
+                                to=Address(0x200),
+                            ),
+                            Transaction(
+                                to=Address(0x300),
+                            ),
+                        ],
+                    ),
+                    Block(
+                        txs=[
+                            Transaction(
+                                to=Address(0x400),
+                            ),
+                            Transaction(
+                                to=Address(0x500),
+                            ),
+                        ],
+                    ),
+                ]
+            ],
+            marks=pytest.mark.xfail(reason="Blocks generator is broken"),
+            id="blocks-1",
+        ),
     ],
 )
 def test_generators(
-    generator: Transactions | Withdrawals,
+    generator: Transactions | Withdrawals | Blocks,
     chunks: int,
-    expected_lists: List[List[Transaction | Withdrawal]],
+    expected_lists: List[List[Transaction | Withdrawal | Block]],
 ):
-    chunked_elements: List[List[Transaction | Withdrawal]] = []
+    chunked_elements: List[List[Transaction | Withdrawal | Block]] = []
     for _ in range(chunks):
         chunked_elements.append(list(generator))
     for chunk_1, chunk_2 in zip(chunked_elements, expected_lists):
