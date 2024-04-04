@@ -12,3 +12,4 @@ line-length = 99
 
 [tool.mypy]
 mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs"
+plugins = ["pydantic.mypy"]
