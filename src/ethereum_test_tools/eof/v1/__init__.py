@@ -8,6 +8,8 @@ from functools import cached_property
 from typing import Dict, List, Optional, Sized, SupportsBytes, Tuple
 
 from ...common import Bytes
+from ...common.conversions import BytesConvertible
+from ...exceptions import EOFException
 from ...vm.opcode import Opcodes as Op
 from ..constants import EOF_HEADER_TERMINATOR, EOF_MAGIC
 
@@ -190,11 +192,11 @@ class Container(Bytecode):
     Body: type secion first, all code sections, data section(s), last
                 container sections
     """
-    validity_error: str = ""
+    validity_error: EOFException | None = None
     """
     Optional error expected for the container.
     """
-    raw_bytes: Optional[bytes] = None
+    raw_bytes: Optional[BytesConvertible] = None
     """
     Optional raw bytes that represent the container.
     Used to have a cohesive type among all test cases, even those that do not
@@ -207,9 +209,8 @@ class Container(Bytecode):
         Converts the EOF V1 Container into bytecode.
         """
         if self.raw_bytes is not None:
-            assert type(self.raw_bytes) is bytes
             assert self.sections is None or len(self.sections) == 0
-            return self.raw_bytes
+            return Bytes(self.raw_bytes)
 
         assert self.sections is not None
 
