@@ -560,5 +560,4 @@ def test_eof_v1_assemble(container: Container, hex: str):
     """
     Test `ethereum_test.types.code`.
     """
-    assembled_container = container.assemble()
-    assert assembled_container == bytes.fromhex(hex.replace(" ", "").replace("\n", ""))
+    assert bytes(container) == bytes.fromhex(hex.replace(" ", "").replace("\n", ""))
