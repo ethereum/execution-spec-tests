@@ -1,11 +1,12 @@
 """
 EVM Object Format Version 1 Libary to generate bytecode for testing purposes
 """
-from dataclasses import dataclass
+from abc import abstractmethod
+from dataclasses import dataclass, replace
 from enum import IntEnum
-from typing import Dict, List, Optional, Tuple
+from functools import cached_property
+from typing import Dict, List, Optional, Sized, SupportsBytes, Tuple
 
-from ...code import Code
 from ...common import Bytes
 from ...vm.opcode import Opcodes as Op
 from ..constants import EOF_HEADER_TERMINATOR, EOF_MAGIC
@@ -34,10 +35,10 @@ class Section:
     Class that represents a section in an EOF V1 container.
     """
 
-    data: Code | str | bytes = bytes()
+    data: SupportsBytes | str | bytes = bytes()
     """
     Data to be contained by this section.
-    Can be code, another EOF container or any other abstract data.
+    Can be SupportsBytes, another EOF container or any other abstract data.
     """
     custom_size: int | None = None
     """
@@ -79,7 +80,8 @@ class Section:
     code_outputs values for this code section.
     """
 
-    def get_header(self) -> bytes:
+    @cached_property
+    def header(self) -> bytes:
         """
         Get formatted header for this section according to its contents.
         """
@@ -98,54 +100,48 @@ class Section:
         Creates a copy of the section with `max_stack_height` set to the
         specified value.
         """
-        return Section(
-            data=self.data,
-            custom_size=self.custom_size,
-            kind=self.kind,
-            force_type_listing=self.force_type_listing,
-            code_inputs=self.code_inputs,
-            code_outputs=self.code_outputs,
-            max_stack_height=max_stack_height,
-            auto_max_stack_height=self.auto_max_stack_height,
-            auto_code_inputs_outputs=self.auto_code_inputs_outputs,
-        )
+        return replace(self, max_stack_height=max_stack_height)
 
     def with_auto_max_stack_height(self) -> "Section":
         """
         Creates a copy of the section with `auto_max_stack_height` set to True.
         """
-        return Section(
-            data=self.data,
-            custom_size=self.custom_size,
-            kind=self.kind,
-            force_type_listing=self.force_type_listing,
-            code_inputs=self.code_inputs,
-            code_outputs=self.code_outputs,
-            max_stack_height=self.max_stack_height,
-            auto_max_stack_height=True,
-            auto_code_inputs_outputs=self.auto_code_inputs_outputs,
-        )
+        return replace(self, auto_max_stack_height=True)
 
     def with_auto_code_inputs_outputs(self) -> "Section":
         """
         Creates a copy of the section with `auto_code_inputs_outputs` set to
         True.
         """
-        return Section(
-            data=self.data,
-            custom_size=self.custom_size,
-            kind=self.kind,
-            force_type_listing=self.force_type_listing,
-            code_inputs=self.code_inputs,
-            code_outputs=self.code_outputs,
-            max_stack_height=self.max_stack_height,
-            auto_max_stack_height=self.auto_max_stack_height,
-            auto_code_inputs_outputs=True,
-        )
+        return replace(self, auto_code_inputs_outputs=True)
 
 
-@dataclass(kw_only=True)
-class Container(Code):
+class Bytecode(SupportsBytes, Sized):
+    """Abstract class used to define a class that generates bytecode."""
+
+    @property
+    @abstractmethod
+    def bytecode(self) -> bytes:
+        """
+        Converts the sections into bytecode.
+        """
+        raise NotImplementedError
+
+    def __bytes__(self) -> bytes:
+        """
+        Returns the bytecode of the container.
+        """
+        return self.bytecode
+
+    def __len__(self) -> int:
+        """
+        Returns the length of the container bytecode.
+        """
+        return len(self.bytecode)
+
+
+@dataclass(kw_only=True, frozen=True)
+class Container(Bytecode):
     """
     Class that represents an EOF V1 container.
     """
@@ -205,7 +201,8 @@ class Container(Code):
     resemble a valid EOF V1 container.
     """
 
-    def assemble(self) -> bytes:
+    @cached_property
+    def bytecode(self) -> bytes:
         """
         Converts the EOF V1 Container into bytecode.
         """
@@ -327,10 +324,8 @@ class Container(Code):
 
         # Add section bodies
         for s in sections:
-            if isinstance(s.data, Container):
-                c += s.data.assemble()
-            else:
-                c += Bytes(s.data if s.data is not None else "0x")
+            if s.data:
+                c += Bytes(s.data)
 
         # Add extra (garbage)
         if self.extra is not None:
@@ -339,31 +334,28 @@ class Container(Code):
         return c
 
 
-class Initcode(Code):
+@dataclass(kw_only=True)
+class Initcode(Bytecode):
     """
     Helper class used to generate initcode for the specified deployment code,
     using EOF V1 container as init code.
     """
 
-    name: str
+    name: str = "EOF V1 Initcode"
     """
     Name used to identify the initcode.
     """
-    init_container: Container
-    assembled_output: bytes
+    deploy_container: Container
+    """
+    Container to be deployed.
+    """
 
-    def __init__(
-        self,
-        deploy_container: Container,
-        name: str = "EOF V1 Initcode",
-    ):
+    @cached_property
+    def init_container(self) -> Container:
         """
-        Generate legacy initcode that inits a contract with the specified code.
-        The initcode can be padded to a specified length for testing purposes.
+        Generate a container that will be used as the initcode.
         """
-        self.name = name
-        self.assembled_output = deploy_container.assemble()
-        self.init_container = Container(
+        return Container(
             sections=[
                 Section(
                     kind=SectionKind.CODE,
@@ -372,14 +364,21 @@ class Initcode(Code):
                 ),
                 Section(
                     kind=SectionKind.CONTAINER,
-                    data=self.assembled_output,
+                    data=bytes(self.deploy_container),
                 ),
             ],
         )
+
+    @cached_property
+    def bytecode(self) -> bytes:
+        """
+        Generate legacy initcode that inits a contract with the specified code.
+        The initcode can be padded to a specified length for testing purposes.
+        """
         initcode = Container(
             sections=[
                 Section(
-                    data=Op.CREATE3(0, 0, 0, 0, len(self.assembled_output)) + Op.STOP(),
+                    data=Op.CREATE3(0, 0, 0, 0, len(self.deploy_container)) + Op.STOP(),
                     kind=SectionKind.CODE,
                     max_stack_height=4,
                 ),
@@ -390,7 +389,7 @@ class Initcode(Code):
             ]
         )
 
-        super().__init__(code=initcode.assemble(), name=self.name)
+        return bytes(initcode)
 
 
 def create_sections_header(kind: SectionKind | int, sections: List[Section]) -> bytes:
@@ -407,12 +406,12 @@ def create_sections_header(kind: SectionKind | int, sections: List[Section]) -> 
                 h += cs.custom_size.to_bytes(2, "big")
             else:
                 if isinstance(cs.data, Container):
-                    h += len(cs.data.assemble()).to_bytes(2, "big")
+                    h += len(cs.data).to_bytes(2, "big")
                 else:
                     h += len(Bytes(cs.data)).to_bytes(2, "big")
     else:
         for s in sections:
-            h += s.get_header()
+            h += s.header
 
     return h
 
