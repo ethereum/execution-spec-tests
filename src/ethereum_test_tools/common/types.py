@@ -87,7 +87,7 @@ class CopyValidateModel(BaseModel):
 class CamelModel(CopyValidateModel):
     """
     A base model that converts field names to camel case when serializing.
-    
+
     For example, the field name `current_timestamp` in a Python model will be represented
     as `currentTimestamp` when it is serialized to json.
     """
