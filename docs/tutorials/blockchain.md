@@ -237,6 +237,26 @@ blocks = [Block(txs=txs) for _ in range(4)]
 
 `blocks` will contain four blocks, with 10, 5, 3, and 0 transactions respectively.
 
+### Using the `Blocks` Class
+
+The Blocks generator class can simplify the previous example a bit:
+
+```python
+txs = Transactions(
+    ty=0x0,
+    chain_id=0x0,
+    to=(Address(0x100 * i) for i in count(1)),
+    gas_limit=500_000,
+    gas_price=10,
+    limit=[10, 5, 3],
+)
+blocks = Blocks(txs=txs, limit=3)
+```
+
+The change is minimal but it can make the code more readable.
+
+### Other generators
+
 Similar generators exist for `Withdrawal` class as `Withdrawals`, which can be used to create the withdrawals generators.
 
 ### Post State
