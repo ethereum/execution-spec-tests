@@ -8,8 +8,9 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Address,
+    Alloc,
     Environment,
-    StateTestFiller,
+    EOFTestFiller,
     TestAddress,
     Transaction,
     compute_create3_address,
@@ -53,24 +54,26 @@ def create3_init_container(container: Container) -> Initcode:  # noqa: D103
 
 
 @pytest.fixture
-def create3_opcode_contract_address() -> str:  # noqa: D103
+def create3_opcode_contract_address() -> Address:  # noqa: D103
     return Address(0x300)
 
 
 @pytest.fixture
 def pre(  # noqa: D103
-    create3_opcode_contract_address: str,
+    create3_opcode_contract_address: Address,
     create3_init_container: Initcode,
-) -> Dict[str, Account]:
-    return {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=0,
-        ),
-        create3_opcode_contract_address: Account(
-            code=create3_init_container,
-        ),
-    }
+) -> Alloc:
+    return Alloc(
+        {
+            TestAddress: Account(
+                balance=1000000000000000000000,
+                nonce=0,
+            ),
+            create3_opcode_contract_address: Account(
+                code=create3_init_container,
+            ),
+        }
+    )
 
 
 @pytest.fixture
@@ -133,22 +136,16 @@ def container_name(c: Container):
     ids=container_name,
 )
 def test_legacy_initcode_valid_eof_v1_contract(
-    state_test: StateTestFiller,
-    env: Environment,
-    pre: Dict[str, Account],
-    post: Dict[str, Account],
-    txs: List[Transaction],
+    eof_test: EOFTestFiller,
     container: Container,
 ):
     """
     Test creating various types of valid EOF V1 contracts using legacy
     initcode and a contract creating transaction.
     """
-    state_test(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=txs,
+    assert container.validity_error is None, "Valid container with validity error"
+    eof_test(
+        data=bytes(container),
     )
 
 
@@ -158,22 +155,17 @@ def test_legacy_initcode_valid_eof_v1_contract(
     ids=container_name,
 )
 def test_legacy_initcode_invalid_eof_v1_contract(
-    state_test: StateTestFiller,
-    env: Environment,
-    pre: Dict[str, Account],
-    post: Dict[str, Account],
-    txs: List[Transaction],
+    eof_test: EOFTestFiller,
     container: Container,
 ):
     """
     Test creating various types of valid EOF V1 contracts using legacy
     initcode and a contract creating transaction.
     """
-    state_test(
-        env=env,
-        pre=pre,
-        post=post,
-        txs=txs,
+    assert container.validity_error is not None, "Invalid container without validity error"
+    eof_test(
+        data=bytes(container),
+        expect_exception=container.validity_error,
     )
 
 
