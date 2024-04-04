@@ -5,11 +5,10 @@ abstract: Tests [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/ei
 """  # noqa: E501
 
 from itertools import count
-from typing import Dict
 
 import pytest
 
-from ethereum_test_tools import Account, Address, Block, BlockchainTestFiller, Environment
+from ethereum_test_tools import Account, Address, Alloc, Block, BlockchainTestFiller, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Storage, TestAddress, Transaction
 
@@ -53,22 +52,24 @@ def callee_code() -> bytes:
 def pre(
     caller_code: bytes,
     callee_code: bytes,
-) -> Dict:
+) -> Alloc:
     """
     Prepares the pre state of all test cases, by setting the balance of the
     source account of all test transactions, and the required code.
     """
-    return {
-        TestAddress: Account(balance=10**40),
-        code_caller_address: Account(
-            balance=0,
-            code=caller_code,
-        ),
-        code_callee_address: Account(
-            balance=0,
-            code=callee_code,
-        ),
-    }
+    return Alloc(
+        {
+            TestAddress: Account(balance=10**40),
+            code_caller_address: Account(
+                balance=0,
+                code=caller_code,
+            ),
+            code_callee_address: Account(
+                balance=0,
+                code=callee_code,
+            ),
+        }
+    )
 
 
 @pytest.fixture
@@ -96,7 +97,7 @@ def tx() -> Transaction:
 @pytest.mark.valid_from("Cancun")
 def test_blobbasefee_stack_overflow(
     state_test: StateTestFiller,
-    pre: Dict,
+    pre: Alloc,
     tx: Transaction,
     call_fails: bool,
 ):
@@ -129,7 +130,7 @@ def test_blobbasefee_stack_overflow(
 @pytest.mark.valid_from("Cancun")
 def test_blobbasefee_out_of_gas(
     state_test: StateTestFiller,
-    pre: Dict,
+    pre: Alloc,
     tx: Transaction,
     call_fails: bool,
 ):
@@ -155,7 +156,7 @@ def test_blobbasefee_out_of_gas(
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blobbasefee_before_fork(
     state_test: StateTestFiller,
-    pre: Dict[Address, Account],
+    pre: Alloc,
     tx: Transaction,
 ):
     """
@@ -163,9 +164,10 @@ def test_blobbasefee_before_fork(
     """
     # Fork happens at timestamp 15_000
     timestamp = 7_500
-    code_caller_pre_storage = Storage({1: 1})
-    pre[code_caller_address] = pre[code_caller_address].copy(
-        storage=code_caller_pre_storage,
+    code_caller_account = pre[code_caller_address]
+    assert code_caller_account is not None
+    pre[code_caller_address] = code_caller_account.copy(
+        storage={1: 1},
     )
     post = {
         code_caller_address: Account(
@@ -188,7 +190,7 @@ def test_blobbasefee_before_fork(
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blobbasefee_during_fork(
     blockchain_test: BlockchainTestFiller,
-    pre: Dict[Address, Account],
+    pre: Alloc,
     tx: Transaction,
 ):
     """
@@ -215,7 +217,9 @@ def test_blobbasefee_during_fork(
         code_caller_pre_storage[block_number] = 0xFF
         code_caller_post_storage[block_number] = 0 if timestamp < 15_000 else 1
 
-    pre[code_caller_address] = pre[code_caller_address].copy(
+    code_caller_account = pre[code_caller_address]
+    assert code_caller_account is not None
+    pre[code_caller_address] = code_caller_account.copy(
         storage=code_caller_pre_storage,
     )
     post = {
