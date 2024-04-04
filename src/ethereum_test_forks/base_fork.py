@@ -1,6 +1,7 @@
 """
 Abstract base class for Ethereum forks
 """
+
 from abc import ABC, ABCMeta, abstractmethod
 from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Type
 
@@ -73,6 +74,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     _transition_tool_name: ClassVar[Optional[str]] = None
     _blockchain_test_network_name: ClassVar[Optional[str]] = None
     _solc_name: ClassVar[Optional[str]] = None
+    _ignore: ClassVar[bool] = False
 
     def __init_subclass__(
         cls,
@@ -80,6 +82,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         transition_tool_name: Optional[str] = None,
         blockchain_test_network_name: Optional[str] = None,
         solc_name: Optional[str] = None,
+        ignore: bool = False,
     ) -> None:
         """
         Initializes the new fork with values that don't carry over to subclass forks.
@@ -87,6 +90,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         cls._transition_tool_name = transition_tool_name
         cls._blockchain_test_network_name = blockchain_test_network_name
         cls._solc_name = solc_name
+        cls._ignore = ignore
 
     # Header information abstract methods
     @classmethod
@@ -180,9 +184,21 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @classmethod
     @prefer_transition_to_method
     @abstractmethod
-    def pre_allocation(cls, block_number: int = 0, timestamp: int = 0) -> Mapping:
+    def pre_allocation(cls) -> Mapping:
         """
-        Returns required pre-allocation of accounts.
+        Returns required pre-allocation of accounts for any kind of test.
+
+        This method must always call the `fork_to` method when transitioning, because the
+        allocation can only be set at genesis, and thus cannot be changed at transition time.
+        """
+        pass
+
+    @classmethod
+    @prefer_transition_to_method
+    @abstractmethod
+    def pre_allocation_blockchain(cls) -> Mapping:
+        """
+        Returns required pre-allocation of accounts for any blockchain tests.
 
         This method must always call the `fork_to` method when transitioning, because the
         allocation can only be set at genesis, and thus cannot be changed at transition time.
@@ -286,6 +302,13 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         development.
         """
         return True
+
+    @classmethod
+    def ignore(cls) -> bool:
+        """
+        Returns whether the fork should be ignored during test generation.
+        """
+        return cls._ignore
 
 
 # Fork Type

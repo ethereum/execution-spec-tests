@@ -1,6 +1,7 @@
 """
 Transition tool abstract class.
 """
+
 import json
 import os
 import shutil

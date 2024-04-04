@@ -390,8 +390,8 @@ def yul(fork: Fork, request):
     else:
         solc_target_fork = get_closest_fork_with_solc_support(fork, request.config.solc_version)
         assert solc_target_fork is not None, "No fork supports provided solc version."
-        if request.config.getoption("verbose") >= 1:
-            warnings.warn(f"Compiling Yul for {solc_target_fork}, not {fork}.")
+        if solc_target_fork != fork and request.config.getoption("verbose") >= 1:
+            warnings.warn(f"Compiling Yul for {solc_target_fork.name()}, not {fork.name()}.")
 
     class YulWrapper(Yul):
         def __init__(self, *args, **kwargs):
@@ -509,6 +509,9 @@ def pytest_collection_modifyitems(config, items):
     """
     for item in items[:]:  # use a copy of the list, as we'll be modifying it
         if isinstance(item, EIPSpecTestItem):
+            continue
+        if "fork" not in item.callspec.params or item.callspec.params["fork"] is None:
+            items.remove(item)
             continue
         if item.callspec.params["fork"] < Paris:
             # Even though the `state_test` test spec does not produce a hive STATE_TEST, it does

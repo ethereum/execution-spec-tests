@@ -27,7 +27,7 @@ from ...common.base_types import (
 )
 from ...common.constants import AddrAA, EmptyOmmersRoot, EngineAPIError
 from ...common.conversions import BytesConvertible, FixedSizeBytesConvertible, NumberConvertible
-from ...common.json import JSONEncoder, field, load_dataclass_from_json, to_json
+from ...common.json import JSONEncoder, field, load_dataclass_from_json
 from ...common.types import (
     AccessList,
     Account,
@@ -560,9 +560,7 @@ class Block(Header):
         new_env.coinbase = (
             self.coinbase if self.coinbase is not None else environment_default.coinbase
         )
-        new_env.gas_limit = (
-            self.gas_limit if self.gas_limit is not None else environment_default.gas_limit
-        )
+        new_env.gas_limit = self.gas_limit or env.parent_gas_limit or environment_default.gas_limit
         if not isinstance(self.base_fee, Removable):
             new_env.base_fee = self.base_fee
         new_env.withdrawals = self.withdrawals
@@ -1068,26 +1066,6 @@ class FixtureCommon(BaseFixture):
             name="network",
         ),
     )
-    _json: Dict[str, Any] | None = field(
-        default=None,
-        json_encoder=JSONEncoder.Field(
-            skip=True,
-        ),
-    )
-
-    def __post_init__(self):
-        """
-        Post init hook to convert to JSON after instantiation.
-        """
-        self._json = to_json(self)
-
-    def to_json(self) -> Dict[str, Any]:
-        """
-        Convert to JSON.
-        """
-        assert self._json is not None, "Fixture not initialized"
-        self._json["_info"] = self.info
-        return self._json
 
     @classmethod
     def collect_into_file(cls, fd: TextIO, fixtures: Dict[str, "BaseFixture"]):
@@ -1190,6 +1168,13 @@ class HiveFixture(FixtureCommon):
         default=1,
         json_encoder=JSONEncoder.Field(
             name="engineFcuVersion",
+        ),
+    )
+    sync_payload: Optional[FixtureEngineNewPayload] = field(
+        default=None,
+        json_encoder=JSONEncoder.Field(
+            name="syncPayload",
+            to_json=True,
         ),
     )
     pre_state: Mapping[str, Account] = field(

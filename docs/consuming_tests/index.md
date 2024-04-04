@@ -29,7 +29,7 @@ The @ethereum/execution-spec-tests repository provides [releases](https://github
 
 | Release Artifact               | Consumer | Fork/feature scope |
 | ------------------------------ | -------- | ------------------ |
-| `fixtures.tar.gz`              | Clients  | All tests until the last stable fork | "Must pass" |
+| `fixtures.tar.gz`              | Clients  | All tests until the last stable fork ("must pass") |
 | `fixtures_develop.tar.gz`      | Clients  | All tests until the last development fork |
 
 ## Obtaining the Most Recent Release Artifacts

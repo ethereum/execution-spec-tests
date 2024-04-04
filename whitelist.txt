@@ -72,6 +72,7 @@ dev
 devnet
 difficulty
 dir
+dirs
 dirname
 discordapp
 docstring
@@ -82,8 +83,10 @@ eip
 eips
 EIPs
 endianness
+EngineAPI
 enum
 env
+envvar
 eof
 esbenp
 eth
@@ -111,6 +114,7 @@ func
 gaslimit
 gasprice
 GeneralStateTestsFiller
+gentest
 geth
 geth's
 getitem
@@ -123,9 +127,11 @@ Github
 glightbox
 globals
 go-ethereum's
+Golang
 gwei
 hardfork
 hash32
+Hashable
 hasher
 HeaderNonce
 hexary
@@ -205,6 +211,7 @@ Pre
 precompile
 prepend
 PrevRandao
+prestateTracer
 programmatically
 px
 py
@@ -213,6 +220,7 @@ pytest
 Pytest
 pytest's
 pytestArgs
+Pyspec
 qGpsxSA
 quickstart
 radd
@@ -267,6 +275,8 @@ TestAddress
 TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 textwrap
+tf
+ThreeHrSleep
 time15k
 timestamp
 todo
@@ -347,6 +357,7 @@ makereport
 metafunc
 modifyitems
 nodeid
+oog
 optparser
 originalname
 parametrized
@@ -550,6 +561,5 @@ fi
 url
 gz
 tT
-blobgasfee
 istanbul
 berlin

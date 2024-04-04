@@ -5,6 +5,7 @@ Test suite for `ethereum_test_tools.vm` module.
 import pytest
 
 from ..common.base_types import Address
+from ..vm.opcode import Macros as Om
 from ..vm.opcode import Opcodes as Op
 
 
@@ -117,6 +118,34 @@ from ..vm.opcode import Opcodes as Op
             b"\x60\x20\x60\x00\x60\x00\x60\x00\x60\x00\x73\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
             + b"\x00\x00\x00\x00\x00\x00\x00\x00\x12\x34\x5A\xF1",
         ),
+        (Op.ADD(1, 2), bytes([0x60, 0x02, 0x60, 0x01, 0x01])),
+        (Op.ADD(Op.ADD(1, 2), 3), bytes([0x60, 0x03, 0x60, 0x02, 0x60, 0x01, 0x01, 0x01])),
+        (
+            Op.CALL(1, 123, 4, 5, 6, 7, 8),
+            b"\x60\x08\x60\x07\x60\x06\x60\x05\x60\x04\x60\x7b\x60\x01\xf1",
+        ),
+        (
+            Op.CALL(1, Address(0x0123), 4, 5, 6, 7, 8),
+            b"\x60\x08\x60\x07\x60\x06\x60\x05\x60\x04\x73\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            + b"\x00\x00\x00\x00\x00\x00\x00\x00\x01\x23\x60\x01\xf1",
+        ),
+        (
+            Op.CALL(1, 0x0123, 4, 5, 6, 7, 8),
+            b"\x60\x08\x60\x07\x60\x06\x60\x05\x60\x04\x61\x01\x23\x60\x01\xf1",
+        ),
+        (
+            Op.CALL(1, 123, 4, 5, 6, 7, 8),
+            b"\x60\x08\x60\x07\x60\x06\x60\x05\x60\x04\x60\x7b\x60\x01\xf1",
+        ),
+        (
+            Op.CREATE(1, Address(12), 4, 5, 6, 7, 8),
+            b"\x60\x08\x60\x07\x60\x06\x60\x05\x60\x04\x73\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            + b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0c\x60\x01\xf0",
+        ),
+        (
+            Om.OOG(),
+            bytes([0x64, 0x17, 0x48, 0x76, 0xE8, 0x00, 0x60, 0x00, 0x20]),
+        ),
     ],
 )
 def test_opcodes(opcodes: bytes, expected: bytes):
@@ -132,4 +161,14 @@ def test_opcodes_repr():
     """
     assert f"{Op.CALL}" == "CALL"
     assert f"{Op.DELEGATECALL}" == "DELEGATECALL"
+    assert f"{Om.OOG}" == "OOG"
     assert str(Op.ADD) == "ADD"
+
+
+def test_macros():
+    """
+    Test opcode and macros interaction
+    """
+    assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
+    for opcode in Op:
+        assert opcode != Om.OOG

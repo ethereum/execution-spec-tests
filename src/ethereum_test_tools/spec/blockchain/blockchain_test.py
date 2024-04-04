@@ -38,6 +38,7 @@ from ..base.base_test import (
 from ..debugging import print_traces
 from .types import (
     Block,
+    BlockException,
     Fixture,
     FixtureBlock,
     FixtureEngineNewPayload,
@@ -100,6 +101,7 @@ class BlockchainTest(BaseTest):
     post: Mapping
     blocks: List[Block]
     genesis_environment: Environment = field(default_factory=Environment)
+    verify_sync: Optional[bool] = None
     tag: str = ""
     chain_id: int = 1
 
@@ -135,18 +137,12 @@ class BlockchainTest(BaseTest):
             assert Hash(env.beacon_root) == Hash(0), "beacon_root must be empty at genesis"
 
         pre_alloc = Alloc.merge(
-            Alloc(
-                fork.pre_allocation(block_number=0, timestamp=Number(env.timestamp)),
-            ),
+            Alloc(fork.pre_allocation_blockchain()),
             Alloc(self.pre),
         )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
-        new_alloc, state_root = t8n.calc_state_root(
-            alloc=to_json(pre_alloc),
-            fork=fork,
-            debug_output_path=self.get_next_transition_tool_output_path(),
-        )
+        state_root = pre_alloc.state_root()
         genesis = FixtureHeader(
             parent_hash=Hash(0),
             ommers_hash=Hash(EmptyOmmersRoot),
@@ -178,7 +174,7 @@ class BlockchainTest(BaseTest):
             withdrawals=env.withdrawals,
         )
 
-        return Alloc(new_alloc), genesis_rlp, genesis
+        return pre_alloc, genesis_rlp, genesis
 
     def generate_block_data(
         self,
@@ -353,7 +349,11 @@ class BlockchainTest(BaseTest):
                         InvalidFixtureBlock(
                             rlp=rlp,
                             expected_exception=block.exception,
-                            rlp_decoded=replace(fixture_block, rlp=None),
+                            rlp_decoded=(
+                                None
+                                if BlockException.RLP_STRUCTURES_ENCODING in block.exception
+                                else replace(fixture_block, rlp=None)
+                            ),
                         ),
                     )
             else:
@@ -394,6 +394,7 @@ class BlockchainTest(BaseTest):
         pre, _, genesis = self.make_genesis(t8n, fork)
         alloc = to_json(pre)
         env = environment_from_parent_header(genesis)
+        head_hash = genesis.hash
 
         for block in self.blocks:
             header, _, txs, new_alloc, new_env = self.generate_block_data(
@@ -413,6 +414,7 @@ class BlockchainTest(BaseTest):
                 if block.exception is None:
                     alloc = new_alloc
                     env = apply_new_parent(env, header)
+                    head_hash = header.hash
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
         assert (
             fcu_version is not None
@@ -420,6 +422,34 @@ class BlockchainTest(BaseTest):
         " never try to execute this test case."
 
         self.verify_post_state(t8n, alloc)
+
+        sync_payload: Optional[FixtureEngineNewPayload] = None
+        if self.verify_sync:
+            # Test is marked for syncing verification.
+            assert (
+                genesis.hash != head_hash
+            ), "Invalid payload tests negative test via sync is not supported yet."
+
+            # Most clients require the header to start the sync process, so we create an empty
+            # block on top of the last block of the test to send it as new payload and trigger the
+            # sync process.
+            sync_header, _, _, _, _ = self.generate_block_data(
+                t8n=t8n,
+                fork=fork,
+                block=Block(),
+                previous_env=env,
+                previous_alloc=alloc,
+                eips=eips,
+            )
+            sync_payload = FixtureEngineNewPayload.from_fixture_header(
+                fork=fork,
+                header=sync_header,
+                transactions=[],
+                withdrawals=[],
+                validation_error=None,
+                error_code=None,
+            )
+
         return HiveFixture(
             fork=self.network_info(fork, eips),
             genesis=genesis,
@@ -427,6 +457,7 @@ class BlockchainTest(BaseTest):
             fcu_version=fcu_version,
             pre_state=pre,
             post_state=alloc_to_accounts(alloc),
+            sync_payload=sync_payload,
             name=self.tag,
         )
 
