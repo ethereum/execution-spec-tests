@@ -8,12 +8,12 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Environment,
     StateTest,
     TestAddress,
     Transaction,
     Yul,
-    to_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
@@ -361,7 +361,7 @@ def todo_eof_functions_contract_call_succeed(_):
             balance=1000000000000000000000,
             nonce=1,
         ),
-        to_address(0x100): Account(
+        Address(0x100): Account(
             code=caller_contract,
         ),
     }
@@ -369,7 +369,7 @@ def todo_eof_functions_contract_call_succeed(_):
     txs = [
         Transaction(
             nonce=1,
-            to=to_address(0x100),
+            to=Address(0x100),
             gas_limit=50000000,
             gas_price=10,
             protected=False,
@@ -377,10 +377,10 @@ def todo_eof_functions_contract_call_succeed(_):
         )
     ]
 
-    post = {to_address(0x100): Account(storage={0: 1})}
+    post = {Address(0x100): Account(storage={0: 1})}
 
     for container in CALL_SUCCEED_CONTRACTS:
-        pre[to_address(0x200)] = Account(
+        pre[Address(0x200)] = Account(
             code=container,
         )
         yield StateTest(env=env, pre=pre, post=post, txs=txs, name=container.name)
@@ -408,7 +408,7 @@ def todo_eof_functions_contract_call_fail(_):
             balance=1000000000000000000000,
             nonce=1,
         ),
-        to_address(0x100): Account(
+        Address(0x100): Account(
             code=caller_contract,
         ),
     }
@@ -416,7 +416,7 @@ def todo_eof_functions_contract_call_fail(_):
     txs = [
         Transaction(
             nonce=1,
-            to=to_address(0x100),
+            to=Address(0x100),
             gas_limit=50000000,
             gas_price=10,
             protected=False,
@@ -424,10 +424,10 @@ def todo_eof_functions_contract_call_fail(_):
         )
     ]
 
-    post = {to_address(0x100): Account(storage={0: 1})}
+    post = {Address(0x100): Account(storage={0: 1})}
 
     for container in CALL_FAIL_CONTRACTS:
-        pre[to_address(0x200)] = Account(
+        pre[Address(0x200)] = Account(
             code=container,
         )
         yield StateTest(env=env, pre=pre, post=post, txs=txs, name=container.name)
@@ -446,17 +446,17 @@ def todo_eof_functions_contract_call_within_deep_nested(_):
             balance=1000000000000000000000,
             nonce=1,
         ),
-        to_address(0x100): Account(
+        Address(0x100): Account(
             code=contract_call_within_deep_nested_callf,
         ),
-        to_address(0x200): Account(
+        Address(0x200): Account(
             code=Yul("{sstore(0, 1)}"),
         ),
     }
     txs = [
         Transaction(
             nonce=1,
-            to=to_address(0x100),
+            to=Address(0x100),
             gas_limit=50000000,
             gas_price=10,
             protected=False,
@@ -464,8 +464,8 @@ def todo_eof_functions_contract_call_within_deep_nested(_):
         )
     ]
     post = {
-        to_address(0x100): Account(storage={i: 1 for i in range(MAX_CODE_SECTIONS)}),
-        to_address(0x200): Account(
+        Address(0x100): Account(storage={i: 1 for i in range(MAX_CODE_SECTIONS)}),
+        Address(0x200): Account(
             storage={
                 0: 1,
             }

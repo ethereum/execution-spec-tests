@@ -338,10 +338,10 @@ for op in OPCODES_WITH_PUSH_STACK_ITEMS:
         ],
     )
 
-    if len(valid_container.assemble()) > MAX_BYTECODE_SIZE:
+    if len(valid_container) > MAX_BYTECODE_SIZE:
         continue
     VALID.append(valid_container)
 
-    if len(invalid_container.assemble()) > MAX_BYTECODE_SIZE:
+    if len(invalid_container) > MAX_BYTECODE_SIZE:
         continue
     INVALID.append(invalid_container)

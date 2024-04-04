@@ -7,12 +7,12 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Environment,
     StateTestFiller,
     TestAddress,
     Transaction,
     compute_create3_address,
-    to_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Initcode
 
@@ -54,7 +54,7 @@ def create3_init_container(container: Container) -> Initcode:  # noqa: D103
 
 @pytest.fixture
 def create3_opcode_contract_address() -> str:  # noqa: D103
-    return to_address(0x300)
+    return Address(0x300)
 
 
 @pytest.fixture
@@ -103,13 +103,13 @@ def post(  # noqa: D103
     create_opcode_created_contract_address = compute_create3_address(
         create3_opcode_contract_address,
         0,
-        create3_init_container.init_container.assemble(),
+        bytes(create3_init_container.init_container),
     )
 
     new_account = Account(code=container)
 
     # Do not expect to create account if it is invalid
-    if hasattr(new_account, "code") and new_account.code.validity_error != "":
+    if hasattr(new_account, "code") and container.validity_error != "":
         return {}
     else:
         return {
@@ -193,16 +193,16 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
             balance=1000000000000000000000,
             nonce=0,
         ),
-        to_address(0x100): Account(
+        Address(0x100): Account(
             code=create_initcode_from_calldata,
         ),
-        to_address(0x200): Account(
+        Address(0x200): Account(
             code=create2_initcode_from_calldata,
         ),
     }
 
     post = {
-        to_address(0x100): Account(
+        Address(0x100): Account(
             storage={
                 0: 1,
             }
@@ -220,21 +220,21 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
     )
     tx_create_opcode = Transaction(
         nonce=1,
-        to=to_address(0x100),
+        to=Address(0x100),
         gas_limit=100000000,
         gas_price=10,
         protected=False,
     )
     tx_create2_opcode = Transaction(
         nonce=2,
-        to=to_address(0x200),
+        to=Address(0x200),
         gas_limit=100000000,
         gas_price=10,
         protected=False,
     )
 
     for container in ALL_INVALID:
-        # print(container.name + ": " + container.assemble().hex())
+        # print(container.name + ": " + bytes(container).hex())
         if container.validity_error == "":
             print(
                 "WARN: Invalid container "
@@ -245,7 +245,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
         tx_create_opcode.data = legacy_initcode
         tx_create2_opcode.data = legacy_initcode
         create2_opcode_created_contract_address = compute_create2_address(
-            0x200, 0, legacy_initcode.assemble()
+            0x200, 0, bytes(legacy_initcode)
         )
         post[create2_opcode_created_contract_address] = Account.NONEXISTENT
         yield StateTest(
