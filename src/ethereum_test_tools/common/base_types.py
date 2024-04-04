@@ -436,6 +436,13 @@ class ModelGenerator(Iterable[C]):
                 else:
                     value = kwargs.pop(field_with_suffix)
                     assert value is not None, f"value for {field_with_suffix} cannot be None"
+                    assert not isinstance(
+                        value, ModelGenerator
+                    ), f"""
+                        Iter value for {field_with_suffix} in {self.__class__.__name__} cannot
+                        be a ModelGenerator ({value.__class__.__name__}).
+                        Use the normal field name without the suffix ({field}) instead.
+                        """
                     if isinstance(value, Iterator):
                         self.iterators[field] = value
                     elif isinstance(value, Iterable):

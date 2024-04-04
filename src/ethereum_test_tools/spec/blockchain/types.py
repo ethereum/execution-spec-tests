@@ -20,6 +20,7 @@ from ...common.base_types import (
     Hash,
     HeaderNonce,
     HexNumber,
+    ModelGenerator,
     Number,
     ZeroPaddedHexNumber,
 )
@@ -351,6 +352,28 @@ class Block(Header):
             new_env_values["timestamp"] = int(Number(env.parent_timestamp) + 12)
 
         return env.copy(**new_env_values)
+
+
+class Blocks(ModelGenerator, model=Block):
+    """
+    Block generator.
+
+    This class is used to generate blocks for a blockchain test case.
+
+    Takes the same arguments as `Block`, but if an iterable is provided for a
+    field, it will generate a block for each element in the iterable.
+
+    If none of the values are iterables, an exception will be raised because none of the provided
+    values will be bounded, unless the `limit` argument is provided, which will limit the number
+    of blocks generated.
+
+    Fields that are already supposed to be iterables, such as `txs` and
+    `withdrawals`, can be parametrized as `txs_iter` and
+    `withdrawals_iter` respectively and an iterable of iterables can be provided to be
+    used in each generated block.
+    """
+
+    pass
 
 
 class FixtureExecutionPayload(CamelModel):
