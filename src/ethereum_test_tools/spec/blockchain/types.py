@@ -72,10 +72,25 @@ class Header(CamelModel):
     EMPTY_FIELD: ClassVar[Removable] = Removable()
     """
     Sentinel object used to specify that a header field must be empty during verification.
+    
+    This can be used in a test to explicitly skip a field in a block's RLP encoding.
+    included in the (json) output when the model is serialized. For example:
+    ```
+    header_modifier = Header()
+    header_modifier.excess_blob_gas = Header.REMOVE_FIELD
+    block = Block(
+        timestamp=TIMESTAMP,
+        rlp_modifier=header_modifier,
+        exception=BlockException.INCORRECT_BLOCK_FORMAT,
+        engine_api_error_code=EngineAPIError.InvalidParams,
+    )
+    ```
     """
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
+        # explicitly set Removable items to None so they are not included in the serialization
+        # (in combination with exclude_None=True in model.dump()).
         json_encoders={
             Removable: lambda x: None,
         },

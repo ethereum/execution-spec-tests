@@ -150,7 +150,11 @@ S = TypeVar("S", bound="FixedSizeHexNumber")
 
 class FixedSizeHexNumber(int, ToStringSchema):
     """
-    Class that helps represent a number of fixed byte-length in tests.
+    A base class that helps represent an integer as a fixed byte-length
+    hexadecimal number.
+
+    This class is used to dynamically generate subclasses of a specific byte
+    length.
     """
 
     byte_length: ClassVar[int]

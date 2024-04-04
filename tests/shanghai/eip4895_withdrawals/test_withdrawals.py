@@ -663,8 +663,7 @@ def test_zero_amount(
         withdrawals = all_withdrawals
         post = all_post
     elif test_case == ZeroAmountTestCases.FOUR_ONE_WITH_MAX_REVERSED:
-        for i in range(len(all_withdrawals)):
-            w = all_withdrawals[len(all_withdrawals) - i - 1]
+        for i, w in enumerate(reversed(all_withdrawals)):
             withdrawals.append(
                 Withdrawal(
                     index=i,
