@@ -163,6 +163,18 @@ class BlockException(ExceptionBase):
     """
 
 
+@unique
+class EOFException(ExceptionBase):
+    """
+    Exception raised when an EOF container is invalid
+    """
+
+    UNKNOWN_VERSION = auto()
+    """
+    EOF container has an unknown version
+    """
+
+
 """
 Pydantic Annotated Types
 """

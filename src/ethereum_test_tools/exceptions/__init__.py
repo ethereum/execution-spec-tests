@@ -5,6 +5,7 @@ Exceptions for invalid execution.
 from .exceptions import (
     BlockException,
     BlockExceptionList,
+    EOFException,
     ExceptionList,
     TransactionException,
     TransactionExceptionList,
@@ -13,6 +14,7 @@ from .exceptions import (
 __all__ = [
     "BlockException",
     "BlockExceptionList",
+    "EOFException",
     "ExceptionList",
     "TransactionException",
     "TransactionExceptionList",
