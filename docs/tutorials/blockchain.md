@@ -221,7 +221,7 @@ block3 = Block(txs=txs)
 
 This will create three blocks, with 10, 5, and 3 transactions.
 
-The only caveat of using an iterable for the `limit` parameter is that if we exhaust the iterator, the rest of the transaction lists will be empty, but this can be easily overcomed by using the `cycle` function from the `itertools` module.
+The only caveat of using an iterable for the `limit` parameter is that if we exhaust the iterator, the rest of the transaction lists will be empty, but this can be easily solved by using the `cycle` function from the `itertools` module.
 
 ```python
 txs = Transactions(
