@@ -563,6 +563,25 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
             address = Address(address)
         return self.root[address]
 
+    def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
+        """
+        Sets the account associated with an address.
+        """
+        if not isinstance(address, Address):
+            address = Address(address)
+        if account is None:
+            self.root.pop(address, None)
+            return
+        self.root[address] = account
+
+    def __delitem__(self, address: Address | FixedSizeBytesConvertible):
+        """
+        Deletes the account associated with an address.
+        """
+        if not isinstance(address, Address):
+            address = Address(address)
+        self.root.pop(address, None)
+
     def __contains__(self, address: Address | FixedSizeBytesConvertible) -> bool:
         """
         Checks if an account is in the allocation.
