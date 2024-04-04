@@ -99,14 +99,9 @@ class CamelModel(CopyValidateModel):
     )
 
 
-MAX_STORAGE_KEY_VALUE = 2**256 - 1
-MIN_STORAGE_KEY_VALUE = -(2**255)
-
-
 StorageKeyValueTypeConvertible = NumberConvertible
 StorageKeyValueType = HashInt
 StorageKeyValueTypeAdapter = TypeAdapter(StorageKeyValueType)
-StorageType = Dict[StorageKeyValueType, StorageKeyValueType]
 
 
 class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
