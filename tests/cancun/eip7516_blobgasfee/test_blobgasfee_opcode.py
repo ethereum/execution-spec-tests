@@ -101,7 +101,7 @@ def test_blobbasefee_stack_overflow(
     call_fails: bool,
 ):
     """
-    Tests that the BLOBBASEFEE opcode produces an stack overflow by using it repatedly.
+    Tests that the BLOBBASEFEE opcode produces a stack overflow by using it repeatedly.
     """
     post = {
         code_caller_address: Account(
@@ -134,7 +134,7 @@ def test_blobbasefee_out_of_gas(
     call_fails: bool,
 ):
     """
-    Tests that the BLOBBASEFEE opcode produces an stack overflow by using it repatedly.
+    Tests that the BLOBBASEFEE opcode fails with insufficient gas.
     """
     post = {
         code_caller_address: Account(
