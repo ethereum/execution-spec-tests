@@ -5,7 +5,6 @@ Test suite for `cli.evm_bytes_to_python` module.
 import pytest
 from evm_bytes_to_python import process_evm_bytes
 
-from ethereum_test_tools import Macro
 from ethereum_test_tools import Opcodes as Op
 
 basic_vector = [
@@ -32,7 +31,14 @@ def test_evm_bytes_to_python(evm_bytes, python_opcodes):
     assert process_evm_bytes(evm_bytes) == python_opcodes
 
 
-@pytest.mark.parametrize("opcode", [op for op in Op if not isinstance(op, Macro)])
+DUPLICATES = [Op.NOOP]
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    [op for op in Op if op not in DUPLICATES],
+    ids=lambda op: op._name_,
+)
 def test_individual_opcodes(opcode):
     """Test each opcode individually"""
     if opcode.data_portion_length > 0:

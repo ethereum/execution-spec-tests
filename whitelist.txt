@@ -354,6 +354,7 @@ makepyfile
 metafunc
 modifyitems
 nodeid
+noop
 oog
 optparser
 originalname
