@@ -2163,14 +2163,14 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#5A](https://www.evm.codes/#5A)
     """
 
-    NOOP = Opcode(0x5B)
+    JUMPDEST = Opcode(0x5B)
     """
-    NOOP()
+    JUMPDEST()
     ----
 
     Description
     ----
-    Synonym for JUMPDEST. Performs no operation.
+    Mark a valid destination for jumps
 
     Inputs
     ----
@@ -2191,14 +2191,14 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#5B](https://www.evm.codes/#5B)
     """
 
-    JUMPDEST = Opcode(0x5B)
+    NOOP = Opcode(0x5B)
     """
-    JUMPDEST()
+    NOOP()
     ----
 
     Description
     ----
-    Mark a valid destination for jumps
+    Synonym for JUMPDEST. Performs no operation.
 
     Inputs
     ----
