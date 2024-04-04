@@ -569,9 +569,6 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         """
         if not isinstance(address, Address):
             address = Address(address)
-        if account is None:
-            self.root.pop(address, None)
-            return
         self.root[address] = account
 
     def __delitem__(self, address: Address | FixedSizeBytesConvertible):
