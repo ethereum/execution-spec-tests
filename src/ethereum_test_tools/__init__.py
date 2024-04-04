@@ -54,7 +54,7 @@ from .spec import (
     StateTestFiller,
     TestInfo,
 )
-from .spec.blockchain.types import Block, Header
+from .spec.blockchain.types import Block, Blocks, Header
 from .vm import Macro, Opcode, OpcodeCallArg, Opcodes
 
 __all__ = (
@@ -69,6 +69,7 @@ __all__ = (
     "BlockchainTest",
     "BlockchainTestFiller",
     "BlockException",
+    "Blocks",
     "CalldataCase",
     "Case",
     "Code",
