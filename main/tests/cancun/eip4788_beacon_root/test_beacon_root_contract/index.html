@@ -6626,7 +6626,7 @@
 
 
 <h1 id="test-beacon-root-contract">Test Beacon Root Contract<a class="headerlink" href="#test-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fc36d6586b638a19bc8b0382210949da05ec5d07/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a656861bec1adbb85a39124ce815bc38626cdad/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6797,7 +6797,7 @@ context.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -6915,7 +6915,7 @@ for an invalid input timestamp.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -7000,7 +7000,7 @@ for an invalid input timestamp.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -7091,7 +7091,7 @@ as all timestamps used are valid.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -7158,7 +7158,7 @@ as all timestamps used are valid.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -7243,7 +7243,7 @@ as all timestamps used are valid.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -7666,13 +7666,13 @@ buffer, which might have been overwritten by a later block.</p>
         <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">tx</span><span class="o">.</span><span class="n">with_fields</span><span class="p">(</span>
+                    <span class="n">tx</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
                         <span class="n">nonce</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
                         <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="p">],</span>
-                <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span>
+                <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span>
                 <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
                 <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
                     <span class="c1"># Also withdraw to the beacon root contract and the system address</span>
@@ -7680,13 +7680,13 @@ buffer, which might have been overwritten by a later block.</p>
                         <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">,</span>
                         <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                         <span class="n">index</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">withdraw_index</span><span class="p">),</span>
-                        <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">validator_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Withdrawal</span><span class="p">(</span>
                         <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">SYSTEM_ADDRESS</span><span class="p">,</span>
                         <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                         <span class="n">index</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">withdraw_index</span><span class="p">),</span>
-                        <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">validator_index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                 <span class="p">],</span>
             <span class="p">)</span>
@@ -7940,13 +7940,13 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
         <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">tx</span><span class="o">.</span><span class="n">with_fields</span><span class="p">(</span>
+                    <span class="n">tx</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
                         <span class="n">nonce</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
                         <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span> <span class="o">+</span> <span class="n">i</span><span class="p">),</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="p">],</span>
-                <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span> <span class="k">if</span> <span class="n">transitioned</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span> <span class="k">if</span> <span class="n">transitioned</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
                 <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
                     <span class="c1"># Also withdraw to the beacon root contract and the system address</span>
@@ -7954,13 +7954,13 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
                         <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">,</span>
                         <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                         <span class="n">index</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">withdraw_index</span><span class="p">),</span>
-                        <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">validator_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Withdrawal</span><span class="p">(</span>
                         <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">SYSTEM_ADDRESS</span><span class="p">,</span>
                         <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                         <span class="n">index</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">withdraw_index</span><span class="p">),</span>
-                        <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">validator_index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                 <span class="p">],</span>
             <span class="p">)</span>
@@ -8082,7 +8082,7 @@ deployed in time for the fork.</p>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
-            <span class="n">beacon_root</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">beacon_roots</span><span class="p">),</span>
+            <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">beacon_roots</span><span class="p">),</span>
             <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
             <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
                 <span class="c1"># Also withdraw to the beacon root contract and the system address</span>
@@ -8090,13 +8090,13 @@ deployed in time for the fork.</p>
                     <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">validator_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Withdrawal</span><span class="p">(</span>
                     <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">SYSTEM_ADDRESS</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">validator_index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">)</span>
@@ -8351,7 +8351,7 @@ code deployed and its functionality after Cancun.</p>
             <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Deployment block</span>
                     <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">deploy_tx</span><span class="p">],</span>
-                    <span class="n">beacon_root</span><span class="o">=</span><span class="p">(</span>
+                    <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="p">(</span>
                         <span class="n">beacon_root</span>
                         <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">current_timestamp</span><span class="p">)</span>
                         <span class="k">else</span> <span class="kc">None</span>
@@ -8363,13 +8363,13 @@ code deployed and its functionality after Cancun.</p>
                             <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                             <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                            <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">validator_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                         <span class="p">),</span>
                         <span class="n">Withdrawal</span><span class="p">(</span>
                             <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">SYSTEM_ADDRESS</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                             <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                            <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                            <span class="n">validator_index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                         <span class="p">),</span>
                     <span class="p">],</span>
                 <span class="p">)</span>
@@ -8382,7 +8382,7 @@ code deployed and its functionality after Cancun.</p>
             <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Contract already deployed</span>
                     <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
-                    <span class="n">beacon_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span>
+                    <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span>
                     <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
                     <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
                         <span class="c1"># Also withdraw to the beacon root contract and the system address</span>
@@ -8390,13 +8390,13 @@ code deployed and its functionality after Cancun.</p>
                             <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                             <span class="n">index</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                            <span class="n">validator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">validator_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                         <span class="p">),</span>
                         <span class="n">Withdrawal</span><span class="p">(</span>
                             <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">SYSTEM_ADDRESS</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                             <span class="n">index</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                            <span class="n">validator</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                            <span class="n">validator_index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                         <span class="p">),</span>
                     <span class="p">],</span>
                 <span class="p">),</span>

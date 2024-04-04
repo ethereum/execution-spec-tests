@@ -8078,12 +8078,12 @@ leakage between tests.</p>
 
         <span class="k">class</span> <span class="nc">BaseTestWrapper</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
             <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fixture_format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixture_format</span>
                 <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;t8n_dump_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dump_dir_parameter_level</span>
                 <span class="nb">super</span><span class="p">(</span><span class="n">BaseTestWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="n">fixture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-                    <span class="n">t8n</span><span class="p">,</span>
-                    <span class="n">fork</span><span class="p">,</span>
+                    <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span>
+                    <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                    <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span>
                     <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">fixture</span><span class="o">.</span><span class="n">fill_info</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">reference_spec</span><span class="p">)</span>
@@ -8159,7 +8159,7 @@ test spec supports.</p>
                         <span class="nb">id</span><span class="o">=</span><span class="n">fixture_format</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
                         <span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())],</span>
                     <span class="p">)</span>
-                    <span class="k">for</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">test_type</span><span class="o">.</span><span class="n">fixture_formats</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">test_type</span><span class="o">.</span><span class="n">supported_fixture_formats</span>
                 <span class="p">],</span>
                 <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">,</span>
                 <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
