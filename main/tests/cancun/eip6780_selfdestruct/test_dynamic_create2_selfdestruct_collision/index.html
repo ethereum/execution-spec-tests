@@ -6554,7 +6554,7 @@
 
 
 <h1 id="test-dynamic-create2-selfdestruct-collision">Test Dynamic Create2 Selfdestruct Collision<a class="headerlink" href="#test-dynamic-create2-selfdestruct-collision" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a656861bec1adbb85a39124ce815bc38626cdad/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2d9074e1e1d78b58dc71bab7c4421789fc58daae/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -7454,7 +7454,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
         <span class="n">sendall_destination_balance</span> <span class="o">+=</span> <span class="n">pre_existing_create2_balance</span>
         <span class="k">if</span> <span class="n">fork</span> <span class="o">&gt;=</span> <span class="n">Cancun</span><span class="p">:</span>
             <span class="c1"># first create2 fails, but first calls ok. the account is not removed on cancun</span>
-            <span class="c1"># therefor with the second create2 it is not successful</span>
+            <span class="c1"># therefore with the second create2 it is not successful</span>
             <span class="n">sendall_destination_balance</span> <span class="o">+=</span> <span class="n">first_call_value</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># first create2 fails, first calls totally removes the account</span>
