@@ -208,7 +208,6 @@ def test_basic_tload_gasprice(
     (16_tloadGasFiller.yml)
     tload costs 100 gas same as a warm sload
     """
-
     slot_tload_nonzero_gas_price_result = 1
     slot_tload_zero_gas_price_result = 2
     slot_code_worked = 3
