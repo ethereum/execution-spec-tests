@@ -34,7 +34,7 @@ def test_tstore_reentrancy(
     state_test: StateTestFiller, call_type: Op, call_return: Op, call_dest: bytes
 ):
     """
-    Covered .json vectors:
+    Ported .json vectors:
 
     (06_tstoreInReentrancyCallFiller.yml)
     Reentrant calls access the same transient storage
@@ -62,13 +62,13 @@ def test_tstore_reentrancy(
     tload_value_set_in_call = 90
 
     # Storage cells
-    str_tload_before_call = 0
-    str_tload_in_subcall_result = 1
-    str_tload_after_call = 2
-    str_subcall_worked = 3
-    str_tload_1_after_call = 4
-    str_tstore_overwrite = 5
-    str_code_worked = 6
+    slot_tload_before_call = 0
+    slot_tload_in_subcall_result = 1
+    slot_tload_after_call = 2
+    slot_subcall_worked = 3
+    slot_tload_1_after_call = 4
+    slot_tstore_overwrite = 5
+    slot_code_worked = 6
 
     # Function names
     do_tstore = 1
@@ -102,28 +102,28 @@ def test_tstore_reentrancy(
                     Case(
                         condition=Op.EQ(Op.CALLDATALOAD(0), do_reenter),
                         action=Op.TSTORE(0, tload_value_set_before_call)
-                        + Op.SSTORE(str_tload_before_call, Op.TLOAD(0))
+                        + Op.SSTORE(slot_tload_before_call, Op.TLOAD(0))
                         + Op.MSTORE(0, do_tstore)
                         + Op.MSTORE(32, 0xFF)
-                        + Op.SSTORE(str_subcall_worked, make_call(call_type))
-                        + Op.SSTORE(str_tload_in_subcall_result, Op.MLOAD(32))
-                        + Op.SSTORE(str_tload_after_call, Op.TLOAD(0))
-                        + Op.SSTORE(str_tload_1_after_call, Op.TLOAD(1))
+                        + Op.SSTORE(slot_subcall_worked, make_call(call_type))
+                        + Op.SSTORE(slot_tload_in_subcall_result, Op.MLOAD(32))
+                        + Op.SSTORE(slot_tload_after_call, Op.TLOAD(0))
+                        + Op.SSTORE(slot_tload_1_after_call, Op.TLOAD(1))
                         + Op.TSTORE(0, 50)
-                        + Op.SSTORE(str_tstore_overwrite, Op.TLOAD(0))
-                        + Op.SSTORE(str_code_worked, 1),
+                        + Op.SSTORE(slot_tstore_overwrite, Op.TLOAD(0))
+                        + Op.SSTORE(slot_code_worked, 1),
                     ),
                 ],
                 default_action=b"",
             ),
             storage={
-                str_tload_before_call: 0xFF,
-                str_tload_in_subcall_result: 0xFF,
-                str_tload_after_call: 0xFF,
-                str_subcall_worked: 0xFF,
-                str_tload_1_after_call: 0xFF,
-                str_tstore_overwrite: 0xFF,
-                str_code_worked: 0xFF,
+                slot_tload_before_call: 0xFF,
+                slot_tload_in_subcall_result: 0xFF,
+                slot_tload_after_call: 0xFF,
+                slot_subcall_worked: 0xFF,
+                slot_tload_1_after_call: 0xFF,
+                slot_tstore_overwrite: 0xFF,
+                slot_code_worked: 0xFF,
             },
         ),
         address_code: Account(
@@ -156,46 +156,46 @@ def test_tstore_reentrancy(
         # if reentrancy
         post[address_to] = Account(
             storage={
-                str_code_worked: 1,
-                str_tload_before_call: tload_value_set_before_call,
-                str_tload_in_subcall_result: (
+                slot_code_worked: 1,
+                slot_tload_before_call: tload_value_set_before_call,
+                slot_tload_in_subcall_result: (
                     # we fail to obtain in call result if it fails
                     0xFF
                     if call_type == Op.STATICCALL or call_return == Om.OOG
                     else tload_value_set_in_call
                 ),
                 # reentrant tstore overrides value in upper level
-                str_tload_after_call: (
+                slot_tload_after_call: (
                     tload_value_set_before_call if failing_calls() else tload_value_set_in_call
                 ),
-                str_tload_1_after_call: 0 if failing_calls() else 12,
-                str_tstore_overwrite: 50,
+                slot_tload_1_after_call: 0 if failing_calls() else 12,
+                slot_tstore_overwrite: 50,
                 # tstore in static call not allowed
-                str_subcall_worked: 0 if failing_calls() else 1,
+                slot_subcall_worked: 0 if failing_calls() else 1,
             }
         )
     else:
         post[address_to] = Account(
             # if external call
             storage={
-                str_code_worked: 1,
-                str_tload_before_call: tload_value_set_before_call,
-                str_tload_in_subcall_result: (
+                slot_code_worked: 1,
+                slot_tload_before_call: tload_value_set_before_call,
+                slot_tload_in_subcall_result: (
                     # we fail to obtain in call result if it fails
                     0xFF
                     if call_type == Op.STATICCALL or call_return == Om.OOG
                     else tload_value_set_in_call
                 ),
                 # external tstore overrides value in upper level only in delegate and callcode
-                str_tload_after_call: (
+                slot_tload_after_call: (
                     tload_value_set_in_call
                     if successful_delegate_or_callcode()
                     else tload_value_set_before_call
                 ),
-                str_tload_1_after_call: 12 if successful_delegate_or_callcode() else 0,
-                str_tstore_overwrite: 50,
+                slot_tload_1_after_call: 12 if successful_delegate_or_callcode() else 0,
+                slot_tstore_overwrite: 50,
                 # tstore in static call not allowed, reentrancy means external call here
-                str_subcall_worked: 0 if failing_calls() else 1,
+                slot_subcall_worked: 0 if failing_calls() else 1,
             }
         )
 

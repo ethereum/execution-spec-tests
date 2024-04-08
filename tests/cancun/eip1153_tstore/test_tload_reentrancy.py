@@ -34,7 +34,7 @@ def test_tload_reentrancy(
     state_test: StateTestFiller, call_type: Op, call_return: Op, call_dest: bytes
 ):
     """
-    Covered .json vectors:
+    Ported .json vectors:
 
     (05_tloadReentrancyFiller.yml)
     Reentrant calls access the same transient storage
@@ -44,10 +44,10 @@ def test_tload_reentrancy(
     empty_value = 0
 
     # Storage variables
-    str_tload_in_subcall_result = 1
-    str_tload_after_subcall_result = 2
-    str_subcall_worked = 3
-    str_code_worked = 4
+    slot_tload_in_subcall_result = 1
+    slot_tload_after_subcall_result = 2
+    slot_subcall_worked = 3
+    slot_code_worked = 4
 
     # Function names
     do_load = 1
@@ -76,19 +76,19 @@ def test_tload_reentrancy(
                         action=Op.TSTORE(0, tload_value)
                         + Op.MSTORE(0, do_load)
                         + Op.MSTORE(32, 0xFF)
-                        + Op.SSTORE(str_subcall_worked, make_call(call_type))
-                        + Op.SSTORE(str_tload_in_subcall_result, Op.MLOAD(32))
-                        + Op.SSTORE(str_tload_after_subcall_result, Op.TLOAD(0))
-                        + Op.SSTORE(str_code_worked, 1),
+                        + Op.SSTORE(slot_subcall_worked, make_call(call_type))
+                        + Op.SSTORE(slot_tload_in_subcall_result, Op.MLOAD(32))
+                        + Op.SSTORE(slot_tload_after_subcall_result, Op.TLOAD(0))
+                        + Op.SSTORE(slot_code_worked, 1),
                     ),
                 ],
                 default_action=b"",
             ),
             storage={
-                str_tload_in_subcall_result: 0xFF,
-                str_tload_after_subcall_result: 0xFF,
-                str_subcall_worked: 0xFF,
-                str_code_worked: 0xFF,
+                slot_tload_in_subcall_result: 0xFF,
+                slot_tload_after_subcall_result: 0xFF,
+                slot_subcall_worked: 0xFF,
+                slot_code_worked: 0xFF,
             },
         ),
         address_code: Account(
@@ -111,11 +111,11 @@ def test_tload_reentrancy(
         # if reentrancy
         post[address_to] = Account(
             storage={
-                str_code_worked: 1,
+                slot_code_worked: 1,
                 # if call OOG, we fail to obtain the result
-                str_tload_in_subcall_result: 0xFF if call_return == Om.OOG else tload_value,
-                str_tload_after_subcall_result: tload_value,
-                str_subcall_worked: (
+                slot_tload_in_subcall_result: 0xFF if call_return == Om.OOG else tload_value,
+                slot_tload_after_subcall_result: tload_value,
+                slot_subcall_worked: (
                     0 if call_return == Op.REVERT or call_return == Om.OOG else 1
                 ),
             }
@@ -124,8 +124,8 @@ def test_tload_reentrancy(
         # if external call
         post[address_to] = Account(
             storage={
-                str_code_worked: 1,
-                str_tload_in_subcall_result: (
+                slot_code_worked: 1,
+                slot_tload_in_subcall_result: (
                     0xFF  # if call OOG, we fail to obtain the result
                     if call_return == Om.OOG
                     # else delegate and callcode are working in the same context so tload works
@@ -136,8 +136,8 @@ def test_tload_reentrancy(
                     )
                 ),
                 # no subcall errors can change the tload result
-                str_tload_after_subcall_result: 44,
-                str_subcall_worked: (
+                slot_tload_after_subcall_result: 44,
+                slot_subcall_worked: (
                     0 if call_return == Op.REVERT or call_return == Om.OOG else 1
                 ),
             }
