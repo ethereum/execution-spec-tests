@@ -55,11 +55,17 @@ def test_yul_coverage(
             nonce=0,
             code=Op.SHL(0x0000000000000000000000000000000000000000000000000000000000000001, 0x00)
             + Op.SHR(0x0000000000000000000000000000000000000000000000000000000000000001, 0x00)
-            + Op.SWAP1(0x0A, 0x0B)
-            + Op.DUP2(0x01, 0x02)
+            + Op.PUSH1(0x0A)
+            + Op.PUSH1(0x0B)
+            + Op.PUSH1(0x0C)
+            + Op.PUSH1(0x0D)
+            + Op.PUSH1(0x0E)
+            + Op.SWAP1()
+            + Op.DUP2()
             + Op.PUSH0()
-            + Op.PUSH3(0x01, 0x01, 0x01)
-            + Op.PUSH4(0x01, 0x02, 0x03, 0x04)
+            + Op.PUSH2(0x0102)
+            + Op.PUSH3(0x010203)
+            + Op.PUSH4(0x01020304)
             + Op.POP(0x01),
             storage={},
         ),
