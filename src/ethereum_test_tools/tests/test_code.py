@@ -8,10 +8,17 @@ from typing import Mapping, SupportsBytes
 import pytest
 from semver import Version
 
-from ethereum_test_forks import Cancun, Fork, Homestead, Shanghai, get_deployed_forks
+from ethereum_test_forks import (
+    Cancun,
+    Fork,
+    Homestead,
+    Shanghai,
+    get_closest_fork_with_solc_support,
+    get_deployed_forks,
+)
 from evm_transition_tool import FixtureFormats, GethTransitionTool
 
-from ..code import CalldataCase, Case, Code, Conditional, Initcode, Switch, Yul
+from ..code import CalldataCase, Case, Code, Conditional, Initcode, Solc, Switch, Yul
 from ..common import Account, Environment, Hash, TestAddress, Transaction
 from ..spec import StateTest
 from ..vm.opcode import Opcodes as Op
@@ -66,7 +73,9 @@ def yul_code(request: pytest.FixtureRequest, fork: Fork, padding_before: str, pa
     else:
         compiled_yul_code = Code("")
     for yul_code in yul_code_snippets:
-        compiled_yul_code += Yul(yul_code, fork=fork)
+        compiled_yul_code += Yul(
+            yul_code, fork=get_closest_fork_with_solc_support(fork, Solc().version)
+        )
     if padding_after is not None:
         compiled_yul_code += Code(padding_after)
     return compiled_yul_code

@@ -12,7 +12,7 @@ from typing import Optional, Sized, SupportsBytes, Type
 
 from semver import Version
 
-from ethereum_test_forks import Fork, get_closest_fork_with_solc_support
+from ethereum_test_forks import Fork
 
 from ..common.conversions import to_bytes
 from .code import Code
@@ -80,8 +80,7 @@ class Yul(Solc, SupportsBytes, Sized):
     ):
         super().__init__(binary)
         self.source = source
-        if fork and (fork := get_closest_fork_with_solc_support(fork, self.version)):
-            self.evm_version = fork.solc_name()
+        self.evm_version = fork.solc_name() if fork else None
 
     @cached_property
     def compiled(self) -> bytes:
