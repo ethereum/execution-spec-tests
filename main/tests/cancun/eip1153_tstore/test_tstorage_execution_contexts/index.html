@@ -6536,7 +6536,7 @@
 
 
 <h1 id="test-tstorage-execution-contexts">Test Tstorage Execution Contexts<a class="headerlink" href="#test-tstorage-execution-contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c6d12eb97944f8383664c40e9e6de1531e69a090/tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb534275411afabce459dd007260b192d667cdc1/tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -6597,23 +6597,23 @@ For all forks up to and including Cancun:
 
           <details class="quote">
             <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_execution_contexts.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">328</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
 <span class="normal">329</span>
 <span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CallContextTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">331</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CallContextTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_subcall</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
