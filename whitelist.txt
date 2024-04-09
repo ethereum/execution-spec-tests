@@ -27,6 +27,7 @@ blockhash
 blocknum
 blocktest
 bls
+bls12
 blueswen
 boolean
 br
@@ -127,6 +128,16 @@ formatter
 fromhex
 frozenbidict
 func
+fp
+fp2
+g1
+g1add
+g1mul
+g1msm
+g2
+g2add
+g2mul
+g2msm
 gaslimit
 gasprice
 GeneralStateTestsFiller
@@ -200,6 +211,7 @@ metaclass
 mixhash
 mkdocs
 mkdocstrings
+msm
 mypy
 namespace
 nav
