@@ -8,6 +8,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- ✨ Port create2 return data test ([#497](https://github.com/ethereum/execution-spec-tests/pull/497)).
 - ✨ Add `test_double_kill` and `test_recreate` which test resurrection of accounts killed with `SELFDESTRUCT` ([#488](https://github.com/ethereum/execution-spec-tests/pull/488)).
 
 ### 🛠️ Framework
