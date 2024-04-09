@@ -1,3 +1,7 @@
+([#497](https://github.com/ethereum/execution-spec-tests/pull/497))
+GeneralStateTests/stCreate2/call_outsize_then_create2_successful_then_returndatasize.json
+GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.json
+
 ([#647](https://github.com/ethereum/execution-spec-tests/pull/647))
 EOFTests/efValidation/EOF1_returncontract_invalid_.json
 EOFTests/efValidation/EOF1_returncontract_valid_.json

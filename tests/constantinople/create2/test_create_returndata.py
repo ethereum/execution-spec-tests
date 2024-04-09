@@ -1,6 +1,7 @@
 """
 Return data management around create2
-Convert call_outsize_then_create2_successful_then_returndatasizeFiller.json test
+Port call_outsize_then_create2_successful_then_returndatasizeFiller.json test
+Port call_then_create2_successful_then_returndatasizeFiller.json test
 """
 
 from typing import Dict, Union
@@ -20,8 +21,10 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @pytest.mark.valid_from("Istanbul")
+@pytest.mark.parametrize("call_return_size", [0x20, 0])
 @pytest.mark.parametrize("create_type", [Op.CREATE, Op.CREATE2])
 def test_create2_return_data(
+    call_return_size: int,
     create_type: Op,
     state_test: StateTestFiller,
 ):
@@ -57,7 +60,7 @@ def test_create2_return_data(
             nonce=0,
             code=Op.JUMPDEST()
             + Op.MSTORE(0x100, Op.CALLDATALOAD(0))
-            + Op.CALL(0x0900000000, address_call, 0, 0, 0, 0, 0x20)
+            + Op.CALL(0x0900000000, address_call, 0, 0, 0, 0, call_return_size)
             + Op.SSTORE(slot_returndatasize_before_create, Op.RETURNDATASIZE())
             + make_create()
             + Op.SSTORE(slot_returndatasize_after_create, Op.RETURNDATASIZE())
