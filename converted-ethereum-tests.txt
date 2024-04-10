@@ -1,3 +1,3 @@
 ([#497](https://github.com/ethereum/execution-spec-tests/pull/497))
-- src/GeneralStateTestsFiller/stCreate2/call_outsize_then_create2_successful_then_returndatasizeFiller.json
-- src/GeneralStateTestsFiller/stCreate2/call_then_create2_successful_then_returndatasizeFiller.json
+GeneralStateTests/stCreate2/call_outsize_then_create2_successful_then_returndatasize.json
+GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.json
