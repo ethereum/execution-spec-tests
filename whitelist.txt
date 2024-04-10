@@ -233,6 +233,8 @@ opc
 oprypin
 origin
 ori
+P1
+P2
 parseable
 pathlib
 pdb
