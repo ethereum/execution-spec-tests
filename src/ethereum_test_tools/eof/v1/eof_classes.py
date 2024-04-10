@@ -3,112 +3,99 @@ EOF v1 specs
 https://github.com/ipsilon/eof/blob/main/spec/eof.md
 """
 
-from typing import Generic, TypeVar, List
+from typing import List
 
-class Byte:
-    def __init__(self, value=0):
-        self._value = None  # Initialize _value; will be set properly via the property setter
-        self.value = value  # Use the property setter to initialize value
 
-    @property
-    def value(self):
-        """Property getter for the byte value."""
-        return self._value
+class SupportBytes(bytes):
+    _size: int
 
-    @value.setter
-    def value(self, new_value):
-        """Property setter for the byte value, with validation to ensure it fits in a byte."""
-        if not isinstance(new_value, int):
-            raise TypeError("Value must be an integer")
-        if not 0 <= new_value <= 255:
-            raise ValueError("Value must be between 0 and 255 inclusive")
-        self._value = new_value
+    def __new__(cls, value, bytes_size: int):
+        instance = super().__new__(cls, [value])
+        instance._size = bytes_size * 2
+        return instance
 
-    def __repr__(self):
-        """String representation for debugging."""
-        return f"Byte({self.value})"
+    def __str__(self):
+        # Convert each byte to its hexadecimal representation
+        out = " ".join(f"{byte:02X}" for byte in self)
+        out = f"{'0' * (self._size - len(out))}{out}" if len(out) < self._size else out
+        return out
 
-class Bytes2:
-    def __init__(self, value=0):
-        self._value = None  # Initialize _value; will be set properly via the property setter
-        self.value = value  # Use the property setter to initialize value
 
-    @property
-    def value(self):
-        """Property getter for the two-byte value."""
-        return self._value
+class SupportBytesDescriptor:
+    """
+    Required to be able to write _magic = 0xEF directly
+    """
 
-    @value.setter
-    def value(self, new_value):
-        """Property setter for the two-byte value, with validation to ensure it fits in two bytes."""
-        if not isinstance(new_value, int):
-            raise TypeError("Value must be an integer")
-        if not 0 <= new_value <= 65535:
-            raise ValueError("Value must be between 0 and 65535 inclusive")
-        self._value = new_value
+    def __init__(self, name: str, size: int):
+        self.name = name
+        self.size = size
 
-    def __repr__(self):
-        """String representation for debugging."""
-        return f"TwoBytes({self.value})"
+    def __get__(self, instance, owner):
+        return instance.__dict__.get(self.name)
 
-# Define a type variable; this will allow our class to be generic.
-T = TypeVar('T')
+    def __set__(self, instance, value):
+        if isinstance(value, int):
+            value = SupportBytes(value, self.size)
+        elif not isinstance(value, SupportBytes):
+            raise TypeError(f"Value for {self.name} must be an int or SupportBytes instance.")
+        instance.__dict__[self.name] = value
 
-class NonEmptyList(List[T], Generic[T]):
-    def __init__(self, initial_elements: List[T]):
-        if not initial_elements:
-            raise ValueError("Initial list must contain at least one element.")
-        super().__init__(initial_elements)
 
-    def pop(self, index=-1) -> T:
-        if len(self) <= 1:
-            raise ValueError("Cannot pop the last element from a NonEmptyList.")
-        return super().pop(index)
-
-    def remove(self, value: T) -> None:
-        if len(self) <= 1:
-            raise ValueError("Cannot remove the last element from a NonEmptyList.")
-        super().remove(value)
-
-    def clear(self) -> None:
-        raise ValueError("Cannot clear a NonEmptyList.")
-
-    def __delitem__(self, key) -> None:
-        if len(self) <= 1:
-            raise ValueError("Cannot delete the last element from a NonEmptyList.")
-        super().__delitem__(key)
-
-    
 class TypeSection:
-    inputs: Byte
-    outputs: Byte
-    max_stack_height: Bytes2
-    
-class Header:
-    magic: Bytes2
-    version: Byte
-    kind_types: Byte
-    types_size: Bytes2
-    kind_code: Byte
-    num_code_sections: Bytes2
+    _inputs: SupportBytes
+    _outputs: SupportBytes
+    _max_stack_height: SupportBytes
 
-    code_size: NonEmptyList[Bytes2]
+
+class Header:
+    _magic = SupportBytesDescriptor("_magic", 1)
+    _version = SupportBytesDescriptor("_version", 2)
+
+    _kind_types: SupportBytes
+    _types_size: SupportBytes
+    _kind_code: SupportBytes
+    _num_code_sections: SupportBytes
+
+    _code_size: List[SupportBytes]
     # [
-    kind_container: Byte
-    num_container_sections: Bytes2
-    container_size: NonEmptyList[Bytes2]
+    _kind_container: SupportBytes
+    _num_container_sections: SupportBytes
+    _container_size: List[SupportBytes]
     # ]
 
-    kind_data: Byte
-    data_size: Bytes2
-    terminator: Byte
+    _kind_data: SupportBytes
+    _data_size: SupportBytes
+    _terminator: SupportBytes
+
+    def __init__(self):
+        self._magic = 0xEF
+        self._version = 0x01
+
 
 class Body:
-    types_section: NonEmptyList[TypeSection]
-    code_section: NonEmptyList[bytes]
-    container_section: List[bytes]
-    data_section: bytes
+    _types_section: List[TypeSection]
+    _code_section: List[SupportBytes]
+    _container_section: List[SupportBytes]
+    _data_section: SupportBytes
 
-class container:
-    header: Header
-    body: Body
+
+class EOFCode:
+    _header: Header
+    _body: Body
+
+    def __init__(self):
+        self._header = Header()
+        self._body = Body()
+
+    def __str__(self):
+        # Print the bytes as string
+        out = f"{self._header._magic}{self._header._version}"
+        return out
+
+
+def main():
+    code = EOFCode()
+    print(f"Hello: {code}")
+
+
+main()
