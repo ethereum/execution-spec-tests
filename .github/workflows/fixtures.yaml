@@ -21,7 +21,7 @@ jobs:
             python: '3.11'
           - name: 'fixtures_develop'
             evm-type: 'develop'
-            fill-params: '--until=Cancun'
+            fill-params: '--until=Prague'
             solc: '0.8.21'
             python: '3.11'
     steps:
