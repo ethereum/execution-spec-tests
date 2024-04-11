@@ -386,7 +386,7 @@ def pairing_gas(input_length: int) -> int:
 GAS_CALCULATION_FUNCTION_MAP = {
     Spec.G1ADD: lambda _: Spec.G1ADD_GAS,
     Spec.G1MUL: lambda _: Spec.G1MUL_GAS,
-    Spec.G1MSM: msm_gas_func_gen(128, Spec.G1MUL_GAS),
+    Spec.G1MSM: msm_gas_func_gen(160, Spec.G1MUL_GAS),
     Spec.G2ADD: lambda _: Spec.G2ADD_GAS,
     Spec.G2MUL: lambda _: Spec.G2MUL_GAS,
     Spec.G2MSM: msm_gas_func_gen(288, Spec.G2MUL_GAS),
