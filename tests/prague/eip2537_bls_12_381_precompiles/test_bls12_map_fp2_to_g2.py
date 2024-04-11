@@ -24,7 +24,7 @@ pytestmark = [
     "input,expected_output",
     vectors_from_file("map_fp2_to_G2_bls.json"),
 )
-def test_map_fp2_to_g2(
+def test_valid(
     state_test: StateTestFiller,
     pre: dict,
     post: dict,
