@@ -496,10 +496,13 @@ class TestFillBlockchainValidTxs:
         assert blockchain_test_fixture.format == fixture_format
         assert isinstance(blockchain_test_fixture, BlockchainFixtureCommon)
 
+        if solc_version >= SOLC_PADDING_VERSION:
+            fixture_name = f"000/my_blockchain_test/{fork.name()}/solc=padding_version"
+        else:
+            fixture_name = f"000/my_blockchain_test/{fork.name()}/solc={solc_version}"
+
         fixture = {
-            f"000/my_blockchain_test/{fork.name()}": blockchain_test_fixture.json_dict_with_info(
-                hash_only=True
-            ),
+            fixture_name: blockchain_test_fixture.json_dict_with_info(hash_only=True),
         }
 
         with open(
@@ -515,13 +518,9 @@ class TestFillBlockchainValidTxs:
             expected = json.load(f)
 
         remove_info_metadata(fixture)
-
-        if solc_version >= SOLC_PADDING_VERSION:
-            expected = expected["solc=padding_version"]
-        else:
-            expected = expected[f"solc={solc_version}"]
-
-        assert fixture == expected
+        assert fixture_name in fixture
+        assert fixture_name in expected
+        assert fixture[fixture_name] == expected[fixture_name]
 
     @pytest.mark.parametrize("fork", [London], indirect=True)
     def test_fixture_header_join(self, blockchain_test_fixture: BlockchainFixture):
@@ -871,10 +870,14 @@ def test_fill_blockchain_invalid_txs(
     )
     assert generated_fixture.format == fixture_format
     assert isinstance(generated_fixture, BlockchainFixtureCommon)
+
+    if solc_version >= SOLC_PADDING_VERSION:
+        fixture_name = f"000/my_blockchain_test/{fork.name()}/solc=padding_version"
+    else:
+        fixture_name = f"000/my_blockchain_test/{fork.name()}/solc={solc_version}"
+
     fixture = {
-        f"000/my_blockchain_test/{fork.name()}": generated_fixture.json_dict_with_info(
-            hash_only=True
-        ),
+        fixture_name: generated_fixture.json_dict_with_info(hash_only=True),
     }
 
     with open(
@@ -890,10 +893,6 @@ def test_fill_blockchain_invalid_txs(
         expected = json.load(f)
 
     remove_info_metadata(fixture)
-
-    if solc_version >= SOLC_PADDING_VERSION:
-        expected = expected["solc=padding_version"]
-    else:
-        expected = expected[f"solc={solc_version}"]
-
-    assert fixture == expected
+    assert fixture_name in fixture
+    assert fixture_name in expected
+    assert fixture[fixture_name] == expected[fixture_name]
