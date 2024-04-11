@@ -2,7 +2,7 @@
     "solc=0.8.20": {
         "000/my_blockchain_test/Shanghai": {
             "_info": {
-                "hash": "0x7c6f019488aef8bebd4582f188e579bc5eb994790f2ac77dc4cef67229cf96d9"
+                "hash": "0x71e49d6df916284daddf3b8558e3f59a1450d3e27909dff15d966e732564a680"
             },
             "network": "Shanghai",
             "genesisBlockHeader": {
