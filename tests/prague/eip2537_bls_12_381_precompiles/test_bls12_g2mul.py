@@ -156,3 +156,37 @@ def test_invalid(
         tx=tx,
         post=post,
     )
+
+
+@pytest.mark.parametrize(
+    "input,expected_output,precompile_gas_modifier",
+    [
+        pytest.param(
+            Spec.INF_G2 + Scalar(0),
+            Spec.INF_G2,
+            1,
+            id="extra_gas",
+        ),
+        pytest.param(
+            Spec.INF_G2 + Scalar(0),
+            b"",
+            -1,
+            id="insufficient_gas",
+        ),
+    ],
+)
+def test_gas(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_G1MUL precompile gas consumption.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
