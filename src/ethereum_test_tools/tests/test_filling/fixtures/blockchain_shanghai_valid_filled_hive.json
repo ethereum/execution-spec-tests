@@ -252,7 +252,7 @@
     "solc=padding_version": {
         "000/my_blockchain_test/Shanghai": {
             "_info": {
-                "hash": "0xeb5c65b76f939bbd0b89d2f8b4cc075bb2c3ac6f00b07c67f8f77af160444470"
+                "hash": "0x421a4d6fd9ac4b33c24aa9851fb30c346a6eec483715976298b38b68a319e42b"
             },
             "network": "Shanghai",
             "genesisBlockHeader": {
