@@ -17,9 +17,7 @@ from ...code import Yul
 from ...common import Account, Environment, Hash, TestAddress, Transaction
 from ...exceptions import TransactionException
 from ...spec import BlockchainTest, StateTest
-from ...spec.blockchain.types import Block
-from ...spec.blockchain.types import Fixture as BlockchainFixture
-from ...spec.blockchain.types import FixtureCommon as BlockchainFixtureCommon
+from ...spec.blockchain.types import Block, BlockchainFixture, BlockchainFixtureCommon
 from ..conftest import SOLC_PADDING_VERSION
 
 

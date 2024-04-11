@@ -542,9 +542,9 @@ class InvalidFixtureBlock(CamelModel):
     rlp_decoded: FixtureBlockBase | None = Field(None, alias="rlp_decoded")
 
 
-class FixtureCommon(BaseFixture):
+class BlockchainFixtureCommon(BaseFixture):
     """
-    Base Ethereum test fixture fields class.
+    Base blockchain test fixture model.
     """
 
     fork: str = Field(..., alias="network")
@@ -553,9 +553,9 @@ class FixtureCommon(BaseFixture):
     post_state: Alloc
 
 
-class Fixture(FixtureCommon):
+class BlockchainFixture(BlockchainFixtureCommon):
     """
-    Cross-client specific test fixture information.
+    Cross-client specific blockchain test model use in JSON fixtures.
     """
 
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
@@ -566,7 +566,7 @@ class Fixture(FixtureCommon):
     format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST
 
 
-class HiveFixture(FixtureCommon):
+class BlockchainHiveFixture(BlockchainFixtureCommon):
     """
     Hive specific test fixture information.
     """
