@@ -4,7 +4,7 @@ abstract: Tests point evaluation precompile for [EIP-2537: Precompile for BLS12-
 """  # noqa: E501
 
 import os
-from typing import Annotated, List, SupportsBytes, Tuple
+from typing import Annotated, List, SupportsBytes
 
 import pytest
 from ethereum.crypto.hash import keccak256
@@ -19,6 +19,7 @@ from .spec import (
     GAS_CALCULATION_FUNCTION_MAP,
     PointG1,
     PointG2,
+    Scalar,
     Spec,
     map_fp_to_g1_format,
     ref_spec_2537,
@@ -28,6 +29,11 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
 
 pytestmark = pytest.mark.valid_from(str(FORK))
+
+
+###
+# Helpers
+###
 
 
 def current_python_script_directory() -> str:
@@ -80,6 +86,11 @@ def vectors_from_file(filename: str) -> List[pytest.param]:
         return [v.to_pytest_param() for v in TestVectorListAdapter.validate_json(f.read()).root]
 
 
+###
+# Fixtures
+###
+
+
 @pytest.fixture
 def precompile_gas(precompile_address: int, input: bytes) -> int:
     """Gas cost for the precompile."""
@@ -88,30 +99,61 @@ def precompile_gas(precompile_address: int, input: bytes) -> int:
 
 @pytest.fixture
 def precompile_gas_modifier() -> int:
-    """Used to modify the gas passed to the precompile, for testing purposes."""
+    """
+    Used to modify the gas passed to the precompile, for testing purposes.
+
+    By default the call is made with the exact gas amount required for the given opcode,
+    but when this fixture is overridden, the gas amount can be modified to, e.g., test
+    a lower amount and test if the precompile call fails.
+    """
     return 0
 
 
 @pytest.fixture
-def call_contract_code_storage(
+def call_opcode() -> Op:
+    """
+    Type of call used to call the precompile.
+
+    By default it is Op.CALL, but it can be overridden in the test.
+    """
+    return Op.CALL
+
+
+@pytest.fixture
+def call_contract_post_storage() -> Storage:
+    """
+    Storage of the test contract after the transaction is executed.
+    Note: Fixture `call_contract_code` fills the actual expected storage values.
+    """
+    return Storage()
+
+
+@pytest.fixture
+def call_contract_code(
     precompile_address: int,
     precompile_gas: int,
     precompile_gas_modifier: int,
     expected_output: bytes | SupportsBytes,
-) -> Tuple[bytes, Storage]:
+    call_opcode: Op,
+    call_contract_post_storage: Storage,
+) -> bytes:
     """Code of the test contract."""
-    storage = Storage()
-    # Depending on the expected output, we can deduce if the call is expected to succeed or fail.
     expected_output = bytes(expected_output)
+
+    # Depending on the expected output, we can deduce if the call is expected to succeed or fail.
     call_succeeds = len(expected_output) > 0
+
+    assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
+    value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
+
     code = (
         Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
         + Op.SSTORE(
-            storage.store_next(call_succeeds),
-            Op.CALL(
+            call_contract_post_storage.store_next(call_succeeds),
+            call_opcode(
                 precompile_gas + precompile_gas_modifier,
                 precompile_address,
-                0,
+                *value,  # Optional, only used for CALL and CALLCODE.
                 0,
                 Op.CALLDATASIZE(),
                 0,
@@ -119,16 +161,16 @@ def call_contract_code_storage(
             ),
         )
         + Op.SSTORE(
-            storage.store_next(len(expected_output)),
+            call_contract_post_storage.store_next(len(expected_output)),
             Op.RETURNDATASIZE(),
         )
         + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE())
         + Op.SSTORE(
-            storage.store_next(keccak256(expected_output)),
+            call_contract_post_storage.store_next(keccak256(expected_output)),
             Op.SHA3(0, Op.RETURNDATASIZE()),
         )
     )
-    return code, storage
+    return code
 
 
 @pytest.fixture
@@ -138,13 +180,13 @@ def call_contract_address() -> int:
 
 
 @pytest.fixture
-def pre(call_contract_address: int, call_contract_code_storage: Tuple[bytes, Storage]):
+def pre(call_contract_address: int, call_contract_code: bytes):
     """Code of the test contract."""
     return {
         call_contract_address: {
             "balance": 0,
-            "nonce": 0,
-            "code": call_contract_code_storage[0],
+            "nonce": 1,
+            "code": call_contract_code,
         },
         TestAddress: {
             "balance": 1_000_000_000_000_000,
@@ -154,23 +196,36 @@ def pre(call_contract_address: int, call_contract_code_storage: Tuple[bytes, Sto
 
 
 @pytest.fixture
-def post(call_contract_address: int, call_contract_code_storage: Tuple[bytes, Storage]):
-    """Code of the test contract."""
+def post(call_contract_address: int, call_contract_post_storage: Storage):
+    """Test expected post outcome."""
     return {
         call_contract_address: {
-            "storage": call_contract_code_storage[1],
+            "storage": call_contract_post_storage,
         },
     }
 
 
 @pytest.fixture
-def tx(input: bytes, call_contract_address: int) -> Transaction:
+def tx_gas_limit() -> int:
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
+    return 10_000_000
+
+
+@pytest.fixture
+def tx(input: bytes, tx_gas_limit: int, call_contract_address: int) -> Transaction:
     """Transaction for the test."""
     return Transaction(
-        gas_limit=10_000_000,
+        gas_limit=tx_gas_limit,
         input=input,
         to=call_contract_address,
     )
+
+
+###
+# Test cases
+###
 
 
 @pytest.mark.parametrize(
@@ -178,9 +233,9 @@ def tx(input: bytes, call_contract_address: int) -> Transaction:
     vectors_from_file("add_G1_bls.json")
     + [
         pytest.param(
-            Spec.ZERO_G1 + Spec.ZERO_G1,
-            Spec.ZERO_G1,
-            id="zero_plus_zero",
+            Spec.INF_G1 + Spec.INF_G1,
+            Spec.INF_G1,
+            id="inf_plus_inf",
         ),
     ],
 )
@@ -192,7 +247,7 @@ def test_add_g1(
     tx: Transaction,
 ):
     """
-    Test the G1ADD precompile.
+    Test the BLS12_G1ADD precompile.
     """
     state_test(
         env=Environment(),
@@ -206,59 +261,59 @@ def test_add_g1(
     "input",
     [
         pytest.param(
-            PointG1(0, 1) + Spec.ZERO_G1,
+            PointG1(0, 1) + Spec.INF_G1,
             id="invalid_point_a_1",
         ),
         pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.y - 1) + Spec.ZERO_G1,
+            PointG1(Spec.P1.x, Spec.P1.y - 1) + Spec.INF_G1,
             id="invalid_point_a_2",
         ),
         pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.y + 1) + Spec.ZERO_G1,
+            PointG1(Spec.P1.x, Spec.P1.y + 1) + Spec.INF_G1,
             id="invalid_point_a_3",
         ),
         pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.x) + Spec.ZERO_G1,
+            PointG1(Spec.P1.x, Spec.P1.x) + Spec.INF_G1,
             id="invalid_point_a_4",
         ),
         pytest.param(
-            Spec.ZERO_G1 + PointG1(0, 1),
+            Spec.INF_G1 + PointG1(0, 1),
             id="invalid_point_b_1",
         ),
         pytest.param(
-            Spec.ZERO_G1 + PointG1(Spec.P1.x, Spec.P1.y - 1),
+            Spec.INF_G1 + PointG1(Spec.P1.x, Spec.P1.y - 1),
             id="invalid_point_b_2",
         ),
         pytest.param(
-            Spec.ZERO_G1 + PointG1(Spec.P1.x, Spec.P1.y + 1),
+            Spec.INF_G1 + PointG1(Spec.P1.x, Spec.P1.y + 1),
             id="invalid_point_b_3",
         ),
         pytest.param(
-            Spec.ZERO_G1 + PointG1(Spec.P1.x, Spec.P1.x),
+            Spec.INF_G1 + PointG1(Spec.P1.x, Spec.P1.x),
             id="invalid_point_b_4",
         ),
         pytest.param(
-            PointG1(Spec.P, 0) + Spec.ZERO_G1,
+            PointG1(Spec.P, 0) + Spec.INF_G1,
             id="a_x_equal_to_p",
         ),
         pytest.param(
-            Spec.ZERO_G1 + PointG1(Spec.P, 0),
+            Spec.INF_G1 + PointG1(Spec.P, 0),
             id="b_x_equal_to_p",
         ),
         pytest.param(
-            PointG1(0, Spec.P) + Spec.ZERO_G1,
+            PointG1(0, Spec.P) + Spec.INF_G1,
             id="a_y_equal_to_p",
         ),
         pytest.param(
-            Spec.ZERO_G1 + PointG1(0, Spec.P),
+            Spec.INF_G1 + PointG1(0, Spec.P),
             id="b_y_equal_to_p",
         ),
         pytest.param(
-            (Spec.ZERO_G1 + PointG1(Spec.P1.x, Spec.P1.x))[:-1],
+            (Spec.INF_G1 + PointG1(Spec.P1.x, Spec.P1.x))[:-1],
             id="input_too_short",
         ),
         pytest.param(
-            b"\x00" + (Spec.ZERO_G1 + PointG1(Spec.P1.x, Spec.P1.x)),
+            b"\x00" + (Spec.INF_G1 + PointG1(Spec.P1.x, Spec.P1.x)),
             id="input_too_long",
         ),
         pytest.param(
@@ -276,7 +331,7 @@ def test_add_g1_negative(
     tx: Transaction,
 ):
     """
-    Test the G1ADD precompile.
+    Negative tests for the BLS12_G1ADD precompile.
     """
     state_test(
         env=Environment(),
@@ -298,7 +353,7 @@ def test_add_g2(
     tx: Transaction,
 ):
     """
-    Test the G2ADD precompile.
+    Test the BLS12_G2ADD precompile.
     """
     state_test(
         env=Environment(),
@@ -312,20 +367,80 @@ def test_add_g2(
     "input",
     [
         pytest.param(
-            PointG2((1, 0), (0, 0)) + Spec.ZERO_G2,
+            PointG2((1, 0), (0, 0)) + Spec.INF_G2,
             id="invalid_point_a_1",
         ),
         pytest.param(
-            PointG2((0, 0), (1, 0)) + Spec.ZERO_G2,
+            PointG2((0, 0), (1, 0)) + Spec.INF_G2,
             id="invalid_point_a_2",
         ),
         pytest.param(
-            PointG2((0, 1), (0, 0)) + Spec.ZERO_G2,
+            PointG2((0, 1), (0, 0)) + Spec.INF_G2,
             id="invalid_point_a_3",
         ),
         pytest.param(
-            PointG2((0, 0), (0, 1)) + Spec.ZERO_G2,
+            PointG2((0, 0), (0, 1)) + Spec.INF_G2,
             id="invalid_point_a_4",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((1, 0), (0, 0)),
+            id="invalid_point_b_1",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((0, 0), (1, 0)),
+            id="invalid_point_b_2",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((0, 1), (0, 0)),
+            id="invalid_point_b_3",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((0, 0), (0, 1)),
+            id="invalid_point_b_4",
+        ),
+        pytest.param(
+            PointG2((Spec.P, 0), (0, 0)) + Spec.INF_G2,
+            id="a_x_1_equal_to_p",
+        ),
+        pytest.param(
+            PointG2((0, Spec.P), (0, 0)) + Spec.INF_G2,
+            id="a_x_2_equal_to_p",
+        ),
+        pytest.param(
+            PointG2((0, 0), (Spec.P, 0)) + Spec.INF_G2,
+            id="a_y_1_equal_to_p",
+        ),
+        pytest.param(
+            PointG2((0, 0), (0, Spec.P)) + Spec.INF_G2,
+            id="a_y_2_equal_to_p",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((Spec.P, 0), (0, 0)),
+            id="b_x_1_equal_to_p",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((0, Spec.P), (0, 0)),
+            id="b_x_2_equal_to_p",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((0, 0), (Spec.P, 0)),
+            id="b_y_1_equal_to_p",
+        ),
+        pytest.param(
+            Spec.INF_G2 + PointG2((0, 0), (0, Spec.P)),
+            id="b_y_2_equal_to_p",
+        ),
+        pytest.param(
+            (Spec.INF_G2 + Spec.INF_G2)[:-1],
+            id="input_too_short",
+        ),
+        pytest.param(
+            b"\x00" + (Spec.INF_G2 + Spec.INF_G2),
+            id="input_too_long",
+        ),
+        pytest.param(
+            b"",
+            id="zero_length_input",
         ),
     ],
 )
@@ -338,7 +453,7 @@ def test_add_g2_negative(
     tx: Transaction,
 ):
     """
-    Test the G2ADD precompile.
+    Negative tests for the BLS12_G2ADD precompile.
     """
     state_test(
         env=Environment(),
@@ -360,7 +475,35 @@ def test_mul_g1(
     tx: Transaction,
 ):
     """
-    Test the G1MUL precompile.
+    Test the BLS12_G1MUL precompile.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "input",
+    [
+        pytest.param(
+            PointG1(0, 1) + Scalar(0),
+            id="invalid_point_a_1",
+        ),
+    ],
+)
+@pytest.mark.parametrize("expected_output", [b""], ids=[""])
+@pytest.mark.parametrize("precompile_address", [Spec.G1MUL], ids=[""])
+def test_mul_g1_negative(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Negative tests for the BLS12_G1MUL precompile.
     """
     state_test(
         env=Environment(),
@@ -382,7 +525,7 @@ def test_mul_g2(
     tx: Transaction,
 ):
     """
-    Test the G2MUL precompile.
+    Test the BLS12_G2MUL precompile.
     """
     state_test(
         env=Environment(),
@@ -404,7 +547,7 @@ def test_msm_g1(
     tx: Transaction,
 ):
     """
-    Test the G1MSM precompile.
+    Test the BLS12_G1MSM precompile.
     """
     state_test(
         env=Environment(),
@@ -426,7 +569,7 @@ def test_msm_g2(
     tx: Transaction,
 ):
     """
-    Test the G2MSM precompile.
+    Test the BLS12_G2MSM precompile.
     """
     state_test(
         env=Environment(),
@@ -448,7 +591,7 @@ def test_map_fp_to_g1(
     tx: Transaction,
 ):
     """
-    Test the MAP_FP_TO_G1 precompile.
+    Test the BLS12_MAP_FP_TO_G1 precompile.
     """
     state_test(
         env=Environment(),
@@ -483,7 +626,7 @@ def test_map_fp_to_g1_negative(
     tx: Transaction,
 ):
     """
-    Test the MAP_FP_TO_G1 precompile.
+    Test the BLS12_MAP_FP_TO_G1 precompile.
     """
     state_test(
         env=Environment(),
@@ -505,7 +648,7 @@ def test_map_fp2_to_g2(
     tx: Transaction,
 ):
     """
-    Test the MAP_FP2_TO_G2 precompile.
+    Test the BLS12_MAP_FP2_TO_G2 precompile.
     """
     state_test(
         env=Environment(),
