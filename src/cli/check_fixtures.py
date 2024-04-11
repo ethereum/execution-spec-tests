@@ -40,8 +40,8 @@ def check_json(json_file_path: Path):
     fixtures_json = to_json(fixtures)
     fixtures_deserialized = Fixtures.from_json_data(fixtures_json, fixture_format=None)
     for fixture_name, fixture in fixtures.items():
-        if fixture.format.value == "blockchain_test" and fixture.fork == "Shanghai":
-            fixtures_deserialized[fixture_name].fork = "Paris"
+        # if fixture.format.value == "blockchain_test" and fixture.fork == "Shanghai":
+        #     fixtures_deserialized[fixture_name].fork = "Paris"
         new_hash = fixtures_deserialized[fixture_name].hash
         if (original_hash := fixture.hash) != new_hash:
             raise HashMismatchException(
