@@ -67,6 +67,8 @@ dao
 dataclasses
 datastructures
 delitem
+deserialized
+deserialization
 Dencun
 dev
 devnet
@@ -78,6 +80,8 @@ discordapp
 docstring
 docstrings
 dup
+dunder
+EEST
 eip
 eips
 EIPs
