@@ -17,7 +17,7 @@ from ...common.types import (
     Transaction,
     TransactionToEmptyStringHandler,
 )
-from ...exceptions import TransactionException, TransactionExceptionList
+from ...exceptions import TransactionExceptionInstanceOrList
 from ..base.base_test import BaseFixture
 
 
@@ -83,7 +83,7 @@ class FixtureForkPost(CamelModel):
     logs_hash: Hash = Field(..., alias="logs")
     tx_bytes: Bytes = Field(..., alias="txbytes")
     indexes: FixtureForkPostIndexes = Field(default_factory=FixtureForkPostIndexes)
-    expect_exception: TransactionExceptionList | TransactionException | None = None
+    expect_exception: TransactionExceptionInstanceOrList | None = None
 
 
 class Fixture(BaseFixture):
