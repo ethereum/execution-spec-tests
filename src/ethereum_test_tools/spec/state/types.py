@@ -15,7 +15,7 @@ from ...common.types import (
     CamelModel,
     EnvironmentGeneric,
     Transaction,
-    TransactionToEmptyStringHandler,
+    TransactionFixtureConverter,
 )
 from ...exceptions import TransactionExceptionInstanceOrList
 from ..base.base_test import BaseFixture
@@ -29,7 +29,7 @@ class FixtureEnvironment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     prev_randao: Hash | None = Field(None, alias="currentRandom")  # type: ignore
 
 
-class FixtureTransaction(TransactionToEmptyStringHandler):
+class FixtureTransaction(TransactionFixtureConverter):
     """
     Type used to describe a transaction in a state test.
     """
@@ -53,15 +53,14 @@ class FixtureTransaction(TransactionToEmptyStringHandler):
         """
         Returns a FixtureTransaction from a Transaction.
         """
-        return cls(
-            **tx.model_dump(
-                exclude={"gas_limit", "value", "data", "access_list"}, exclude_none=True
-            ),
-            gas_limit=[tx.gas_limit],
-            value=[tx.value],
-            data=[tx.data],
-            access_lists=[tx.access_list] if tx.access_list is not None else None,
+        model_as_dict = tx.model_dump(
+            exclude={"gas_limit", "value", "data", "access_list"}, exclude_none=True
         )
+        model_as_dict["gas_limit"] = [tx.gas_limit]
+        model_as_dict["value"] = [tx.value]
+        model_as_dict["data"] = [tx.data]
+        model_as_dict["access_lists"] = [tx.access_list] if tx.access_list is not None else None
+        return cls(**model_as_dict)
 
 
 class FixtureForkPostIndexes(BaseModel):

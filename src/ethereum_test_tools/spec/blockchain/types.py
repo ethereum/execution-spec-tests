@@ -30,8 +30,8 @@ from ...common.types import (
     Environment,
     Removable,
     Transaction,
+    TransactionFixtureConverter,
     TransactionGeneric,
-    TransactionToEmptyStringHandler,
     Withdrawal,
     WithdrawalGeneric,
 )
@@ -456,7 +456,7 @@ class FixtureEngineNewPayload(CamelModel):
         return new_payload
 
 
-class FixtureTransaction(TransactionToEmptyStringHandler, TransactionGeneric[ZeroPaddedHexNumber]):
+class FixtureTransaction(TransactionFixtureConverter, TransactionGeneric[ZeroPaddedHexNumber]):
     """
     Representation of an Ethereum transaction within a test Fixture.
     """
