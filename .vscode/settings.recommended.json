@@ -23,7 +23,7 @@
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [
         // To discover tests for an upcoming fork, use the `--until` argument as following.
-        // "--until=Cancun",
+        // "--until=Prague",
         // Hopefully vscode-python will support multiple test framework environments sooon, see
         // https://github.com/microsoft/vscode-python/issues/12075
         // For now, to toggle between running "framework tests" and "filling tests" comment/
