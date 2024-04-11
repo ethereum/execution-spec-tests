@@ -613,7 +613,7 @@ def test_mul_g1_negative(
         pytest.param(
             Spec.P2 + Scalar(Spec.Q - 1),
             -Spec.P2,  # negated P2
-            id="bls_g1mul_(q-1*P2)",
+            id="bls_g2mul_(q-1*P2)",
         ),
         pytest.param(
             Spec.P2 + Scalar(Spec.Q),
@@ -623,17 +623,17 @@ def test_mul_g1_negative(
         pytest.param(
             Spec.P2 + Scalar(Spec.Q + 1),
             Spec.P2,
-            id="bls_g1mul_(q+1*P2)",
+            id="bls_g2mul_(q+1*P2)",
         ),
         pytest.param(
             Spec.P2 + Scalar(2 * Spec.Q),
             Spec.INF_G2,
-            id="bls_g1mul_(2q*P2)",
+            id="bls_g2mul_(2q*P2)",
         ),
         pytest.param(
             Spec.P2 + Scalar((2**256 // Spec.Q) * Spec.Q),
             Spec.INF_G2,
-            id="bls_g1mul_(Nq*P2)",
+            id="bls_g2mul_(Nq*P2)",
         ),
     ],
 )
