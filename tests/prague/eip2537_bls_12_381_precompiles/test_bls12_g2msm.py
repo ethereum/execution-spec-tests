@@ -23,7 +23,7 @@ pytestmark = [
     "input,expected_output",
     vectors_from_file("multiexp_G2_bls.json"),
 )
-def test_msm_g2(
+def test_valid(
     state_test: StateTestFiller,
     pre: dict,
     post: dict,

@@ -35,7 +35,7 @@ pytestmark = [
         ),
     ],
 )
-def test_msm_g1(
+def test_valid(
     state_test: StateTestFiller,
     pre: dict,
     post: dict,
@@ -65,7 +65,7 @@ def test_msm_g1(
     "precompile_gas_modifier", [100_000], ids=[""]
 )  # Add gas so that won't be the cause of failure
 @pytest.mark.parametrize("expected_output", [b""], ids=[""])
-def test_msm_g1_negative(
+def test_invalid(
     state_test: StateTestFiller,
     pre: dict,
     post: dict,

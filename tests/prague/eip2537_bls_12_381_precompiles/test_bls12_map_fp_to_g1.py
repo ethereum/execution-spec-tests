@@ -24,7 +24,7 @@ pytestmark = [
     "input,expected_output",
     vectors_from_file("map_fp_to_G1_bls.json"),
 )
-def test_map_fp_to_g1(
+def test_valid(
     state_test: StateTestFiller,
     pre: dict,
     post: dict,
@@ -58,7 +58,7 @@ def test_map_fp_to_g1(
     ],
 )
 @pytest.mark.parametrize("expected_output", [b""], ids=[""])
-def test_map_fp_to_g1_negative(
+def test_invalid(
     state_test: StateTestFiller,
     pre: dict,
     post: dict,
