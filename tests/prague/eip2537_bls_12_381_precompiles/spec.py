@@ -47,6 +47,10 @@ class PointG1(BytesConcatenation):
         """Converts the point to bytes."""
         return self.x.to_bytes(64, byteorder="big") + self.y.to_bytes(64, byteorder="big")
 
+    def __neg__(self):
+        """Negates the point."""
+        return PointG1(self.x, Spec.P - self.y)
+
 
 @dataclass(frozen=True)
 class PointG2(BytesConcatenation):
@@ -63,6 +67,10 @@ class PointG2(BytesConcatenation):
             + self.y[0].to_bytes(64, byteorder="big")
             + self.y[1].to_bytes(64, byteorder="big")
         )
+
+    def __neg__(self):
+        """Negates the point."""
+        return PointG2(self.x, (Spec.P - self.y[0], Spec.P - self.y[1]))
 
 
 @dataclass(frozen=True)
@@ -243,8 +251,8 @@ class Spec:
 
     # Test constants (from https://github.com/ethereum/bls12-381-tests/tree/eip-2537)
     P1 = PointG1(  # random point in G1
-        3685416753713387016781088315183077757961620795782546409894578378688607592378376318836054947676345821548104185464507,  # noqa: E501
-        1339506544944476473020471379941921221584933875938349620426543736416511423956333506472724655353366534992391756441569,  # noqa: E501
+        2642749686785829596817345696055666872043783053155481581788492942917249902143862050648544313423577373440886627275814,  # noqa: E501
+        3758365293065836235831663685357329573226673833426684174336991792633405517674721205716466791757730149346109800483361,  # noqa: E501
     )
     G1 = PointG1(
         3685416753713387016781088315183077757961620795782546409894578378688607592378376318836054947676345821548104185464507,  # noqa: E501
