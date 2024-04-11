@@ -7,8 +7,10 @@ import os
 from typing import Any, List, Mapping
 
 import pytest
+from click.testing import CliRunner
 from semver import Version
 
+import cli.check_fixtures
 from ethereum_test_forks import Berlin, Fork, Istanbul, London, Paris, Shanghai
 from evm_transition_tool import FixtureFormats, GethTransitionTool
 
@@ -45,6 +47,25 @@ def hash(request: pytest.FixtureRequest, solc_version: Version):
             return bytes.fromhex("f3a35d34f6")
         elif request.node.funcargs["fork"] == London:
             return bytes.fromhex("c5fa75d7f6")
+
+
+def test_check_helper_fixtures():
+    """
+    This tests that the framework's pydantic models serialization and deserialization
+    work correctly and that they are compatible with the helper fixtures defined
+    in ./fixtures/ by using the check_fixtures.py script.
+    """
+    runner = CliRunner()
+    args = [
+        "--input",
+        "src/ethereum_test_tools/tests/test_filling/fixtures",
+        "--quiet",
+        "--stop-on-error",
+    ]
+    result = runner.invoke(cli.check_fixtures.check_fixtures, args)
+    assert result.exit_code == 0, (
+        "check_fixtures detected errors in the json fixtures:" + f"\n{result}"
+    )
 
 
 @pytest.mark.parametrize(
