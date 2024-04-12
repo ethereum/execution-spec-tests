@@ -135,13 +135,15 @@ class Spec:
     G2MUL_GAS = 45_000
     MAP_FP_TO_G1_GAS = 5_500
     MAP_FP2_TO_G2_GAS = 75_000
+    PAIRING_BASE_GAS = 115_000
+    PAIRING_PER_PAIR_GAS = 23_000
 
     # Other constants
     B_COEFFICIENT = 0x04
     X = -0xD201000000010000
     Q = X**4 - X**2 + 1
     P = (X - 1) ** 2 * Q // 3 + X
-    LEN_PER_PAIR = 384
+    LEN_PER_PAIR = len(PointG1() + PointG2())
     MSM_MULTIPLIER = 1_000
     MSM_DISCOUNT_TABLE = [
         0,
@@ -311,68 +313,6 @@ class Spec:
     INF_G2 = PointG2((0, 0), (0, 0))
 
 
-def g1_multiplication_format(x: int, s: int) -> bytes:
-    """
-    Formats the input for the G1MUL precompile.
-    """
-    return x.to_bytes(128, byteorder="big") + s.to_bytes(32, byteorder="big")
-
-
-def g1_multi_scalar_multiplication_format(*args: int) -> bytes:
-    """
-    Formats the input for the G1MSM precompile.
-    """
-    return b"".join(
-        x.to_bytes(128 if i % 2 == 0 else 32, byteorder="big") for i, x in enumerate(args)
-    )
-
-
-def g2_addition_format(x: int, y: int) -> bytes:
-    """
-    Formats the input for the G2ADD precompile.
-    """
-    return x.to_bytes(256, byteorder="big") + y.to_bytes(256, byteorder="big")
-
-
-def g2_multiplication_format(x: int, s: int) -> bytes:
-    """
-    Formats the input for the G2MUL precompile.
-    """
-    return x.to_bytes(256, byteorder="big") + s.to_bytes(32, byteorder="big")
-
-
-def g2_multi_scalar_multiplication_format(*args: int) -> bytes:
-    """
-    Formats the input for the G2MSM precompile.
-    """
-    return b"".join(
-        x.to_bytes(256 if i % 2 == 0 else 32, byteorder="big") for i, x in enumerate(args)
-    )
-
-
-def pairing_format(*args: int) -> bytes:
-    """
-    Formats the input for the PAIRING precompile.
-    """
-    return b"".join(
-        x.to_bytes(128 if i % 2 == 0 else 256, byteorder="big") for i, x in enumerate(args)
-    )
-
-
-def map_fp_to_g1_format(x: int) -> bytes:
-    """
-    Formats the input for the MAP_FP_TO_G1 precompile.
-    """
-    return x.to_bytes(64, byteorder="big")
-
-
-def map_fp2_to_g2_format(x: int) -> bytes:
-    """
-    Formats the input for the MAP_FP2_TO_G2 precompile.
-    """
-    return x.to_bytes(128, byteorder="big")
-
-
 def msm_discount(k: int) -> int:
     """
     Returns the discount for the G1MSM and G2MSM precompiles.
@@ -406,16 +346,16 @@ def pairing_gas(input_length: int) -> int:
     Calculates the gas cost for the PAIRING precompile.
     """
     k = input_length // Spec.LEN_PER_PAIR
-    return (23_000 * k) + 115_000
+    return (Spec.PAIRING_PER_PAIR_GAS * k) + Spec.PAIRING_BASE_GAS
 
 
 GAS_CALCULATION_FUNCTION_MAP = {
     Spec.G1ADD: lambda _: Spec.G1ADD_GAS,
     Spec.G1MUL: lambda _: Spec.G1MUL_GAS,
-    Spec.G1MSM: msm_gas_func_gen(160, Spec.G1MUL_GAS),
+    Spec.G1MSM: msm_gas_func_gen(len(PointG1() + Scalar()), Spec.G1MUL_GAS),
     Spec.G2ADD: lambda _: Spec.G2ADD_GAS,
     Spec.G2MUL: lambda _: Spec.G2MUL_GAS,
-    Spec.G2MSM: msm_gas_func_gen(288, Spec.G2MUL_GAS),
+    Spec.G2MSM: msm_gas_func_gen(len(PointG2() + Scalar()), Spec.G2MUL_GAS),
     Spec.PAIRING: pairing_gas,
     Spec.MAP_FP_TO_G1: lambda _: Spec.MAP_FP_TO_G1_GAS,
     Spec.MAP_FP2_TO_G2: lambda _: Spec.MAP_FP2_TO_G2_GAS,
