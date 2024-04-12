@@ -105,12 +105,14 @@ def call_contract_code(
             call_contract_post_storage.store_next(len(expected_output)),
             Op.RETURNDATASIZE(),
         )
-        + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE())
-        + Op.SSTORE(
+    )
+    if call_succeeds:
+        # Add integrity check only if the call is expected to succeed.
+        code += Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE()) + Op.SSTORE(
             call_contract_post_storage.store_next(keccak256(expected_output)),
             Op.SHA3(0, Op.RETURNDATASIZE()),
         )
-    )
+
     return code
 
 
