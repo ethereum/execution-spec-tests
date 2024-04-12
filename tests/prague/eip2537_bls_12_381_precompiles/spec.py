@@ -40,8 +40,8 @@ class BytesConcatenation(SupportsBytes):
 class PointG1(BytesConcatenation):
     """Dataclass that defines a single point in G1."""
 
-    x: int
-    y: int
+    x: int = 0
+    y: int = 0
 
     def __bytes__(self) -> bytes:
         """Converts the point to bytes."""
@@ -56,8 +56,8 @@ class PointG1(BytesConcatenation):
 class PointG2(BytesConcatenation):
     """Dataclass that defines a single point in G2."""
 
-    x: Tuple[int, int]
-    y: Tuple[int, int]
+    x: Tuple[int, int] = (0, 0)
+    y: Tuple[int, int] = (0, 0)
 
     def __bytes__(self) -> bytes:
         """Converts the point to bytes."""
@@ -77,7 +77,7 @@ class PointG2(BytesConcatenation):
 class Scalar(BytesConcatenation):
     """Dataclass that defines a single scalar."""
 
-    x: int
+    x: int = 0
 
     def __bytes__(self) -> bytes:
         """Converts the scalar to bytes."""
