@@ -9,7 +9,7 @@ import pytest
 from ethereum_test_tools import Environment, StateTestFiller, Transaction
 
 from .helpers import vectors_from_file
-from .spec import FORK, PointG1, PointG2, Scalar, Spec, map_fp_to_g1_format, ref_spec_2537
+from .spec import FORK, Spec, ref_spec_2537
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
