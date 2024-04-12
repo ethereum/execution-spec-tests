@@ -171,7 +171,7 @@ def test_gas(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G2ADD precompile gas consumption.
+    Test the BLS12_G2ADD precompile gas requirements.
     """
     state_test(
         env=Environment(),
