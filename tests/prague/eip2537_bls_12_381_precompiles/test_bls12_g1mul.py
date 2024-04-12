@@ -160,7 +160,7 @@ def test_gas(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G1MUL precompile gas consumption.
+    Test the BLS12_G1MUL precompile gas requirements.
     """
     state_test(
         env=Environment(),
