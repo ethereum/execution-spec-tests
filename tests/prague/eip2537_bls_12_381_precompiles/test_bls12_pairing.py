@@ -17,3 +17,24 @@ pytestmark = [
     pytest.mark.valid_from(str(FORK)),
     pytest.mark.parametrize("precompile_address", [Spec.PAIRING], ids=[""]),
 ]
+
+
+@pytest.mark.parametrize(
+    "input,expected_output",
+    vectors_from_file("pairing_check_bls.json"),
+)
+def test_valid(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_PAIRING precompile.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
