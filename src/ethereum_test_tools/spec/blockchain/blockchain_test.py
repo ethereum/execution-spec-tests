@@ -18,15 +18,15 @@ from ..base.base_test import BaseFixture, BaseTest, verify_result, verify_transa
 from ..debugging import print_traces
 from .types import (
     Block,
-    BlockchainFixture,
-    BlockchainHiveFixture,
     BlockException,
+    Fixture,
     FixtureBlock,
     FixtureBlockBase,
     FixtureEngineNewPayload,
     FixtureHeader,
     FixtureTransaction,
     FixtureWithdrawal,
+    HiveFixture,
     InvalidFixtureBlock,
 )
 
@@ -275,7 +275,7 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> BlockchainFixture:
+    ) -> Fixture:
         """
         Create a fixture from the blockchain test definition.
         """
@@ -339,7 +339,7 @@ class BlockchainTest(BaseTest):
                 )
 
         self.verify_post_state(t8n, alloc)
-        return BlockchainFixture(
+        return Fixture(
             fork=self.network_info(fork, eips),
             genesis=genesis.header,
             genesis_rlp=genesis.rlp,
@@ -354,7 +354,7 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> BlockchainHiveFixture:
+    ) -> HiveFixture:
         """
         Create a hive fixture from the blocktest definition.
         """
@@ -419,7 +419,7 @@ class BlockchainTest(BaseTest):
                 error_code=None,
             )
 
-        return BlockchainHiveFixture(
+        return HiveFixture(
             fork=self.network_info(fork, eips),
             genesis=genesis.header,
             payloads=fixture_payloads,

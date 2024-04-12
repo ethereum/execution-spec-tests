@@ -15,7 +15,7 @@ from ..base.base_test import BaseFixture, BaseTest
 from ..blockchain.blockchain_test import Block, BlockchainTest
 from ..blockchain.types import Header
 from ..debugging import print_traces
-from .types import FixtureEnvironment, FixtureForkPost, FixtureTransaction, StateFixture
+from .types import Fixture, FixtureEnvironment, FixtureForkPost, FixtureTransaction
 
 TARGET_BLOB_GAS_PER_BLOCK = 393216
 
@@ -106,7 +106,7 @@ class StateTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
-    ) -> StateFixture:
+    ) -> Fixture:
         """
         Create a fixture from the state test definition.
         """
@@ -150,7 +150,7 @@ class StateTest(BaseTest):
             print_traces(t8n.get_traces())
             raise e
 
-        return StateFixture(
+        return Fixture(
             env=FixtureEnvironment(**env.model_dump(exclude_none=True)),
             pre=pre_alloc,
             post={

@@ -9,8 +9,9 @@ from pydantic import RootModel
 
 from evm_transition_tool import FixtureFormats
 
-from ..blockchain.types import BlockchainFixture, BlockchainHiveFixture
-from ..state.types import StateFixture
+from ..blockchain.types import Fixture as BlockchainFixture
+from ..blockchain.types import HiveFixture as BlockchainHiveFixture
+from ..state.types import Fixture as StateFixture
 
 FixtureFormatsValues = Literal[
     "blockchain_test_hive", "blockchain_test", "state_test", "unset_test_format"

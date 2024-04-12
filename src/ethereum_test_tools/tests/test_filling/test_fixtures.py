@@ -19,7 +19,7 @@ from ...code import Yul
 from ...common import Account, Environment, Hash, TestAddress, Transaction
 from ...exceptions import TransactionException
 from ...spec import BlockchainTest, StateTest
-from ...spec.blockchain.types import Block, BlockchainFixture, BlockchainFixtureCommon
+from ...spec.blockchain.types import Block, Fixture, FixtureCommon
 from ..conftest import SOLC_PADDING_VERSION
 
 
@@ -107,7 +107,7 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
         blocks=[],
         tag="some_state_test",
     ).generate(t8n, fork, fixture_format=FixtureFormats.BLOCKCHAIN_TEST)
-    assert isinstance(fixture, BlockchainFixture)
+    assert isinstance(fixture, Fixture)
     assert fixture.genesis is not None
 
     assert fixture.genesis.block_hash is not None
@@ -512,10 +512,10 @@ class TestFillBlockchainValidTxs:
         check_hive: bool,
         fixture_format: FixtureFormats,
         expected_json_file: str,
-        blockchain_test_fixture: BlockchainFixture,
+        blockchain_test_fixture: Fixture,
     ):
         assert blockchain_test_fixture.format == fixture_format
-        assert isinstance(blockchain_test_fixture, BlockchainFixtureCommon)
+        assert isinstance(blockchain_test_fixture, FixtureCommon)
 
         if solc_version >= SOLC_PADDING_VERSION:
             fixture_name = f"000/my_blockchain_test/{fork.name()}/solc=padding_version"
@@ -544,7 +544,7 @@ class TestFillBlockchainValidTxs:
         assert fixture[fixture_name] == expected[fixture_name]
 
     @pytest.mark.parametrize("fork", [London], indirect=True)
-    def test_fixture_header_join(self, blockchain_test_fixture: BlockchainFixture):
+    def test_fixture_header_join(self, blockchain_test_fixture: Fixture):
         """
         Test `FixtureHeader.join()`.
         """
@@ -890,7 +890,7 @@ def test_fill_blockchain_invalid_txs(
         fixture_format=fixture_format,
     )
     assert generated_fixture.format == fixture_format
-    assert isinstance(generated_fixture, BlockchainFixtureCommon)
+    assert isinstance(generated_fixture, FixtureCommon)
 
     if solc_version >= SOLC_PADDING_VERSION:
         fixture_name = f"000/my_blockchain_test/{fork.name()}/solc=padding_version"

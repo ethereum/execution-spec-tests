@@ -542,7 +542,7 @@ class InvalidFixtureBlock(CamelModel):
     rlp_decoded: FixtureBlockBase | None = Field(None, alias="rlp_decoded")
 
 
-class BlockchainFixtureCommon(BaseFixture):
+class FixtureCommon(BaseFixture):
     """
     Base blockchain test fixture model.
     """
@@ -553,7 +553,7 @@ class BlockchainFixtureCommon(BaseFixture):
     post_state: Alloc
 
 
-class BlockchainFixture(BlockchainFixtureCommon):
+class Fixture(FixtureCommon):
     """
     Cross-client specific blockchain test model use in JSON fixtures.
     """
@@ -566,7 +566,7 @@ class BlockchainFixture(BlockchainFixtureCommon):
     format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST
 
 
-class BlockchainHiveFixture(BlockchainFixtureCommon):
+class HiveFixture(FixtureCommon):
     """
     Hive specific test fixture information.
     """
