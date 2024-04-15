@@ -1,6 +1,7 @@
 """
 Test suite for `code.eof.v1` module.
 """
+
 from typing import List, Tuple
 
 import pytest
@@ -548,6 +549,41 @@ test_cases: List[Tuple[str, Container, str]] = [
         ),
         "ef0001 01 0000 02 0001 0001 04 0000 00 00",
     ),
+    (
+        "EOF deployed code",
+        Container(
+            sections=[
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x305000",
+                ),
+                Section(kind=SectionKind.DATA, data="0xef"),
+            ],
+            auto_type_section=True,
+        ),
+        """
+        # EOF deployed code
+        ef0001  # Magic followed by version
+        010004  # One code segment
+        020001  # One code segment
+            0003  #   code seg 0: 3 bytes
+        040001  # One byte data segment
+        00      # End of header
+                # Code segment 0 header
+            00  # Zero inputs
+            80  # Non-Returning Function
+            0001  # Max stack height 1
+                # Code segment 0 code
+            30 #  1 ADDRESS
+            50 #  2 POP
+            00 #  3 STOP
+            # Data segment
+            ef
+        """,
+    ),
 ]
 
 
@@ -560,4 +596,36 @@ def test_eof_v1_assemble(container: Container, hex: str):
     """
     Test `ethereum_test.types.code`.
     """
-    assert bytes(container) == bytes.fromhex(hex.replace(" ", "").replace("\n", ""))
+    expected_string = remove_comments_from_string(hex)
+    expected_bytes = bytes.fromhex(expected_string.replace(" ", "").replace("\n", ""))
+    condition = bytes(container) == expected_bytes
+    if condition is False:
+        raise Exception(
+            f"Container: {bytes(container).hex()} \n   Expected encoding: {expected_bytes.hex()}"
+        )
+    assert condition
+
+
+def remove_comments_from_string(input_string):
+    # Split the string into individual lines
+    lines = input_string.split("\n")
+
+    # Process each line to remove text following a '#'
+    cleaned_lines = []
+    for line in lines:
+        # Find the index of the first '#' character
+        comment_start = line.find("#")
+
+        # If a '#' is found, slice up to that point; otherwise, take the whole line
+        if comment_start != -1:
+            cleaned_line = line[:comment_start].rstrip()
+        else:
+            cleaned_line = line
+
+        # Only add non-empty lines if needed
+        if cleaned_line.strip():
+            cleaned_lines.append(cleaned_line)
+
+    # Join the cleaned lines back into a single string
+    cleaned_string = "\n".join(cleaned_lines)
+    return cleaned_string
