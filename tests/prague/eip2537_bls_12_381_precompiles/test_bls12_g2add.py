@@ -129,7 +129,7 @@ def test_valid(
         ),
     ],
 )
-@pytest.mark.parametrize("expected_output", [b""], ids=[""])
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
 def test_invalid(
     state_test: StateTestFiller,
     pre: dict,
@@ -158,7 +158,7 @@ def test_invalid(
         ),
         pytest.param(
             Spec.INF_G2 + Spec.INF_G2,
-            b"",
+            Spec.INVALID,
             -1,
             id="insufficient_gas",
         ),

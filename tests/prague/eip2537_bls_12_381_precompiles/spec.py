@@ -316,6 +316,9 @@ class Spec:
     PAIRING_TRUE = int.to_bytes(1, length=32, byteorder="big")
     PAIRING_FALSE = int.to_bytes(0, length=32, byteorder="big")
 
+    # Returned on precompile failure
+    INVALID = b""
+
 
 def msm_discount(k: int) -> int:
     """
