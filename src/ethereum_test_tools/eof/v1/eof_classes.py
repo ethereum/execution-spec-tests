@@ -7,14 +7,24 @@ from typing import List
 
 
 class SupportBytes(bytes):
+    """
+    Support bytes
+    """
+
     _size: int
 
     def __new__(cls, value, bytes_size: int):
+        """
+        Initialize bytes field of a given size
+        """
         instance = super().__new__(cls, [value])
         instance._size = bytes_size * 2
         return instance
 
     def __str__(self):
+        """
+        Convert to string
+        """
         # Convert each byte to its hexadecimal representation
         out = " ".join(f"{byte:02X}" for byte in self)
         out = f"{'0' * (self._size - len(out))}{out}" if len(out) < self._size else out
@@ -27,13 +37,22 @@ class SupportBytesDescriptor:
     """
 
     def __init__(self, name: str, size: int):
+        """
+        Field setter and getter
+        """
         self.name = name
         self.size = size
 
     def __get__(self, instance, owner):
+        """
+        Field setter and getter
+        """
         return instance.__dict__.get(self.name)
 
     def __set__(self, instance, value):
+        """
+        Field setter and getter
+        """
         if isinstance(value, int):
             value = SupportBytes(value, self.size)
         elif not isinstance(value, SupportBytes):
@@ -42,24 +61,32 @@ class SupportBytesDescriptor:
 
 
 class TypeSection:
+    """
+    EOF Type section
+    """
+
     _inputs: SupportBytes
     _outputs: SupportBytes
     _max_stack_height: SupportBytes
 
 
 class Header:
+    """
+    EOF Header
+    """
+
     _magic = SupportBytesDescriptor("_magic", 1)
     _version = SupportBytesDescriptor("_version", 2)
 
     _kind_types: SupportBytes
     _types_size: SupportBytes
     _kind_code: SupportBytes
-    _num_code_sections: SupportBytes
+    _number_code_sections: SupportBytes
 
     _code_size: List[SupportBytes]
     # [
     _kind_container: SupportBytes
-    _num_container_sections: SupportBytes
+    _number_container_sections: SupportBytes
     _container_size: List[SupportBytes]
     # ]
 
@@ -73,6 +100,10 @@ class Header:
 
 
 class Body:
+    """
+    EOF Body
+    """
+
     _types_section: List[TypeSection]
     _code_section: List[SupportBytes]
     _container_section: List[SupportBytes]
@@ -80,20 +111,33 @@ class Body:
 
 
 class EOFCode:
+    """
+    EOF Code
+    """
+
     _header: Header
     _body: Body
 
     def __init__(self):
+        """
+        Default init
+        """
         self._header = Header()
         self._body = Body()
 
     def __str__(self):
+        """
+        EOF as string
+        """
         # Print the bytes as string
         out = f"{self._header._magic}{self._header._version}"
         return out
 
 
 def main():
+    """
+    Test EOF
+    """
     code = EOFCode()
     print(f"Hello: {code}")
 
