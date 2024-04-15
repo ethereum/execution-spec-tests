@@ -154,7 +154,7 @@ def test_valid_gas_g1msm(
         ),
     ],
 )
-@pytest.mark.parametrize("expected_output", [b""], ids=[""])
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
 @pytest.mark.parametrize("tx_gas_limit", [100_000_000], ids=[""])
 @pytest.mark.parametrize("precompile_address", [Spec.G1MSM])
 def test_invalid_gas_g1msm(
@@ -197,7 +197,7 @@ def test_invalid_gas_g1msm(
         ),
     ],
 )
-@pytest.mark.parametrize("expected_output", [b""], ids=[""])
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
 @pytest.mark.parametrize("tx_gas_limit", [100_000_000], ids=[""])
 @pytest.mark.parametrize("precompile_address", [Spec.G1MSM])
 def test_invalid_length_g1msm(
@@ -279,7 +279,7 @@ def test_valid_gas_g2msm(
         ),
     ],
 )
-@pytest.mark.parametrize("expected_output", [b""], ids=[""])
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
 @pytest.mark.parametrize("tx_gas_limit", [100_000_000], ids=[""])
 @pytest.mark.parametrize("precompile_address", [Spec.G2MSM])
 def test_invalid_gas_g2msm(
@@ -322,7 +322,7 @@ def test_invalid_gas_g2msm(
         ),
     ],
 )
-@pytest.mark.parametrize("expected_output", [b""], ids=[""])
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
 @pytest.mark.parametrize("tx_gas_limit", [100_000_000], ids=[""])
 @pytest.mark.parametrize("precompile_address", [Spec.G2MSM])
 def test_invalid_length_g2msm(

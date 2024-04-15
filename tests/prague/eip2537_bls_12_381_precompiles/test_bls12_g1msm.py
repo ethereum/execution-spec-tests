@@ -64,7 +64,7 @@ def test_valid(
 @pytest.mark.parametrize(
     "precompile_gas_modifier", [100_000], ids=[""]
 )  # Add gas so that won't be the cause of failure
-@pytest.mark.parametrize("expected_output", [b""], ids=[""])
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
 def test_invalid(
     state_test: StateTestFiller,
     pre: dict,
