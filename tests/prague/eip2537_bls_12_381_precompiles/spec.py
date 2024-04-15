@@ -135,8 +135,8 @@ class Spec:
     G2MUL_GAS = 45_000
     MAP_FP_TO_G1_GAS = 5_500
     MAP_FP2_TO_G2_GAS = 75_000
-    PAIRING_BASE_GAS = 115_000
-    PAIRING_PER_PAIR_GAS = 23_000
+    PAIRING_BASE_GAS = 65_000
+    PAIRING_PER_PAIR_GAS = 43_000
 
     # Other constants
     B_COEFFICIENT = 0x04
@@ -311,6 +311,10 @@ class Spec:
     )
     # point at infinity in G2
     INF_G2 = PointG2((0, 0), (0, 0))
+
+    # Pairing precompile results
+    PAIRING_TRUE = int.to_bytes(1, length=32, byteorder="big")
+    PAIRING_FALSE = int.to_bytes(0, length=32, byteorder="big")
 
 
 def msm_discount(k: int) -> int:
