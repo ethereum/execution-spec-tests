@@ -6,14 +6,14 @@ from typing import List, Tuple
 
 import pytest
 
-from ..eof.v1 import Container, Section, SectionKind
+from ..eof.v1 import AutoSection, Container, Section, SectionKind
 
 test_cases: List[Tuple[str, Container, str]] = [
     (
         "No sections",
         Container(
             auto_data_section=False,
-            auto_type_section=False,
+            auto_type_section=AutoSection.NONE,
             sections=[],
         ),
         "ef0001 00",
@@ -140,7 +140,7 @@ test_cases: List[Tuple[str, Container, str]] = [
     (
         "Single data section",
         Container(
-            auto_type_section=False,
+            auto_type_section=AutoSection.NONE,
             sections=[
                 Section(
                     kind=SectionKind.DATA,
@@ -154,7 +154,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Custom invalid section",
         Container(
             auto_data_section=False,
-            auto_type_section=False,
+            auto_type_section=AutoSection.NONE,
             sections=[
                 Section(
                     kind=0xFE,
@@ -197,7 +197,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                     data="0x00",
                 ),
             ],
-            auto_type_section=False,
+            auto_type_section=AutoSection.NONE,
         ),
         "ef0001 01 0004 01 0004 02 0001 0001 04 0000 00" "00000000 00000000 00",
     ),
@@ -351,7 +351,7 @@ test_cases: List[Tuple[str, Container, str]] = [
     (
         "No auto type section",
         Container(
-            auto_type_section=False,
+            auto_type_section=AutoSection.NONE,
             sections=[
                 Section(
                     kind=SectionKind.CODE,
@@ -545,12 +545,12 @@ test_cases: List[Tuple[str, Container, str]] = [
                 Section(kind=SectionKind.TYPE, data="0x"),
                 Section(kind=SectionKind.CODE, data="0x00"),
             ],
-            auto_type_section=False,
+            auto_type_section=AutoSection.NONE,
         ),
         "ef0001 01 0000 02 0001 0001 04 0000 00 00",
     ),
     (
-        "EOF deployed code",
+        "Check that simple valid EOF1 deploys",
         Container(
             sections=[
                 Section(
@@ -562,7 +562,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                 ),
                 Section(kind=SectionKind.DATA, data="0xef"),
             ],
-            auto_type_section=True,
+            auto_type_section=AutoSection.AUTO,
         ),
         """
         # EOF deployed code
@@ -582,6 +582,320 @@ test_cases: List[Tuple[str, Container, str]] = [
             00 #  3 STOP
             # Data segment
             ef
+        """,
+    ),
+    (
+        "Data Section custom_size parameter overwrites bytes size",
+        Container(
+            sections=[
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x305000",
+                ),
+                Section(kind=SectionKind.DATA, data="0x0bad", custom_size=4),
+            ],
+            auto_type_section=AutoSection.AUTO,
+        ),
+        """
+      # EOF deployed code
+      ef0001  # Magic followed by version
+      010004  # One code segment
+      020001  # One code segment
+        0003  #   code seg 0: 3 bytes
+      040004  # Four byte data segment
+      00      # End of header
+              # Code segment 0 header
+          00  # Zero inputs
+          80  # Non-Returning Function
+        0001  # Max stack height 1
+              # Code segment 0 code
+           30 #  1 ADDRESS
+           50 #  2 POP
+           00 #  3 STOP
+              # Data segment
+           0bad  # 2 bytes instead of four
+        """,
+    ),
+    (
+        "Multiple code segments",
+        Container(
+            sections=[
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x5f35e2030000000300060009e50001e50002e50003e3000400",
+                ),
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=2,
+                    data="0x5f5ff3",
+                ),
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=2,
+                    data="0x5f5ffd",
+                ),
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=0,
+                    data="0xfe",
+                ),
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=0,
+                    max_stack_height=0,
+                    data="0xe4",
+                ),
+                Section(kind=SectionKind.DATA, data="0x0bad60a7", custom_size=4),
+            ],
+            auto_type_section=AutoSection.AUTO,
+        ),
+        """
+      # EOF deployed code
+      EF0001 # Magic and Version ( 1 )
+     010014 # Types length ( 20 )
+     020005 # Total code sections ( 5 )
+       0019 # Code section  0 , 25  bytes
+       0003 # Code section  1 , 3  bytes
+       0003 # Code section  2 , 3  bytes
+       0001 # Code section  3 , 1  bytes
+       0001 # Code section  4 , 1  bytes
+     040004 # Data section length ( 4 )
+         00 # Terminator (end of header)
+            # Code 0 types
+         00 # 0 inputs
+         80 # 0 outputs (Non-returning function)
+       0001 # max stack: 1
+            # Code 1 types
+         00 # 0 inputs
+         80 # 0 outputs (Non-returning function)
+       0002 # max stack: 2
+            # Code 2 types
+         00 # 0 inputs
+         80 # 0 outputs (Non-returning function)
+       0002 # max stack: 2
+            # Code 3 types
+         00 # 0 inputs
+         80 # 0 outputs (Non-returning function)
+       0000 # max stack: 0
+            # Code 4 types
+         00 # 0 inputs
+         00 # 0 outputs
+       0000 # max stack: 0
+            # Code section 0
+         5f # [0] PUSH0
+         35 # [1] CALLDATALOAD
+     e2030000000300060009 # [2] RJUMPV(0,3,6,9)
+     e50001 # [12] JUMPF(1)
+     e50002 # [15] JUMPF(2)
+     e50003 # [18] JUMPF(3)
+     e30004 # [21] CALLF(4)
+         00 # [24] STOP
+            # Code section 1
+         5f # [0] PUSH0
+         5f # [1] PUSH0
+         f3 # [2] RETURN
+            # Code section 2
+         5f # [0] PUSH0
+         5f # [1] PUSH0
+         fd # [2] REVERT
+            # Code section 3
+         fe # [0] INVALID
+            # Code section 4
+         e4 # [0] RETF
+            # Data section
+     0bad60a7
+        """,
+    ),
+    (
+        "Custom Types Section overrides code",
+        Container(
+            sections=[
+                Section(kind=SectionKind.TYPE, data="0x00700002", custom_size=8),
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x305000",
+                ),
+                Section(kind=SectionKind.DATA, data="0x0bad60A7"),
+            ],
+        ),
+        """
+      # EOF deployed code
+      ef0001  # Magic followed by version
+      010008  # Two code segments
+      020001  # One code segment
+        0003  #   code seg 0: 3 bytes
+      040004  # Four byte data segment
+      00      # End of header
+              # Code segment 0 header
+          00  # Zero inputs
+          70  # Non-Returning Function
+        0002  # Max stack height 1
+              # Code segment 0 code
+           30 #  1 ADDRESS
+           50 #  2 POP
+           00 #  3 STOP
+              # Data segment
+           0bad60A7  # 4 bytes (valid)
+        """,
+    ),
+    (
+        "Type section wrong order, but only in HEADER",
+        Container(
+            sections=[
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x305000",
+                ),
+                Section(
+                    kind=SectionKind.TYPE,
+                    data="0x00800001",
+                ),
+                Section(kind=SectionKind.DATA, data="0xef"),
+            ],
+            auto_sort_sections=AutoSection.ONLY_BODY,
+        ),
+        """
+      # EOF deployed code
+      ef0001  # Magic followed by bad version
+      020001  # One code segment
+        0003  #   code seg 0: 3 bytes
+      010004  # One code segment
+      040001  # One byte data segment
+      00      # End of header
+              # Code segment 0 header
+          00  # Zero inputs
+          80  # Non-Returning Function
+        0001  # Max stack height 1
+              # Code segment 0 code
+           30 #  1 ADDRESS
+           50 #  2 POP
+           00 #  3 STOP
+              # Data segment
+           ef
+        """,
+    ),
+    (
+        "Type section wrong order, but only in BODY",
+        Container(
+            sections=[
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x305000",
+                ),
+                Section(
+                    kind=SectionKind.TYPE,
+                    data="0x00800001",
+                ),
+                Section(kind=SectionKind.DATA, data="0xef"),
+            ],
+            auto_sort_sections=AutoSection.ONLY_HEADER,
+        ),
+        """
+      # EOF deployed code
+      ef0001  # Magic followed by bad version
+      010004  # One code segment
+      020001  # One code segment
+        0003  #   code seg 0: 3 bytes
+      040001  # One byte data segment
+      00      # End of header
+              # Code segment 0 code
+           30 #  1 ADDRESS
+           50 #  2 POP
+           00 #  3 STOP
+              # Code segment 0 header
+          00  # Zero inputs
+          80  # Non-Returning Function
+        0001  # Max stack height 1
+              # Data segment
+           ef
+        """,
+    ),
+    (
+        "Type section missing, but only in HEADER",
+        Container(
+            sections=[
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x305000",
+                ),
+                Section(kind=SectionKind.DATA, data="0xef"),
+            ],
+            auto_type_section=AutoSection.ONLY_BODY,
+        ),
+        """
+      # EOF deployed code
+      ef0001  # Magic followed by bad version
+      020001  # One code segment
+        0003  #   code seg 0: 3 bytes
+      040001  # One byte data segment
+      00      # End of header
+              # Code segment 0 header
+          00  # Zero inputs
+          80  # Non-Returning Function
+        0001  # Max stack height 1
+              # Code segment 0 code
+           30 #  1 ADDRESS
+           50 #  2 POP
+           00 #  3 STOP
+              # Data segment
+           ef
+        """,
+    ),
+    (
+        "Type section missing, but only in BODY",
+        Container(
+            sections=[
+                Section(
+                    kind=SectionKind.CODE,
+                    code_inputs=0,
+                    code_outputs=128,  # Non returning
+                    max_stack_height=1,
+                    data="0x305000",
+                ),
+                Section(kind=SectionKind.DATA, data="0xef"),
+            ],
+            auto_type_section=AutoSection.ONLY_HEADER,
+        ),
+        """
+      # EOF deployed code
+      ef0001  # Magic followed by bad version
+      010004  # Types section
+      020001  # One code segment
+        0003  #   code seg 0: 3 bytes
+      040001  # One byte data segment
+      00      # End of header
+              # Code segment 0 header
+              # Code segment 0 code
+           30 #  1 ADDRESS
+           50 #  2 POP
+           00 #  3 STOP
+              # Data segment
+           ef
         """,
     ),
 ]
