@@ -22,6 +22,8 @@ G1_MSM_K_INPUT_LENGTH = len(PointG1() + Scalar())
 G2_MSM_K_INPUT_LENGTH = len(PointG2() + Scalar())
 G1_GAS = GAS_CALCULATION_FUNCTION_MAP[Spec.G1MSM]
 G2_GAS = GAS_CALCULATION_FUNCTION_MAP[Spec.G2MSM]
+PAIRING_GAS = GAS_CALCULATION_FUNCTION_MAP[Spec.PAIRING]
+PAIRINGS_TO_TEST = 20
 
 
 @pytest.fixture
@@ -334,6 +336,120 @@ def test_invalid_length_g2msm(
     """
     Test the BLS12_G2MSM discount gas table in full, by expecting the call to fail for
     all possible input lengths provided because they are too long or short, or zero length.
+
+    If any of the calls succeeds, the test will fail.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "precompile_gas_list,precompile_data_length_list",
+    [
+        pytest.param(
+            [PAIRING_GAS(i * Spec.LEN_PER_PAIR) for i in range(1, PAIRINGS_TO_TEST + 1)],
+            [i * Spec.LEN_PER_PAIR for i in range(1, PAIRINGS_TO_TEST + 1)],
+            id="sufficient_gas",
+        ),
+        pytest.param(
+            [PAIRING_GAS(i * Spec.LEN_PER_PAIR) + 1 for i in range(1, PAIRINGS_TO_TEST + 1)],
+            [i * Spec.LEN_PER_PAIR for i in range(1, PAIRINGS_TO_TEST + 1)],
+            id="extra_gas",
+        ),
+    ],
+)
+@pytest.mark.parametrize("expected_output", [Spec.PAIRING_TRUE], ids=[""])
+@pytest.mark.parametrize("tx_gas_limit", [100_000_000], ids=[""])
+@pytest.mark.parametrize("precompile_address", [Spec.PAIRING])
+def test_valid_gas_pairing(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_PAIRING precompile, by expecting the call to succeed for all possible input
+    lengths (up to k == PAIRINGS_TO_TEST).
+
+    If any of the calls fails, the test will fail.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "precompile_gas_list,precompile_data_length_list",
+    [
+        pytest.param(
+            [0],
+            [Spec.LEN_PER_PAIR],
+            id="zero_gas_passed",
+        ),
+        pytest.param(
+            [PAIRING_GAS(i * Spec.LEN_PER_PAIR) - 1 for i in range(1, PAIRINGS_TO_TEST + 1)],
+            [i * Spec.LEN_PER_PAIR for i in range(1, PAIRINGS_TO_TEST + 1)],
+            id="insufficient_gas",
+        ),
+    ],
+)
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
+@pytest.mark.parametrize("tx_gas_limit", [100_000_000], ids=[""])
+@pytest.mark.parametrize("precompile_address", [Spec.PAIRING])
+def test_invalid_gas_pairing(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_PAIRING precompile, by expecting the call to fail for all possible input
+    lengths (up to k == PAIRINGS_TO_TEST) because the appropriate amount of gas is not provided.
+
+    If any of the calls succeeds, the test will fail.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "precompile_gas_list,precompile_data_length_list",
+    [
+        pytest.param(
+            [PAIRING_GAS(i * Spec.LEN_PER_PAIR) for i in range(1, PAIRINGS_TO_TEST + 1)],
+            [(i * Spec.LEN_PER_PAIR) - 1 for i in range(1, PAIRINGS_TO_TEST + 1)],
+            id="input_too_short",
+        ),
+        pytest.param(
+            [PAIRING_GAS(i * Spec.LEN_PER_PAIR) for i in range(1, PAIRINGS_TO_TEST + 1)],
+            [(i * Spec.LEN_PER_PAIR) + 1 for i in range(1, PAIRINGS_TO_TEST + 1)],
+            id="input_too_long",
+        ),
+    ],
+)
+@pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
+@pytest.mark.parametrize("tx_gas_limit", [100_000_000], ids=[""])
+@pytest.mark.parametrize("precompile_address", [Spec.PAIRING])
+def test_invalid_length_pairing(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_PAIRING precompile, by expecting the call to fail for all possible input
+    lengths (up to k == PAIRINGS_TO_TEST) because the incorrect input length was used.
 
     If any of the calls succeeds, the test will fail.
     """
