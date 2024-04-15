@@ -11,6 +11,8 @@ from typing import Optional
 
 import pytest
 
+from ethereum_test_tools.common.json import to_json
+from ethereum_test_tools.spec.file.types import Fixtures
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.consume.consume import TestCase
 
@@ -22,12 +24,16 @@ def write_stdin_fixture_to_file(test_case: TestCase):
     fixture to a file for the blocktest command.
     """
     if test_case.json_file == "stdin":
-        temp_dir = tempfile.TemporaryDirectory()
-        test_case.json_file = (
-            Path(temp_dir.name) / f"{test_case.fixture_name.replace('/','_')}.json"
-        )
+        # temp_dir = tempfile.TemporaryDirectory()
+        # test_case.json_file = (
+        #     Path(temp_dir.name) / f"{test_case.fixture_name.replace('/','_')}.json"
+        # )
+        temp_dir = Path("/tmp/consume")
+        test_case.json_file = Path(temp_dir) / f"{test_case.fixture_name.replace('/','_')}.json"
+        fixtures = Fixtures({test_case.fixture_name: test_case.fixture})
+        # fixtures.to_
         with open(test_case.json_file, "w") as f:
-            json.dump(test_case.fixture_json, f, indent=4)
+            json.dump(to_json(fixtures), f, indent=4)
     yield
     if test_case.json_file == "stdin":
         temp_dir.cleanup()

@@ -14,7 +14,7 @@ from enum import Enum
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Type
 
 from ethereum_test_forks import Fork
 
@@ -82,6 +82,22 @@ class FixtureFormats(Enum):
         elif format == cls.BLOCKCHAIN_TEST_HIVE:
             return "Tests that generate a blockchain test fixture in hive format."
         raise Exception(f"Unknown fixture format: {format}.")
+
+    @property
+    def output_base_dir_name(self) -> Path:
+        """
+        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        """
+        return Path(self.value.replace("test", "tests"))
+
+    @property
+    def output_file_extension(self) -> str:
+        """
+        Returns the file extension for this type of fixture.
+
+        By default, fixtures are dumped as JSON files.
+        """
+        return ".json"
 
 
 class TransitionTool:
@@ -298,7 +314,7 @@ class TransitionTool:
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes a transition tool using the filesystem for its inputs and outputs.
         """
@@ -408,14 +424,14 @@ class TransitionTool:
 
         temp_dir.cleanup()
 
-        return output_contents["alloc"], output_contents["result"]
+        return output_contents
 
     def _evaluate_stream(
         self,
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes a transition tool using stdin and stdout for its inputs and outputs.
         """
@@ -459,7 +475,7 @@ class TransitionTool:
             self.collect_traces(output["result"]["receipts"], temp_dir, debug_output_path)
             temp_dir.cleanup()
 
-        return output["alloc"], output["result"]
+        return output
 
     def construct_args_stream(
         self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
@@ -540,7 +556,7 @@ class TransitionTool:
         reward: int = 0,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes the relevant evaluate method as required by the `t8n` tool.
 
@@ -562,57 +578,6 @@ class TransitionTool:
                 t8n_data=t8n_data,
                 debug_output_path=debug_output_path,
             )
-
-    def calc_state_root(
-        self, *, alloc: Any, fork: Fork, debug_output_path: str = ""
-    ) -> Tuple[Dict, bytes]:
-        """
-        Calculate the state root for the given `alloc`.
-        """
-        env: Dict[str, Any] = {
-            "currentCoinbase": "0x0000000000000000000000000000000000000000",
-            "currentDifficulty": "0x0",
-            "currentGasLimit": "0x0",
-            "currentNumber": "0",
-            "currentTimestamp": "0",
-        }
-
-        if fork.header_base_fee_required(0, 0):
-            env["currentBaseFee"] = "7"
-
-        if fork.header_prev_randao_required(0, 0):
-            env["currentRandom"] = "0"
-
-        if fork.header_withdrawals_required(0, 0):
-            env["withdrawals"] = []
-
-        if fork.header_excess_blob_gas_required(0, 0):
-            env["currentExcessBlobGas"] = "0"
-
-        if fork.header_beacon_root_required(0, 0):
-            env[
-                "parentBeaconBlockRoot"
-            ] = "0x0000000000000000000000000000000000000000000000000000000000000000"
-
-        new_alloc, result = self.evaluate(
-            alloc=alloc,
-            txs=[],
-            env=env,
-            fork_name=fork.transition_tool_name(block_number=0, timestamp=0),
-            debug_output_path=debug_output_path,
-        )
-        state_root = result.get("stateRoot")
-        if state_root is None or not isinstance(state_root, str):
-            raise Exception("Unable to calculate state root")
-        return new_alloc, bytes.fromhex(state_root[2:])
-
-    def get_blocktest_help(self) -> str:
-        """
-        Return the help string for the blocktest subcommand.
-        """
-        raise NotImplementedError(
-            "The `blocktest` command is not supported by this tool. Use geth's evm tool."
-        )
 
     def verify_fixture(
         self,

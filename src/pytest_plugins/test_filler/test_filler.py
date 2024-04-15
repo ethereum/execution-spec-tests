@@ -168,7 +168,7 @@ def pytest_configure(config):
             "The Besu t8n tool does not work well with the xdist plugin; use -n=0.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
-    config.solc_version = Yul("", binary=config.getoption("solc_bin")).version()
+    config.solc_version = Yul("", binary=config.getoption("solc_bin")).version
     if config.solc_version < Frontier.solc_min_version():
         pytest.exit(
             f"Unsupported solc version: {config.solc_version}. Minimum required version is "
@@ -184,7 +184,7 @@ def pytest_report_header(config, start_path):
         return
     binary_path = config.getoption("evm_bin")
     t8n = TransitionTool.from_binary_path(binary_path=binary_path)
-    solc_version_string = Yul("", binary=config.getoption("solc_bin")).version()
+    solc_version_string = Yul("", binary=config.getoption("solc_bin")).version
     return [f"{t8n.version()}, solc version {solc_version_string}"]
 
 
@@ -451,12 +451,12 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
         class BaseTestWrapper(cls):
             def __init__(self, *args, **kwargs):
-                kwargs["fixture_format"] = fixture_format
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 fixture = self.generate(
-                    t8n,
-                    fork,
+                    t8n=t8n,
+                    fork=fork,
+                    fixture_format=fixture_format,
                     eips=eips,
                 )
                 fixture.fill_info(t8n, reference_spec)
@@ -492,7 +492,7 @@ def pytest_generate_tests(metafunc):
                         id=fixture_format.name.lower(),
                         marks=[getattr(pytest.mark, fixture_format.name.lower())],
                     )
-                    for fixture_format in test_type.fixture_formats()
+                    for fixture_format in test_type.supported_fixture_formats
                 ],
                 scope="function",
                 indirect=True,

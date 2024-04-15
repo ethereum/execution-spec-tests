@@ -42,22 +42,6 @@
       "cwd": "${workspaceFolder}"
     },
     {
-      "name": "Launch fill --until Shanghai",
-      "type": "python",
-      "request": "launch",
-      "module": "pytest",
-      "args": [
-        "-c",
-        "pytest.ini",
-        "--until",
-        "Shanghai",
-        "--evm-bin",
-        "${input:evmBinary}",
-        "-v"
-      ],
-      "cwd": "${workspaceFolder}"
-    },
-    {
       "name": "Launch fill --until Cancun",
       "type": "python",
       "request": "launch",
@@ -67,6 +51,22 @@
         "pytest.ini",
         "--until",
         "Cancun",
+        "--evm-bin",
+        "${input:evmBinary}",
+        "-v"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Launch fill --until Prague",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "-c",
+        "pytest.ini",
+        "--until",
+        "Prague",
         "--evm-bin",
         "${input:evmBinary}",
         "-v"
@@ -132,8 +132,9 @@
         "Paris",
         "Shanghai",
         "Cancun",
+        "Prague",
       ],
-      "default": "Shanghai"
+      "default": "Cancun"
     },
     {
       "type": "promptString",

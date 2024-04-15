@@ -2,6 +2,18 @@
 Exceptions for invalid execution.
 """
 
-from .exceptions import BlockException, ExceptionList, ExceptionType, TransactionException
+from .exceptions import (
+    BlockException,
+    BlockExceptionInstanceOrList,
+    ExceptionInstanceOrList,
+    TransactionException,
+    TransactionExceptionInstanceOrList,
+)
 
-__all__ = ["BlockException", "ExceptionType", "ExceptionList", "TransactionException"]
+__all__ = [
+    "BlockException",
+    "BlockExceptionInstanceOrList",
+    "ExceptionInstanceOrList",
+    "TransactionException",
+    "TransactionExceptionInstanceOrList",
+]

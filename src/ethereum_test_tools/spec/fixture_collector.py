@@ -13,6 +13,7 @@ from typing import Dict, Literal, Optional, Tuple
 
 from evm_transition_tool import FixtureFormats, TransitionTool
 
+from ..common.json import to_json
 from .base.base_test import BaseFixture
 
 
@@ -137,20 +138,20 @@ class FixtureCollector:
 
         fixture_path = (
             self.output_dir
-            / fixture.output_base_dir_name()
-            / fixture_basename.with_suffix(fixture.output_file_extension())
+            / fixture.format.output_base_dir_name
+            / fixture_basename.with_suffix(fixture.format.output_file_extension)
         )
         if fixture_path not in self.all_fixtures:  # relevant when we group by test function
             self.all_fixtures[fixture_path] = {}
             if fixture_path in self.json_path_to_fixture_type:
-                if self.json_path_to_fixture_type[fixture_path] != fixture.format():
+                if self.json_path_to_fixture_type[fixture_path] != fixture.format:
                     raise Exception(
                         f"Fixture {fixture_path} has two different types: "
                         f"{self.json_path_to_fixture_type[fixture_path]} "
-                        f"and {fixture.format()}"
+                        f"and {fixture.format}"
                     )
             else:
-                self.json_path_to_fixture_type[fixture_path] = fixture.format()
+                self.json_path_to_fixture_type[fixture_path] = fixture.format
             self.json_path_to_test_item[fixture_path] = info
 
         self.all_fixtures[fixture_path][info.id] = fixture
@@ -161,9 +162,7 @@ class FixtureCollector:
         """
         if self.output_dir == "stdout":
             combined_fixtures = {
-                k: v.to_json()
-                for fixture in self.all_fixtures.values()
-                for k, v in fixture.items()
+                k: to_json(v) for fixture in self.all_fixtures.values() for k, v in fixture.items()
             }
             json.dump(combined_fixtures, sys.stdout, indent=4)
             return

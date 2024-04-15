@@ -109,17 +109,6 @@ def handle_help_flags(
         return list(pytest_args)
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
-@common_click_options
-def fill(pytest_args: List[str], help_flag: bool, pytest_help_flag: bool) -> None:
-    """
-    Entry point for the fill command.
-    """
-    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    result = pytest.main(args)
-    sys.exit(result)
-
-
 def handle_stdout_flags(args):
     """
     If the user has requested to write to stdout, add pytest arguments in order
@@ -137,6 +126,18 @@ def handle_stdout_flags(args):
             sys.exit("error: xdist-plugin not supported with --output=stdout (remove -n args).")
         args.extend(["-qq", "-s"])
     return args
+
+
+@click.command(context_settings=dict(ignore_unknown_options=True))
+@common_click_options
+def fill(pytest_args: List[str], help_flag: bool, pytest_help_flag: bool) -> None:
+    """
+    Entry point for the fill command.
+    """
+    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args = handle_stdout_flags(args)
+    result = pytest.main(args)
+    sys.exit(result)
 
 
 def get_hive_flags_from_env():

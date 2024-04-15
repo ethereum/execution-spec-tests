@@ -3,39 +3,14 @@ Exceptions for invalid execution.
 """
 
 from enum import Enum, auto, unique
-from typing import List, Union
+from typing import Annotated, Any, List
 
-
-class ExceptionList(list):
-    """
-    A list of exceptions.
-    """
-
-    def __init__(self, *exceptions: "ExceptionBase") -> None:
-        """
-        Create a new ExceptionList.
-        """
-        exceptions_set: List[ExceptionBase] = []
-        for exception in exceptions:
-            if not isinstance(exception, ExceptionBase):
-                raise TypeError(f"Expected ExceptionBase, got {type(exception)}")
-            if exception not in exceptions_set:
-                exceptions_set.append(exception)
-        super().__init__(exceptions_set)
-
-    def __or__(self, other: Union["ExceptionBase", "ExceptionList"]) -> "ExceptionList":
-        """
-        Combine two ExceptionLists.
-        """
-        if isinstance(other, list):
-            return ExceptionList(*(self + other))
-        return ExceptionList(*(self + [other]))
-
-    def __str__(self) -> str:
-        """
-        String representation of the ExceptionList.
-        """
-        return "|".join(str(exception) for exception in self)
+from pydantic import BeforeValidator, GetCoreSchemaHandler, PlainSerializer
+from pydantic_core.core_schema import (
+    PlainValidatorFunctionSchema,
+    no_info_plain_validator_function,
+    to_string_ser_schema,
+)
 
 
 class ExceptionBase(Enum):
@@ -43,22 +18,70 @@ class ExceptionBase(Enum):
     Base class for exceptions.
     """
 
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """
+        Calls the class constructor without info and appends the serialization schema.
+        """
+        return no_info_plain_validator_function(
+            source_type,
+            serialization=to_string_ser_schema(),
+        )
+
     def __contains__(self, exception) -> bool:
         """
         Checks if provided exception is equal to this
         """
         return self == exception
 
-    def __or__(
-        self,
-        other: Union["TransactionException", "BlockException", ExceptionList],
-    ) -> "ExceptionList":
+    def __str__(self) -> str:
         """
-        Combine two exceptions into an ExceptionList.
+        Returns the string representation of the exception
         """
-        if isinstance(other, ExceptionList):
-            return ExceptionList(self, *other)
-        return ExceptionList(self, other)
+        return f"{self.__class__.__name__}.{self.name}"
+
+
+def to_pipe_str(value: Any) -> str:
+    """
+    Single pipe-separated string representation of an exception list.
+
+    Obtain a deterministic ordering by ordering using the exception string
+    representations.
+    """
+    if isinstance(value, list):
+        return "|".join(str(exception) for exception in value)
+    return str(value)
+
+
+def create_exception_from_str(exception_str: str) -> ExceptionBase:
+    """
+    Create an exception instance from its string representation.
+    """
+    class_name, enum_name = exception_str.split(".")
+    exception_class = globals().get(class_name, None)
+
+    if exception_class and issubclass(exception_class, ExceptionBase):
+        enum_value = getattr(exception_class, enum_name, None)
+        if enum_value and enum_value in exception_class:
+            return exception_class(enum_value)
+        else:
+            raise ValueError(f"No such enum in class: {exception_str}")
+    else:
+        raise ValueError(f"No such exception class: {class_name}")
+
+
+def from_pipe_str(value: Any) -> ExceptionBase | List[ExceptionBase]:
+    """
+    Parses a single string as a pipe separated list into enum exceptions.
+    """
+    if isinstance(value, str):
+        exception_list = [create_exception_from_str(v) for v in value.split("|")]
+        if len(exception_list) == 1:
+            return exception_list[0]
+        return exception_list
+    return value
 
 
 @unique
@@ -159,4 +182,24 @@ class BlockException(ExceptionBase):
     """
 
 
-ExceptionType = Union[TransactionException, BlockException, ExceptionList]
+"""
+Pydantic Annotated Types
+"""
+
+ExceptionInstanceOrList = Annotated[
+    TransactionException | BlockException | List[TransactionException | BlockException],
+    BeforeValidator(from_pipe_str),
+    PlainSerializer(to_pipe_str),
+]
+
+TransactionExceptionInstanceOrList = Annotated[
+    TransactionException | List[TransactionException],
+    BeforeValidator(from_pipe_str),
+    PlainSerializer(to_pipe_str),
+]
+
+BlockExceptionInstanceOrList = Annotated[
+    BlockException | List[BlockException],
+    BeforeValidator(from_pipe_str),
+    PlainSerializer(to_pipe_str),
+]

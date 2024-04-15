@@ -8,10 +8,17 @@ from typing import Mapping, SupportsBytes
 import pytest
 from semver import Version
 
-from ethereum_test_forks import Fork, Homestead, Shanghai, get_deployed_forks
+from ethereum_test_forks import (
+    Cancun,
+    Fork,
+    Homestead,
+    Shanghai,
+    get_closest_fork_with_solc_support,
+    get_deployed_forks,
+)
 from evm_transition_tool import FixtureFormats, GethTransitionTool
 
-from ..code import CalldataCase, Case, Code, Conditional, Initcode, Switch, Yul
+from ..code import CalldataCase, Case, Code, Conditional, Initcode, Solc, Switch, Yul
 from ..common import Account, Environment, Hash, TestAddress, Transaction
 from ..spec import StateTest
 from ..vm.opcode import Opcodes as Op
@@ -66,7 +73,9 @@ def yul_code(request: pytest.FixtureRequest, fork: Fork, padding_before: str, pa
     else:
         compiled_yul_code = Code("")
     for yul_code in yul_code_snippets:
-        compiled_yul_code += Yul(yul_code, fork=fork)
+        compiled_yul_code += Yul(
+            yul_code, fork=get_closest_fork_with_solc_support(fork, Solc().version)
+        )
     if padding_after is not None:
         compiled_yul_code += Code(padding_after)
     return compiled_yul_code
@@ -83,7 +92,7 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: Version, fork: 
             solc_padding = "00"
         return bytes.fromhex(expected_bytes.substitute(solc_padding=solc_padding))
     if isinstance(expected_bytes, bytes):
-        if fork == Shanghai:
+        if fork >= Shanghai:
             expected_bytes = b"\x5f" + expected_bytes[2:]
         if solc_version < SOLC_PADDING_VERSION or fork <= Homestead:
             return expected_bytes
@@ -164,7 +173,7 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: Version, fork: 
     ],
     indirect=["yul_code", "expected_bytes"],
 )
-def test_yul(
+def test_yul(  # noqa: D103
     yul_code: SupportsBytes, expected_bytes: bytes, padding_before: str, padding_after: str
 ):
     assert bytes(yul_code) == expected_bytes
@@ -285,7 +294,7 @@ def test_yul(
         ),
     ],
 )
-def test_initcode(initcode: Initcode, bytecode: bytes):
+def test_initcode(initcode: Initcode, bytecode: bytes):  # noqa: D103
     assert bytes(initcode) == bytecode
 
 
@@ -647,10 +656,10 @@ def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mappin
         pre=pre,
         tx=tx,
         post=post,
-        fixture_format=FixtureFormats.BLOCKCHAIN_TEST,
     )
     state_test.generate(
         t8n=GethTransitionTool(),
-        fork=Shanghai,
+        fork=Cancun,
+        fixture_format=FixtureFormats.BLOCKCHAIN_TEST,
         eips=None,
     )

@@ -13,10 +13,15 @@ from urllib.parse import urlparse
 import pytest
 import requests
 
-from ethereum_test_tools.common.json import load_dataclass_from_json
-from ethereum_test_tools.spec.blockchain.types import Fixture
+from ethereum_test_tools.common.json import to_json
+from ethereum_test_tools.spec.blockchain.types import Fixture as BlockchainFixture
+from ethereum_test_tools.spec.blockchain.types import InvalidFixtureBlock
+from ethereum_test_tools.spec.file.types import Fixtures
 
 from ..consume_via_rlp.network_ruleset_hive import ruleset
+
+# from ethereum_test_tools.spec.file.types import Fixtures
+
 
 cached_downloads_directory = Path("./cached_downloads")
 
@@ -134,7 +139,7 @@ class TestCase:  # noqa: D101
     fixture_name: str
     json_file: JsonSource
     json_as_dict: dict
-    fixture: Optional[Fixture] = None
+    fixture: Optional[BlockchainFixture] = None
     fixture_json: Optional[dict] = field(default_factory=dict)
     marks: Mapping[ConsumerTypes, List[pytest.MarkDecorator]] = field(
         default_factory=lambda: TestCase._marks_default()
@@ -152,7 +157,13 @@ class TestCase:  # noqa: D101
         if any(mark is pytest.mark.xfail for mark in self.marks):
             return  # no point continuing
         # TODO: update to allow for invalid fixtures
-        if not all("blockHeader" in block for block in self.fixture.blocks):
+        # import rich
+        if self.fixture is None:
+            print("oops", self.fixture_name)
+            return
+        # rich.print(self.fixture)
+        if any(isinstance(block, InvalidFixtureBlock) for block in self.fixture.blocks):
+            # if not all("blockHeader" in block for block in self.fixture.blocks):
             # print("Skipping fixture with missing block header", self.fixture_name)
             self.marks["rlp"].append(pytest.mark.xfail(reason="Missing block header", run=False))
             self.marks["engine"].append(
@@ -173,42 +184,31 @@ def create_test_cases_from_json(json_file: JsonSource) -> List[TestCase]:
     # TODO: exception handling?
     if json_file == "stdin":
         json_data = json.load(sys.stdin)
+        fixtures = Fixtures.from_json_data(json_data)
     else:
-        with open(json_file, "r") as file:
-            json_data = json.load(file)
+        fixtures = Fixtures.from_file(Path(json_file), fixture_format=None)
+        json_data = to_json(fixtures)
 
-    for fixture_name, fixture_data in json_data.items():
-        fixture = None
+    for fixture_name, fixture in fixtures.items():
 
-        marks: List[pytest.MarkDecorator]
-        try:
-            # TODO: here we validate fixture.blocks, for example, but not nested fields. Can we?
-            # Or should we? (it'll be brittle).
-            fixture = load_dataclass_from_json(Fixture, fixture_data)
-            fixture_json = {fixture_name: fixture_data}
-            marks = []
-        except Exception as e:
-            # TODO: Add logger.error() entry here
-            reason = f"Error creating test case {fixture_name} from {json_file}: {e}"
-            fixture = None
-            fixture_json = None
-            marks = [pytest.mark.xfail(reason=reason, run=False)]
+        fixture_json = json_data[fixture_name]
+        # marks: List[pytest.MarkDecorator]
 
         test_case = TestCase(
             json_file=json_file,
-            json_as_dict=fixture_data,
+            json_as_dict=fixture_json,
             fixture_name=fixture_name,
             fixture=fixture,
             fixture_json=fixture_json,
         )
-        test_case.marks["all"].extend(marks)
+        # test_case.marks["all"].extend(marks)
         test_cases.append(test_case)
 
     return test_cases
 
 
 @pytest.fixture(scope="function")
-def test_case_fixture(test_case: TestCase) -> Fixture:
+def test_case_fixture(test_case: TestCase) -> BlockchainFixture:
     """
     The test fixture as a dictionary. If we failed to parse a test case fixture,
     it's None: We xfail/skip the test.
