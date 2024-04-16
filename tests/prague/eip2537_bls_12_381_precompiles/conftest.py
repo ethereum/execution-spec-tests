@@ -118,13 +118,13 @@ def call_contract_code(
 
 @pytest.fixture
 def call_contract_address() -> int:
-    """Code of the test contract."""
+    """Address where the test contract will be deployed."""
     return 0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 
 @pytest.fixture
 def pre(call_contract_address: int, call_contract_code: bytes):
-    """Code of the test contract."""
+    """Pre-allocation for every test."""
     return {
         call_contract_address: {
             "balance": 0,
