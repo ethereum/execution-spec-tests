@@ -36,12 +36,12 @@ pytestmark = [
             id="max_discount_plus_1",
         ),
         pytest.param(
-            PointG1(0, 2) + Scalar(Spec.Q),
+            Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q),
             Spec.INF_G1,
             id="not_in_subgroup_1",
         ),
         pytest.param(
-            PointG1(0, Spec.P - 2) + Scalar(Spec.Q),
+            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(Spec.Q),
             Spec.INF_G1,
             id="not_in_subgroup_2",
         ),

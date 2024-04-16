@@ -26,21 +26,8 @@ pytestmark = [
     vectors_from_file("multiexp_G2_bls.json")
     + [
         pytest.param(
-            PointG2(
-                (1, 1),
-                (
-                    0x17FAA6201231304F270B858DAD9462089F2A5B83388E4B10773ABC1EEF6D193B9FCE4E8EA2D9D28E3C3A315AA7DE14CA,  # noqa: E501
-                    0xCC12449BE6AC4E7F367E7242250427C4FB4C39325D3164AD397C1837A90F0EA1A534757DF374DD6569345EB41ED76E,  # noqa: E501
-                ),
-            )
-            + Scalar(1),
-            PointG2(
-                (1, 1),
-                (
-                    0x17FAA6201231304F270B858DAD9462089F2A5B83388E4B10773ABC1EEF6D193B9FCE4E8EA2D9D28E3C3A315AA7DE14CA,  # noqa: E501
-                    0xCC12449BE6AC4E7F367E7242250427C4FB4C39325D3164AD397C1837A90F0EA1A534757DF374DD6569345EB41ED76E,  # noqa: E501
-                ),
-            ),
+            Spec.P2_NOT_IN_SUBGROUP + Scalar(1),
+            Spec.P2_NOT_IN_SUBGROUP,
             id="bls_g2mul_not_in_subgroup",
         ),
     ],
