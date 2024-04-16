@@ -5,7 +5,9 @@ abstract: Tests BLS12_PAIRING precompile of [EIP-2537: Precompile for BLS12-381 
 
 import pytest
 
-from ethereum_test_tools import Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Environment
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTestFiller, Transaction
 
 from .helpers import vectors_from_file
 from .spec import FORK, PointG1, PointG2, Spec, ref_spec_2537
@@ -91,6 +93,7 @@ def test_valid(
             (Spec.INF_G1 + Spec.INF_G2) * 1000 + PointG1(Spec.P, 0) + Spec.INF_G2,
             id="multi_inf_plus_g1_P_g2_inf_1",
         ),
+        # Input length tests can be found in ./test_bls12_variable_length_input_contracts.py
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
@@ -102,6 +105,41 @@ def test_invalid(
 ):
     """
     Negative tests for the BLS12_PAIRING precompile.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "call_opcode",
+    [
+        Op.STATICCALL,
+        Op.DELEGATECALL,
+        Op.CALLCODE,
+    ],
+)
+@pytest.mark.parametrize(
+    "input,expected_output",
+    [
+        pytest.param(
+            Spec.INF_G1 + Spec.INF_G2,
+            Spec.PAIRING_TRUE,
+            id="inf_pair",
+        ),
+    ],
+)
+def test_call_types(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_PAIRING precompile using different call types.
     """
     state_test(
         env=Environment(),
