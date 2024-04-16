@@ -60,6 +60,11 @@ pytestmark = [
             id="bls_g2mul_(q*P2)",
         ),
         pytest.param(
+            Spec.G2 + Scalar(Spec.Q),
+            Spec.INF_G2,
+            id="bls_g2mul_(q*G2)",
+        ),
+        pytest.param(
             Spec.P2 + Scalar(Spec.Q + 1),
             Spec.P2,
             id="bls_g2mul_(q+1*P2)",
@@ -73,6 +78,66 @@ pytestmark = [
             Spec.P2 + Scalar((2**256 // Spec.Q) * Spec.Q),
             Spec.INF_G2,
             id="bls_g2mul_(Nq*P2)",
+        ),
+        pytest.param(
+            PointG2(
+                (1, 1),
+                (
+                    0x17FAA6201231304F270B858DAD9462089F2A5B83388E4B10773ABC1EEF6D193B9FCE4E8EA2D9D28E3C3A315AA7DE14CA,  # noqa: E501
+                    0xCC12449BE6AC4E7F367E7242250427C4FB4C39325D3164AD397C1837A90F0EA1A534757DF374DD6569345EB41ED76E,  # noqa: E501
+                ),
+            )
+            + Scalar(1),
+            PointG2(
+                (1, 1),
+                (
+                    0x17FAA6201231304F270B858DAD9462089F2A5B83388E4B10773ABC1EEF6D193B9FCE4E8EA2D9D28E3C3A315AA7DE14CA,  # noqa: E501
+                    0xCC12449BE6AC4E7F367E7242250427C4FB4C39325D3164AD397C1837A90F0EA1A534757DF374DD6569345EB41ED76E,  # noqa: E501
+                ),
+            ),
+            id="bls_g2mul_not_in_subgroup",
+        ),
+        pytest.param(
+            PointG2(
+                (1, 1),
+                (
+                    0x17FAA6201231304F270B858DAD9462089F2A5B83388E4B10773ABC1EEF6D193B9FCE4E8EA2D9D28E3C3A315AA7DE14CA,  # noqa: E501
+                    0xCC12449BE6AC4E7F367E7242250427C4FB4C39325D3164AD397C1837A90F0EA1A534757DF374DD6569345EB41ED76E,  # noqa: E501
+                ),
+            )
+            + Scalar(2),
+            PointG2(
+                (
+                    0x919F97860ECC3E933E3477FCAC0E2E4FCC35A6E886E935C97511685232456263DEF6665F143CCCCB44C733333331553,  # noqa: E501
+                    0x18B4376B50398178FA8D78ED2654B0FFD2A487BE4DBE6B69086E61B283F4E9D58389CCCB8EDC99995718A66666661555,  # noqa: E501
+                ),
+                (
+                    0x26898F699C4B07A405AB4183A10B47F923D1C0FDA1018682DD2CCC88968C1B90D44534D6B9270CF57F8DC6D4891678A,  # noqa: E501
+                    0x3270414330EAD5EC92219A03A24DFA059DBCBE610868BE1851CC13DAC447F60B40D41113FD007D3307B19ADD4B0F061,  # noqa: E501
+                ),
+            ),
+            id="bls_g2mul_not_in_subgroup_times_2",
+        ),
+        pytest.param(
+            PointG2(
+                (1, 1),
+                (
+                    0x17FAA6201231304F270B858DAD9462089F2A5B83388E4B10773ABC1EEF6D193B9FCE4E8EA2D9D28E3C3A315AA7DE14CA,  # noqa: E501
+                    0xCC12449BE6AC4E7F367E7242250427C4FB4C39325D3164AD397C1837A90F0EA1A534757DF374DD6569345EB41ED76E,  # noqa: E501
+                ),
+            )
+            + Scalar(Spec.Q),
+            PointG2(
+                (
+                    0x1C3ABBB8255E4DE6225C5A5710816BB5767D9B3188472867BB5D09144DFACC2E192C24E58C70BDBAC987BE8F61F15F8,  # noqa: E501
+                    0x589CCBFA3E0C6D625634EA3849EFD0FA7E0119F9212000B76B36F7FEEB588AD22082825973F083B86D13A518445B7D7,  # noqa: E501
+                ),
+                (
+                    0x129F217E324727C793050627706BAA9780D222AB9F341CB5E4A37F760F50BD735C5B88EF152C2DB753697DE223B2F6DB,  # noqa: E501
+                    0x15CE502692A7B6AEA9DEA60BB0A6EECE5215228A10229FAAB4AD082CA802E8BE46745ED2D7192C15C776718A631EA0F3,  # noqa: E501
+                ),
+            ),
+            id="bls_g2mul_not_in_subgroup_times_q",
         ),
     ],
 )
