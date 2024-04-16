@@ -6,7 +6,9 @@ abstract: Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for BLS12
 
 import pytest
 
-from ethereum_test_tools import Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Environment
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTestFiller, Transaction
 
 from .helpers import vectors_from_file
 from .spec import FORK, FP, PointG1, Spec, ref_spec_2537
@@ -115,6 +117,41 @@ def test_gas(
 ):
     """
     Test the BLS12_MAP_FP_TO_G1 precompile gas requirements.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "call_opcode",
+    [
+        Op.STATICCALL,
+        Op.DELEGATECALL,
+        Op.CALLCODE,
+    ],
+)
+@pytest.mark.parametrize(
+    "input,expected_output",
+    [
+        pytest.param(
+            FP(0),
+            G1_POINT_ZERO_FP,
+            id="fp_0",
+        ),
+    ],
+)
+def test_call_types(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_MAP_FP_TO_G1 precompile using different call types.
     """
     state_test(
         env=Environment(),

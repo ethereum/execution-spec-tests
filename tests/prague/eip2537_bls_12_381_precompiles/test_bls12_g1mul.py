@@ -5,7 +5,9 @@ abstract: Tests BLS12_G1MUL precompile of [EIP-2537: Precompile for BLS12-381 cu
 
 import pytest
 
-from ethereum_test_tools import Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Environment
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTestFiller, Transaction
 
 from .helpers import vectors_from_file
 from .spec import FORK, PointG1, Scalar, Spec, ref_spec_2537
@@ -185,6 +187,41 @@ def test_gas(
 ):
     """
     Test the BLS12_G1MUL precompile gas requirements.
+    """
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "call_opcode",
+    [
+        Op.STATICCALL,
+        Op.DELEGATECALL,
+        Op.CALLCODE,
+    ],
+)
+@pytest.mark.parametrize(
+    "input,expected_output",
+    [
+        pytest.param(
+            Spec.INF_G1 + Scalar(0),
+            Spec.INF_G1,
+            id="bls_g1mul_(0*inf=inf)",
+        ),
+    ],
+)
+def test_call_types(
+    state_test: StateTestFiller,
+    pre: dict,
+    post: dict,
+    tx: Transaction,
+):
+    """
+    Test the BLS12_G1MUL precompile using different call types.
     """
     state_test(
         env=Environment(),
