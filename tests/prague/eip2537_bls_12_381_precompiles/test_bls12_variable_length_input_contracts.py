@@ -427,6 +427,11 @@ def test_invalid_gas_pairing(
     "precompile_gas_list,precompile_data_length_list",
     [
         pytest.param(
+            [PAIRING_GAS(Spec.LEN_PER_PAIR)],
+            [0],
+            id="zero_length",
+        ),
+        pytest.param(
             [PAIRING_GAS(i * Spec.LEN_PER_PAIR) for i in range(1, PAIRINGS_TO_TEST + 1)],
             [(i * Spec.LEN_PER_PAIR) - 1 for i in range(1, PAIRINGS_TO_TEST + 1)],
             id="input_too_short",

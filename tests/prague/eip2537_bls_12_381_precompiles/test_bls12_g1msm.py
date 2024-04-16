@@ -33,6 +33,16 @@ pytestmark = [
             Spec.INF_G1,
             id="max_discount_plus_1",
         ),
+        pytest.param(
+            PointG1(0, 2) + Scalar(Spec.Q),
+            Spec.INF_G1,
+            id="not_in_subgroup_1",
+        ),
+        pytest.param(
+            PointG1(0, Spec.P - 2) + Scalar(Spec.Q),
+            Spec.INF_G1,
+            id="not_in_subgroup_2",
+        ),
     ],
 )
 def test_valid(
@@ -58,6 +68,10 @@ def test_valid(
         pytest.param(
             PointG1(0, 1) + Scalar(0),
             id="invalid_point_1",
+        ),
+        pytest.param(
+            b"\x80" + bytes(Spec.INF_G1)[1:] + Scalar(0),
+            id="invalid_encoding",
         ),
     ],
 )
