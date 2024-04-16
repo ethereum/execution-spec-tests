@@ -17,7 +17,7 @@ class ReferenceSpec:
     version: str
 
 
-ref_spec_2537 = ReferenceSpec("EIPS/eip-2537.md", "2bba479052f7901c1a981df09ba60cc409e0f3eb")
+ref_spec_2537 = ReferenceSpec("EIPS/eip-2537.md", "704f263cd820274f0e0aa3b2f1bb22425e59e721")
 
 FORK = Prague
 
