@@ -31,12 +31,12 @@ pytestmark = [
             id="inf_plus_inf",
         ),
         pytest.param(
-            PointG1(0, 2) + PointG1(0, 2),
-            PointG1(0, Spec.P - 2),
+            Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP,
+            Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
             id="not_in_subgroup_1",
         ),
         pytest.param(
-            PointG1(0, 2) + PointG1(0, Spec.P - 2),
+            Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
             Spec.INF_G1,
             id="not_in_subgroup_2",
         ),

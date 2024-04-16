@@ -93,6 +93,14 @@ def test_valid(
             (Spec.INF_G1 + Spec.INF_G2) * 1000 + PointG1(Spec.P, 0) + Spec.INF_G2,
             id="multi_inf_plus_g1_P_g2_inf_1",
         ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP + Spec.INF_G2,
+            id="P1_not_in_subgroup",
+        ),
+        pytest.param(
+            Spec.INF_G1 + Spec.P2_NOT_IN_SUBGROUP,
+            id="P2_not_in_subgroup",
+        ),
         # Input length tests can be found in ./test_bls12_variable_length_input_contracts.py
     ],
 )
