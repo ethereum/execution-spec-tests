@@ -80,12 +80,16 @@ def test_valid(
             id="g1_inf_g2_P_4",
         ),
         pytest.param(
-            (Spec.INF_G1 + Spec.INF_G2) * 1000 + PointG1(Spec.P, 0) + Spec.INF_G2,
-            id="multi_inf_plus_g1_P_g2_inf_1",
+            b"\x80" + bytes(Spec.INF_G1)[1:] + Spec.INF_G2,
+            id="invalid_encoding_g1",
         ),
         pytest.param(
-            b"",
-            id="zero_length_input",
+            Spec.INF_G1 + b"\x80" + bytes(Spec.INF_G2)[1:],
+            id="invalid_encoding_g2",
+        ),
+        pytest.param(
+            (Spec.INF_G1 + Spec.INF_G2) * 1000 + PointG1(Spec.P, 0) + Spec.INF_G2,
+            id="multi_inf_plus_g1_P_g2_inf_1",
         ),
     ],
 )

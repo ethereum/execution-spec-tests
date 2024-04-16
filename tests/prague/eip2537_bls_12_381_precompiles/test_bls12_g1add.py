@@ -28,6 +28,16 @@ pytestmark = [
             Spec.INF_G1,
             id="inf_plus_inf",
         ),
+        pytest.param(
+            PointG1(0, 2) + PointG1(0, 2),
+            PointG1(0, Spec.P - 2),
+            id="not_in_subgroup_1",
+        ),
+        pytest.param(
+            PointG1(0, 2) + PointG1(0, Spec.P - 2),
+            Spec.INF_G1,
+            id="not_in_subgroup_2",
+        ),
     ],
 )
 def test_valid(
@@ -105,6 +115,14 @@ def test_valid(
         pytest.param(
             Spec.INF_G1 + PointG1(0, Spec.P),
             id="b_y_equal_to_p",
+        ),
+        pytest.param(
+            b"\x80" + bytes(Spec.INF_G1)[1:] + Spec.INF_G1,
+            id="invalid_encoding_a",
+        ),
+        pytest.param(
+            Spec.INF_G1 + b"\x80" + bytes(Spec.INF_G1)[1:],
+            id="invalid_encoding_b",
         ),
         pytest.param(
             (Spec.INF_G1 + PointG1(Spec.P1.x, Spec.P1.x))[:-1],

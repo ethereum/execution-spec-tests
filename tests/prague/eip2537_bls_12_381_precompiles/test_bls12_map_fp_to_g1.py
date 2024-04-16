@@ -64,6 +64,7 @@ def test_valid(
 @pytest.mark.parametrize(
     "input",
     [
+        pytest.param(b"\x80" + bytes(FP(0))[1:], id="invalid_encoding"),
         pytest.param(bytes(FP(0))[1:], id="input_too_short"),
         pytest.param(b"\x00" + FP(0), id="input_too_long"),
         pytest.param(b"", id="zero_length_input"),

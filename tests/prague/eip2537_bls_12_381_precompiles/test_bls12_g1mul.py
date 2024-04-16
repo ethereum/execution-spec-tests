@@ -66,6 +66,26 @@ pytestmark = [
             Spec.INF_G1,
             id="bls_g1mul_(Nq*P1)",
         ),
+        pytest.param(
+            PointG1(0, 2) + Scalar(1),
+            PointG1(0, 2),
+            id="bls_g1mul_not_in_subgroup_1",
+        ),
+        pytest.param(
+            PointG1(0, Spec.P - 2) + Scalar(1),
+            PointG1(0, Spec.P - 2),
+            id="bls_g1mul_not_in_subgroup_2",
+        ),
+        pytest.param(
+            PointG1(0, Spec.P - 2) + Scalar(Spec.Q),
+            PointG1(0, 2),
+            id="bls_g1mul_not_in_subgroup_times_q",
+        ),
+        pytest.param(
+            PointG1(0, 2) + Scalar(Spec.Q),
+            PointG1(0, Spec.P - 2),
+            id="bls_g1mul_not_in_subgroup_times_q_2",
+        ),
     ],
 )
 def test_valid(
@@ -103,6 +123,10 @@ def test_valid(
         pytest.param(
             PointG1(Spec.P1.x, Spec.P1.x) + Scalar(0),
             id="invalid_point_4",
+        ),
+        pytest.param(
+            b"\x80" + bytes(Spec.INF_G1)[1:] + Scalar(0),
+            id="invalid_encoding",
         ),
         pytest.param(
             (Spec.INF_G1 + Scalar(0))[:-1],
