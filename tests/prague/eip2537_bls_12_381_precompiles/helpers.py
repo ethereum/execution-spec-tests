@@ -46,7 +46,7 @@ class TestVectorList(RootModel):
 TestVectorListAdapter = TypeAdapter(TestVectorList)
 
 
-def vectors_from_file(filename: str) -> List[pytest.param]:
+def vectors_from_file(filename: str) -> List:
     """
     Load test vectors from a file.
     """
