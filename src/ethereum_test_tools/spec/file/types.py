@@ -109,7 +109,7 @@ class BaseFixturesRootModel(RootModel):
             FixtureFormats.STATE_TEST.value: StateFixtures,
         }
 
-        if fixture_format is not None:
+        if fixture_format not in [None, "unset_test_format", FixtureFormats.UNSET_TEST_FORMAT]:
             if fixture_format not in model_mapping:
                 raise TypeError(f"Unsupported fixture format: {fixture_format}")
             model_class = model_mapping[fixture_format]
@@ -117,6 +117,21 @@ class BaseFixturesRootModel(RootModel):
             model_class = cls
 
         return model_class(root=json_data)
+
+    @classmethod
+    def get_fork(cls, fixture: BlockchainFixture | StateFixture) -> str:
+        """
+        Get the fork from the fixture.
+
+        Currently only supports EEST state fixtures, which only contain a single fork.
+        """
+        if fixture.format in [FixtureFormats.BLOCKCHAIN_TEST, FixtureFormats.BLOCKCHAIN_TEST_HIVE]:
+            return fixture.fork  # type: ignore
+        elif fixture.format == FixtureFormats.STATE_TEST:
+            forks = list(fixture.post.keys())  # type: ignore
+            assert len(forks) == 1, "Expected state test fixture with single fork"
+            return forks[0]
+        raise ValueError(f"Unknown fixture type: {fixture.format}")
 
 
 class Fixtures(BaseFixturesRootModel):
