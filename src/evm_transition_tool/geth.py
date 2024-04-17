@@ -10,8 +10,6 @@ from pathlib import Path
 from re import compile
 from typing import Optional
 
-import pytest
-
 from ethereum_test_forks import Fork
 
 from .transition_tool import FixtureFormats, TransitionTool, dump_files_to_directory
@@ -56,17 +54,6 @@ class GethTransitionTool(TransitionTool):
         """
         return fork.transition_tool_name() in self.help_string
 
-    def process_statetest_result(self, result: str):
-        """
-        Process the result of a `evm statetest` to parse as JSON and raise if any test failed.
-        """
-        result_json = json.loads(result)
-        if not isinstance(result_json, list):
-            raise Exception(f"Unexpected result from evm statetest: {result_json}")
-        for test_result in result_json:
-            if not test_result["pass"]:
-                pytest.fail(f"Test failed: {test_result['name']}. Error: {test_result['error']}")
-
     def get_blocktest_help(self) -> str:
         """
         Return the help string for the blocktest subcommand.
@@ -84,9 +71,8 @@ class GethTransitionTool(TransitionTool):
         self,
         fixture_format: FixtureFormats,
         fixture_path: Path,
-        use_evm_single_test: bool,
-        fixture_name: Optional[str],
-        debug_output_path: Optional[Path],
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
     ):
         """
         Executes `evm [state|block]test` to verify the fixture at `fixture_path`.
@@ -105,7 +91,7 @@ class GethTransitionTool(TransitionTool):
         else:
             raise Exception(f"Invalid test fixture format: {fixture_format}")
 
-        if use_evm_single_test:
+        if fixture_name and fixture_format == FixtureFormats.BLOCKCHAIN_TEST:
             assert isinstance(fixture_name, str), "fixture_name must be a string"
             command.append("--run")
             command.append(fixture_name)
@@ -116,9 +102,6 @@ class GethTransitionTool(TransitionTool):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-
-        if FixtureFormats.is_state_test(fixture_format):
-            self.process_statetest_result(result.stdout.decode())
 
         if debug_output_path:
             debug_fixture_path = debug_output_path / "fixtures.json"
@@ -146,3 +129,11 @@ class GethTransitionTool(TransitionTool):
             raise Exception(
                 f"EVM test failed.\n{' '.join(command)}\n\n Error:\n{result.stderr.decode()}"
             )
+
+        if FixtureFormats.is_state_test(fixture_format):
+            result_json = json.loads(result.stdout.decode())
+            if not isinstance(result_json, list):
+                raise Exception(f"Unexpected result from evm statetest: {result_json}")
+        else:
+            result_json = []  # there is no parseable format for blocktest output
+        return result_json

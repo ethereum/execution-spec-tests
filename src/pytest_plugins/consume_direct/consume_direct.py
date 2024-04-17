@@ -1,13 +1,17 @@
 """
 A pytest plugin to execute the blocktest on the specified fixture directory.
 """
+import json
+import tempfile
 from pathlib import Path
 from typing import Generator, Optional
 
 import pytest
 
+from ethereum_test_tools.common.json import to_json
+from ethereum_test_tools.spec.consume.types import TestCaseIndexFile, TestCaseStream
+from ethereum_test_tools.spec.file.types import Fixtures
 from evm_transition_tool import TransitionTool
-from pytest_plugins.consume.consume import TestCase
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -55,7 +59,7 @@ def pytest_configure(config):  # noqa: D103
     except NotImplementedError as e:
         pytest.exit(str(e))
     config.evm = evm
-    config.evm_use_single_test = "--run" in blocktest_help_string
+    config.evm_run_single_test = "--run" in blocktest_help_string
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -68,16 +72,16 @@ def evm(request) -> Generator[TransitionTool, None, None]:
 
 
 @pytest.fixture(scope="session")
-def evm_use_single_test(request) -> bool:
+def evm_run_single_test(request) -> bool:
     """
     Helper specifying whether to execute one test per fixture in each json file.
     """
-    return request.config.evm_use_single_test
+    return request.config.evm_run_single_test
 
 
 @pytest.fixture(scope="function")
 def test_dump_dir(
-    request, json_fixture_path: Path, fixture_name: str, evm_use_single_test: bool
+    request, fixture_path: Path, fixture_name: str, evm_run_single_test: bool
 ) -> Optional[Path]:
     """
     The directory to write evm debug output to.
@@ -85,33 +89,38 @@ def test_dump_dir(
     base_dump_dir = request.config.getoption("base_dump_dir")
     if not base_dump_dir:
         return None
-    if evm_use_single_test:
+    if evm_run_single_test:
         if len(fixture_name) > 142:
             # ensure file name is not too long for eCryptFS
             fixture_name = fixture_name[:70] + "..." + fixture_name[-70:]
-        return base_dump_dir / json_fixture_path.stem / fixture_name
-    return base_dump_dir / json_fixture_path.stem
+        return base_dump_dir / fixture_path.stem / fixture_name.replace("/", "-")
+    return base_dump_dir / fixture_path.stem
+
+
+@pytest.fixture
+def fixture_path(test_case: TestCaseIndexFile | TestCaseStream, fixture_source):
+    """
+    The path to the current JSON fixture file.
+
+    If the fixture source is stdin, the fixture is written to a temporary json file.
+    """
+    if fixture_source == "stdin":
+        assert isinstance(test_case, TestCaseStream)
+        temp_dir = tempfile.TemporaryDirectory()
+        fixture_path = Path(temp_dir.name) / f"{test_case.id.replace('/','_')}.json"
+        fixtures = Fixtures({test_case.id: test_case.fixture})
+        with open(fixture_path, "w") as f:
+            json.dump(to_json(fixtures), f, indent=4)
+        yield fixture_path
+        temp_dir.cleanup()
+    else:
+        assert isinstance(test_case, TestCaseIndexFile)
+        yield fixture_source / test_case.json_path
 
 
 @pytest.fixture(scope="function")
-def json_fixture_path(test_case: TestCase):
-    """
-    Provide the path to the current JSON fixture file.
-    """
-    return test_case.json_file
-
-
-# @pytest.fixture(scope="function")
-# def fixture_format(fixture_data: TestCase):
-#     """
-#     The format of the current fixture.
-#     """
-#     return fixture_data.fixture_format
-
-
-@pytest.fixture(scope="function")
-def fixture_name(test_case: TestCase):
+def fixture_name(test_case: TestCaseIndexFile | TestCaseStream):
     """
     The name of the current fixture.
     """
-    return test_case.fixture_name
+    return test_case.id

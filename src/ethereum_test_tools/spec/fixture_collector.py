@@ -173,14 +173,11 @@ class FixtureCollector:
                 if FixtureFormats.is_verifiable(fixture.format):
                     info = self.json_path_to_test_item[fixture_path]
                     verify_fixtures_dump_dir = self._get_verify_fixtures_dump_dir(info)
-                    use_single_test = False
-                    fixture_name = ""
                     evm_fixture_verification.verify_fixture(
                         fixture.format,
                         fixture_path,
-                        use_single_test,
-                        fixture_name,
-                        verify_fixtures_dump_dir,
+                        fixture_name=None,
+                        debug_output_path=verify_fixtures_dump_dir,
                     )
 
     def _get_verify_fixtures_dump_dir(

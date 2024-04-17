@@ -114,9 +114,8 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
         self,
         fixture_format: FixtureFormats,
         fixture_path: Path,
-        use_evm_single_test: bool,
-        fixture_name: Optional[str],
-        debug_output_path: Optional[Path],
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
     ):
         """
         Executes `evm [state|block]test` to verify the fixture at `fixture_path`.
