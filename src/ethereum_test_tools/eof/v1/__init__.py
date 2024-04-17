@@ -202,9 +202,11 @@ class Container(CopyValidateModel, Bytecode):
     Body: type section first, all code sections, data section(s), last
                 container sections
     """
-    validity_error: EOFException | None = None
+    validity_error: EOFException | str | None = None
     """
     Optional error expected for the container.
+
+    TODO: Remove str
     """
     raw_bytes: Optional[Bytes] = None
     """
