@@ -82,17 +82,23 @@ class OpcodeMacroBase:
             return bytes(self) == bytes(other)
         raise NotImplementedError(f"Unsupported type for comparison f{type(other)}")
 
-    def __add__(self, other: SupportsBytes) -> bytes:
+    def __add__(self, other: Any) -> bytes:
         """
         Concatenate the opcode byte representation with another bytes object.
         """
         return bytes(self) + bytes(other)
 
-    def __radd__(self, other: SupportsBytes) -> bytes:
+    def __radd__(self, other: Any) -> bytes:
         """
         Concatenate another bytes object with the opcode byte representation.
         """
         return bytes(other) + bytes(self)
+
+    def __mul__(self, other: int) -> bytes:
+        """
+        Concatenate another bytes object with the opcode byte representation.
+        """
+        return bytes(self) * other
 
 
 class Opcode(OpcodeMacroBase):

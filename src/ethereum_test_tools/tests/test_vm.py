@@ -232,6 +232,32 @@ from ..vm.opcode import Opcodes as Op
                 ]
             ),
         ),
+        (
+            Op.RJUMPV[1, 2, 3](Op.ORIGIN) + Op.STOP,
+            bytes(
+                [
+                    Op.ORIGIN.int(),
+                    Op.RJUMPV.int(),
+                    0x03,  # Data portion, defined by the [1, 2, 3] argument
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x03,
+                    Op.STOP.int(),
+                ]
+            ),
+        ),
+        (
+            Op.STOP * 2,
+            bytes(
+                [
+                    Op.STOP.int(),
+                    Op.STOP.int(),
+                ]
+            ),
+        )
     ],
 )
 def test_opcodes(opcodes: bytes, expected: bytes):
