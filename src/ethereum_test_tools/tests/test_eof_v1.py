@@ -912,12 +912,12 @@ def test_eof_v1_assemble(container: Container, hex: str):
     """
     expected_string = remove_comments_from_string(hex)
     expected_bytes = bytes.fromhex(expected_string.replace(" ", "").replace("\n", ""))
-    condition = bytes(container) == expected_bytes
-    if condition is False:
-        raise Exception(
-            f"Container: {bytes(container).hex()} \n   Expected encoding: {expected_bytes.hex()}"
-        )
-    assert condition
+    assert (
+        bytes(container) == expected_bytes
+    ), f"""
+    Container: {bytes(container).hex()}
+    Expected : {expected_bytes.hex()}
+    """
 
 
 def remove_comments_from_string(input_string):
