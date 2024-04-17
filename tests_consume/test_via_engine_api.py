@@ -5,6 +5,9 @@ the appropriate VALID/INVALID responses.
 
 Implemented using the pytest framework as a pytest plugin.
 """
+# TODO: This module hasn't been ported to pydantic cf
+#   https://github.com/danceratopz/execution-spec-tests/pull/31
+# mypy: ignore-errors
 import io
 import json
 from typing import Dict, List, Mapping

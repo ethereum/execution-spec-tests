@@ -12,7 +12,7 @@ The test verifies:
 import io
 import json
 from pathlib import Path
-from typing import List, Literal, Mapping, Union
+from typing import Any, Generator, List, Literal, Mapping, Union, cast
 
 import pytest
 import requests
@@ -109,18 +109,24 @@ def to_geth_genesis(fixture: Fixture) -> dict:
 
 @pytest.fixture
 def buffered_genesis(to_geth_genesis: dict) -> io.BufferedReader:
+    """
+    Create a buffered reader for the genesis block header of the current test
+    fixture.
+    """
     genesis_json = json.dumps(to_geth_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
-    return io.BufferedReader(io.BytesIO(genesis_bytes))
+    return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
 
 
 @pytest.fixture
-def buffered_blocks_rlp(blocks_rlp: List[str], start=1) -> List[io.BufferedReader]:
+def buffered_blocks_rlp(blocks_rlp: List[bytes], start=1) -> List[io.BufferedReader]:
+    """
+    Convert the RLP-encoded blocks of the current test fixture to buffered readers.
+    """
     block_rlp_files = []
     for i, block_rlp in enumerate(blocks_rlp):
-        blocks_rlp_bytes = block_rlp  # bytes.fromhex(block_rlp[2:])
-        blocks_rlp_stream = io.BytesIO(blocks_rlp_bytes)
-        block_rlp_files.append(io.BufferedReader(blocks_rlp_stream))
+        block_rlp_stream = io.BytesIO(block_rlp)
+        block_rlp_files.append(io.BufferedReader(cast(io.RawIOBase, block_rlp_stream)))
     return block_rlp_files
 
 
@@ -148,6 +154,10 @@ def files(
 
 @pytest.fixture
 def environment(fixture: Fixture) -> dict:
+    """
+    Define the environment that hive will start the client with using the fork
+    rules specific for the simulator.
+    """
     env = {
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_CHAIN_ID": "1",
@@ -161,7 +171,12 @@ def environment(fixture: Fixture) -> dict:
 
 
 @pytest.fixture(scope="function")
-def client(hive_test: HiveTest, files: dict, environment: dict, client_type: ClientType) -> Client:
+def client(
+    hive_test: HiveTest, files: dict, environment: dict, client_type: ClientType
+) -> Generator[Client, None, None]:
+    """
+    Initialize the client with the appropriate files and environment variables.
+    """
     client = hive_test.start_client(client_type=client_type, environment=environment, files=files)
     assert client is not None
     yield client
@@ -179,12 +194,12 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
     with exponential backoff.
     """
     if isinstance(block_number, int):
-        block_number = hex(block_number)
+        block_number_string = hex(block_number)
     url = f"http://{client.ip}:8545"
     payload = {
         "jsonrpc": "2.0",
         "method": "eth_getBlockByNumber",
-        "params": [block_number, False],
+        "params": [block_number_string, False],
         "id": 1,
     }
     headers = {"Content-Type": "application/json"}
@@ -194,9 +209,9 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
     result = response.json().get("result")
 
     if result is None or "error" in result:
-        error_info = "result is None; and therefore contains no error info"
+        error_info: Any = "result is None; and therefore contains no error info"
         error_code = None
-        if result is not None:
+        if result is not None and "error" in result:
             error_info = result["error"]
             error_code = error_info["code"]
         raise Exception(
@@ -223,7 +238,7 @@ def test_via_rlp(
     2. The client's last block's hash and stateRoot` match those of the fixture.
     """
     genesis_block = get_block(client, 0)
-    assert genesis_block["hash"] == fixture.genesis.block_hash, "genesis hash mismatch"
+    assert genesis_block["hash"] == str(fixture.genesis.block_hash), "genesis hash mismatch"
 
     block = get_block(client, "latest")
     assert block["number"] == hex(len(fixture.blocks)), "unexpected latest block number"
