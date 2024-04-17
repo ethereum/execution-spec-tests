@@ -197,6 +197,8 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
     """
     if isinstance(block_number, int):
         block_number_string = hex(block_number)
+    else:
+        block_number_string = block_number
     url = f"http://{client.ip}:8545"
     payload = {
         "jsonrpc": "2.0",
@@ -213,7 +215,7 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
     if result is None or "error" in result:
         error_info: Any = "result is None; and therefore contains no error info"
         error_code = None
-        if result is not None and "error" in result:
+        if result is not None:
             error_info = result["error"]
             error_code = error_info["code"]
         raise Exception(
