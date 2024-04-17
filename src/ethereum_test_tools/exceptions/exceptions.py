@@ -192,6 +192,58 @@ class EOFException(ExceptionBase):
     """
     EOF container has an unknown version
     """
+    INCOMPLETE_MAGIC = auto()
+    """
+    EOF container has not enough bytes to read magic
+    """
+    INVALID_MAGIC = auto()
+    """
+    EOF container has not allowed magic version byte
+    """
+    INVALID_VERSION = auto()
+    """
+    EOF container version bytes mismatch
+    """
+    MISSING_TYPE_HEADER = auto()
+    """
+    EOF container missing types section
+    """
+    INVALID_TYPE_SIZE = auto()
+    """
+    EOF container types section has wrong size
+    """
+    INVALID_TYPE_BODY = auto()
+    """
+    EOF container types body section bytes are wrong
+    """
+    MISSING_CODE_HEADER = auto()
+    """
+    EOF container missing code section
+    """
+    INVALID_CODE_SECTION = auto()
+    """
+    EOF container code section bytes are incorrect
+    """
+    INCOMPLETE_CODE_HEADER = auto()
+    """
+    EOF container code header missing bytes
+    """
+    INCOMPLETE_DATA_HEADER = auto()
+    """
+    EOF container data header missing bytes
+    """
+    INCOMPLETE_CONTAINER = auto()
+    """
+    EOF container bytes are incomplete
+    """
+    TRAILING_BYTES = auto()
+    """
+    EOF container has bytes beyond data section
+    """
+    MISSING_TERMINATOR = auto()
+    """
+    EOF container missing terminator bytes between header and body
+    """
 
 
 """
