@@ -3,13 +3,13 @@ EVM Object Format Version 1 Library to generate bytecode for testing purposes
 """
 
 from abc import abstractmethod
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from enum import Enum, IntEnum
 from functools import cached_property
-from typing import Dict, List, Optional, Sized, SupportsBytes, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from ...common import Bytes
-from ...common.conversions import BytesConvertible
+from ...common.types import CopyValidateModel
 from ...exceptions import EOFException
 from ...vm.opcode import Opcodes as Op
 from ..constants import EOF_HEADER_TERMINATOR, EOF_MAGIC
@@ -43,13 +43,12 @@ class AutoSection(Enum):
 SUPPORT_MULTI_SECTION_HEADER = [SectionKind.CODE, SectionKind.CONTAINER]
 
 
-@dataclass(kw_only=True)
-class Section:
+class Section(CopyValidateModel):
     """
     Class that represents a section in an EOF V1 container.
     """
 
-    data: SupportsBytes | str | bytes = bytes()
+    data: Bytes = Bytes(b"")
     """
     Data to be contained by this section.
     Can be SupportsBytes, another EOF container or any other abstract data.
@@ -114,23 +113,23 @@ class Section:
         Creates a copy of the section with `max_stack_height` set to the
         specified value.
         """
-        return replace(self, max_stack_height=max_stack_height)
+        return self.copy(max_stack_height=max_stack_height)
 
     def with_auto_max_stack_height(self) -> "Section":
         """
         Creates a copy of the section with `auto_max_stack_height` set to True.
         """
-        return replace(self, auto_max_stack_height=True)
+        return self.copy(auto_max_stack_height=True)
 
     def with_auto_code_inputs_outputs(self) -> "Section":
         """
         Creates a copy of the section with `auto_code_inputs_outputs` set to
         True.
         """
-        return replace(self, auto_code_inputs_outputs=True)
+        return self.copy(auto_code_inputs_outputs=True)
 
 
-class Bytecode(SupportsBytes, Sized):
+class Bytecode:
     """Abstract class used to define a class that generates bytecode."""
 
     @property
@@ -154,8 +153,7 @@ class Bytecode(SupportsBytes, Sized):
         return len(self.bytecode)
 
 
-@dataclass(kw_only=True, frozen=True)
-class Container(Bytecode):
+class Container(CopyValidateModel, Bytecode):
     """
     Class that represents an EOF V1 container.
     """
@@ -178,11 +176,11 @@ class Container(Bytecode):
     Custom version value used to override the mandatory EOF V1 value
     for testing purposes.
     """
-    custom_terminator: Optional[bytes] = None
+    custom_terminator: Optional[Bytes] = None
     """
     Custom terminator bytes used to terminate the header.
     """
-    extra: Optional[bytes] = None
+    extra: Optional[Bytes] = None
     """
     Extra data to be appended at the end of the container, which will
     not be considered part of any of the sections, for testing purposes.
@@ -208,7 +206,7 @@ class Container(Bytecode):
     """
     Optional error expected for the container.
     """
-    raw_bytes: Optional[BytesConvertible] = None
+    raw_bytes: Optional[Bytes] = None
     """
     Optional raw bytes that represent the container.
     Used to have a cohesive type among all test cases, even those that do not
@@ -222,7 +220,7 @@ class Container(Bytecode):
         """
         if self.raw_bytes is not None:
             assert self.sections is None or len(self.sections) == 0
-            return Bytes(self.raw_bytes)
+            return self.raw_bytes
 
         assert self.sections is not None
 
@@ -258,7 +256,7 @@ class Container(Bytecode):
                             auto_code_inputs,
                             auto_code_outputs,
                             auto_max_height,
-                        ) = compute_code_stack_values(Bytes(s.data))
+                        ) = compute_code_stack_values(s.data)
                         if s.auto_max_stack_height:
                             max_stack_height = auto_max_height
                         if s.auto_code_inputs_outputs:
@@ -351,7 +349,7 @@ class Container(Bytecode):
             if s.kind == SectionKind.TYPE and self.auto_type_section == AutoSection.ONLY_HEADER:
                 continue
             if s.data:
-                c += Bytes(s.data)
+                c += s.data
 
         # Add extra (garbage)
         if self.extra is not None:
@@ -434,7 +432,7 @@ def create_sections_header(kind: SectionKind | int, sections: List[Section]) -> 
                 if isinstance(cs.data, Container):
                     h += len(cs.data).to_bytes(2, "big")
                 else:
-                    h += len(Bytes(cs.data)).to_bytes(2, "big")
+                    h += len(cs.data).to_bytes(2, "big")
     else:
         for s in sections:
             h += s.header
