@@ -136,6 +136,7 @@ globals
 go-ethereum's
 Golang
 gwei
+hacky
 hardfork
 hash32
 Hashable
