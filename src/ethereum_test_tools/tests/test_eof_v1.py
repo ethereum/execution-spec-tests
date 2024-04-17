@@ -921,6 +921,9 @@ def test_eof_v1_assemble(container: Container, hex: str):
 
 
 def remove_comments_from_string(input_string):
+    """
+    Remove comments from a string and leave only valid hex characters.
+    """
     # Split the string into individual lines
     lines = input_string.split("\n")
 
