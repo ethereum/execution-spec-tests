@@ -33,7 +33,7 @@ contract_call_within_deep_nested_callf = Container(
         # to their call stack height key
         Section(
             kind=Kind.CODE,
-            data=(Op.CALLF(i + 1) + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
+            data=(Op.CALLF[i + 1] + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
             code_inputs=0,
             code_outputs=0,
             max_stack_height=2,
@@ -71,7 +71,7 @@ recursive_contract_call_within_deep_nested_callf = Container(
         # to their call stack height key
         Section(
             kind=Kind.CODE,
-            data=(Op.CALLF(i + 1) + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
+            data=(Op.CALLF[i + 1] + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
             code_inputs=0,
             code_outputs=0,
             max_stack_height=2,
@@ -120,7 +120,7 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.CALLF(1) + Op.STOP),
+                data=(Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -139,7 +139,7 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.PUSH1(1) + Op.CALLF(1) + Op.STOP),
+                data=(Op.PUSH1(1) + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
@@ -150,12 +150,12 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
                     Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT)
                     + Op.SUB
-                    + Op.RJUMPI(len(Op.POP) + len(Op.RETF))
+                    + Op.RJUMPI[len(Op.POP) + len(Op.RETF)]
                     + Op.POP
                     + Op.RETF
                     + Op.PUSH1(1)
                     + Op.ADD
-                    + Op.CALLF(1)
+                    + Op.CALLF[1]
                     + Op.RETF
                 ),
                 code_inputs=1,
@@ -175,14 +175,14 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
                     + Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT)
                     + Op.SUB
-                    + Op.RJUMPI(len(Op.POP) + len(Op.RETF))
+                    + Op.RJUMPI[len(Op.POP) + len(Op.RETF)]
                     + Op.POP
                     + Op.RETF
                     + Op.PUSH1(1)
                     + Op.ADD
                     + Op.PUSH0
                     + Op.SSTORE
-                    + Op.CALLF(0)
+                    + Op.CALLF[0]
                     + Op.RETF
                 ),
                 code_inputs=0,
@@ -202,14 +202,14 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
                     + Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT)
                     + Op.SUB
-                    + Op.RJUMPI(len(Op.POP) + len(Op.RETF))
+                    + Op.RJUMPI[len(Op.POP) + len(Op.RETF)]
                     + Op.POP
                     + Op.RETF
                     + Op.PUSH1(1)
                     + Op.ADD
                     + Op.PUSH0
                     + Op.MSTORE
-                    + Op.CALLF(0)
+                    + Op.CALLF[0]
                     + Op.RETF
                 ),
                 code_inputs=0,
@@ -241,7 +241,7 @@ CALL_FAIL_CONTRACTS: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.PUSH1(1) + Op.CALLF(1) + Op.STOP),
+                data=(Op.PUSH1(1) + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
@@ -252,12 +252,12 @@ CALL_FAIL_CONTRACTS: List[Container] = [
                     Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT + 1)
                     + Op.SUB
-                    + Op.RJUMPI(len(Op.POP) + len(Op.RETF))
+                    + Op.RJUMPI[len(Op.POP) + len(Op.RETF)]
                     + Op.POP
                     + Op.RETF
                     + Op.PUSH1(1)
                     + Op.ADD
-                    + Op.CALLF(1)
+                    + Op.CALLF[1]
                     + Op.RETF
                 ),
                 code_inputs=1,
@@ -277,14 +277,14 @@ CALL_FAIL_CONTRACTS: List[Container] = [
                     + Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT + 1)
                     + Op.SUB
-                    + Op.RJUMPI(len(Op.POP) + len(Op.RETF))
+                    + Op.RJUMPI[len(Op.POP) + len(Op.RETF)]
                     + Op.POP
                     + Op.RETF
                     + Op.PUSH1(1)
                     + Op.ADD
                     + Op.PUSH0
                     + Op.SSTORE
-                    + Op.CALLF(0)
+                    + Op.CALLF[0]
                     + Op.RETF
                 ),
                 code_inputs=0,
@@ -304,14 +304,14 @@ CALL_FAIL_CONTRACTS: List[Container] = [
                     + Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT + 1)
                     + Op.SUB
-                    + Op.RJUMPI(len(Op.POP) + len(Op.RETF))
+                    + Op.RJUMPI[len(Op.POP) + len(Op.RETF)]
                     + Op.POP
                     + Op.RETF
                     + Op.PUSH1(1)
                     + Op.ADD
                     + Op.PUSH0
                     + Op.MSTORE
-                    + Op.CALLF(0)
+                    + Op.CALLF[0]
                     + Op.RETF
                 ),
                 code_inputs=0,

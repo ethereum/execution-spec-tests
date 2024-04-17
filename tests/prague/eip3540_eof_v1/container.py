@@ -467,7 +467,7 @@ VALID += [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=((Op.PUSH0 * MAX_CODE_INPUTS) + Op.CALLF(1) + Op.STOP),
+                data=((Op.PUSH0 * MAX_CODE_INPUTS) + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=MAX_CODE_INPUTS,
@@ -487,7 +487,7 @@ VALID += [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.CALLF(1) + Op.STOP),
+                data=(Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=MAX_CODE_OUTPUTS,
@@ -588,7 +588,7 @@ INVALID += [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=((Op.PUSH0 * (MAX_CODE_INPUTS + 1)) + Op.CALLF(1) + Op.STOP),
+                data=((Op.PUSH0 * (MAX_CODE_INPUTS + 1)) + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=(MAX_CODE_INPUTS + 1),
@@ -608,7 +608,7 @@ INVALID += [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.CALLF(1) + Op.STOP),
+                data=(Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=(MAX_CODE_OUTPUTS + 1),
