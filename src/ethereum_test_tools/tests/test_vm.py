@@ -257,7 +257,7 @@ from ..vm.opcode import Opcodes as Op
                     Op.STOP.int(),
                 ]
             ),
-        )
+        ),
     ],
 )
 def test_opcodes(opcodes: bytes, expected: bytes):

@@ -100,6 +100,12 @@ class OpcodeMacroBase:
         """
         return bytes(self) * other
 
+    def hex(self) -> str:
+        """
+        Return the hexadecimal representation of the opcode byte representation.
+        """
+        return bytes(self).hex()
+
 
 class Opcode(OpcodeMacroBase):
     """
