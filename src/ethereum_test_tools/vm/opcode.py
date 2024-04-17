@@ -8,7 +8,7 @@ to @ThreeHrSleep for integrating it in the docstrings.
 """
 
 from enum import Enum
-from typing import Any, Callable, List, Optional, Union
+from typing import Any, Callable, Iterable, List, Optional
 
 from ..common.base_types import FixedSizeBytes
 
@@ -48,7 +48,7 @@ class OpcodeMacroBase(bytes):
         """
         return super().__new__(cls, *args)
 
-    def __call__(self, *_: Union[int, bytes, str, "Opcode", FixedSizeBytes]) -> bytes:
+    def __call__(self, *_: "int | bytes | str | Opcode | FixedSizeBytes | Iterable[int]") -> bytes:
         """
         Make OpcodeMacroBase callable, so that arguments can directly be
         provided to an Opcode in order to more conveniently generate
@@ -96,17 +96,17 @@ class Opcode(OpcodeMacroBase):
     pushed_stack_items: int
     min_stack_height: int
     data_portion_length: int
-    data_portion_parser: Optional[Callable[[Any], bytes]]
+    data_portion_formatter: Optional[Callable[[Any], bytes]]
 
     def __new__(
         cls,
-        opcode_or_byte: Union[int, "Opcode"],
+        opcode_or_byte: "int | Opcode",
         *,
         popped_stack_items: int = 0,
         pushed_stack_items: int = 0,
         min_stack_height: int = 0,
         data_portion_length: int = 0,
-        data_portion_parser=None,
+        data_portion_formatter=None,
     ):
         """
         Creates a new opcode instance.
@@ -121,12 +121,14 @@ class Opcode(OpcodeMacroBase):
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
             obj.data_portion_length = data_portion_length
-            obj.data_portion_parser = data_portion_parser
+            obj.data_portion_formatter = data_portion_formatter
             return obj
         raise TypeError("Opcode constructor '__new__' didn't return an instance!")
 
     def __call__(
-        self, *args_t: Union[int, bytes, str, "Opcode", FixedSizeBytes], unchecked: bool = False
+        self,
+        *args_t: "int | bytes | str | Opcode | FixedSizeBytes | Iterable[int]",
+        unchecked: bool = False,
     ) -> bytes:
         """
         Makes all opcode instances callable to return formatted bytecode, which constitutes a data
@@ -157,15 +159,19 @@ class Opcode(OpcodeMacroBase):
         Hex-strings will automatically be converted to bytes.
 
         """
-        args: List[Union[int, bytes, str, "Opcode", FixedSizeBytes]] = list(args_t)
+        args: List["int | bytes | str | Opcode | FixedSizeBytes | Iterable[int]"] = list(args_t)
         pre_opcode_bytecode = bytes()
         data_portion = bytes()
 
-        if self.data_portion_length > 0:
+        if (self.data_portion_formatter is not None or self.data_portion_length > 0) and len(
+            args
+        ) == 0:
+            raise ValueError("Opcode with data portion requires at least one argument")
+        if self.data_portion_formatter is not None:
+            data_portion = self.data_portion_formatter(args.pop(0))
+        elif self.data_portion_length > 0:
             # For opcodes with a data portion, the first argument is the data and the rest of the
             # arguments form the stack.
-            if len(args) == 0:
-                raise ValueError("Opcode with data portion requires at least one argument")
             data = args.pop(0)
             if isinstance(data, bytes) or isinstance(data, str):
                 if isinstance(data, str):
@@ -248,7 +254,7 @@ class Macro(OpcodeMacroBase):
 
     def __new__(
         cls,
-        macro_or_bytes: Union[bytes, "Macro"],
+        macro_or_bytes: "bytes | Macro",
     ):
         """
         Creates a new opcode macro instance.
@@ -262,12 +268,15 @@ class Macro(OpcodeMacroBase):
             return instance
 
 
-OpcodeCallArg = Union[int, bytes, Opcode]
+OpcodeCallArg = int | bytes | str | Opcode | FixedSizeBytes | Iterable[int]
 
 
-def _rjumpv_encoder(*args: int) -> bytes:
+def _rjumpv_encoder(arg: Iterable[int] | bytes) -> bytes:
+    if isinstance(arg, bytes):
+        return arg
+    elements = list(arg)
     return b"".join(
-        [len(args).to_bytes(1, "big")] + [i.to_bytes(2, "big", signed=True) for i in args]
+        [len(elements).to_bytes(1, "big")] + [i.to_bytes(2, "big", signed=True) for i in elements]
     )
 
 
@@ -4579,7 +4588,7 @@ class Opcodes(Opcode, Enum):
     RJUMPV = Opcode(
         0xE2,
         popped_stack_items=1,
-        # variable_immediate_length=(1, 2),
+        data_portion_formatter=_rjumpv_encoder,
     )
     """
     !!! Note: This opcode is under development
@@ -4589,6 +4598,13 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
+    Relative jump with variable offset.
+
+    When calling this opcode to generate bytecode, the first argument is used to format the data
+    portion of the opcode, and it can be either of two types:
+    - A bytes type, and in this instance the bytes are used verbatim as the data portion.
+    - An integer iterable, list or tuple or any other iterable, where each element is a
+        jump offset.
 
     Inputs
     ----

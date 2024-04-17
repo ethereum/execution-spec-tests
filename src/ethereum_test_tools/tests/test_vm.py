@@ -9,7 +9,6 @@ import pytest
 from ..common.base_types import Address
 from ..vm.opcode import Macros as Om
 from ..vm.opcode import Opcodes as Op
-from ..vm.opcode import _rjumpv_encoder
 
 
 @pytest.mark.parametrize(
@@ -214,8 +213,8 @@ def test_macros():
         ),
     ],
 )
-def test_rjumpv_encoder(inputs: Tuple[int, ...], expected: bytes):
+def test_rjumpv(inputs: Tuple[int, ...], expected: bytes):
     """
     Test RJUMPV encoder.
     """
-    assert bytes(_rjumpv_encoder(*inputs)) == expected
+    assert bytes(Op.RJUMPV(inputs, 1)) == Op.PUSH1(1) + bytes(Op.RJUMPV) + expected
