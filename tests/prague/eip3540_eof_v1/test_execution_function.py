@@ -10,10 +10,9 @@ from ethereum_test_tools import (
     Account,
     Address,
     Environment,
-    StateTest,
+    StateTestFiller,
     TestAddress,
     Transaction,
-    Yul,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
@@ -339,22 +338,17 @@ List of all EOF V1 Containers used during execution tests.
 """
 
 
-# TODO: Refactor for pytest
-def todo_eof_functions_contract_call_succeed(_):
+@pytest.mark.parametrize("container", CALL_SUCCEED_CONTRACTS, ids=lambda x: x.name)
+def test_eof_functions_contract_call_succeed(
+    state_test: StateTestFiller,
+    container: Container,
+):
     """
     Test simple contracts that are simply expected to succeed on call.
     """
     env = Environment()
 
-    caller_contract = Yul(
-        """
-            {
-                let succ := call(gas(), 0x200, 0, 0, 0, 0, 0)
-                sstore(0, succ)
-                stop()
-            }
-            """
-    )
+    caller_contract = Op.SSTORE(0, Op.CALL(Op.GAS, 0x200, 0, 0, 0, 0, 0)) + Op.STOP()
 
     pre = {
         TestAddress: Account(
@@ -363,45 +357,44 @@ def todo_eof_functions_contract_call_succeed(_):
         ),
         Address(0x100): Account(
             code=caller_contract,
+            nonce=1,
+        ),
+        Address(0x200): Account(
+            code=container,
+            nonce=1,
         ),
     }
 
-    txs = [
-        Transaction(
-            nonce=1,
-            to=Address(0x100),
-            gas_limit=50000000,
-            gas_price=10,
-            protected=False,
-            data="",
-        )
-    ]
+    tx = Transaction(
+        nonce=1,
+        to=Address(0x100),
+        gas_limit=50000000,
+        gas_price=10,
+        protected=False,
+        data="",
+    )
 
     post = {Address(0x100): Account(storage={0: 1})}
 
-    for container in CALL_SUCCEED_CONTRACTS:
-        pre[Address(0x200)] = Account(
-            code=container,
-        )
-        yield StateTest(env=env, pre=pre, post=post, txs=txs, name=container.name)
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
 
 
-# TODO: Refactor for pytest
-def todo_eof_functions_contract_call_fail(_):
+@pytest.mark.parametrize("container", CALL_FAIL_CONTRACTS, ids=lambda x: x.name)
+def test_eof_functions_contract_call_fail(
+    state_test: StateTestFiller,
+    container: Container,
+):
     """
     Test simple contracts that are simply expected to fail on call.
     """
     env = Environment()
 
-    caller_contract = Yul(
-        """
-            {
-                let succ := call(gas(), 0x200, 0, 0, 0, 0, 0)
-                sstore(succ, 1)
-                stop()
-            }
-            """
-    )
+    caller_contract = Op.SSTORE(Op.CALL(Op.GAS, 0x200, 0, 0, 0, 0, 0), 1) + Op.STOP()
 
     pre = {
         TestAddress: Account(
@@ -410,31 +403,38 @@ def todo_eof_functions_contract_call_fail(_):
         ),
         Address(0x100): Account(
             code=caller_contract,
+            nonce=1,
+        ),
+        Address(0x200): Account(
+            code=container,
+            nonce=1,
         ),
     }
 
-    txs = [
-        Transaction(
-            nonce=1,
-            to=Address(0x100),
-            gas_limit=50000000,
-            gas_price=10,
-            protected=False,
-            data="",
-        )
-    ]
+    tx = Transaction(
+        nonce=1,
+        to=Address(0x100),
+        gas_limit=50000000,
+        gas_price=10,
+        protected=False,
+        data="",
+    )
 
     post = {Address(0x100): Account(storage={0: 1})}
 
-    for container in CALL_FAIL_CONTRACTS:
-        pre[Address(0x200)] = Account(
-            code=container,
-        )
-        yield StateTest(env=env, pre=pre, post=post, txs=txs, name=container.name)
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
 
 
-# TODO: Refactor for pytest
-def todo_eof_functions_contract_call_within_deep_nested(_):
+@pytest.mark.parametrize("container", CALL_FAIL_CONTRACTS, ids=lambda x: x.name)
+def test_eof_functions_contract_call_within_deep_nested(
+    state_test: StateTestFiller,
+    container: Container,
+):
     """
     Test performing a call within a nested callf and verify correct behavior of
     return stack in calling contract.
@@ -450,19 +450,17 @@ def todo_eof_functions_contract_call_within_deep_nested(_):
             code=contract_call_within_deep_nested_callf,
         ),
         Address(0x200): Account(
-            code=Yul("{sstore(0, 1)}"),
+            code=Op.SSTORE(0, 1) + Op.STOP(),
         ),
     }
-    txs = [
-        Transaction(
-            nonce=1,
-            to=Address(0x100),
-            gas_limit=50000000,
-            gas_price=10,
-            protected=False,
-            data="",
-        )
-    ]
+    tx = Transaction(
+        nonce=1,
+        to=Address(0x100),
+        gas_limit=50000000,
+        gas_price=10,
+        protected=False,
+        data="",
+    )
     post = {
         Address(0x100): Account(storage={i: 1 for i in range(MAX_CODE_SECTIONS)}),
         Address(0x200): Account(
@@ -472,4 +470,9 @@ def todo_eof_functions_contract_call_within_deep_nested(_):
         ),
     }
 
-    yield StateTest(env=env, pre=pre, post=post, txs=txs)
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
