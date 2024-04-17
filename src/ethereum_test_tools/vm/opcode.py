@@ -8,7 +8,7 @@ to @ThreeHrSleep for integrating it in the docstrings.
 """
 
 from enum import Enum
-from typing import Any, Callable, Iterable, List, Optional
+from typing import Any, Callable, Iterable, List, Optional, SupportsBytes
 
 from ..common.base_types import FixedSizeBytes
 
@@ -30,7 +30,7 @@ def _get_int_size(n: int) -> int:
 _push_opcodes_byte_list = [bytes([0x5F + x]) for x in range(33)]
 
 
-class OpcodeMacroBase(bytes):
+class OpcodeMacroBase:
     """
     Base class for Macro and Opcode, inherits from bytes.
 
@@ -39,14 +39,19 @@ class OpcodeMacroBase(bytes):
     """
 
     _name_: str
+    _bytes_: bytes
 
-    def __new__(cls, *args):
+    def __bytes__(self) -> bytes:
         """
-        Since OpcodeMacroBase is never instantiated directly but through
-        subclassing, this method simply forwards the arguments to the
-        bytes constructor.
+        Return the opcode byte representation.
         """
-        return super().__new__(cls, *args)
+        return self._bytes_
+
+    def __len__(self) -> int:
+        """
+        Return the length of the opcode byte representation.
+        """
+        return len(self._bytes_)
 
     def __call__(self, *_: "int | bytes | str | Opcode | FixedSizeBytes | Iterable[int]") -> bytes:
         """
@@ -73,9 +78,21 @@ class OpcodeMacroBase(bytes):
         """
         if isinstance(other, OpcodeMacroBase):
             return self._name_ == other._name_
-        if isinstance(other, bytes):
-            return bytes(self) == other
+        if isinstance(other, SupportsBytes):
+            return bytes(self) == bytes(other)
         raise NotImplementedError(f"Unsupported type for comparison f{type(other)}")
+
+    def __add__(self, other: SupportsBytes) -> bytes:
+        """
+        Concatenate the opcode byte representation with another bytes object.
+        """
+        return bytes(self) + bytes(other)
+
+    def __radd__(self, other: SupportsBytes) -> bytes:
+        """
+        Concatenate another bytes object with the opcode byte representation.
+        """
+        return bytes(other) + bytes(self)
 
 
 class Opcode(OpcodeMacroBase):
@@ -100,7 +117,7 @@ class Opcode(OpcodeMacroBase):
 
     def __new__(
         cls,
-        opcode_or_byte: "int | Opcode",
+        opcode_or_byte: "int | bytes | Opcode",
         *,
         popped_stack_items: int = 0,
         pushed_stack_items: int = 0,
@@ -115,8 +132,11 @@ class Opcode(OpcodeMacroBase):
             # Required because Enum class calls the base class with the instantiated object as
             # parameter.
             return opcode_or_byte
-        elif isinstance(opcode_or_byte, int):
-            obj = super().__new__(cls, [opcode_or_byte])
+        elif isinstance(opcode_or_byte, int) or isinstance(opcode_or_byte, bytes):
+            obj = super().__new__(cls)
+            obj._bytes_ = (
+                bytes([opcode_or_byte]) if isinstance(opcode_or_byte, int) else opcode_or_byte
+            )
             obj.popped_stack_items = popped_stack_items
             obj.pushed_stack_items = pushed_stack_items
             obj.min_stack_height = min_stack_height
@@ -124,6 +144,54 @@ class Opcode(OpcodeMacroBase):
             obj.data_portion_formatter = data_portion_formatter
             return obj
         raise TypeError("Opcode constructor '__new__' didn't return an instance!")
+
+    def __getitem__(
+        self, *args: "int | bytes | str | Opcode | FixedSizeBytes | Iterable[int]"
+    ) -> "Opcode":
+        """
+        Initialize a new instance of the opcode with the data portion set, and also clear
+        the data portion variables to avoid reusing them.
+        """
+        if self.data_portion_formatter is None and self.data_portion_length == 0:
+            raise ValueError("Opcode does not have a data portion or has already been set")
+        data_portion = bytes()
+
+        if self.data_portion_formatter is not None:
+            data_portion = self.data_portion_formatter(*args)
+        elif self.data_portion_length > 0:
+            # For opcodes with a data portion, the first argument is the data and the rest of the
+            # arguments form the stack.
+            assert len(args) == 1, "Opcode with data portion requires exactly one argument"
+            data = args[0]
+            if isinstance(data, bytes) or isinstance(data, SupportsBytes) or isinstance(data, str):
+                if isinstance(data, str):
+                    if data.startswith("0x"):
+                        data = data[2:]
+                    data = bytes.fromhex(data)
+                elif isinstance(data, SupportsBytes):
+                    data = bytes(data)
+                assert len(data) <= self.data_portion_length
+                data_portion = data.rjust(self.data_portion_length, b"\x00")
+            elif isinstance(data, int):
+                signed = data < 0
+                data_portion = data.to_bytes(
+                    length=self.data_portion_length,
+                    byteorder="big",
+                    signed=signed,
+                )
+            else:
+                raise TypeError("Opcode data portion must be either an int or bytes/hex string")
+
+        new_opcode = Opcode(
+            bytes(self) + data_portion,
+            popped_stack_items=self.popped_stack_items,
+            pushed_stack_items=self.pushed_stack_items,
+            min_stack_height=self.min_stack_height,
+            data_portion_length=0,
+            data_portion_formatter=None,
+        )
+        new_opcode._name_ = self._name_
+        return new_opcode
 
     def __call__(
         self,
@@ -168,7 +236,9 @@ class Opcode(OpcodeMacroBase):
         ) == 0:
             raise ValueError("Opcode with data portion requires at least one argument")
         if self.data_portion_formatter is not None:
-            data_portion = self.data_portion_formatter(args.pop(0))
+            data_portion_arg = args.pop(0)
+            assert isinstance(data_portion_arg, Iterable)
+            data_portion = self.data_portion_formatter(*data_portion_arg)
         elif self.data_portion_length > 0:
             # For opcodes with a data portion, the first argument is the data and the rest of the
             # arguments form the stack.
@@ -178,6 +248,8 @@ class Opcode(OpcodeMacroBase):
                     if data.startswith("0x"):
                         data = data[2:]
                     data = bytes.fromhex(data)
+                elif isinstance(data, SupportsBytes):
+                    data = bytes(data)
                 assert len(data) <= self.data_portion_length
                 data_portion = data.rjust(self.data_portion_length, b"\x00")
             elif isinstance(data, int):
@@ -222,17 +294,21 @@ class Opcode(OpcodeMacroBase):
                 assert data_size > 0
                 pre_opcode_bytecode += _push_opcodes_byte_list[data_size]
                 pre_opcode_bytecode += data
-            elif isinstance(data, bytes) or isinstance(data, str):
+            elif (
+                isinstance(data, bytes) or isinstance(data, SupportsBytes) or isinstance(data, str)
+            ):
                 if isinstance(data, str):
                     if data.startswith("0x"):
                         data = data[2:]
                     data = bytes.fromhex(data)
+                elif isinstance(data, SupportsBytes):
+                    data = bytes(data)
                 pre_opcode_bytecode += data
 
             else:
                 raise TypeError("Opcode stack data must be either an int or a bytes/hex string")
 
-        return pre_opcode_bytecode + self + data_portion
+        return pre_opcode_bytecode + self._bytes_ + data_portion
 
     def __len__(self) -> int:
         """
@@ -259,24 +335,50 @@ class Macro(OpcodeMacroBase):
         """
         Creates a new opcode macro instance.
         """
-        if type(macro_or_bytes) is Macro:
+        if isinstance(macro_or_bytes, Macro):
             # Required because Enum class calls the base class with the instantiated object as
             # parameter.
             return macro_or_bytes
         else:
-            instance = super().__new__(cls, macro_or_bytes)
+            instance = super().__new__(cls)
+            instance._bytes_ = macro_or_bytes
             return instance
 
 
 OpcodeCallArg = int | bytes | str | Opcode | FixedSizeBytes | Iterable[int]
 
 
-def _rjumpv_encoder(arg: Iterable[int] | bytes) -> bytes:
-    if isinstance(arg, bytes):
-        return arg
-    elements = list(arg)
+#  Constants
+
+RJUMPV_MAX_INDEX_BYTE_LENGTH = 1
+RJUMPV_BRANCH_OFFSET_BYTE_LENGTH = 2
+
+
+# TODO: Allowing Iterable here is a hacky way to support `range`, because Python 3.11+ will allow
+# `Op.RJUMPV[*range(5)]`. This is a temporary solution until Python 3.11+ is the minimum required
+# version.
+
+
+def _rjumpv_encoder(*args: int | bytes | Iterable[int]) -> bytes:
+    if len(args) == 1:
+        if isinstance(args[0], bytes) or isinstance(args[0], SupportsBytes):
+            return bytes(args[0])
+        elif isinstance(args[0], Iterable):
+            int_args = list(args[0])
+            return b"".join(
+                [len(int_args).to_bytes(RJUMPV_MAX_INDEX_BYTE_LENGTH, "big")]
+                + [
+                    i.to_bytes(RJUMPV_BRANCH_OFFSET_BYTE_LENGTH, "big", signed=True)
+                    for i in int_args
+                ]
+            )
     return b"".join(
-        [len(elements).to_bytes(1, "big")] + [i.to_bytes(2, "big", signed=True) for i in elements]
+        [len(args).to_bytes(RJUMPV_MAX_INDEX_BYTE_LENGTH, "big")]
+        + [
+            i.to_bytes(RJUMPV_BRANCH_OFFSET_BYTE_LENGTH, "big", signed=True)
+            for i in args
+            if isinstance(i, int)
+        ]
     )
 
 

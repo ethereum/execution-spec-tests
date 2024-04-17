@@ -2,8 +2,6 @@
 Test suite for `ethereum_test_tools.vm` module.
 """
 
-from typing import Iterable
-
 import pytest
 
 from ..common.base_types import Address
@@ -24,7 +22,25 @@ from ..vm.opcode import Opcodes as Op
             ),
         ),
         (
+            Op.PUSH1[0x01],
+            bytes(
+                [
+                    0x60,
+                    0x01,
+                ]
+            ),
+        ),
+        (
             Op.PUSH1("0x01"),
+            bytes(
+                [
+                    0x60,
+                    0x01,
+                ]
+            ),
+        ),
+        (
+            Op.PUSH1["0x01"],
             bytes(
                 [
                     0x60,
@@ -51,6 +67,15 @@ from ..vm.opcode import Opcodes as Op
             ),
         ),
         (
+            Op.PUSH1[-1],
+            bytes(
+                [
+                    0x60,
+                    0xFF,
+                ]
+            ),
+        ),
+        (
             Op.PUSH1(-2),
             bytes(
                 [
@@ -61,6 +86,10 @@ from ..vm.opcode import Opcodes as Op
         ),
         (
             Op.PUSH20(0x01),
+            bytes([0x73] + [0x00] * 19 + [0x01]),
+        ),
+        (
+            Op.PUSH20[0x01],
             bytes([0x73] + [0x00] * 19 + [0x01]),
         ),
         (
@@ -144,6 +173,65 @@ from ..vm.opcode import Opcodes as Op
             Om.OOG(),
             bytes([0x64, 0x17, 0x48, 0x76, 0xE8, 0x00, 0x60, 0x00, 0x20]),
         ),
+        (
+            Op.RJUMPV[1, 2, 3](Op.ORIGIN),
+            bytes(
+                [
+                    Op.ORIGIN.int(),
+                    Op.RJUMPV.int(),
+                    0x03,  # Data portion, defined by the [1, 2, 3] argument
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x03,
+                ]
+            ),
+        ),
+        (
+            Op.RJUMPV[b"\x00"],
+            bytes(
+                [
+                    Op.RJUMPV.int(),
+                    0x00,
+                ]
+            ),
+        ),
+        (
+            Op.RJUMPV[-1, -2, -3],
+            bytes(
+                [
+                    Op.RJUMPV.int(),
+                    0x03,
+                    0xFF,
+                    0xFF,
+                    0xFF,
+                    0xFE,
+                    0xFF,
+                    0xFD,
+                ]
+            ),
+        ),
+        (
+            Op.RJUMPV[range(5)],  # TODO: on Python 3.11+: Op.RJUMPV[*range(5)]
+            bytes(
+                [
+                    Op.RJUMPV.int(),
+                    0x05,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x03,
+                    0x00,
+                    0x04,
+                ]
+            ),
+        ),
     ],
 )
 def test_opcodes(opcodes: bytes, expected: bytes):
@@ -170,69 +258,3 @@ def test_macros():
     assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
     for opcode in Op:
         assert opcode != Om.OOG
-
-
-@pytest.mark.parametrize(
-    "inputs,expected",
-    [
-        (
-            (1, 2, 3),
-            bytes(
-                [
-                    0x03,
-                    0x00,
-                    0x01,
-                    0x00,
-                    0x02,
-                    0x00,
-                    0x03,
-                ]
-            ),
-        ),
-        (
-            (),
-            bytes(
-                [
-                    0x00,
-                ]
-            ),
-        ),
-        (
-            (-1, -2, -3),
-            bytes(
-                [
-                    0x03,
-                    0xFF,
-                    0xFF,
-                    0xFF,
-                    0xFE,
-                    0xFF,
-                    0xFD,
-                ]
-            ),
-        ),
-        (
-            range(5),
-            bytes(
-                [
-                    0x05,
-                    0x00,
-                    0x00,
-                    0x00,
-                    0x01,
-                    0x00,
-                    0x02,
-                    0x00,
-                    0x03,
-                    0x00,
-                    0x04,
-                ]
-            ),
-        ),
-    ],
-)
-def test_rjumpv(inputs: Iterable[int], expected: bytes):
-    """
-    Test RJUMPV encoder.
-    """
-    assert bytes(Op.RJUMPV(inputs, 1)) == Op.PUSH1(1) + bytes(Op.RJUMPV) + expected
