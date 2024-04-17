@@ -27,7 +27,7 @@ VALID: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.CALLF(1) + Op.POP + Op.POP + Op.STOP),
+                data=(Op.PUSH0 + Op.CALLF[1] + Op.POP + Op.POP + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=2,
@@ -46,7 +46,7 @@ VALID: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.CALLF(1) + Op.POP + Op.STOP),
+                data=(Op.CALLF[1] + Op.POP + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
@@ -54,8 +54,7 @@ VALID: List[Container] = [
             Section(
                 kind=Kind.CODE,
                 data=(
-                    Op.ORIGIN
-                    + Op.RJUMPI(len(Op.PUSH0) + len(Op.RETF))
+                    Op.RJUMPI[len(Op.PUSH0) + len(Op.RETF)](Op.ORIGIN)
                     + Op.PUSH0
                     + Op.RETF
                     + Op.STOP
@@ -72,7 +71,7 @@ VALID: List[Container] = [
             Section(
                 kind=Kind.CODE,
                 data=(
-                    bytes_concatenate([Op.CALLF(i) for i in range(1, MAX_CODE_SECTIONS)]) + Op.STOP
+                    bytes_concatenate([Op.CALLF[i] for i in range(1, MAX_CODE_SECTIONS)]) + Op.STOP
                 ),
                 code_inputs=0,
                 code_outputs=0,
@@ -97,7 +96,7 @@ VALID: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.CALLF(i + 1) + Op.RETF),
+                data=(Op.CALLF[i + 1] + Op.RETF),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -122,7 +121,7 @@ INVALID: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.CALLF(1) + Op.STOP),
+                data=(Op.PUSH0 + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=2,
@@ -182,7 +181,7 @@ INVALID: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.CALLF(2) + Op.STOP),
+                data=(Op.PUSH0 + Op.CALLF[2] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
@@ -202,7 +201,7 @@ INVALID: List[Container] = [
         sections=[
             Section(
                 kind=Kind.CODE,
-                data=(Op.CALLF(i + 1) + Op.RETF),
+                data=(Op.CALLF[i + 1] + Op.RETF),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
