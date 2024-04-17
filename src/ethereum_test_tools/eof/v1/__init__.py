@@ -1,9 +1,10 @@
 """
-EVM Object Format Version 1 Libary to generate bytecode for testing purposes
+EVM Object Format Version 1 Library to generate bytecode for testing purposes
 """
+
 from abc import abstractmethod
 from dataclasses import dataclass, replace
-from enum import IntEnum
+from enum import Enum, IntEnum
 from functools import cached_property
 from typing import Dict, List, Optional, Sized, SupportsBytes, Tuple
 
@@ -26,6 +27,17 @@ class SectionKind(IntEnum):
     CODE = 2
     CONTAINER = 3
     DATA = 4
+
+
+class AutoSection(Enum):
+    """
+    Enum class for auto section generation approach
+    """
+
+    AUTO = 1
+    ONLY_HEADER = 2
+    ONLY_BODY = 3
+    NONE = 4
 
 
 SUPPORT_MULTI_SECTION_HEADER = [SectionKind.CODE, SectionKind.CONTAINER]
@@ -175,7 +187,7 @@ class Container(Bytecode):
     Extra data to be appended at the end of the container, which will
     not be considered part of any of the sections, for testing purposes.
     """
-    auto_type_section: bool = True
+    auto_type_section: AutoSection = AutoSection.AUTO
     """
     Automatically generate a `TYPE` section based on the
     included `CODE` kind sections.
@@ -184,12 +196,12 @@ class Container(Bytecode):
     """
     Automatically generate a `DATA` section.
     """
-    auto_sort_sections: bool = True
+    auto_sort_sections: AutoSection = AutoSection.AUTO
     """
-    Automatically sort sections:
-    Headers: type secion first, all code sections, container sections, last
+    Automatically sort sections for the header and body:
+    Headers: type section first, all code sections, container sections, last
                 data section(s)
-    Body: type secion first, all code sections, data section(s), last
+    Body: type section first, all code sections, data section(s), last
                 container sections
     """
     validity_error: EOFException | None = None
@@ -227,7 +239,12 @@ class Container(Bytecode):
         # Copy the sections so we can add the `type` section
         sections = self.sections.copy()
 
-        if self.auto_type_section and count_sections(sections, SectionKind.TYPE) == 0:
+        auto_type_section = self.auto_type_section in (
+            AutoSection.AUTO,
+            AutoSection.ONLY_BODY,
+            AutoSection.ONLY_HEADER,
+        )
+        if auto_type_section and count_sections(sections, SectionKind.TYPE) == 0:
             type_section_data: bytes = bytes()
             for s in sections:
                 if s.kind == SectionKind.CODE or s.force_type_listing:
@@ -251,6 +268,7 @@ class Container(Bytecode):
                             )
 
                     type_section_data += make_type_def(code_inputs, code_outputs, max_stack_height)
+
             sections = [Section(kind=SectionKind.TYPE, data=type_section_data)] + sections
 
         if self.auto_data_section:
@@ -259,7 +277,8 @@ class Container(Bytecode):
             else:
                 sections.append(Section(kind=SectionKind.DATA, data="0x"))
 
-        if self.auto_sort_sections:
+        original_sections = sections
+        if self.auto_sort_sections in (AutoSection.AUTO, AutoSection.ONLY_HEADER):
             # Sort sections for the header
             sections = (
                 [s for s in sections if s.kind == SectionKind.TYPE]
@@ -282,6 +301,9 @@ class Container(Bytecode):
         # Add headers
         concurrent_kind_sections: List[Section] = []
         for s in sections:
+            if s.kind == SectionKind.TYPE and self.auto_type_section == AutoSection.ONLY_BODY:
+                continue
+
             if len(concurrent_kind_sections) == 0:
                 concurrent_kind_sections.append(s)
                 continue
@@ -303,7 +325,8 @@ class Container(Bytecode):
         else:
             c += EOF_HEADER_TERMINATOR
 
-        if self.auto_sort_sections:
+        sections = original_sections
+        if self.auto_sort_sections in (AutoSection.AUTO, AutoSection.ONLY_BODY):
             # Sort sections for the body
             sections = (
                 [s for s in sections if s.kind == SectionKind.TYPE]
@@ -325,6 +348,8 @@ class Container(Bytecode):
 
         # Add section bodies
         for s in sections:
+            if s.kind == SectionKind.TYPE and self.auto_type_section == AutoSection.ONLY_HEADER:
+                continue
             if s.data:
                 c += Bytes(s.data)
 
