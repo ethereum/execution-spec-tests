@@ -102,7 +102,7 @@ def post(  # noqa: D103
     create3_init_container: Initcode,
     container: Container,
     create3_opcode_contract_address: str,
-) -> Dict[str, Account]:
+) -> Dict[Address, Account]:
     create_opcode_created_contract_address = compute_create3_address(
         create3_opcode_contract_address,
         0,
