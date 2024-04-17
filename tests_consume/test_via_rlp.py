@@ -40,10 +40,12 @@ def fixture(fixture_source: JsonSource, test_case: TestCase) -> Fixture:
         assert isinstance(test_case, TestCaseStream), "Expected a stream test case"
         assert isinstance(test_case.fixture, Fixture), "Expected a blockchain test fixture"
         fixture = test_case.fixture
-    assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
-    # TODO: Optimize - json files will be loaded multiple times; cache fixtures as for statetest?
-    fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
-    fixture = fixtures[test_case.id]
+    else:
+        assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
+        # TODO: Optimize, json files will be loaded multiple times;
+        # cache fixtures as for statetest?
+        fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
+        fixture = fixtures[test_case.id]
     if any(
         block in fixture.blocks for block in fixture.blocks if not isinstance(block, FixtureBlock)
     ):
