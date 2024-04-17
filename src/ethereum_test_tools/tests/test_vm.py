@@ -2,7 +2,7 @@
 Test suite for `ethereum_test_tools.vm` module.
 """
 
-from typing import Tuple
+from typing import Iterable
 
 import pytest
 
@@ -211,9 +211,27 @@ def test_macros():
                 ]
             ),
         ),
+        (
+            range(5),
+            bytes(
+                [
+                    0x05,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x03,
+                    0x00,
+                    0x04,
+                ]
+            ),
+        ),
     ],
 )
-def test_rjumpv(inputs: Tuple[int, ...], expected: bytes):
+def test_rjumpv(inputs: Iterable[int], expected: bytes):
     """
     Test RJUMPV encoder.
     """
