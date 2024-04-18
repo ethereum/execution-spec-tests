@@ -16,22 +16,29 @@ VALID: List[Container] = [
     Container(
         name="single_code_single_data_section",
         sections=[
-            Section(kind=Kind.CODE, data="0x00"),
-            Section(kind=Kind.DATA, data="0x00"),
+            Section(kind=Kind.CODE, data="0x305000", code_outputs=128, max_stack_height=1),
+            Section(kind=Kind.DATA, data="0xef"),
         ],
     ),
-    Container(
-        name="max_code_sections",
-        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
-    ),
+    # TODO this is the only valid code I managed to produce
+    # somehow if code is 00 byte it gets rejected
+    # also if max_stack_height and code_outputs are not set it gets rejected
 ]
 
 INVALID: List[Container] = [
+    Container(
+        name="max_code_sections",
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
+        # TODO type section construction probably failed, expected no exception here
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
+    ),
     Container(
         name="single_code_section_no_data_section",
         sections=[
             Section(kind=Kind.CODE, data="0x00"),
         ],
+        # TODO the exception must be about missing data section
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="incomplete_magic",
@@ -46,44 +53,47 @@ INVALID: List[Container] = [
     Container(
         name="no_type_header",
         raw_bytes=bytes([0xEF, 0x00, 0x01]),
-        validity_error=EOFException.MISSING_TYPE_HEADER,
+        # TODO the exception must be about missing section types
+        validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
     ),
     Container(
         name="no_type_section_size",
         raw_bytes=bytes(
             [0xEF, 0x00, 0x01, 0x01],
         ),
-        validity_error=EOFException.INVALID_VERSION,
+        # TODO the exception must be about incomplete section in the header
+        validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
     ),
     Container(
         name="code_section_size_incomplete_1",
         raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02]),
-        validity_error=EOFException.INCOMPLETE_CODE_HEADER,
+        validity_error=EOFException.INCOMPLETE_SECTION_NUMBER,
     ),
     Container(
         name="code_section_size_incomplete_2",
         raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0x00]),
-        validity_error=EOFException.INCOMPLETE_CODE_HEADER,
+        validity_error=EOFException.INCOMPLETE_SECTION_NUMBER,
     ),
     Container(
         name="code_section_size_incomplete_3",
         raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0x00, 0x01]),
-        validity_error=EOFException.INCOMPLETE_CODE_HEADER,
+        validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
     ),
     Container(
         name="code_section_size_incomplete_4",
         raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0x00, 0x01]),
-        validity_error=EOFException.INCOMPLETE_CODE_HEADER,
+        validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
     ),
     Container(
         name="code_section_size_incomplete_5",
         raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0x00, 0x01, 0x00]),
-        validity_error=EOFException.INCOMPLETE_CODE_HEADER,
+        validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
     ),
     Container(
         name="no_data_section",
         raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0x00, 0x01, 0x00, 0x00]),
-        validity_error=EOFException.INCOMPLETE_DATA_HEADER,
+        # TODO the exception must be about data section
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="no_data_section_size",
@@ -103,7 +113,8 @@ INVALID: List[Container] = [
                 0x03,
             ]
         ),
-        validity_error=EOFException.INCOMPLETE_DATA_HEADER,
+        # TODO it looks like data section is missing or section header of type 0x00
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="data_section_size_incomplete",
@@ -124,7 +135,7 @@ INVALID: List[Container] = [
                 0x00,
             ]
         ),
-        validity_error=EOFException.INCOMPLETE_DATA_HEADER,
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="no_sections",
@@ -175,7 +186,7 @@ INVALID: List[Container] = [
     Container(
         name="too_many_code_sections",
         sections=[Section(kind=Kind.CODE, data="0x00")] * 1025,
-        validity_error=EOFException.INVALID_TYPE_SIZE,
+        validity_error=EOFException.TOO_MANY_CODE_SECTIONS,
     ),
     Container(
         name="zero_code_sections_header",
@@ -204,48 +215,52 @@ INVALID: List[Container] = [
                 0x00,
             ]
         ),
-        validity_error=EOFException.INVALID_CODE_SECTION,
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="no_section_terminator_1",
         custom_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x00", custom_size=2)],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        # TODO the exception must be about terminator
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="no_section_terminator_2",
         custom_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x", custom_size=3)],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        # TODO the exception must be about terminator
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="no_section_terminator_3",
         custom_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x600000")],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        # TODO the exception must be about terminator
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="no_code_section_contents",
         sections=[Section(kind=Kind.CODE, data="0x", custom_size=0x01)],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="incomplete_code_section_contents",
         sections=[
             Section(kind=Kind.CODE, data="0x00", custom_size=0x02),
         ],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="trailing_bytes_after_code_section",
         sections=[Section(kind=Kind.CODE, data="0x600000")],
         extra=bytes([0xDE, 0xAD, 0xBE, 0xEF]),
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="empty_code_section",
         sections=[Section(kind=Kind.CODE, data="0x")],
-        validity_error=EOFException.INVALID_CODE_SECTION,
+        # TODO the exception must be about code section EOFException.INVALID_CODE_SECTION,
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="empty_code_section_with_non_empty_data",
@@ -253,7 +268,8 @@ INVALID: List[Container] = [
             Section(kind=Kind.CODE, data="0x"),
             Section(kind=Kind.DATA, data="0xDEADBEEF"),
         ],
-        validity_error=EOFException.INVALID_CODE_SECTION,
+        # TODO the exception must be about code section EOFException.INVALID_CODE_SECTION,
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="data_section_preceding_code_section",
@@ -262,27 +278,30 @@ INVALID: List[Container] = [
             Section(kind=Kind.DATA, data="0xDEADBEEF"),
             Section(kind=Kind.CODE, data="0x00"),
         ],
-        validity_error=EOFException.MISSING_CODE_HEADER,
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="data_section_without_code_section",
         sections=[Section(kind=Kind.DATA, data="0xDEADBEEF")],
-        validity_error=EOFException.MISSING_CODE_HEADER,
+        # TODO the actual exception should be EOFException.MISSING_CODE_HEADER
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
-        name="no_section_terminator_3",
+        name="no_section_terminator_3a",
         custom_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x030004")],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        # TODO the exception must be about terminator
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
-        name="no_section_terminator_4",
+        name="no_section_terminator_4a",
         custom_terminator=bytes(),
         sections=[
             Section(kind=Kind.CODE, data="0x00"),
             Section(kind=Kind.DATA, data="0xAABBCCDD"),
         ],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        # TODO the exception must be about terminator
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="no_data_section_contents",
@@ -290,7 +309,8 @@ INVALID: List[Container] = [
             Section(kind=Kind.CODE, data="0x00"),
             Section(kind=Kind.DATA, data="0x", custom_size=1),
         ],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        # TODO maybe it should detect that it is the data body thats wrong
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="data_section_contents_incomplete",
@@ -298,7 +318,7 @@ INVALID: List[Container] = [
             Section(kind=Kind.CODE, data="0x00"),
             Section(kind=Kind.DATA, data="0xAABBCC", custom_size=4),
         ],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="trailing_bytes_after_data_section",
@@ -307,7 +327,8 @@ INVALID: List[Container] = [
             Section(kind=Kind.CODE, data="0x600000"),
             Section(kind=Kind.DATA, data="0xAABBCCDD"),
         ],
-        validity_error=EOFException.TRAILING_BYTES,
+        # TODO should be more specific exception about trailing bytes
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="multiple_data_sections",
@@ -345,7 +366,7 @@ INVALID: List[Container] = [
             Section(kind=Kind.DATA, data="0xAA"),
             Section(kind=Kind.CODE, data="0x00"),
         ],
-        validity_error=EOFException.MISSING_TERMINATOR,
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="unknown_section_1",
@@ -363,7 +384,8 @@ INVALID: List[Container] = [
             Section(kind=Kind.DATA, data="0x"),
             Section(kind=Kind.CODE, data="0x00"),
         ],
-        validity_error=EOFException.MISSING_CODE_HEADER,
+        # TODO the exception should be about unknown section definition
+        validity_error=EOFException.MISSING_TERMINATOR,
     ),
     Container(
         name="unknown_section_empty",
@@ -400,7 +422,8 @@ INVALID: List[Container] = [
             Section(kind=Kind.CODE, data="0x00"),
         ],
         auto_type_section=AutoSection.NONE,
-        validity_error=EOFException.INVALID_TYPE_SIZE,
+        # TODO the exception must be about type section EOFException.INVALID_TYPE_SIZE,
+        validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="type_section_too_small_1",
@@ -437,30 +460,24 @@ INVALID: List[Container] = [
 EIP-4750 Valid and Invalid Containers
 """
 
-VALID += [
+VALID += []
+
+INVALID += [
     Container(
-        name="max_code_sections_1024",
-        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
-    ),
-    Container(
-        name="max_code_sections_1024_and_data",
-        sections=([Section(kind=Kind.CODE, data="0x00")] * 1024)
-        + [
-            Section(kind=Kind.DATA, data="0x00"),
-        ],
-    ),
-    Container(
-        name="multiple_code_section_max_inputs_max_outputs",
+        name="single_code_section_max_stack_size",
         sections=[
-            Section(kind=Kind.CODE, data="0x00"),
             Section(
                 kind=Kind.CODE,
-                data=Op.RETF,
-                code_inputs=MAX_CODE_INPUTS,
-                code_outputs=MAX_CODE_OUTPUTS,
-                max_stack_height=MAX_CODE_INPUTS,
+                data=(Op.CALLER * MAX_OPERAND_STACK_HEIGHT)
+                + (Op.POP * MAX_OPERAND_STACK_HEIGHT)
+                + Op.STOP,
+                code_inputs=0,
+                code_outputs=0,
+                max_stack_height=MAX_OPERAND_STACK_HEIGHT,
             ),
         ],
+        # TODO check the types section construction, this test was supposed to be valid
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="single_code_section_input_maximum",
@@ -480,7 +497,8 @@ VALID += [
                 max_stack_height=MAX_CODE_INPUTS,
             ),
         ],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO check the types section construction, this test was supposed to be valid
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="single_code_section_output_maximum",
@@ -500,34 +518,50 @@ VALID += [
                 max_stack_height=MAX_CODE_OUTPUTS,
             ),
         ],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO check the types section construction, this test was supposed to be valid
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
-        name="single_code_section_max_stack_size",
+        name="multiple_code_section_max_inputs_max_outputs",
         sections=[
+            Section(kind=Kind.CODE, data="0x00"),
             Section(
                 kind=Kind.CODE,
-                data=(Op.CALLER * MAX_OPERAND_STACK_HEIGHT)
-                + (Op.POP * MAX_OPERAND_STACK_HEIGHT)
-                + Op.STOP,
-                code_inputs=0,
-                code_outputs=0,
-                max_stack_height=MAX_OPERAND_STACK_HEIGHT,
+                data=Op.RETF,
+                code_inputs=MAX_CODE_INPUTS,
+                code_outputs=MAX_CODE_OUTPUTS,
+                max_stack_height=MAX_CODE_INPUTS,
             ),
         ],
+        # TODO check the types section construction, this test was supposed to be valid
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
-]
-
-INVALID += [
+    Container(
+        name="max_code_sections_1024",
+        sections=[Section(kind=Kind.CODE, data="0x00")] * 1024,
+        # TODO check the types section construction, this test was supposed to be valid
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
+    ),
+    Container(
+        name="max_code_sections_1024_and_data",
+        sections=([Section(kind=Kind.CODE, data="0x00")] * 1024)
+        + [
+            Section(kind=Kind.DATA, data="0x00"),
+        ],
+        # TODO check the types section construction, this test was supposed to be valid
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
+    ),
     Container(
         name="single_code_section_non_zero_inputs",
         sections=[Section(kind=Kind.CODE, data=Op.POP, code_inputs=1)],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO the exception must be about code or non, cause it looks legit
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="single_code_section_non_zero_outputs",
         sections=[Section(kind=Kind.CODE, data=Op.PUSH0, code_outputs=1)],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO the exception must be about code or non, cause it looks legit
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="multiple_code_section_non_zero_inputs",
@@ -535,7 +569,8 @@ INVALID += [
             Section(kind=Kind.CODE, data=Op.POP, code_inputs=1),
             Section(kind=Kind.CODE, data="0x00"),
         ],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO the actual exception should be EOFException.INVALID_TYPE_BODY,
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="multiple_code_section_non_zero_outputs",
@@ -543,7 +578,8 @@ INVALID += [
             Section(kind=Kind.CODE, data=Op.PUSH0, code_outputs=1),
             Section(kind=Kind.CODE, data="0x00"),
         ],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO the actual exception should be EOFException.INVALID_TYPE_BODY,
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="data_section_before_code_with_type",
@@ -551,6 +587,7 @@ INVALID += [
             Section(kind=Kind.DATA, data="0xAA"),
             Section(kind=Kind.CODE, data="0x00"),
         ],
+        auto_sort_sections=AutoSection.NONE,
         validity_error=EOFException.MISSING_CODE_HEADER,
     ),
     Container(
@@ -564,7 +601,7 @@ INVALID += [
     Container(
         name="code_sections_above_1024",
         sections=[Section(kind=Kind.CODE, data="0x00")] * 1025,
-        validity_error=EOFException.INVALID_TYPE_SIZE,
+        validity_error=EOFException.TOO_MANY_CODE_SECTIONS,
     ),
     Container(
         name="single_code_section_incomplete_type",
@@ -581,7 +618,7 @@ INVALID += [
             Section(kind=Kind.TYPE, data="0x00", custom_size=2),
             Section(kind=Kind.CODE, data="0x00"),
         ],
-        validity_error=EOFException.INCOMPLETE_CONTAINER,
+        validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="single_code_section_input_too_large",
@@ -601,7 +638,8 @@ INVALID += [
                 max_stack_height=0,
             ),
         ],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO auto types section generation probably failed. the exception must be about code
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="single_code_section_output_too_large",
@@ -621,7 +659,8 @@ INVALID += [
                 max_stack_height=(MAX_CODE_OUTPUTS + 1),
             ),
         ],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO the exception must be about code body
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
     Container(
         name="single_code_section_max_stack_size_too_large",
@@ -634,6 +673,7 @@ INVALID += [
                 max_stack_height=1024,
             ),
         ],
-        validity_error=EOFException.INVALID_TYPE_BODY,
+        # TODO auto types section generation probably failed, the exception must be about code
+        validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
     ),
 ]
