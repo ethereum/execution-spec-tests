@@ -7,6 +7,7 @@ alloc
 api
 apis
 at5
+AutoSection
 balance
 base64
 basefee
@@ -95,6 +96,7 @@ enum
 env
 envvar
 eof
+EOFException
 esbenp
 eth
 ethash
@@ -560,6 +562,7 @@ deployer
 0x
 modexp
 0x00
+0x01
 0x10
 
 fi
