@@ -5,7 +5,6 @@ EOF v1 code validation tests
 from typing import List
 
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.eof.v1.constants import MAX_BYTECODE_SIZE, MAX_OPERAND_STACK_HEIGHT
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -43,9 +42,8 @@ for op in VALID_TERMINATING_OPCODES:
         Container(
             name=f"valid_terminating_opcode_{opcode_name}",
             sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=make_valid_stack_opcode(op),
+                Section.Code(
+                    code=make_valid_stack_opcode(op),
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=op.min_stack_height,
@@ -59,9 +57,8 @@ for op in VALID_TERMINATING_OPCODES:
         Container(
             name=f"unreachable_code_after_opcode_{opcode_name}",
             sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=make_valid_stack_opcode(op) + Op.STOP,
+                Section.Code(
+                    code=make_valid_stack_opcode(op) + Op.STOP,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=op.min_stack_height,
@@ -84,9 +81,8 @@ for op in V1_EOF_OPCODES:
             Container(
                 name=f"valid_opcode_{opcode_name}",
                 sections=[
-                    Section(
-                        kind=Kind.CODE,
-                        data=make_valid_stack_opcode(op)
+                    Section.Code(
+                        code=make_valid_stack_opcode(op)
                         + bytes([0x00]) * op.data_portion_length
                         + Op.STOP,
                         code_inputs=0,
@@ -109,9 +105,8 @@ for op in INVALID_TERMINATING_OPCODES:
         Container(
             name=f"invalid_terminating_opcode_{opcode_name}",
             sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=make_valid_stack_opcode(op),
+                Section.Code(
+                    code=make_valid_stack_opcode(op),
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=max_stack_height,
@@ -128,9 +123,8 @@ for invalid_op_byte in INVALID_OPCODES:
         Container(
             name=f"invalid_opcode_0x{invalid_op_byte.hex()}",
             sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=invalid_op_byte + Op.STOP,
+                Section.Code(
+                    code=invalid_op_byte + Op.STOP,
                 ),
             ],
             validity_error="UndefinedInstruction",
@@ -151,9 +145,8 @@ for op in V1_EOF_DEPRECATED_OPCODES:
         Container(
             name=f"deprecated_opcode_{opcode_name}",
             sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=make_valid_stack_opcode(op) + Op.STOP,
+                Section.Code(
+                    code=make_valid_stack_opcode(op) + Op.STOP,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=max_stack_height,
@@ -180,9 +173,8 @@ for op in OPCODES_WITH_IMMEDIATE:
         Container(
             name=f"truncated_opcode_{opcode_name}_no_immediate",
             sections=[
-                Section(
-                    kind=Kind.CODE,
-                    data=stack_code + op,
+                Section.Code(
+                    code=stack_code + op,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=max_stack_height,
@@ -197,9 +189,8 @@ for op in OPCODES_WITH_IMMEDIATE:
             Container(
                 name=f"truncated_opcode_{opcode_name}_terminating",
                 sections=[
-                    Section(
-                        kind=Kind.CODE,
-                        data=stack_code + op + (Op.STOP * (op.data_portion_length - 1)),
+                    Section.Code(
+                        code=stack_code + op + (Op.STOP * (op.data_portion_length - 1)),
                         code_inputs=0,
                         code_outputs=0,
                         max_stack_height=max_stack_height,
@@ -214,9 +205,8 @@ for op in OPCODES_WITH_IMMEDIATE:
             Container(
                 name=f"truncated_opcode_{opcode_name}_one_byte",
                 sections=[
-                    Section(
-                        kind=Kind.CODE,
-                        data=stack_code + op + Op.STOP,
+                    Section.Code(
+                        code=stack_code + op + Op.STOP,
                         code_inputs=0,
                         code_outputs=0,
                         max_stack_height=max_stack_height,
@@ -243,9 +233,8 @@ for op in OPCODES_WITH_min_stack_height:
                     name=f"underflow_stack_opcode_{opcode_name}"
                     + f"_max_stack_height_{max_stack_height}",
                     sections=[
-                        Section(
-                            kind=Kind.CODE,
-                            data=underflow_stack_opcodes + op,
+                        Section.Code(
+                            code=underflow_stack_opcodes + op,
                             code_inputs=0,
                             code_outputs=0,
                             max_stack_height=max_stack_height,
@@ -260,9 +249,8 @@ for op in OPCODES_WITH_min_stack_height:
                     name=f"underflow_stack_opcode_{opcode_name}"
                     + f"_max_stack_height_{max_stack_height}",
                     sections=[
-                        Section(
-                            kind=Kind.CODE,
-                            data=underflow_stack_opcodes + op + Op.STOP,
+                        Section.Code(
+                            code=underflow_stack_opcodes + op + Op.STOP,
                             code_inputs=0,
                             code_outputs=0,
                             max_stack_height=max_stack_height,
@@ -301,9 +289,8 @@ for op in OPCODES_WITH_PUSH_STACK_ITEMS:
     invalid_container = Container(
         name=f"overflow_stack_opcode_{opcode_name}",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     (Op.ORIGIN * op.min_stack_height)
                     + ((op + op_data) * iterations_needed)
                     + Op.STOP
@@ -324,9 +311,8 @@ for op in OPCODES_WITH_PUSH_STACK_ITEMS:
     valid_container = Container(
         name=f"max_stack_opcode_{opcode_name}",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     (Op.ORIGIN * op.min_stack_height)
                     + ((op + op_data) * (iterations_needed - 1))
                     + Op.STOP

@@ -5,7 +5,6 @@ Code validation of CALLF, RETF opcodes tests
 from typing import List
 
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.eof.v1.constants import MAX_CODE_SECTIONS
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -24,16 +23,14 @@ VALID: List[Container] = [
     Container(
         name="retf_code_input_output",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.CALLF[1] + Op.POP + Op.POP + Op.STOP),
+            Section.Code(
+                code=Op.PUSH0 + Op.CALLF[1] + Op.POP + Op.POP + Op.STOP,
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=2,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.RETF),
+            Section.Code(
+                code=Op.PUSH0 + Op.RETF,
                 code_inputs=1,
                 code_outputs=2,
                 max_stack_height=2,
@@ -43,16 +40,14 @@ VALID: List[Container] = [
     Container(
         name="stack_height_equal_code_outputs_retf_zero_stop",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.CALLF[1] + Op.POP + Op.STOP),
+            Section.Code(
+                code=Op.CALLF[1] + Op.POP + Op.STOP,
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     Op.RJUMPI[len(Op.PUSH0) + len(Op.RETF)](Op.ORIGIN)
                     + Op.PUSH0
                     + Op.RETF
@@ -67,9 +62,8 @@ VALID: List[Container] = [
     Container(
         name="callf_max_code_sections_1",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     bytes_concatenate([Op.CALLF[i] for i in range(1, MAX_CODE_SECTIONS)]) + Op.STOP
                 ),
                 code_inputs=0,
@@ -79,9 +73,8 @@ VALID: List[Container] = [
         ]
         + (
             [
-                Section(
-                    kind=Kind.CODE,
-                    data=(Op.RETF),
+                Section.Code(
+                    code=Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=0,
@@ -93,9 +86,8 @@ VALID: List[Container] = [
     Container(
         name="callf_max_code_sections_2",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.CALLF[i + 1] + Op.RETF),
+            Section.Code(
+                code=(Op.CALLF[i + 1] + Op.RETF),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -103,9 +95,8 @@ VALID: List[Container] = [
             for i in range(MAX_CODE_SECTIONS - 1)
         ]
         + [
-            Section(
-                kind=Kind.CODE,
-                data=Op.RETF,
+            Section.Code(
+                code=Op.RETF,
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -118,16 +109,14 @@ INVALID: List[Container] = [
     Container(
         name="function_underflow",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.CALLF[1] + Op.STOP),
+            Section.Code(
+                code=(Op.PUSH0 + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=2,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(Op.POP + Op.POP + Op.RETF),
+            Section.Code(
+                code=(Op.POP + Op.POP + Op.RETF),
                 code_inputs=1,
                 code_outputs=0,
                 max_stack_height=2,
@@ -138,16 +127,14 @@ INVALID: List[Container] = [
     Container(
         name="stack_higher_than_code_outputs",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.STOP),
+            Section.Code(
+                code=(Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.RETF),
+            Section.Code(
+                code=(Op.PUSH0 + Op.RETF),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
@@ -158,16 +145,14 @@ INVALID: List[Container] = [
     Container(
         name="stack_shorter_than_code_outputs",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.STOP),
+            Section.Code(
+                code=(Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.RETF),
+            Section.Code(
+                code=(Op.PUSH0 + Op.RETF),
                 code_inputs=0,
                 code_outputs=2,
                 max_stack_height=1,
@@ -178,16 +163,14 @@ INVALID: List[Container] = [
     Container(
         name="oob_callf_1",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH0 + Op.CALLF[2] + Op.STOP),
+            Section.Code(
+                code=(Op.PUSH0 + Op.CALLF[2] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(Op.POP + Op.POP + Op.RETF),
+            Section.Code(
+                code=(Op.POP + Op.POP + Op.RETF),
                 code_inputs=1,
                 code_outputs=0,
                 max_stack_height=2,
@@ -198,9 +181,8 @@ INVALID: List[Container] = [
     Container(
         name="overflow_code_sections_1",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.CALLF[i + 1] + Op.RETF),
+            Section.Code(
+                code=(Op.CALLF[i + 1] + Op.RETF),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -208,9 +190,8 @@ INVALID: List[Container] = [
             for i in range(MAX_CODE_SECTIONS)
         ]
         + [
-            Section(
-                kind=Kind.CODE,
-                data=Op.RETF,
+            Section.Code(
+                code=Op.RETF,
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
