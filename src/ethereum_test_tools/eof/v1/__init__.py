@@ -8,13 +8,21 @@ from enum import Enum, IntEnum
 from functools import cached_property
 from typing import Dict, List, Optional, Tuple
 
+from pydantic import Field
+
 from ...common import Bytes
+from ...common.conversions import BytesConvertible
 from ...common.types import CopyValidateModel
 from ...exceptions import EOFException
 from ...vm.opcode import Opcodes as Op
 from ..constants import EOF_HEADER_TERMINATOR, EOF_MAGIC
+from .constants import (
+    HEADER_SECTION_COUNT_BYTE_LENGTH,
+    HEADER_SECTION_KIND_BYTE_LENGTH,
+    HEADER_SECTION_SIZE_BYTE_LENGTH,
+    VERSION_NUMBER_BYTES,
+)
 
-VERSION_NUMBER = bytes([0x01])
 VERSION_MAX_SECTION_KIND = 3
 
 
@@ -39,6 +47,24 @@ class AutoSection(Enum):
     ONLY_BODY = 3
     NONE = 4
 
+    def any(self) -> bool:
+        """
+        Returns True if the enum is not NONE
+        """
+        return self != AutoSection.NONE
+
+    def header(self) -> bool:
+        """
+        Returns True if the enum is not ONLY_BODY
+        """
+        return self != AutoSection.ONLY_BODY and self != AutoSection.NONE
+
+    def body(self) -> bool:
+        """
+        Returns True if the enum is not ONLY_HEADER
+        """
+        return self != AutoSection.ONLY_HEADER and self != AutoSection.NONE
+
 
 SUPPORT_MULTI_SECTION_HEADER = [SectionKind.CODE, SectionKind.CONTAINER]
 
@@ -53,10 +79,10 @@ class Section(CopyValidateModel):
     Data to be contained by this section.
     Can be SupportsBytes, another EOF container or any other abstract data.
     """
-    custom_size: int | None = None
+    custom_size: int = 0
     """
-    Size value to be used in the header.
-    If set to None, the header is built with length of the data.
+    Custom size value to be used in the header.
+    If unset, the header is built with length of the data.
     """
     kind: SectionKind | int
     """
@@ -98,15 +124,41 @@ class Section(CopyValidateModel):
         """
         Get formatted header for this section according to its contents.
         """
-        size = self.custom_size
-        if size is None:
-            if self.data is None:
-                raise Exception("Attempted to build header without section data")
-            size = len(Bytes(self.data))
+        size = self.custom_size if "custom_size" in self.model_fields_set else len(self.data)
         if self.kind == SectionKind.CODE:
             raise Exception("Need container-wide view of code sections to generate header")
-        else:
-            return self.kind.to_bytes(1, byteorder="big") + size.to_bytes(2, byteorder="big")
+        return self.kind.to_bytes(
+            HEADER_SECTION_KIND_BYTE_LENGTH, byteorder="big"
+        ) + size.to_bytes(HEADER_SECTION_SIZE_BYTE_LENGTH, byteorder="big")
+
+    @cached_property
+    def type_definition(self) -> bytes:
+        """
+        Returns a serialized type section entry for the given values.
+        """
+        if self.kind != SectionKind.CODE and not self.force_type_listing:
+            return bytes()
+
+        code_inputs, code_outputs, max_stack_height = (
+            self.code_inputs,
+            self.code_outputs,
+            self.max_stack_height,
+        )
+        if self.auto_max_stack_height or self.auto_code_inputs_outputs:
+            (
+                auto_code_inputs,
+                auto_code_outputs,
+                auto_max_height,
+            ) = compute_code_stack_values(self.data)
+            if self.auto_max_stack_height:
+                max_stack_height = auto_max_height
+            if self.auto_code_inputs_outputs:
+                code_inputs, code_outputs = (
+                    auto_code_inputs,
+                    auto_code_outputs,
+                )
+
+        return make_type_def(code_inputs, code_outputs, max_stack_height)
 
     def with_max_stack_height(self, max_stack_height) -> "Section":
         """
@@ -127,6 +179,49 @@ class Section(CopyValidateModel):
         True.
         """
         return self.copy(auto_code_inputs_outputs=True)
+
+    @staticmethod
+    def list_header(sections: List["Section"]) -> bytes:
+        """
+        Creates the single code header for all code sections contained in
+        the list.
+        """
+        if sections[0].kind not in SUPPORT_MULTI_SECTION_HEADER:
+            return b"".join(s.header for s in sections)
+
+        h = sections[0].kind.to_bytes(HEADER_SECTION_KIND_BYTE_LENGTH, "big")
+        h += len(sections).to_bytes(HEADER_SECTION_COUNT_BYTE_LENGTH, "big")
+        for cs in sections:
+            size = cs.custom_size if "custom_size" in cs.model_fields_set else len(cs.data)
+            h += size.to_bytes(HEADER_SECTION_SIZE_BYTE_LENGTH, "big")
+
+        return h
+
+    @classmethod
+    def Code(cls, code: BytesConvertible = b"", **kwargs) -> "Section":  # noqa: N802
+        """
+        Creates a new code section with the specified code.
+        """
+        kwargs.pop("kind", None)
+        return cls(kind=SectionKind.CODE, data=code, **kwargs)
+
+    @classmethod
+    def Container(  # noqa: N802
+        cls, container: "Container" | BytesConvertible, **kwargs
+    ) -> "Section":
+        """
+        Creates a new container section with the specified container.
+        """
+        kwargs.pop("kind", None)
+        return cls(kind=SectionKind.CONTAINER, data=container, **kwargs)
+
+    @classmethod
+    def Data(cls, data: BytesConvertible = b"", **kwargs) -> "Section":  # noqa: N802
+        """
+        Creates a new data section with the specified data.
+        """
+        kwargs.pop("kind", None)
+        return cls(kind=SectionKind.DATA, data=data, **kwargs)
 
 
 class Bytecode:
@@ -162,7 +257,7 @@ class Container(CopyValidateModel, Bytecode):
     """
     Name of the container
     """
-    sections: Optional[List[Section]] = None
+    sections: List[Section] = Field(default_factory=list)
     """
     List of sections in the container
     """
@@ -176,11 +271,11 @@ class Container(CopyValidateModel, Bytecode):
     Custom version value used to override the mandatory EOF V1 value
     for testing purposes.
     """
-    custom_terminator: Optional[Bytes] = None
+    header_terminator: Bytes = Bytes(EOF_HEADER_TERMINATOR)
     """
-    Custom terminator bytes used to terminate the header.
+    Bytes used to terminate the header.
     """
-    extra: Optional[Bytes] = None
+    extra: Bytes = Bytes(b"")
     """
     Extra data to be appended at the end of the container, which will
     not be considered part of any of the sections, for testing purposes.
@@ -221,141 +316,74 @@ class Container(CopyValidateModel, Bytecode):
         Converts the EOF V1 Container into bytecode.
         """
         if self.raw_bytes is not None:
-            assert self.sections is None or len(self.sections) == 0
+            assert len(self.sections) == 0
             return self.raw_bytes
-
-        assert self.sections is not None
 
         c = bytes([0xEF])
 
         c += EOF_MAGIC if self.custom_magic is None else self.custom_magic.to_bytes(1, "big")
 
         c += (
-            VERSION_NUMBER
+            VERSION_NUMBER_BYTES
             if self.custom_version is None
             else self.custom_version.to_bytes(1, "big")
         )
 
-        # Copy the sections so we can add the `type` section
-        sections = self.sections.copy()
+        # Prepare auto-generated sections
+        sections = self.sections
 
-        auto_type_section = self.auto_type_section in (
-            AutoSection.AUTO,
-            AutoSection.ONLY_BODY,
-            AutoSection.ONLY_HEADER,
-        )
-        if auto_type_section and count_sections(sections, SectionKind.TYPE) == 0:
-            type_section_data: bytes = bytes()
-            for s in sections:
-                if s.kind == SectionKind.CODE or s.force_type_listing:
-                    code_inputs, code_outputs, max_stack_height = (
-                        s.code_inputs,
-                        s.code_outputs,
-                        s.max_stack_height,
-                    )
-                    if s.auto_max_stack_height or s.auto_code_inputs_outputs:
-                        (
-                            auto_code_inputs,
-                            auto_code_outputs,
-                            auto_max_height,
-                        ) = compute_code_stack_values(s.data)
-                        if s.auto_max_stack_height:
-                            max_stack_height = auto_max_height
-                        if s.auto_code_inputs_outputs:
-                            code_inputs, code_outputs = (
-                                auto_code_inputs,
-                                auto_code_outputs,
-                            )
-
-                    type_section_data += make_type_def(code_inputs, code_outputs, max_stack_height)
-
+        # Add type section if needed
+        if self.auto_type_section.any() and count_sections(sections, SectionKind.TYPE) == 0:
+            type_section_data = b"".join(s.type_definition for s in sections)
             sections = [Section(kind=SectionKind.TYPE, data=type_section_data)] + sections
 
-        if self.auto_data_section:
-            if count_sections(sections, SectionKind.DATA) > 0:
-                pass  # already exists
-            else:
-                sections.append(Section(kind=SectionKind.DATA, data="0x"))
+        # Add data section if needed
+        if self.auto_data_section and count_sections(sections, SectionKind.DATA) == 0:
+            sections = sections + [Section(kind=SectionKind.DATA, data="0x")]
 
-        original_sections = sections
-        if self.auto_sort_sections in (AutoSection.AUTO, AutoSection.ONLY_HEADER):
-            # Sort sections for the header
-            sections = (
-                [s for s in sections if s.kind == SectionKind.TYPE]
-                + [s for s in sections if s.kind == SectionKind.CODE]
-                + [s for s in sections if s.kind == SectionKind.CONTAINER]
-                + [s for s in sections if s.kind == SectionKind.DATA]
-                + [
-                    s
-                    for s in sections
-                    if s.kind
-                    not in [
-                        SectionKind.TYPE,
-                        SectionKind.CODE,
-                        SectionKind.DATA,
-                        SectionKind.CONTAINER,
-                    ]
-                ]
-            )
+        header_sections = [
+            s
+            for s in sections
+            if s.kind != SectionKind.TYPE or self.auto_type_section != AutoSection.ONLY_BODY
+        ]
+        if self.auto_sort_sections.header():
+            header_sections.sort(key=lambda x: x.kind)
 
         # Add headers
-        concurrent_kind_sections: List[Section] = []
-        for s in sections:
-            if s.kind == SectionKind.TYPE and self.auto_type_section == AutoSection.ONLY_BODY:
-                continue
-
-            if len(concurrent_kind_sections) == 0:
-                concurrent_kind_sections.append(s)
-                continue
-            if s.kind == concurrent_kind_sections[0].kind:
-                concurrent_kind_sections.append(s)
-                continue
-            else:
-                c += create_sections_header(
-                    concurrent_kind_sections[0].kind, concurrent_kind_sections
-                )
-                concurrent_kind_sections = [s]
-
-        if len(concurrent_kind_sections) > 0:
-            c += create_sections_header(concurrent_kind_sections[0].kind, concurrent_kind_sections)
+        if header_sections:
+            # Join headers of the same kind in a list of lists, only if they are next to each other
+            concurrent_sections: List[List[Section]] = [[header_sections[0]]]
+            for s in header_sections[1:]:
+                if s.kind == concurrent_sections[-1][-1].kind:
+                    concurrent_sections[-1].append(s)
+                else:
+                    concurrent_sections.append([s])
+            c += b"".join(Section.list_header(cs) for cs in concurrent_sections)
 
         # Add header terminator
-        if self.custom_terminator is not None:
-            c += self.custom_terminator
-        else:
-            c += EOF_HEADER_TERMINATOR
+        c += self.header_terminator
 
-        sections = original_sections
-        if self.auto_sort_sections in (AutoSection.AUTO, AutoSection.ONLY_BODY):
+        body_sections = sections[:]
+        if self.auto_sort_sections.body():
             # Sort sections for the body
-            sections = (
-                [s for s in sections if s.kind == SectionKind.TYPE]
-                + [s for s in sections if s.kind == SectionKind.CODE]
-                + [s for s in sections if s.kind == SectionKind.DATA]
-                + [s for s in sections if s.kind == SectionKind.CONTAINER]
-                + [
-                    s
-                    for s in sections
-                    if s.kind
-                    not in [
-                        SectionKind.TYPE,
-                        SectionKind.CODE,
-                        SectionKind.DATA,
-                        SectionKind.CONTAINER,
-                    ]
-                ]
+            body_sections.sort(
+                key=lambda x: x.kind
+                if x.kind not in [SectionKind.CONTAINER, SectionKind.DATA]
+                # flip container and data sections
+                else SectionKind.CONTAINER
+                if x.kind == SectionKind.DATA
+                else SectionKind.DATA
             )
 
         # Add section bodies
-        for s in sections:
+        for s in body_sections:
             if s.kind == SectionKind.TYPE and self.auto_type_section == AutoSection.ONLY_HEADER:
                 continue
             if s.data:
                 c += s.data
 
         # Add extra (garbage)
-        if self.extra is not None:
-            c += self.extra
+        c += self.extra
 
         return c
 
@@ -416,30 +444,6 @@ class Initcode(Bytecode):
         )
 
         return bytes(initcode)
-
-
-def create_sections_header(kind: SectionKind | int, sections: List[Section]) -> bytes:
-    """
-    Creates the single code header for all code sections contained in
-    the list.
-    """
-    h = bytes()
-    if sections[0].kind in SUPPORT_MULTI_SECTION_HEADER:
-        h += kind.to_bytes(1, "big")
-        h += len(sections).to_bytes(2, "big")
-        for cs in sections:
-            if cs.custom_size:
-                h += cs.custom_size.to_bytes(2, "big")
-            else:
-                if isinstance(cs.data, Container):
-                    h += len(cs.data).to_bytes(2, "big")
-                else:
-                    h += len(cs.data).to_bytes(2, "big")
-    else:
-        for s in sections:
-            h += s.header
-
-    return h
 
 
 def count_sections(sections: List[Section], kind: SectionKind | int) -> int:

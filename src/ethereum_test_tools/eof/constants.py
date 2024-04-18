@@ -15,3 +15,7 @@ LATEST_EOF_VERSION = 1
 """
 Latest existing EOF version.
 """
+VERSION_BYTE_LENGTH = 1
+"""
+Length of the version byte.
+"""
