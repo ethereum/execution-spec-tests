@@ -4,7 +4,6 @@ Code validation of RJUMP, RJUMPI, RJUMPV opcodes tests
 from typing import List, Tuple
 
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.eof.v1.constants import (
     MAX_BYTECODE_SIZE,
     MAX_OPERAND_STACK_HEIGHT,
@@ -37,9 +36,8 @@ def rjumpv_length(branch_count: int) -> int:
 VALID_CODE_SECTIONS: List[Tuple[str, Section]] = [
     (
         "long_rjump",
-        Section(
-            kind=Kind.CODE,
-            data=(
+        Section.Code(
+            code=(
                 Op.RJUMPI[len(Op.RJUMP)](Op.ORIGIN)
                 + Op.RJUMP[len(Op.NOOP) * LONG_RJUMP]
                 + (Op.NOOP * LONG_RJUMP)
@@ -50,9 +48,8 @@ VALID_CODE_SECTIONS: List[Tuple[str, Section]] = [
     ),
     (
         "long_rjumpi",
-        Section(
-            kind=Kind.CODE,
-            data=(
+        Section.Code(
+            code=(
                 Op.RJUMPI[len(Op.NOOP) * LONG_RJUMP](Op.ORIGIN) + (Op.NOOP * LONG_RJUMP) + Op.STOP
             ),
             max_stack_height=1,
@@ -60,17 +57,15 @@ VALID_CODE_SECTIONS: List[Tuple[str, Section]] = [
     ),
     (
         "reachable_code_rjumpi",
-        Section(
-            kind=Kind.CODE,
-            data=(Op.RJUMP[1] + Op.RETF + Op.RJUMPI[-5](Op.ORIGIN) + Op.RETF),
+        Section.Code(
+            code=(Op.RJUMP[1] + Op.RETF + Op.RJUMPI[-5](Op.ORIGIN) + Op.RETF),
             max_stack_height=1,
         ),
     ),
     (
         "reachable_code_many_rjump",
-        Section(
-            kind=Kind.CODE,
-            data=(
+        Section.Code(
+            code=(
                 Op.RJUMP[len(Op.RJUMP)] * (MANY_RJUMP_COUNT - 1)
                 + Op.RJUMP[-(len(Op.RJUMP) * (MANY_RJUMP_COUNT - 1))]
                 + Op.STOP
@@ -80,26 +75,23 @@ VALID_CODE_SECTIONS: List[Tuple[str, Section]] = [
     ),
     (
         "max_branches_rjumpv_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[range(MAX_RJUMPV_COUNT)](Op.ORIGIN) + Op.STOP * MAX_RJUMPV_COUNT,
+        Section.Code(
+            code=Op.RJUMPV[range(MAX_RJUMPV_COUNT)](Op.ORIGIN) + Op.STOP * MAX_RJUMPV_COUNT,
             max_stack_height=1,
         ),
     ),
     (
         "max_branches_rjumpv_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[range(1, MAX_RJUMPV_COUNT + 1)](Op.ORIGIN)
+        Section.Code(
+            code=Op.RJUMPV[range(1, MAX_RJUMPV_COUNT + 1)](Op.ORIGIN)
             + Op.STOP * (MAX_RJUMPV_COUNT + 1),
             max_stack_height=1,
         ),
     ),
     (
         "max_branches_rjumpv_3",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[range(MAX_RJUMPV_COUNT)](Op.ORIGIN)
+        Section.Code(
+            code=Op.RJUMPV[range(MAX_RJUMPV_COUNT)](Op.ORIGIN)
             + Op.NOOP * (MAX_RJUMPV_COUNT - 1)
             + Op.STOP,
             max_stack_height=1,
@@ -121,7 +113,7 @@ for name, section in VALID_CODE_SECTIONS:
         Container(
             name=f"valid_{name}_secondary_section",
             sections=[
-                Section(kind=Kind.CODE, data=Op.STOP),
+                Section.Code(code=Op.STOP),
                 section,
             ],
         )
@@ -132,36 +124,32 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMP unreachable code
     (
         "unreachable_code",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMP[1] + Op.JUMPDEST + Op.RETF,
+        Section.Code(
+            code=Op.RJUMP[1] + Op.JUMPDEST + Op.RETF,
             max_stack_height=0,
         ),
         "UnreachableCode",
     ),
     (
         "unreachable_code_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMP[3] + Op.PUSH2(42) + Op.RETF,
+        Section.Code(
+            code=Op.RJUMP[3] + Op.PUSH2(42) + Op.RETF,
             max_stack_height=1,
         ),
         "UnreachableCode",
     ),
     (
         "unreachable_code_3",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMP[1] + Op.RETF + Op.RJUMP[-4] + Op.RETF,
+        Section.Code(
+            code=Op.RJUMP[1] + Op.RETF + Op.RJUMP[-4] + Op.RETF,
             max_stack_height=0,
         ),
         "UnreachableCode",
     ),
     (
         "unreachable_code_many_rjump",
-        Section(
-            kind=Kind.CODE,
-            data=(
+        Section.Code(
+            code=(
                 Op.RJUMP[len(Op.RJUMP)] * (MANY_RJUMP_COUNT - 2)
                 + Op.RJUMP[-(len(Op.RJUMP) * (MANY_RJUMP_COUNT - 1))]
                 + Op.RJUMP[-(len(Op.RJUMP) * (MANY_RJUMP_COUNT - 1))]
@@ -174,18 +162,16 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMP jumps out of bounds
     (
         "rjump_oob_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMP[-4] + Op.RETF,
+        Section.Code(
+            code=Op.RJUMP[-4] + Op.RETF,
             max_stack_height=0,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjump_oob_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMP[1] + Op.RETF,
+        Section.Code(
+            code=Op.RJUMP[1] + Op.RETF,
             max_stack_height=0,
         ),
         "InvalidRelativeOffset",
@@ -193,18 +179,16 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMP jumps to self immediate data
     (
         "rjump_self_immediate_data_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMP[-1] + Op.RETF,
+        Section.Code(
+            code=Op.RJUMP[-1] + Op.RETF,
             max_stack_height=0,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjump_self_immediate_data_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMP[-2] + Op.RETF,
+        Section.Code(
+            code=Op.RJUMP[-2] + Op.RETF,
             max_stack_height=0,
         ),
         "InvalidRelativeOffset",
@@ -212,18 +196,16 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMPI jumps out of bounds
     (
         "rjumpi_oob_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[-5](Op.ORIGIN) + Op.RETF,
+        Section.Code(
+            code=Op.RJUMPI[-5](Op.ORIGIN) + Op.RETF,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_oob_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[1](Op.ORIGIN) + Op.RETF,
+        Section.Code(
+            code=Op.RJUMPI[1](Op.ORIGIN) + Op.RETF,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
@@ -231,18 +213,16 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMPI jumps to self immediate data
     (
         "rjumpi_self_immediate_data_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[-2](Op.ORIGIN) + Op.RETF,
+        Section.Code(
+            code=Op.RJUMPI[-2](Op.ORIGIN) + Op.RETF,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_self_immediate_data_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[-1](Op.ORIGIN) + Op.RETF,
+        Section.Code(
+            code=Op.RJUMPI[-1](Op.ORIGIN) + Op.RETF,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
@@ -250,18 +230,16 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMPV jumps out of bounds
     (
         "rjumpv_oob_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[0](Op.ORIGIN),
+        Section.Code(
+            code=Op.RJUMPV[0](Op.ORIGIN),
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpv_oob_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[1](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[1](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
@@ -269,9 +247,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     (
         # TODO: This seems to be exactly the same as the previous test
         "rjumpv_oob_3",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[1](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[1](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
@@ -279,63 +256,56 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMPV jumps to self immediate data
     (
         "rjumpi_self_immediate_data_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[-1](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[-1](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_self_immediate_data_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[-2](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[-2](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_self_immediate_data_3",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[-3](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[-3](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_self_immediate_data_4",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[0, -5](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[0, -5](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_self_immediate_data_5",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[-5, 0](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[-5, 0](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_self_immediate_data_6",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[-5, -1](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[-5, -1](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRelativeOffset",
     ),
     (
         "rjumpi_self_immediate_data_7",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[[-(1 + (MAX_RJUMPV_COUNT * 2))] + [0] * (MAX_RJUMPV_COUNT - 1)](
+        Section.Code(
+            code=Op.RJUMPV[[-(1 + (MAX_RJUMPV_COUNT * 2))] + [0] * (MAX_RJUMPV_COUNT - 1)](
                 Op.ORIGIN,
             )
             + Op.STOP,
@@ -345,9 +315,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpi_self_immediate_data_8",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[[0] * (MAX_RJUMPV_COUNT - 1) + [-(1 + (MAX_RJUMPV_COUNT * 2))]](
+        Section.Code(
+            code=Op.RJUMPV[[0] * (MAX_RJUMPV_COUNT - 1) + [-(1 + (MAX_RJUMPV_COUNT * 2))]](
                 Op.ORIGIN,
             )
             + Op.STOP,
@@ -358,9 +327,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMPV Invalid Count tests
     (
         "rjumpv_count_zero",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[b"\x00"](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[b"\x00"](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "InvalidRJUMPVCount",
@@ -368,45 +336,40 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMPV Truncated Immediate Data
     (
         "rjumpv_count_one_truncated_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[b"\x01"](Op.ORIGIN),
+        Section.Code(
+            code=Op.RJUMPV[b"\x01"](Op.ORIGIN),
             max_stack_height=1,
         ),
         "TruncatedImmediate",
     ),
     (
         "rjumpv_count_one_truncated_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[b"\x01"](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[b"\x01"](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "TruncatedImmediate",
     ),
     (
         "rjumpv_count_one_terminating",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[0](Op.ORIGIN),
+        Section.Code(
+            code=Op.RJUMPV[0](Op.ORIGIN),
             max_stack_height=1,
         ),
         "InvalidCodeSectionTerminatingOpcode",
     ),
     (
         "rjumpv_count_two_truncated",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[b"\x02\x00\x00"](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[b"\x02\x00\x00"](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "TruncatedImmediate",
     ),
     (
         "rjumpv_count_255_truncated",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[
+        Section.Code(
+            code=Op.RJUMPV[
                 int.to_bytes(
                     MAX_RJUMPV_COUNT, length=RJUMPV_MAX_INDEX_BYTE_LENGTH, byteorder="big"
                 )
@@ -422,9 +385,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     # RJUMP* path leads to underflow (before and after the jump)
     (
         "rjump_stack_underflow_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[len(Op.RJUMP)](Op.ORIGIN)
+        Section.Code(
+            code=Op.RJUMPI[len(Op.RJUMP)](Op.ORIGIN)
             + Op.RJUMP[-(len(Op.RJUMP) + len(Op.RJUMPI))]
             + Op.STOP,
             max_stack_height=1,
@@ -433,9 +395,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjump_stack_underflow_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[len(Op.RJUMP)](Op.ORIGIN)
+        Section.Code(
+            code=Op.RJUMPI[len(Op.RJUMP)](Op.ORIGIN)
             + Op.RJUMP[len(Op.STOP)]
             + Op.STOP
             + Op.POP
@@ -446,18 +407,16 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpi_stack_underflow_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[-len(Op.RJUMPI)](Op.ORIGIN) + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPI[-len(Op.RJUMPI)](Op.ORIGIN) + Op.STOP,
             max_stack_height=1,
         ),
         "StackUnderflow",
     ),
     (
         "rjumpi_stack_underflow_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.POP
             + Op.RJUMPI[-(len(Op.RJUMPI) + len(Op.ORIGIN) + len(Op.POP))](Op.ORIGIN)
             + Op.STOP,
@@ -467,27 +426,24 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpi_stack_underflow_3",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[len(Op.STOP)](Op.ORIGIN) + Op.STOP + Op.POP + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPI[len(Op.STOP)](Op.ORIGIN) + Op.STOP + Op.POP + Op.STOP,
             max_stack_height=1,
         ),
         "StackUnderflow",
     ),
     (
         "rjumpi_stack_underflow_4",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[len(Op.POP)](Op.ORIGIN) + Op.POP + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPI[len(Op.POP)](Op.ORIGIN) + Op.POP + Op.STOP,
             max_stack_height=1,
         ),
         "StackUnderflow",
     ),
     (
         "rjumpv_stack_underflow_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[-rjumpv_length(1)](  # jump to the start of rjumpv (after Op.ORIGIN)
+        Section.Code(
+            code=Op.RJUMPV[-rjumpv_length(1)](  # jump to the start of rjumpv (after Op.ORIGIN)
                 Op.ORIGIN,
             )
             + Op.STOP,
@@ -497,9 +453,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.POP
             + Op.RJUMPV[
                 -(rjumpv_length(1) + len(Op.ORIGIN) + len(Op.POP))
@@ -513,9 +468,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_3",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[
+        Section.Code(
+            code=Op.RJUMPV[
                 [0] * (MAX_RJUMPV_COUNT - 1)  # empty branches
                 + [-rjumpv_length(MAX_RJUMPV_COUNT)]  # last one jumps to the start of rjumpv
             ](
@@ -528,9 +482,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_4",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.POP
             + Op.RJUMPV[
                 [0] * (MAX_RJUMPV_COUNT - 1)  # empty branches
@@ -545,9 +498,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_5",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.POP
             + Op.RJUMPV[
                 [  # first one leads to underflow
@@ -562,9 +514,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_6",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.POP
             + Op.RJUMPV[
                 [0] * ((MAX_RJUMPV_COUNT - 1) // 2)  # empty branches
@@ -580,28 +531,25 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_7",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[len(Op.STOP)](Op.ORIGIN) + Op.STOP + Op.POP + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[len(Op.STOP)](Op.ORIGIN) + Op.STOP + Op.POP + Op.STOP,
             max_stack_height=1,
         ),
         "StackUnderflow",
     ),
     (
         "rjumpv_stack_underflow_8",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[0, len(Op.STOP)](Op.ORIGIN) + Op.STOP + Op.POP + Op.STOP,
+        Section.Code(
+            code=Op.RJUMPV[0, len(Op.STOP)](Op.ORIGIN) + Op.STOP + Op.POP + Op.STOP,
             max_stack_height=1,
         ),
         "StackUnderflow",
     ),
     (
         "rjumpv_stack_underflow_9",
-        Section(
-            kind=Kind.CODE,
+        Section.Code(
             # last branch underflow
-            data=Op.RJUMPV[[0] * (MAX_RJUMPV_COUNT - 1) + [len(Op.STOP)]](Op.ORIGIN)
+            code=Op.RJUMPV[[0] * (MAX_RJUMPV_COUNT - 1) + [len(Op.STOP)]](Op.ORIGIN)
             + Op.STOP
             + Op.POP
             + Op.STOP,
@@ -611,10 +559,9 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_10",
-        Section(
-            kind=Kind.CODE,
+        Section.Code(
             # first branch underflow
-            data=Op.RJUMPV[[len(Op.STOP)] + [0] * (MAX_RJUMPV_COUNT - 1)](Op.ORIGIN)
+            code=Op.RJUMPV[[len(Op.STOP)] + [0] * (MAX_RJUMPV_COUNT - 1)](Op.ORIGIN)
             + Op.STOP
             + Op.POP
             + Op.STOP,
@@ -624,9 +571,8 @@ INVALID_CODE_SECTIONS: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_underflow_11",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPV[
+        Section.Code(
+            code=Op.RJUMPV[
                 [0] * ((MAX_RJUMPV_COUNT - 1) // 2)
                 + [len(Op.STOP)]  # middle branch underflow
                 + [0] * ((MAX_RJUMPV_COUNT - 1) // 2)
@@ -646,9 +592,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     # RJUMP* recursive stack increment
     (
         "rjump_stack_overflow_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.RJUMPI[len(Op.ORIGIN) + len(Op.RJUMP)](Op.ORIGIN)
+        Section.Code(
+            code=Op.RJUMPI[len(Op.ORIGIN) + len(Op.RJUMP)](Op.ORIGIN)
             + Op.ORIGIN
             + Op.RJUMP[-(len(Op.RJUMP) + len(Op.ORIGIN))]
             + Op.STOP,
@@ -657,9 +602,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpi_stack_overflow_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.RJUMPI[-(len(Op.RJUMPI) + (len(Op.ORIGIN) * 2))](Op.ORIGIN)
             + Op.STOP,
         ),
@@ -667,9 +611,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_overflow_1",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.RJUMPV[-(rjumpv_length(1) + len(Op.ORIGIN) * 2)](  # Jump back to the first ORIGIN
                 Op.ORIGIN
             )
@@ -679,9 +622,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_overflow_2",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.RJUMPV[
                 0,
                 -(rjumpv_length(2) + len(Op.ORIGIN) * 2),  # Jump back to the first ORIGIN
@@ -692,9 +634,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_overflow_3",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.RJUMPV[
                 -(rjumpv_length(2) + len(Op.ORIGIN) * 2),  # Jump back to the first ORIGIN
                 0,
@@ -705,9 +646,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_overflow_4",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.RJUMPV[
                 [0] * (MAX_RJUMPV_COUNT - 1)  # empty branches
                 # Jump back to the first ORIGIN
@@ -719,9 +659,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_overflow_5",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.RJUMPV[
                 # Jump back to the first ORIGIN
                 [-(rjumpv_length(MAX_RJUMPV_COUNT) + (len(Op.ORIGIN) * 2))]
@@ -733,9 +672,8 @@ INVALID_OVERFLOW_CODE_SECTION: List[Tuple[str, Section, str]] = [
     ),
     (
         "rjumpv_stack_overflow_6",
-        Section(
-            kind=Kind.CODE,
-            data=Op.ORIGIN
+        Section.Code(
+            code=Op.ORIGIN
             + Op.RJUMPV[
                 [0] * ((MAX_RJUMPV_COUNT - 1) // 2)  # empty branches
                 # Jump back to the first ORIGIN
@@ -776,9 +714,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjump_start_immediate_data_opcode_{opcode_name}_1",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Add items to stack necessary to not underflow
                     op_stack_code
                     + op
@@ -797,9 +734,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjump_end_immediate_data_opcode_{opcode_name}_1",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Add items to stack necessary to not underflow
                     op_stack_code
                     + op
@@ -819,9 +755,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjump_start_immediate_data_opcode_{opcode_name}_2",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Code added to reach end at some point
                     Op.RJUMPI[len(Op.RJUMP)](Op.ORIGIN)
                     + Op.RJUMP[len(op_stack_code) + opcode_length]
@@ -840,9 +775,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjump_end_immediate_data_opcode_{opcode_name}_2",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Code added to reach end at some point
                     Op.RJUMPI[len(Op.RJUMP)](Op.ORIGIN)
                     + Op.RJUMP[len(op_stack_code) + opcode_length + len(op_data) - 1]
@@ -863,9 +797,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpi_start_immediate_data_opcode_{opcode_name}_1",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Add items to stack necessary to not underflow
                     op_stack_code
                     + op
@@ -882,9 +815,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpi_end_immediate_data_opcode_{opcode_name}_1",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Add items to stack necessary to not underflow
                     op_stack_code
                     + op
@@ -903,9 +835,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpi_start_immediate_data_opcode_{opcode_name}_2",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Jump
                     Op.RJUMPI[len(op_stack_code) + opcode_length](Op.ORIGIN)
                     # Add items to stack necessary to not underflow
@@ -922,9 +853,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpi_end_immediate_data_opcode_{opcode_name}_2",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Jump
                     Op.RJUMPI[len(op_stack_code) + opcode_length + len(op_data) - 1](Op.ORIGIN)
                     # Add items to stack necessary to not underflow
@@ -942,9 +872,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpv_start_immediate_data_opcode_{opcode_name}_1",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Add items to stack necessary to not underflow
                     op_stack_code
                     + op
@@ -961,9 +890,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpv_end_immediate_data_opcode_{opcode_name}_1",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Add items to stack necessary to not underflow
                     op_stack_code
                     + op
@@ -982,9 +910,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpv_start_immediate_data_opcode_{opcode_name}_2",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Jump
                     Op.RJUMPV[len(op_stack_code) + opcode_length](Op.ORIGIN)
                     # Add items to stack necessary to not underflow
@@ -1001,9 +928,8 @@ for op in OPCODES_WITH_IMMEDIATE:
     INVALID_CODE_SECTIONS.append(
         (
             f"rjumpv_end_immediate_data_opcode_{opcode_name}_2",
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     # Jump
                     Op.RJUMPV[len(op_stack_code) + opcode_length + len(op_data) - 1](Op.ORIGIN)
                     # Add items to stack necessary to not underflow
@@ -1036,7 +962,7 @@ for name, section, error in INVALID_CODE_SECTIONS:
         Container(
             name=f"invalid_{name}_secondary_section",
             sections=[
-                Section(kind=Kind.CODE, data=Op.STOP),
+                Section.Code(Op.STOP),
                 section,
             ],
             validity_error=error,

@@ -15,7 +15,6 @@ from ethereum_test_tools import (
     Transaction,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.eof.v1.constants import MAX_CODE_SECTIONS, MAX_RETURN_STACK_HEIGHT
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -31,9 +30,8 @@ contract_call_within_deep_nested_callf = Container(
     sections=[
         # All sections call next section and on return, store a 1
         # to their call stack height key
-        Section(
-            kind=Kind.CODE,
-            data=(Op.CALLF[i + 1] + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
+        Section.Code(
+            code=(Op.CALLF[i + 1] + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
             code_inputs=0,
             code_outputs=0,
             max_stack_height=2,
@@ -42,9 +40,8 @@ contract_call_within_deep_nested_callf = Container(
     ]
     + [
         # Last section makes external contract call
-        Section(
-            kind=Kind.CODE,
-            data=(
+        Section.Code(
+            code=(
                 Op.PUSH0
                 + Op.PUSH0
                 + Op.PUSH0
@@ -69,9 +66,8 @@ recursive_contract_call_within_deep_nested_callf = Container(
     sections=[
         # All sections call next section and on return, store a 1
         # to their call stack height key
-        Section(
-            kind=Kind.CODE,
-            data=(Op.CALLF[i + 1] + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
+        Section.Code(
+            code=(Op.CALLF[i + 1] + Op.PUSH1(1) + Op.PUSH2(i) + Op.SSTORE + Op.RETF),
             code_inputs=0,
             code_outputs=0,
             max_stack_height=2,
@@ -80,9 +76,8 @@ recursive_contract_call_within_deep_nested_callf = Container(
     ]
     + [
         # Last section makes external contract call
-        Section(
-            kind=Kind.CODE,
-            data=(
+        Section.Code(
+            code=(
                 Op.PUSH0
                 + Op.PUSH0
                 + Op.PUSH0
@@ -106,9 +101,8 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
     Container(
         name="retf_top_frame",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.RETF),
+            Section.Code(
+                code=(Op.RETF),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -118,16 +112,14 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
     Container(
         name="function_finishes_contract_execution",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.CALLF[1] + Op.STOP),
+            Section.Code(
+                code=(Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(Op.STOP),
+            Section.Code(
+                code=(Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -137,16 +129,14 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
     Container(
         name="max_recursive_callf",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH1(1) + Op.CALLF[1] + Op.STOP),
+            Section.Code(
+                code=(Op.PUSH1(1) + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT)
                     + Op.SUB
@@ -167,9 +157,8 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
     Container(
         name="max_recursive_callf_sstore",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     Op.PUSH0
                     + Op.SLOAD
                     + Op.DUP1
@@ -194,9 +183,8 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
     Container(
         name="max_recursive_callf_memory",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     Op.PUSH0
                     + Op.MLOAD
                     + Op.DUP1
@@ -227,9 +215,8 @@ CALL_FAIL_CONTRACTS: List[Container] = [
     Container(
         name="invalid_opcode",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.INVALID),
+            Section.Code(
+                code=(Op.INVALID),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
@@ -239,16 +226,14 @@ CALL_FAIL_CONTRACTS: List[Container] = [
     Container(
         name="overflow_recursive_callf",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(Op.PUSH1(1) + Op.CALLF[1] + Op.STOP),
+            Section.Code(
+                code=(Op.PUSH1(1) + Op.CALLF[1] + Op.STOP),
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=1,
             ),
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     Op.DUP1
                     + Op.PUSH2(MAX_RETURN_STACK_HEIGHT + 1)
                     + Op.SUB
@@ -269,9 +254,8 @@ CALL_FAIL_CONTRACTS: List[Container] = [
     Container(
         name="overflow_recursive_callf_sstore",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     Op.PUSH0
                     + Op.SLOAD
                     + Op.DUP1
@@ -296,9 +280,8 @@ CALL_FAIL_CONTRACTS: List[Container] = [
     Container(
         name="overflow_recursive_callf_memory",
         sections=[
-            Section(
-                kind=Kind.CODE,
-                data=(
+            Section.Code(
+                code=(
                     Op.PUSH0
                     + Op.MLOAD
                     + Op.DUP1
