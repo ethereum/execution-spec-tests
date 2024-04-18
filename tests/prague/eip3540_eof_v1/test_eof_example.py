@@ -86,7 +86,7 @@ def test_eof_example_custom_fields(eof_test: EOFTestFiller):
 
     eof_code = Container(
         name="valid_container_example_2",
-        magic=b"\x00",  # magic can be overwritten for test purposes, (default is 0x00)
+        magic=b"\xef\x00",  # magic can be overwritten for test purposes, (default is 0xEF00)
         version=b"\x01",  # version can be overwritten for testing purposes (default is 0x01)
         header_terminator=b"\x00",  # terminator byte can be overwritten (default is 0x00)
         extra=b"",  # extra bytes to be trailed after the container body bytes (default is None)

@@ -319,11 +319,7 @@ class Container(CopyValidateModel, Bytecode):
             assert len(self.sections) == 0
             return self.raw_bytes
 
-        c = bytes([0xEF])
-
-        c += self.magic
-
-        c += self.version
+        c = self.magic + self.version
 
         # Prepare auto-generated sections
         sections = self.sections
