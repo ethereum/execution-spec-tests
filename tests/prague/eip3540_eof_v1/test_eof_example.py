@@ -5,7 +5,9 @@ EOF Classes example use
 import pytest
 
 from ethereum_test_tools import EOFTestFiller
-from ethereum_test_tools.eof.v1 import AutoSection, Container, Section, SectionKind
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools.eof.v1 import AutoSection, Container, Section
+from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 
 from .constants import EOF_FORK_NAME
 
@@ -17,63 +19,64 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 def test_eof_example(eof_test: EOFTestFiller):
     """
-    Example of PYSPECs EOF classes
+    Example of python EOF classes
     """
-
     # Lets construct an EOF container code
     eof_code = Container(
         name="valid_container_example",
         sections=[
             # TYPES section is constructed automatically based on CODE
             # CODE section
-            Section(
-                kind=SectionKind.CODE,
-                data="0x5fe3000100",  # this is the actual bytecode to be deployed in the body
+            Section.Code(
+                code=Op.CALLF[1](Op.PUSH0) + Op.STOP,  # bytecode to be deployed in the body
+                # Code: call section 1 with a single zero as input, then stop.
                 code_inputs=0,  # define code header (in body) input bytes
-                code_outputs=128,  # define code header (in body) output bytes (128 = 0x80 non ret)
+                code_outputs=NON_RETURNING_SECTION,  # define code header (in body) output bytes
                 max_stack_height=1,  # define code header (in body) stack size
             ),
             # There can be multiple code sections
-            Section(
-                kind=SectionKind.CODE,
-                data="0x50E3000250E4",
+            Section.Code(
+                # Remove input and call section 2 with no inputs, then remove output and return
+                code=Op.POP + Op.CALLF[2]() + Op.POP + Op.RETF,
                 code_inputs=1,
                 code_outputs=0,
                 max_stack_height=1,
             ),
-            Section(
-                kind=SectionKind.CODE,
-                data="0x3080e300035050e4",
+            Section.Code(
+                # Call section 3 with two inputs (address twice), return
+                code=Op.CALLF[3](Op.DUP1, Op.ADDRESS) + Op.POP + Op.POP + Op.RETF,
                 code_inputs=0,
                 code_outputs=1,
                 max_stack_height=3,
             ),
-            Section(
-                kind=SectionKind.CODE,
-                data="80e4",
+            Section.Code(
+                # Duplicate one input and return
+                code=Op.DUP1 + Op.RETF,
                 code_inputs=2,
                 code_outputs=3,
                 max_stack_height=3,
             ),
             # DATA section
-            Section(kind=SectionKind.DATA, data="0xef"),
+            Section.Data("0xef"),
         ],
-        # This will construct a valid EOF container with this bytes
-        # 0xef0001010010020004000500060008000204000000008000010100000100010003020300035fe300010050
-        # e3000250e43080e300035050e480e4
+    )
+
+    # This will construct a valid EOF container with these bytes
+    assert bytes(eof_code) == bytes.fromhex(
+        "ef0001010010020004000500060008000204000000008000010100000100010003020300035fe300010050"
+        "e3000250e43080e300035050e480e4"
     )
 
     eof_test(
-        data=bytes(eof_code),
+        data=eof_code,
         expect_exception=eof_code.validity_error,
     )
 
 
 def test_eof_example_custom_fields(eof_test: EOFTestFiller):
     """
-    Example of PYSPECs EOF class tuning
+    Example of python EOF container class tuning
     """
-
     # if you need to overwrite certain structure bytes, you can use customization
     # this is useful for unit testing the eof structure format, you can reorganize sections
     # and overwrite the header bytes for testing purposes
@@ -85,21 +88,20 @@ def test_eof_example_custom_fields(eof_test: EOFTestFiller):
         name="valid_container_example_2",
         custom_magic=0x00,  # magic can be overwritten for test purposes, (default is 0x00)
         custom_version=0x01,  # version can be overwritten for testing purposes (default is 0x01)
-        custom_terminator=bytes([0]),  # terminator byte can be overwritten (default is 0x00)
-        extra=None,  # extra bytes to be trailed after the container body bytes (default is None)
+        header_terminator=bytes([0]),  # terminator byte can be overwritten (default is 0x00)
+        extra=b"",  # extra bytes to be trailed after the container body bytes (default is None)
         sections=[
             # TYPES section is constructed automatically based on CODE
             # CODE section
-            Section(
-                kind=SectionKind.CODE,
-                data="0x600200",  # this is the actual bytecode to be deployed in the body
+            Section.Code(
+                code=Op.PUSH1(2)
+                + Op.STOP,  # this is the actual bytecode to be deployed in the body
                 code_inputs=0,  # define code header (in body) input bytes
-                code_outputs=128,  # define code header (in body) output bytes (128 = 0x80 non ret)
+                code_outputs=NON_RETURNING_SECTION,  # define code header (in body) output bytes
                 max_stack_height=1,  # define code header (in body) stack size
             ),
             # DATA section
-            Section(
-                kind=SectionKind.DATA,
+            Section.Data(
                 data="0xef",
                 # custom_size overrides the size bytes, so you can put only 1 byte into data
                 # but still make the header size of 2 to produce invalid section
@@ -120,6 +122,6 @@ def test_eof_example_custom_fields(eof_test: EOFTestFiller):
     )
 
     eof_test(
-        data=bytes(eof_code),
+        data=eof_code,
         expect_exception=eof_code.validity_error,
     )

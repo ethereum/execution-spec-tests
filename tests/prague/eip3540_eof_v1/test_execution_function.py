@@ -16,9 +16,10 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
+from ethereum_test_tools.eof.v1.constants import MAX_CODE_SECTIONS, MAX_RETURN_STACK_HEIGHT
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .constants import EOF_FORK_NAME, MAX_CODE_SECTIONS, MAX_RETURN_STACK_HEIGHT
+from .constants import EOF_FORK_NAME
 
 # List all containers used within execution tests, since they will need to be
 # valid EOF V1 containers too

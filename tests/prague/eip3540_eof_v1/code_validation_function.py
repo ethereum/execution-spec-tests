@@ -6,9 +6,8 @@ from typing import List
 
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
+from ethereum_test_tools.eof.v1.constants import MAX_CODE_SECTIONS
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-from .constants import MAX_CODE_SECTIONS
 
 
 def bytes_concatenate(bytes_list: List[bytes]) -> bytes:

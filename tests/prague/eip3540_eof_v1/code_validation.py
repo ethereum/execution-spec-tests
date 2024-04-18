@@ -6,9 +6,9 @@ from typing import List
 
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
+from ethereum_test_tools.eof.v1.constants import MAX_BYTECODE_SIZE, MAX_OPERAND_STACK_HEIGHT
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .constants import MAX_BYTECODE_SIZE, MAX_OPERAND_STACK_HEIGHT
 from .opcodes import (
     INVALID_OPCODES,
     INVALID_TERMINATING_OPCODES,

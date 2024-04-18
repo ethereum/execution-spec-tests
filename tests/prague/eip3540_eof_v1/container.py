@@ -7,10 +7,13 @@ from typing import List
 from ethereum_test_tools.eof import LATEST_EOF_VERSION
 from ethereum_test_tools.eof.v1 import VERSION_MAX_SECTION_KIND, AutoSection, Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
+from ethereum_test_tools.eof.v1.constants import (
+    MAX_CODE_INPUTS,
+    MAX_CODE_OUTPUTS,
+    MAX_OPERAND_STACK_HEIGHT,
+)
 from ethereum_test_tools.exceptions import EOFException
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-from .constants import MAX_CODE_INPUTS, MAX_CODE_OUTPUTS, MAX_OPERAND_STACK_HEIGHT
 
 VALID: List[Container] = [
     Container(
@@ -219,21 +222,21 @@ INVALID: List[Container] = [
     ),
     Container(
         name="no_section_terminator_1",
-        custom_terminator=bytes(),
+        header_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x00", custom_size=2)],
         # TODO the exception must be about terminator
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="no_section_terminator_2",
-        custom_terminator=bytes(),
+        header_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x", custom_size=3)],
         # TODO the exception must be about terminator
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="no_section_terminator_3",
-        custom_terminator=bytes(),
+        header_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x600000")],
         # TODO the exception must be about terminator
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
@@ -288,14 +291,14 @@ INVALID: List[Container] = [
     ),
     Container(
         name="no_section_terminator_3a",
-        custom_terminator=bytes(),
+        header_terminator=bytes(),
         sections=[Section(kind=Kind.CODE, data="0x030004")],
         # TODO the exception must be about terminator
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
         name="no_section_terminator_4a",
-        custom_terminator=bytes(),
+        header_terminator=bytes(),
         sections=[
             Section(kind=Kind.CODE, data="0x00"),
             Section(kind=Kind.DATA, data="0xAABBCCDD"),
@@ -309,7 +312,7 @@ INVALID: List[Container] = [
             Section(kind=Kind.CODE, data="0x00"),
             Section(kind=Kind.DATA, data="0x", custom_size=1),
         ],
-        # TODO maybe it should detect that it is the data body thats wrong
+        # TODO: maybe it should detect that it is the data body that is wrong
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
