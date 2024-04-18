@@ -126,6 +126,7 @@ class Opcode(OpcodeMacroBase):
     min_stack_height: int
     data_portion_length: int
     data_portion_formatter: Optional[Callable[[Any], bytes]]
+    unchecked_stack: bool = False
 
     def __new__(
         cls,
@@ -136,6 +137,7 @@ class Opcode(OpcodeMacroBase):
         min_stack_height: int = 0,
         data_portion_length: int = 0,
         data_portion_formatter=None,
+        unchecked_stack=False,
     ):
         """
         Creates a new opcode instance.
@@ -154,6 +156,7 @@ class Opcode(OpcodeMacroBase):
             obj.min_stack_height = min_stack_height
             obj.data_portion_length = data_portion_length
             obj.data_portion_formatter = data_portion_formatter
+            obj.unchecked_stack = unchecked_stack
             return obj
         raise TypeError("Opcode constructor '__new__' didn't return an instance!")
 
@@ -201,6 +204,7 @@ class Opcode(OpcodeMacroBase):
             min_stack_height=self.min_stack_height,
             data_portion_length=0,
             data_portion_formatter=None,
+            unchecked_stack=self.unchecked_stack,
         )
         new_opcode._name_ = self._name_
         return new_opcode
@@ -275,7 +279,7 @@ class Opcode(OpcodeMacroBase):
                 raise TypeError("Opcode data portion must be either an int or bytes/hex string")
 
         # The rest of the arguments conform the stack.
-        if len(args) != self.popped_stack_items and not unchecked:
+        if len(args) != self.popped_stack_items and not (unchecked or self.unchecked_stack):
             raise ValueError(
                 f"Opcode {self._name_} requires {self.popped_stack_items} stack elements, but "
                 f"{len(args)} were provided. Use 'unchecked=True' parameter to ignore this check."
@@ -4736,7 +4740,7 @@ class Opcodes(Opcode, Enum):
     Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
     """
 
-    CALLF = Opcode(0xE3, data_portion_length=2)
+    CALLF = Opcode(0xE3, data_portion_length=2, unchecked_stack=True)
     """
     !!! Note: This opcode is under development
 
@@ -4746,11 +4750,23 @@ class Opcodes(Opcode, Enum):
     Description
     ----
 
+    - deduct 5 gas
+    - read uint16 operand idx
+    - if 1024 < len(stack) + types[idx].max_stack_height - types[idx].inputs, execution results in
+        an exceptional halt
+    - if 1024 <= len(return_stack), execution results in an exceptional halt
+    - push new element to return_stack (current_code_idx, pc+3)
+    - update current_code_idx to idx and set pc to 0
+
     Inputs
     ----
+    Any: The inputs are not checked because we cannot know how many inputs the callee
+    function/section requires
 
     Outputs
     ----
+    Any: The outputs are variable because we cannot know how many outputs the callee
+    function/section produces
 
     Fork
     ----
@@ -4758,9 +4774,10 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-    3
+    5
 
-    Source: [eips.ethereum.org/EIPS/eip-4750](https://eips.ethereum.org/EIPS/eip-4750)
+    Source:
+    [ipsilon/eof/blob/main/spec/eof.md](https://github.com/ipsilon/eof/blob/main/spec/eof.md)
     """
 
     RETF = Opcode(0xE4)
@@ -4895,6 +4912,14 @@ class Opcodes(Opcode, Enum):
     Description
     ----
 
+    - deduct 5 gas
+    - read uint16 operand idx
+    - if 1024 < len(stack) + types[idx].max_stack_height - types[idx].inputs, execution results in
+        an exceptional halt
+    - set current_code_idx to idx
+    - set pc = 0
+
+
     Inputs
     ----
 
@@ -4903,9 +4928,11 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
+    EOF Fork
 
     Gas
     ----
+    5
 
     """
 
