@@ -111,6 +111,7 @@ executables
 extcodecopy
 extcodehash
 extcodesize
+F00
 filesystem
 fn
 fname

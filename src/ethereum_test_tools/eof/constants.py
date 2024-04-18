@@ -2,7 +2,7 @@
 EVM Object Format generic constants.
 Applicable to all EOF versions.
 """
-EOF_MAGIC = b"\x00"
+EOF_MAGIC = b"\xef\x00"
 """
 The second byte found on every EOF formatted contract, which was chosen to
 avoid clashes with three contracts which were deployed on Mainnet.

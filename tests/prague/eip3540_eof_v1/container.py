@@ -149,13 +149,13 @@ INVALID: List[Container] = [
     ),
     Container(
         name="invalid_magic_01",
-        magic=b"\x01",
+        magic=b"\xef\x01",
         sections=[Section.Code(Op.STOP)],
         validity_error=EOFException.INVALID_MAGIC,
     ),
     Container(
         name="invalid_magic_ff",
-        magic=b"\xFF",
+        magic=b"\xef\xFF",
         sections=[Section.Code(Op.STOP)],
         validity_error=EOFException.INVALID_MAGIC,
     ),
