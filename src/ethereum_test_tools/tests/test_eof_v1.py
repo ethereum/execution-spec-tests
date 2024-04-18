@@ -46,7 +46,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                 Section.Data("0x0C"),
             ],
         ),
-        "ef0001 01 0004 02 0001 0001 03 0001 0001 04 0001 00" "00000000 0A 0C 0B",
+        "ef0001 01 0004 02 0001 0001 03 0001 0001 04 0001 00" "00000000 0A 0B 0C",
     ),
     (
         "Single code section, single container section, single data 2",
@@ -57,7 +57,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                 Section.Container("0x0B"),
             ],
         ),
-        "ef0001 01 0004 02 0001 0001 03 0001 0001 04 0001 00" "00000000 0A 0C 0B",
+        "ef0001 01 0004 02 0001 0001 03 0001 0001 04 0001 00" "00000000 0A 0B 0C",
     ),
     (
         "Single code section, multiple container section, single data",
@@ -69,7 +69,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                 Section.Container("0x0D"),
             ],
         ),
-        "ef0001 01 0004 02 0001 0001 03 0002 0001 0001 04 0001 00" "00000000 0A 0C 0B 0D",
+        "ef0001 01 0004 02 0001 0001 03 0002 0001 0001 04 0001 00" "00000000 0A 0B 0D 0C",
     ),
     (
         "Single code section, multiple container sections",

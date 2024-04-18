@@ -20,6 +20,9 @@ from .constants import (
     HEADER_SECTION_COUNT_BYTE_LENGTH,
     HEADER_SECTION_KIND_BYTE_LENGTH,
     HEADER_SECTION_SIZE_BYTE_LENGTH,
+    TYPES_INPUTS_BYTE_LENGTH,
+    TYPES_OUTPUTS_BYTE_LENGTH,
+    TYPES_STACK_BYTE_LENGTH,
     VERSION_NUMBER_BYTES,
 )
 
@@ -134,7 +137,7 @@ class Section(CopyValidateModel):
     @cached_property
     def type_definition(self) -> bytes:
         """
-        Returns a serialized type section entry for the given values.
+        Returns a serialized type section entry for this section.
         """
         if self.kind != SectionKind.CODE and not self.force_type_listing:
             return bytes()
@@ -158,7 +161,11 @@ class Section(CopyValidateModel):
                     auto_code_outputs,
                 )
 
-        return make_type_def(code_inputs, code_outputs, max_stack_height)
+        return (
+            code_inputs.to_bytes(length=TYPES_INPUTS_BYTE_LENGTH, byteorder="big")
+            + code_outputs.to_bytes(length=TYPES_OUTPUTS_BYTE_LENGTH, byteorder="big")
+            + max_stack_height.to_bytes(length=TYPES_STACK_BYTE_LENGTH, byteorder="big")
+        )
 
     def with_max_stack_height(self, max_stack_height) -> "Section":
         """
@@ -358,14 +365,7 @@ class Container(CopyValidateModel, Bytecode):
         body_sections = sections[:]
         if self.auto_sort_sections.body():
             # Sort sections for the body
-            body_sections.sort(
-                key=lambda x: x.kind
-                if x.kind not in [SectionKind.CONTAINER, SectionKind.DATA]
-                # flip container and data sections
-                else SectionKind.CONTAINER
-                if x.kind == SectionKind.DATA
-                else SectionKind.DATA
-            )
+            body_sections.sort(key=lambda x: x.kind)
 
         # Add section bodies
         for s in body_sections:
@@ -443,26 +443,6 @@ def count_sections(sections: List[Section], kind: SectionKind | int) -> int:
     Counts sections from a list that match a specific kind
     """
     return len([s for s in sections if s.kind == kind])
-
-
-def make_type_def(inputs, outputs, max_stack_height) -> bytes:
-    """
-    Returns a serialized type section entry for the given values.
-    """
-    out = bytes()
-    out += inputs.to_bytes(
-        length=((inputs.bit_length() - 1) // 8 + 1) if inputs > 0 else 1,
-        byteorder="big",
-    )
-    out += outputs.to_bytes(
-        length=((outputs.bit_length() - 1) // 8 + 1) if outputs > 0 else 1,
-        byteorder="big",
-    )
-    out += max_stack_height.to_bytes(
-        length=((outputs.bit_length() - 1) // 8 + 1) if outputs > 255 else 2,
-        byteorder="big",
-    )
-    return out
 
 
 OPCODE_MAP: Dict[int, Op] = {x.int(): x for x in Op}
