@@ -34,19 +34,15 @@ def download_and_extract(url: str, base_directory: Path) -> Path:
     Download the URL and extract it locally if it hasn't already been downloaded.
     """
     parsed_url = urlparse(url)
-    # Extract filename and version from URL
     filename = Path(parsed_url.path).name
     version = Path(parsed_url.path).parts[-2]
-
-    # Create unique directory path for this version
     extract_to = base_directory / version / filename.removesuffix(".tar.gz")
 
     if extract_to.exists():
+        # skip download if the archive has already been downloaded
         return extract_to
 
     extract_to.mkdir(parents=True, exist_ok=False)
-
-    # Download and extract the archive
     response = requests.get(url)
     response.raise_for_status()
 
