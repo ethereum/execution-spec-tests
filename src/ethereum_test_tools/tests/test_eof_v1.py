@@ -22,10 +22,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Single code section",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
         ),
         "ef0001 01 0004 02 0001 0001 04 0000 00 00000000 00",
@@ -34,14 +31,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Single code section, single container section",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x0A",
-                ),
-                Section(
-                    kind=SectionKind.CONTAINER,
-                    data="0x0B",
-                ),
+                Section.Code("0x0A"),
+                Section.Container("0x0B"),
             ],
         ),
         "ef0001 01 0004 02 0001 0001 03 0001 0001 04 0000 00 00000000 0A 0B",
@@ -50,18 +41,9 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Single code section, single container section, single data",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x0A",
-                ),
-                Section(
-                    kind=SectionKind.CONTAINER,
-                    data="0x0B",
-                ),
-                Section(
-                    kind=SectionKind.DATA,
-                    data="0x0C",
-                ),
+                Section.Code("0x0A"),
+                Section.Container("0x0B"),
+                Section.Data("0x0C"),
             ],
         ),
         "ef0001 01 0004 02 0001 0001 03 0001 0001 04 0001 00" "00000000 0A 0C 0B",
@@ -70,18 +52,9 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Single code section, single container section, single data 2",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x0A",
-                ),
-                Section(
-                    kind=SectionKind.DATA,
-                    data="0x0C",
-                ),
-                Section(
-                    kind=SectionKind.CONTAINER,
-                    data="0x0B",
-                ),
+                Section.Code("0x0A"),
+                Section.Data("0x0C"),
+                Section.Container("0x0B"),
             ],
         ),
         "ef0001 01 0004 02 0001 0001 03 0001 0001 04 0001 00" "00000000 0A 0C 0B",
@@ -90,22 +63,10 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Single code section, multiple container section, single data",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x0A",
-                ),
-                Section(
-                    kind=SectionKind.CONTAINER,
-                    data="0x0B",
-                ),
-                Section(
-                    kind=SectionKind.DATA,
-                    data="0x0C",
-                ),
-                Section(
-                    kind=SectionKind.CONTAINER,
-                    data="0x0D",
-                ),
+                Section.Code("0x0A"),
+                Section.Container("0x0B"),
+                Section.Data("0x0C"),
+                Section.Container("0x0D"),
             ],
         ),
         "ef0001 01 0004 02 0001 0001 03 0002 0001 0001 04 0001 00" "00000000 0A 0C 0B 0D",
@@ -114,18 +75,9 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Single code section, multiple container sections",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
-                Section(
-                    kind=SectionKind.CONTAINER,
-                    data="0x0001",
-                ),
-                Section(
-                    kind=SectionKind.CONTAINER,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
+                Section.Container("0x0001"),
+                Section.Container("0x00"),
             ],
         ),
         "ef0001 01 0004 02 0001 0001 03 0002 0002 0001 04 0000 00 00000000 00" "0001 00",
@@ -133,7 +85,7 @@ test_cases: List[Tuple[str, Container, str]] = [
     (
         "No code section",
         Container(
-            sections=[Section(kind=SectionKind.DATA, data="0x00")],
+            sections=[Section.Data("0x00")],
         ),
         "ef0001 01 0000 04 0001 00 00",
     ),
@@ -142,10 +94,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         Container(
             auto_type_section=AutoSection.NONE,
             sections=[
-                Section(
-                    kind=SectionKind.DATA,
-                    data="0x00",
-                ),
+                Section.Data("0x00"),
             ],
         ),
         "ef0001 04 0001 00 00",
@@ -168,14 +117,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Multiple sections",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x0e",
-                ),
-                Section(
-                    kind=SectionKind.DATA,
-                    data="0x0f",
-                ),
+                Section.Code("0x0e"),
+                Section.Data("0x0f"),
             ],
         ),
         "ef0001 01 0004 02 0001 0001 04 0001 00 00000000 0e 0f",
@@ -192,10 +135,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                     kind=SectionKind.TYPE,
                     data="0x00000000",
                 ),
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
             auto_type_section=AutoSection.NONE,
         ),
@@ -206,10 +146,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         Container(
             custom_magic=0xFE,
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
         ),
         "effe01 01 0004 02 0001 0001 04 0000 00 00000000 00",
@@ -219,10 +156,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         Container(
             custom_version=0x02,
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
         ),
         "ef0002 01 0004 02 0001 0001 04 0000 00 00000000 00",
@@ -231,9 +165,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Section Invalid size Version",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     custom_size=0xFFFF,
                 ),
             ],
@@ -244,19 +177,11 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Nested EOF",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
                 Section(
                     kind=SectionKind.CONTAINER,
                     data=Container(
-                        sections=[
-                            Section(
-                                kind=SectionKind.CODE,
-                                data="0x01",
-                            )
-                        ],
+                        sections=[Section.Code("0x01")],
                     ),
                 ),
             ],
@@ -268,19 +193,10 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Nested EOF in Data",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
-                Section(
-                    kind=SectionKind.DATA,
+                Section.Code("0x00"),
+                Section.Data(
                     data=Container(
-                        sections=[
-                            Section(
-                                kind=SectionKind.CODE,
-                                data="0x01",
-                            )
-                        ],
+                        sections=[Section.Code("0x01")],
                     ),
                 ),
             ],
@@ -292,10 +208,9 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Incomplete code section",
         Container(
             sections=[
-                Section(
+                Section.Code(
+                    code=b"",
                     custom_size=0x02,
-                    kind=SectionKind.CODE,
-                    data="0x",
                 ),
             ],
         ),
@@ -305,10 +220,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Trailing bytes after code section",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x600000",
-                ),
+                Section.Code("0x600000"),
             ],
             extra=bytes.fromhex("deadbeef"),
         ),
@@ -318,14 +230,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Multiple code sections",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x600000",
-                ),
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x600000",
-                ),
+                Section.Code("0x600000"),
+                Section.Code("0x600000"),
             ],
         ),
         """
@@ -339,12 +245,9 @@ test_cases: List[Tuple[str, Container, str]] = [
         "No section terminator",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x600000",
-                ),
+                Section.Code("0x600000"),
             ],
-            custom_terminator=bytes(),
+            header_terminator=bytes(),
         ),
         "ef0001 01 0004 02 0001 0003 04 0000 00000000 600000",
     ),
@@ -353,10 +256,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         Container(
             auto_type_section=AutoSection.NONE,
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
         ),
         "ef0001 02 0001 0001 04 0000 00 00",
@@ -365,12 +265,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Data section in types",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
-                Section(
-                    kind=SectionKind.DATA,
+                Section.Code("0x00"),
+                Section.Data(
                     data="0x00",
                     force_type_listing=True,
                 ),
@@ -386,9 +282,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Code section inputs",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     code_inputs=1,
                 ),
             ],
@@ -403,9 +298,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Code section inputs 2",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     code_inputs=0xFF,
                 ),
             ],
@@ -420,9 +314,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Code section outputs",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     code_outputs=1,
                 ),
             ],
@@ -437,9 +330,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Code section outputs 2",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     code_outputs=0xFF,
                 ),
             ],
@@ -454,9 +346,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Code section max stack height",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     max_stack_height=0x0201,
                 ),
             ],
@@ -471,9 +362,8 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Code section max stack height 2",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     max_stack_height=0xFFFF,
                 ),
             ],
@@ -488,15 +378,11 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Code section max stack height 3",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
+                Section.Code(
+                    "0x00",
                     max_stack_height=0xFFFF,
                 ),
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
         ),
         """
@@ -514,10 +400,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                     kind=SectionKind.TYPE,
                     data="0x00",
                 ),
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
         ),
         "ef0001 01 0001 02 0001 0001 04 0000 00 00 00",
@@ -530,10 +413,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                     kind=SectionKind.TYPE,
                     data="0x0000000000",
                 ),
-                Section(
-                    kind=SectionKind.CODE,
-                    data="0x00",
-                ),
+                Section.Code("0x00"),
             ],
         ),
         "ef0001 01 0005 02 0001 0001 04 0000 00 0000000000 00",
@@ -543,7 +423,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         Container(
             sections=[
                 Section(kind=SectionKind.TYPE, data="0x"),
-                Section(kind=SectionKind.CODE, data="0x00"),
+                Section.Code("0x00"),
             ],
             auto_type_section=AutoSection.NONE,
         ),
@@ -553,14 +433,13 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Check that simple valid EOF1 deploys",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
+                Section.Code(
+                    "0x305000",
                     code_inputs=0,
                     code_outputs=128,  # Non returning
                     max_stack_height=1,
-                    data="0x305000",
                 ),
-                Section(kind=SectionKind.DATA, data="0xef"),
+                Section.Data("0xef"),
             ],
             auto_type_section=AutoSection.AUTO,
         ),
@@ -588,14 +467,13 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Data Section custom_size parameter overwrites bytes size",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
+                Section.Code(
+                    "0x305000",
                     code_inputs=0,
                     code_outputs=128,  # Non returning
                     max_stack_height=1,
-                    data="0x305000",
                 ),
-                Section(kind=SectionKind.DATA, data="0x0bad", custom_size=4),
+                Section.Data("0x0bad", custom_size=4),
             ],
             auto_type_section=AutoSection.AUTO,
         ),
@@ -623,42 +501,37 @@ test_cases: List[Tuple[str, Container, str]] = [
         "Multiple code segments",
         Container(
             sections=[
-                Section(
-                    kind=SectionKind.CODE,
+                Section.Code(
+                    "0x5f35e2030000000300060009e50001e50002e50003e3000400",
                     code_inputs=0,
                     code_outputs=128,  # Non returning
                     max_stack_height=1,
-                    data="0x5f35e2030000000300060009e50001e50002e50003e3000400",
                 ),
-                Section(
-                    kind=SectionKind.CODE,
+                Section.Code(
+                    "0x5f5ff3",
                     code_inputs=0,
                     code_outputs=128,  # Non returning
                     max_stack_height=2,
-                    data="0x5f5ff3",
                 ),
-                Section(
-                    kind=SectionKind.CODE,
+                Section.Code(
+                    "0x5f5ffd",
                     code_inputs=0,
                     code_outputs=128,  # Non returning
                     max_stack_height=2,
-                    data="0x5f5ffd",
                 ),
-                Section(
-                    kind=SectionKind.CODE,
+                Section.Code(
+                    "0xfe",
                     code_inputs=0,
                     code_outputs=128,  # Non returning
                     max_stack_height=0,
-                    data="0xfe",
                 ),
-                Section(
-                    kind=SectionKind.CODE,
+                Section.Code(
+                    "0xe4",
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=0,
-                    data="0xe4",
                 ),
-                Section(kind=SectionKind.DATA, data="0x0bad60a7", custom_size=4),
+                Section.Data("0x0bad60a7", custom_size=4),
             ],
             auto_type_section=AutoSection.AUTO,
         ),
