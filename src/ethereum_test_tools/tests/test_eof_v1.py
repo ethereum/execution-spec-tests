@@ -144,7 +144,7 @@ test_cases: List[Tuple[str, Container, str]] = [
     (
         "Invalid Magic",
         Container(
-            custom_magic=0xFE,
+            magic=b"\xFE",
             sections=[
                 Section.Code("0x00"),
             ],
@@ -154,7 +154,7 @@ test_cases: List[Tuple[str, Container, str]] = [
     (
         "Invalid Version",
         Container(
-            custom_version=0x02,
+            version=b"\x02",
             sections=[
                 Section.Code("0x00"),
             ],

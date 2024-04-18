@@ -261,12 +261,12 @@ class Container(CopyValidateModel, Bytecode):
     """
     List of sections in the container
     """
-    custom_magic: Optional[int] = None
+    magic: Bytes = Bytes(EOF_MAGIC)
     """
     Custom magic value used to override the mandatory EOF value for testing
     purposes.
     """
-    custom_version: Optional[int] = None
+    version: Bytes = Bytes(VERSION_NUMBER_BYTES)
     """
     Custom version value used to override the mandatory EOF V1 value
     for testing purposes.
@@ -321,13 +321,9 @@ class Container(CopyValidateModel, Bytecode):
 
         c = bytes([0xEF])
 
-        c += EOF_MAGIC if self.custom_magic is None else self.custom_magic.to_bytes(1, "big")
+        c += self.magic
 
-        c += (
-            VERSION_NUMBER_BYTES
-            if self.custom_version is None
-            else self.custom_version.to_bytes(1, "big")
-        )
+        c += self.version
 
         # Prepare auto-generated sections
         sections = self.sections

@@ -2,12 +2,12 @@
 EVM Object Format generic constants.
 Applicable to all EOF versions.
 """
-EOF_MAGIC = bytes([0])
+EOF_MAGIC = b"\x00"
 """
 The second byte found on every EOF formatted contract, which was chosen to
 avoid clashes with three contracts which were deployed on Mainnet.
 """
-EOF_HEADER_TERMINATOR = bytes([0])
+EOF_HEADER_TERMINATOR = b"\x00"
 """
 Byte that terminates the header of the EOF format.
 """
