@@ -27,6 +27,7 @@ blocknum
 blocktest
 bls
 blueswen
+boolean
 br
 bytecode
 byteorder
