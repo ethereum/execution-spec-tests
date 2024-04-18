@@ -41,6 +41,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/consuming_tests/eof_test/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/consuming_tests/exceptions/</loc>
          <lastmod>2024-04-18</lastmod>
          <changefreq>daily</changefreq>
@@ -597,6 +602,46 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/spec/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_code_validation/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_code_validation/index/test_cases/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_eof_example/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_eof_example/index/test_cases/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_execution_function/</loc>
+         <lastmod>2024-04-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_execution_function/index/test_cases/</loc>
          <lastmod>2024-04-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
