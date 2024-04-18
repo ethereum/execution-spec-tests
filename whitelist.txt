@@ -274,6 +274,7 @@ subclasscheck
 subdirectories
 subdirectory
 subgraph
+subscriptable
 substring
 sudo
 t8n
