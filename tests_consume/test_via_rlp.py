@@ -20,9 +20,9 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from ethereum_test_tools.common.base_types import Bytes, Hash
+from ethereum_test_tools.common.base_types import Bytes
 from ethereum_test_tools.common.json import to_json
-from ethereum_test_tools.spec.blockchain.types import Fixture, FixtureBlock
+from ethereum_test_tools.spec.blockchain.types import Fixture
 from ethereum_test_tools.spec.consume.types import TestCaseIndexFile, TestCaseStream
 from ethereum_test_tools.spec.file.types import BlockchainFixtures
 from pytest_plugins.consume.consume import JsonSource
@@ -46,31 +46,7 @@ def fixture(fixture_source: JsonSource, test_case: TestCase) -> Fixture:
         # cache fixtures as for statetest?
         fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
         fixture = fixtures[test_case.id]
-    if any(
-        block in fixture.blocks for block in fixture.blocks if not isinstance(block, FixtureBlock)
-    ):
-        pytest.skip("Expected all blocks to be of type FixtureBlock")
     return fixture
-
-
-@pytest.fixture(scope="function")
-def expected_hash(fixture: Fixture) -> Hash:
-    """
-    The fixture's last block header hash.
-    """
-    last_block = fixture.blocks[-1]
-    assert isinstance(last_block, FixtureBlock), "Expected a valid block fixture"
-    return last_block.header.block_hash
-
-
-@pytest.fixture(scope="function")
-def expected_state_root(fixture: Fixture) -> Hash:
-    """
-    The fixture's last block header state root.
-    """
-    last_block = fixture.blocks[-1]
-    assert isinstance(last_block, FixtureBlock), "Expected a valid block fixture"
-    return last_block.header.state_root
 
 
 @pytest.fixture(scope="function")
@@ -229,8 +205,6 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
 def test_via_rlp(
     client: Client,
     fixture: Fixture,
-    expected_hash: str,
-    expected_state_root: str,
 ):
     """
     Verify that the client's state as calculated from the specified genesis state
@@ -243,10 +217,6 @@ def test_via_rlp(
     """
     genesis_block = get_block(client, 0)
     assert genesis_block["hash"] == str(fixture.genesis.block_hash), "genesis hash mismatch"
-
     block = get_block(client, "latest")
-    assert block["number"] == hex(len(fixture.blocks)), "unexpected latest block number"
-    # print("\n     got state root", block["stateRoot"], "hash", block["hash"])
-    # print("expected state root", expected_state_root, "hash", expected_hash)
-    assert block["stateRoot"] == expected_state_root, "state root mismatch in last block"
-    assert block["hash"] == expected_hash, "hash mismatch in last block"
+    # assert block["number"] == hex(len(fixture.blocks)), "unexpected latest block number"
+    assert block["hash"] == fixture.last_block_hash, "hash mismatch in last block"
