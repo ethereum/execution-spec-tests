@@ -77,6 +77,7 @@ def to_geth_genesis(fixture: Fixture) -> dict:
             "coinbase",
             "baseFeePerGas",
             "withdrawalsRoot",
+            "excessBlobGas",
             "blobFeePerGas",
             "blobGasUsed",
         ]
