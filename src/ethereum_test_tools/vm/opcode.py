@@ -5038,6 +5038,30 @@ class Opcodes(Opcode, Enum):
 
     """
 
+    TXCREATE = Opcode(0xED, popped_stack_items=5, pushed_stack_items=1)
+    """
+    !!! Note: This opcode is under development
+
+    TXCREATE(tx_initcode_hash, value, salt, input_offset, input_size)
+    ----
+
+    Description
+    ----
+
+    Inputs
+    ----
+
+    Outputs
+    ----
+
+    Fork
+    ----
+
+    Gas
+    ----
+
+    """
+
     RETURNCONTRACT = Opcode(
         0xEE, popped_stack_items=2, pushed_stack_items=1, data_portion_length=1
     )
@@ -5316,7 +5340,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Prague
+    EOF Fork
 
     Gas
     ----
@@ -5325,6 +5349,35 @@ class Opcodes(Opcode, Enum):
     dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
         + positive_value_cost + value_to_empty_account_cost
     ```
+
+    Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
+    """
+
+    RETURNDATALOAD = Opcode(0xF7, popped_stack_items=1, pushed_stack_items=1)
+    """
+    RETURNDATALOAD(offset) = returndata
+    ----
+
+    Description
+    ----
+    Copies 32 bytes of return data onto the operand stack
+
+    Inputs
+    ----
+    - offset: The offset within the return data to start copying. There must be 32 byes of return
+      data at that address or an exceptional halt occurs.
+
+    Outputs
+    ----
+    - returndata: the 32 bytes of return data at the offset
+
+    Fork
+    ----
+    EOF Fork
+
+    Gas
+    ----
+    3
 
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
@@ -5354,7 +5407,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Prague
+    EOF Fork
 
     Gas
     ----
@@ -5400,7 +5453,7 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#FA](https://www.evm.codes/#FA)
     """
 
-    EXTSTATICCALL = Opcode(0xFB, popped_stack_items=4, pushed_stack_items=1)
+    EXTSTATICCALL = Opcode(0xFB, popped_stack_items=3, pushed_stack_items=1)
     """
     EXTSTATICCALL(target_address, input_offset, input_size) = address
     ----
@@ -5424,7 +5477,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    Prague
+    EOF Fork
 
     Gas
     ----
@@ -5432,30 +5485,6 @@ class Opcodes(Opcode, Enum):
     - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
 
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
-    """
-
-    CREATE4 = Opcode(0xF7, popped_stack_items=5, pushed_stack_items=1)
-    """
-    !!! Note: This opcode is under development
-
-    CREATE4()
-    ----
-
-    Description
-    ----
-
-    Inputs
-    ----
-
-    Outputs
-    ----
-
-    Fork
-    ----
-
-    Gas
-    ----
-
     """
 
     REVERT = Opcode(0xFD, popped_stack_items=2)

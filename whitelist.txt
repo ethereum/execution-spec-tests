@@ -3,6 +3,7 @@ acl
 addr
 address
 address2
+ase
 alloc
 api
 apis
@@ -244,6 +245,7 @@ repo
 repo's
 repos
 returndatacopy
+returndataload
 returndatasize
 returncontract
 rlp
@@ -272,7 +274,7 @@ StateTestFiller
 staticcalled
 stExample
 str
-streetsidesoftware
+streetsidesoftiware
 subcall
 subclasscheck
 subdirectories
@@ -549,7 +551,7 @@ tstore
 create
 create2
 create3
-create4
+txcreate
 call
 callcode
 return
