@@ -6,7 +6,13 @@ import pytest
 
 from ethereum_test_tools import EOFTestFiller
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools.eof.v1 import AutoSection, BytesConvertible, Container, Section
+from ethereum_test_tools.eof.v1 import (
+    AutoSection,
+    BytesConvertible,
+    Container,
+    EOFException,
+    Section,
+)
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 
 from .spec import EOF_FORK_NAME
@@ -132,13 +138,14 @@ def test_eof_example_custom_fields(eof_test: EOFTestFiller):
     ("0x01", "0xef"),
 )
 @pytest.mark.parametrize(
-    "code_section_code",
-    (Op.PUSH1(10) + Op.STOP, Op.PUSH1(14) + Op.STOP),
+    "code_section_code, exception",
+    [(Op.PUSH1(10) + Op.STOP, None), (Op.PUSH1(14), EOFException.MISSING_STOP_OPCODE)],
 )
 def test_eof_example_parameters(
     eof_test: EOFTestFiller,
     data_section_bytes: BytesConvertible,
     code_section_code: BytesConvertible,
+    exception: EOFException,
 ):
     """
     Example of python EOF classes
@@ -154,6 +161,7 @@ def test_eof_example_parameters(
             ),
             Section.Data(data_section_bytes),
         ],
+        validity_error=exception,
     )
 
     eof_test(

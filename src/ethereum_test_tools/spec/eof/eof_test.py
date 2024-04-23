@@ -11,9 +11,9 @@ from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats
 
 from ...common.base_types import Bytes
-from ...exceptions import EOFException
+from ...exceptions import EOFException, EvmoneExceptionParser
 from ..base.base_test import BaseFixture, BaseTest
-from .types import Fixture
+from .types import Fixture, Result
 
 
 class EOFParse:
@@ -85,10 +85,55 @@ class EOFTest(BaseTest):
             }
         )
         eof_parse = EOFParse()
-        result = eof_parse.run(input=fixture.model_dump_json(exclude_none=True))
-        if result.returncode != 0:
-            raise Exception(result.stderr)
+        for _, vector in fixture.vectors.items():
+            expected_result = vector.results.get(str(fork))
+            if expected_result is None:
+                raise Exception(f"EOF Fixture missing vector result for fork: {fork}")
+            result = eof_parse.run(input=str(vector.code))
+            self.verify_result(result, expected_result, vector.code)
+
         return fixture
+
+    def verify_result(self, result: CompletedProcess, expected_result: Result, code: Bytes):
+        """
+        Checks that the actual reported exception string matches our expected error ENUM
+        """
+        parser = EvmoneExceptionParser()
+        res_error = result.stdout.replace("\n", "")
+        if expected_result.exception is None:
+            if "OK" not in result.stdout:
+                msg = "Expected eof code to be valid, but got an exception:"
+                formatted_message = (
+                    f"{msg} \n"
+                    f"{code} \n"
+                    f"Expected: No Exception \n"
+                    f"     Got: {parser.rev_parse_exception(res_error)} ({res_error})"
+                )
+                raise Exception(formatted_message)
+        else:
+            if "OK" in res_error:
+                expRes = expected_result.exception
+                msg = "Expected eof code to be invalid, but got no exception from eof tool:"
+                formatted_message = (
+                    f"{msg} \n"
+                    f"{code} \n"
+                    f"Expected: {expRes} ({parser.parse_exception(expRes)}) \n"
+                    f"     Got: No Exception"
+                )
+                raise Exception(formatted_message)
+            else:
+                expRes = expected_result.exception
+                if expRes == parser.rev_parse_exception(res_error):
+                    return
+
+                msg = "EOF code expected to fail with a different exception, than reported:"
+                formatted_message = (
+                    f"{msg} \n"
+                    f"{code} \n"
+                    f"Expected: {expRes} ({parser.parse_exception(expRes)}) \n"
+                    f"     Got: {parser.rev_parse_exception(res_error)} ({res_error})"
+                )
+                raise Exception(formatted_message)
 
     def generate(
         self,
