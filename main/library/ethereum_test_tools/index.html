@@ -5371,9 +5371,36 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Opcodes.EXTCALL" class="md-nav__link">
+    <span class="md-ellipsis">
+      EXTCALL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL" class="md-nav__link">
+    <span class="md-ellipsis">
+      EXTDELEGATECALL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.Opcodes.STATICCALL" class="md-nav__link">
     <span class="md-ellipsis">
       STATICCALL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Opcodes.EXTSTATICCALL" class="md-nav__link">
+    <span class="md-ellipsis">
+      EXTSTATICCALL
     </span>
   </a>
   
@@ -14675,9 +14702,36 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Opcodes.EXTCALL" class="md-nav__link">
+    <span class="md-ellipsis">
+      EXTCALL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL" class="md-nav__link">
+    <span class="md-ellipsis">
+      EXTDELEGATECALL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.Opcodes.STATICCALL" class="md-nav__link">
     <span class="md-ellipsis">
       STATICCALL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Opcodes.EXTSTATICCALL" class="md-nav__link">
+    <span class="md-ellipsis">
+      EXTSTATICCALL
     </span>
   </a>
   
@@ -37072,7 +37126,114 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 <span class="normal">5397</span>
 <span class="normal">5398</span>
 <span class="normal">5399</span>
-<span class="normal">5400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">5400</span>
+<span class="normal">5401</span>
+<span class="normal">5402</span>
+<span class="normal">5403</span>
+<span class="normal">5404</span>
+<span class="normal">5405</span>
+<span class="normal">5406</span>
+<span class="normal">5407</span>
+<span class="normal">5408</span>
+<span class="normal">5409</span>
+<span class="normal">5410</span>
+<span class="normal">5411</span>
+<span class="normal">5412</span>
+<span class="normal">5413</span>
+<span class="normal">5414</span>
+<span class="normal">5415</span>
+<span class="normal">5416</span>
+<span class="normal">5417</span>
+<span class="normal">5418</span>
+<span class="normal">5419</span>
+<span class="normal">5420</span>
+<span class="normal">5421</span>
+<span class="normal">5422</span>
+<span class="normal">5423</span>
+<span class="normal">5424</span>
+<span class="normal">5425</span>
+<span class="normal">5426</span>
+<span class="normal">5427</span>
+<span class="normal">5428</span>
+<span class="normal">5429</span>
+<span class="normal">5430</span>
+<span class="normal">5431</span>
+<span class="normal">5432</span>
+<span class="normal">5433</span>
+<span class="normal">5434</span>
+<span class="normal">5435</span>
+<span class="normal">5436</span>
+<span class="normal">5437</span>
+<span class="normal">5438</span>
+<span class="normal">5439</span>
+<span class="normal">5440</span>
+<span class="normal">5441</span>
+<span class="normal">5442</span>
+<span class="normal">5443</span>
+<span class="normal">5444</span>
+<span class="normal">5445</span>
+<span class="normal">5446</span>
+<span class="normal">5447</span>
+<span class="normal">5448</span>
+<span class="normal">5449</span>
+<span class="normal">5450</span>
+<span class="normal">5451</span>
+<span class="normal">5452</span>
+<span class="normal">5453</span>
+<span class="normal">5454</span>
+<span class="normal">5455</span>
+<span class="normal">5456</span>
+<span class="normal">5457</span>
+<span class="normal">5458</span>
+<span class="normal">5459</span>
+<span class="normal">5460</span>
+<span class="normal">5461</span>
+<span class="normal">5462</span>
+<span class="normal">5463</span>
+<span class="normal">5464</span>
+<span class="normal">5465</span>
+<span class="normal">5466</span>
+<span class="normal">5467</span>
+<span class="normal">5468</span>
+<span class="normal">5469</span>
+<span class="normal">5470</span>
+<span class="normal">5471</span>
+<span class="normal">5472</span>
+<span class="normal">5473</span>
+<span class="normal">5474</span>
+<span class="normal">5475</span>
+<span class="normal">5476</span>
+<span class="normal">5477</span>
+<span class="normal">5478</span>
+<span class="normal">5479</span>
+<span class="normal">5480</span>
+<span class="normal">5481</span>
+<span class="normal">5482</span>
+<span class="normal">5483</span>
+<span class="normal">5484</span>
+<span class="normal">5485</span>
+<span class="normal">5486</span>
+<span class="normal">5487</span>
+<span class="normal">5488</span>
+<span class="normal">5489</span>
+<span class="normal">5490</span>
+<span class="normal">5491</span>
+<span class="normal">5492</span>
+<span class="normal">5493</span>
+<span class="normal">5494</span>
+<span class="normal">5495</span>
+<span class="normal">5496</span>
+<span class="normal">5497</span>
+<span class="normal">5498</span>
+<span class="normal">5499</span>
+<span class="normal">5500</span>
+<span class="normal">5501</span>
+<span class="normal">5502</span>
+<span class="normal">5503</span>
+<span class="normal">5504</span>
+<span class="normal">5505</span>
+<span class="normal">5506</span>
+<span class="normal">5507</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum containing all known opcodes.</span>
 
@@ -41935,6 +42096,79 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 <span class="sd">    Source: [evm.codes/#F5](https://www.evm.codes/#F5)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">EXTCALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xF8</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EXTCALL(target_address, input_offset, input_size, value) = address</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Description</span>
+<span class="sd">    ----</span>
+<span class="sd">    Message-call into an account</span>
+
+<span class="sd">    Inputs</span>
+<span class="sd">    ----</span>
+<span class="sd">    - target_address: the account which context to execute</span>
+<span class="sd">    - input_offset: byte offset in the memory in bytes, the calldata of the sub context</span>
+<span class="sd">    - input_size: byte size to copy (size of the calldata)</span>
+<span class="sd">    - value: value in wei to send to the account</span>
+
+<span class="sd">    Outputs</span>
+<span class="sd">    ----</span>
+<span class="sd">    - success:</span>
+<span class="sd">        - `0` if the call was successful.</span>
+<span class="sd">        - `1` if the call has reverted (also can be pushed earlier in a light failure scenario).</span>
+<span class="sd">        - `2` if the call has failed.</span>
+
+<span class="sd">    Fork</span>
+<span class="sd">    ----</span>
+<span class="sd">    Prague</span>
+
+<span class="sd">    Gas</span>
+<span class="sd">    ----</span>
+<span class="sd">    ```</span>
+<span class="sd">    static_gas = 0</span>
+<span class="sd">    dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost</span>
+<span class="sd">        + positive_value_cost + value_to_empty_account_cost</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">EXTDELEGATECALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xF9</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EXTDELEGATECALL(target_address, input_offset, input_size) = address</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Description</span>
+<span class="sd">    ----</span>
+<span class="sd">    Message-call into this account with an alternative account&#39;s code, but persisting the current</span>
+<span class="sd">    values for sender and value</span>
+
+<span class="sd">    Inputs</span>
+<span class="sd">    ----</span>
+<span class="sd">    - target_address: the account which context to execute</span>
+<span class="sd">    - input_offset: byte offset in the memory in bytes, the calldata of the sub context</span>
+<span class="sd">    - input_size: byte size to copy (size of the calldata)</span>
+
+<span class="sd">    Outputs</span>
+<span class="sd">    ----</span>
+<span class="sd">    - success:</span>
+<span class="sd">        - `0` if the call was successful.</span>
+<span class="sd">        - `1` if the call has reverted (also can be pushed earlier in a light failure scenario).</span>
+<span class="sd">        - `2` if the call has failed.</span>
+
+<span class="sd">    Fork</span>
+<span class="sd">    ----</span>
+<span class="sd">    Prague</span>
+
+<span class="sd">    Gas</span>
+<span class="sd">    ----</span>
+<span class="sd">    - static_gas = 0</span>
+<span class="sd">    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost</span>
+
+<span class="sd">    Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">STATICCALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xFA</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    STATICCALL(gas, address, argsOffset, argsSize, retOffset, retSize) = success</span>
@@ -41969,6 +42203,40 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 <span class="sd">    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost</span>
 
 <span class="sd">    Source: [evm.codes/#FA](https://www.evm.codes/#FA)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">EXTSTATICCALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xFB</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EXTSTATICCALL(target_address, input_offset, input_size) = address</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Description</span>
+<span class="sd">    ----</span>
+<span class="sd">    Static message-call into an account</span>
+
+<span class="sd">    Inputs</span>
+<span class="sd">    ----</span>
+<span class="sd">    - target_address: the account which context to execute</span>
+<span class="sd">    - input_offset: byte offset in the memory in bytes, the calldata of the sub context</span>
+<span class="sd">    - input_size: byte size to copy (size of the calldata)</span>
+
+<span class="sd">    Outputs</span>
+<span class="sd">    ----</span>
+<span class="sd">    - success:</span>
+<span class="sd">        - `0` if the call was successful.</span>
+<span class="sd">        - `1` if the call has reverted (also can be pushed earlier in a light failure scenario).</span>
+<span class="sd">        - `2` if the call has failed.</span>
+
+<span class="sd">    Fork</span>
+<span class="sd">    ----</span>
+<span class="sd">    Prague</span>
+
+<span class="sd">    Gas</span>
+<span class="sd">    ----</span>
+<span class="sd">    - static_gas = 0</span>
+<span class="sd">    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost</span>
+
+<span class="sd">    Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">CREATE4</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xF7</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -49139,6 +49407,112 @@ dynamic_gas = init_code_cost + hash_cost + memory_expansion_cost
 
 
 
+<h3 id="ethereum_test_tools.Opcodes.EXTCALL" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">EXTCALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mi">248</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Opcodes.EXTCALL" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <h5 id="ethereum_test_tools.Opcodes.EXTCALL--extcalltarget_address-input_offset-input_size-value-address">EXTCALL(target_address, input_offset, input_size, value) = address<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTCALL--extcalltarget_address-input_offset-input_size-value-address" title="Permanent link">&para;</a></h5>
+<h5 id="ethereum_test_tools.Opcodes.EXTCALL--description">Description<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTCALL--description" title="Permanent link">&para;</a></h5>
+<p>Message-call into an account</p>
+<h5 id="ethereum_test_tools.Opcodes.EXTCALL--inputs">Inputs<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTCALL--inputs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>target_address: the account which context to execute</li>
+<li>input_offset: byte offset in the memory in bytes, the calldata of the sub context</li>
+<li>input_size: byte size to copy (size of the calldata)</li>
+<li>value: value in wei to send to the account</li>
+</ul>
+<h5 id="ethereum_test_tools.Opcodes.EXTCALL--outputs">Outputs<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTCALL--outputs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>success:<ul>
+<li><code>0</code> if the call was successful.</li>
+<li><code>1</code> if the call has reverted (also can be pushed earlier in a light failure scenario).</li>
+<li><code>2</code> if the call has failed.</li>
+</ul>
+</li>
+</ul>
+<h5 id="ethereum_test_tools.Opcodes.EXTCALL--fork">Fork<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTCALL--fork" title="Permanent link">&para;</a></h5>
+<p>Prague</p>
+<h5 id="ethereum_test_tools.Opcodes.EXTCALL--gas">Gas<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTCALL--gas" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code>static_gas = 0
+dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
+    + positive_value_cost + value_to_empty_account_cost
+</code></pre></div>
+<p>Source: <a href="https://eips.ethereum.org/EIPS/eip-7069">EIP-7069</a></p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.Opcodes.EXTDELEGATECALL" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">EXTDELEGATECALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mi">249</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <h5 id="ethereum_test_tools.Opcodes.EXTDELEGATECALL--extdelegatecalltarget_address-input_offset-input_size-address">EXTDELEGATECALL(target_address, input_offset, input_size) = address<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL--extdelegatecalltarget_address-input_offset-input_size-address" title="Permanent link">&para;</a></h5>
+<h5 id="ethereum_test_tools.Opcodes.EXTDELEGATECALL--description">Description<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL--description" title="Permanent link">&para;</a></h5>
+<p>Message-call into this account with an alternative account's code, but persisting the current
+values for sender and value</p>
+<h5 id="ethereum_test_tools.Opcodes.EXTDELEGATECALL--inputs">Inputs<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL--inputs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>target_address: the account which context to execute</li>
+<li>input_offset: byte offset in the memory in bytes, the calldata of the sub context</li>
+<li>input_size: byte size to copy (size of the calldata)</li>
+</ul>
+<h5 id="ethereum_test_tools.Opcodes.EXTDELEGATECALL--outputs">Outputs<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL--outputs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>success:<ul>
+<li><code>0</code> if the call was successful.</li>
+<li><code>1</code> if the call has reverted (also can be pushed earlier in a light failure scenario).</li>
+<li><code>2</code> if the call has failed.</li>
+</ul>
+</li>
+</ul>
+<h5 id="ethereum_test_tools.Opcodes.EXTDELEGATECALL--fork">Fork<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL--fork" title="Permanent link">&para;</a></h5>
+<p>Prague</p>
+<h5 id="ethereum_test_tools.Opcodes.EXTDELEGATECALL--gas">Gas<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTDELEGATECALL--gas" title="Permanent link">&para;</a></h5>
+<ul>
+<li>static_gas = 0</li>
+<li>dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost</li>
+</ul>
+<p>Source: <a href="https://eips.ethereum.org/EIPS/eip-7069">EIP-7069</a></p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
 <h3 id="ethereum_test_tools.Opcodes.STATICCALL" class="doc doc-heading">
           <code class="highlight language-python"><span class="n">STATICCALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
   
@@ -49178,6 +49552,58 @@ dynamic_gas = init_code_cost + hash_cost + memory_expansion_cost
 <li>dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost</li>
 </ul>
 <p>Source: <a href="https://www.evm.codes/#FA">evm.codes/#FA</a></p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.Opcodes.EXTSTATICCALL" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">EXTSTATICCALL</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mi">251</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Opcodes.EXTSTATICCALL" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <h5 id="ethereum_test_tools.Opcodes.EXTSTATICCALL--extstaticcalltarget_address-input_offset-input_size-address">EXTSTATICCALL(target_address, input_offset, input_size) = address<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTSTATICCALL--extstaticcalltarget_address-input_offset-input_size-address" title="Permanent link">&para;</a></h5>
+<h5 id="ethereum_test_tools.Opcodes.EXTSTATICCALL--description">Description<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTSTATICCALL--description" title="Permanent link">&para;</a></h5>
+<p>Static message-call into an account</p>
+<h5 id="ethereum_test_tools.Opcodes.EXTSTATICCALL--inputs">Inputs<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTSTATICCALL--inputs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>target_address: the account which context to execute</li>
+<li>input_offset: byte offset in the memory in bytes, the calldata of the sub context</li>
+<li>input_size: byte size to copy (size of the calldata)</li>
+</ul>
+<h5 id="ethereum_test_tools.Opcodes.EXTSTATICCALL--outputs">Outputs<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTSTATICCALL--outputs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>success:<ul>
+<li><code>0</code> if the call was successful.</li>
+<li><code>1</code> if the call has reverted (also can be pushed earlier in a light failure scenario).</li>
+<li><code>2</code> if the call has failed.</li>
+</ul>
+</li>
+</ul>
+<h5 id="ethereum_test_tools.Opcodes.EXTSTATICCALL--fork">Fork<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTSTATICCALL--fork" title="Permanent link">&para;</a></h5>
+<p>Prague</p>
+<h5 id="ethereum_test_tools.Opcodes.EXTSTATICCALL--gas">Gas<a class="headerlink" href="#ethereum_test_tools.Opcodes.EXTSTATICCALL--gas" title="Permanent link">&para;</a></h5>
+<ul>
+<li>static_gas = 0</li>
+<li>dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost</li>
+</ul>
+<p>Source: <a href="https://eips.ethereum.org/EIPS/eip-7069">EIP-7069</a></p>
   </div>
 
 </div>

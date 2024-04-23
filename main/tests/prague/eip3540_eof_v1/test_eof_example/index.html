@@ -6957,7 +6957,7 @@
 
 
 <h1 id="test-eof-example">Test Eof Example<a class="headerlink" href="#test-eof-example" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e7d677bd039b4c86411fd907d8baeeb69ee622e1/tests/prague/eip3540_eof_v1/test_eof_example.py"><code>tests/prague/eip3540_eof_v1/test_eof_example.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/750bb227e2ffd1307cdaac12a878340108a5ebd0/tests/prague/eip3540_eof_v1/test_eof_example.py"><code>tests/prague/eip3540_eof_v1/test_eof_example.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -7104,8 +7104,8 @@ For all forks up to and including Prague:
 
     <span class="c1"># This will construct a valid EOF container with these bytes</span>
     <span class="k">assert</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">eof_code</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span>
-        <span class="s2">&quot;ef0001010010020004000500060008000204000000008000010100000100010003020300035fe300010050&quot;</span>
-        <span class="s2">&quot;e3000250e43080e300035050e480e4&quot;</span>
+        <span class="s2">&quot;ef0001010010020004000500060008000204000100008000010100000100010003020300035fe300010050&quot;</span>
+        <span class="s2">&quot;e3000250e43080e300035050e480e4ef&quot;</span>
     <span class="p">)</span>
 
     <span class="n">eof_test</span><span class="p">(</span>
