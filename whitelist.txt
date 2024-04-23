@@ -7,6 +7,7 @@ alloc
 api
 apis
 at5
+AutoSection
 balance
 base64
 basefee
@@ -26,6 +27,7 @@ blocknum
 blocktest
 bls
 blueswen
+boolean
 br
 bytecode
 byteorder
@@ -65,6 +67,10 @@ Customizations
 danceratopz
 dao
 dataclasses
+dataload
+dataloadn
+datasize
+datacopy
 datastructures
 delitem
 deserialized
@@ -91,6 +97,7 @@ enum
 env
 envvar
 eof
+EOFException
 esbenp
 eth
 ethash
@@ -105,6 +112,7 @@ executables
 extcodecopy
 extcodehash
 extcodesize
+F00
 filesystem
 fn
 fname
@@ -132,6 +140,7 @@ globals
 go-ethereum's
 Golang
 gwei
+hacky
 hardfork
 hash32
 Hashable
@@ -238,6 +247,7 @@ repo's
 repos
 returndatacopy
 returndatasize
+returncontract
 rlp
 rpc
 ruleset
@@ -271,6 +281,7 @@ subclasscheck
 subdirectories
 subdirectory
 subgraph
+subscriptable
 substring
 sudo
 t8n
@@ -363,6 +374,7 @@ makereport
 metafunc
 modifyitems
 nodeid
+noop
 oog
 optparser
 originalname
@@ -460,6 +472,7 @@ sload
 sstore
 jump
 jumpi
+jumpf
 pc
 msize
 gas
@@ -467,6 +480,7 @@ jumpdest
 rjump
 rjumpi
 rjumpv
+RJUMPV
 callf
 retf
 push0
@@ -518,6 +532,7 @@ dup13
 dup14
 dup15
 dup16
+dupn
 swap1
 swap2
 swap3
@@ -534,20 +549,30 @@ swap13
 swap14
 swap15
 swap16
+swapn
 log0
 log1
 log2
 log3
 log4
+dataload
+dataloadn
+datasize
+datacopy
 tload
 tstore
 create
+create2
+create3
+create4
 call
 callcode
 return
 delegatecall
-create2
+extcall
+extdelegatecall
 staticcall
+extstaticcall
 revert
 selfdestruct
 selfdestructing
@@ -561,6 +586,7 @@ deployer
 0x
 modexp
 0x00
+0x01
 0x10
 
 fi

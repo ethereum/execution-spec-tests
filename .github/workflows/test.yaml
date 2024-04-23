@@ -21,8 +21,8 @@ jobs:
           - os: ubuntu-latest
             python: '3.11'
             solc: '0.8.21'
-            evm-type: 'develop'
-            tox-cmd: 'tox -e tests-develop'
+            evm-type: 'main'  # 'develop'
+            tox-cmd: 'tox run-parallel --parallel-no-spinner'  # 'tox -e tests-develop'
           - os: macos-latest
             python: '3.11'
             solc: '0.8.22'
