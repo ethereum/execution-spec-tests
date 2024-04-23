@@ -1244,6 +1244,22 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 # Transition tool models
 
 
+class TransactionLog(CamelModel):
+    """
+    Transaction log
+    """
+
+    address: Address
+    topics: List[Hash]
+    data: Bytes
+    block_number: HexNumber
+    transaction_hash: Hash
+    transaction_index: HexNumber
+    block_hash: Hash
+    log_index: HexNumber
+    removed: bool
+
+
 class TransactionReceipt(CamelModel):
     """
     Transaction receipt
@@ -1255,7 +1271,7 @@ class TransactionReceipt(CamelModel):
     status: HexNumber | None = None
     cumulative_gas_used: HexNumber | None = None
     logs_bloom: Bloom | None = None
-    logs: List[Dict[str, str]] | None = None
+    logs: List[TransactionLog] | None = None
     contract_address: Address | None = None
     effective_gas_price: HexNumber | None = None
     block_hash: Hash | None = None
