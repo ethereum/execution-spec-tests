@@ -550,7 +550,10 @@ call
 callcode
 return
 delegatecall
+extcall
+extdelegatecall
 staticcall
+extstaticcall
 revert
 selfdestruct
 selfdestructing
