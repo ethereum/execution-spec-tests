@@ -8,17 +8,17 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             python: '3.10'
             solc: '0.8.20'
             evm-type: 'main'
             tox-cmd: 'tox run-parallel --parallel-no-spinner'
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             python: '3.12'
             solc: '0.8.23'
             evm-type: 'main'
             tox-cmd: 'tox run-parallel --parallel-no-spinner'
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             python: '3.11'
             solc: '0.8.21'
             evm-type: 'main'  # 'develop'
