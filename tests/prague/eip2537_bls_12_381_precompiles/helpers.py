@@ -35,12 +35,30 @@ class TestVector(BaseModel):
         return pytest.param(self.input, self.expected, id=self.name)
 
 
+class FailTestVector(BaseModel):
+    """
+    Test vector for the BLS12-381 precompiles.
+    """
+
+    input: Annotated[bytes, BeforeValidator(bytes.fromhex)]
+    expected_error: str
+    name: str
+
+    model_config = ConfigDict(alias_generator=to_pascal)
+
+    def to_pytest_param(self):
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a pytest test.
+        """
+        return pytest.param(self.input, id=self.name)
+
+
 class TestVectorList(RootModel):
     """
     List of test vectors for the BLS12-381 precompiles.
     """
 
-    root: List[TestVector]
+    root: List[TestVector | FailTestVector]
 
 
 TestVectorListAdapter = TypeAdapter(TestVectorList)

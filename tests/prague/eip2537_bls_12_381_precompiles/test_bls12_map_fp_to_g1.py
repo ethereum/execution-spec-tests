@@ -65,7 +65,8 @@ def test_valid(
 
 @pytest.mark.parametrize(
     "input",
-    [
+    vectors_from_file("fail-map_fp_to_G1_bls.json")
+    + [
         pytest.param(b"\x80" + bytes(FP(0))[1:], id="invalid_encoding"),
         pytest.param(bytes(FP(0))[1:], id="input_too_short"),
         pytest.param(b"\x00" + FP(0), id="input_too_long"),
