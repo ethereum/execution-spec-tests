@@ -68,26 +68,6 @@ pytestmark = [
             Spec.INF_G1,
             id="bls_g1mul_(Nq*P1)",
         ),
-        pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP + Scalar(1),
-            Spec.P1_NOT_IN_SUBGROUP,
-            id="bls_g1mul_not_in_subgroup_1",
-        ),
-        pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(1),
-            Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
-            id="bls_g1mul_not_in_subgroup_2",
-        ),
-        pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(Spec.Q),
-            Spec.P1_NOT_IN_SUBGROUP,
-            id="bls_g1mul_not_in_subgroup_times_q",
-        ),
-        pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q),
-            Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
-            id="bls_g1mul_not_in_subgroup_times_q_2",
-        ),
     ],
 )
 def test_valid(
@@ -141,6 +121,22 @@ def test_valid(
         pytest.param(
             b"",
             id="zero_length_input",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP + Scalar(1),
+            id="bls_g1mul_not_in_subgroup_1",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(1),
+            id="bls_g1mul_not_in_subgroup_2",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(Spec.Q),
+            id="bls_g1mul_not_in_subgroup_times_q",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q),
+            id="bls_g1mul_not_in_subgroup_times_q_2",
         ),
     ],
 )
