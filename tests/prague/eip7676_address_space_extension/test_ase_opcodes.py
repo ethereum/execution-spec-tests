@@ -33,7 +33,7 @@ ID_CALL = 3
 ID_EXTDELEGATECALL = 4
 ID_DELEGATECALL = 5
 ID_EXTSTATICCALL = 6
-ID_STATICALL = 7
+ID_STATICCALL = 7
 ID_CALLCODE = 8
 
 BASE_ADDRESS = 100000000
@@ -41,10 +41,10 @@ ADDRESS_EOF_BALANCE = Address(BASE_ADDRESS + ID_EOF_BALANCE)
 ADDRESS_BALANCE = Address(BASE_ADDRESS + ID_BALANCE)
 ADDRESS_EXTCALL = Address(BASE_ADDRESS + ID_EXTCALL)
 ADDRESS_CALL = Address(BASE_ADDRESS + ID_CALL)
-ADDRESS_EXTDELEGATE = Address(BASE_ADDRESS + ID_EXTDELEGATECALL)
+ADDRESS_EXTDELEGATECALL = Address(BASE_ADDRESS + ID_EXTDELEGATECALL)
 ADDRESS_DELEGATECALL = Address(BASE_ADDRESS + ID_DELEGATECALL)
-ADDRESS_EXTSTATIC = Address(BASE_ADDRESS + ID_EXTSTATICCALL)
-ADDRESS_STATICALL = Address(BASE_ADDRESS + ID_STATICALL)
+ADDRESS_EXTSTATICCALL = Address(BASE_ADDRESS + ID_EXTSTATICCALL)
+ADDRESS_STATICCALL = Address(BASE_ADDRESS + ID_STATICCALL)
 ADDRESS_CALLCODE = Address(BASE_ADDRESS + ID_CALLCODE)
 
 
@@ -91,11 +91,13 @@ def test_address_space_extension(
                 + Op.SSTORE(ID_EXTCALL, Op.CALL(50000, ADDRESS_EXTCALL, 0, 0, 32, 0, 0))
                 + Op.SSTORE(ID_CALL, Op.CALL(50000, ADDRESS_CALL, 0, 0, 32, 0, 0))
                 + Op.SSTORE(
-                    ID_EXTDELEGATECALL, Op.CALL(50000, ADDRESS_EXTDELEGATE, 0, 0, 32, 0, 0)
+                    ID_EXTDELEGATECALL, Op.CALL(50000, ADDRESS_EXTDELEGATECALL, 0, 0, 32, 0, 0)
                 )
                 + Op.SSTORE(ID_DELEGATECALL, Op.CALL(50000, ADDRESS_DELEGATECALL, 0, 0, 32, 0, 0))
-                + Op.SSTORE(ID_EXTSTATICCALL, Op.CALL(50000, ADDRESS_EXTSTATIC, 0, 0, 32, 0, 0))
-                + Op.SSTORE(ID_STATICALL, Op.CALL(50000, ADDRESS_STATICALL, 0, 0, 32, 0, 0))
+                + Op.SSTORE(
+                    ID_EXTSTATICCALL, Op.CALL(50000, ADDRESS_EXTSTATICCALL, 0, 0, 32, 0, 0)
+                )
+                + Op.SSTORE(ID_STATICCALL, Op.CALL(50000, ADDRESS_STATICCALL, 0, 0, 32, 0, 0))
                 + Op.SSTORE(ID_CALLCODE, Op.CALL(50000, ADDRESS_CALLCODE, 0, 0, 32, 0, 0))
                 + Op.STOP()
             ),
@@ -140,7 +142,7 @@ def test_address_space_extension(
             + Op.STOP,
             nonce=1,
         ),
-        ADDRESS_EXTDELEGATE: Account(
+        ADDRESS_EXTDELEGATECALL: Account(
             code=Container(
                 sections=[
                     Section.Code(
@@ -162,7 +164,7 @@ def test_address_space_extension(
             + Op.STOP,
             nonce=1,
         ),
-        ADDRESS_EXTSTATIC: Account(
+        ADDRESS_EXTSTATICCALL: Account(
             code=Container(
                 sections=[
                     Section.Code(
@@ -177,7 +179,7 @@ def test_address_space_extension(
             ),
             nonce=1,
         ),
-        ADDRESS_STATICALL: Account(
+        ADDRESS_STATICCALL: Account(
             code=Op.SSTORE(0, Op.STATICCALL(Op.GAS, Op.CALLDATALOAD(0), 0, 0, 0, 0))
             + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
             + Op.SSTORE(1, Op.MLOAD(0))
@@ -200,7 +202,7 @@ def test_address_space_extension(
                 ID_BALANCE: 1,
                 ID_CALL: 1,
                 ID_DELEGATECALL: 1,
-                ID_STATICALL: 1,
+                ID_STATICCALL: 1,
                 ID_CALLCODE: 1,
             }
             if ase_address
@@ -212,7 +214,7 @@ def test_address_space_extension(
                 ID_EXTDELEGATECALL: 1,
                 ID_DELEGATECALL: 1,
                 ID_EXTSTATICCALL: 1,
-                ID_STATICALL: 1,
+                ID_STATICCALL: 1,
                 ID_CALLCODE: 1,
             }
         )
@@ -233,10 +235,12 @@ def test_address_space_extension(
             post[ADDRESS_EXTCALL] = Account(storage={} if ase_address else {1: stripped_address})
             post[ADDRESS_CALL] = Account(storage={0: 1, 1: stripped_address})
             # EXTDELEGATECALL fails when calling legacy, so no stripped address
-            post[ADDRESS_EXTDELEGATE] = Account(storage={} if ase_address else {0: 1})
+            post[ADDRESS_EXTDELEGATECALL] = Account(storage={} if ase_address else {0: 1})
             post[ADDRESS_DELEGATECALL] = Account(storage={0: 1, 1: ADDRESS_DELEGATECALL})
-            post[ADDRESS_EXTSTATIC] = Account(storage={} if ase_address else {1: stripped_address})
-            post[ADDRESS_STATICALL] = Account(storage={0: 1, 1: stripped_address})
+            post[ADDRESS_EXTSTATICCALL] = Account(
+                storage={} if ase_address else {1: stripped_address}
+            )
+            post[ADDRESS_STATICCALL] = Account(storage={0: 1, 1: stripped_address})
             post[ADDRESS_CALLCODE] = Account(storage={0: 1, 1: ADDRESS_CALLCODE})
         case _:
             raise ValueError("Unknown account type: " + target_account_type)
