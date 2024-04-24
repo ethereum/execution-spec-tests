@@ -56,7 +56,8 @@ def test_valid(
 
 @pytest.mark.parametrize(
     "input",
-    [
+    vectors_from_file("fail-pairing_check_bls.json")
+    + [
         pytest.param(
             PointG1(Spec.P, 0) + Spec.INF_G2,
             id="g1_P_g2_inf_1",

@@ -51,7 +51,8 @@ def test_valid(
 
 @pytest.mark.parametrize(
     "input",
-    [
+    vectors_from_file("fail-add_G2_bls.json")
+    + [
         pytest.param(
             PointG2((1, 0), (0, 0)) + Spec.INF_G2,
             id="invalid_point_a_1",

@@ -41,7 +41,8 @@ def test_valid(
 
 @pytest.mark.parametrize(
     "input",
-    [
+    vectors_from_file("fail-multiexp_G2_bls.json")
+    + [
         pytest.param(
             PointG2((1, 0), (0, 0)) + Scalar(0),
             id="invalid_point_a_1",
