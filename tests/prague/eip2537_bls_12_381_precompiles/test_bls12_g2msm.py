@@ -21,17 +21,7 @@ pytestmark = [
 ]
 
 
-@pytest.mark.parametrize(
-    "input,expected_output",
-    vectors_from_file("multiexp_G2_bls.json")
-    + [
-        pytest.param(
-            Spec.P2_NOT_IN_SUBGROUP + Scalar(1),
-            Spec.P2_NOT_IN_SUBGROUP,
-            id="bls_g2mul_not_in_subgroup",
-        ),
-    ],
-)
+@pytest.mark.parametrize("input,expected_output", vectors_from_file("multiexp_G2_bls.json"))
 def test_valid(
     state_test: StateTestFiller,
     pre: dict,
@@ -87,6 +77,10 @@ def test_valid(
         pytest.param(
             b"\x80" + bytes(Spec.INF_G2)[1:] + Scalar(0),
             id="invalid_encoding",
+        ),
+        pytest.param(
+            Spec.P2_NOT_IN_SUBGROUP + Scalar(1),
+            id="bls_g2mul_not_in_subgroup",
         ),
         # Input length tests can be found in ./test_bls12_variable_length_input_contracts.py
     ],

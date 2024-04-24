@@ -79,30 +79,6 @@ pytestmark = [
             Spec.INF_G2,
             id="bls_g2mul_(Nq*P2)",
         ),
-        pytest.param(
-            Spec.P2_NOT_IN_SUBGROUP + Scalar(1),
-            Spec.P2_NOT_IN_SUBGROUP,
-            id="bls_g2mul_not_in_subgroup",
-        ),
-        pytest.param(
-            Spec.P2_NOT_IN_SUBGROUP + Scalar(2),
-            Spec.P2_NOT_IN_SUBGROUP_TIMES_2,
-            id="bls_g2mul_not_in_subgroup_times_2",
-        ),
-        pytest.param(
-            Spec.P2_NOT_IN_SUBGROUP + Scalar(Spec.Q),
-            PointG2(
-                (
-                    0x1C3ABBB8255E4DE6225C5A5710816BB5767D9B3188472867BB5D09144DFACC2E192C24E58C70BDBAC987BE8F61F15F8,  # noqa: E501
-                    0x589CCBFA3E0C6D625634EA3849EFD0FA7E0119F9212000B76B36F7FEEB588AD22082825973F083B86D13A518445B7D7,  # noqa: E501
-                ),
-                (
-                    0x129F217E324727C793050627706BAA9780D222AB9F341CB5E4A37F760F50BD735C5B88EF152C2DB753697DE223B2F6DB,  # noqa: E501
-                    0x15CE502692A7B6AEA9DEA60BB0A6EECE5215228A10229FAAB4AD082CA802E8BE46745ED2D7192C15C776718A631EA0F3,  # noqa: E501
-                ),
-            ),
-            id="bls_g2mul_not_in_subgroup_times_q",
-        ),
     ],
 )
 def test_valid(
@@ -172,6 +148,18 @@ def test_valid(
         pytest.param(
             b"",
             id="zero_length_input",
+        ),
+        pytest.param(
+            Spec.P2_NOT_IN_SUBGROUP + Scalar(1),
+            id="bls_g2mul_not_in_subgroup",
+        ),
+        pytest.param(
+            Spec.P2_NOT_IN_SUBGROUP + Scalar(2),
+            id="bls_g2mul_not_in_subgroup_times_2",
+        ),
+        pytest.param(
+            Spec.P2_NOT_IN_SUBGROUP + Scalar(Spec.Q),
+            id="bls_g2mul_not_in_subgroup_times_q",
         ),
     ],
 )
