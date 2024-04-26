@@ -15,6 +15,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ [EIP-663](https://eips.ethereum.org/EIPS/eip-663): Add `test_dupn.py` and `test_swapn.py` ([#502](https://github.com/ethereum/execution-spec-tests/pull/502)).
 - ✨ Add tests for [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110) ([#530](https://github.com/ethereum/execution-spec-tests/pull/530)).
 - ✨ Add tests for [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002) ([#530](https://github.com/ethereum/execution-spec-tests/pull/530)).
+- ✨ Add tests for [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685) ([#530](https://github.com/ethereum/execution-spec-tests/pull/530)).
 
 ### 🛠️ Framework
 
