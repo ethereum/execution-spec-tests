@@ -31,6 +31,7 @@ jobs:
         run: |
           echo $(pwd)
           echo ${{ github.workspace }}
+
           sudo apt-get install docker-ce
 
           #install pyspec deps from root repo
@@ -80,6 +81,12 @@ jobs:
           echo "New lines introduced in converted-ethereum-tests.txt:"
           lines=$(git diff origin/${{ github.base_ref }} HEAD -- converted-ethereum-tests.txt | grep "^+" | grep -v "^+++")
           files=$(echo "$lines" | grep -oP '(?<=\+).+\.json')
+
+          if [ -z "$files" ]; then
+             echo "Error: No new JSON files found in converted-ethereum-tests.txt"
+              exit 1
+          fi
+
           for file in $files; do
               echo $file
           done
@@ -109,8 +116,13 @@ jobs:
             fill $file --until=Cancun
           done
 
+          files=$(find fixtures/state_tests -type f -name "*.json")
+          if [ -z "$files" ]; then
+              echo "Error: No filled JSON fixtures found in fixtures/state_tests."
+               exit 1
+          fi
+
           mkdir -p ${{ github.workspace }}/evmtest_coverage/testPATCH
-          find fixtures -type f -name "*.json"
           find fixtures/state_tests -type f -name "*.json" -exec cp {} ${{ github.workspace }}/evmtest_coverage/testPATCH \;
 
       - name: Download evmone image if not cached
