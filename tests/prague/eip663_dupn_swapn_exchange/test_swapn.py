@@ -25,18 +25,18 @@ def test_swapn_all_valid_immediates(
     """
     Test case for all valid SWAPN immediates.
     """
-    n = 100
+    n = 256
     values = range(0x500, 0x500 + 257)
 
     eof_code = Container(
         sections=[
             Section.Code(
                 code=b"".join(Op.PUSH2(v) for v in values)
-                + b"".join(Op.SWAPN(0xFF - x) + Op.PUSH2(x) + Op.SSTORE for x in range(0, n))
+                + b"".join(Op.SSTORE(x, Op.SWAPN[0xFF - x]) for x in range(0, n))
                 + Op.STOP,
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
-                max_stack_height=258,
+                max_stack_height=n + 2,
             )
         ],
     )

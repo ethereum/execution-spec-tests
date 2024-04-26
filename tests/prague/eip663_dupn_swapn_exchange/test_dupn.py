@@ -32,11 +32,11 @@ def test_dupn_all_valid_immediates(
         sections=[
             Section.Code(
                 code=b"".join(Op.PUSH2(v) for v in values)
-                + b"".join(Op.DUPN(x) + Op.PUSH2(x) + Op.SSTORE for x in range(0, n))
+                + b"".join(Op.SSTORE(x, Op.DUPN[x]) for x in range(0, n))
                 + Op.STOP,
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
-                max_stack_height=258,
+                max_stack_height=n + 2,
             )
         ],
     )
