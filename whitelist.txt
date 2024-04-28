@@ -8,6 +8,7 @@ api
 apis
 at5
 AutoSection
+auxdata
 balance
 base64
 basefee
@@ -393,6 +394,7 @@ runpytest
 runtest
 subclasses
 subcommand
+subcontainer
 substring
 substrings
 testdir
@@ -558,6 +560,7 @@ call
 callcode
 return
 delegatecall
+eofcreate
 extcall
 extdelegatecall
 staticcall

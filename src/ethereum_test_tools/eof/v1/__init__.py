@@ -424,7 +424,7 @@ class Initcode(Bytecode):
         initcode = Container(
             sections=[
                 Section(
-                    data=Op.CREATE3(0, 0, 0, 0, len(self.deploy_container)) + Op.STOP(),
+                    data=Op.EOFCREATE(0, 0, 0, 0, len(self.deploy_container)) + Op.STOP(),
                     kind=SectionKind.CODE,
                     max_stack_height=4,
                 ),

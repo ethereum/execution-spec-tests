@@ -71,7 +71,7 @@ def copy_opcode_cost(length: int) -> int:
     return 3 + (ceiling_division(length, 32) * 3) + cost_memory_bytes(length, 0)
 
 
-def compute_create3_address(
+def compute_eofcreate_address(
     address: FixedSizeBytesConvertible,
     salt: FixedSizeBytesConvertible,
     init_container: BytesConvertible,
