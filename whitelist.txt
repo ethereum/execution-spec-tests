@@ -76,6 +76,7 @@ delitem
 deserialized
 deserialization
 Dencun
+deprecations
 dev
 devnet
 difficulty
@@ -167,6 +168,7 @@ ispkg
 itemName
 jimporter
 jq
+js
 json
 JSON
 keccak
