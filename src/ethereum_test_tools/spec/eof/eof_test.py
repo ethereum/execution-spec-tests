@@ -2,6 +2,7 @@
 Ethereum EOF test spec definition and filler.
 """
 
+import warnings
 from pathlib import Path
 from shutil import which
 from subprocess import CompletedProcess, run
@@ -19,7 +20,7 @@ from .types import Fixture, Result
 class EOFParse:
     """evmone-eofparse binary."""
 
-    binary: Path
+    binary: Optional[Path] = None
 
     def __new__(cls):
         """Make EOF binary a singleton."""
@@ -36,11 +37,14 @@ class EOFParse:
             if which_path is not None:
                 binary = Path(which_path)
         if binary is None or not Path(binary).exists():
-            raise Exception("""`evmone-eofparse` binary executable not found""")
+            self.binary = None
+            return
         self.binary = Path(binary)
 
     def run(self, *args: str, input: str | None = None) -> CompletedProcess:
         """Run evmone with the given arguments"""
+        if self.binary is None:
+            raise Exception("`evmone-eofparse` binary executable was not found.")
         return run(
             [self.binary, *args],
             capture_output=True,
@@ -85,6 +89,13 @@ class EOFTest(BaseTest):
             }
         )
         eof_parse = EOFParse()
+        if not eof_parse.binary:
+            warnings.warn(
+                "`evmone-eofparse` binary executable not found, skipping EOF fixture verification."
+                " Fixtures may be invalid!"
+            )
+            return fixture
+
         for _, vector in fixture.vectors.items():
             expected_result = vector.results.get(str(fork))
             if expected_result is None:
