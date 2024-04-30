@@ -1,6 +1,7 @@
 """
 Evmone eof exceptions ENUM -> str mapper
 """
+
 from dataclasses import dataclass
 
 from bidict import frozenbidict
@@ -44,6 +45,9 @@ class EvmoneExceptionMapper:
         ExceptionMessage(EOFException.INCOMPLETE_SECTION_NUMBER, "err: incomplete_section_number"),
         ExceptionMessage(EOFException.TOO_MANY_CODE_SECTIONS, "err: too_many_code_sections"),
         ExceptionMessage(EOFException.ZERO_SECTION_SIZE, "err: zero_section_size"),
+        ExceptionMessage(EOFException.UNDEFINED_INSTRUCTION, "err: undefined_instruction"),
+        ExceptionMessage(EOFException.UNREACHABLE_INSTRUCTIONS, "err: unreachable_instructions"),
+        ExceptionMessage(EOFException.INVALID_RJUMP_DESTINATION, "err: invalid_rjump_destination"),
     )
 
     def __init__(self) -> None:

@@ -198,6 +198,11 @@ class EOFException(ExceptionBase):
     Indicates that exception string is not mapped to an exception enum
     """
 
+    UNDEFINED_INSTRUCTION = auto()
+    """
+    EOF container has undefined instruction in it's body code
+    """
+
     UNKNOWN_VERSION = auto()
     """
     EOF container has an unknown version
@@ -213,6 +218,10 @@ class EOFException(ExceptionBase):
     INVALID_VERSION = auto()
     """
     EOF container version bytes mismatch
+    """
+    INVALID_RJUMP_DESTINATION = auto()
+    """
+    Code has RJUMP instruction with invalid parameters
     """
     MISSING_TYPE_HEADER = auto()
     """
@@ -285,6 +294,10 @@ class EOFException(ExceptionBase):
     MISSING_STOP_OPCODE = auto()
     """
     EOF container's code missing STOP bytecode at it's end
+    """
+    UNREACHABLE_INSTRUCTIONS = auto()
+    """
+    EOF container's code have instructions that are unreachable
     """
 
 
