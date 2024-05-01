@@ -60,7 +60,8 @@ class EvmoneExceptionParser:
     def parse_exception(self, exception: EOFException) -> str:
         """Takes an EOFException and returns a formatted string."""
         message = self.exception_to_message.get(
-            exception, f"EvmoneExceptionParser: Missing string for {exception}"
+            exception,
+            f"Missing string for {exception}; please add it to {self.__class__.__name__}",
         )
         return message
 
