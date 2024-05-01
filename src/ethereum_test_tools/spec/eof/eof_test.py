@@ -2,10 +2,11 @@
 Ethereum EOF test spec definition and filler.
 """
 
+import subprocess
 import warnings
 from pathlib import Path
 from shutil import which
-from subprocess import CompletedProcess, run
+from subprocess import CompletedProcess
 from typing import Callable, ClassVar, Generator, List, Optional, Type
 
 from ethereum_test_forks import Fork
@@ -110,7 +111,7 @@ class EOFParse:
 
     def run(self, *args: str, input: str | None = None) -> CompletedProcess:
         """Run evmone with the given arguments"""
-        return run(
+        return subprocess.run(
             [self.binary, *args],
             capture_output=True,
             text=True,
