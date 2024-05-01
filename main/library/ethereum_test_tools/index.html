@@ -2929,6 +2929,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.UNDEFINED_EXCEPTION" class="md-nav__link">
+    <span class="md-ellipsis">
+      UNDEFINED_EXCEPTION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.EOFException.UNKNOWN_VERSION" class="md-nav__link">
     <span class="md-ellipsis">
       UNKNOWN_VERSION
@@ -3112,6 +3121,15 @@
   <a href="#ethereum_test_tools.EOFException.TOO_MANY_CODE_SECTIONS" class="md-nav__link">
     <span class="md-ellipsis">
       TOO_MANY_CODE_SECTIONS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.MISSING_STOP_OPCODE" class="md-nav__link">
+    <span class="md-ellipsis">
+      MISSING_STOP_OPCODE
     </span>
   </a>
   
@@ -3544,6 +3562,15 @@
   <a href="#ethereum_test_tools.EOFTest.make_eof_test_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       make_eof_test_fixture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFTest.verify_result" class="md-nav__link">
+    <span class="md-ellipsis">
+      verify_result
     </span>
   </a>
   
@@ -12523,6 +12550,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.UNDEFINED_EXCEPTION" class="md-nav__link">
+    <span class="md-ellipsis">
+      UNDEFINED_EXCEPTION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.EOFException.UNKNOWN_VERSION" class="md-nav__link">
     <span class="md-ellipsis">
       UNKNOWN_VERSION
@@ -12706,6 +12742,15 @@
   <a href="#ethereum_test_tools.EOFException.TOO_MANY_CODE_SECTIONS" class="md-nav__link">
     <span class="md-ellipsis">
       TOO_MANY_CODE_SECTIONS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.MISSING_STOP_OPCODE" class="md-nav__link">
+    <span class="md-ellipsis">
+      MISSING_STOP_OPCODE
     </span>
   </a>
   
@@ -13138,6 +13183,15 @@
   <a href="#ethereum_test_tools.EOFTest.make_eof_test_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       make_eof_test_fixture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFTest.verify_result" class="md-nav__link">
+    <span class="md-ellipsis">
+      verify_result
     </span>
   </a>
   
@@ -24602,7 +24656,16 @@ a fork that is not active yet.</p>
 <span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when an EOF container is invalid</span>
@@ -24611,6 +24674,11 @@ a fork that is not active yet.</p>
     <span class="n">DEFAULT_EXCEPTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expect some exception, not yet known</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">UNDEFINED_EXCEPTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicates that exception string is not mapped to an exception enum</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">UNKNOWN_VERSION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
@@ -24697,6 +24765,10 @@ a fork that is not active yet.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container header has too many code sections</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MISSING_STOP_OPCODE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF container&#39;s code missing STOP bytecode at it&#39;s end</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -24728,6 +24800,33 @@ a fork that is not active yet.</p>
   <div class="doc doc-contents ">
   
       <p>Expect some exception, not yet known</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.EOFException.UNDEFINED_EXCEPTION" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">UNDEFINED_EXCEPTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.EOFException.UNDEFINED_EXCEPTION" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Indicates that exception string is not mapped to an exception enum</p>
   </div>
 
 </div>
@@ -25295,6 +25394,33 @@ a fork that is not active yet.</p>
   <div class="doc doc-contents ">
   
       <p>EOF container header has too many code sections</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.EOFException.MISSING_STOP_OPCODE" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">MISSING_STOP_OPCODE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.EOFException.MISSING_STOP_OPCODE" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>EOF container's code missing STOP bytecode at it's end</p>
   </div>
 
 </div>
@@ -28722,57 +28848,102 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests EOF containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28794,7 +28965,7 @@ spec type as filler for the test.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate the EOF test fixture.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Fixture</span><span class="p">(</span>
+        <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span>
             <span class="n">vectors</span><span class="o">=</span><span class="p">{</span>
                 <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
@@ -28807,6 +28978,51 @@ spec type as filler for the test.</p>
                 <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">eof_parse</span> <span class="o">=</span> <span class="n">EOFParse</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> Skipping EOF fixture verification. Fixtures may be invalid!&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fixture</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">fixture</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fork</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">verify_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fixture</span>
+
+    <span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks that the reported exception string matches the expected error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">EvmoneExceptionMapper</span><span class="p">()</span>
+        <span class="n">actual_message</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">actual_exception</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">message_to_exception</span><span class="p">(</span><span class="n">actual_message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UnexpectedEOFException</span><span class="p">(</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">expected_exception</span> <span class="o">=</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span>
+        <span class="n">expected_message</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">exception_to_message</span><span class="p">(</span><span class="n">expected_exception</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExpectedEOFException</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">expected_exception</span> <span class="o">!=</span> <span class="n">actual_exception</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EOFExceptionMismatch</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+                <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -28853,28 +29069,42 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -28883,7 +29113,7 @@ spec type as filler for the test.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the EOF test fixture.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Fixture</span><span class="p">(</span>
+    <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span>
         <span class="n">vectors</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
@@ -28896,6 +29126,107 @@ spec type as filler for the test.</p>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">eof_parse</span> <span class="o">=</span> <span class="n">EOFParse</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> Skipping EOF fixture verification. Fixtures may be invalid!&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fixture</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">fixture</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fork</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verify_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fixture</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="ethereum_test_tools.EOFTest.verify_result" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">verify_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_tools.EOFTest.verify_result" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Checks that the reported exception string matches the expected error.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks that the reported exception string matches the expected error.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">EvmoneExceptionMapper</span><span class="p">()</span>
+    <span class="n">actual_message</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">actual_exception</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">message_to_exception</span><span class="p">(</span><span class="n">actual_message</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnexpectedEOFException</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+
+    <span class="n">expected_exception</span> <span class="o">=</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span>
+    <span class="n">expected_message</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">exception_to_message</span><span class="p">(</span><span class="n">expected_exception</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ExpectedEOFException</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">expected_exception</span> <span class="o">!=</span> <span class="n">actual_exception</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">EOFExceptionMismatch</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+            <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -28924,21 +29255,21 @@ spec type as filler for the test.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
