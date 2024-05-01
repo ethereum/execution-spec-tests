@@ -111,12 +111,17 @@ class EOFParse:
 
     def run(self, *args: str, input: str | None = None) -> CompletedProcess:
         """Run evmone with the given arguments"""
-        return subprocess.run(
+        result = subprocess.run(
             [self.binary, *args],
             capture_output=True,
             text=True,
             input=input,
         )
+        if result.returncode not in [0, 1]:
+            raise Exception(
+                f"`{self.binary.name}` call failed with return code {result.returncode}."
+            )
+        return result
 
 
 class EOFTest(BaseTest):
