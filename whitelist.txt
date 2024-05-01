@@ -14,6 +14,7 @@ basefee
 basename
 bb
 besu
+bidict
 big0
 big1
 blobgasfee
@@ -123,6 +124,7 @@ fcu
 formatOnSave
 formatter
 fromhex
+frozenbidict
 func
 gaslimit
 gasprice
