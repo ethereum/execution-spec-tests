@@ -187,6 +187,13 @@ def pytest_report_header(config, start_path):
     return [f"{t8n.version()}, solc version {config.solc_version}"]
 
 
+def pytest_html_report_title(report):
+    """
+    Set the HTML report title (pytest-html plugin).
+    """
+    report.title = "Fill Test Report"
+
+
 @pytest.fixture(autouse=True, scope="session")
 def evm_bin(request) -> Path:
     """
