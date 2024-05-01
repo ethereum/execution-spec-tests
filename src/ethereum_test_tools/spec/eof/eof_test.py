@@ -20,7 +20,7 @@ from .types import Fixture, Result
 class EOFParse:
     """evmone-eofparse binary."""
 
-    binary: Optional[Path] = None
+    binary: Path
 
     def __new__(cls):
         """Make EOF binary a singleton."""
@@ -37,14 +37,13 @@ class EOFParse:
             if which_path is not None:
                 binary = Path(which_path)
         if binary is None or not Path(binary).exists():
-            self.binary = None
-            return
+            raise FileNotFoundError(
+                "`evmone-eofparse` binary executable not found/not executable."
+            )
         self.binary = Path(binary)
 
     def run(self, *args: str, input: str | None = None) -> CompletedProcess:
         """Run evmone with the given arguments"""
-        if self.binary is None:
-            raise Exception("`evmone-eofparse` binary executable was not found.")
         return run(
             [self.binary, *args],
             capture_output=True,
@@ -88,12 +87,10 @@ class EOFTest(BaseTest):
                 }
             }
         )
-        eof_parse = EOFParse()
-        if not eof_parse.binary:
-            warnings.warn(
-                "`evmone-eofparse` binary executable not found, skipping EOF fixture verification."
-                " Fixtures may be invalid!"
-            )
+        try:
+            eof_parse = EOFParse()
+        except FileNotFoundError as e:
+            warnings.warn(f"{e}, skipping EOF fixture verification. Fixtures may be invalid!")
             return fixture
 
         for _, vector in fixture.vectors.items():
