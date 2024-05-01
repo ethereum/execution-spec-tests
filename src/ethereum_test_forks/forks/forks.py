@@ -2,11 +2,16 @@
 All Ethereum fork class definitions.
 """
 
+from os.path import realpath
+from pathlib import Path
 from typing import List, Mapping, Optional
 
 from semver import Version
 
 from ..base_fork import BaseFork
+
+CURRENT_FILE = Path(realpath(__file__))
+CURRENT_FOLDER = CURRENT_FILE.parent
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
@@ -467,6 +472,20 @@ class Prague(Cancun):
         development.
         """
         return False
+
+    @classmethod
+    def pre_allocation_blockchain(cls) -> Mapping:
+        """
+        Prague requires pre-allocation of the history storage contract for EIP-2935
+        """
+        with open(CURRENT_FOLDER / "history_contract.bin", mode="rb") as f:
+            new_allocation = {
+                0x25A219378DAD9B3503C8268C9CA836A52427A4FB: {
+                    "nonce": 1,
+                    "code": f.read(),
+                }
+            }
+        return new_allocation | super(Prague, cls).pre_allocation_blockchain()
 
     @classmethod
     def solc_min_version(cls) -> Version:
