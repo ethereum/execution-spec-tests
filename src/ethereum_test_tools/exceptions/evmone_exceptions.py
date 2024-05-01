@@ -67,6 +67,7 @@ class EvmoneExceptionMapper:
 
     def message_to_exception(self, exception_string: str) -> EOFException:
         """Takes a string and tries to find matching exception"""
+        # TODO inform tester where to add the missing exception if get uses default
         exception = self.exception_to_message_map.inverse.get(
             exception_string, EOFException.UNDEFINED_EXCEPTION
         )
