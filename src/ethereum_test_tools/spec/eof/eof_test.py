@@ -13,7 +13,7 @@ from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats
 
 from ...common.base_types import Bytes
-from ...exceptions import EOFException, EvmoneExceptionParser
+from ...exceptions import EOFException, EvmoneExceptionMapper
 from ..base.base_test import BaseFixture, BaseTest
 from .types import Fixture, Result
 
@@ -178,9 +178,9 @@ class EOFTest(BaseTest):
         """
         Checks that the reported exception string matches the expected error.
         """
-        parser = EvmoneExceptionParser()
+        parser = EvmoneExceptionMapper()
         actual_message = result.stdout.strip()
-        actual_exception = parser.rev_parse_exception(actual_message)
+        actual_exception = parser.message_to_exception(actual_message)
 
         if expected_result.exception is None:
             if "OK" in actual_message:
@@ -191,7 +191,7 @@ class EOFTest(BaseTest):
                 )
 
         expected_exception = expected_result.exception
-        expected_message = parser.parse_exception(expected_exception)
+        expected_message = parser.exception_to_message(expected_exception)
 
         if "OK" in actual_message:
             raise ExpectedEOFException(

@@ -16,7 +16,7 @@ class ExceptionMessage:
     message: str
 
 
-class EvmoneExceptionParser:
+class EvmoneExceptionMapper:
     """
     Translate between EEST exceptions and error strings returned by evmone.
     """
@@ -53,21 +53,21 @@ class EvmoneExceptionParser:
         assert len(set(entry.message for entry in self._mapping_data)) == len(
             self._mapping_data
         ), "Duplicate message in _mapping_data"
-        self.exception_to_message: frozenbidict = frozenbidict(
+        self.exception_to_message_map: frozenbidict = frozenbidict(
             {entry.exception: entry.message for entry in self._mapping_data}
         )
 
-    def parse_exception(self, exception: EOFException) -> str:
+    def exception_to_message(self, exception: EOFException) -> str:
         """Takes an EOFException and returns a formatted string."""
-        message = self.exception_to_message.get(
+        message = self.exception_to_message_map.get(
             exception,
-            f"Missing string for {exception}; please add it to {self.__class__.__name__}",
+            f"No message defined for {exception}; please add it to {self.__class__.__name__}",
         )
         return message
 
-    def rev_parse_exception(self, exception_string: str) -> EOFException:
-        """Takes a string and tires to find matching exception"""
-        exception = self.exception_to_message.inverse.get(
+    def message_to_exception(self, exception_string: str) -> EOFException:
+        """Takes a string and tries to find matching exception"""
+        exception = self.exception_to_message_map.inverse.get(
             exception_string, EOFException.UNDEFINED_EXCEPTION
         )
         return exception

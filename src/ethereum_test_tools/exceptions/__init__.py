@@ -2,7 +2,7 @@
 Exceptions for invalid execution.
 """
 
-from .evmone_exceptions import EvmoneExceptionParser
+from .evmone_exceptions import EvmoneExceptionMapper
 from .exceptions import (
     BlockException,
     BlockExceptionInstanceOrList,
@@ -19,5 +19,5 @@ __all__ = [
     "ExceptionInstanceOrList",
     "TransactionException",
     "TransactionExceptionInstanceOrList",
-    "EvmoneExceptionParser",
+    "EvmoneExceptionMapper",
 ]
