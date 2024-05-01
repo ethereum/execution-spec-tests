@@ -162,7 +162,7 @@ class EOFTest(BaseTest):
         try:
             eof_parse = EOFParse()
         except FileNotFoundError as e:
-            warnings.warn(f"{e}, skipping EOF fixture verification. Fixtures may be invalid!")
+            warnings.warn(f"{e} Skipping EOF fixture verification. Fixtures may be invalid!")
             return fixture
 
         for _, vector in fixture.vectors.items():
