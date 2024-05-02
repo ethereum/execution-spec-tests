@@ -169,6 +169,10 @@ Arguments related to running execution-spec-tests:
   --test-help           Only show help options specific to execution-spec-tests
                         and exit.
 
+Arguments modifying terminal output:
+  --disable-exceptions-only
+                        Disable custom terminal output for test failures (use pytest's default format).
+
 Exit: After displaying help.
 
 ```
