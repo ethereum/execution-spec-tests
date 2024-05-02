@@ -18,13 +18,15 @@ def pytest_addoption(parser):
     """
     Adds command-line options to pytest.
     """
-    exceptions_only = parser.getgroup("exceptions_only", "Arguments modifying terminal output")
-    exceptions_only.addoption(
+    terminal_output = parser.getgroup(
+        "custom_terminal_output", "Arguments modifying terminal output"
+    )
+    terminal_output.addoption(
         "--disable-exceptions-only",
         dest="disable_exceptions_only",
         action="store_true",
         default=False,
-        help="traceback style",
+        help="Disable custom terminal output for test failures (use pytest's default format).",
     )
 
 
