@@ -44,6 +44,7 @@ def show_test_help(config):
         "fork range",
         "filler location",
         "defining debug",  # the "debug" group in test_filler plugin.
+        "modifying terminal output",
     ]
 
     test_parser = argparse.ArgumentParser()
