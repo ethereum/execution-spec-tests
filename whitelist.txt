@@ -112,6 +112,7 @@ evmone
 Evmone
 excinfo
 executables
+exitstatus
 extcodecopy
 extcodehash
 extcodesize
@@ -289,6 +290,7 @@ substring
 sudo
 t8n
 tamasfe
+terminalreporter
 testability
 TestAddress
 TestContractCreationGasUsage

@@ -49,9 +49,38 @@ def pytest_exception_interact(node, call, report):
     In particular, we remove all traceback information.
     """
     if not node.config.getoption("disable_exceptions_only") and report.failed:
+
+        # if hasattr(call.excinfo.value, "args"):
+        #    formatted_exception = "\nAdditional Info: " + str(call.excinfo.value.args)
+        tb = call.excinfo.traceback
+
+        # Extract the last traceback entry
+        last_tb_entry = tb[-1]
+
+        # Format the traceback entry to string, using only the last entry
+        formatted_traceback = (
+            f"{last_tb_entry.path}:{last_tb_entry.lineno}: in {last_tb_entry.name}\n"
+        )
         excinfo = call.excinfo
         exception_name = excinfo.type.__name__
         exception_message = str(excinfo.value)
         formatted_exception = f"{exception_name}: {exception_message}"
-        new_lines_preserved = formatted_exception.replace("\\n", "\n").replace("\\t", "\t")
+        summary = f"{formatted_traceback}\n{formatted_exception}"
+        new_lines_preserved = summary.replace("\\n", "\n").replace("\\t", "\t")
         report.longrepr = new_lines_preserved
+
+
+def pytest_terminal_summary(terminalreporter, exitstatus, config):
+    """
+    Add a custom section to the terminal summary.
+    """
+    if not config.getoption("disable_exceptions_only"):
+        terminalreporter.ensure_newline()
+        terminalreporter.section("exceptions_only_failure_summary info")
+        terminalreporter.line(
+            "Pytest was ran with the `exceptions_only_failure_summary` plugin enabled."
+        )
+        terminalreporter.line(
+            "Use `--tb=auto` or '--disable-exceptions-only' to disable it and get more detailed "
+            "traceback information."
+        )
