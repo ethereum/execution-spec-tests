@@ -3,7 +3,7 @@ abstract: Tests [EIP-2935: Serve historical block hashes from state](https://eip
     Test [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935)
 """  # noqa: E501
 
-from enum import unique
+from itertools import count
 from typing import Dict, List
 
 import pytest
@@ -22,14 +22,21 @@ FORK_TIMESTAMP = 15_000
 
 @pytest.mark.parametrize(
     "blocks_before_fork",
-    [1, 2],
+    [
+        pytest.param(1, id="fork_at_1"),
+        pytest.param(Spec.BLOCKHASH_OLD_WINDOW, id="fork_at_BLOCKHASH_OLD_WINDOW"),
+        pytest.param(Spec.BLOCKHASH_OLD_WINDOW + 1, id="fork_at_BLOCKHASH_OLD_WINDOW_plus_1"),
+        pytest.param(
+            Spec.HISTORY_SERVE_WINDOW + 1,
+            id="fork_at_HISTORY_SERVE_WINDOW_plus_1",
+            marks=pytest.mark.slow,
+        ),
+    ],
 )
-@pytest.mark.parametrize("blocks_after_fork", [2])
 @pytest.mark.valid_at_transition_to("Prague")
-def test_block_hashes_at_transition(
+def test_block_hashes_history_at_transition(
     blockchain_test: BlockchainTestFiller,
     blocks_before_fork: int,
-    blocks_after_fork: int,
 ):
     """
     Test the fork transition and that the block hashes of previous blocks, even blocks
@@ -39,43 +46,119 @@ def test_block_hashes_at_transition(
     blocks: List[Block] = []
     assert blocks_before_fork >= 1 and blocks_before_fork < FORK_TIMESTAMP
 
-    code_before_block_address = Address(0x200)
-    code_before_block = b""
-    code_before_block_storage: Dict[int, int] = {}
+    pre = {TestAddress: Account(balance=10_000_000_000)}
+    post: Dict[Address, Account] = {}
+    tx_nonce = count(0)
+
+    current_code_address = 0x10000
     for i in range(1, blocks_before_fork):
-        # On the last block before the fork, BLOCKHASH must return values for the last 256 block
-        # but not for the blocks before that.
-        if i > Spec.BLOCKHASH_OLD_WINDOW:
-            oldest_block = i - Spec.BLOCKHASH_OLD_WINDOW
-            block_outside_window = i - Spec.BLOCKHASH_OLD_WINDOW - 1
-            code_before_block = Op.SSTORE(
-                0, Op.ISZERO(Op.BLOCKHASH(block_outside_window))
-            ) + Op.SSTORE(1, Op.ISZERO(Op.BLOCKHASH(oldest_block)))
-        else:
-            # Simply check the oldest block (Genesis) which should be available
-            oldest_block = 0
-            code_before_block = Op.SSTORE(0, 1) + Op.SSTORE(
-                1, Op.ISZERO(Op.BLOCKHASH(oldest_block))
+        txs: List[Transaction] = []
+        if i == blocks_before_fork - 1:
+            # On the last block before the fork, BLOCKHASH must return values for the last 256
+            # blocks but not for the blocks before that.
+            # And HISTORY_STORAGE_ADDRESS should be empty.
+            code = b""
+            storage = Storage()
+            # Check the first block outside the window
+            if i > Spec.BLOCKHASH_OLD_WINDOW:
+                # We can check that blocks before the window are not available
+                block_outside_window = i - Spec.BLOCKHASH_OLD_WINDOW - 1
+
+                # Check using BLOCKHASH, must be zero
+                code += Op.SSTORE(
+                    storage.store_next(1), Op.ISZERO(Op.BLOCKHASH(block_outside_window))
+                )
+
+                # Check calling the HISTORY_STORAGE_ADDRESS, must be zero
+                code += Op.MSTORE(0, block_outside_window)
+                code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
+                code += Op.RETURNDATACOPY(0, 0, 32)
+                code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.MLOAD(0)))
+
+            else:
+                # No block outside the window
+                pass
+
+            # Check the oldest block inside the window
+            if i > Spec.BLOCKHASH_OLD_WINDOW:
+                oldest_block = i - Spec.BLOCKHASH_OLD_WINDOW
+            else:
+                oldest_block = 0
+
+            # Check using BLOCKHASH, must be greater than zero
+            code += Op.SSTORE(storage.store_next(1), Op.GT(Op.BLOCKHASH(oldest_block), 0))
+
+            # Check calling the HISTORY_STORAGE_ADDRESS, must be zero
+            code += Op.MSTORE(0, oldest_block)
+            code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
+            code += Op.RETURNDATACOPY(0, 0, 32)
+            code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.MLOAD(0)))
+
+            txs.append(
+                Transaction(
+                    to=current_code_address,
+                    gas_limit=10_000_000,
+                    nonce=next(tx_nonce),
+                )
             )
-        code_before_block_storage = {0: 1, 1: 0}
-        tx = Transaction(
-            to=code_before_block_address,
+            pre[Address(current_code_address)] = Account(code=code, nonce=1)
+            post[Address(current_code_address)] = Account(storage=storage)
+            current_code_address += 0x100
+        blocks.append(Block(timestamp=i, txs=txs))
+
+    # Add the fork block
+    current_block_number = len(blocks) + 1
+    txs = []
+    # On the block after the fork, BLOCKHASH must return values for the last
+    # Spec.HISTORY_SERVE_WINDOW blocks.
+    # And HISTORY_STORAGE_ADDRESS should be also serve the same values.
+    code = b""
+    storage = Storage()
+    if current_block_number > Spec.HISTORY_SERVE_WINDOW:
+        # We can check that blocks before the window are not available
+        block_outside_window = current_block_number - Spec.HISTORY_SERVE_WINDOW - 1
+
+        # Check using BLOCKHASH, must be zero
+        code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.BLOCKHASH(block_outside_window)))
+
+        # Check calling the HISTORY_STORAGE_ADDRESS, must be zero
+        code += Op.MSTORE(0, block_outside_window)
+        code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
+        code += Op.RETURNDATACOPY(0, 0, 32)
+        code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.MLOAD(0)))
+    else:
+        # No block outside the window
+        pass
+
+    if current_block_number > Spec.HISTORY_SERVE_WINDOW:
+        oldest_block = current_block_number - Spec.HISTORY_SERVE_WINDOW
+    else:
+        oldest_block = 0
+
+    # Check using BLOCKHASH, must be greater than zero
+    code += Op.SSTORE(storage.store_next(1), Op.GT(Op.BLOCKHASH(oldest_block), 0))
+
+    # Check calling the HISTORY_STORAGE_ADDRESS
+    code += Op.MSTORE(0, oldest_block)
+    code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
+    code += Op.RETURNDATACOPY(0, 0, 32)
+    # Must be greater than zero
+    code += Op.SSTORE(storage.store_next(1), Op.GT(Op.MLOAD(0), 0))
+    # Must be equal to the value returned by BLOCKHASH
+    code += Op.SSTORE(storage.store_next(1), Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(oldest_block)))
+
+    txs.append(
+        Transaction(
+            to=current_code_address,
             gas_limit=10_000_000,
+            nonce=next(tx_nonce),
         )
-        blocks.append(Block(timestamp=i, txs=[tx]))
+    )
+    pre[Address(current_code_address)] = Account(code=code, nonce=1)
+    post[Address(current_code_address)] = Account(storage=storage)
+    current_code_address += 0x100
 
-    # Add the blocks after the fork
-    for i in range(FORK_TIMESTAMP, FORK_TIMESTAMP + blocks_after_fork):
-        blocks.append(Block(timestamp=i))
-
-    pre = {
-        TestAddress: Account(balance=10_000_000_000),
-        code_before_block_address: Account(code=code_before_block, nonce=1),
-    }
-
-    post: Dict[Address, Account] = {
-        code_before_block_address: Account(storage=code_before_block_storage),
-    }
+    blocks.append(Block(timestamp=FORK_TIMESTAMP, txs=txs))
 
     blockchain_test(
         genesis_environment=Environment(),
