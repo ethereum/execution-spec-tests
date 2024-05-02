@@ -20,6 +20,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Added EOF fixture format ([#512](https://github.com/ethereum/execution-spec-tests/pull/512)).
 - ✨ Verify filled EOF fixtures using `evmone-eofparse` during `fill` execution ([#519](https://github.com/ethereum/execution-spec-tests/pull/519)).
 - ✨ Added `--traces` support when running with Hyperledger Besu ([#511](https://github.com/ethereum/execution-spec-tests/pull/511)).
+- ✨ More readable "Failures" summary in test reports (traceback information is removed by default) ([#541](https://github.com/ethereum/execution-spec-tests/pull/541)).
 
 ### 🔧 EVM Tools
 
