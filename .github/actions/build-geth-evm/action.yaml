@@ -17,13 +17,13 @@ runs:
   using: "composite"
   steps:
     - name: Checkout go-ethereum
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: ${{ inputs.repo }}
         ref: ${{ inputs.ref }}
         path: go-ethereum
     - name: Setup golang
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
         go-version: ${{ inputs.golang }}
         cache-dependency-path: go-ethereum/go.sum
