@@ -25,7 +25,14 @@ FORK_TIMESTAMP = 15_000
     [
         pytest.param(1, id="fork_at_1"),
         pytest.param(Spec.BLOCKHASH_OLD_WINDOW, id="fork_at_BLOCKHASH_OLD_WINDOW"),
-        pytest.param(Spec.BLOCKHASH_OLD_WINDOW + 1, id="fork_at_BLOCKHASH_OLD_WINDOW_plus_1"),
+        pytest.param(
+            Spec.BLOCKHASH_OLD_WINDOW + 1,
+            id="fork_at_BLOCKHASH_OLD_WINDOW_plus_1",
+        ),
+        pytest.param(
+            Spec.BLOCKHASH_OLD_WINDOW + 2,
+            id="fork_at_BLOCKHASH_OLD_WINDOW_plus_2",
+        ),
         pytest.param(
             Spec.HISTORY_SERVE_WINDOW + 1,
             id="fork_at_HISTORY_SERVE_WINDOW_plus_1",
