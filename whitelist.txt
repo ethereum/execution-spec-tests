@@ -110,6 +110,7 @@ evaluatable
 evm
 evmone
 Evmone
+excinfo
 executables
 extcodecopy
 extcodehash
@@ -185,6 +186,7 @@ listdir
 lll
 lllc
 london
+longrepr
 macOS
 mainnet
 marioevz
