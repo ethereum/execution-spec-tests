@@ -99,6 +99,7 @@ enum
 env
 envvar
 eof
+eofparse
 EOFException
 esbenp
 eth
