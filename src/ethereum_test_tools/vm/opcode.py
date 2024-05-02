@@ -4932,7 +4932,7 @@ class Opcodes(Opcode, Enum):
     3
     """
 
-    JUMPF = Opcode(0xB1, data_portion_length=2)
+    JUMPF = Opcode(0xE5, data_portion_length=2)
     """
     !!! Note: This opcode is under development
 
