@@ -12,11 +12,7 @@ from ethereum_test_tools import (
     compute_eofcreate_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1.constants import (
-    MAX_BYTECODE_SIZE,
-    MAX_INITCODE_SIZE,
-    NON_RETURNING_SECTION,
-)
+from ethereum_test_tools.eof.v1.constants import MAX_BYTECODE_SIZE, NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .helpers import (
