@@ -227,7 +227,7 @@ class EOFException(ExceptionBase):
     """
     EOF container missing types section
     """
-    INVALID_TYPE_SIZE = auto()
+    INVALID_TYPE_SECTION_SIZE = auto()
     """
     EOF container types section has wrong size
     """
@@ -298,6 +298,10 @@ class EOFException(ExceptionBase):
     UNREACHABLE_INSTRUCTIONS = auto()
     """
     EOF container's code have instructions that are unreachable
+    """
+    UNREACHABLE_CODE_SECTIONS = auto()
+    """
+    EOF container's body have code sections that are unreachable
     """
 
 

@@ -40,7 +40,7 @@ class EvmoneExceptionMapper:
         ExceptionMessage(
             EOFException.INVALID_SECTION_BODIES_SIZE, "err: invalid_section_bodies_size"
         ),
-        ExceptionMessage(EOFException.INVALID_TYPE_SIZE, "err: invalid_type_section_size"),
+        ExceptionMessage(EOFException.INVALID_TYPE_SECTION_SIZE, "err: invalid_type_section_size"),
         ExceptionMessage(EOFException.INCOMPLETE_SECTION_SIZE, "err: incomplete_section_size"),
         ExceptionMessage(EOFException.INCOMPLETE_SECTION_NUMBER, "err: incomplete_section_number"),
         ExceptionMessage(EOFException.TOO_MANY_CODE_SECTIONS, "err: too_many_code_sections"),
@@ -48,6 +48,7 @@ class EvmoneExceptionMapper:
         ExceptionMessage(EOFException.UNDEFINED_INSTRUCTION, "err: undefined_instruction"),
         ExceptionMessage(EOFException.UNREACHABLE_INSTRUCTIONS, "err: unreachable_instructions"),
         ExceptionMessage(EOFException.INVALID_RJUMP_DESTINATION, "err: invalid_rjump_destination"),
+        ExceptionMessage(EOFException.UNREACHABLE_CODE_SECTIONS, "err: unreachable_code_sections"),
     )
 
     def __init__(self) -> None:
