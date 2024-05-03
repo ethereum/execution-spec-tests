@@ -5014,6 +5014,36 @@ class Opcodes(Opcode, Enum):
 
     """
 
+    EXCHANGE = Opcode(0xE8, data_portion_length=1)
+    """
+    !!! Note: This opcode is under development
+
+    EXCHANGE[mn]
+    ----
+
+    Description
+    ----
+    Exchanges two stack positions.  Two nybbles, n is high 4 bits + 1, then  m is 4 low bits + 1.
+    Exchanges tne n+1'th item with the n + m + 1 item.
+
+    Inputs
+    ----
+    n + m + 1, or ((imm >> 4) + (imm &0x0F) + 3) from the raw immediate,
+
+    Outputs
+    ----
+    n + m + 1, or ((imm >> 4) + (imm &0x0F) + 3) from the raw immediate,
+
+    Fork
+    ----
+    EOF_FORK
+
+    Gas
+    ----
+    3
+
+    """
+
     CREATE3 = Opcode(0xEC, popped_stack_items=4, pushed_stack_items=1, data_portion_length=1)
     """
     !!! Note: This opcode is under development
