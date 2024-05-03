@@ -53,9 +53,9 @@ def test_exchange_all_valid_immediates(
     for e in range(0, n):
         a = (e >> 4) + 1
         b = (e & 0x0F) + 1 + a
-        tmp = values_rotated[a]
+        temp = values_rotated[a]
         values_rotated[a] = values_rotated[b]
-        values_rotated[b] = tmp
+        values_rotated[b] = temp
 
     post = {tx.to: Account(storage=dict(zip(range(0, s), reversed(values_rotated))))}
 
