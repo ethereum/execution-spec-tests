@@ -179,7 +179,7 @@ from ..vm.opcode import Opcodes as Op
                 [
                     Op.ORIGIN.int(),
                     Op.RJUMPV.int(),
-                    0x03,  # Data portion, defined by the [1, 2, 3] argument
+                    0x02,  # Data portion, defined by the [1, 2, 3] argument
                     0x00,
                     0x01,
                     0x00,
@@ -203,7 +203,7 @@ from ..vm.opcode import Opcodes as Op
             bytes(
                 [
                     Op.RJUMPV.int(),
-                    0x03,
+                    0x02,
                     0xFF,
                     0xFF,
                     0xFF,
@@ -218,7 +218,7 @@ from ..vm.opcode import Opcodes as Op
             bytes(
                 [
                     Op.RJUMPV.int(),
-                    0x05,
+                    0x04,
                     0x00,
                     0x00,
                     0x00,
@@ -238,7 +238,7 @@ from ..vm.opcode import Opcodes as Op
                 [
                     Op.ORIGIN.int(),
                     Op.RJUMPV.int(),
-                    0x03,  # Data portion, defined by the [1, 2, 3] argument
+                    0x02,  # Data portion, defined by the [1, 2, 3] argument
                     0x00,
                     0x01,
                     0x00,

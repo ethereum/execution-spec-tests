@@ -99,6 +99,7 @@ enum
 env
 envvar
 eof
+EOF1
 eofparse
 EOFException
 esbenp
@@ -213,6 +214,7 @@ ommers
 opc
 oprypin
 origin
+ori
 parseable
 pathlib
 pdb
@@ -313,6 +315,7 @@ u256
 ubuntu
 ukiyo
 uncomment
+undersize
 util
 utils
 v0
