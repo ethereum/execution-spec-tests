@@ -1249,17 +1249,17 @@ class TransactionReceipt(CamelModel):
     Transaction receipt
     """
 
-    root: Bytes
-    status: HexNumber
-    cumulative_gas_used: HexNumber
-    logs_bloom: Bloom
+    root: Bytes | None = None
+    status: HexNumber | None = None
+    cumulative_gas_used: HexNumber | None = None
+    logs_bloom: Bloom | None = None
     logs: List[Dict[str, str]] | None = None
     transaction_hash: Hash
-    contract_address: Address
+    contract_address: Address | None = None
     gas_used: HexNumber
     effective_gas_price: HexNumber | None = None
-    block_hash: Hash
-    transaction_index: HexNumber
+    block_hash: Hash | None = None
+    transaction_index: HexNumber | None = None
     blob_gas_used: HexNumber | None = None
     blob_gas_price: HexNumber | None = None
 
