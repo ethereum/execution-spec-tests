@@ -7,6 +7,7 @@ alloc
 api
 apis
 at5
+authcall
 AutoSection
 balance
 base64
@@ -162,6 +163,7 @@ incrementing
 init
 initcode
 instantiation
+invoker
 io
 islice
 isort

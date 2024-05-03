@@ -5291,6 +5291,41 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#F5](https://www.evm.codes/#F5)
     """
 
+    AUTH = Opcode(0xF6, popped_stack_items=3, pushed_stack_items=1)
+    """
+    AUTH(authority, offset, length) = success
+    ----
+
+    Description
+    ----
+    Verifies a signature and enables masquerading as the signing account
+
+    Inputs
+    ----
+    - authority: account that is expected to have signed the message
+    - offset: beginning of memory region containing signature
+    - length: count of bytes in the memory region containing the signature
+
+    Outputs
+    ---
+    - success:
+        - `0` if the authorized account is unset
+        - `1` if the authorized account has been set to authority
+
+    Fork
+    ----
+    Prague
+
+    Gas
+    ----
+    ```
+    static_gas = 3100
+    dynamic_gas = memory_expansion_cost + address_access_cost
+    ```
+
+    Source: [EIP-3074](https://eips.ethereum.org/EIPS/eip-3074#auth-0xf6)
+    """
+
     EXTCALL = Opcode(0xF8, popped_stack_items=4, pushed_stack_items=1)
     """
     EXTCALL(target_address, input_offset, input_size, value) = address
