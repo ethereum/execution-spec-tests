@@ -1,20 +1,14 @@
 """
-Execution of CALLF, RETF opcodes within EOF V1 containers tests
+EOF JUMPF tests covering simple cases.
 """
-
 import pytest
 
-from ethereum_test_tools import (
-    Account,
-    Address,
-    Environment,
-    StateTestFiller,
-    TestAddress,
-    Transaction,
-)
-from ethereum_test_tools.eof.v1 import Container
+from ethereum_test_tools import EOFException, EOFTestFiller, StateTestFiller
+from ethereum_test_tools.eof.v1 import Container, Section
+from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .contracts import VALID, container_name
+from .helpers import execute_tests
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6206.md"
@@ -23,49 +17,160 @@ REFERENCE_SPEC_VERSION = "a1775816657df4093787fb9fe83c2f7cc17ecf47"
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
-@pytest.mark.parametrize(
-    "container",
-    VALID,
-    ids=container_name,
-)
-def test_jumpf_execution(
+def test_jumpf_forward(
     state_test: StateTestFiller,
-    container: Container,
+    eof_test: EOFTestFiller,
 ):
-    """
-    Test JUMPF valid contracts.  All should end with the same canary
-    """
-    assert (
-        container.validity_error is None
-    ), f"Valid container with validity error: {container.validity_error}"
-
-    env = Environment()
-
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=1,
+    """Test JUMPF jumping forward"""
+    execute_tests(
+        state_test,
+        eof_test,
+        Container(
+            sections=[
+                Section.Code(
+                    code=Op.JUMPF[1],
+                    code_outputs=NON_RETURNING_SECTION,
+                ),
+                Section.Code(
+                    Op.SSTORE(0, 1) + Op.STOP,
+                    code_outputs=NON_RETURNING_SECTION,
+                    max_stack_height=2,
+                ),
+            ],
         ),
-        Address(0x100): Account(
-            code=container,
-            nonce=1,
-        ),
-    }
-
-    tx = Transaction(
-        nonce=1,
-        to=Address(0x100),
-        gas_limit=44_000,
-        gas_price=10,
-        protected=False,
-        data="1",
     )
 
-    post = {Address(0x100): Account(storage={0: 1})}
 
-    state_test(
-        env=env,
-        pre=pre,
-        post=post,
-        tx=tx,
+def test_jumpf_backward(
+    state_test: StateTestFiller,
+    eof_test: EOFTestFiller,
+):
+    """Tests JUMPF jumping backward"""
+    execute_tests(
+        state_test,
+        eof_test,
+        Container(
+            sections=[
+                Section.Code(
+                    code=Op.CALLF[2] + Op.SSTORE(0, 1) + Op.STOP,
+                    code_outputs=NON_RETURNING_SECTION,
+                    max_stack_height=2,
+                ),
+                Section.Code(
+                    code=Op.RETF,
+                ),
+                Section.Code(
+                    code=Op.JUMPF[1],
+                ),
+            ],
+        ),
+    )
+
+
+def test_jumpf_to_self(
+    state_test: StateTestFiller,
+    eof_test: EOFTestFiller,
+):
+    """Tests JUMPF jumping to self"""
+    execute_tests(
+        state_test,
+        eof_test,
+        Container(
+            sections=[
+                Section.Code(
+                    code=Op.SLOAD(0)
+                    + Op.ISZERO
+                    + Op.RJUMPI[1]
+                    + Op.STOP
+                    + Op.SSTORE(0, 1)
+                    + Op.JUMPF[0],
+                    code_outputs=NON_RETURNING_SECTION,
+                    max_stack_height=2,
+                )
+            ],
+        ),
+    )
+
+
+def test_jumpf_too_large(
+    state_test: StateTestFiller,
+    eof_test: EOFTestFiller,
+):
+    """Tests JUMPF jumping to a section outside the max section range"""
+    execute_tests(
+        state_test,
+        eof_test,
+        Container(
+            sections=[
+                Section.Code(
+                    code=Op.JUMPF[1025],
+                    code_outputs=NON_RETURNING_SECTION,
+                )
+            ],
+            validity_error=EOFException.UNDEFINED_EXCEPTION,
+        ),
+    )
+
+
+def test_jumpf_way_too_large(
+    state_test: StateTestFiller,
+    eof_test: EOFTestFiller,
+):
+    """Tests JUMPF jumping to uint64.MAX"""
+    execute_tests(
+        state_test,
+        eof_test,
+        Container(
+            sections=[
+                Section.Code(
+                    code=Op.JUMPF[0xFFFF],
+                    code_outputs=NON_RETURNING_SECTION,
+                )
+            ],
+            validity_error=EOFException.UNDEFINED_EXCEPTION,
+        ),
+    )
+
+
+def test_jumpf_to_nonexistent_section(
+    state_test: StateTestFiller,
+    eof_test: EOFTestFiller,
+):
+    """Tests JUMPF jumping to valid section number but where the section does not exist"""
+    execute_tests(
+        state_test,
+        eof_test,
+        Container(
+            sections=[
+                Section.Code(
+                    code=Op.JUMPF[5],
+                    code_outputs=NON_RETURNING_SECTION,
+                )
+            ],
+            validity_error=EOFException.UNDEFINED_EXCEPTION,
+        ),
+    )
+
+
+def test_callf_to_non_returning_section(
+    state_test: StateTestFiller,
+    eof_test: EOFTestFiller,
+):
+    """Tests CALLF into a non-returning section"""
+    execute_tests(
+        state_test,
+        eof_test,
+        Container(
+            sections=[
+                Section.Code(
+                    code=Op.CALLF[1],
+                    code_outputs=NON_RETURNING_SECTION,
+                ),
+                Section.Code(
+                    code=Op.STOP,
+                    outputs=NON_RETURNING_SECTION,
+                ),
+            ],
+            validity_error=EOFException.UNDEFINED_EXCEPTION,
+        ),
     )
