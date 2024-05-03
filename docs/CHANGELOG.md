@@ -9,6 +9,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🧪 Test Cases
 
 - ✨ Add `test_double_kill` and `test_recreate` which test resurrection of accounts killed with `SELFDESTRUCT` ([#488](https://github.com/ethereum/execution-spec-tests/pull/488)).
+- ✨ Add eof example valid invalid tests from ori, fetch EOF Container implementation ([#535](https://github.com/ethereum/execution-spec-tests/pull/535)).
 
 ### 🛠️ Framework
 

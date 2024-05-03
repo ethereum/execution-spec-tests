@@ -258,6 +258,9 @@ from ..vm.opcode import Opcodes as Op
                 ]
             ),
         ),
+        (Op.RJUMPV[0, 3, 6, 9], bytes.fromhex("e2030000000300060009")),
+        (Op.RJUMPV[2, 0], bytes.fromhex("e20100020000")),
+        (Op.RJUMPV[b"\x02\x00\x02\xFF\xFF"], bytes.fromhex("e2020002ffff")),
     ],
 )
 def test_opcodes(opcodes: bytes, expected: bytes):

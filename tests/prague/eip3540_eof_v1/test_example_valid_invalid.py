@@ -404,15 +404,6 @@ def test_example_valid_invalid(
     )
 
 
-def test_new_eof_opcodes(eof_test: EOFTestFiller):
-    """
-    Assert the compilation of new eof opcodes is valid
-    """
-    assert str(bytes(Op.RJUMPV[0, 3, 6, 9]).hex()) == "e2030000000300060009"
-    assert str(bytes(Op.RJUMPV[2, 0]).hex()) == "e20100020000"
-    assert str(bytes(Op.RJUMPV[b"\x02\x00\x02\xFF\xFF"]).hex()) == "e2020002ffff"
-
-
 @pytest.mark.parametrize(
     "skip_header_listing, skip_body_listing, skip_types_body_listing, skip_types_header_listing,"
     "expected_code, expected_exception",
