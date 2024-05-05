@@ -12,11 +12,13 @@ Given a genesis state and a list of RLP-encoded blocks, the test verifies that:
 import io
 import json
 import pprint
+import time
 from pathlib import Path
-from typing import Any, Generator, List, Literal, Mapping, Union, cast
+from typing import Any, Generator, List, Literal, Mapping, Optional, Union, cast
 
 import pytest
 import requests
+import rich
 from hive.client import Client, ClientType
 from hive.testing import HiveTest
 from pydantic import BaseModel
@@ -33,7 +35,42 @@ from pytest_plugins.consume_via_rlp.network_ruleset_hive import ruleset
 TestCase = TestCaseIndexFile | TestCaseStream
 
 
+class TestCaseTimingData(BaseModel):
+    """
+    The times taken to perform the various steps of a test case (seconds).
+    """
+
+    __test__ = False
+    prepare_files: Optional[float] = None  # start of test until client start
+    start_client: Optional[float] = None
+    get_genesis: Optional[float] = None
+    get_last_block: Optional[float] = None
+    total: Optional[float] = None
+
+
 @pytest.fixture(scope="function")
+def t_test_start() -> float:
+    """
+    The time the test started; used to time fixture+file preparation and total time.
+    """
+    return time.perf_counter()
+
+
+@pytest.fixture(scope="function", autouse=True)
+def timing_data(request, t_test_start) -> Generator[TestCaseTimingData, None, None]:
+    """
+    Helper to record timing data for various stages of executing test case.
+    """
+    timing_data = TestCaseTimingData()
+    yield timing_data
+    timing_data.total = time.perf_counter() - t_test_start
+    rich.print(f"\nTest timings:\n{timing_data}")
+    if hasattr(request.node, "rep_call"):  # make available for test reports
+        request.node.rep_call.timings = timing_data
+
+
+@pytest.fixture(scope="function")
+@pytest.mark.usefixtures("timing_data")
 def fixture(fixture_source: JsonSource, test_case: TestCase) -> Fixture:
     """
     The test fixture.
@@ -131,14 +168,22 @@ def environment(fixture: Fixture) -> dict:
 
 @pytest.fixture(scope="function")
 def client(
-    hive_test: HiveTest, client_files: dict, environment: dict, client_type: ClientType
+    hive_test: HiveTest,
+    client_files: dict,
+    environment: dict,
+    client_type: ClientType,
+    t_test_start: float,
+    timing_data: TestCaseTimingData,
 ) -> Generator[Client, None, None]:
     """
     Initialize the client with the appropriate files and environment variables.
     """
+    timing_data.prepare_files = time.perf_counter() - t_test_start
+    t_start = time.perf_counter()
     client = hive_test.start_client(
         client_type=client_type, environment=environment, files=client_files
     )
+    timing_data.start_client = time.perf_counter() - t_start
     assert client is not None
     yield client
     client.stop()
@@ -224,7 +269,12 @@ class GenesisBlockMismatchException(Exception):
         super().__init__(message)
 
 
-def test_via_rlp(client: Client, fixture: Fixture, client_genesis: dict):
+def test_via_rlp(
+    client: Client,
+    fixture: Fixture,
+    client_genesis: dict,
+    timing_data: TestCaseTimingData,
+):
     """
     Verify that the client's state as calculated from the specified genesis state
     and blocks matches those defined in the test fixture.
@@ -234,10 +284,13 @@ def test_via_rlp(client: Client, fixture: Fixture, client_genesis: dict):
     1. The client's genesis block hash matches `fixture.genesis.block_hash`.
     2. The client's last block's hash matches `fixture.last_block_hash`.
     """
+    t_start = time.perf_counter()
     genesis_block = get_block(client, 0)
+    timing_data.get_genesis = time.perf_counter() - t_start
     if genesis_block["hash"] != str(fixture.genesis.block_hash):
         raise GenesisBlockMismatchException(
             expected_header=fixture.genesis, got_header=FixtureHeader(**genesis_block)
         )
     block = get_block(client, "latest")
+    timing_data.get_last_block = time.perf_counter() - timing_data.get_genesis - t_start
     assert block["hash"] == str(fixture.last_block_hash), "hash mismatch in last block"

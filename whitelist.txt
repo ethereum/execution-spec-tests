@@ -216,6 +216,7 @@ origin
 parseable
 pathlib
 pdb
+perf
 petersburg
 png
 Pomerantz
