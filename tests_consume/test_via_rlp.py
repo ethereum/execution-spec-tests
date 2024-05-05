@@ -82,7 +82,9 @@ def to_geth_genesis(fixture: Fixture) -> dict:
             "blobGasUsed",
         ]
     }
-    geth_genesis["alloc"] = to_json(fixture.pre)
+    alloc = to_json(fixture.pre)
+    # NOTE: nethermind requires the account keys to be hex strings without the '0x' prefix
+    geth_genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
     return geth_genesis
 
 
@@ -124,10 +126,7 @@ def files(
     - Values are in-memory buffered file objects.
     """
     files = {f"/blocks/{i:04d}.rlp": block_rlp for i, block_rlp in enumerate(buffered_blocks_rlp)}
-    if client_type.name == "nethermind":
-        files["/chainspec/test.json"] = buffered_genesis
-    else:
-        files["/genesis.json"] = buffered_genesis
+    files["/genesis.json"] = buffered_genesis
     return files
 
 
@@ -219,5 +218,4 @@ def test_via_rlp(
     genesis_block = get_block(client, 0)
     assert genesis_block["hash"] == str(fixture.genesis.block_hash), "genesis hash mismatch"
     block = get_block(client, "latest")
-    # assert block["number"] == hex(len(fixture.blocks)), "unexpected latest block number"
     assert block["hash"] == fixture.last_block_hash, "hash mismatch in last block"
