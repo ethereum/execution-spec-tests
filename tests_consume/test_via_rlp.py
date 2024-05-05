@@ -11,6 +11,7 @@ Given a genesis state and a list of RLP-encoded blocks, the test verifies that:
 """
 import io
 import json
+import pprint
 from pathlib import Path
 from typing import Any, Generator, List, Literal, Mapping, Union, cast
 
@@ -18,11 +19,12 @@ import pytest
 import requests
 from hive.client import Client, ClientType
 from hive.testing import HiveTest
+from pydantic import BaseModel
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_tools.common.base_types import Bytes
 from ethereum_test_tools.common.json import to_json
-from ethereum_test_tools.spec.blockchain.types import Fixture
+from ethereum_test_tools.spec.blockchain.types import Fixture, FixtureHeader
 from ethereum_test_tools.spec.consume.types import TestCaseIndexFile, TestCaseStream
 from ethereum_test_tools.spec.file.types import BlockchainFixtures
 from pytest_plugins.consume.consume import JsonSource
@@ -183,10 +185,47 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
     return result
 
 
-def test_via_rlp(
-    client: Client,
-    fixture: Fixture,
-):
+def compare_models(expected: BaseModel, got: BaseModel) -> dict:
+    """
+    Compare two pydantic models instances and return the differences.
+    """
+    differences = {}
+    for field in expected.__fields__.keys():
+        if getattr(expected, field) != getattr(got, field):
+            differences[field] = {
+                "expected     ": str(getattr(expected, field)),
+                "got (via rpc)": str(getattr(got, field)),
+            }
+    return differences
+
+
+class GenesisBlockMismatchException(Exception):
+    """
+    Exception raised when the client's genesis block hash does not match that of
+    the fixture.
+    """
+
+    def __init__(self, *, expected_header: FixtureHeader, got_header: FixtureHeader):
+        message = (
+            "Genesis block hash mismatch.\n"
+            f"Expected: {expected_header.block_hash}\n"
+            f"     Got: {got_header.block_hash}."
+        )
+        differences = compare_models(expected_header, got_header)
+        if differences:
+            message += (
+                "\n\nAdditionally, there are differences between the expected and received "
+                "genesis block header fields:\n"
+                f"{pprint.pformat(differences, indent=4)}"
+            )
+        else:
+            message += (
+                "There were no differences in the expected and received genesis block headers."
+            )
+        super().__init__(message)
+
+
+def test_via_rlp(client: Client, fixture: Fixture, client_genesis: dict):
     """
     Verify that the client's state as calculated from the specified genesis state
     and blocks matches those defined in the test fixture.
@@ -197,6 +236,9 @@ def test_via_rlp(
     2. The client's last block's hash matches `fixture.last_block_hash`.
     """
     genesis_block = get_block(client, 0)
-    assert genesis_block["hash"] == str(fixture.genesis.block_hash), "genesis hash mismatch"
+    if genesis_block["hash"] != str(fixture.genesis.block_hash):
+        raise GenesisBlockMismatchException(
+            expected_header=fixture.genesis, got_header=FixtureHeader(**genesis_block)
+        )
     block = get_block(client, "latest")
     assert block["hash"] == str(fixture.last_block_hash), "hash mismatch in last block"
