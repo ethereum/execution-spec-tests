@@ -198,6 +198,7 @@ mypy
 namespace
 nav
 ncheck
+nethermind
 nexternal
 nGo
 nJSON
