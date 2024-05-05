@@ -50,51 +50,32 @@ def fixture(fixture_source: JsonSource, test_case: TestCase) -> Fixture:
 
 
 @pytest.fixture(scope="function")
+def client_genesis(fixture: Fixture) -> dict:
+    """
+    Convert the fixture's genesis block header and pre-state to a client genesis state.
+    """
+    genesis = to_json(fixture.genesis)  # NOTE: to_json() excludes None values
+    alloc = to_json(fixture.pre)
+    # NOTE: nethermind requires account keys to not be prefixed by '0x'
+    genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
+    return genesis
+
+
+@pytest.fixture(scope="function")
 def blocks_rlp(fixture: Fixture) -> List[Bytes]:
     """
-    A list of the fixture's RLP-encoded blocks.
+    A list of the fixture's blocks encoded as RLP.
     """
     return [block.rlp for block in fixture.blocks]
 
 
-@pytest.fixture(scope="function")
-def to_geth_genesis(fixture: Fixture) -> dict:
-    """
-    Convert the genesis block header of the current test fixture to a geth genesis block.
-    """
-    genesis_json_data = to_json(fixture.genesis)  # None values are excluded
-    geth_genesis = {
-        k: v
-        for k, v in genesis_json_data.items()
-        if k
-        in [
-            "nonce",
-            "timestamp",
-            "extraData",
-            "gasLimit",
-            "difficulty",
-            "mixhash",
-            "coinbase",
-            "baseFeePerGas",
-            "withdrawalsRoot",
-            "excessBlobGas",
-            "blobFeePerGas",
-            "blobGasUsed",
-        ]
-    }
-    alloc = to_json(fixture.pre)
-    # NOTE: nethermind requires the account keys to be hex strings without the '0x' prefix
-    geth_genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
-    return geth_genesis
-
-
 @pytest.fixture
-def buffered_genesis(to_geth_genesis: dict) -> io.BufferedReader:
+def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     """
     Create a buffered reader for the genesis block header of the current test
     fixture.
     """
-    genesis_json = json.dumps(to_geth_genesis)
+    genesis_json = json.dumps(client_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
 
@@ -112,9 +93,7 @@ def buffered_blocks_rlp(blocks_rlp: List[bytes], start=1) -> List[io.BufferedRea
 
 
 @pytest.fixture
-def files(
-    test_case: TestCase,
-    client_type: ClientType,
+def client_files(
     buffered_genesis: io.BufferedReader,
     buffered_blocks_rlp: list[io.BufferedReader],
 ) -> Mapping[str, io.BufferedReader]:
@@ -150,12 +129,14 @@ def environment(fixture: Fixture) -> dict:
 
 @pytest.fixture(scope="function")
 def client(
-    hive_test: HiveTest, files: dict, environment: dict, client_type: ClientType
+    hive_test: HiveTest, client_files: dict, environment: dict, client_type: ClientType
 ) -> Generator[Client, None, None]:
     """
     Initialize the client with the appropriate files and environment variables.
     """
-    client = hive_test.start_client(client_type=client_type, environment=environment, files=files)
+    client = hive_test.start_client(
+        client_type=client_type, environment=environment, files=client_files
+    )
     assert client is not None
     yield client
     client.stop()
@@ -218,4 +199,4 @@ def test_via_rlp(
     genesis_block = get_block(client, 0)
     assert genesis_block["hash"] == str(fixture.genesis.block_hash), "genesis hash mismatch"
     block = get_block(client, "latest")
-    assert block["hash"] == fixture.last_block_hash, "hash mismatch in last block"
+    assert block["hash"] == str(fixture.last_block_hash), "hash mismatch in last block"
