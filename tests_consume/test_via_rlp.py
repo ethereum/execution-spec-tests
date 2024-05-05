@@ -1,13 +1,13 @@
 """
-Test module to test clients using RLP-encoded blocks from blockchain tests.
+Test a fully instantiated client using RLP-encoded blocks from blockchain tests.
 
 The test fixtures should have the blockchain test format. The setup sends
 the genesis file and RLP-encoded blocks to the client container using hive.
 The client consumes these files upon start-up.
 
-The test verifies:
-1. The client's genesis block hash matches that of the fixture.
-2. The client's last block's hash and stateRoot` match those of the fixture.
+Given a genesis state and a list of RLP-encoded blocks, the test verifies that:
+1. The client's genesis block hash matches that defined in the fixture.
+2. The client's last block hash matches that defined in the fixture.
 """
 import io
 import json
@@ -193,8 +193,8 @@ def test_via_rlp(
 
     Test:
 
-    1. The client's genesis block hash matches that of the fixture.
-    2. The client's last block's hash and stateRoot` match those of the fixture.
+    1. The client's genesis block hash matches `fixture.genesis.block_hash`.
+    2. The client's last block's hash matches `fixture.last_block_hash`.
     """
     genesis_block = get_block(client, 0)
     assert genesis_block["hash"] == str(fixture.genesis.block_hash), "genesis hash mismatch"
