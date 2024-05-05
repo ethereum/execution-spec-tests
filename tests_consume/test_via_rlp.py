@@ -187,7 +187,7 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
 
 def compare_models(expected: BaseModel, got: BaseModel) -> dict:
     """
-    Compare two pydantic models instances and return the differences.
+    Compare two pydantic model instances and return the differences.
     """
     differences = {}
     for field in expected.__fields__.keys():
@@ -201,8 +201,7 @@ def compare_models(expected: BaseModel, got: BaseModel) -> dict:
 
 class GenesisBlockMismatchException(Exception):
     """
-    Exception raised when the client's genesis block hash does not match that of
-    the fixture.
+    Used when the client's genesis block hash does not match the fixture.
     """
 
     def __init__(self, *, expected_header: FixtureHeader, got_header: FixtureHeader):
