@@ -207,6 +207,7 @@ NOP
 NOPs
 nPython
 nSHA
+num
 number
 ommer
 ommers

@@ -45,7 +45,24 @@ class TestCaseTimingData(BaseModel):
     start_client: Optional[float] = None
     get_genesis: Optional[float] = None
     get_last_block: Optional[float] = None
+    stop_client: Optional[float] = None
     total: Optional[float] = None
+
+    @staticmethod
+    def format_float(num: float | None, precision: int = 4) -> str | None:
+        """
+        Format a float to a specific precision in significant figures.
+        """
+        if num is None:
+            return None
+        return f"{num:.{precision}f}"
+
+    def formatted(self, precision: int = 4) -> "TestCaseTimingData":
+        """
+        Return a new instance of the model with formatted float values.
+        """
+        data = {field: self.format_float(value, precision) for field, value in self.dict().items()}
+        return TestCaseTimingData(**data)
 
 
 @pytest.fixture(scope="function")
@@ -64,7 +81,7 @@ def timing_data(request, t_test_start) -> Generator[TestCaseTimingData, None, No
     timing_data = TestCaseTimingData()
     yield timing_data
     timing_data.total = time.perf_counter() - t_test_start
-    rich.print(f"\nTest timings:\n{timing_data}")
+    rich.print(f"\nTimings (seconds): {timing_data.formatted()}")
     if hasattr(request.node, "rep_call"):  # make available for test reports
         request.node.rep_call.timings = timing_data
 
@@ -186,7 +203,9 @@ def client(
     timing_data.start_client = time.perf_counter() - t_start
     assert client is not None
     yield client
+    t_start = time.perf_counter()
     client.stop()
+    timing_data.stop_client = time.perf_counter() - t_start
 
 
 BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
