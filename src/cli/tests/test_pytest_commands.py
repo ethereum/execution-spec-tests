@@ -62,47 +62,72 @@ def test_tf_deprecation(runner):
 def default_html_report_fill_args():
     """
     Provides default arguments for the `fill` command when testing html report generation.
+
+    Specifies a single existing example test case for faster fill execution, and to allow for tests
+    to check for the fixture generation location.
     """
-    return ["--co", "--fork", "Frontier"]
+    return ["-k", "test_dup and state_test-DUP16", "--fork", "Frontier"]
 
 
-@pytest.fixture
-def default_html_report_path():
+def test_fill_html_report_default(
+    runner,
+    default_html_report_fill_args,
+):
     """
-    Provides a default html report path for the `fill` command when testing html report generation.
+    Tests the default pytest html report generation.
     """
-    return Path("fixtures/report.html")
+    default_html = Path("fixtures/report.html")
+    with TemporaryDirectory():
+        result = runner.invoke(fill, default_html_report_fill_args)
+        assert result.exit_code == pytest.ExitCode.OK
+        assert default_html.exists()
 
 
-def test_fill_pytest_html_report(runner, default_html_report_fill_args, default_html_report_path):
+def test_fill_html_report_no_html_option(
+    runner,
+    default_html_report_fill_args,
+):
     """
-    Tests pytest html report generation with the `--html,` `--no-html`, and `--output` options for
-    the `fill` command.
+    Tests pytest html report generation with the `--no-html` flag.
     """
+    default_html = Path("fixtures/report.html")
     with TemporaryDirectory() as temp_dir:
-        # Don't generate the html report
-        default_html = Path(temp_dir, default_html_report_path)
+        default_html = Path(temp_dir, default_html)
         fill_args = default_html_report_fill_args + ["--no-html"]
         result = runner.invoke(fill, fill_args)
         assert result.exit_code == pytest.ExitCode.OK
         assert not default_html.exists()
 
-        # Do not specify the directory of the html report
-        result = runner.invoke(fill, default_html_report_fill_args)
-        assert result.exit_code == pytest.ExitCode.OK
-        assert default_html_report_path.exists()
 
-        # Specify the directory of the html report
+def test_fill_html_report_specified_path_option(
+    runner,
+    default_html_report_fill_args,
+):
+    """
+    Tests pytest html report generation with the `--html` flag.
+    """
+    with TemporaryDirectory() as temp_dir:
         temp_html = Path(temp_dir + "test/report.html")
         fill_args = default_html_report_fill_args + ["--html", str(temp_html)]
         result = runner.invoke(fill, fill_args)
         assert result.exit_code == pytest.ExitCode.OK
         assert temp_html.exists()
 
-        # Specify the fixture output directory
+
+def test_fill_html_report_output_option(
+    runner,
+    default_html_report_fill_args,
+):
+    """
+    Tests pytest html report generation with the `--output` flag.
+    """
+    with TemporaryDirectory() as temp_dir:
         output_dir = Path(temp_dir, "output")
         temp_html = output_dir / "report.html"
         fill_args = default_html_report_fill_args + ["--output", output_dir]
         result = runner.invoke(fill, fill_args)
         assert result.exit_code == pytest.ExitCode.OK
         assert temp_html.exists()
+
+        # Check the output directory contains fixture/s
+        assert (output_dir / "state_tests").exists()
