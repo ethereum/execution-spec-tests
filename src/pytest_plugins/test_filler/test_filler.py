@@ -216,7 +216,6 @@ def pytest_html_results_table_row(report, cells):
     """
     Customize the table rows of the HTML report table.
     """
-    # del cells[4]  # Remove the "Links" column
     if report.passed and hasattr(report, "user_properties"):
         user_props = dict(report.user_properties)
         if "fixture_path_absolute" in user_props and "fixture_path_relative" in user_props:
@@ -370,7 +369,8 @@ def dump_dir_parameter_level(
         filler_path,
         level="test_parameter",
     )
-    request.config.evm_dump_dir = evm_dump_dir
+    # NOTE: Use str for compatibility with pytest-dist
+    request.node.config.evm_dump_dir = str(evm_dump_dir)
     return evm_dump_dir
 
 
@@ -531,9 +531,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     node_to_test_info(request.node),
                     fixture,
                 )
-                request.config.fixture_path_absolute = fixture_path.absolute()
-                request.config.fixture_path_relative = fixture_path.relative_to(
-                    request.config.getoption("output")
+
+                # NOTE: Use str for compatibility with pytest-dist
+                request.node.config.fixture_path_absolute = str(fixture_path.absolute())
+                request.node.config.fixture_path_relative = str(
+                    fixture_path.relative_to(request.config.getoption("output"))
                 )
 
         return BaseTestWrapper
