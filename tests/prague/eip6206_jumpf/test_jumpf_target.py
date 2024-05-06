@@ -44,9 +44,11 @@ def test_jumpf_target_rules(
     target_non_returning = target_outputs == NON_RETURNING_SECTION
     target_height = 0 if target_non_returning else target_outputs
 
-    delta = 0 if target_non_returning or current_non_returning else target_outputs - current_height
-    current_extra_push = max(0, current_height - target_height)
+    # Because we are testing the target and not the stack height validation we need to do some work
+    # to make sure the stack passes validation.
 
+    # `current_extra_push` is how many more pushes we need to match our stack commitments
+    current_extra_push = max(0, current_height - target_height)
     current_section = Section.Code(
         code=Op.PUSH0 * (current_height)
         + Op.CALLDATALOAD(0)
@@ -58,6 +60,10 @@ def test_jumpf_target_rules(
         code_outputs=current_outputs,
         max_stack_height=current_height + max(1, current_extra_push),
     )
+
+    # `delta` is how many stack items the target output is from the input height, and tracks the
+    # number of pushes or (if negative) pops the target needs to do to match output commitments
+    delta = 0 if target_non_returning or current_non_returning else target_outputs - current_height
     target_section = Section.Code(
         code=((Op.PUSH0 * delta) if delta >= 0 else (Op.POP * -delta))
         + Op.CALLF[3]
