@@ -203,6 +203,62 @@ def pytest_metadata(metadata):
     metadata["Command-line args"] = f"<code>{command_line_args}</code>"
 
 
+def pytest_html_results_table_header(cells):
+    """
+    Customize the table headers of the HTML report table.
+    """
+    cells.insert(3, '<th class="sortable" data-column-type="fixturePath">JSON Fixture File</th>')
+    cells.insert(4, '<th class="sortable" data-column-type="evmDumpDir">EVM Dump Dir</th>')
+    del cells[-1]  # Remove the "Links" column
+
+
+def pytest_html_results_table_row(report, cells):
+    """
+    Customize the table rows of the HTML report table.
+    """
+    # del cells[4]  # Remove the "Links" column
+    if report.passed and hasattr(report, "user_properties"):
+        user_props = dict(report.user_properties)
+        if "fixture_path_absolute" in user_props and "fixture_path_relative" in user_props:
+            fixture_path_absolute = user_props["fixture_path_absolute"]
+            fixture_path_relative = user_props["fixture_path_relative"]
+            fixture_path_link = (
+                f'<a href="{fixture_path_absolute}" target="_blank">{fixture_path_relative}</a>'
+            )
+            cells.insert(3, f"<td>{fixture_path_link}</td>")
+        if "evm_dump_dir" in user_props:
+            if user_props["evm_dump_dir"] is None:
+                cells.insert(4, "<td>use <code>--evm-dump-dir=path</code> for debug info.</td>")
+            else:
+                evm_dump_dir = user_props.get("evm_dump_dir")
+                evm_dump_dir_link = f'<a href="{evm_dump_dir}" target="_blank">{evm_dump_dir}</a>'
+                cells.insert(4, f"<td>{evm_dump_dir_link}</td>")
+    del cells[-1]  # Remove the "Links" column
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """
+    This hook is called when each test is run and a report is being made.
+
+    Make each test's fixture json path available to the test report via
+    user_properties.
+    """
+    outcome = yield
+    report = outcome.get_result()
+
+    if call.when == "call":
+        if hasattr(item.config, "fixture_path_absolute") and hasattr(
+            item.config, "fixture_path_relative"
+        ):
+            report.user_properties.append(
+                ("fixture_path_absolute", item.config.fixture_path_absolute)
+            )
+            report.user_properties.append(
+                ("fixture_path_relative", item.config.fixture_path_relative)
+            )
+        if hasattr(item.config, "evm_dump_dir"):
+            report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
 
 
 def pytest_html_report_title(report):
@@ -309,11 +365,13 @@ def dump_dir_parameter_level(
     Example with --evm-dump-dir=/tmp/evm:
     -> /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shanghai/
     """
-    return node_to_test_info(request.node).get_dump_dir_path(
+    evm_dump_dir = node_to_test_info(request.node).get_dump_dir_path(
         base_dump_dir,
         filler_path,
         level="test_parameter",
     )
+    request.config.evm_dump_dir = evm_dump_dir
+    return evm_dump_dir
 
 
 def get_fixture_collection_scope(fixture_name, config):
@@ -469,9 +527,13 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 )
                 fixture.fill_info(t8n, reference_spec)
 
-                fixture_collector.add_fixture(
+                fixture_path = fixture_collector.add_fixture(
                     node_to_test_info(request.node),
                     fixture,
+                )
+                request.config.fixture_path_absolute = fixture_path.absolute()
+                request.config.fixture_path_relative = fixture_path.relative_to(
+                    request.config.getoption("output")
                 )
 
         return BaseTestWrapper

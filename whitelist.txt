@@ -185,6 +185,7 @@ lllc
 london
 macOS
 mainnet
+makereport
 marioevz
 markdownlint
 md
