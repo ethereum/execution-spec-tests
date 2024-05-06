@@ -477,6 +477,7 @@ def test_fixture_output_based_on_command_line_args(
 
     testdir.copy_example(name="pytest.ini")
     args.append("-v")
+    args.append("--no-html")
     result = testdir.runpytest(*args)
     result.assert_outcomes(
         passed=total_test_count * 3,

@@ -6,6 +6,7 @@ and that modifies pytest hooks in order to fill test specs for all tests and
 writes the generated fixtures to file.
 """
 
+import os
 import warnings
 from pathlib import Path
 from typing import Generator, List, Optional, Type
@@ -23,6 +24,22 @@ from ethereum_test_forks import (
 from ethereum_test_tools import SPEC_TYPES, BaseTest, FixtureCollector, TestInfo, Yul
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
+
+
+def default_output_directory() -> str:
+    """
+    The default directory to store the generated test fixtures. Defined as a
+    function to allow for easier testing.
+    """
+    return "./fixtures"
+
+
+def default_html_report_filename() -> str:
+    """
+    The default file to store the generated HTML test report. Defined as a
+    function to allow for easier testing.
+    """
+    return "report_fill.html"
 
 
 def pytest_addoption(parser):
@@ -96,7 +113,7 @@ def pytest_addoption(parser):
         "--output",
         action="store",
         dest="output",
-        default="./fixtures/",
+        default=default_output_directory(),
         help="Directory to store the generated test fixtures. Can be deleted.",
     )
     test_group.addoption(
@@ -115,6 +132,13 @@ def pytest_addoption(parser):
             "Don't group fixtures in JSON files by test function; write each fixture to its own "
             "file. This can be used to increase the granularity of --verify-fixtures."
         ),
+    )
+    test_group.addoption(
+        "--no-html",
+        action="store_true",
+        dest="disable_html",
+        default=False,
+        help=("Don't generate an HTML test report."),
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -155,6 +179,11 @@ def pytest_configure(config):
     )
     if config.option.collectonly:
         return
+    if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
+        # generate an html report by default, unless explicitly disabled
+        config.option.htmlpath = os.path.join(
+            config.getoption("output"), default_html_report_filename()
+        )
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
     t8n = TransitionTool.from_binary_path(

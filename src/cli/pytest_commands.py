@@ -84,33 +84,6 @@ def common_click_options(func: Callable[..., Any]) -> Decorator:
         help="Show pytest's help message.",
     )(func)
 
-    func = click.option(
-        "--no-html",
-        "no_html_flag",
-        is_flag=True,
-        default=False,
-        expose_value=True,
-        help="Do not generate pytest's HTML report.",
-    )(func)
-
-    func = click.option(
-        "--html",
-        "pytest_html_path",
-        type=str,
-        default=None,
-        expose_value=True,
-        help="Generate pytest's HTML report.",
-    )(func)
-
-    func = click.option(
-        "--output",
-        "output_path",
-        type=str,
-        default=None,
-        expose_value=True,
-        help="Fixture output path.",
-    )(func)
-
     return click.argument("pytest_args", nargs=-1, type=click.UNPROCESSED)(func)
 
 
@@ -132,42 +105,16 @@ def handle_help_flags(
         return list(pytest_args)
 
 
-def handle_html_report_flags(
-    pytest_args: List[str],
-    no_html_flag: bool,
-    pytest_html_path: str,
-    output_path: str,
-) -> List[str]:
-    """
-    Modifies the html report arguments passed to the click CLI command before forwarding to
-    the pytest command.
-    """
-    if no_html_flag:
-        return list(pytest_args)
-    elif pytest_html_path:
-        return list(pytest_args) + [f"--html={pytest_html_path}"]
-    elif output_path:
-        return list(pytest_args) + [f"--html={output_path}/report.html", "--output", output_path]
-    else:
-        return list(pytest_args) + ["--html=fixtures/report.html"]
-
-
 @click.command(context_settings=dict(ignore_unknown_options=True))
 @common_click_options
 def fill(
     pytest_args: List[str],
     help_flag: bool,
     pytest_help_flag: bool,
-    no_html_flag: bool,
-    pytest_html_path: str,
-    output_path: str,
 ) -> None:
     """
     Entry point for the fill command.
     """
     updated_args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    final_args = handle_html_report_flags(
-        updated_args, no_html_flag, pytest_html_path, output_path
-    )
-    result = pytest.main(final_args)
+    result = pytest.main(updated_args)
     sys.exit(result)

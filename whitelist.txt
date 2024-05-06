@@ -152,6 +152,7 @@ HexNumber
 hexsha
 homebrew
 html
+htmlpath
 https
 hyperledger
 ignoreRevsFile
