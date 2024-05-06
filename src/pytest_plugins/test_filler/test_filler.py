@@ -168,7 +168,6 @@ def pytest_configure(config):
                 f"{FixtureFormats.get_format_description(fixture_format)}"
             ),
         )
-
     config.addinivalue_line(
         "markers",
         "yul_test: a test case that compiles Yul code.",
@@ -262,12 +261,15 @@ def pytest_html_results_table_row(report, cells):
         if "evm_dump_dir" in user_props:
             if user_props["evm_dump_dir"] is None:
                 cells.insert(
-                    4, "<td>For debug info use <code>--evm-dump-dir=path --traces</code></td>"
+                    4, "<td>For t8n debug info use <code>--evm-dump-dir=path --traces</code></td>"
                 )
             else:
                 evm_dump_dir = user_props.get("evm_dump_dir")
-                evm_dump_dir_link = f'<a href="{evm_dump_dir}" target="_blank">{evm_dump_dir}</a>'
-                cells.insert(4, f"<td>{evm_dump_dir_link}</td>")
+                if evm_dump_dir == "N/A":
+                    evm_dump_entry = "N/A"
+                else:
+                    evm_dump_entry = f'<a href="{evm_dump_dir}" target="_blank">{evm_dump_dir}</a>'
+                cells.insert(4, f"<td>{evm_dump_entry}</td>")
     del cells[-1]  # Remove the "Links" column
 
 
@@ -292,8 +294,15 @@ def pytest_runtest_makereport(item, call):
             report.user_properties.append(
                 ("fixture_path_relative", item.config.fixture_path_relative)
             )
-        if hasattr(item.config, "evm_dump_dir"):
-            report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
+        if hasattr(item.config, "evm_dump_dir") and hasattr(item.config, "fixture_format"):
+            if item.config.fixture_format in [
+                "state_test",
+                "blockchain_test",
+                "blockchain_test_hive",
+            ]:
+                report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
+            else:
+                report.user_properties.append(("evm_dump_dir", "N/A"))  # not yet for EOF
 
 
 def pytest_html_report_title(report):
@@ -576,6 +585,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 request.node.config.fixture_path_relative = str(
                     fixture_path.relative_to(request.config.getoption("output"))
                 )
+                request.node.config.fixture_format = fixture_format.value
 
         return BaseTestWrapper
 
