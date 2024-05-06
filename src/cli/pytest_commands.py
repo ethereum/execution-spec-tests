@@ -106,7 +106,7 @@ def common_click_options(func: Callable[..., Any]) -> Decorator:
         "--output",
         "output_path",
         type=str,
-        default="fixtures/",
+        default=None,
         expose_value=True,
         help="Fixture output path.",
     )(func)
@@ -146,8 +146,10 @@ def handle_html_report_flags(
         return list(pytest_args)
     elif pytest_html_path:
         return list(pytest_args) + [f"--html={pytest_html_path}"]
+    elif output_path:
+        return list(pytest_args) + [f"--html={output_path}/report.html", "--output", output_path]
     else:
-        return list(pytest_args) + [f"--html={output_path}/report.html"]
+        return list(pytest_args) + ["--html=fixtures/report.html"]
 
 
 @click.command(context_settings=dict(ignore_unknown_options=True))
