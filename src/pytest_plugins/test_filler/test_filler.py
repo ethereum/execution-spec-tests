@@ -215,18 +215,26 @@ def pytest_html_results_table_row(report, cells):
     """
     Customize the table rows of the HTML report table.
     """
-    if report.passed and hasattr(report, "user_properties"):
+    if hasattr(report, "user_properties"):
         user_props = dict(report.user_properties)
-        if "fixture_path_absolute" in user_props and "fixture_path_relative" in user_props:
+        if (
+            report.passed
+            and "fixture_path_absolute" in user_props
+            and "fixture_path_relative" in user_props
+        ):
             fixture_path_absolute = user_props["fixture_path_absolute"]
             fixture_path_relative = user_props["fixture_path_relative"]
             fixture_path_link = (
                 f'<a href="{fixture_path_absolute}" target="_blank">{fixture_path_relative}</a>'
             )
             cells.insert(3, f"<td>{fixture_path_link}</td>")
+        elif report.failed:
+            cells.insert(3, "<td>Fixture unavailable</td>")
         if "evm_dump_dir" in user_props:
             if user_props["evm_dump_dir"] is None:
-                cells.insert(4, "<td>use <code>--evm-dump-dir=path</code> for debug info.</td>")
+                cells.insert(
+                    4, "<td>For debug info use <code>--evm-dump-dir=path --traces</code></td>"
+                )
             else:
                 evm_dump_dir = user_props.get("evm_dump_dir")
                 evm_dump_dir_link = f'<a href="{evm_dump_dir}" target="_blank">{evm_dump_dir}</a>'
@@ -369,7 +377,10 @@ def dump_dir_parameter_level(
         level="test_parameter",
     )
     # NOTE: Use str for compatibility with pytest-dist
-    request.node.config.evm_dump_dir = str(evm_dump_dir)
+    if evm_dump_dir:
+        request.node.config.evm_dump_dir = str(evm_dump_dir)
+    else:
+        request.node.config.evm_dump_dir = None
     return evm_dump_dir
 
 
