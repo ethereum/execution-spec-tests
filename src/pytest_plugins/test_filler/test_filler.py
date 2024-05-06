@@ -6,11 +6,13 @@ and that modifies pytest hooks in order to fill test specs for all tests and
 writes the generated fixtures to file.
 """
 
+import sys
 import warnings
 from pathlib import Path
 from typing import Generator, List, Optional, Type
 
 import pytest
+from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_forks import (
     Fork,
@@ -176,15 +178,31 @@ def pytest_configure(config):
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
 
+    config.stash[metadata_key]["Versions"] = {
+        "t8n": t8n.version(),
+        "solc": str(config.solc_version),
+    }
+
 
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header"""
     if config.option.collectonly:
         return
-    binary_path = config.getoption("evm_bin")
-    t8n = TransitionTool.from_binary_path(binary_path=binary_path)
-    return [f"{t8n.version()}, solc version {config.solc_version}"]
+    t8n_version = config.stash[metadata_key]["Versions"]["t8n"]
+    solc_version = config.stash[metadata_key]["Versions"]["solc"]
+    return [(f"{t8n_version}, {solc_version}")]
+
+
+def pytest_metadata(metadata):
+    """
+    Add metadata to the pytest report.
+    """
+    metadata.pop("JAVA_HOME", None)
+    command_line_args = Path(sys.argv[0]).name + " " + " ".join(sys.argv[1:])
+    metadata["Command-line args"] = f"<code>{command_line_args}</code>"
+
+
 
 
 def pytest_html_report_title(report):
