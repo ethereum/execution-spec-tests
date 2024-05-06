@@ -9,7 +9,12 @@ jobs:
   evmone-coverage-diff:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }} # Checks out the PR branch
+          fetch-depth: 0 # Necessary to fetch all history for diff
+
       - name: Cache EVMONE
         uses: actions/cache@v2
         with:
@@ -17,12 +22,6 @@ jobs:
           key: ${{ runner.os }}-evmone-${{ hashFiles('evmone-hash.txt') }}
           restore-keys: |
             ${{ runner.os }}-evmone-
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }} # Checks out the PR branch
-          fetch-depth: 0 # Necessary to fetch all history for diff
 
       - name: Fetch target branch
         run: git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
@@ -40,39 +39,31 @@ jobs:
           source ./venv/bin/activate
           pip install -e .
 
-
-          #install go
-          curl -L --output go1.21.8.linux-amd64.tar.gz "https://go.dev/dl/go1.21.8.linux-amd64.tar.gz"
-          tar -xf go1.21.8.linux-amd64.tar.gz
-          sudo mv go /usr/local
-          sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
-          git clone --depth 1 https://github.com/ethereum/go-ethereum.git
-          cd go-ethereum
-          go build ./cmd/evm
-          cp evm /usr/local/bin
-          cd ..
-
           #install solc
           curl -L --output solc "https://github.com/ethereum/solidity/releases/download/v0.8.25/solc-static-linux"
           sudo mv solc /usr/local/bin
           sudo chmod +x /usr/local/bin/solc
           solc --version
 
-          #install tests
-          cd ${{ github.workspace }}
-          mkdir testpath
-          cd testpath
-          git init
-          git remote add origin https://github.com/ethereum/tests.git
-          git config core.sparseCheckout true
-          git sparse-checkout set GeneralStateTests
-          git pull origin develop
-          cd ..
-
           #install coverge script
           cd ${{ github.workspace }}
           git clone https://github.com/winsvega/evmtest_coverage.git
           mkdir -p ${{ github.workspace }}/evmoneimage
+
+      # Required to fill .py tests
+      - name: Build GO EVM
+        uses: ./.github/actions/build-evm
+        id: evm-builder
+        with:
+          type: 'main'
+
+      - name: Checkout ethereum/tests
+        uses: actions/checkout@v4
+        with:
+          repository: ethereum/tests
+          path: testpath
+          sparse-checkout: |
+            GeneralStateTests
 
 
       # This command diffs the file and filters in new lines
