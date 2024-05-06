@@ -51,7 +51,8 @@ def test_simple_eofcreate(
                     Section.Container(container=smallest_initcode_subcontainer),
                 ],
                 data=b"abcdef",
-            )
+            ),
+            storage={0: 0xB17D},  # a canary to be overwritten
         ),
     }
     # Storage in 0 should have the address,
@@ -178,7 +179,8 @@ def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
                     ),
                     Section.Container(container=initcode_subcontainer),
                 ]
-            )
+            ),
+            storage={0: 0xB17D},  # a canary to be overwritten
         ),
     }
 
