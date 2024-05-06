@@ -6,7 +6,6 @@ and that modifies pytest hooks in order to fill test specs for all tests and
 writes the generated fixtures to file.
 """
 
-import sys
 import warnings
 from pathlib import Path
 from typing import Generator, List, Optional, Type
@@ -182,6 +181,8 @@ def pytest_configure(config):
         "t8n": t8n.version(),
         "solc": str(config.solc_version),
     }
+    command_line_args = "fill " + " ".join(config.invocation_params.args)
+    config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
 
 @pytest.hookimpl(trylast=True)
@@ -196,11 +197,9 @@ def pytest_report_header(config, start_path):
 
 def pytest_metadata(metadata):
     """
-    Add metadata to the pytest report.
+    Add or remove metadata to/from the pytest report.
     """
     metadata.pop("JAVA_HOME", None)
-    command_line_args = Path(sys.argv[0]).name + " " + " ".join(sys.argv[1:])
-    metadata["Command-line args"] = f"<code>{command_line_args}</code>"
 
 
 def pytest_html_results_table_header(cells):
