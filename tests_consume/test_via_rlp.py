@@ -30,7 +30,7 @@ from ethereum_test_tools.spec.blockchain.types import Fixture, FixtureHeader
 from ethereum_test_tools.spec.consume.types import TestCaseIndexFile, TestCaseStream
 from ethereum_test_tools.spec.file.types import BlockchainFixtures
 from pytest_plugins.consume.consume import JsonSource
-from pytest_plugins.consume_via_rlp.network_ruleset_hive import ruleset
+from pytest_plugins.consume.hive_ruleset import ruleset
 
 TestCase = TestCaseIndexFile | TestCaseStream
 

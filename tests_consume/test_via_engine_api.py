@@ -32,7 +32,7 @@ from ethereum_test_tools.common.types import Account
 from ethereum_test_tools.rpc import EngineRPC, EthRPC
 from ethereum_test_tools.spec.blockchain.types import FixtureBlock, FixtureEngineNewPayload
 from pytest_plugins.consume.consume import TestCase
-from pytest_plugins.consume_via_engine_api.client_fork_ruleset import client_fork_ruleset
+from pytest_plugins.consume.hive_ruleset_engine import client_fork_ruleset
 
 
 @pytest.fixture(scope="function")
