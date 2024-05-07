@@ -1,6 +1,10 @@
 """
-A pytest plugin to execute the blocktest on the specified fixture directory.
+A pytest plugin that configures the consume command to act as a test runner
+for "direct" client fixture consumer interfaces.
+
+For example, via go-ethereum's `evm blocktest` or `evm statetest` commands.
 """
+
 import json
 import tempfile
 from pathlib import Path
@@ -16,7 +20,7 @@ from evm_transition_tool import TransitionTool
 
 def pytest_addoption(parser):  # noqa: D103
     consume_group = parser.getgroup(
-        "consume", "Arguments related to consuming fixtures via a client"
+        "consume_direct", "Arguments related to consuming fixtures via a client"
     )
 
     consume_group.addoption(
