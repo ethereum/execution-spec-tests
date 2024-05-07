@@ -100,7 +100,7 @@ class BlobhashContext:
 
     yul_compiler: Union[YulCompiler, None] = None
     addresses = {
-        "blobhash_sstore": Address(0x100),
+        "blobhash_sstore": Address(0x1000),
         "blobhash_return": Address(0x600),
         "call": Address(0x200),
         "delegatecall": Address(0x300),
@@ -173,7 +173,7 @@ class BlobhashContext:
                 """
                 {
                     calldatacopy(0, 0, calldatasize())
-                    pop(call(gas(), 0x100, 0, 0, calldatasize(), 0, 0))
+                    pop(call(gas(), 0x1000, 0, 0, calldatasize(), 0, 0))
                 }
                 """  # noqa: E272, E201, E202
             ),
@@ -181,7 +181,7 @@ class BlobhashContext:
                 """
                 {
                     calldatacopy(0, 0, calldatasize())
-                    pop(delegatecall(gas(), 0x100, 0, calldatasize(), 0, 0))
+                    pop(delegatecall(gas(), 0x1000, 0, calldatasize(), 0, 0))
                 }
                 """  # noqa: E272, E201, E202
             ),

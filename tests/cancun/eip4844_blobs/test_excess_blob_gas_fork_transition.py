@@ -75,7 +75,7 @@ def blob_count_per_block() -> int:
 
 @pytest.fixture
 def destination_account() -> Address:  # noqa: D103
-    return Address(0x100)
+    return Address(0x1000)
 
 
 @pytest.fixture

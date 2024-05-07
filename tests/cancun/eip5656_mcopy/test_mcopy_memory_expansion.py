@@ -4,6 +4,7 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
     that produce a memory expansion, and potentially an out-of-gas error.
 
 """  # noqa: E501
+
 from typing import Mapping, Tuple
 
 import pytest
@@ -21,7 +22,7 @@ from ethereum_test_tools import (
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
 # Code address used to call the test bytecode on every test case.
-caller_address = 0x100
+caller_address = 0x1000
 
 # Code address used to perform the memory expansion.
 memory_expansion_address = 0x200

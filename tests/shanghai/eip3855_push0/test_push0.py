@@ -42,7 +42,7 @@ def post():  # noqa: D103
 
 @pytest.fixture
 def addr_1():  # noqa: D103
-    return Address(0x100)
+    return Address(0x1000)
 
 
 @pytest.fixture

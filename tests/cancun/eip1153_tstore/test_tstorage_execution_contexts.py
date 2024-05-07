@@ -21,7 +21,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1153.version
 pytestmark = [pytest.mark.valid_from("Cancun")]
 
 # Address used to call the test bytecode on every test case.
-caller_address = 0x100
+caller_address = 0x1000
 
 # Address of the callee contract
 callee_address = 0x200

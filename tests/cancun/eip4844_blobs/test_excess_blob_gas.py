@@ -175,7 +175,7 @@ def destination_account_bytecode() -> bytes:  # noqa: D103
 
 @pytest.fixture
 def destination_account() -> Address:  # noqa: D103
-    return Address(0x100)
+    return Address(0x1000)
 
 
 @pytest.fixture

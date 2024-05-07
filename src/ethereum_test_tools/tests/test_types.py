@@ -1638,7 +1638,7 @@ def test_transaction_post_init_defaults(tx_args, expected_attributes_and_values)
                 Withdrawal(
                     index=0,
                     validator_index=0,
-                    address=0x100,
+                    address=0x1000,
                     amount=0,
                 ),
                 Withdrawal(

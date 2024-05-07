@@ -213,7 +213,7 @@ def test_modexp(state_test: StateTestFiller, input: ModExpInput, output: Expecte
     env = Environment()
     pre = {TestAddress: Account(balance=1000000000000000000000)}
 
-    account = Address(0x100)
+    account = Address(0x1000)
 
     pre[account] = Account(
         code=(

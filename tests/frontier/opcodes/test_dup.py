@@ -3,6 +3,7 @@ abstract: Test DUP
     Test the DUP opcodes.
 
 """
+
 import pytest
 
 from ethereum_test_forks import Frontier, Homestead
@@ -50,7 +51,7 @@ def test_dup(
     pre = {TestAddress: Account(balance=1000000000000000000000)}
     post = {}
 
-    account = Address(0x100)
+    account = Address(0x1000)
 
     # Push 0x00 - 0x10 onto the stack
     account_code = b"".join([Op.PUSH1(i) for i in range(0x11)])

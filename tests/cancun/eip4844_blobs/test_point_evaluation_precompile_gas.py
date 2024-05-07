@@ -3,6 +3,7 @@ abstract: Tests gas usage on point evaluation precompile for [EIP-4844: Shard Bl
     Test gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
 """  # noqa: E501
+
 from typing import Dict, Literal
 
 import pytest
@@ -128,7 +129,7 @@ def precompile_caller_address() -> Address:
     """
     Address of the precompile caller account.
     """
-    return Address(0x100)
+    return Address(0x1000)
 
 
 @pytest.fixture

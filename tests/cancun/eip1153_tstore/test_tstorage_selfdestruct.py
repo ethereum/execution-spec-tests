@@ -28,7 +28,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1153.version
 pytestmark = [pytest.mark.valid_from("Cancun")]
 
 # Addresses
-caller_address = 0x100
+caller_address = 0x1000
 copy_from_initcode_address = 0x200
 callee_address = compute_create_address(caller_address, 1)
 

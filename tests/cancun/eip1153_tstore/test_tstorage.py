@@ -21,7 +21,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1153.version
 
 pytestmark = [pytest.mark.valid_from("Cancun")]
 
-code_address = 0x100
+code_address = 0xC0DE
 
 
 def test_transient_storage_unset_values(state_test: StateTestFiller):

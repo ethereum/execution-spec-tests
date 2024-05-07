@@ -496,12 +496,12 @@ class TestCreateInitcode:
     def created_contract_address(self, initcode: Initcode, opcode: Op):  # noqa: D102
         if opcode == Op.CREATE:
             return compute_create_address(
-                address=0x100,
+                address=0x1000,
                 nonce=1,
             )
         if opcode == Op.CREATE2:
             return compute_create2_address(
-                address=0x100,
+                address=0x1000,
                 salt=0xDEADBEEF,
                 initcode=initcode,
             )
@@ -524,17 +524,17 @@ class TestCreateInitcode:
 
         call_code = Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         call_code += Op.SSTORE(
-            Op.CALL(5000000, 0x100, 0, 0, Op.CALLDATASIZE, 0, 0),
+            Op.CALL(5000000, 0x1000, 0, 0, Op.CALLDATASIZE, 0, 0),
             1,
         )
 
         pre = {
             TestAddress: Account(balance=1000000000000000000000),
-            Address(0x100): Account(
+            Address(0x1000): Account(
                 code=create_code,
                 nonce=1,
             ),
-            Address(0x200): Account(
+            Address(0x2000): Account(
                 code=call_code,
                 nonce=1,
             ),
@@ -544,7 +544,7 @@ class TestCreateInitcode:
 
         tx = Transaction(
             nonce=0,
-            to=Address(0x200),
+            to=Address(0x2000),
             data=initcode,
             gas_limit=10000000,
             gas_price=10,
@@ -563,7 +563,7 @@ class TestCreateInitcode:
 
         if len(initcode) > MAX_INITCODE_SIZE and eip_3860_active:
             # Call returns 0 as out of gas s[0]==1
-            post[Address(0x200)] = Account(
+            post[Address(0x2000)] = Account(
                 nonce=1,
                 storage={
                     0: 1,
@@ -572,7 +572,7 @@ class TestCreateInitcode:
             )
 
             post[created_contract_address] = Account.NONEXISTENT
-            post[Address(0x100)] = Account(
+            post[Address(0x1000)] = Account(
                 nonce=1,
                 storage={
                     0: 0,
@@ -597,7 +597,7 @@ class TestCreateInitcode:
                 expected_gas_usage += calculate_initcode_word_cost(len(initcode))
 
             # Call returns 1 as valid initcode length s[0]==1 && s[1]==1
-            post[Address(0x200)] = Account(
+            post[Address(0x2000)] = Account(
                 nonce=1,
                 storage={
                     0: 0,
@@ -606,7 +606,7 @@ class TestCreateInitcode:
             )
 
             post[created_contract_address] = Account(code=initcode.deploy_code)
-            post[Address(0x100)] = Account(
+            post[Address(0x1000)] = Account(
                 nonce=2,
                 storage={
                     0: created_contract_address,

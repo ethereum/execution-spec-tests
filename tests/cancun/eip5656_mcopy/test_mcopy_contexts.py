@@ -3,6 +3,7 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
     Test memory copy under different call contexts [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
 
 """  # noqa: E501
+
 from itertools import cycle, islice
 from typing import List, Mapping, Tuple
 
@@ -21,7 +22,7 @@ from ethereum_test_tools import (
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
 # Code address used to call the test bytecode on every test case.
-code_address = 0x100
+code_address = 0xC0DE
 
 # Code address of the callee contract
 callee_address = 0x200

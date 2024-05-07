@@ -644,7 +644,7 @@ def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mappin
     """
     Test that the switch opcode macro gets executed as using the t8n tool.
     """
-    code_address = 0x100
+    code_address = 0xC0DE
     pre = {
         TestAddress: Account(balance=10_000_000, nonce=0),
         code_address: Account(code=switch_bytecode),

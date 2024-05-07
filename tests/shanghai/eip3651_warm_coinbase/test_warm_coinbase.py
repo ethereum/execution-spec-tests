@@ -88,7 +88,7 @@ def test_warm_coinbase_call_out_of_gas(
         timestamp=1000,
     )
     caller_address = "0xcccccccccccccccccccccccccccccccccccccccc"
-    contract_under_test_address = 0x100
+    contract_under_test_address = 0x1000
 
     if not use_sufficient_gas:
         call_gas_exact -= 1
@@ -236,7 +236,7 @@ def test_warm_coinbase_gas_usage(state_test, fork, opcode, code_gas_measure):
         timestamp=1000,
     )
 
-    measure_address = Address(0x100)
+    measure_address = Address(0x1000)
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         measure_address: Account(code=code_gas_measure, balance=1000000000000000000000),

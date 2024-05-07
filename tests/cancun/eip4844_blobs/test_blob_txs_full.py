@@ -3,6 +3,7 @@ abstract: Tests full blob type transactions for [EIP-4844: Shard Blob Transactio
     Test full blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
 """  # noqa: E501
+
 from typing import Dict, List, Optional
 
 import pytest
@@ -30,7 +31,7 @@ REFERENCE_SPEC_VERSION = ref_spec_4844.version
 @pytest.fixture
 def destination_account() -> Address:
     """Default destination account for the blob transactions."""
-    return Address(0x100)
+    return Address(0x1000)
 
 
 @pytest.fixture

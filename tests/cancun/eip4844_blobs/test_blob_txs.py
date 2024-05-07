@@ -58,7 +58,7 @@ TestPreFundingAddress = "0x97a7cb1de3cc7d556d0aa32433b035067709e1fc"
 @pytest.fixture
 def destination_account() -> Address:
     """Default destination account for the blob transactions."""
-    return Address(0x100)
+    return Address(0x1000)
 
 
 @pytest.fixture

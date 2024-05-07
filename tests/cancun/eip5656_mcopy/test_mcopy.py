@@ -3,6 +3,7 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
     Test copy operations of [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
 
 """  # noqa: E501
+
 from typing import Mapping, Tuple
 
 import pytest
@@ -21,7 +22,7 @@ from ethereum_test_tools import (
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION, mcopy
 
 # Code address used to call the test bytecode on every test case.
-code_address = 0x100
+code_address = 0xC0DE
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION

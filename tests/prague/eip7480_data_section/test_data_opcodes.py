@@ -176,7 +176,7 @@ def test_data_section_succeed(
             balance=1000000000000000000000,
             nonce=1,
         ),
-        Address(0x100): Account(
+        Address(0x1000): Account(
             code=caller_contract,
             nonce=1,
         ),
@@ -188,14 +188,14 @@ def test_data_section_succeed(
 
     tx = Transaction(
         nonce=1,
-        to=Address(0x100),
+        to=Address(0x1000),
         gas_limit=50000000,
         gas_price=10,
         protected=False,
         data="",
     )
 
-    post = {Address(0x100): Account(storage=expected_storage)}
+    post = {Address(0x1000): Account(storage=expected_storage)}
 
     state_test(
         env=env,

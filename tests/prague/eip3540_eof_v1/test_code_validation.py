@@ -187,7 +187,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
             balance=1000000000000000000000,
             nonce=0,
         ),
-        Address(0x100): Account(
+        Address(0x1000): Account(
             code=create_initcode_from_calldata,
         ),
         Address(0x200): Account(
@@ -196,7 +196,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
     }
 
     post = {
-        Address(0x100): Account(
+        Address(0x1000): Account(
             storage={
                 0: 1,
             }
@@ -214,7 +214,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
     )
     tx_create_opcode = Transaction(
         nonce=1,
-        to=Address(0x100),
+        to=Address(0x1000),
         gas_limit=100000000,
         gas_price=10,
         protected=False,

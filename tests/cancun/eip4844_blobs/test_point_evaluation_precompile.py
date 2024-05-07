@@ -26,6 +26,7 @@ note: Adding a new test
     cases.
 
 """  # noqa: E501
+
 import glob
 import json
 import os
@@ -157,7 +158,7 @@ def precompile_caller_address() -> Address:
     """
     Address of the precompile caller account.
     """
-    return Address(0x100)
+    return Address(0x1000)
 
 
 @pytest.fixture
@@ -589,7 +590,7 @@ def test_point_evaluation_precompile_before_fork(
             0,
         ),
     )
-    precompile_caller_address = Address(0x100)
+    precompile_caller_address = Address(0x1000)
 
     pre = {
         TestAddress: Account(
@@ -648,7 +649,7 @@ def test_point_evaluation_precompile_during_fork(
             0,
         ),
     )
-    precompile_caller_address = Address(0x100)
+    precompile_caller_address = Address(0x1000)
 
     pre = {
         TestAddress: Account(

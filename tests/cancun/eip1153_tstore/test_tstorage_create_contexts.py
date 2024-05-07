@@ -27,7 +27,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1153.version
 pytestmark = [pytest.mark.valid_from("Cancun")]
 
 # the address that creates the contract with create/create2
-creator_address = 0x100
+creator_address = 0x1000
 
 
 @unique

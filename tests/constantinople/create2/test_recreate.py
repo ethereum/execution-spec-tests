@@ -22,7 +22,7 @@ def test_recreate(
     """
     env = Environment()
 
-    creator_address = 0x100
+    creator_address = 0x1000
     creator_contract_code = Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.CREATE2(
         0, 0, Op.CALLDATASIZE, 0
     )

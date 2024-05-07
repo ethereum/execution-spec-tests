@@ -16,7 +16,7 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7516.md"
 REFERENCE_SPEC_VERSION = "2ade0452efe8124378f35284676ddfd16dd56ecd"
 
 # Code address used to call the test bytecode on every test case.
-code_caller_address = Address(0x100)
+code_caller_address = Address(0x1000)
 code_callee_address = Address(0x200)
 
 BLOBBASEFEE_GAS = 2
