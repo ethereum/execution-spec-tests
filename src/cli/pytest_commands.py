@@ -124,7 +124,7 @@ def handle_stdout_flags(args):
     if writing_to_stdout:
         if any(arg == "-n" or arg.startswith("-n=") for arg in args):
             sys.exit("error: xdist-plugin not supported with --output=stdout (remove -n args).")
-        args.extend(["-qq", "-s"])
+        args.extend(["-qq", "-s", "--no-html"])
     return args
 
 
