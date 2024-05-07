@@ -13,7 +13,6 @@ import io
 import json
 import pprint
 import time
-from pathlib import Path
 from typing import Any, Generator, List, Literal, Mapping, Optional, Union, cast
 
 import pytest
@@ -27,12 +26,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 from ethereum_test_tools.common.base_types import Bytes
 from ethereum_test_tools.common.json import to_json
 from ethereum_test_tools.spec.blockchain.types import Fixture, FixtureHeader
-from ethereum_test_tools.spec.consume.types import TestCaseIndexFile, TestCaseStream
-from ethereum_test_tools.spec.file.types import BlockchainFixtures
-from pytest_plugins.consume.consume import JsonSource
 from pytest_plugins.consume.hive_ruleset import ruleset
-
-TestCase = TestCaseIndexFile | TestCaseStream
 
 
 class TestCaseTimingData(BaseModel):
@@ -88,24 +82,6 @@ def timing_data(request, t_test_start) -> Generator[TestCaseTimingData, None, No
 
 @pytest.fixture(scope="function")
 @pytest.mark.usefixtures("timing_data")
-def fixture(fixture_source: JsonSource, test_case: TestCase) -> Fixture:
-    """
-    The test fixture.
-    """
-    if fixture_source == "stdin":
-        assert isinstance(test_case, TestCaseStream), "Expected a stream test case"
-        assert isinstance(test_case.fixture, Fixture), "Expected a blockchain test fixture"
-        fixture = test_case.fixture
-    else:
-        assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
-        # TODO: Optimize, json files will be loaded multiple times;
-        # cache fixtures as for statetest?
-        fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
-        fixture = fixtures[test_case.id]
-    return fixture
-
-
-@pytest.fixture(scope="function")
 def client_genesis(fixture: Fixture) -> dict:
     """
     Convert the fixture's genesis block header and pre-state to a client genesis state.

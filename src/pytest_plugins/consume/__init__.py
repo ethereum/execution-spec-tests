@@ -1,3 +1,3 @@
 """
-Pytest plugin for shared functionality across all consume commands.
+Pytest plugins for consume commands.
 """
