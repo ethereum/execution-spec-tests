@@ -52,9 +52,10 @@ def show_test_help(config):
             "defining debug",
         ]
     elif pytest_ini.name in [
+        "pytest-consume-all.ini",
         "pytest-consume-direct.ini",
-        "pytest-consume-via-rlp.ini",
-        "pytest-consume-via-engine-api.ini",
+        "pytest-consume-rlp.ini",
+        "pytest-consume-engine.ini",
     ]:
         test_group_substrings = [
             "execution-spec-tests",
