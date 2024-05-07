@@ -259,6 +259,7 @@ returndatacopy
 returndatasize
 returncontract
 rlp
+rootdir
 rpc
 ruleset
 runtime
