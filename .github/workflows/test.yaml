@@ -23,7 +23,7 @@ jobs:
             solc: '0.8.21'
             evm-type: 'main'  # 'develop'
             tox-cmd: 'tox run-parallel --parallel-no-spinner'  # 'tox -e tests-develop'
-          - os: macos-12
+          - os: macos-latest
             python: '3.11'
             solc: '0.8.22'
             evm-type: 'main'
