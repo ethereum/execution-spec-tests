@@ -560,6 +560,12 @@ class FixtureCommon(BaseFixture):
     pre: Alloc
     post_state: Alloc
 
+    def get_fork(self) -> str:
+        """
+        Returns the fork of the fixture as a string.
+        """
+        return self.fork
+
 
 class Fixture(FixtureCommon):
     """

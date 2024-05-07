@@ -135,7 +135,7 @@ class TestCases(RootModel):
                 TestCaseStream(
                     id=fixture_name,
                     fixture_hash=fixture.hash,
-                    fork=Fixtures.get_fork(fixture),
+                    fork=fixture.get_fork(),
                     format=fixture.format,
                     fixture=fixture,
                 )
