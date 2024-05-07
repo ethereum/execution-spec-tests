@@ -63,3 +63,6 @@ venv-docs/
 
 # cached fixture downloads (consume)
 cached_downloads/
+# pytest report
+assets
+*.html

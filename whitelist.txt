@@ -14,6 +14,7 @@ basefee
 basename
 bb
 besu
+bidict
 big0
 big1
 blobgasfee
@@ -122,6 +123,7 @@ fcu
 formatOnSave
 formatter
 fromhex
+frozenbidict
 func
 gaslimit
 gasprice
@@ -153,6 +155,7 @@ hexsha
 hexbytes
 homebrew
 html
+htmlpath
 https
 hyperledger
 iat
@@ -187,6 +190,7 @@ lllc
 london
 macOS
 mainnet
+makereport
 marioevz
 markdownlint
 md
@@ -304,6 +308,7 @@ todo
 toml
 tox
 Tox
+traceback
 TransactionException
 trie
 tstorage
