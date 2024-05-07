@@ -36,9 +36,7 @@ print(result.output)
 
 import os
 import sys
-import tempfile
 import warnings
-from pathlib import Path
 from typing import Any, Callable, List, Literal
 
 import click
