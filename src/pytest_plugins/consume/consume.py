@@ -2,6 +2,7 @@
 A pytest plugin providing common functionality for consuming test fixtures.
 """
 
+import os
 import sys
 import tarfile
 from pathlib import Path
@@ -19,6 +20,22 @@ from evm_transition_tool import FixtureFormats
 cached_downloads_directory = Path("./cached_downloads")
 
 JsonSource = Union[Path, Literal["stdin"]]
+
+
+def default_input_directory() -> str:
+    """
+    The default directory to consume generated test fixtures from. Defined as a
+    function to allow for easier testing.
+    """
+    return "./fixtures"
+
+
+def default_html_report_filename() -> str:
+    """
+    The default file to store the generated HTML test report. Defined as a
+    function to allow for easier testing.
+    """
+    return "report_consume.html"
 
 
 def is_url(string: str) -> bool:
@@ -64,8 +81,21 @@ def pytest_addoption(parser):  # noqa: D103
         "--input",
         action="store",
         dest="fixture_source",
-        default="fixtures",
-        help="A URL or local directory specifying the JSON test fixtures. Default: './fixtures'.",
+        default=default_input_directory(),
+        help=(
+            "A URL or local directory specifying the JSON test fixtures. Default: "
+            f"'{default_input_directory()}'."
+        ),
+    )
+    consume_group.addoption(
+        "--no-html",
+        action="store_true",
+        dest="disable_html",
+        default=False,
+        help=(
+            "Don't generate an HTML test report (in the output directory). "
+            "The --html flag can be used to specify a different path."
+        ),
     )
 
 
@@ -95,6 +125,21 @@ def pytest_configure(config):  # noqa: D103
         Path(input_source), quiet_mode=False, force_flag=False, disable_infer_format=False
     )
     config.test_cases = TestCases.from_index_file(Path(input_source) / "index.json")
+
+    if config.option.collectonly:
+        return
+    if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
+        # generate an html report by default, unless explicitly disabled
+        config.option.htmlpath = os.path.join(
+            config.getoption("fixture_source"), default_html_report_filename()
+        )
+
+
+def pytest_html_report_title(report):
+    """
+    Set the HTML report title (pytest-html plugin).
+    """
+    report.title = "Consume Test Report"
 
 
 def pytest_report_header(config):  # noqa: D103
