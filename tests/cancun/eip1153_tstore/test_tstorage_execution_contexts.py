@@ -24,7 +24,7 @@ pytestmark = [pytest.mark.valid_from("Cancun")]
 caller_address = 0x1000
 
 # Address of the callee contract
-callee_address = 0x200
+callee_address = 0x2000
 
 PUSH_OPCODE_COST = 3
 

@@ -143,10 +143,10 @@ def test_push0_during_staticcall(
     """
     Test PUSH0 during STATICCALL.
     """
-    addr_2 = Address(0x200)
+    addr_2 = Address(0x2000)
 
     code_1 = (
-        Op.SSTORE(0, Op.STATICCALL(100000, 0x200, 0, 0, 0, 0))
+        Op.SSTORE(0, Op.STATICCALL(100000, 0x2000, 0, 0, 0, 0))
         + Op.SSTORE(0, 1)
         + Op.RETURNDATACOPY(0x1F, 0, 1)
         + Op.SSTORE(1, Op.MLOAD(0))

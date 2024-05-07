@@ -369,7 +369,7 @@ def test_eof_functions_contract_call_succeed(
             code=caller_contract,
             nonce=1,
         ),
-        Address(0x200): Account(
+        Address(0x2000): Account(
             code=container,
             nonce=1,
         ),
@@ -415,7 +415,7 @@ def test_eof_functions_contract_call_fail(
             code=caller_contract,
             nonce=1,
         ),
-        Address(0x200): Account(
+        Address(0x2000): Account(
             code=container,
             nonce=1,
         ),
@@ -459,7 +459,7 @@ def test_eof_functions_contract_call_within_deep_nested(
         Address(0x1000): Account(
             code=contract_call_within_deep_nested_callf,
         ),
-        Address(0x200): Account(
+        Address(0x2000): Account(
             code=Op.SSTORE(0, 1) + Op.STOP(),
         ),
     }
@@ -473,7 +473,7 @@ def test_eof_functions_contract_call_within_deep_nested(
     )
     post = {
         Address(0x1000): Account(storage={i: 1 for i in range(MAX_CODE_SECTIONS)}),
-        Address(0x200): Account(
+        Address(0x2000): Account(
             storage={
                 0: 1,
             }

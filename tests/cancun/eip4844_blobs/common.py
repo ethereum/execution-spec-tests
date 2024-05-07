@@ -1,6 +1,7 @@
 """
 Common constants, classes & functions local to EIP-4844 tests.
 """
+
 from dataclasses import dataclass
 from typing import List, Literal, Tuple, Union
 
@@ -101,13 +102,13 @@ class BlobhashContext:
     yul_compiler: Union[YulCompiler, None] = None
     addresses = {
         "blobhash_sstore": Address(0x1000),
-        "blobhash_return": Address(0x600),
-        "call": Address(0x200),
-        "delegatecall": Address(0x300),
-        "callcode": Address(0x800),
-        "staticcall": Address(0x700),
-        "create": Address(0x400),
-        "create2": Address(0x500),
+        "blobhash_return": Address(0x6000),
+        "call": Address(0x2000),
+        "delegatecall": Address(0x3000),
+        "callcode": Address(0x8000),
+        "staticcall": Address(0x7000),
+        "create": Address(0x4000),
+        "create2": Address(0x5000),
     }
 
     @staticmethod

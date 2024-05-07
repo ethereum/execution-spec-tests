@@ -55,7 +55,7 @@ def create3_init_container(container: Container) -> Initcode:  # noqa: D103
 
 @pytest.fixture
 def create3_opcode_contract_address() -> Address:  # noqa: D103
-    return Address(0x300)
+    return Address(0x3000)
 
 
 @pytest.fixture
@@ -178,7 +178,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
     initcode, a contract creating transaction,
     and the CREATE opcode.
     tx_created_contract_address = compute_create_address(TestAddress, 0)
-    create_opcode_created_contract_address = compute_create_address(0x100, 0)
+    create_opcode_created_contract_address = compute_create_address(0x1000, 0)
 
     env = Environment()
 
@@ -190,7 +190,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
         Address(0x1000): Account(
             code=create_initcode_from_calldata,
         ),
-        Address(0x200): Account(
+        Address(0x2000): Account(
             code=create2_initcode_from_calldata,
         ),
     }
@@ -221,7 +221,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
     )
     tx_create2_opcode = Transaction(
         nonce=2,
-        to=Address(0x200),
+        to=Address(0x2000),
         gas_limit=100000000,
         gas_price=10,
         protected=False,
@@ -239,7 +239,7 @@ def test_legacy_initcode_invalid_eof_v1_contract(_):
         tx_create_opcode.data = legacy_initcode
         tx_create2_opcode.data = legacy_initcode
         create2_opcode_created_contract_address = compute_create2_address(
-            0x200, 0, bytes(legacy_initcode)
+            0x2000, 0, bytes(legacy_initcode)
         )
         post[create2_opcode_created_contract_address] = Account.NONEXISTENT
         yield StateTest(

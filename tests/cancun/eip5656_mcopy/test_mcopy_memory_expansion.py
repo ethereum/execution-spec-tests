@@ -25,7 +25,7 @@ from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 caller_address = 0x1000
 
 # Code address used to perform the memory expansion.
-memory_expansion_address = 0x200
+memory_expansion_address = 0x2000
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION

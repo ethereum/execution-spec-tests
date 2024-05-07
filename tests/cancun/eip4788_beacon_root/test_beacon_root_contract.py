@@ -379,7 +379,7 @@ def test_multi_block_beacon_root_timestamp_calls(
 
         current_call_account_code = bytes()
         current_call_account_expected_storage = Storage()
-        current_call_account_address = Address(0x100 + i)
+        current_call_account_address = Address(0x1000 + i)
 
         # We are going to call the beacon roots contract once for every timestamp of the current
         # and all previous blocks, and check that the returned beacon root is still correct only
@@ -421,7 +421,7 @@ def test_multi_block_beacon_root_timestamp_calls(
                 txs=[
                     tx.copy(
                         nonce=i,
-                        to=Address(0x100 + i),
+                        to=Address(0x1000 + i),
                         data=Hash(timestamp),
                     )
                 ],
@@ -503,7 +503,7 @@ def test_beacon_root_transition(
 
         current_call_account_code = bytes()
         current_call_account_expected_storage = Storage()
-        current_call_account_address = Address(0x100 + i)
+        current_call_account_address = Address(0x1000 + i)
 
         # We are going to call the beacon roots contract once for every timestamp of the current
         # and all previous blocks, and check that the returned beacon root is correct only
@@ -546,7 +546,7 @@ def test_beacon_root_transition(
                 txs=[
                     tx.copy(
                         nonce=i,
-                        to=Address(0x100 + i),
+                        to=Address(0x1000 + i),
                         data=Hash(timestamp),
                     )
                 ],

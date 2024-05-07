@@ -118,7 +118,7 @@ def test_blobhash_gas_cost(
         for i in blobhash_index_values
     ]
     for i, gas_code in enumerate(gas_measures_code):
-        address = Address(0x100 + i * 0x100)
+        address = Address(0x1000 + i * 0x1000)
         pre[address] = Account(code=gas_code)
         blocks.append(
             Block(
@@ -177,7 +177,7 @@ def test_blobhash_scenarios(
     b_hashes_list = BlobhashScenario.create_blob_hashes_list(length=TOTAL_BLOCKS)
     blobhash_calls = BlobhashScenario.generate_blobhash_bytecode(scenario)
     for i in range(TOTAL_BLOCKS):
-        address = Address(0x100 + i * 0x100)
+        address = Address(0x1000 + i * 0x1000)
         pre[address] = Account(code=blobhash_calls)
         blocks.append(
             Block(
@@ -234,7 +234,7 @@ def test_blobhash_invalid_blob_index(
     TOTAL_BLOCKS = 5
     blobhash_calls = BlobhashScenario.generate_blobhash_bytecode(scenario)
     for i in range(TOTAL_BLOCKS):
-        address = Address(0x100 + i * 0x100)
+        address = Address(0x1000 + i * 0x1000)
         pre[address] = Account(code=blobhash_calls)
         blob_per_block = (i % SpecHelpers.max_blobs_per_block()) + 1
         blobs = [random_blob_hashes[blob] for blob in range(blob_per_block)]

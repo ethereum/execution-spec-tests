@@ -20,7 +20,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1153.version
 pytestmark = [pytest.mark.valid_from("Cancun")]
 
 # Address of the callee contract
-callee_address = 0x200
+callee_address = 0x2000
 
 SETUP_CONDITION: bytes = Op.EQ(Op.CALLDATALOAD(0), 0x01)
 REENTRANT_CALL: bytes = Op.MSTORE(0, 2) + Op.SSTORE(

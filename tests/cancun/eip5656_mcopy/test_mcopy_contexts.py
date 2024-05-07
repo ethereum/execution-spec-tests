@@ -25,7 +25,7 @@ from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 code_address = 0xC0DE
 
 # Code address of the callee contract
-callee_address = 0x200
+callee_address = 0x2000
 
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH

@@ -29,7 +29,7 @@ pytestmark = [pytest.mark.valid_from("Cancun")]
 
 # Addresses
 caller_address = 0x1000
-copy_from_initcode_address = 0x200
+copy_from_initcode_address = 0x2000
 callee_address = compute_create_address(caller_address, 1)
 
 CREATE_CODE = Op.EXTCODECOPY(
