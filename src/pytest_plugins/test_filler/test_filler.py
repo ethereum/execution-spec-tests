@@ -138,7 +138,10 @@ def pytest_addoption(parser):
         action="store_true",
         dest="disable_html",
         default=False,
-        help=("Don't generate an HTML test report."),
+        help=(
+            "Don't generate an HTML test report (in the output directory). "
+            "The --html flag can be used to specify a different path."
+        ),
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
