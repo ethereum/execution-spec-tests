@@ -114,7 +114,10 @@ def pytest_addoption(parser):
         action="store",
         dest="output",
         default=default_output_directory(),
-        help="Directory to store the generated test fixtures. Can be deleted.",
+        help=(
+            "Directory to store the generated test fixtures. Can be deleted. "
+            f"Default: '{default_output_directory()}'."
+        ),
     )
     test_group.addoption(
         "--flat-output",
