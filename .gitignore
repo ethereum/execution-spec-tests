@@ -60,3 +60,7 @@ _readthedocs
 site
 venv-docs/
 .pyspelling_en.dict
+
+# pytest report
+assets
+*.html

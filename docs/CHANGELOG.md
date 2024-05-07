@@ -21,6 +21,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Verify filled EOF fixtures using `evmone-eofparse` during `fill` execution ([#519](https://github.com/ethereum/execution-spec-tests/pull/519)).
 - ✨ Added `--traces` support when running with Hyperledger Besu ([#511](https://github.com/ethereum/execution-spec-tests/pull/511)).
 - ✨ Use pytest's "short" traceback style (`--tb=short`) for failure summaries in the test report for more compact terminal output ([#542](https://github.com/ethereum/execution-spec-tests/pull/542)).
+- ✨ The `fill` command now generates HTML test reports with links to the JSON fixtures and debug information ([#537](https://github.com/ethereum/execution-spec-tests/pull/537)).
 
 ### 🔧 EVM Tools
 

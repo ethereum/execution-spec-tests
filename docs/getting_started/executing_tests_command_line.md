@@ -154,6 +154,10 @@ Arguments defining filler location and output:
                         Don't group fixtures in JSON files by test function;
                         write each fixture to its own file. This can be used to
                         increase the granularity of --verify-fixtures.
+  --no-html             Don't generate an HTML test report (in the output
+                        directory). The --html flag can be used to specify a
+                        different path.
+
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
@@ -170,5 +174,4 @@ Arguments related to running execution-spec-tests:
                         and exit.
 
 Exit: After displaying help.
-
 ```
