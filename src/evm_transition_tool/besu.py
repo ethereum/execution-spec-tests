@@ -30,8 +30,6 @@ class BesuTransitionTool(TransitionTool):
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
-    process: Optional[subprocess.Popen] = None
-    server_url: str
     besu_trace_dir: Optional[tempfile.TemporaryDirectory]
 
     def __init__(

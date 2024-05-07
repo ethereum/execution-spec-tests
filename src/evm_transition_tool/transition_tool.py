@@ -16,6 +16,8 @@ from pathlib import Path
 from re import Pattern
 from typing import Any, Dict, List, Optional, Type
 
+from requests_unixsocket import Session
+
 from ethereum_test_forks import Fork
 
 from .file_utils import dump_files_to_directory, write_json_file
@@ -121,6 +123,9 @@ class TransitionTool:
     blocktest_subcommand: Optional[str] = None
     cached_version: Optional[str] = None
     t8n_use_stream: bool = True
+    t8n_use_server: bool = False
+    process: Optional[subprocess.Popen] = None
+    server_url: str
 
     # Abstract methods that each tool must implement
 
@@ -480,6 +485,67 @@ class TransitionTool:
 
         return output
 
+    def _evaluate_server(
+        self,
+        *,
+        t8n_data: TransitionToolData,
+        debug_output_path: str = "",
+    ) -> Dict[str, Any]:
+        """
+        Executes a transition tool using stdin and stdout for its inputs and outputs.
+        """
+        # if self.process is None:
+        #     raise Exception("t8n-server process not started")
+        if not self.server_url:
+            raise Exception("t8n-server URL not set")
+
+        temp_dir = tempfile.TemporaryDirectory()
+
+        input_json = {
+            "alloc": t8n_data.alloc,
+            "txs": t8n_data.txs,
+            "env": t8n_data.env,
+        }
+        state_json = {
+            "fork": t8n_data.fork_name,
+            "chainid": t8n_data.chain_id,
+            "reward": t8n_data.reward,
+        }
+
+        post_data: Dict[str, Dict | str] = {"state": state_json, "input": input_json}
+        post_data["baseDir"] = temp_dir.name
+
+        if debug_output_path:
+            dump_files_to_directory(
+                debug_output_path,
+                {
+                    "input/post.json": post_data,
+                },
+            )
+
+        response = Session().post(self.server_url, json=post_data, timeout=5)
+        response.raise_for_status()  # exception visible in pytest failure output
+        output = response.json()
+
+        if not all([x in output for x in ["alloc", "result", "body"]]):
+            raise Exception("Malformed t8n output: missing 'alloc', 'result' or 'body'.")
+
+        if debug_output_path:
+            dump_files_to_directory(
+                debug_output_path,
+                {
+                    "output/alloc.json": output["alloc"],
+                    "output/result.json": output["result"],
+                    "output/txs.rlp": output["body"],
+                },
+            )
+
+        if self.trace:
+            self.collect_traces(output["result"]["receipts"], temp_dir, debug_output_path)
+            temp_dir.cleanup()
+
+        return output
+
     def construct_args_stream(
         self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
     ) -> List[str]:
@@ -574,7 +640,9 @@ class TransitionTool:
             alloc=alloc, txs=txs, env=env, fork_name=fork_name, chain_id=chain_id, reward=reward
         )
 
-        if self.t8n_use_stream:
+        if self.t8n_use_server:
+            return self._evaluate_server(t8n_data=t8n_data, debug_output_path=debug_output_path)
+        elif self.t8n_use_stream:
             return self._evaluate_stream(t8n_data=t8n_data, debug_output_path=debug_output_path)
         else:
             return self._evaluate_filesystem(
