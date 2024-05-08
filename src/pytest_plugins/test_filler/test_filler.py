@@ -161,10 +161,18 @@ def pytest_addoption(parser):
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     """
-    Register the plugin's custom markers and process command-line options.
+    Pytest hook called after command line options have been parsed and before
+    test collection begins.
 
-    Custom marker registration:
-    https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
+    Couple of notes:
+    1. Register the plugin's custom markers and process command-line options.
+
+        Custom marker registration:
+        https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
+
+    2. `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
+        called before the pytest-html plugin's pytest_configure to ensure that
+        it uses the modified `htmlpath` option.
     """
     for fixture_format in FixtureFormats:
         config.addinivalue_line(

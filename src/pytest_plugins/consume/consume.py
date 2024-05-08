@@ -99,7 +99,16 @@ def pytest_addoption(parser):  # noqa: D103
     )
 
 
+@pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):  # noqa: D103
+    """
+    Pytest hook called after command line options have been parsed and before
+    test collection begins.
+
+    `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
+    called before the pytest-html plugin's pytest_configure to ensure that
+    it uses the modified `htmlpath` option.
+    """
     input_source = config.getoption("fixture_source")
     if input_source == "stdin":
         config.test_cases = TestCases.from_stream(sys.stdin)
