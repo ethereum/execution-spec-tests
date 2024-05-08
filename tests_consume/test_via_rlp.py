@@ -55,7 +55,7 @@ class TestCaseTimingData(BaseModel):
         """
         Return a new instance of the model with formatted float values.
         """
-        data = {field: self.format_float(value, precision) for field, value in self.dict().items()}
+        data = {field: self.format_float(value, precision) for field, value in self}
         return TestCaseTimingData(**data)
 
 
