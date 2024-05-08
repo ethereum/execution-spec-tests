@@ -45,6 +45,8 @@ from ..exceptions import TransactionException
 from .base_types import (
     Address,
     Bloom,
+    BLSPublicKey,
+    BLSSignature,
     Bytes,
     Hash,
     HashInt,
@@ -1240,8 +1242,157 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         ]
 
 
+class RequestBase:
+    """
+    Base class for requests.
+    """
+
+    @classmethod
+    def type_byte(cls) -> bytes:
+        """
+        Returns the request type.
+        """
+        raise NotImplementedError("request_type must be implemented in child classes")
+
+    def to_serializable_list(self) -> List[Any]:
+        """
+        Returns the request's attributes as a list of serializable elements.
+        """
+        raise NotImplementedError("to_serializable_list must be implemented in child classes")
+
+
+class DepositRequestGeneric(RequestBase, CamelModel, Generic[NumberBoundTypeVar]):
+    """
+    Generic deposit type used as a parent for DepositRequest and FixtureDepositRequest.
+    """
+
+    pubkey: BLSPublicKey
+    withdrawal_credentials: Hash
+    amount: NumberBoundTypeVar
+    signature: BLSSignature
+    index: NumberBoundTypeVar
+
+    @classmethod
+    def type_byte(cls) -> bytes:
+        """
+        Returns the deposit request type.
+        """
+        return b"\0"
+
+    def to_serializable_list(self) -> List[Any]:
+        """
+        Returns the deposit's attributes as a list of serializable elements.
+        """
+        return [
+            self.pubkey,
+            self.withdrawal_credentials,
+            Uint(self.amount),
+            self.signature,
+            Uint(self.index),
+        ]
+
+
+class DepositRequest(DepositRequestGeneric[HexNumber]):
+    """
+    Deposit Request type
+    """
+
+    pass
+
+
+class WithdrawalRequestGeneric(RequestBase, CamelModel, Generic[NumberBoundTypeVar]):
+    """
+    Generic withdrawal request type used as a parent for WithdrawalRequest and
+    FixtureWithdrawalRequest.
+    """
+
+    source_address: Address = Address(0)
+    validator_public_key: BLSPublicKey
+    amount: NumberBoundTypeVar
+
+    @classmethod
+    def type_byte(cls) -> bytes:
+        """
+        Returns the withdrawal request type.
+        """
+        return b"\1"
+
+    def to_serializable_list(self) -> List[Any]:
+        """
+        Returns the deposit's attributes as a list of serializable elements.
+        """
+        return [
+            self.source_address,
+            self.validator_public_key,
+            Uint(self.amount),
+        ]
+
+
+class WithdrawalRequest(WithdrawalRequestGeneric[HexNumber]):
+    """
+    Withdrawal Request type
+    """
+
+    pass
+
+
+class Requests(RootModel[List[DepositRequest | WithdrawalRequest]]):
+    """
+    Requests for the transition tool.
+    """
+
+    root: List[DepositRequest | WithdrawalRequest] = Field(default_factory=list)
+
+    def to_serializable_list(self) -> List[Any]:
+        """
+        Returns the requests as a list of serializable elements.
+        """
+        return [r.type_byte() + eth_rlp.encode(r.to_serializable_list()) for r in self.root]
+
+    @cached_property
+    def trie_root(self) -> Hash:
+        """
+        Returns the root hash of the requests.
+        """
+        t = HexaryTrie(db={})
+        for i, r in enumerate(self.root):
+            t.set(
+                eth_rlp.encode(Uint(i)),
+                r.type_byte() + eth_rlp.encode(r.to_serializable_list()),
+            )
+        return Hash(t.root_hash)
+
+    def deposit_requests(self) -> List[DepositRequest]:
+        """
+        Returns the list of deposit requests.
+        """
+        return [d for d in self.root if isinstance(d, DepositRequest)]
+
+    def withdrawal_requests(self) -> List[WithdrawalRequest]:
+        """
+        Returns the list of withdrawal requests.
+        """
+        return [w for w in self.root if isinstance(w, WithdrawalRequest)]
+
+
 # TODO: Move to other file
 # Transition tool models
+
+
+class TransactionLog(CamelModel):
+    """
+    Transaction log
+    """
+
+    address: Address
+    topics: List[Hash]
+    data: Bytes
+    block_number: HexNumber
+    transaction_hash: Hash
+    transaction_index: HexNumber
+    block_hash: Hash
+    log_index: HexNumber
+    removed: bool
 
 
 class TransactionReceipt(CamelModel):
@@ -1249,17 +1400,17 @@ class TransactionReceipt(CamelModel):
     Transaction receipt
     """
 
-    root: Bytes
-    status: HexNumber
-    cumulative_gas_used: HexNumber
-    logs_bloom: Bloom
-    logs: List[Dict[str, str]] | None = None
     transaction_hash: Hash
-    contract_address: Address
     gas_used: HexNumber
+    root: Bytes | None = None
+    status: HexNumber | None = None
+    cumulative_gas_used: HexNumber | None = None
+    logs_bloom: Bloom | None = None
+    logs: List[TransactionLog] | None = None
+    contract_address: Address | None = None
     effective_gas_price: HexNumber | None = None
-    block_hash: Hash
-    transaction_index: HexNumber
+    block_hash: Hash | None = None
+    transaction_index: HexNumber | None = None
     blob_gas_used: HexNumber | None = None
     blob_gas_price: HexNumber | None = None
 
@@ -1294,6 +1445,9 @@ class Result(CamelModel):
     withdrawals_root: Hash | None = None
     excess_blob_gas: HexNumber | None = Field(None, alias="currentExcessBlobGas")
     blob_gas_used: HexNumber | None = None
+    requests_root: Hash | None = None
+    deposit_requests: List[DepositRequest] | None = None
+    withdrawal_requests: List[WithdrawalRequest] | None = None
 
 
 class TransitionToolOutput(CamelModel):

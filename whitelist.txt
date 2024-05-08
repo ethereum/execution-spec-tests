@@ -1,4 +1,6 @@
 0xaa
+Account1
+Account2
 acl
 addr
 address
@@ -94,6 +96,9 @@ EEST
 eip
 eips
 EIPs
+eip6110
+eip7002
+el
 endianness
 EngineAPI
 enum
@@ -248,10 +253,12 @@ ppas
 pre
 Pre
 precompile
+predeploy
 prepend
 PrevRandao
 prestateTracer
 programmatically
+pubkey
 px
 py
 pydantic
@@ -330,6 +337,7 @@ Tox
 traceback
 TransactionException
 trie
+triggerable
 tstorage
 tx
 txs

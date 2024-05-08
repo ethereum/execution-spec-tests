@@ -39,11 +39,14 @@ from .types import (
     AccessList,
     Account,
     Alloc,
+    DepositRequest,
     Environment,
     Removable,
+    Requests,
     Storage,
     Transaction,
     Withdrawal,
+    WithdrawalRequest,
 )
 
 __all__ = (
@@ -55,6 +58,7 @@ __all__ = (
     "Alloc",
     "Bloom",
     "Bytes",
+    "DepositRequest",
     "EngineAPIError",
     "EmptyOmmersRoot",
     "EmptyTrieRoot",
@@ -64,6 +68,7 @@ __all__ = (
     "HexNumber",
     "Number",
     "Removable",
+    "Requests",
     "Storage",
     "TestAddress",
     "TestAddress2",
@@ -72,6 +77,7 @@ __all__ = (
     "TestPrivateKey2",
     "Transaction",
     "Withdrawal",
+    "WithdrawalRequest",
     "ZeroPaddedHexNumber",
     "add_kzg_version",
     "ceiling_division",
