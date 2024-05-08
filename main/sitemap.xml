@@ -636,6 +636,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_example_valid_invalid/</loc>
+         <lastmod>2024-05-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_example_valid_invalid/index/test_cases/</loc>
+         <lastmod>2024-05-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip3540_eof_v1/test_execution_function/</loc>
          <lastmod>2024-05-08</lastmod>
          <changefreq>daily</changefreq>
