@@ -147,16 +147,13 @@ def environment(fixture: Fixture) -> dict:
     Define the environment that hive will start the client with using the fork
     rules specific for the simulator.
     """
-    env = {
-        "HIVE_FORK_DAO_VOTE": "1",
-        "HIVE_CHAIN_ID": "1",
-    }
     assert fixture.fork in ruleset, f"fork '{fixture.fork}' missing in hive ruleset"
-    for k, v in ruleset[fixture.fork].items():
-        env[k] = f"{v:d}"
-    if fixture.seal_engine == "NoProof":
-        env["HIVE_SKIP_POW"] = "1"
-    return env
+    return {
+        "HIVE_CHAIN_ID": "1",
+        "HIVE_FORK_DAO_VOTE": "1",
+        "HIVE_NODETYPE": "full",
+        **{k: f"{v:d}" for k, v in ruleset[fixture.fork].items()},
+    }
 
 
 @pytest.fixture(scope="function")
