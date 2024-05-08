@@ -8050,7 +8050,18 @@
 </ul>
 <h3 id="framework_1">🛠️ Framework<a class="headerlink" href="#framework_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>✨ Add Prague to forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/419">#419</a>).</li>
+<li>
+<p>✨ Adds two <code>consume</code> commands <a href="https://github.com/ethereum/execution-spec-tests/pull/339">#339</a>:</p>
+</li>
+<li>
+<p><code>consume direct</code> - Execute a test fixture directly against a client using a <code>blocktest</code>-like command (currently only geth supported).</p>
+</li>
+<li>
+<p><code>consume rlp</code> - Execute a test fixture in a hive simulator against a client that imports the test's genesis config and blocks as RLP upon startup. This is a re-write of the <a href="https://github.com/ethereum/hive/tree/master/simulators/ethereum/consensus">ethereum/consensus</a> Golang simulator.</p>
+</li>
+<li>
+<p>✨ Add Prague to forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/419">#419</a>).</p>
+</li>
 <li>✨ Improve handling of the argument passed to <code>solc --evm-version</code> when compiling Yul code (<a href="https://github.com/ethereum/execution-spec-tests/pull/418">#418</a>).</li>
 <li>🐞 Fix <code>fill -m yul_test</code> which failed to filter tests that are (dynamically) marked as a yul test (<a href="https://github.com/ethereum/execution-spec-tests/pull/418">#418</a>).</li>
 <li>🔀 Helper methods <code>to_address</code>, <code>to_hash</code> and <code>to_hash_bytes</code> have been deprecated in favor of <code>Address</code> and <code>Hash</code>, which are automatically detected as opcode parameters and pushed to the stack in the resulting bytecode (<a href="https://github.com/ethereum/execution-spec-tests/pull/422">#422</a>).</li>
