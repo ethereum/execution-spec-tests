@@ -3,11 +3,16 @@ Go-ethereum Transition tool interface.
 """
 
 import json
+import os
 import shutil
+import socket
 import subprocess
 import textwrap
 from pathlib import Path
+from random import randint
 from re import compile
+from tempfile import TemporaryDirectory
+from time import sleep, time
 from typing import Optional
 
 from ethereum_test_forks import Fork
@@ -29,12 +34,14 @@ class GethTransitionTool(TransitionTool):
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
+    temp_dir: Optional[TemporaryDirectory] = None
 
     def __init__(
         self,
         *,
         binary: Optional[Path] = None,
         trace: bool = False,
+        server: bool = False,
     ):
         super().__init__(binary=binary, trace=trace)
         args = [str(self.binary), str(self.t8n_subcommand), "--help"]
@@ -45,6 +52,70 @@ class GethTransitionTool(TransitionTool):
         except Exception as e:
             raise Exception(f"Unexpected exception calling evm tool: {e}.")
         self.help_string = result.stdout
+
+        if server:
+            self.start_server(trace)
+            self.t8n_use_server = True
+
+    def start_server(self, trace: bool = False):
+        """
+        Starts the t8n-server process, extracts the port, and leaves it running for future re-use.
+        """
+        assert self.t8n_subcommand, "t8n subcommand not set"
+
+        # Port is a random number between 40,000 and 50,000
+        # to avoid having t8n to pick an open port and reading/parsing the output
+        args = [
+            str(self.binary),
+            self.t8n_subcommand + "-server",
+        ]
+
+        server_file_path = None
+        port = None
+
+        if os.name == "posix":
+            self.temp_dir = TemporaryDirectory()
+            server_file_path = Path(self.temp_dir.name) / "t8n.sock"
+            replaced_str = str(server_file_path).replace("/", "%2F")
+            self.server_url = f"http+unix://{replaced_str}/"
+            args.extend([f"--unix-socket={str(server_file_path)}"])
+        else:
+            port = randint(40_000, 50_000)
+            self.server_url = f"http://localhost:{port}/"
+            args.extend([f"--port={port}"])
+
+        if trace:
+            args.append("--trace")
+
+        self.process = subprocess.Popen(
+            args,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        # wait for port to be open
+        timeout_start = time()
+        while time() < timeout_start + 1:
+            if server_file_path:
+                if server_file_path.exists():
+                    break
+            else:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                result = sock.connect_ex(("localhost", port))
+                if result == 0:
+                    sock.close()
+                    break
+                sock.close()
+            sleep(0)  # yield
+
+    def shutdown(self):
+        """
+        Stops the t8n-server process if it was started
+        """
+        if self.process:
+            self.process.terminate()
+        if self.temp_dir:
+            self.temp_dir.cleanup()
 
     def is_fork_supported(self, fork: Fork) -> bool:
         """

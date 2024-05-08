@@ -84,6 +84,7 @@ Dencun
 deprecations
 dev
 devnet
+DEVNULL
 difficulty
 dir
 dirs
@@ -181,6 +182,7 @@ iat
 ignoreRevsFile
 img
 incrementing
+INET
 init
 initcode
 instantiation
@@ -351,6 +353,7 @@ ubuntu
 ukiyo
 uncomment
 undersize
+unixsocket
 util
 utils
 v0

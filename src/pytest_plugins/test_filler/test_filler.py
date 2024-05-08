@@ -87,6 +87,13 @@ def pytest_addoption(parser):
             "Default: The first (geth) 'evm' entry in PATH."
         ),
     )
+    evm_group.addoption(
+        "--evm-server",
+        action="store_true",
+        dest="evm_server",
+        default=False,
+        help=("Whether to run the t8n in server mode if the binary supports it."),
+    )
 
     solc_group = parser.getgroup("solc", "Arguments defining the solc executable")
     solc_group.addoption(
@@ -371,7 +378,9 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     Returns the configured transition tool.
     """
     t8n = TransitionTool.from_binary_path(
-        binary_path=evm_bin, trace=request.config.getoption("evm_collect_traces")
+        binary_path=evm_bin,
+        trace=request.config.getoption("evm_collect_traces"),
+        server=request.config.getoption("evm_server"),
     )
     yield t8n
     t8n.shutdown()
