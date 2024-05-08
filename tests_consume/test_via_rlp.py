@@ -88,7 +88,7 @@ def client_genesis(fixture: Fixture) -> dict:
     """
     genesis = to_json(fixture.genesis)  # NOTE: to_json() excludes None values
     alloc = to_json(fixture.pre)
-    # NOTE: nethermind requires account keys to not be prefixed by '0x'
+    # NOTE: nethermind requires account keys without '0x' prefix
     genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
     return genesis
 
