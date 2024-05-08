@@ -390,7 +390,7 @@ def test_example_valid_invalid(
     eof_test: EOFTestFiller,
     eof_code: Container,
     expected_hex_bytecode: str,
-    exception: EOFException,
+    exception: EOFException | None,
 ):
     """
     Verify eof container construction and exception
@@ -467,7 +467,7 @@ def test_code_section_header_body_mismatch(
     skip_types_body_listing: bool,
     skip_types_header_listing: bool,
     expected_code: str,
-    expected_exception: EOFException,
+    expected_exception: EOFException | None,
 ):
     """
     Inconsistent number of code sections (between types and code)
