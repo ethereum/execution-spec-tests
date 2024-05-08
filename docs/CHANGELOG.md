@@ -50,6 +50,11 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🛠️ Framework
 
+- ✨ Adds two `consume` commands [#339](https://github.com/ethereum/execution-spec-tests/pull/339):
+
+   1. `consume direct` - Execute a test fixture directly against a client using a `blocktest`-like command (currently only geth supported).
+   2. `consume rlp` - Execute a test fixture in a hive simulator against a client that imports the test's genesis config and blocks as RLP upon startup. This is a re-write of the [ethereum/consensus](https://github.com/ethereum/hive/tree/master/simulators/ethereum/consensus) Golang simulator.
+
 - ✨ Add Prague to forks ([#419](https://github.com/ethereum/execution-spec-tests/pull/419)).
 - ✨ Improve handling of the argument passed to `solc --evm-version` when compiling Yul code ([#418](https://github.com/ethereum/execution-spec-tests/pull/418)).
 - 🐞 Fix `fill -m yul_test` which failed to filter tests that are (dynamically) marked as a yul test ([#418](https://github.com/ethereum/execution-spec-tests/pull/418)).
