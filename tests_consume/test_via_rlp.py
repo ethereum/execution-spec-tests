@@ -225,16 +225,16 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
     return result
 
 
-def compare_models(expected: BaseModel, got: BaseModel) -> dict:
+def compare_models(expected: FixtureHeader, got: FixtureHeader) -> dict:
     """
-    Compare two pydantic model instances and return the differences.
+    Compare two FixtureHeader model instances and return their differences.
     """
     differences = {}
-    for field in expected.__fields__.keys():
-        if getattr(expected, field) != getattr(got, field):
-            differences[field] = {
-                "expected     ": str(getattr(expected, field)),
-                "got (via rpc)": str(getattr(got, field)),
+    for (exp_name, exp_value), (got_name, got_value) in zip(expected, got):
+        if exp_value != got_value:
+            differences[exp_name] = {
+                "expected     ": str(exp_value),
+                "got (via rpc)": str(got_value),
             }
     return differences
 
