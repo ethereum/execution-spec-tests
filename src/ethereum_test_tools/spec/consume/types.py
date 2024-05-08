@@ -135,7 +135,7 @@ class TestCases(RootModel):
                 TestCaseStream(
                     id=fixture_name,
                     fixture_hash=fixture.hash,
-                    fork=Fixtures.get_fork(fixture),
+                    fork=fixture.get_fork(),
                     format=fixture.format,
                     fixture=fixture,
                 )
@@ -148,5 +148,5 @@ class TestCases(RootModel):
         Create a TestCases object from an index file.
         """
         with open(index_file, "r") as fd:
-            index = IndexFile(**json.load(fd))
+            index = IndexFile.model_validate_json(fd.read())
         return cls(root=index.test_cases)

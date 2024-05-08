@@ -118,21 +118,6 @@ class BaseFixturesRootModel(RootModel):
 
         return model_class(root=json_data)
 
-    @classmethod
-    def get_fork(cls, fixture: BlockchainFixture | StateFixture) -> str:
-        """
-        Get the fork from the fixture.
-
-        Currently only supports EEST state fixtures, which only contain a single fork.
-        """
-        if fixture.format in [FixtureFormats.BLOCKCHAIN_TEST, FixtureFormats.BLOCKCHAIN_TEST_HIVE]:
-            return fixture.fork  # type: ignore
-        elif fixture.format == FixtureFormats.STATE_TEST:
-            forks = list(fixture.post.keys())  # type: ignore
-            assert len(forks) == 1, "Expected state test fixture with single fork"
-            return forks[0]
-        raise ValueError(f"Unknown fixture type: {fixture.format}")
-
 
 class Fixtures(BaseFixturesRootModel):
     """

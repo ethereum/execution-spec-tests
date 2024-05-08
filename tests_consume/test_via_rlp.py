@@ -207,7 +207,7 @@ def get_block(client: Client, block_number: BlockNumberType) -> dict:
     }
     headers = {"Content-Type": "application/json"}
 
-    response = requests.post(url, data=json.dumps(payload), headers=headers)
+    response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
     result = response.json().get("result")
 

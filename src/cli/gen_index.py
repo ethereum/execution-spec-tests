@@ -184,7 +184,7 @@ def generate_fixtures_index(
                         id=fixture_name,
                         json_path=relative_file_path,
                         fixture_hash=fixture.info.get("hash", None),
-                        fork=Fixtures.get_fork(fixture),
+                        fork=fixture.get_fork(),
                         format=fixture.format,
                     )
                 )
