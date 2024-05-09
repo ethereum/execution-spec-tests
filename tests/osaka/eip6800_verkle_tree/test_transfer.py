@@ -32,10 +32,7 @@ precompile_address = Address("0x09")
 )
 @pytest.mark.parametrize(
     "value",
-    [
-        0,
-        0.6,
-    ],
+    [0, 0.6],
     ids=["zero", "non_zero"],
 )
 def test_transfer(state_test, fork, target, value):

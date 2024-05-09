@@ -47,3 +47,27 @@ def vkt_key_storage_slot(address, storage_slot):
     tree_key = {}
 
     return tree_key
+
+
+def vkt_key_code_chunk(address, chunk_number):
+    """
+    Return the Verkle Tree key corresponding to the chunk_numberfor the given address.
+    """
+    # TODO(verkle):
+    #   Must call `evm block code-chunk-key <address-hex> <chunk-number>` which returns a
+    #   32-byte key in hex.
+    tree_key = {}
+
+    return tree_key
+
+
+def vkt_chunkify(bytecode):
+    """
+    Return the chunkification of the provided bytecode.
+    """
+    # TODO(verkle):
+    #   Must call `evm block chunkify <bytecode-hex>` which returns a list of
+    #   32-byte chunks.
+    code_chunks = {}
+
+    return code_chunks
