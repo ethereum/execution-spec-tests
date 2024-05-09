@@ -29,7 +29,7 @@ def vkt_key_header(address: Address, entry: AccountHeaderEntry):
     Return the Verkle Tree key for the address for the given address and entry.
     """
     # TODO(verkle):
-    #   Must call `evm block verkle-key <address-hex>` which returns a
+    #   Must call `evm transition verkle-key <address-hex>` which returns a
     #   32-byte key in hex.
     tree_key = {}
 
@@ -45,7 +45,7 @@ def vkt_key_storage_slot(address, storage_slot):
     Return the Verkle Tree key for the address for the given address storage slot.
     """
     # TODO(verkle):
-    #   Must call `evm block verkle-key <address-hex> <storage-slot-hex>` which returns a
+    #   Must call `evm transition verkle-key <address-hex> <storage-slot-hex>` which returns a
     #   32-byte key in hex.
     tree_key = {}
 
@@ -57,7 +57,7 @@ def vkt_key_code_chunk(address, chunk_number):
     Return the Verkle Tree key corresponding to the chunk_numberfor the given address.
     """
     # TODO(verkle):
-    #   Must call `evm block code-chunk-key <address-hex> <chunk-number>` which returns a
+    #   Must call `evm transition code-chunk-key <address-hex> <chunk-number>` which returns a
     #   32-byte key in hex.
     tree_key = {}
 
@@ -69,8 +69,9 @@ def vkt_chunkify(bytecode):
     Return the chunkification of the provided bytecode.
     """
     # TODO(verkle):
-    #   Must call `evm block chunkify <bytecode-hex>` which returns a list of
-    #   32-byte chunks.
+    #   Must call `evm transition verkle-chunkify-code <bytecode-hex>` which returns a hex of
+    #   the chunkified code. The returned byte length is a multiple of 32. `code_chunks` must be
+    #   a list of 32-byte chunks (i.e: partition the returned bytes into 32-byte bytes)
     code_chunks = {}
 
     return code_chunks
