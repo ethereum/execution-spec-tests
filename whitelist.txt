@@ -679,6 +679,8 @@ modexp
 0x00
 0x01
 0x10
+verkle
+vkt
 
 fi
 url
