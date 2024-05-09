@@ -1405,7 +1405,7 @@ class TransactionReceipt(CamelModel):
     status: HexNumber | None = None
     cumulative_gas_used: HexNumber | None = None
     logs_bloom: Bloom | None = None
-    logs: List[Dict[str, str]] | None = None
+    logs: List[TransactionLog] | None = None
     contract_address: Address | None = None
     gas_used: HexNumber
     effective_gas_price: HexNumber | None = None
