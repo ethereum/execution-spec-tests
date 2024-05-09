@@ -287,6 +287,18 @@ class EOFException(ExceptionBase):
     """
     EOF container header does not have types section first
     """
+    INVALID_MAX_STACK_HEIGHT = auto()
+    """
+    EOF container's code section stack value is invalid
+    """
+    INVALID_NON_RETURNING_FLAG = auto()
+    """
+    EOF container section's code has invalid terminator opcode
+    """
+    INVALID_CODE_SECTION_INDEX = auto()
+    """
+    EOF code tried to call to the section that does not exist
+    """
     INCOMPLETE_SECTION_NUMBER = auto()
     """
     EOF container header has section that is missing declaration bytes
