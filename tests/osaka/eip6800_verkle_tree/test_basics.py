@@ -16,6 +16,8 @@ from ethereum_test_tools import (
     Transaction,
 )
 
+from ..temp_verkle_helpers import AccountHeaderEntry, vkt_key_header
+
 precompile_address = Address("0x09")
 
 
@@ -60,7 +62,7 @@ def test_transfer(state_test, fork, target, value):
         value=value,
     )
     post = {}
-    post[target] = Account(balance=value)
+    post[vkt_key_header(target, AccountHeaderEntry.BALANCE)] = value
     state_test(
         env=env,
         pre=pre,
