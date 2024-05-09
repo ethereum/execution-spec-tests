@@ -5,6 +5,7 @@ NOTE: This file is temporary, probably it should live in other place in the libr
 """
 
 from enum import Enum
+from typing import ClassVar
 
 from ethereum_test_tools import Address
 
@@ -19,6 +20,8 @@ class AccountHeaderEntry(Enum):
     NONCE = 2
     CODE_HASH = 3
     CODE_SIZE = 4
+
+    PRESENT: ClassVar[None] = None
 
 
 def vkt_key_header(address: Address, entry: AccountHeaderEntry):
@@ -71,3 +74,14 @@ def vkt_chunkify(bytecode):
     code_chunks = {}
 
     return code_chunks
+
+
+def vkt_add_all_headers_present(witness_keys, addr):
+    """
+    Adds to witness_keys that all account headers entries should be present.
+    """
+    witness_keys[vkt_key_header(addr, AccountHeaderEntry.VERSION)] = AccountHeaderEntry.PRESENT
+    witness_keys[vkt_key_header(addr, AccountHeaderEntry.BALANCE)] = AccountHeaderEntry.PRESENT
+    witness_keys[vkt_key_header(addr, AccountHeaderEntry.NONCE)] = AccountHeaderEntry.PRESENT
+    witness_keys[vkt_key_header(addr, AccountHeaderEntry.CODE_HASH)] = AccountHeaderEntry.PRESENT
+    witness_keys[vkt_key_header(addr, AccountHeaderEntry.CODE_SIZE)] = AccountHeaderEntry.PRESENT
