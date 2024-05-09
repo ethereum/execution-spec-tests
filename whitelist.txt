@@ -681,6 +681,7 @@ modexp
 0x10
 verkle
 vkt
+chunkify
 
 fi
 url
