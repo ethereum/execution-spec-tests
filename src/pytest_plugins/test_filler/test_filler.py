@@ -21,7 +21,7 @@ from ethereum_test_forks import (
     get_closest_fork_with_solc_support,
     get_forks_with_solc_support,
 )
-from ethereum_test_tools import SPEC_TYPES, BaseTest, FixtureCollector, TestInfo, Yul
+from ethereum_test_tools import SPEC_TYPES, Alloc, BaseTest, FixtureCollector, TestInfo, Yul
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -375,6 +375,14 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     )
     yield t8n
     t8n.shutdown()
+
+
+@pytest.fixture(autouse=True)
+def pre() -> Alloc:
+    """
+    Returns the default pre allocation for all tests (Empty alloc).
+    """
+    return Alloc()
 
 
 @pytest.fixture(scope="session")
