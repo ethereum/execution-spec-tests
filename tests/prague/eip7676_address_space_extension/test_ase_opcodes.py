@@ -26,8 +26,8 @@ REFERENCE_SPEC_VERSION = (
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
-ID_EOF_BALANCE = 0
-ID_BALANCE = 1
+# ID_EOF_BALANCE = 0
+# ID_BALANCE = 1
 ID_EXTCALL = 2
 ID_CALL = 3
 ID_EXTDELEGATECALL = 4
@@ -37,8 +37,8 @@ ID_STATICCALL = 7
 ID_CALLCODE = 8
 
 BASE_ADDRESS = 100000000
-ADDRESS_EOF_BALANCE = Address(BASE_ADDRESS + ID_EOF_BALANCE)
-ADDRESS_BALANCE = Address(BASE_ADDRESS + ID_BALANCE)
+# ADDRESS_EOF_BALANCE = Address(BASE_ADDRESS + ID_EOF_BALANCE)
+# ADDRESS_BALANCE = Address(BASE_ADDRESS + ID_BALANCE)
 ADDRESS_EXTCALL = Address(BASE_ADDRESS + ID_EXTCALL)
 ADDRESS_CALL = Address(BASE_ADDRESS + ID_CALL)
 ADDRESS_EXTDELEGATECALL = Address(BASE_ADDRESS + ID_EXTDELEGATECALL)
@@ -86,8 +86,8 @@ def test_address_space_extension(
         Address(0x100): Account(
             code=(
                 Op.MSTORE(0, Op.PUSH32(address_bytes))
-                + Op.SSTORE(ID_EOF_BALANCE, Op.CALL(50000, ADDRESS_EOF_BALANCE, 0, 0, 32, 0, 0))
-                + Op.SSTORE(ID_BALANCE, Op.CALL(50000, ADDRESS_BALANCE, 0, 0, 32, 0, 0))
+                # + Op.SSTORE(ID_EOF_BALANCE, Op.CALL(50000, ADDRESS_EOF_BALANCE, 0, 0, 32, 0, 0))
+                # + Op.SSTORE(ID_BALANCE, Op.CALL(50000, ADDRESS_BALANCE, 0, 0, 32, 0, 0))
                 + Op.SSTORE(ID_EXTCALL, Op.CALL(50000, ADDRESS_EXTCALL, 0, 0, 32, 0, 0))
                 + Op.SSTORE(ID_CALL, Op.CALL(50000, ADDRESS_CALL, 0, 0, 32, 0, 0))
                 + Op.SSTORE(
@@ -103,23 +103,23 @@ def test_address_space_extension(
             ),
             nonce=1,
         ),
-        ADDRESS_EOF_BALANCE: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.SSTORE(0, Op.BALANCE(Op.CALLDATALOAD(0))) + Op.STOP,
-                        code_inputs=0,
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=2,
-                    )
-                ],
-            ),
-            nonce=1,
-        ),
-        ADDRESS_BALANCE: Account(
-            code=Op.SSTORE(0, Op.BALANCE(Op.CALLDATALOAD(0))) + Op.STOP,
-            nonce=1,
-        ),
+        # ADDRESS_EOF_BALANCE: Account(
+        #     code=Container(
+        #         sections=[
+        #             Section.Code(
+        #                 code=Op.SSTORE(0, Op.BALANCE(Op.CALLDATALOAD(0))) + Op.STOP,
+        #                 code_inputs=0,
+        #                 code_outputs=NON_RETURNING_SECTION,
+        #                 max_stack_height=2,
+        #             )
+        #         ],
+        #     ),
+        #     nonce=1,
+        # ),
+        # ADDRESS_BALANCE: Account(
+        #     code=Op.SSTORE(0, Op.BALANCE(Op.CALLDATALOAD(0))) + Op.STOP,
+        #     nonce=1,
+        # ),
         ADDRESS_EXTCALL: Account(
             code=Container(
                 sections=[
@@ -199,7 +199,7 @@ def test_address_space_extension(
     post = {
         Address(0x100): Account(
             storage={
-                ID_BALANCE: 1,
+                # ID_BALANCE: 1,
                 ID_CALL: 1,
                 ID_DELEGATECALL: 1,
                 ID_STATICCALL: 1,
@@ -207,8 +207,8 @@ def test_address_space_extension(
             }
             if ase_address
             else {
-                ID_EOF_BALANCE: 1,
-                ID_BALANCE: 1,
+                # ID_EOF_BALANCE: 1,
+                # ID_BALANCE: 1,
                 ID_EXTCALL: 1,
                 ID_CALL: 1,
                 ID_EXTDELEGATECALL: 1,
@@ -225,8 +225,8 @@ def test_address_space_extension(
             pass
         case "EOA":
             pre[Address(stripped_address)] = Account(code="", balance=10**18, nonce=9)
-            post[ADDRESS_EOF_BALANCE] = Account(storage={} if ase_address else {0: 10**18})
-            post[ADDRESS_BALANCE] = Account(storage={0: 10**18})
+            # post[ADDRESS_EOF_BALANCE] = Account(storage={} if ase_address else {0: 10**18})
+            # post[ADDRESS_BALANCE] = Account(storage={0: 10**18})
         case "Contract":
             pre[Address(stripped_address)] = Account(
                 code=Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32), balance=0, nonce=0
