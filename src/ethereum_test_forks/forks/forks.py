@@ -572,3 +572,12 @@ class Prague(Cancun):
         Starting at Prague, new payload calls must use version 4
         """
         return 4
+
+    @classmethod
+    def engine_forkchoice_updated_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """
+        At Prague, version number of NewPayload and ForkchoiceUpdated diverge.
+        """
+        return 3
