@@ -1,8 +1,10 @@
 # EOF Testing Coverage Tracker
 
-## EIP-3540: EOF - EVM Object Format v1
-
 - [ ] Example Test Case 1
+- [x] Example Test Case 2
+- [ ] Example Test Case 3 (ethereum/tests: ./src/EOFTestsFiller/validInvalidFiller.yml)
+
+## EIP-3540: EOF - EVM Object Format v1
 
 ## EIP-3670: EOF - Code Validation
 
