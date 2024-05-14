@@ -8,6 +8,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- 🔀 Change addresses used in tests to not use 0x100 ([#553](https://github.com/ethereum/execution-spec-tests/pull/553)).
 - ✨ Add `test_double_kill` and `test_recreate` which test resurrection of accounts killed with `SELFDESTRUCT` ([#488](https://github.com/ethereum/execution-spec-tests/pull/488)).
 - ✨ Add eof example valid invalid tests from ori, fetch EOF Container implementation ([#535](https://github.com/ethereum/execution-spec-tests/pull/535)).
 
@@ -33,7 +34,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Port entry point scripts to use [click](https://click.palletsprojects.com) and add tests ([#483](https://github.com/ethereum/execution-spec-tests/pull/483)).
 - 💥 As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes ([#486](https://github.com/ethereum/execution-spec-tests/pull/486)):
   - State test field `transaction` now uses the proper zero-padded hex number format for fields `maxPriorityFeePerGas`, `maxFeePerGas`, and `maxFeePerBlobGas`
-  - Fixtures' hashes (in the `_info` field) are now calculated by removing the "_info" field entirely instead of it being set to an empty dict.
+  - Fixtures' hashes (in the `_info` field) are now calculated by removing the "\_info" field entirely instead of it being set to an empty dict.
 - 🐞 Relax minor and patch dependency requirements to avoid conflicting package dependencies ([#510](https://github.com/ethereum/execution-spec-tests/pull/510)).
 - 🔀 Update all CI actions to use their respective Node.js 20 versions, ahead of their Node.js 16 version deprecations ([#527](https://github.com/ethereum/execution-spec-tests/pull/527)).
 
@@ -53,8 +54,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Adds two `consume` commands [#339](https://github.com/ethereum/execution-spec-tests/pull/339):
 
-   1. `consume direct` - Execute a test fixture directly against a client using a `blocktest`-like command (currently only geth supported).
-   2. `consume rlp` - Execute a test fixture in a hive simulator against a client that imports the test's genesis config and blocks as RLP upon startup. This is a re-write of the [ethereum/consensus](https://github.com/ethereum/hive/tree/master/simulators/ethereum/consensus) Golang simulator.
+  1.  `consume direct` - Execute a test fixture directly against a client using a `blocktest`-like command (currently only geth supported).
+  2.  `consume rlp` - Execute a test fixture in a hive simulator against a client that imports the test's genesis config and blocks as RLP upon startup. This is a re-write of the [ethereum/consensus](https://github.com/ethereum/hive/tree/master/simulators/ethereum/consensus) Golang simulator.
 
 - ✨ Add Prague to forks ([#419](https://github.com/ethereum/execution-spec-tests/pull/419)).
 - ✨ Improve handling of the argument passed to `solc --evm-version` when compiling Yul code ([#418](https://github.com/ethereum/execution-spec-tests/pull/418)).
@@ -196,9 +197,9 @@ The fixture renaming provides a more consistent naming scheme between the pytest
    1. Previous fixture file name: `fixtures/frontier/opcodes/dup/dup.json` (`BlockChainTest` format).
    2. New fixture file names (all present within the release tarball):
 
-     - `fixtures/state_tests/frontier/opcodes/dup/dup.json` (`StateTest` format).
-     - `fixtures/blockchain_tests/frontier/opcodes/dup/dup.json` (`BlockChainTest` format).
-     - `fixtures/blockchain_tests_hive/frontier/opcodes/dup/dup.json` (a blockchain test in `HiveFixture` format).
+   - `fixtures/state_tests/frontier/opcodes/dup/dup.json` (`StateTest` format).
+   - `fixtures/blockchain_tests/frontier/opcodes/dup/dup.json` (`BlockChainTest` format).
+   - `fixtures/blockchain_tests_hive/frontier/opcodes/dup/dup.json` (a blockchain test in `HiveFixture` format).
 
 ## [v1.0.6](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6) - 2023-10-19: 🐍🏖️ Cancun Devnet 10
 
