@@ -33,24 +33,29 @@ Outputs:
       it finishes with an error code and stderr an error message prefixed by eof
       exception error code, followed by the error message.
 
-    If the container is valid, the tool finishes with 0 code.
+      If the container is valid, the tool finishes with 0 code. And the strout message
+      contains OK followed by the hexcode of code sections that has successfully been
+      parsed, separated by commas.
 
-    Example:
-      eofparse --state.fork Prague --hex "0xef0000..code"
-      eof00001 err: unreachable_instructions
+      Example:
+        eofparse --state.fork Prague --hex "0xef0000..code"
+        eof00001 err: unreachable_instructions
 	     
-      eofparse --state.fork Prague --hex "0xef0000..code"
-      OK 5fe10003e00003e00003e0fffa00
+        eofparse --state.fork Prague --hex "0xef0000..code"
+        OK 5f35...000400,5f5ff3,5f5ffd,fe,e4
 	  
     If provided with stdin stream:
       The tool parses input stream line by line, expecting hex code separated by newline
       For each hex code from input stream it performs validation and outputs the result
       in stdout where each line corresponds to the input line.
 
-    Example:
-      printf "ef000.....d60A7 \n ef000101000...B000bad60A7" | eofparse
-      OK 5fe10003e00003e00003e0fffa00
-      eof00001 err: unreachable_instructions
+      Example:
+        printf "ef000.....d60A7 \n ef000101000...B000bad60A7" | eofparse
+        OK 5f35...000400,5f5ff3,5f5ffd,fe,e4
+        eof00001 err: unreachable_instructions
+
+    Note: The bytes were ommited here to save screen space. the code represents valid eof
+    Note: eof00001 - is an example exception code, the table of exception codes to be defined
 
   --help
     Print options help message
