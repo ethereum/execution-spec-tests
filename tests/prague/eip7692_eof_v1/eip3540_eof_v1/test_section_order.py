@@ -28,11 +28,19 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
 class SectionTest(Enum):
+    """
+    Enum for the test type
+    """
+
     MISSING = 1
     WRONG_ORDER = 2
 
 
 class TestPosition(Enum):
+    """
+    Enum for the test position
+    """
+
     BODY = 1
     HEADER = 2
     BODY_AND_HEADER = 3
@@ -41,6 +49,9 @@ class TestPosition(Enum):
 def get_expected_code_exception(
     section_kind, section_test, test_position
 ) -> tuple[str, EOFException | None]:
+    """
+    Verification vectors with code and exception based on test combinations
+    """
     match (section_kind, section_test, test_position):
         case (SectionKind.TYPE, SectionTest.MISSING, TestPosition.HEADER):
             return "ef000102000100030400010000800001305000ef", EOFException.MISSING_TYPE_HEADER
@@ -73,7 +84,7 @@ def get_expected_code_exception(
             return (
                 "ef000101000402000100030400010000800001ef",
                 # TODO should be an exception of empty code bytes, because it can understand that
-                # ef byte is data section byte
+                # last byte is data section byte
                 EOFException.INVALID_SECTION_BODIES_SIZE,
             )
         case (SectionKind.CODE, SectionTest.MISSING, TestPosition.BODY_AND_HEADER):

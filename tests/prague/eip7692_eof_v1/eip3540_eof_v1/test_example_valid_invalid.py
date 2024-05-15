@@ -484,7 +484,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
         pytest.param(
             # Check that valid EOF1 with two code sections deploys
-            # Check that return values are allowed on code sections that aren't zero (Data24)
+            # Check that return values are allowed on code sections that aren't zero (Data 24)
             Container(
                 name="EOF1V0002+EOF1V0006",
                 sections=[
@@ -508,7 +508,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="return_allowed_on_nonzero_sections",
         ),
         pytest.param(
-            # Check return values on code sections affect maxStackHeight of the caller (Data25)
+            # Check return values on code sections affect maxStackHeight of the caller (Data 25)
             Container(
                 name="EOF1V0012",
                 sections=[
@@ -556,7 +556,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="non_terminating_opcode_in_section_code_fails",
         ),
         pytest.param(
-            # Check sections that end with a non-terminator opcode fail (Data 26b)
+            # Check sections that end with a non-terminator opcode fail (Data 26 b)
             Container(
                 name="EOF1I0024",
                 sections=[
@@ -668,7 +668,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="stack_height_1024_invalid",
         ),
         pytest.param(
-            # Check data stack height of 1024 is invalid (Data 29b)
+            # Check data stack height of 1024 is invalid (Data 29 b)
             Container(
                 name="EOF1I0025",
                 sections=[
@@ -1149,7 +1149,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="bad_magic",
         ),
         pytest.param(
-            # Check that EOF1 with a bad version number fails (ver 0) (Data 45)
+            # Check that EOF1 with a bad version number fails (version 0) (Data 45)
             Container(
                 name="EOF1I0002",
                 sections=[
@@ -1168,7 +1168,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="bad_version",
         ),
         pytest.param(
-            # Check that EOF1 with a bad version number fails (ver 2) (Data 45a)
+            # Check that EOF1 with a bad version number fails (version 2) (Data 45 a)
             Container(
                 name="EOF1I0002",
                 sections=[
