@@ -72,6 +72,8 @@ class EvmoneExceptionMapper:
         ExceptionMessage(
             EOFException.STACK_HIGHER_THAN_OUTPUTS, "err: stack_higher_than_outputs_required"
         ),
+        ExceptionMessage(EOFException.TRUNCATED_INSTRUCTION, "err: truncated_instruction"),
+        ExceptionMessage(EOFException.MISSING_DATA_SECTION, "err: data_section_missing"),
         ExceptionMessage(EOFException.INVALID_DATALOADN_INDEX, "err: invalid_dataloadn_index"),
     )
 
