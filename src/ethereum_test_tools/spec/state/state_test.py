@@ -113,8 +113,8 @@ class StateTest(BaseTest):
         # We can't generate a state test fixture that names a transition fork,
         # so we get the fork at the block number and timestamp of the state test
         fork = fork.fork_at(self.env.number, self.env.timestamp)
-
-        env = self.env.set_fork_requirements(fork)
+        env = self.env.copy()
+        env.set_fork_requirements(fork)
         tx = self.tx.with_signature_and_sender(keep_secret_key=True)
         pre_alloc = Alloc.merge(
             Alloc.model_validate(fork.pre_allocation()),

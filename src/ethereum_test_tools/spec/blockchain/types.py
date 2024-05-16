@@ -3,7 +3,7 @@ BlockchainTest types
 """
 
 from functools import cached_property
-from typing import Annotated, Any, ClassVar, Dict, List, Literal, get_args, get_type_hints
+from typing import Annotated, Any, ClassVar, List, Literal, get_args, get_type_hints
 
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
@@ -300,6 +300,26 @@ class FixtureHeader(CamelModel):
                     + f"got {value}, want {baseline_value}"
                 )
 
+    def apply_to_environment(self, env: Environment):
+        """
+        Applies the header values to the environment.
+        """
+        env.parent_difficulty = Number(self.difficulty)
+        env.parent_timestamp = Number(self.timestamp)
+        env.parent_gas_limit = Number(self.gas_limit)
+        env.parent_gas_used = Number(self.gas_used)
+        env.parent_base_fee_per_gas = (
+            Number(self.base_fee_per_gas) if self.base_fee_per_gas is not None else None
+        )
+        env.parent_blob_gas_used = (
+            Number(self.blob_gas_used) if self.blob_gas_used is not None else None
+        )
+        env.parent_excess_blob_gas = (
+            Number(self.excess_blob_gas) if self.excess_blob_gas is not None else None
+        )
+        env.parent_ommers_hash = self.ommers_hash
+        env.block_hashes[Number(self.number)] = self.block_hash
+
 
 class Block(Header):
     """
@@ -350,53 +370,55 @@ class Block(Header):
     Custom list of requests to embed in this block.
     """
 
-    def set_environment(self, env: Environment) -> Environment:
-        """
-        Creates a copy of the environment with the characteristics of this
-        specific block.
-        """
-        new_env_values: Dict[str, Any] = {}
-
+    def set_environment(self, env: Environment):
         """
         Values that need to be set in the environment and are `None` for
         this block need to be set to their defaults.
         """
-        new_env_values["difficulty"] = self.difficulty
-        new_env_values["fee_recipient"] = (
+        env.difficulty = Number(self.difficulty) if self.difficulty is not None else None
+        env.fee_recipient = (
             self.fee_recipient if self.fee_recipient is not None else Environment().fee_recipient
         )
-        new_env_values["gas_limit"] = (
-            self.gas_limit or env.parent_gas_limit or Environment().gas_limit
+        env.gas_limit = (
+            (Number(self.gas_limit) if self.gas_limit is not None else None)
+            or env.parent_gas_limit
+            or Environment().gas_limit
         )
         if not isinstance(self.base_fee_per_gas, Removable):
-            new_env_values["base_fee_per_gas"] = self.base_fee_per_gas
-        new_env_values["withdrawals"] = self.withdrawals
+            env.base_fee_per_gas = (
+                Number(self.base_fee_per_gas) if self.base_fee_per_gas is not None else None
+            )
+        env.withdrawals = self.withdrawals
         if not isinstance(self.excess_blob_gas, Removable):
-            new_env_values["excess_blob_gas"] = self.excess_blob_gas
+            env.excess_blob_gas = (
+                Number(self.excess_blob_gas) if self.excess_blob_gas is not None else None
+            )
         if not isinstance(self.blob_gas_used, Removable):
-            new_env_values["blob_gas_used"] = self.blob_gas_used
+            env.blob_gas_used = (
+                Number(self.blob_gas_used) if self.blob_gas_used is not None else None
+            )
         if not isinstance(self.parent_beacon_block_root, Removable):
-            new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
+            env.parent_beacon_block_root = self.parent_beacon_block_root
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
         """
         if self.number is not None:
-            new_env_values["number"] = self.number
+            env.number = Number(self.number)
         else:
             # calculate the next block number for the environment
             if len(env.block_hashes) == 0:
-                new_env_values["number"] = 0
+                env.number = Number(0)
             else:
-                new_env_values["number"] = max([Number(n) for n in env.block_hashes.keys()]) + 1
+                env.number = Number(max([Number(n) for n in env.block_hashes.keys()]) + 1)
 
         if self.timestamp is not None:
-            new_env_values["timestamp"] = self.timestamp
+            env.timestamp = Number(self.timestamp)
         else:
             assert env.parent_timestamp is not None
-            new_env_values["timestamp"] = int(Number(env.parent_timestamp) + 12)
+            env.timestamp = Number(env.parent_timestamp + 12)
 
-        return env.copy(**new_env_values)
+        return
 
 
 class FixtureExecutionPayload(CamelModel):

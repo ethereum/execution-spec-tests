@@ -3,7 +3,7 @@ Ethereum blockchain test spec definition and filler.
 """
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tuple, Type
+from typing import Callable, ClassVar, Generator, List, Optional, Tuple, Type
 
 from pydantic import Field
 
@@ -50,25 +50,6 @@ def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
     )
 
 
-def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> "Environment":
-    """
-    Applies a header as parent to a copy of this environment.
-    """
-    updated: Dict[str, Any] = {}
-    updated["parent_difficulty"] = new_parent.difficulty
-    updated["parent_timestamp"] = new_parent.timestamp
-    updated["parent_base_fee_per_gas"] = new_parent.base_fee_per_gas
-    updated["parent_blob_gas_used"] = new_parent.blob_gas_used
-    updated["parent_excess_blob_gas"] = new_parent.excess_blob_gas
-    updated["parent_gas_used"] = new_parent.gas_used
-    updated["parent_gas_limit"] = new_parent.gas_limit
-    updated["parent_ommers_hash"] = new_parent.ommers_hash
-    block_hashes = env.block_hashes.copy()
-    block_hashes[new_parent.number] = new_parent.block_hash
-    updated["block_hashes"] = block_hashes
-    return env.copy(**updated)
-
-
 def count_blobs(txs: List[Transaction]) -> int:
     """
     Returns the number of blobs in a list of transactions.
@@ -102,7 +83,8 @@ class BlockchainTest(BaseTest):
         """
         Create a genesis block from the blockchain test definition.
         """
-        env = self.genesis_environment.set_fork_requirements(fork)
+        env = self.genesis_environment.copy()
+        env.set_fork_requirements(fork)
         assert (
             env.withdrawals is None or len(env.withdrawals) == 0
         ), "withdrawals must be empty at genesis"
@@ -162,10 +144,10 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         block: Block,
-        previous_env: Environment,
+        env: Environment,
         previous_alloc: Alloc,
         eips: Optional[List[int]] = None,
-    ) -> Tuple[FixtureHeader, List[Transaction], Requests | None, Alloc, Environment]:
+    ) -> Tuple[FixtureHeader, List[Transaction], Requests | None, Alloc]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
         """
@@ -176,8 +158,8 @@ class BlockchainTest(BaseTest):
                 + "to produce an exception"
             )
 
-        env = block.set_environment(previous_env)
-        env = env.set_fork_requirements(fork)
+        block.set_environment(env)
+        env.set_fork_requirements(fork)
 
         txs = [tx.with_signature_and_sender() for tx in block.txs]
 
@@ -282,7 +264,6 @@ class BlockchainTest(BaseTest):
             txs,
             requests,
             transition_tool_output.alloc,
-            env,
         )
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
@@ -327,11 +308,11 @@ class BlockchainTest(BaseTest):
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                header, txs, requests, new_alloc, new_env = self.generate_block_data(
+                header, txs, requests, new_alloc = self.generate_block_data(
                     t8n=t8n,
                     fork=fork,
                     block=block,
-                    previous_env=env,
+                    env=env,
                     previous_alloc=alloc,
                     eips=eips,
                 )
@@ -339,8 +320,8 @@ class BlockchainTest(BaseTest):
                     header=header,
                     txs=[FixtureTransaction.from_transaction(tx) for tx in txs],
                     ommers=[],
-                    withdrawals=[FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
-                    if new_env.withdrawals is not None
+                    withdrawals=[FixtureWithdrawal.from_withdrawal(w) for w in env.withdrawals]
+                    if env.withdrawals is not None
                     else None,
                     deposit_requests=[
                         FixtureDepositRequest.from_deposit_request(d)
@@ -359,7 +340,7 @@ class BlockchainTest(BaseTest):
                     fixture_blocks.append(fixture_block)
                     # Update env, alloc and last block hash for the next block.
                     alloc = new_alloc
-                    env = apply_new_parent(new_env, header)
+                    header.apply_to_environment(env)
                     head = header.block_hash
                 else:
                     fixture_blocks.append(
@@ -413,8 +394,8 @@ class BlockchainTest(BaseTest):
         head_hash = genesis.header.block_hash
 
         for block in self.blocks:
-            header, txs, requests, new_alloc, new_env = self.generate_block_data(
-                t8n=t8n, fork=fork, block=block, previous_env=env, previous_alloc=alloc, eips=eips
+            header, txs, requests, new_alloc = self.generate_block_data(
+                t8n=t8n, fork=fork, block=block, env=env, previous_alloc=alloc, eips=eips
             )
             if block.rlp is None:
                 fixture_payloads.append(
@@ -422,7 +403,7 @@ class BlockchainTest(BaseTest):
                         fork=fork,
                         header=header,
                         transactions=txs,
-                        withdrawals=new_env.withdrawals,
+                        withdrawals=env.withdrawals,
                         requests=requests,
                         validation_error=block.exception,
                         error_code=block.engine_api_error_code,
@@ -430,7 +411,7 @@ class BlockchainTest(BaseTest):
                 )
                 if block.exception is None:
                     alloc = new_alloc
-                    env = apply_new_parent(env, header)
+                    header.apply_to_environment(env)
                     head_hash = header.block_hash
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
         assert (
@@ -450,11 +431,11 @@ class BlockchainTest(BaseTest):
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the
             # sync process.
-            sync_header, _, requests, _, _ = self.generate_block_data(
+            sync_header, _, requests, _ = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=Block(),
-                previous_env=env,
+                env=env,
                 previous_alloc=alloc,
                 eips=eips,
             )

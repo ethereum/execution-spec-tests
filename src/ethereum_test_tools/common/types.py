@@ -726,7 +726,7 @@ class Environment(EnvironmentGeneric[Number]):
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
 
     @computed_field  # type: ignore[misc]
-    @cached_property
+    @property
     def parent_hash(self) -> Hash | None:
         """
         Obtains the latest hash according to the highest block number in
@@ -736,56 +736,54 @@ class Environment(EnvironmentGeneric[Number]):
             return None
 
         last_index = max(self.block_hashes.keys())
-        return Hash(self.block_hashes[last_index])
+        return self.block_hashes[last_index]
 
-    def set_fork_requirements(self, fork: Fork) -> "Environment":
+    def set_fork_requirements(self, fork: Fork):
         """
         Fills the required fields in an environment depending on the fork.
         """
         number = self.number
         timestamp = self.timestamp
 
-        updated_values: Dict[str, Any] = {}
-
         if fork.header_prev_randao_required(number, timestamp) and self.prev_randao is None:
-            updated_values["prev_randao"] = 0
+            self.prev_randao = Number(0)
 
         if fork.header_withdrawals_required(number, timestamp) and self.withdrawals is None:
-            updated_values["withdrawals"] = []
+            self.withdrawals = []
 
         if (
             fork.header_base_fee_required(number, timestamp)
             and self.base_fee_per_gas is None
             and self.parent_base_fee_per_gas is None
         ):
-            updated_values["base_fee_per_gas"] = DEFAULT_BASE_FEE
+            self.base_fee_per_gas = Number(DEFAULT_BASE_FEE)
 
         if fork.header_zero_difficulty_required(number, timestamp):
-            updated_values["difficulty"] = 0
+            self.difficulty = Number(0)
         elif self.difficulty is None and self.parent_difficulty is None:
-            updated_values["difficulty"] = 0x20000
+            self.difficulty = Number(0x20000)
 
         if (
             fork.header_excess_blob_gas_required(number, timestamp)
             and self.excess_blob_gas is None
             and self.parent_excess_blob_gas is None
         ):
-            updated_values["excess_blob_gas"] = 0
+            self.excess_blob_gas = Number(0)
 
         if (
             fork.header_blob_gas_used_required(number, timestamp)
             and self.blob_gas_used is None
             and self.parent_blob_gas_used is None
         ):
-            updated_values["blob_gas_used"] = 0
+            self.blob_gas_used = Number(0)
 
         if (
             fork.header_beacon_root_required(number, timestamp)
             and self.parent_beacon_block_root is None
         ):
-            updated_values["parent_beacon_block_root"] = 0
+            self.parent_beacon_block_root = Hash(0)
 
-        return self.copy(**updated_values)
+        return
 
 
 class AccessList(CamelModel):
