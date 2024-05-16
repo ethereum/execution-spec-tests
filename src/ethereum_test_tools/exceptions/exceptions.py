@@ -193,6 +193,16 @@ class EOFException(ExceptionBase):
     Expect some exception, not yet known
     """
 
+    UNDEFINED_EXCEPTION = auto()
+    """
+    Indicates that exception string is not mapped to an exception enum
+    """
+
+    UNDEFINED_INSTRUCTION = auto()
+    """
+    EOF container has undefined instruction in it's body code
+    """
+
     UNKNOWN_VERSION = auto()
     """
     EOF container has an unknown version
@@ -209,11 +219,15 @@ class EOFException(ExceptionBase):
     """
     EOF container version bytes mismatch
     """
+    INVALID_RJUMP_DESTINATION = auto()
+    """
+    Code has RJUMP instruction with invalid parameters
+    """
     MISSING_TYPE_HEADER = auto()
     """
     EOF container missing types section
     """
-    INVALID_TYPE_SIZE = auto()
+    INVALID_TYPE_SECTION_SIZE = auto()
     """
     EOF container types section has wrong size
     """
@@ -276,6 +290,22 @@ class EOFException(ExceptionBase):
     TOO_MANY_CODE_SECTIONS = auto()
     """
     EOF container header has too many code sections
+    """
+    MISSING_STOP_OPCODE = auto()
+    """
+    EOF container's code missing STOP bytecode at it's end
+    """
+    UNREACHABLE_INSTRUCTIONS = auto()
+    """
+    EOF container's code have instructions that are unreachable
+    """
+    UNREACHABLE_CODE_SECTIONS = auto()
+    """
+    EOF container's body have code sections that are unreachable
+    """
+    INVALID_DATALOADN_INDEX = auto()
+    """
+    A DATALOADN instruction has out-of-bounds index for the data section
     """
 
 
