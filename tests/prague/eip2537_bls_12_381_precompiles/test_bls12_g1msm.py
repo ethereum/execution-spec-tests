@@ -90,6 +90,10 @@ def test_valid(
             Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(Spec.Q),
             id="not_in_subgroup_2",
         ),
+        pytest.param(
+            Spec.G1,
+            id="bls_g1_truncated_input",
+        ),
     ],
     # Input length tests can be found in ./test_bls12_variable_length_input_contracts.py
 )
