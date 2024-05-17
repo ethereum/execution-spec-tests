@@ -17,7 +17,6 @@ from .conversions import (
     NumberConvertible,
     to_bytes,
     to_fixed_size_bytes,
-    to_number,
 )
 
 N = TypeVar("N", bound="Number")
@@ -50,7 +49,13 @@ class Number(int, ToStringSchema):
         """
         Creates a new Number object.
         """
-        return super(Number, cls).__new__(cls, to_number(input))
+        if isinstance(input, str):
+            return int.__new__(cls, input, 0)
+        if isinstance(input, int):
+            return int.__new__(cls, input)
+        if isinstance(input, bytes) or isinstance(input, SupportsBytes):
+            return int.__new__(cls, int.from_bytes(input, byteorder="big"))
+        raise Exception(f"invalid type for `{cls}`")
 
     def __str__(self) -> str:
         """
@@ -175,14 +180,21 @@ class FixedSizeHexNumber(int, ToStringSchema):
         """
         Creates a new Number object.
         """
-        i = to_number(input)
+        if isinstance(input, str):
+            i = int.__new__(cls, input, 0)
+        elif isinstance(input, int):
+            i = int.__new__(cls, input)
+        elif isinstance(input, bytes) or isinstance(input, SupportsBytes):
+            i = int.__new__(cls, int.from_bytes(input, byteorder="big"))
+        else:
+            raise Exception(f"invalid type for `{cls}`")
         if i > cls.max_value:
             raise ValueError(f"Value {i} is too large for {cls.byte_length} bytes")
         if i < 0:
-            i += cls.max_value + 1
+            i = int.__new__(cls, i + cls.max_value + 1)
             if i <= 0:
                 raise ValueError(f"Value {i} is too small for {cls.byte_length} bytes")
-        return super(FixedSizeHexNumber, cls).__new__(cls, i)
+        return i
 
     def __str__(self) -> str:
         """

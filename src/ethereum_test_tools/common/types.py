@@ -31,7 +31,6 @@ from pydantic import (
     ConfigDict,
     Field,
     RootModel,
-    TypeAdapter,
     computed_field,
     model_serializer,
     model_validator,
@@ -103,7 +102,6 @@ class CamelModel(CopyValidateModel):
 
 StorageKeyValueTypeConvertible = NumberConvertible
 StorageKeyValueType = HashInt
-StorageKeyValueTypeAdapter = TypeAdapter(StorageKeyValueType)
 
 
 class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
@@ -201,13 +199,13 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
     def __contains__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType) -> bool:
         """Checks for an item in the storage"""
-        return StorageKeyValueTypeAdapter.validate_python(key) in self.root
+        return StorageKeyValueType(key) in self.root
 
     def __getitem__(
         self, key: StorageKeyValueTypeConvertible | StorageKeyValueType
     ) -> StorageKeyValueType:
         """Returns an item from the storage"""
-        return self.root[StorageKeyValueTypeAdapter.validate_python(key)]
+        return self.root[StorageKeyValueType(key)]
 
     def __setitem__(
         self,
@@ -215,13 +213,11 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         value: StorageKeyValueTypeConvertible | StorageKeyValueType,
     ):  # noqa: SC200
         """Sets an item in the storage"""
-        self.root[
-            StorageKeyValueTypeAdapter.validate_python(key)
-        ] = StorageKeyValueTypeAdapter.validate_python(value)
+        self.root[StorageKeyValueType(key)] = StorageKeyValueType(value)
 
     def __delitem__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType):
         """Deletes an item from the storage"""
-        del self.root[StorageKeyValueTypeAdapter.validate_python(key)]
+        del self.root[StorageKeyValueType(key)]
 
     def __iter__(self):
         """Returns an iterator over the storage"""
@@ -260,8 +256,8 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         Increments the key counter so the next time this function is called,
         the next key is used.
         """
-        slot = StorageKeyValueTypeAdapter.validate_python(next(self._current_slot))
-        self[slot] = StorageKeyValueTypeAdapter.validate_python(value)
+        slot = StorageKeyValueType(next(self._current_slot))
+        self[slot] = StorageKeyValueType(value)
         return slot
 
     def contains(self, other: "Storage") -> bool:

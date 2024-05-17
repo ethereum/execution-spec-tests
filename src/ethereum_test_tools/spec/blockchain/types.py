@@ -384,20 +384,16 @@ class Block(Header):
             or env.parent_gas_limit
             or Environment().gas_limit
         )
-        if not isinstance(self.base_fee_per_gas, Removable):
-            env.base_fee_per_gas = (
-                Number(self.base_fee_per_gas) if self.base_fee_per_gas is not None else None
-            )
+        if self.base_fee_per_gas is not None and not isinstance(self.base_fee_per_gas, Removable):
+            env.base_fee_per_gas = Number(self.base_fee_per_gas)
         env.withdrawals = self.withdrawals
-        if not isinstance(self.excess_blob_gas, Removable):
-            env.excess_blob_gas = (
-                Number(self.excess_blob_gas) if self.excess_blob_gas is not None else None
-            )
-        if not isinstance(self.blob_gas_used, Removable):
-            env.blob_gas_used = (
-                Number(self.blob_gas_used) if self.blob_gas_used is not None else None
-            )
-        if not isinstance(self.parent_beacon_block_root, Removable):
+        if self.excess_blob_gas is not None and not isinstance(self.excess_blob_gas, Removable):
+            env.excess_blob_gas = Number(self.excess_blob_gas)
+        if self.blob_gas_used is not None and not isinstance(self.blob_gas_used, Removable):
+            env.blob_gas_used = Number(self.blob_gas_used)
+        if self.parent_beacon_block_root is not None and not isinstance(
+            self.parent_beacon_block_root, Removable
+        ):
             env.parent_beacon_block_root = self.parent_beacon_block_root
         """
         These values are required, but they depend on the previous environment,
@@ -410,7 +406,7 @@ class Block(Header):
             if len(env.block_hashes) == 0:
                 env.number = Number(0)
             else:
-                env.number = Number(max([Number(n) for n in env.block_hashes.keys()]) + 1)
+                env.number = Number(max([n for n in env.block_hashes.keys()]) + 1)
 
         if self.timestamp is not None:
             env.timestamp = Number(self.timestamp)
@@ -621,7 +617,12 @@ class FixtureBlockBase(CamelModel):
             block.append(requests.to_serializable_list())
 
         return FixtureBlock(
-            **self.model_dump(),
+            header=self.header,
+            txs=self.txs,
+            ommers=self.ommers,
+            withdrawals=self.withdrawals,
+            deposit_requests=self.deposit_requests,
+            withdrawal_requests=self.withdrawal_requests,
             rlp=eth_rlp.encode(block),
         )
 

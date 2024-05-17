@@ -73,19 +73,6 @@ def to_hex(input: BytesConvertible) -> str:
     return "0x" + to_bytes(input).hex()
 
 
-def to_number(input: NumberConvertible) -> int:
-    """
-    Converts multiple types into a number.
-    """
-    if isinstance(input, int):
-        return input
-    if isinstance(input, str):
-        return int(input, 0)
-    if isinstance(input, bytes) or isinstance(input, SupportsBytes):
-        return int.from_bytes(input, byteorder="big")
-    raise Exception("invalid type for `number`")
-
-
 def to_fixed_size_hex(input: FixedSizeBytesConvertible, size: int) -> str:
     """
     Converts multiple types into a bytes hex string.
