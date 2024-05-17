@@ -3933,6 +3933,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Macros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Macros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Macros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Macros.OOG" class="md-nav__link">
+    <span class="md-ellipsis">
+      OOG
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Opcode" class="md-nav__link">
     <span class="md-ellipsis">
       Opcode
@@ -13771,6 +13795,30 @@
   <a href="#ethereum_test_tools.Macro.__new__" class="md-nav__link">
     <span class="md-ellipsis">
       __new__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Macros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Macros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Macros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Macros.OOG" class="md-nav__link">
+    <span class="md-ellipsis">
+      OOG
     </span>
   </a>
   
@@ -31904,6 +31952,158 @@ block = Block(
         <span class="k">return</span> <span class="n">instance</span>
 </code></pre></div></td></tr></table></div>
             </details>
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_tools.Macros" class="doc doc-heading">
+            <code>Macros</code>
+
+
+<a href="#ethereum_test_tools.Macros" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.vm.opcode.Macro" href="#ethereum_test_tools.Macro">Macro</a></code>, <code><span title="enum.Enum">Enum</span></code></p>
+
+
+      <p>Enum containing all macros.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5540</span>
+<span class="normal">5541</span>
+<span class="normal">5542</span>
+<span class="normal">5543</span>
+<span class="normal">5544</span>
+<span class="normal">5545</span>
+<span class="normal">5546</span>
+<span class="normal">5547</span>
+<span class="normal">5548</span>
+<span class="normal">5549</span>
+<span class="normal">5550</span>
+<span class="normal">5551</span>
+<span class="normal">5552</span>
+<span class="normal">5553</span>
+<span class="normal">5554</span>
+<span class="normal">5555</span>
+<span class="normal">5556</span>
+<span class="normal">5557</span>
+<span class="normal">5558</span>
+<span class="normal">5559</span>
+<span class="normal">5560</span>
+<span class="normal">5561</span>
+<span class="normal">5562</span>
+<span class="normal">5563</span>
+<span class="normal">5564</span>
+<span class="normal">5565</span>
+<span class="normal">5566</span>
+<span class="normal">5567</span>
+<span class="normal">5568</span>
+<span class="normal">5569</span>
+<span class="normal">5570</span>
+<span class="normal">5571</span>
+<span class="normal">5572</span>
+<span class="normal">5573</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macros</span><span class="p">(</span><span class="n">Macro</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enum containing all macros.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">OOG</span> <span class="o">=</span> <span class="n">Macro</span><span class="p">(</span><span class="n">Opcodes</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100000000000</span><span class="p">))</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    OOG(args)</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Halt execution by consuming all available gas.</span>
+
+<span class="sd">    Inputs</span>
+<span class="sd">    ----</span>
+<span class="sd">    - any input arguments are ignored</span>
+
+<span class="sd">    Fork</span>
+<span class="sd">    ----</span>
+<span class="sd">    Frontier</span>
+
+<span class="sd">    Gas</span>
+<span class="sd">    ----</span>
+<span class="sd">    `SHA3(0, 100000000000)` results in 19073514453125027 gas used and an OOG</span>
+<span class="sd">    exception.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">    If a value &gt; `100000000000` is used as second argument, the resulting geth</span>
+<span class="sd">     trace reports gas `30` and an OOG exception.</span>
+<span class="sd">    `SHA3(0, SUB(0, 1))` causes a gas &gt; u64 exception and an OOG exception.</span>
+
+<span class="sd">    Bytecode</span>
+<span class="sd">    ----</span>
+<span class="sd">    SHA3(0, 100000000000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.Macros.OOG" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">OOG</span> <span class="o">=</span> <span class="n">Macro</span><span class="p">(</span><span class="n">Opcodes</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100000000000</span><span class="p">))</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Macros.OOG" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <h5 id="ethereum_test_tools.Macros.OOG--oogargs">OOG(args)<a class="headerlink" href="#ethereum_test_tools.Macros.OOG--oogargs" title="Permanent link">&para;</a></h5>
+<p>Halt execution by consuming all available gas.</p>
+<h5 id="ethereum_test_tools.Macros.OOG--inputs">Inputs<a class="headerlink" href="#ethereum_test_tools.Macros.OOG--inputs" title="Permanent link">&para;</a></h5>
+<ul>
+<li>any input arguments are ignored</li>
+</ul>
+<h5 id="ethereum_test_tools.Macros.OOG--fork">Fork<a class="headerlink" href="#ethereum_test_tools.Macros.OOG--fork" title="Permanent link">&para;</a></h5>
+<p>Frontier</p>
+<h5 id="ethereum_test_tools.Macros.OOG--gas">Gas<a class="headerlink" href="#ethereum_test_tools.Macros.OOG--gas" title="Permanent link">&para;</a></h5>
+<p><code>SHA3(0, 100000000000)</code> results in 19073514453125027 gas used and an OOG
+exception.</p>
+<p>Note:
+If a value &gt; <code>100000000000</code> is used as second argument, the resulting geth
+ trace reports gas <code>30</code> and an OOG exception.
+<code>SHA3(0, SUB(0, 1))</code> causes a gas &gt; u64 exception and an OOG exception.</p>
+<h5 id="ethereum_test_tools.Macros.OOG--bytecode">Bytecode<a class="headerlink" href="#ethereum_test_tools.Macros.OOG--bytecode" title="Permanent link">&para;</a></h5>
+<p>SHA3(0, 100000000000)</p>
     </div>
 
 </div>
