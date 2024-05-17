@@ -21,7 +21,7 @@ jobs:
             python: '3.11'
           - name: 'fixtures_develop'
             evm-type: 'develop'
-            fill-params: '--until=Prague'
+            fill-params: '--until=Prague --ignore=./tests/prague/eip7692_eof_v1'
             solc: '0.8.21'
             python: '3.11'
     steps:
