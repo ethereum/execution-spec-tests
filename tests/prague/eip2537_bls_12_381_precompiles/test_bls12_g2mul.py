@@ -162,6 +162,18 @@ def test_valid(
             Spec.P2_NOT_IN_SUBGROUP + Scalar(Spec.Q),
             id="bls_g2mul_not_in_subgroup_times_q",
         ),
+        pytest.param(
+            Spec.G1 + Spec.G1,
+            id="bls_g1_add_input_invalid_length",
+        ),
+        pytest.param(
+            Spec.G2 + Spec.G2,
+            id="bls_g2_add_input_invalid_length",
+        ),
+        pytest.param(
+            Spec.G2,
+            id="bls_g2_truncated_input",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
