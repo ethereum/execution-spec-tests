@@ -73,6 +73,7 @@ def test_valid(
         pytest.param(b"", id="zero_length_input"),
         pytest.param(FP(Spec.P), id="fq_eq_q"),
         pytest.param(FP(2**512 - 1), id="fq_eq_2_512_minus_1"),
+        pytest.param(Spec.G1, id="g1_point_input"),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])

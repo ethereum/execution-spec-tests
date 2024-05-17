@@ -145,6 +145,14 @@ def test_valid(
             b"",
             id="zero_length_input",
         ),
+        pytest.param(
+            Spec.G2,
+            id="only_one_point",
+        ),
+        pytest.param(
+            Spec.G1 + Spec.G1,
+            id="g1_points",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
