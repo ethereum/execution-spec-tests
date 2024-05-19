@@ -24,6 +24,7 @@ plugins:
   - gen-files:
       scripts:
         - docs/gen_test_case_reference.py
+        - docs/gen_tool_specs_types.py
   - literate-nav:
       nav_file: navigation.md
 

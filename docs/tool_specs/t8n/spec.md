@@ -5,7 +5,7 @@ Each client is required to implement the `evm t8n` tool, which is used to genera
 
 **Format**: `[env] [txs] [prestate] -> [postEnv] [postState]`
 
-## EVM T8N CLI:
+## EVM T8N CLI
 
 **Usage:**
 
@@ -47,4 +47,12 @@ Outputs:
   --output.errorlog path/file (optional)
   --help
 	   Print options help message
+```
 
+## EVM T8N Server
+
+**Usage:**
+
+    evm-t8n-server [command options] [arguments...]
+
+**Options:**
