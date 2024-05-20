@@ -85,7 +85,7 @@ class Number(int, ToStringSchema):
         json_schema = {}
         json_schema["title"] = "number"
         json_schema["type"] = "string"
-        json_schema["pattern"] = "^[0-9]+$"
+        json_schema["pattern"] = "^([0-9]|[1-9][0-9]+)$"
         return json_schema
 
 
@@ -140,7 +140,7 @@ class ZeroPaddedHexNumber(HexNumber):
         json_schema = {}
         json_schema["title"] = "zero padded hex number"
         json_schema["type"] = "string"
-        json_schema["pattern"] = "^0x[0-9a-fA-F]{2,}$"
+        json_schema["pattern"] = "^0x([0-9a-fA-F]{2})*$"
         return json_schema
 
 
@@ -197,7 +197,7 @@ class Bytes(bytes, ToStringSchema):
         json_schema = {}
         json_schema["title"] = "hex encoded bytes"
         json_schema["type"] = "string"
-        json_schema["pattern"] = "^0x[0-9a-fA-F]*$"
+        json_schema["pattern"] = "^0x([0-9a-fA-F]{2})*$"
         return json_schema
 
 
