@@ -5,7 +5,7 @@ Test suite for `ethereum_test` module.
 from typing import Any, Dict, List
 
 import pytest
-from pydantic import TypeAdapter
+from pydantic import BaseModel, TypeAdapter
 
 from ..common import (
     AccessList,
@@ -19,7 +19,15 @@ from ..common import (
 from ..common.base_types import Address, Bloom, Bytes, Hash, HeaderNonce, ZeroPaddedHexNumber
 from ..common.constants import TestAddress, TestAddress2, TestPrivateKey
 from ..common.json import to_json
-from ..common.types import Alloc, DepositRequest, Requests
+from ..common.types import (
+    Alloc,
+    DepositRequest,
+    RejectedTransaction,
+    Requests,
+    Result,
+    TransactionLog,
+    TransitionToolOutput,
+)
 from ..exceptions import BlockException, TransactionException
 from ..spec.blockchain.types import (
     FixtureBlockBase,
@@ -1735,3 +1743,20 @@ def test_parsing(json_str: str, type_adapter: TypeAdapter, expected: Any):
     Test that parsing the given JSON string returns the expected object.
     """
     assert type_adapter.validate_json(json_str) == expected
+
+
+@pytest.mark.parametrize(
+    "model",
+    [
+        pytest.param(Environment, id="Environment"),
+        pytest.param(RejectedTransaction, id="RejectedTransaction"),
+        pytest.param(Result, id="Result"),
+        pytest.param(TransactionLog, id="TransactionLog"),
+        pytest.param(TransitionToolOutput, id="TransitionToolOutput"),
+    ],
+)
+def test_json_schemas(model: BaseModel):
+    """
+    Test that the JSON schema for the given model can be generated without errors.
+    """
+    assert model.model_json_schema()
