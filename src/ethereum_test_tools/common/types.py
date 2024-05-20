@@ -858,7 +858,8 @@ class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
 class Withdrawal(WithdrawalGeneric[HexNumber]):
     """
-    Withdrawal type
+    Withdrawal type used to define a withdrawal operation from the beacon chain to be
+    included in a block.
     """
 
     pass
