@@ -4,8 +4,10 @@ Basic type primitives used to define other types.
 
 from typing import Any, ClassVar, SupportsBytes, Type, TypeVar
 
-from pydantic import GetCoreSchemaHandler
+from pydantic import GetCoreSchemaHandler, GetJsonSchemaHandler
+from pydantic.json_schema import JsonSchemaValue
 from pydantic_core.core_schema import (
+    CoreSchema,
     PlainValidatorFunctionSchema,
     no_info_plain_validator_function,
     to_string_ser_schema,
@@ -73,6 +75,19 @@ class Number(int, ToStringSchema):
             return input
         return cls(input)
 
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the Number type.
+        """
+        json_schema = {}
+        json_schema["title"] = "number"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^[0-9]+$"
+        return json_schema
+
 
 class HexNumber(Number):
     """
@@ -84,6 +99,19 @@ class HexNumber(Number):
         Returns the string representation of the number.
         """
         return self.hex()
+
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the HexNumber type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex number"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x([0-9a-fA-F]{1}|[1-9a-fA-F]{1}[0-9a-fA-F]+)$"
+        return json_schema
 
 
 class ZeroPaddedHexNumber(HexNumber):
@@ -101,6 +129,19 @@ class ZeroPaddedHexNumber(HexNumber):
         if len(hex_str) % 2 == 1:
             return "0x0" + hex_str
         return "0x" + hex_str
+
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the ZeroPaddedHexNumber type.
+        """
+        json_schema = {}
+        json_schema["title"] = "zero padded hex number"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]{2,}$"
+        return json_schema
 
 
 NumberBoundTypeVar = TypeVar("NumberBoundTypeVar", Number, HexNumber, ZeroPaddedHexNumber)
@@ -145,6 +186,19 @@ class Bytes(bytes, ToStringSchema):
         if input is None:
             return input
         return cls(input)
+
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the Bytes type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex encoded bytes"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]*$"
+        return json_schema
 
 
 S = TypeVar("S", bound="FixedSizeHexNumber")
@@ -209,7 +263,18 @@ class HashInt(FixedSizeHexNumber[32]):  # type: ignore
     Class that helps represent hashes in tests.
     """
 
-    pass
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the HashInt type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex number"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x([0-9a-fA-F]{1}|[1-9a-fA-F]{1}[0-9a-fA-F]+)$"
+        return json_schema
 
 
 T = TypeVar("T", bound="FixedSizeBytes")
@@ -283,13 +348,37 @@ class Address(FixedSizeBytes[20]):  # type: ignore
 
     label: str | None = None
 
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the Address type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex encoded address"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]{40}$"
+        return json_schema
+
 
 class Hash(FixedSizeBytes[32]):  # type: ignore
     """
     Class that helps represent hashes in tests.
     """
 
-    pass
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the Hash type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex encoded hash"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]{64}$"
+        return json_schema
 
 
 class Bloom(FixedSizeBytes[256]):  # type: ignore
@@ -297,7 +386,18 @@ class Bloom(FixedSizeBytes[256]):  # type: ignore
     Class that helps represent blooms in tests.
     """
 
-    pass
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the Bloom type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex encoded bloom"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]{512}$"
+        return json_schema
 
 
 class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
@@ -305,7 +405,18 @@ class HeaderNonce(FixedSizeBytes[8]):  # type: ignore
     Class that helps represent the header nonce in tests.
     """
 
-    pass
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the HeaderNonce type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex encoded header nonce"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]{16}$"
+        return json_schema
 
 
 class BLSPublicKey(FixedSizeBytes[48]):  # type: ignore
@@ -313,7 +424,18 @@ class BLSPublicKey(FixedSizeBytes[48]):  # type: ignore
     Class that helps represent BLS public keys in tests.
     """
 
-    pass
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the BLSPublicKey type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex encoded BLS public key"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]{96}$"
+        return json_schema
 
 
 class BLSSignature(FixedSizeBytes[96]):  # type: ignore
@@ -321,4 +443,15 @@ class BLSSignature(FixedSizeBytes[96]):  # type: ignore
     Class that helps represent BLS signatures in tests.
     """
 
-    pass
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the BLSSignature type.
+        """
+        json_schema = {}
+        json_schema["title"] = "hex encoded BLS signature"
+        json_schema["type"] = "string"
+        json_schema["pattern"] = "^0x[0-9a-fA-F]{192}$"
+        return json_schema
