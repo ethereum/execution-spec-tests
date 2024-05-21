@@ -110,7 +110,7 @@ class HexNumber(Number):
         json_schema = {}
         json_schema["title"] = "hex number"
         json_schema["type"] = "string"
-        json_schema["pattern"] = "^0x([0-9a-fA-F]{1}|[1-9a-fA-F]{1}[0-9a-fA-F]+)$"
+        json_schema["pattern"] = "^0x([0-9a-fA-F]|[1-9a-fA-F][0-9a-fA-F]+)$"
         return json_schema
 
 
@@ -273,7 +273,7 @@ class HashInt(FixedSizeHexNumber[32]):  # type: ignore
         json_schema = {}
         json_schema["title"] = "hex number"
         json_schema["type"] = "string"
-        json_schema["pattern"] = "^0x([0-9a-fA-F]{1}|[1-9a-fA-F]{1}[0-9a-fA-F]+)$"
+        json_schema["pattern"] = "^0x([0-9a-fA-F]|[1-9a-fA-F][0-9a-fA-F]+)$"
         return json_schema
 
 
