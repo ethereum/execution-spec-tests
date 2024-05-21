@@ -1,11 +1,11 @@
 
 # Ethereum EVM Transition Tool Specs
 
-Each client is required to implement the `evm t8n` tool, which is used to generate tests by calculating the simple state transition.
+Each client is encouraged to implement the `evm t8n` tool, which is used to generate tests by calculating the simple state transition.
 
 **Format**: `[env] [txs] [prestate] -> [postEnv] [postState]`
 
-## EVM T8N CLI
+## Command Line Interface
 
 **Usage:**
 
