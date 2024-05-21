@@ -6,11 +6,12 @@ abstract: Tests [EIP-6800: Ethereum state using a unified verkle tree]
 """
 
 import pytest
-from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
     Account,
     Address,
+    Block,
+    BlockchainTestFiller,
     Environment,
     Initcode,
     TestAddress,
@@ -19,15 +20,13 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..temp_verkle_helpers import (
-    AccountHeaderEntry,
-    vkt_chunkify,
-    vkt_key_code_chunk,
-    vkt_key_header,
-)
+# TODO(verkle): Update reference spec version
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6800.md"
+REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 
-@pytest.mark.valid_from("Osaka")
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
     "bytecode",
     [
@@ -41,7 +40,9 @@ from ..temp_verkle_helpers import (
     [0, 1],
     ids=["zero", "non_zero"],
 )
-def test_contract_creation(state_test, fork, value, bytecode):
+def test_contract_creation(
+    blockchain_test: BlockchainTestFiller, fork: str, value: int, bytecode: str
+):
     """
     Test that contract creation works as expected.
     """
@@ -66,21 +67,20 @@ def test_contract_creation(state_test, fork, value, bytecode):
         value=value,
         data=Initcode(deploy_code=bytecode),
     )
+    blocks = [Block(txs=[tx])]
 
     contract_address = compute_create_address(TestAddress, tx.nonce)
-    code_chunks = vkt_chunkify(bytecode)
 
-    post = {}
-    post[vkt_key_header(contract_address, AccountHeaderEntry.VERSION)] = 0
-    post[vkt_key_header(contract_address, AccountHeaderEntry.BALANCE)] = value
-    post[vkt_key_header(contract_address, AccountHeaderEntry.CODE_HASH)] = keccak256(bytecode)
-    post[vkt_key_header(contract_address, AccountHeaderEntry.CODE_SIZE)] = len(bytecode)
-    for i, chunk in enumerate(code_chunks):
-        post[vkt_key_code_chunk(contract_address, i)] = chunk
+    post = {
+        contract_address: Account(
+            balance=value,
+            code=bytecode,
+        ),
+    }
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post=post,
-        tx=tx,
+        blocks=blocks,
     )
