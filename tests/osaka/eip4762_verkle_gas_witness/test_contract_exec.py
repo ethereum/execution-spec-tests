@@ -10,6 +10,8 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Address,
+    Block,
+    BlockchainTestFiller,
     Environment,
     TestAddress,
     TestAddress2,
@@ -37,7 +39,7 @@ precompile_address = Address("0x09")
     ],
     ids=["header_single_chunk"],
 )
-def test_transfer(state_test, fork, bytecode):
+def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, bytecode):
     """
     Test that value transfer generates a correct witness.
     """
@@ -62,17 +64,21 @@ def test_transfer(state_test, fork, bytecode):
         gas_limit=100000000,
         gas_price=10,
     )
+    blocks = [Block(txs=[tx])]
+
     code_chunks = vkt_chunkify(bytecode)
     assert len(code_chunks) > 1
 
-    witness_keys = {}
+    witness_keys = {
+        vkt_key_code_chunk(TestAddress2, 0): code_chunks[0],
+    }
     vkt_add_all_headers_present(witness_keys, TestAddress)
     vkt_add_all_headers_present(witness_keys, TestAddress2)
-    witness_keys[vkt_key_code_chunk(TestAddress2, 0)] = code_chunks[0]
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
-        tx=tx,
+        post={},
+        blocks=blocks,
         witness_keys=witness_keys,
     )

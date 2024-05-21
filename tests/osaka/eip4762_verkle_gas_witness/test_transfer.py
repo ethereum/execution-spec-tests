@@ -5,11 +5,15 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
     (https://eips.ethereum.org/EIPS/eip-4762).
 """
 
+from typing import Dict
+
 import pytest
 
 from ethereum_test_tools import (
     Account,
     Address,
+    Block,
+    BlockchainTestFiller,
     Environment,
     TestAddress,
     TestAddress2,
@@ -40,7 +44,7 @@ precompile_address = Address("0x09")
     [0, 0.6],
     ids=["zero", "non_zero"],
 )
-def test_transfer(state_test, fork, target, value):
+def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, value):
     """
     Test that value transfer generates a correct witness.
     """
@@ -65,23 +69,24 @@ def test_transfer(state_test, fork, target, value):
         gas_price=10,
         value=value,
     )
-    witness_keys = {}
+    blocks = [Block(txs=[tx])]
 
+    witness_keys: Dict[str, int | bytes] = {}
     witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.VERSION)] = 0
     witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.BALANCE)] = sender_balance
     witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.NONCE)] = 0
     witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.CODE_HASH)] = bytes([0] * 32)
     witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.CODE_SIZE)] = 0
-
     witness_keys[vkt_key_header(target, AccountHeaderEntry.VERSION)] = 0
     witness_keys[vkt_key_header(target, AccountHeaderEntry.BALANCE)] = value
     witness_keys[vkt_key_header(target, AccountHeaderEntry.NONCE)] = 0
     witness_keys[vkt_key_header(target, AccountHeaderEntry.CODE_HASH)] = bytes([0] * 32)
     witness_keys[vkt_key_header(target, AccountHeaderEntry.CODE_SIZE)] = 0
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
-        tx=tx,
+        post={},
+        blocks=blocks,
         witness_keys=witness_keys,
     )
