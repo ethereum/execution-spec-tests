@@ -19,10 +19,15 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from ..temp_verkle_helpers import vkt_add_all_headers_present, vkt_chunkify, vkt_key_code_chunk
 
+# TODO(verkle): Update reference spec version
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
+REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
+
 precompile_address = Address("0x09")
 
 
-@pytest.mark.valid_from("Osaka")
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
     "bytecode",
     # Note: This is only containing 1 out of ~12 cases that we should create,

@@ -18,10 +18,15 @@ from ethereum_test_tools import (
 
 from ..temp_verkle_helpers import AccountHeaderEntry, vkt_key_header
 
+# TODO(verkle): Update reference spec version
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
+REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
+
 precompile_address = Address("0x09")
 
 
-@pytest.mark.valid_from("Osaka")
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
     "target",
     [

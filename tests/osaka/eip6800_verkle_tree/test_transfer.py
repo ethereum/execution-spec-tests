@@ -10,6 +10,8 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Address,
+    Block,
+    BlockchainTestFiller,
     Environment,
     TestAddress,
     TestAddress2,
@@ -18,10 +20,15 @@ from ethereum_test_tools import (
 
 from ..temp_verkle_helpers import AccountHeaderEntry, vkt_key_header
 
+# TODO(verkle): Update reference spec version
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6800.md"
+REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
+
 precompile_address = Address("0x09")
 
 
-@pytest.mark.valid_from("Osaka")
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
     "target",
     [
@@ -35,7 +42,7 @@ precompile_address = Address("0x09")
     [0, 0.6],
     ids=["zero", "non_zero"],
 )
-def test_transfer(state_test, fork, target, value):
+def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, value):
     """
     Test that value transfer works as expected targeting accounts and precompiles.
     """
@@ -59,11 +66,14 @@ def test_transfer(state_test, fork, target, value):
         gas_price=10,
         value=value,
     )
+    blocks = [Block(txs=[tx])]
+
     post = {}
     post[vkt_key_header(target, AccountHeaderEntry.BALANCE)] = value
-    state_test(
-        env=env,
+
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post=post,
-        tx=tx,
+        blocks=blocks,
     )
