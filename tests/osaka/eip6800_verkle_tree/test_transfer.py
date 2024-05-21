@@ -18,8 +18,6 @@ from ethereum_test_tools import (
     Transaction,
 )
 
-from ..temp_verkle_helpers import AccountHeaderEntry, vkt_key_header
-
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6800.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -68,8 +66,11 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, valu
     )
     blocks = [Block(txs=[tx])]
 
-    post = {}
-    post[vkt_key_header(target, AccountHeaderEntry.BALANCE)] = value
+    post = {
+        target: Account(
+            balance=value,
+        ),
+    }
 
     blockchain_test(
         genesis_environment=env,
