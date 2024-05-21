@@ -111,7 +111,7 @@ StorageKeyValueTypeAdapter = TypeAdapter(StorageKeyValueType)
 
 class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
     """
-    Definition of a storage in pre or post state of a test
+    Definition of the storage of an account in the pre or post state of a test.
     """
 
     root: Dict[StorageKeyValueType, StorageKeyValueType] = Field(default_factory=dict)
@@ -324,6 +324,19 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             elif other[key] != 0:
                 raise Storage.KeyValueMismatch(address=address, key=key, want=0, got=other[key])
 
+    @classmethod
+    def model_json_example(cls) -> BaseModel | RootModel:
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            root={
+                0: 1,  # type: ignore
+                1: 2,  # type: ignore
+                2: 3,  # type: ignore
+            }
+        )
+
 
 class Account(CopyValidateModel):
     """
@@ -502,6 +515,18 @@ class Account(CopyValidateModel):
         kwargs.update(to_kwargs_dict(account_2))
 
         return cls(**kwargs)
+
+    @classmethod
+    def model_json_example(cls) -> "Account":
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            nonce=0,
+            balance=1,
+            code=b"\x02",
+            storage=Storage.model_json_example(),
+        )
 
 
 class EOA(Address):
@@ -822,6 +847,19 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
 
         self[address] = Account(balance=amount)
 
+    @classmethod
+    def model_json_example(cls) -> "Alloc":
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            root={
+                Address(0): Account.model_json_example(),
+                Address(1): Account.model_json_example(),
+                Address(2): Account.model_json_example(),
+            }
+        )
+
 
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     """
@@ -862,7 +900,17 @@ class Withdrawal(WithdrawalGeneric[HexNumber]):
     included in a block.
     """
 
-    pass
+    @classmethod
+    def model_json_example(cls) -> "Withdrawal":
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            index=0,
+            validator_index=1,
+            address=Address(0x2),
+            amount=3,
+        )
 
 
 DEFAULT_BASE_FEE = 7
@@ -876,6 +924,7 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     fee_recipient: Address = Field(
         Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
         alias="currentCoinbase",
+        title="Fee Recipient",
     )
     gas_limit: NumberBoundTypeVar = Field(
         100_000_000_000_000_000, alias="currentGasLimit"
@@ -900,7 +949,7 @@ class Environment(EnvironmentGeneric[Number]):
     must be executed.
     """
 
-    blob_gas_used: Number | None = Field(None, alias="currentBlobGasUsed")
+    blob_gas_used: Number | None = Field(None, alias="currentBlobGasUsed", title="Blob Gas Used")
     parent_ommers_hash: Hash = Field(Hash(0), alias="parentUncleHash")
     parent_blob_gas_used: Number | None = Field(None)
     parent_excess_blob_gas: Number | None = Field(None)
@@ -973,6 +1022,32 @@ class Environment(EnvironmentGeneric[Number]):
 
         return self.copy(**updated_values)
 
+    @classmethod
+    def model_json_example(cls) -> BaseModel | RootModel:
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            number=2,
+            prev_randao=1,
+            difficulty=0x20000,
+            base_fee_per_gas=7,
+            excess_blob_gas=0,
+            blob_gas_used=0,
+            parent_timestamp=0,
+            parent_gas_used=0,
+            parent_gas_limit=1_000_000,
+            parent_difficulty=0x20000,
+            parent_base_fee_per_gas=7,
+            parent_excess_blob_gas=0,
+            parent_blob_gas_used=0,
+            parent_beacon_block_root=0,
+            block_hashes={0: 1, 1: 2},
+            withdrawals=[
+                Withdrawal.model_json_example(),
+            ],
+        )
+
 
 class AccessList(CamelModel):
     """
@@ -987,6 +1062,16 @@ class AccessList(CamelModel):
         Returns the access list as a list of serializable elements.
         """
         return [self.address, self.storage_keys]
+
+    @classmethod
+    def model_json_example(cls) -> "AccessList":
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            address=Address(0x2),
+            storage_keys=[1, 2],
+        )
 
 
 class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
@@ -1161,6 +1246,23 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         if "nonce" not in self.model_fields_set and self.sender is not None:
             self.nonce = HexNumber(self.sender.get_nonce())
+
+    @classmethod
+    def model_json_example(cls) -> "Transaction":
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            # TODO: Expand
+            ty=0,
+            chain_id=1,
+            nonce=0,
+            gas_price=10,
+            gas_limit=21_000,
+            to=Address(0xAA),
+            value=0,
+            data=b"",
+        )
 
     def with_error(
         self, error: List[TransactionException] | TransactionException
@@ -1599,6 +1701,23 @@ class TransactionLog(CamelModel):
     log_index: HexNumber
     removed: bool
 
+    @classmethod
+    def model_json_example(cls) -> BaseModel | RootModel:
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            address=1,
+            topics=[2],
+            data=b"\x03",
+            block_number=4,
+            transaction_hash=5,
+            transaction_index=6,
+            block_hash=7,
+            log_index=8,
+            removed=True,
+        )
+
 
 class TransactionReceipt(CamelModel):
     """
@@ -1607,7 +1726,7 @@ class TransactionReceipt(CamelModel):
 
     transaction_hash: Hash
     gas_used: HexNumber
-    root: Bytes | None = None
+    root: Hash | None = None
     status: HexNumber | None = None
     cumulative_gas_used: HexNumber | None = None
     logs_bloom: Bloom | None = None
@@ -1619,6 +1738,29 @@ class TransactionReceipt(CamelModel):
     blob_gas_used: HexNumber | None = None
     blob_gas_price: HexNumber | None = None
 
+    @classmethod
+    def model_json_example(cls) -> BaseModel | RootModel:
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            transaction_hash=1,
+            gas_used=2,
+            root=3,
+            status=4,
+            cumulative_gas_used=5,
+            logs_bloom=6,
+            logs=[
+                TransactionLog.model_json_example(),
+            ],
+            contract_address=9,
+            effective_gas_price=10,
+            block_hash=11,
+            transaction_index=12,
+            blob_gas_used=13,
+            blob_gas_price=14,
+        )
+
 
 class RejectedTransaction(CamelModel):
     """
@@ -1627,6 +1769,13 @@ class RejectedTransaction(CamelModel):
 
     index: HexNumber
     error: str
+
+    @classmethod
+    def model_json_example(cls) -> BaseModel | RootModel:
+        """
+        Returns a JSON example.
+        """
+        return cls(index=0, error="error")
 
 
 class Result(CamelModel):
@@ -1654,11 +1803,47 @@ class Result(CamelModel):
     deposit_requests: List[DepositRequest] | None = None
     withdrawal_requests: List[WithdrawalRequest] | None = None
 
+    @classmethod
+    def model_json_example(cls) -> BaseModel | RootModel:
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            state_root=1,
+            ommers_hash=2,
+            transactions_trie=3,
+            receipts_root=4,
+            logs_hash=5,
+            logs_bloom=6,
+            receipts=[
+                TransactionReceipt.model_json_example(),
+            ],
+            rejected_transactions=[
+                RejectedTransaction.model_json_example(),
+            ],
+            difficulty=7,
+            gas_used=8,
+            base_fee_per_gas=9,
+            withdrawals_root=10,
+            excess_blob_gas=11,
+            blob_gas_used=12,
+        )
+
 
 class TransitionToolOutput(CamelModel):
     """
     Transition tool output
     """
 
-    alloc: Alloc
+    alloc: Alloc = Field(..., description="State allocation after the transition")
     result: Result
+
+    @classmethod
+    def model_json_example(cls) -> "TransitionToolOutput":
+        """
+        Returns a JSON example.
+        """
+        return cls(
+            alloc=Alloc.model_json_example(),
+            result=Result.model_json_example(),
+        )
