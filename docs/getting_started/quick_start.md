@@ -81,7 +81,8 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
         Check:
 
         1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
-        2. The corresponding fixture file has been generated:
+        2. The generated HTML test report by clicking the link at the bottom of the console output.
+        3. The corresponding fixture file has been generated:
 
             ```console
             head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json

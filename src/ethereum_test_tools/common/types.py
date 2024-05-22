@@ -167,7 +167,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
         def __str__(self):
             """Print exception string"""
-            return "key {0} not found in storage".format(Storage.key_value_to_string(self.key))
+            return "key {0} not found in storage".format(Hash(self.key))
 
     @dataclass(kw_only=True)
     class KeyValueMismatch(Exception):
@@ -192,9 +192,9 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             """Print exception string"""
             return (
                 f"incorrect value in address {self.address} for "
-                + f"key {Storage.key_value_to_string(self.key)}:"
-                + f" want {Storage.key_value_to_string(self.want)} (dec:{self.want}),"
-                + f" got {Storage.key_value_to_string(self.got)} (dec:{self.got})"
+                + f"key {Hash(self.key)}:"
+                + f" want {HexNumber(self.want)} (dec:{self.want}),"
+                + f" got {HexNumber(self.got)} (dec:{self.got})"
             )
 
     def __contains__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType) -> bool:
@@ -1244,22 +1244,38 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 # Transition tool models
 
 
+class TransactionLog(CamelModel):
+    """
+    Transaction log
+    """
+
+    address: Address
+    topics: List[Hash]
+    data: Bytes
+    block_number: HexNumber
+    transaction_hash: Hash
+    transaction_index: HexNumber
+    block_hash: Hash
+    log_index: HexNumber
+    removed: bool
+
+
 class TransactionReceipt(CamelModel):
     """
     Transaction receipt
     """
 
-    root: Bytes
-    status: HexNumber
-    cumulative_gas_used: HexNumber
-    logs_bloom: Bloom
-    logs: List[Dict[str, str]] | None = None
     transaction_hash: Hash
-    contract_address: Address
     gas_used: HexNumber
+    root: Bytes | None = None
+    status: HexNumber | None = None
+    cumulative_gas_used: HexNumber | None = None
+    logs_bloom: Bloom | None = None
+    logs: List[TransactionLog] | None = None
+    contract_address: Address | None = None
     effective_gas_price: HexNumber | None = None
-    block_hash: Hash
-    transaction_index: HexNumber
+    block_hash: Hash | None = None
+    transaction_index: HexNumber | None = None
     blob_gas_used: HexNumber | None = None
     blob_gas_price: HexNumber | None = None
 
