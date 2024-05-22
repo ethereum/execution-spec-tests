@@ -8,7 +8,15 @@ from ethereum_test_tools import Account, Environment, StateTestFiller, TestAddre
 from ethereum_test_tools.vm.opcode import Opcodes
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .helpers import default_address, simple_transaction, smallest_initcode_subcontainer
+from .helpers import (
+    default_address,
+    simple_transaction,
+    smallest_initcode_subcontainer,
+    slot_create_address,
+    slot_code_worked,
+    value_code_worked,
+    value_create_failed,
+)
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7620.md"
@@ -41,14 +49,21 @@ def test_cross_version_creates_fail(
             + bytes(smallest_initcode_subcontainer)
             + Op.JUMPDEST
             + Op.CODECOPY(0, 3, eof_container_size)
-            + Op.SSTORE(0, legacy_code_factory(eof_container_size))
-            + Op.SSTORE(1, 1)
+            + Op.SSTORE(slot_create_address, legacy_code_factory(eof_container_size))
+            + Op.SSTORE(slot_code_worked, value_code_worked)
             + Op.STOP
         ),
     }
     # Storage in 0 should be empty as the create/create2 should fail,
     # and 1 in 1 to show execution continued and did not halt
-    post = {default_address: Account(storage={1: 1})}
+    post = {
+        default_address: Account(
+            storage={
+                slot_create_address: value_create_failed,
+                slot_code_worked: value_code_worked,
+            }
+        )
+    }
 
     state_test(env=env, pre=pre, post=post, tx=simple_transaction())
 
@@ -83,8 +98,8 @@ def test_legacy_initcode_eof_contract_fails(
         + bytes(init_code)
         + Op.JUMPDEST
         + Op.CODECOPY(0, 3, init_code_size)
-        + Op.SSTORE(0, legacy_code_factory(init_code_size))
-        + Op.SSTORE(1, 1)
+        + Op.SSTORE(slot_create_address, legacy_code_factory(init_code_size))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
     )
 
     pre = {
@@ -93,6 +108,10 @@ def test_legacy_initcode_eof_contract_fails(
     }
     # Storage in 0 should be empty as the final CREATE filed
     # and 1 in 1 to show execution continued and did not halt
-    post = {default_address: Account(storage={1: 1})}
+    post = {
+        default_address: Account(
+            storage={slot_create_address: value_create_failed, slot_code_worked: value_code_worked}
+        )
+    }
 
     state_test(env=env, pre=pre, post=post, tx=simple_transaction())

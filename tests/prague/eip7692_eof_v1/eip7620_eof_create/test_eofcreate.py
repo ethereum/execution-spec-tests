@@ -21,6 +21,16 @@ from .helpers import (
     simple_transaction,
     smallest_initcode_subcontainer,
     smallest_runtime_subcontainer,
+    slot_create_address,
+    slot_code_worked,
+    value_code_worked,
+    value_canary_to_be_overwritten,
+    slot_calldata,
+    slot_call_result,
+    slot_returndata_size,
+    value_call_result_success,
+    slot_last_slot,
+    value_create_failed,
 )
 from .spec import EOF_FORK_NAME
 
@@ -77,7 +87,7 @@ def test_eofcreate_then_call(
     callable_contract = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(0, 1) + Op.STOP,
+                code=Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=2,
@@ -103,9 +113,9 @@ def test_eofcreate_then_call(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0))
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
                         + Op.EXTCALL(callable_address, 0, 0, 0)
-                        + Op.SSTORE(1, 1)
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
                         + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
@@ -119,8 +129,10 @@ def test_eofcreate_then_call(
     # Storage in 0 should have the address,
     #
     post = {
-        default_address: Account(storage={0: callable_address, 1: 1}),
-        callable_address: Account(storage={0: 1}),
+        default_address: Account(
+            storage={slot_create_address: callable_address, slot_code_worked: value_code_worked}
+        ),
+        callable_address: Account(storage={slot_code_worked: value_code_worked}),
     }
 
     state_test(env=env, pre=pre, post=post, tx=simple_transaction())
@@ -172,7 +184,7 @@ def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.STOP,
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=4,
@@ -180,7 +192,7 @@ def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
                     Section.Container(container=initcode_subcontainer),
                 ]
             ),
-            storage={0: 0xB17D},  # a canary to be overwritten
+            storage={slot_create_address: value_canary_to_be_overwritten},
         ),
     }
 
@@ -188,7 +200,9 @@ def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
     post = {
         default_address: Account(
             storage={
-                0: compute_eofcreate_address(default_address, 0, initcode_subcontainer)
+                slot_create_address: compute_eofcreate_address(
+                    default_address, 0, initcode_subcontainer
+                )
                 if auxdata_size >= 12
                 else b"\0"
             }
@@ -209,7 +223,7 @@ def test_calldata(state_test: StateTestFiller):
         sections=[
             Section.Code(
                 code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-                + Op.SSTORE(0, Op.MLOAD(0))
+                + Op.SSTORE(slot_calldata, Op.MLOAD(0))
                 + Op.RETURNCONTRACT[0](0, Op.CALLDATASIZE),
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
@@ -229,7 +243,7 @@ def test_calldata(state_test: StateTestFiller):
                 sections=[
                     Section.Code(
                         code=Op.MSTORE(0, calldata)
-                        + Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, calldata_size))
+                        + Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, calldata_size))
                         + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
@@ -253,8 +267,8 @@ def test_calldata(state_test: StateTestFiller):
     # created contract storage in 0 should have the calldata
     created_address = compute_eofcreate_address(default_address, 0, initcode_subcontainer)
     post = {
-        default_address: Account(storage={0: created_address}),
-        created_address: Account(code=deployed_contract, storage={0: calldata}),
+        default_address: Account(storage={slot_create_address: created_address}),
+        created_address: Account(code=deployed_contract, storage={slot_calldata: calldata}),
     }
 
     state_test(env=env, pre=pre, post=post, tx=simple_transaction())
@@ -269,8 +283,8 @@ def test_eofcreate_in_initcode(
     nested_initcode_subcontainer = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0))
-                + Op.SSTORE(1, 1)
+                code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.RETURNCONTRACT[1](0, 0),
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
@@ -288,7 +302,9 @@ def test_eofcreate_in_initcode(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.STOP,
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
+                        + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=4,
@@ -302,8 +318,12 @@ def test_eofcreate_in_initcode(
     outer_address = compute_eofcreate_address(default_address, 0, nested_initcode_subcontainer)
     inner_address = compute_eofcreate_address(outer_address, 0, smallest_initcode_subcontainer)
     post = {
-        default_address: Account(storage={0: outer_address, 1: 1}),
-        outer_address: Account(storage={0: inner_address, 1: 1}),
+        default_address: Account(
+            storage={slot_create_address: outer_address, slot_code_worked: value_code_worked}
+        ),
+        outer_address: Account(
+            storage={slot_create_address: inner_address, slot_code_worked: value_code_worked}
+        ),
     }
 
     state_test(env=env, pre=pre, post=post, tx=simple_transaction())
@@ -318,7 +338,9 @@ def test_eofcreate_in_initcode_reverts(
     nested_initcode_subcontainer = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.REVERT(0, 0),
+                code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                + Op.SSTORE(slot_code_worked, value_code_worked)
+                + Op.REVERT(0, 0),
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=4,
@@ -335,7 +357,9 @@ def test_eofcreate_in_initcode_reverts(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.STOP,
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
+                        + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=4,
@@ -349,7 +373,7 @@ def test_eofcreate_in_initcode_reverts(
     outer_address = compute_eofcreate_address(default_address, 0, nested_initcode_subcontainer)
     inner_address = compute_eofcreate_address(outer_address, 0, smallest_initcode_subcontainer)
     post = {
-        default_address: Account(storage={1: 1}),
+        default_address: Account(storage={slot_code_worked: value_code_worked}),
         outer_address: Account.NONEXISTENT,
         inner_address: Account.NONEXISTENT,
     }
@@ -365,10 +389,12 @@ def test_return_data_cleared(
     """
     env = Environment()
     callable_address = fixed_address(1)
+    value_return_canary = 0x4158675309
+    value_return_canary_size = 5
     callable_contract = Container(
         sections=[
             Section.Code(
-                code=Op.MSTORE(0, 0x38363735333039) + Op.RETURN(0, 7),
+                code=Op.MSTORE(0, value_return_canary) + Op.RETURN(0, value_return_canary_size),
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=2,
@@ -376,17 +402,18 @@ def test_return_data_cleared(
         ]
     )
 
+    slot_returndata_size_2 = slot_last_slot * 2 + slot_returndata_size
     pre = {
         TestAddress: Account(balance=10**21, nonce=1),
         default_address: Account(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EXTCALL(callable_address, 0, 0, 0))
-                        + Op.SSTORE(1, Op.RETURNDATASIZE)
-                        + Op.SSTORE(2, Op.EOFCREATE[0](0, 0, 0, 0))
-                        + Op.SSTORE(3, Op.RETURNDATASIZE)
-                        + Op.SSTORE(4, 1)
+                        code=Op.SSTORE(slot_call_result, Op.EXTCALL(callable_address, 0, 0, 0))
+                        + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
+                        + Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_returndata_size_2, Op.RETURNDATASIZE)
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
                         + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
@@ -399,23 +426,17 @@ def test_return_data_cleared(
         callable_address: Account(code=callable_contract, nonce=1),
     }
 
-    # Storage in 0 should have the address,
     new_contract_address = compute_eofcreate_address(
         default_address, 0, smallest_initcode_subcontainer
     )
     post = {
         default_address: Account(
-            # slot 0 - EXTCALL result 0 / empty
-            # slot 1 - returndatasize from extcall
-            # slot 2 - eofcreate address
-            # slot 3 - returndatasize from eofcreate
-            # slot 4 - canary 1 for halts
             storage={
-                0: 0,
-                1: 7,
-                2: new_contract_address,
-                3: 0,
-                4: 1,
+                slot_call_result: value_call_result_success,
+                slot_returndata_size: value_return_canary_size,
+                slot_create_address: new_contract_address,
+                slot_returndata_size_2: 0,
+                slot_code_worked: value_code_worked,
             },
             nonce=1,
         ),
@@ -441,16 +462,18 @@ def test_address_collision(
         default_address, 1, smallest_initcode_subcontainer
     )
 
+    slot_create_address_2 = slot_last_slot * 2 + slot_create_address
+    slot_create_address_3 = slot_last_slot * 3 + slot_create_address
     pre = {
         TestAddress: Account(balance=10**21, nonce=1),
         default_address: Account(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0))
-                        + Op.SSTORE(1, Op.EOFCREATE[0](0, 0, 0, 0))
-                        + Op.SSTORE(2, Op.EOFCREATE[0](0, 1, 0, 0))
-                        + Op.SSTORE(3, 1)
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_create_address_2, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_create_address_3, Op.EOFCREATE[0](0, 1, 0, 0))
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
                         + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
@@ -462,11 +485,16 @@ def test_address_collision(
         ),
         salt_one_address: Account(balance=1, nonce=1),
     }
-    # Storage in 0 should have the address as no collision
-    # Storage in 1 has an in-transaction collisions, so zero
-    # Storage in 2 has a pre-existing collision, so zero
-    # Storage 3 is a canary to detect Halts, should be 1
-    post = {default_address: Account(storage={0: salt_zero_address, 3: 1})}
+    post = {
+        default_address: Account(
+            storage={
+                slot_create_address: salt_zero_address,
+                slot_create_address_2: value_create_failed,  # had an in-transaction collision
+                slot_create_address_3: value_create_failed,  # had a pre-existing collision
+                slot_code_worked: value_code_worked,
+            }
+        )
+    }
 
     # Multiple create fails is expensive, use an absurd amount of gas
     state_test(env=env, pre=pre, post=post, tx=simple_transaction(gas_limit=300_000_000_000))

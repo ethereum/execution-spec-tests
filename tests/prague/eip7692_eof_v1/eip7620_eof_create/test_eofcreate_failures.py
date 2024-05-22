@@ -20,6 +20,14 @@ from .helpers import (
     simple_transaction,
     smallest_initcode_subcontainer,
     smallest_runtime_subcontainer,
+    slot_create_address,
+    slot_returndata_size,
+    slot_returndata,
+    slot_code_worked,
+    value_code_worked,
+    value_create_failed,
+    slot_code_should_fail,
+    value_canary_should_not_change,
 )
 from .spec import EOF_FORK_NAME
 
@@ -62,11 +70,11 @@ def test_initcode_revert(state_test: StateTestFiller, revert: str):
         name="factory contract",
         sections=[
             Section.Code(
-                code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0))
-                + Op.SSTORE(1, Op.RETURNDATASIZE)
+                code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
                 + Op.RETURNDATACOPY(Op.SUB(32, Op.RETURNDATASIZE), 0, Op.RETURNDATASIZE)
-                + Op.SSTORE(2, Op.MLOAD(0))
-                + Op.SSTORE(3, 3)  # just a canary
+                + Op.SSTORE(slot_returndata, Op.MLOAD(0))
+                + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
@@ -81,10 +89,14 @@ def test_initcode_revert(state_test: StateTestFiller, revert: str):
         default_address: Account(code=factory_contract),
     }
 
-    # Storage in 0 should have the address,
     post = {
         default_address: Account(
-            storage={1: revert_size, 2: revert_bytes, 3: 3} if revert_size > 0 else {3: 3}
+            storage={
+                slot_create_address: value_create_failed,
+                slot_returndata_size: revert_size,
+                slot_returndata: revert_bytes,
+                slot_code_worked: value_code_worked,
+            }
         )
     }
 
@@ -104,7 +116,9 @@ def test_initcode_aborts(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.STOP,
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
+                        + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=4,
@@ -126,7 +140,11 @@ def test_initcode_aborts(
         ),
     }
     # Storage in 0 should have the address,
-    post = {default_address: Account(storage={1: 1})}
+    post = {
+        default_address: Account(
+            storage={slot_create_address: value_create_failed, slot_code_worked: value_code_worked}
+        )
+    }
 
     state_test(env=env, pre=pre, post=post, tx=simple_transaction())
 
@@ -190,7 +208,9 @@ def test_eofcreate_deploy_sizes(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.STOP,
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
+                        + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=4,
@@ -206,10 +226,12 @@ def test_eofcreate_deploy_sizes(
     post = {
         default_address: Account(
             storage={
-                0: compute_eofcreate_address(default_address, 0, initcode_subcontainer)
+                slot_create_address: compute_eofcreate_address(
+                    default_address, 0, initcode_subcontainer
+                )
                 if target_deploy_size <= MAX_BYTECODE_SIZE
-                else 0,
-                1: 1,
+                else value_create_failed,
+                slot_code_worked: value_code_worked,
             }
         )
     }
@@ -257,8 +279,8 @@ def test_auxdata_size_failures(state_test: StateTestFiller, auxdata_bytes: bytes
                 sections=[
                     Section.Code(
                         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-                        + Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, Op.CALLDATASIZE))
-                        + Op.SSTORE(1, 1)
+                        + Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, Op.CALLDATASIZE))
+                        + Op.SSTORE(slot_code_worked, value_code_worked)
                         + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
@@ -277,10 +299,12 @@ def test_auxdata_size_failures(state_test: StateTestFiller, auxdata_bytes: bytes
     post = {
         default_address: Account(
             storage={
-                0: compute_eofcreate_address(default_address, 0, initcode_subcontainer)
+                slot_create_address: compute_eofcreate_address(
+                    default_address, 0, initcode_subcontainer
+                )
                 if deployed_container_size <= MAX_BYTECODE_SIZE
                 else 0,
-                1: 1,
+                slot_code_worked: value_code_worked,
             }
         )
     }
@@ -299,7 +323,9 @@ def test_eofcreate_insufficient_stipend(
     initcode_container = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(0, Op.EOFCREATE[0](10**12, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.STOP,
+                code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](10**12, 0, 0, 0))
+                + Op.SSTORE(slot_code_worked, value_code_worked)
+                + Op.STOP,
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=4,
@@ -314,7 +340,12 @@ def test_eofcreate_insufficient_stipend(
     # create will fail but not trigger a halt, so canary at storage 1 should be set
     # also validate target created contract fails
     post = {
-        default_address: Account(storage={1: 1}),
+        default_address: Account(
+            storage={
+                slot_create_address: value_create_failed,
+                slot_code_worked: value_code_worked,
+            }
+        ),
         compute_eofcreate_address(default_address, 0, initcode_container): Account.NONEXISTENT,
     }
 
@@ -350,14 +381,20 @@ def test_insufficient_initcode_gas(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.STOP,
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_code_should_fail, value_code_worked)
+                        + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=4,
                     ),
                     Section.Container(container=initcode_container),
                 ],
-            )
+            ),
+            storage={
+                slot_create_address: value_canary_should_not_change,
+                slot_code_should_fail: value_canary_should_not_change,
+            },
         ),
     }
     # enough gas for everything but EVM opcodes and EIP-150 reserves
@@ -365,7 +402,12 @@ def test_insufficient_initcode_gas(
     # out_of_gas is triggered, so canary won't set value
     # also validate target created contract fails
     post = {
-        default_address: Account(storage={}),
+        default_address: Account(
+            storage={
+                slot_create_address: value_canary_should_not_change,
+                slot_code_should_fail: value_canary_should_not_change,
+            },
+        ),
         compute_eofcreate_address(default_address, 0, initcode_container): Account.NONEXISTENT,
     }
 
@@ -384,8 +426,8 @@ def test_insufficient_gas_memory_expansion(
     initcode_container = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, auxdata_size))
-                + Op.SSTORE(1, 1)
+                code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, auxdata_size))
+                + Op.SSTORE(slot_code_should_fail, slot_code_worked)
                 + Op.STOP,
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
@@ -396,7 +438,13 @@ def test_insufficient_gas_memory_expansion(
     )
     pre = {
         TestAddress: Account(balance=10**21, nonce=1),
-        default_address: Account(code=initcode_container),
+        default_address: Account(
+            code=initcode_container,
+            storage={
+                slot_create_address: value_canary_should_not_change,
+                slot_code_should_fail: value_canary_should_not_change,
+            },
+        ),
     }
     # enough gas for everything but EVM opcodes and EIP-150 reserves
     initcode_container_words = (len(initcode_container) + 31) // 32
@@ -411,7 +459,12 @@ def test_insufficient_gas_memory_expansion(
     # out_of_gas is triggered, so canary won't set value
     # also validate target created contract fails
     post = {
-        default_address: Account(storage={}),
+        default_address: Account(
+            storage={
+                slot_create_address: value_canary_should_not_change,
+                slot_code_should_fail: value_canary_should_not_change,
+            },
+        ),
         compute_eofcreate_address(default_address, 0, initcode_container): Account.NONEXISTENT,
     }
 
@@ -446,14 +499,20 @@ def test_insufficient_returncontract_auxdata_gas(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EOFCREATE[0](0, 0, 0, 0)) + Op.SSTORE(1, 1) + Op.STOP,
+                        code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
+                        + Op.SSTORE(slot_code_should_fail, value_code_worked)
+                        + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=4,
                     ),
                     Section.Container(container=initcode_container),
                 ],
-            )
+            ),
+            storage={
+                slot_create_address: value_canary_should_not_change,
+                slot_code_should_fail: value_canary_should_not_change,
+            },
         ),
     }
     # enough gas for everything but EVM opcodes and EIP-150 reserves
@@ -469,7 +528,12 @@ def test_insufficient_returncontract_auxdata_gas(
     # out_of_gas is triggered, so canary won't set value
     # also validate target created contract fails
     post = {
-        default_address: Account(storage={}),
+        default_address: Account(
+            storage={
+                slot_create_address: value_canary_should_not_change,
+                slot_code_should_fail: value_canary_should_not_change,
+            },
+        ),
         compute_eofcreate_address(default_address, 0, initcode_container): Account.NONEXISTENT,
     }
 
