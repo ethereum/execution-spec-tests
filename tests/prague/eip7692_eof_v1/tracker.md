@@ -41,11 +41,11 @@
 - [ ] Truncated before code sections (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
 - [ ] Truncated code section (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
 - [ ] Data section empty, trailing bytes (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
-- [ ] Data section non-empty, trailing bytes (ethereum/tests: ./src/EOFTestsFiller/validInvalidFiller.yml)
+- [ ] Data section non-empty, trailing bytes (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
 - [ ] Wrong order of sections (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
 - [ ] No data section header (ethereum/tests: ./src/EOFTestsFiller/validInvalidFiller.yml)
-- [ ] Multiple data sections (ethereum/tests: ./src/EOFTestsFiller/validInvalidFiller.yml)
-- [ ] Unknown section id (ethereum/tests: ./src/EOFTestsFiller/validInvalidFiller.yml)
+- [ ] Multiple data sections (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
+- [ ] Unknown section id (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
 - [ ] Type section size != 4 * code section number (ethereum/tests: ./src/EOFTestsFiller/validInvalidFiller.yml)
 - [ ] Code section with max max_stack_height (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
 - [ ] Code section with max_stack_height above limit (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
@@ -54,11 +54,25 @@
 - [ ] Valid code section with max outputs
 - [ ] Code sections with invalid number of inputs/outputs (above limit)
 - [ ] 0 section with inputs/outputs (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
+- [ ] Multiple type section headers
+- [ ] Multiple code section headers
+- [ ] Multiple data section headers
 - [ ] Container without type section (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
-- [ ] Container without code sections (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
-- [ ] Container without data section (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
-
-- TODO subcontainers
+- [ ] Container without code sections (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
+- [ ] Container without data section (ethereum/tests: ./src/EOFTestsFiller/EIP3540/validInvalidFiller.yml)
+- [ ] Valid containers without data section and with subcontainers
+- [ ] Valid containers with data section and with subcontainers
+- [ ] Valid container with maximum number of subcontainers
+- [ ] Container with number of subcontainers above the limit
+- [ ] Subcontainer section header truncated before subcontainer number
+- [ ] Subcontainer section header truncated before subcontainer size
+- [ ] Truncated subcontainer size
+- [ ] 0 container section numner
+- [ ] 0 container size
+- [ ] Truncated container section body
+- [ ] Multiple container section headers
+- [ ] Invalid subcontainer
+- [ ] Invalid subcontainer on a deep nesting level
 
 ## EIP-3670: EOF - Code Validation
 
