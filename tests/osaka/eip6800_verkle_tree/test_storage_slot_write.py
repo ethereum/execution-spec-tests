@@ -57,7 +57,6 @@ def test_storage_slot_write(blockchain_test: BlockchainTestFiller, fork: str, sl
         gas_limit=10000000000,
         number=1,
         timestamp=1000,
-        verkle_conversion_ended=True,
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),

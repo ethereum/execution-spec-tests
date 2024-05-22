@@ -52,7 +52,6 @@ def test_contract_creation(
         gas_limit=10000000000,
         number=1,
         timestamp=1000,
-        verkle_conversion_ended=True,
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),

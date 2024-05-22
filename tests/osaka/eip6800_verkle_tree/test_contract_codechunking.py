@@ -62,7 +62,6 @@ def test_code_chunking(blockchain_test: BlockchainTestFiller, fork: str, bytecod
         gas_limit=10000000000,
         number=1,
         timestamp=1000,
-        verkle_conversion_ended=True,
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
