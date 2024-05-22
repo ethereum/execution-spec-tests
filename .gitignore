@@ -60,3 +60,9 @@ _readthedocs
 site
 venv-docs/
 .pyspelling_en.dict
+
+# cached fixture downloads (consume)
+cached_downloads/
+# pytest report
+assets
+*.html
