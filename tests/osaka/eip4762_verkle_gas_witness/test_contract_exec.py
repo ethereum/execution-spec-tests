@@ -49,7 +49,6 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, bytecode):
         gas_limit=10000000000,
         number=1,
         timestamp=1000,
-        verkle_conversion_ended=True,
     )
     sender_balance = 1000000000000000000000
     pre = {
