@@ -11,9 +11,9 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 from .helpers import (
     default_address,
     simple_transaction,
-    smallest_initcode_subcontainer,
-    slot_create_address,
     slot_code_worked,
+    slot_create_address,
+    smallest_initcode_subcontainer,
     value_code_worked,
     value_create_failed,
 )

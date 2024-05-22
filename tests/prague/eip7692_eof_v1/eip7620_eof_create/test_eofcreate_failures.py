@@ -18,16 +18,16 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 from .helpers import (
     default_address,
     simple_transaction,
+    slot_code_should_fail,
+    slot_code_worked,
+    slot_create_address,
+    slot_returndata,
+    slot_returndata_size,
     smallest_initcode_subcontainer,
     smallest_runtime_subcontainer,
-    slot_create_address,
-    slot_returndata_size,
-    slot_returndata,
-    slot_code_worked,
+    value_canary_should_not_change,
     value_code_worked,
     value_create_failed,
-    slot_code_should_fail,
-    value_canary_should_not_change,
 )
 from .spec import EOF_FORK_NAME
 
