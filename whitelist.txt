@@ -605,6 +605,7 @@ push29
 push30
 push31
 push32
+pushn
 dup1
 dup2
 dup3
