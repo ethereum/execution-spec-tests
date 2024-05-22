@@ -41,12 +41,13 @@ def print_type(module: str | None, type_name: str | None, f: TextIOWrapper):
     f.write(yaml.dump(type_json_schema, indent=2, default_flow_style=False, sort_keys=False))
     f.write("```\n\n")
 
-    if hasattr(type, "model_json_example"):
-        type_json_example = type.model_json_example()
+    if hasattr(type, "model_json_examples"):
+        type_json_examples = type.model_json_examples()
         f.write("#### JSON example\n\n")
-        f.write("```json\n")
-        f.write(json.dumps(to_json(type_json_example), indent=2, sort_keys=False))
-        f.write("\n```\n\n")
+        for type_json_example in type_json_examples:
+            f.write("```json\n")
+            f.write(json.dumps(to_json(type_json_example), indent=2, sort_keys=False))
+            f.write("\n```\n\n")
 
 
 with mkdocs_gen_files.open(t8n_types_file, "w") as f:
