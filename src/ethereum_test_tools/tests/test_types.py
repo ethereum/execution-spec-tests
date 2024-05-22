@@ -21,11 +21,13 @@ from ..common.constants import TestAddress, TestAddress2, TestPrivateKey
 from ..common.json import to_json
 from ..common.types import (
     Alloc,
+    CamelModel,
     DepositRequest,
     RejectedTransaction,
     Requests,
     Result,
     TransactionLog,
+    TransactionReceipt,
     TransitionToolOutput,
 )
 from ..exceptions import BlockException, TransactionException
@@ -1760,3 +1762,27 @@ def test_json_schemas(model: BaseModel):
     Test that the JSON schema for the given model can be generated without errors.
     """
     assert model.model_json_schema()
+
+
+@pytest.mark.parametrize(
+    "model",
+    [
+        pytest.param(Storage, id="Storage"),
+        pytest.param(Account, id="Account"),
+        pytest.param(Alloc, id="Alloc"),
+        pytest.param(Withdrawal, id="Withdrawal"),
+        pytest.param(Environment, id="Environment"),
+        pytest.param(AccessList, id="AccessList"),
+        pytest.param(Transaction, id="Transaction"),
+        pytest.param(TransactionLog, id="TransactionLog"),
+        pytest.param(TransactionReceipt, id="TransactionReceipt"),
+        pytest.param(RejectedTransaction, id="RejectedTransaction"),
+        pytest.param(Result, id="Result"),
+        pytest.param(TransitionToolOutput, id="TransitionToolOutput"),
+    ],
+)
+def test_json_examples(model: CamelModel):
+    """
+    Test that the JSON example for the given model can be generated without errors.
+    """
+    assert model.model_json_examples()

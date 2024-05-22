@@ -2,11 +2,13 @@
 Useful types for generating Ethereum tests.
 """
 
+import collections
 import inspect
 from dataclasses import dataclass
-from enum import IntEnum
+from enum import Enum, IntEnum
 from functools import cache, cached_property
 from itertools import count
+from types import UnionType
 from typing import (
     Any,
     ClassVar,
@@ -19,6 +21,9 @@ from typing import (
     Type,
     TypeAlias,
     TypeVar,
+    Union,
+    get_args,
+    get_origin,
 )
 
 from coincurve.keys import PrivateKey, PublicKey
@@ -40,6 +45,7 @@ from pydantic import (
     model_validator,
 )
 from pydantic.alias_generators import to_camel
+from pydantic_core import PydanticUndefined
 from trie import HexaryTrie
 
 from ethereum_test_forks import Fork
@@ -51,6 +57,7 @@ from .base_types import (
     BLSPublicKey,
     BLSSignature,
     Bytes,
+    FixedSizeBytes,
     Hash,
     HashInt,
     HexNumber,
@@ -89,6 +96,40 @@ class CopyValidateModel(BaseModel):
         return self.__class__(**(self.model_dump() | kwargs))
 
 
+def example_from_annotation(annotation: Any, field_counter: Iterator[int]) -> Any:
+    """
+    Returns an example value for the given annotation.
+    """
+    if hasattr(annotation, "model_json_example"):
+        return annotation.model_json_example()
+    if get_origin(annotation) in (collections.abc.Sequence, list):
+        return [example_from_annotation(get_args(annotation)[0], field_counter)]
+    if get_origin(annotation) is dict:
+        return {
+            example_from_annotation(
+                get_args(annotation)[0], field_counter
+            ): example_from_annotation(get_args(annotation)[1], field_counter)
+        }
+    if get_origin(annotation) in (Union, UnionType):
+        for arg in get_args(annotation):
+            if arg is None:
+                continue
+            return example_from_annotation(arg, field_counter)
+        else:
+            raise ValueError(f"Unsupported annotation: {annotation}")
+    if issubclass(annotation, bool):
+        return True
+    if issubclass(annotation, FixedSizeBytes) or issubclass(annotation, int):
+        return next(field_counter)
+    if issubclass(annotation, bytes):
+        return int.to_bytes(next(field_counter))
+    if issubclass(annotation, str):
+        return "example"
+    if issubclass(annotation, Enum):
+        return annotation[list(annotation.__members__.keys())[0]]
+    raise ValueError(f"Unsupported annotation: {annotation}")
+
+
 class CamelModel(CopyValidateModel):
     """
     A base model that converts field names to camel case when serializing.
@@ -102,6 +143,37 @@ class CamelModel(CopyValidateModel):
         populate_by_name=True,
         validate_default=True,
     )
+
+    @classmethod
+    def __get_model_json_example_args__(cls) -> List[Dict[str, Any]]:
+        """
+        Returns the arguments to be used by `model_json_example` to generate an instance
+        of the class.
+        """
+        kwargs: Dict[str, Any] = {}
+        field_counter = count()
+        for field, field_info in cls.model_fields.items():
+            if field_info.default is not PydanticUndefined and field_info.default is not None:
+                continue
+            annotation = field_info.annotation
+            assert field_info.annotation is not None, f"annotation is None for field {field}"
+            kwargs[field] = example_from_annotation(annotation, field_counter)
+        return [kwargs]
+
+    @classmethod
+    def model_json_examples(cls) -> List[BaseModel | RootModel]:
+        """
+        Returns a JSON example.
+        """
+        args_list = cls.__get_model_json_example_args__()
+        return [cls(**args) for args in args_list]
+
+    @classmethod
+    def model_json_example(cls) -> BaseModel | RootModel:
+        """
+        Returns a JSON example.
+        """
+        return cls.model_json_examples()[0]
 
 
 StorageKeyValueTypeConvertible = NumberConvertible
@@ -337,8 +409,15 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             }
         )
 
+    @classmethod
+    def model_json_examples(cls) -> List[BaseModel | RootModel]:
+        """
+        Returns JSON examples.
+        """
+        return [cls.model_json_example()]
 
-class Account(CopyValidateModel):
+
+class Account(CamelModel):
     """
     State associated with an address.
     """
@@ -515,18 +594,6 @@ class Account(CopyValidateModel):
         kwargs.update(to_kwargs_dict(account_2))
 
         return cls(**kwargs)
-
-    @classmethod
-    def model_json_example(cls) -> "Account":
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            nonce=0,
-            balance=1,
-            code=b"\x02",
-            storage=Storage.model_json_example(),
-        )
 
 
 class EOA(Address):
@@ -854,11 +921,18 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         """
         return cls(
             root={
-                Address(0): Account.model_json_example(),
-                Address(1): Account.model_json_example(),
-                Address(2): Account.model_json_example(),
+                Address(0): Account.model_json_example(),  # type: ignore
+                Address(1): Account.model_json_example(),  # type: ignore
+                Address(2): Account.model_json_example(),  # type: ignore
             }
         )
+
+    @classmethod
+    def model_json_examples(cls) -> List["Alloc"]:
+        """
+        Returns JSON examples.
+        """
+        return [cls.model_json_example()]
 
 
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
@@ -900,17 +974,7 @@ class Withdrawal(WithdrawalGeneric[HexNumber]):
     included in a block.
     """
 
-    @classmethod
-    def model_json_example(cls) -> "Withdrawal":
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            index=0,
-            validator_index=1,
-            address=Address(0x2),
-            amount=3,
-        )
+    pass
 
 
 DEFAULT_BASE_FEE = 7
@@ -1022,32 +1086,6 @@ class Environment(EnvironmentGeneric[Number]):
 
         return self.copy(**updated_values)
 
-    @classmethod
-    def model_json_example(cls) -> BaseModel | RootModel:
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            number=2,
-            prev_randao=1,
-            difficulty=0x20000,
-            base_fee_per_gas=7,
-            excess_blob_gas=0,
-            blob_gas_used=0,
-            parent_timestamp=0,
-            parent_gas_used=0,
-            parent_gas_limit=1_000_000,
-            parent_difficulty=0x20000,
-            parent_base_fee_per_gas=7,
-            parent_excess_blob_gas=0,
-            parent_blob_gas_used=0,
-            parent_beacon_block_root=0,
-            block_hashes={0: 1, 1: 2},
-            withdrawals=[
-                Withdrawal.model_json_example(),
-            ],
-        )
-
 
 class AccessList(CamelModel):
     """
@@ -1062,16 +1100,6 @@ class AccessList(CamelModel):
         Returns the access list as a list of serializable elements.
         """
         return [self.address, self.storage_keys]
-
-    @classmethod
-    def model_json_example(cls) -> "AccessList":
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            address=Address(0x2),
-            storage_keys=[1, 2],
-        )
 
 
 class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
@@ -1248,21 +1276,30 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             self.nonce = HexNumber(self.sender.get_nonce())
 
     @classmethod
-    def model_json_example(cls) -> "Transaction":
+    def __get_model_json_example_args__(cls) -> List[Dict[str, Any]]:
         """
-        Returns a JSON example.
+        Modify the example arguments since this class has restrictions on the fields.
         """
-        return cls(
-            # TODO: Expand
-            ty=0,
-            chain_id=1,
-            nonce=0,
-            gas_price=10,
-            gas_limit=21_000,
-            to=Address(0xAA),
-            value=0,
-            data=b"",
-        )
+        args = super().__get_model_json_example_args__()[0]
+        args_list = []
+        # gas_price and no max_fee_per_gas, max_priority_fee_per_gas, max_fee_per_blob_gas,
+        # no signature
+        args_copy = args.copy()
+        args_copy.pop("max_fee_per_gas", None)
+        args_copy.pop("max_priority_fee_per_gas", None)
+        args_copy.pop("max_fee_per_blob_gas", None)
+        args_copy.pop("v", None)
+        args_copy.pop("r", None)
+        args_copy.pop("s", None)
+        args_list.append(args_copy)
+
+        # no gas_price and use max_fee_per_gas, max_priority_fee_per_gas, max_fee_per_blob_gas,
+        # signature, no sender_key
+        args_copy = args.copy()
+        args_copy.pop("gas_price", None)
+        args_copy.pop("secret_key", None)
+        args_list.append(args_copy)
+        return args_list
 
     def with_error(
         self, error: List[TransactionException] | TransactionException
@@ -1701,23 +1738,6 @@ class TransactionLog(CamelModel):
     log_index: HexNumber
     removed: bool
 
-    @classmethod
-    def model_json_example(cls) -> BaseModel | RootModel:
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            address=1,
-            topics=[2],
-            data=b"\x03",
-            block_number=4,
-            transaction_hash=5,
-            transaction_index=6,
-            block_hash=7,
-            log_index=8,
-            removed=True,
-        )
-
 
 class TransactionReceipt(CamelModel):
     """
@@ -1738,29 +1758,6 @@ class TransactionReceipt(CamelModel):
     blob_gas_used: HexNumber | None = None
     blob_gas_price: HexNumber | None = None
 
-    @classmethod
-    def model_json_example(cls) -> BaseModel | RootModel:
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            transaction_hash=1,
-            gas_used=2,
-            root=3,
-            status=4,
-            cumulative_gas_used=5,
-            logs_bloom=6,
-            logs=[
-                TransactionLog.model_json_example(),
-            ],
-            contract_address=9,
-            effective_gas_price=10,
-            block_hash=11,
-            transaction_index=12,
-            blob_gas_used=13,
-            blob_gas_price=14,
-        )
-
 
 class RejectedTransaction(CamelModel):
     """
@@ -1769,13 +1766,6 @@ class RejectedTransaction(CamelModel):
 
     index: HexNumber
     error: str
-
-    @classmethod
-    def model_json_example(cls) -> BaseModel | RootModel:
-        """
-        Returns a JSON example.
-        """
-        return cls(index=0, error="error")
 
 
 class Result(CamelModel):
@@ -1803,32 +1793,6 @@ class Result(CamelModel):
     deposit_requests: List[DepositRequest] | None = None
     withdrawal_requests: List[WithdrawalRequest] | None = None
 
-    @classmethod
-    def model_json_example(cls) -> BaseModel | RootModel:
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            state_root=1,
-            ommers_hash=2,
-            transactions_trie=3,
-            receipts_root=4,
-            logs_hash=5,
-            logs_bloom=6,
-            receipts=[
-                TransactionReceipt.model_json_example(),
-            ],
-            rejected_transactions=[
-                RejectedTransaction.model_json_example(),
-            ],
-            difficulty=7,
-            gas_used=8,
-            base_fee_per_gas=9,
-            withdrawals_root=10,
-            excess_blob_gas=11,
-            blob_gas_used=12,
-        )
-
 
 class TransitionToolOutput(CamelModel):
     """
@@ -1837,13 +1801,3 @@ class TransitionToolOutput(CamelModel):
 
     alloc: Alloc = Field(..., description="State allocation after the transition")
     result: Result
-
-    @classmethod
-    def model_json_example(cls) -> "TransitionToolOutput":
-        """
-        Returns a JSON example.
-        """
-        return cls(
-            alloc=Alloc.model_json_example(),
-            result=Result.model_json_example(),
-        )
