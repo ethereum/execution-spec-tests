@@ -32,19 +32,17 @@ precompile_address = Address("0x09")
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
-    "target",
+    "target, value, sender_balance",
     [
-        TestAddress2,
+        (TestAddress2, 0, 1_000_000),
+        (TestAddress2, 1, 1_000_000),
+        (precompile_address, 0, 1_000_000),
+        (precompile_address, 1, 1_000_000),
+        (TestAddress2, 1, 0),  # failing tx
         precompile_address,
     ],
-    ids=["no_precompile", "precompile"],
 )
-@pytest.mark.parametrize(
-    "value",
-    [0, 0.6],
-    ids=["zero", "non_zero"],
-)
-def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, value):
+def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, value, sender_balance):
     """
     Test that value transfer generates a correct witness.
     """
@@ -56,7 +54,6 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, valu
         timestamp=1000,
         verkle_conversion_ended=True,
     )
-    sender_balance = 1000000000000000000000
     pre = {
         TestAddress: Account(balance=sender_balance),
     }
