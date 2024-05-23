@@ -3,16 +3,15 @@ EOF JUMPF tests covering stack validation rules.
 """
 import pytest
 
-from ethereum_test_tools import EOFException, EOFTestFiller, StateTestFiller
+from ethereum_test_tools import Account, EOFException, EOFStateTestFiller
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .helpers import execute_tests, slot_code_worked, value_code_worked
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6206.md"
-REFERENCE_SPEC_VERSION = "a1775816657df4093787fb9fe83c2f7cc17ecf47"
+REFERENCE_SPEC_VERSION = "2f365ea0cd58faa6e26013ea77ce6d538175f7d0"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
@@ -28,8 +27,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
     ids=lambda x: "h-%d" % x,
 )
 def test_jumpf_stack_non_returning_rules(
-    state_test: StateTestFiller,
-    eof_test: EOFTestFiller,
+    eof_state_test: EOFStateTestFiller,
     target_inputs: int,
     stack_height: int,
 ):
@@ -50,9 +48,7 @@ def test_jumpf_stack_non_returning_rules(
                 max_stack_height=stack_height,
             ),
             Section.Code(
-                code=Op.POP * target_inputs
-                + Op.SSTORE(slot_code_worked, value_code_worked)
-                + Op.STOP,
+                code=Op.POP * target_inputs + Op.SSTORE(0, 1) + Op.STOP,
                 code_inputs=target_inputs,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=max(2, target_inputs),
@@ -61,15 +57,19 @@ def test_jumpf_stack_non_returning_rules(
     )
 
     if stack_height < target_inputs:
-        container.validity_error = EOFException.UNDEFINED_EXCEPTION
+        container.validity_error = EOFException.STACK_UNDERFLOW
 
-    execute_tests(state_test, eof_test, container)
+    eof_state_test(
+        data=container,
+        container_post=Account(storage={0: 1}),
+        tx_data=b"\1",
+    )
 
 
 @pytest.mark.parametrize(
-    "current_outputs",
+    "source_outputs",
     [0, 2, 4],
-    ids=lambda x: "co-%d" % x,
+    ids=lambda x: "so-%d" % x,
 )
 @pytest.mark.parametrize(
     "target_outputs",
@@ -83,9 +83,8 @@ def test_jumpf_stack_non_returning_rules(
 )
 @pytest.mark.parametrize("stack_diff", [-1, 0, 1], ids=["less-stack", "same-stack", "more-stack"])
 def test_jumpf_stack_returning_rules(
-    state_test: StateTestFiller,
-    eof_test: EOFTestFiller,
-    current_outputs: int,
+    eof_state_test: EOFStateTestFiller,
+    source_outputs: int,
     target_outputs: int,
     target_inputs: int,
     stack_diff: int,
@@ -94,7 +93,7 @@ def test_jumpf_stack_returning_rules(
     Tests for JUMPF validation stack rules.  Returning section cases.
     Valid cases are executed.
     """
-    if target_outputs > current_outputs:
+    if target_outputs > source_outputs:
         # These create invalid containers without JUMPF validation, Don't test.
         return
     if target_inputs == 0 and stack_diff < 0:
@@ -104,16 +103,16 @@ def test_jumpf_stack_returning_rules(
     target_delta = target_outputs - target_inputs
     container = Container(
         name="stack-retuning_co-%d_to-%d_ti-%d_diff-%d"
-        % (current_outputs, target_outputs, target_inputs, stack_diff),
+        % (source_outputs, target_outputs, target_inputs, stack_diff),
         sections=[
             Section.Code(
-                code=Op.CALLF[1] + Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
+                code=Op.CALLF[1] + Op.SSTORE(0, 1) + Op.STOP,
                 code_outputs=NON_RETURNING_SECTION,
-                max_stack_height=2 + current_outputs,
+                max_stack_height=2 + source_outputs,
             ),
             Section.Code(
                 code=Op.PUSH0 * max(0, target_inputs + stack_diff) + Op.JUMPF[2],
-                code_outputs=current_outputs,
+                code_outputs=source_outputs,
                 max_stack_height=target_inputs,
             ),
             Section.Code(
@@ -126,7 +125,13 @@ def test_jumpf_stack_returning_rules(
         ],
     )
 
-    if stack_diff != current_outputs - target_outputs:
-        container.validity_error = EOFException.UNDEFINED_EXCEPTION
+    if stack_diff < source_outputs - target_outputs:
+        container.validity_error = EOFException.STACK_UNDERFLOW
+    elif stack_diff > source_outputs - target_outputs:
+        container.validity_error = EOFException.STACK_HIGHER_THAN_OUTPUTS
 
-    execute_tests(state_test, eof_test, container)
+    eof_state_test(
+        data=container,
+        container_post=Account(storage={0: 1}),
+        tx_data=b"\1",
+    )

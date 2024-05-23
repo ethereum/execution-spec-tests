@@ -4,16 +4,15 @@ EOF JUMPF tests covering JUMPF target rules.
 
 import pytest
 
-from ethereum_test_tools import EOFException, EOFTestFiller, StateTestFiller
+from ethereum_test_tools import Account, EOFException, EOFStateTestFiller
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .helpers import execute_tests, slot_code_worked, value_code_worked
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6206.md"
-REFERENCE_SPEC_VERSION = "a1775816657df4093787fb9fe83c2f7cc17ecf47"
+REFERENCE_SPEC_VERSION = "2f365ea0cd58faa6e26013ea77ce6d538175f7d0"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
@@ -24,61 +23,66 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
     ids=lambda x: "to-%s" % ("N" if x == NON_RETURNING_SECTION else x),
 )
 @pytest.mark.parametrize(
-    "current_outputs",
+    "source_outputs",
     [NON_RETURNING_SECTION, 0, 2, 4],
-    ids=lambda x: "co-%s" % ("N" if x == NON_RETURNING_SECTION else x),
+    ids=lambda x: "so-%s" % ("N" if x == NON_RETURNING_SECTION else x),
 )
 def test_jumpf_target_rules(
-    state_test: StateTestFiller,
-    eof_test: EOFTestFiller,
-    current_outputs: int,
+    eof_state_test: EOFStateTestFiller,
+    source_outputs: int,
     target_outputs: int,
 ):
     """
     Validate the target section rules of JUMPF, and execute valid cases.
     We are not testing stack so a lot of the logic is to get correct stack values.
     """
-    current_non_returning = current_outputs == NON_RETURNING_SECTION
-    current_height = 0 if current_non_returning else current_outputs
+    source_non_returning = source_outputs == NON_RETURNING_SECTION
+    source_height = 0 if source_non_returning else source_outputs
+    source_section_index = 1
 
     target_non_returning = target_outputs == NON_RETURNING_SECTION
     target_height = 0 if target_non_returning else target_outputs
+    target_section_index = 2
 
     # Because we are testing the target and not the stack height validation we need to do some work
     # to make sure the stack passes validation.
 
-    # `current_extra_push` is how many more pushes we need to match our stack commitments
-    current_extra_push = max(0, current_height - target_height)
-    current_section = Section.Code(
-        code=Op.PUSH0 * (current_height)
+    # `source_extra_push` is how many more pushes we need to match our stack commitments
+    source_extra_push = max(0, source_height - target_height)
+    source_section = Section.Code(
+        code=Op.PUSH0 * (source_height)
         + Op.CALLDATALOAD(0)
         + Op.RJUMPI[1]
-        + (Op.STOP if current_non_returning else Op.RETF)
-        + Op.PUSH0 * current_extra_push
-        + Op.JUMPF[2],
+        + (Op.STOP if source_non_returning else Op.RETF)
+        + Op.PUSH0 * source_extra_push
+        + Op.JUMPF[target_section_index],
         code_inputs=0,
-        code_outputs=current_outputs,
-        max_stack_height=current_height + max(1, current_extra_push),
+        code_outputs=source_outputs,
+        max_stack_height=source_height + max(1, source_extra_push),
     )
 
     # `delta` is how many stack items the target output is from the input height, and tracks the
     # number of pushes or (if negative) pops the target needs to do to match output commitments
-    delta = 0 if target_non_returning or current_non_returning else target_outputs - current_height
+    delta = 0 if target_non_returning or source_non_returning else target_outputs - source_height
     target_section = Section.Code(
         code=((Op.PUSH0 * delta) if delta >= 0 else (Op.POP * -delta))
         + Op.CALLF[3]
         + (Op.STOP if target_non_returning else Op.RETF),
-        code_inputs=current_height,
+        code_inputs=source_height,
         code_outputs=target_outputs,
-        max_stack_height=max(current_height, current_height + delta),
+        max_stack_height=max(source_height, source_height + delta),
     )
 
-    base_code = bytes(Op.JUMPF[1]) if current_non_returning else (Op.CALLF[1](0, 0) + Op.STOP)
-    base_height = 0 if current_non_returning else 2 + current_outputs
+    base_code = (
+        bytes(Op.JUMPF[source_section_index])
+        if source_non_returning
+        else (Op.CALLF[source_section_index](0, 0) + Op.STOP)
+    )
+    base_height = 0 if source_non_returning else 2 + source_outputs
     container = Container(
-        name="target_co-%s_to-%s"
+        name="target_so-%s_to-%s"
         % (
-            "N" if current_non_returning else current_outputs,
+            "N" if source_non_returning else source_outputs,
             "N" if target_non_returning else target_outputs,
         ),
         sections=[
@@ -88,10 +92,10 @@ def test_jumpf_target_rules(
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=base_height,
             ),
-            current_section,
+            source_section,
             target_section,
             Section.Code(
-                code=Op.SSTORE(slot_code_worked, value_code_worked) + Op.RETF,
+                code=Op.SSTORE(0, 1) + Op.RETF,
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=2,
@@ -99,8 +103,12 @@ def test_jumpf_target_rules(
         ],
     )
 
-    if not target_non_returning and current_non_returning or current_outputs < target_outputs:
+    if not target_non_returning and source_non_returning or source_outputs < target_outputs:
         # both as non-returning handled above
         container.validity_error = EOFException.UNDEFINED_EXCEPTION
 
-    execute_tests(state_test, eof_test, container)
+    eof_state_test(
+        data=container,
+        container_post=Account(storage={0: 1}),
+        tx_data=b"\1",
+    )
