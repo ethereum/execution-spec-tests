@@ -9,6 +9,7 @@ Given a genesis state and a list of RLP-encoded blocks, the test verifies that:
 1. The client's genesis block hash matches that defined in the fixture.
 2. The client's last block hash matches that defined in the fixture.
 """
+
 import io
 import json
 import pprint
@@ -156,6 +157,18 @@ def environment(fixture: Fixture) -> dict:
     }
 
 
+def split_file(buffered_reader, chunk_size=10 * 1024 * 1024):  # 10 MB chunks
+    """Test"""
+    buffered_reader.seek(0, io.SEEK_END)
+    file_size = buffered_reader.tell()
+    buffered_reader.seek(0)
+    chunks = []
+    for i in range(0, file_size, chunk_size):
+        chunk = buffered_reader.read(chunk_size)
+        chunks.append(io.BufferedReader(io.BytesIO(chunk)))
+    return chunks
+
+
 @pytest.fixture(scope="function")
 def client(
     hive_test: HiveTest,
@@ -169,6 +182,14 @@ def client(
     Initialize the client with the appropriate files and environment variables.
     """
     timing_data.prepare_files = time.perf_counter() - t_test_start
+    split_client_files = {}
+    for path, buffered_reader in client_files.items():
+        if buffered_reader.seek(0, io.SEEK_END) > 10 * 1024 * 1024:  # If file > 10 MB
+            chunks = split_file(buffered_reader)
+            for j, chunk in enumerate(chunks):
+                split_client_files[f"{path}.part{j}"] = chunk
+        else:
+            split_client_files[path] = buffered_reader
     t_start = time.perf_counter()
     client = hive_test.start_client(
         client_type=client_type, environment=environment, files=client_files
