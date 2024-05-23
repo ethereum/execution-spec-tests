@@ -1,17 +1,27 @@
 """
 EOF V1 Code Validation tests
 """
+import itertools
 
 from ethereum_test_tools import (
     Account,
-    Address,
     Environment,
     EOFTestFiller,
     StateTestFiller,
     TestAddress,
+    TestAddress2,
     Transaction,
 )
 from ethereum_test_tools.eof.v1 import Container
+
+"""Storage addresses for common testing fields"""
+_slot = itertools.count()
+next(_slot)  # don't use slot 0
+slot_code_worked = next(_slot)
+slot_last_slot = next(_slot)
+
+"""Storage values for common testing fields"""
+value_code_worked = 0x2015
 
 
 def execute_tests(state_test: StateTestFiller, eof_test: EOFTestFiller, container: Container):
@@ -32,7 +42,7 @@ def execute_tests(state_test: StateTestFiller, eof_test: EOFTestFiller, containe
                 balance=1000000000000000000000,
                 nonce=1,
             ),
-            Address(0x100): Account(
+            TestAddress2: Account(
                 code=container,
                 nonce=1,
             ),
@@ -40,14 +50,14 @@ def execute_tests(state_test: StateTestFiller, eof_test: EOFTestFiller, containe
 
         tx = Transaction(
             nonce=1,
-            to=Address(0x100),
+            to=TestAddress2,
             gas_limit=44_000,
             gas_price=10,
             protected=False,
             data="1",
         )
 
-        post = {Address(0x100): Account(storage={0: 1})}
+        post = {TestAddress2: Account(storage={slot_code_worked: value_code_worked})}
 
         state_test(
             env=env,
