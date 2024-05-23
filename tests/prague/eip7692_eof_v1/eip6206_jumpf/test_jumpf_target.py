@@ -19,12 +19,12 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 @pytest.mark.parametrize(
     "target_outputs",
-    [NON_RETURNING_SECTION, 0, 2, 4],
+    [NON_RETURNING_SECTION, 0, 2, 4, 127],
     ids=lambda x: "to-%s" % ("N" if x == NON_RETURNING_SECTION else x),
 )
 @pytest.mark.parametrize(
     "source_outputs",
-    [NON_RETURNING_SECTION, 0, 2, 4],
+    [NON_RETURNING_SECTION, 0, 2, 4, 127],
     ids=lambda x: "so-%s" % ("N" if x == NON_RETURNING_SECTION else x),
 )
 def test_jumpf_target_rules(
@@ -80,7 +80,7 @@ def test_jumpf_target_rules(
     )
     base_height = 0 if source_non_returning else 2 + source_outputs
     container = Container(
-        name="target_so-%s_to-%s"
+        name="so-%s_to-%s"
         % (
             "N" if source_non_returning else source_outputs,
             "N" if target_non_returning else target_outputs,
@@ -102,9 +102,11 @@ def test_jumpf_target_rules(
             ),
         ],
     )
-
-    if not target_non_returning and source_non_returning or source_outputs < target_outputs:
-        # both as non-returning handled above
+    if target_non_returning or source_non_returning:
+        if not target_non_returning and source_non_returning:
+            # both as non-returning handled above
+            container.validity_error = EOFException.UNDEFINED_EXCEPTION
+    elif source_outputs < target_outputs:
         container.validity_error = EOFException.UNDEFINED_EXCEPTION
 
     eof_state_test(
@@ -112,3 +114,14 @@ def test_jumpf_target_rules(
         container_post=Account(storage={0: 1}),
         tx_data=b"\1",
     )
+
+
+@pytest.mark.skip("Not implemented")
+def test_jumpf_multi_target_rules(
+    eof_state_test: EOFStateTestFiller,
+):
+    """
+    NOT IMPLEMENTED:
+    Test a section that contains multiple JUMPF to different targets with different outputs.
+    """
+    pass
