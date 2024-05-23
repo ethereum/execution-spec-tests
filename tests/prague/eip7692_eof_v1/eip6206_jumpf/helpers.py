@@ -1,5 +1,5 @@
 """
-EOF V1 Code Validation tests
+Helpers for EIP-6206 JUMPF containers.
 """
 import itertools
 
