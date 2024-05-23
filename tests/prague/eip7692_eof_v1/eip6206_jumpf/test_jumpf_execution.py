@@ -12,7 +12,7 @@ from .helpers import execute_tests, slot_code_worked, value_code_worked
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6206.md"
-REFERENCE_SPEC_VERSION = "a1775816657df4093787fb9fe83c2f7cc17ecf47"
+REFERENCE_SPEC_VERSION = "2f365ea0cd58faa6e26013ea77ce6d538175f7d0"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
@@ -171,6 +171,6 @@ def test_callf_to_non_returning_section(
                     outputs=NON_RETURNING_SECTION,
                 ),
             ],
-            validity_error=EOFException.UNDEFINED_EXCEPTION,
+            validity_error=EOFException.MISSING_STOP_OPCODE,
         ),
     )
