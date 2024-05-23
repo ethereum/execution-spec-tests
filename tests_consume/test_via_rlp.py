@@ -9,22 +9,22 @@ Given a genesis state and a list of RLP-encoded blocks, the test verifies that:
 1. The client's genesis block hash matches that defined in the fixture.
 2. The client's last block hash matches that defined in the fixture.
 """
+
 import io
 import json
 import pprint
 import time
-from typing import Any, Generator, List, Literal, Mapping, Optional, Union, cast
+from typing import Generator, List, Mapping, Optional, cast
 
 import pytest
-import requests
 import rich
 from hive.client import Client, ClientType
 from hive.testing import HiveTest
 from pydantic import BaseModel
-from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_tools.common.base_types import Bytes
 from ethereum_test_tools.common.json import to_json
+from ethereum_test_tools.rpc import EthRPC
 from ethereum_test_tools.spec.blockchain.types import Fixture, FixtureHeader
 from pytest_plugins.consume.hive_ruleset import ruleset
 
@@ -181,45 +181,12 @@ def client(
     timing_data.stop_client = time.perf_counter() - t_start
 
 
-BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
-
-
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, max=10))
-def get_block(client: Client, block_number: BlockNumberType) -> dict:
+@pytest.fixture(scope="function")
+def eth_rpc(client: Client) -> EthRPC:
     """
-    Retrieve the i-th block from the client using the JSON-RPC API.
-    Retries up to two times (three attempts total) in case of an error or a timeout,
-    with exponential backoff.
+    Initialize ethereum RPC client for the execution client under test.
     """
-    if isinstance(block_number, int):
-        block_number_string = hex(block_number)
-    else:
-        block_number_string = block_number
-    url = f"http://{client.ip}:8545"
-    payload = {
-        "jsonrpc": "2.0",
-        "method": "eth_getBlockByNumber",
-        "params": [block_number_string, False],
-        "id": 1,
-    }
-    headers = {"Content-Type": "application/json"}
-
-    response = requests.post(url, json=payload, headers=headers)
-    response.raise_for_status()
-    result = response.json().get("result")
-
-    if result is None or "error" in result:
-        error_info: Any = "result is None; and therefore contains no error info"
-        error_code = None
-        if result is not None:
-            error_info = result["error"]
-            error_code = error_info["code"]
-        raise Exception(
-            f"Error calling JSON RPC eth_getBlockByNumber, code: {error_code}, "
-            f"message: {error_info}"
-        )
-
-    return result
+    return EthRPC(client_ip=client.ip)
 
 
 def compare_models(expected: FixtureHeader, got: FixtureHeader) -> dict:
@@ -227,7 +194,7 @@ def compare_models(expected: FixtureHeader, got: FixtureHeader) -> dict:
     Compare two FixtureHeader model instances and return their differences.
     """
     differences = {}
-    for (exp_name, exp_value), (got_name, got_value) in zip(expected, got):
+    for (exp_name, exp_value), (_, got_value) in zip(expected, got):
         if exp_value != got_value:
             differences[exp_name] = {
                 "expected     ": str(exp_value),
@@ -262,9 +229,8 @@ class GenesisBlockMismatchException(Exception):
 
 
 def test_via_rlp(
-    client: Client,
+    eth_rpc: EthRPC,
     fixture: Fixture,
-    client_genesis: dict,
     timing_data: TestCaseTimingData,
 ):
     """
@@ -277,12 +243,12 @@ def test_via_rlp(
     2. The client's last block's hash matches `fixture.last_block_hash`.
     """
     t_start = time.perf_counter()
-    genesis_block = get_block(client, 0)
+    genesis_block = eth_rpc.get_block_by_number(0)
     timing_data.get_genesis = time.perf_counter() - t_start
     if genesis_block["hash"] != str(fixture.genesis.block_hash):
         raise GenesisBlockMismatchException(
             expected_header=fixture.genesis, got_header=FixtureHeader(**genesis_block)
         )
-    block = get_block(client, "latest")
+    block = eth_rpc.get_block_by_number("latest")
     timing_data.get_last_block = time.perf_counter() - timing_data.get_genesis - t_start
     assert block["hash"] == str(fixture.last_block_hash), "hash mismatch in last block"

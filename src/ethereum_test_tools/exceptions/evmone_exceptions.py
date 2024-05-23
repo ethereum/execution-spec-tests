@@ -54,6 +54,7 @@ class EvmoneExceptionMapper:
             EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT, "err: max_stack_height_above_limit"
         ),
         ExceptionMessage(EOFException.INVALID_MAX_STACK_HEIGHT, "err: invalid_max_stack_height"),
+        ExceptionMessage(EOFException.INVALID_DATALOADN_INDEX, "err: invalid_dataloadn_index"),
     )
 
     def __init__(self) -> None:

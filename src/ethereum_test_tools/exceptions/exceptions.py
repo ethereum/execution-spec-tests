@@ -315,6 +315,10 @@ class EOFException(ExceptionBase):
     """
     EOF container section's specified max stack height does not match the actual stack height
     """
+    INVALID_DATALOADN_INDEX = auto()
+    """
+    A DATALOADN instruction has out-of-bounds index for the data section
+    """
 
 
 """
