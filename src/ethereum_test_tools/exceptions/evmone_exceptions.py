@@ -53,6 +53,9 @@ class EvmoneExceptionMapper:
         ExceptionMessage(
             EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT, "err: max_stack_height_above_limit"
         ),
+        ExceptionMessage(
+            EOFException.STACK_HIGHER_THAN_OUTPUTS, "err: stack_higher_than_outputs_required"
+        ),
         ExceptionMessage(EOFException.INVALID_MAX_STACK_HEIGHT, "err: invalid_max_stack_height"),
         ExceptionMessage(EOFException.INVALID_DATALOADN_INDEX, "err: invalid_dataloadn_index"),
     )

@@ -311,6 +311,11 @@ class EOFException(ExceptionBase):
     """
     EOF container's specified max stack height is above the limit
     """
+    STACK_HIGHER_THAN_OUTPUTS = auto()
+    """
+    EOF container section stack height is higher than the outputs
+    when returning
+    """
     INVALID_MAX_STACK_HEIGHT = auto()
     """
     EOF container section's specified max stack height does not match the actual stack height
