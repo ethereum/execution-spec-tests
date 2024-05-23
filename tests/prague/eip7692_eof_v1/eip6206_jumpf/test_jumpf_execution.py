@@ -102,8 +102,6 @@ def test_jumpf_too_large(
             ],
             validity_error=EOFException.UNDEFINED_EXCEPTION,
         ),
-        container_post=Account(storage={0: 1}),
-        tx_data=b"\1",
     )
 
 
@@ -121,8 +119,6 @@ def test_jumpf_way_too_large(
             ],
             validity_error=EOFException.UNDEFINED_EXCEPTION,
         ),
-        container_post=Account(storage={0: 1}),
-        tx_data=b"\1",
     )
 
 
@@ -140,8 +136,6 @@ def test_jumpf_to_nonexistent_section(
             ],
             validity_error=EOFException.UNDEFINED_EXCEPTION,
         ),
-        container_post=Account(storage={0: 1}),
-        tx_data=b"\1",
     )
 
 
@@ -163,6 +157,4 @@ def test_callf_to_non_returning_section(
             ],
             validity_error=EOFException.MISSING_STOP_OPCODE,
         ),
-        container_post=Account(storage={0: 1}),
-        tx_data=b"\1",
     )
