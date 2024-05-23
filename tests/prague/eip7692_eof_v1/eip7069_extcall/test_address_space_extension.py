@@ -1,6 +1,7 @@
 """
 Tests the "Address Space Extension" aspect of EXT*CALL
 """
+import itertools
 
 import pytest
 
@@ -24,22 +25,23 @@ REFERENCE_SPEC_VERSION = "1795943aeacc86131d5ab6bb3d65824b3b1d4cad"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
-ID_EXTCALL = 2
-ID_CALL = 3
-ID_EXTDELEGATECALL = 4
-ID_DELEGATECALL = 5
-ID_EXTSTATICCALL = 6
-ID_STATICCALL = 7
-ID_CALLCODE = 8
+_call_type = itertools.count(1)
+ID_EXTCALL = next(_call_type)
+ID_CALL = next(_call_type)
+ID_EXTDELEGATECALL = next(_call_type)
+ID_DELEGATECALL = next(_call_type)
+ID_EXTSTATICCALL = next(_call_type)
+ID_STATICCALL = next(_call_type)
+ID_CALLCODE = next(_call_type)
 
-BASE_ADDRESS = 100000000
-ADDRESS_EXTCALL = Address(BASE_ADDRESS + ID_EXTCALL)
-ADDRESS_CALL = Address(BASE_ADDRESS + ID_CALL)
-ADDRESS_EXTDELEGATECALL = Address(BASE_ADDRESS + ID_EXTDELEGATECALL)
-ADDRESS_DELEGATECALL = Address(BASE_ADDRESS + ID_DELEGATECALL)
-ADDRESS_EXTSTATICCALL = Address(BASE_ADDRESS + ID_EXTSTATICCALL)
-ADDRESS_STATICCALL = Address(BASE_ADDRESS + ID_STATICCALL)
-ADDRESS_CALLCODE = Address(BASE_ADDRESS + ID_CALLCODE)
+_address_allocation = itertools.count(100000000)
+ADDRESS_EXTCALL = Address(next(_address_allocation))
+ADDRESS_CALL = Address(next(_address_allocation))
+ADDRESS_EXTDELEGATECALL = Address(next(_address_allocation))
+ADDRESS_DELEGATECALL = Address(next(_address_allocation))
+ADDRESS_EXTSTATICCALL = Address(next(_address_allocation))
+ADDRESS_STATICCALL = Address(next(_address_allocation))
+ADDRESS_CALLCODE = Address(next(_address_allocation))
 
 
 @pytest.mark.parametrize(
