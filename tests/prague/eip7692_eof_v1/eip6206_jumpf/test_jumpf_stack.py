@@ -8,6 +8,7 @@ from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .helpers import slot_code_worked, value_code_worked
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6206.md"
@@ -48,7 +49,9 @@ def test_jumpf_stack_non_returning_rules(
                 max_stack_height=stack_height,
             ),
             Section.Code(
-                code=Op.POP * target_inputs + Op.SSTORE(0, 1) + Op.STOP,
+                code=Op.POP * target_inputs
+                + Op.SSTORE(slot_code_worked, value_code_worked)
+                + Op.STOP,
                 code_inputs=target_inputs,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=max(2, target_inputs),
@@ -61,7 +64,7 @@ def test_jumpf_stack_non_returning_rules(
 
     eof_state_test(
         data=container,
-        container_post=Account(storage={0: 1}),
+        container_post=Account(storage={slot_code_worked: value_code_worked}),
         tx_data=b"\1",
     )
 
@@ -106,7 +109,7 @@ def test_jumpf_stack_returning_rules(
         % (source_outputs, target_outputs, target_inputs, stack_diff),
         sections=[
             Section.Code(
-                code=Op.CALLF[1] + Op.SSTORE(0, 1) + Op.STOP,
+                code=Op.CALLF[1] + Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=2 + source_outputs,
             ),
@@ -132,6 +135,6 @@ def test_jumpf_stack_returning_rules(
 
     eof_state_test(
         data=container,
-        container_post=Account(storage={0: 1}),
+        container_post=Account(storage={slot_code_worked: value_code_worked}),
         tx_data=b"\1",
     )

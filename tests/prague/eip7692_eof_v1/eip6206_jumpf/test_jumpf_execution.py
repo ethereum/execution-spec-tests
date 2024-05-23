@@ -8,6 +8,7 @@ from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .helpers import slot_code_worked, value_code_worked
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6206.md"
@@ -28,13 +29,13 @@ def test_jumpf_forward(
                     code_outputs=NON_RETURNING_SECTION,
                 ),
                 Section.Code(
-                    Op.SSTORE(0, 1) + Op.STOP,
+                    Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
                     code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 ),
             ],
         ),
-        container_post=Account(storage={0: 1}),
+        container_post=Account(storage={slot_code_worked: value_code_worked}),
         tx_data=b"\1",
     )
 
@@ -47,7 +48,7 @@ def test_jumpf_backward(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.CALLF[2] + Op.SSTORE(0, 1) + Op.STOP,
+                    code=Op.CALLF[2] + Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
                     code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 ),
@@ -59,7 +60,7 @@ def test_jumpf_backward(
                 ),
             ],
         ),
-        container_post=Account(storage={0: 1}),
+        container_post=Account(storage={slot_code_worked: value_code_worked}),
         tx_data=b"\1",
     )
 
@@ -72,18 +73,18 @@ def test_jumpf_to_self(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.SLOAD(0)
+                    code=Op.SLOAD(slot_code_worked)
                     + Op.ISZERO
                     + Op.RJUMPI[1]
                     + Op.STOP
-                    + Op.SSTORE(0, 1)
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.JUMPF[0],
                     code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 )
             ],
         ),
-        container_post=Account(storage={0: 1}),
+        container_post=Account(storage={slot_code_worked: value_code_worked}),
         tx_data=b"\1",
     )
 
