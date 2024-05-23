@@ -10,6 +10,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Add `test_double_kill` and `test_recreate` which test resurrection of accounts killed with `SELFDESTRUCT` ([#488](https://github.com/ethereum/execution-spec-tests/pull/488)).
 - ✨ Add eof example valid invalid tests from ori, fetch EOF Container implementation ([#535](https://github.com/ethereum/execution-spec-tests/pull/535)).
+- ✨ [EIP-663](https://eips.ethereum.org/EIPS/eip-663): Add `test_dupn.py` and `test_swapn.py` ([#502](https://github.com/ethereum/execution-spec-tests/pull/502)).
 
 ### 🛠️ Framework
 

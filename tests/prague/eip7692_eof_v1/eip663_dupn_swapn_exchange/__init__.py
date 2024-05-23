@@ -4,4 +4,4 @@ abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.et
 """  # noqa: E501
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-663.md"
-REFERENCE_SPEC_VERSION = "6aed382f86258f33603f5dc275956f739aaae096"
+REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
