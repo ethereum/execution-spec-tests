@@ -219,6 +219,10 @@ class EOFException(ExceptionBase):
     """
     EOF container version bytes mismatch
     """
+    INVALID_NON_RETURNING_FLAG = auto()
+    """
+    EOF container's section has non-returning flag set incorrectly
+    """
     INVALID_RJUMP_DESTINATION = auto()
     """
     Code has RJUMP instruction with invalid parameters
@@ -315,6 +319,10 @@ class EOFException(ExceptionBase):
     """
     EOF container section stack height is higher than the outputs
     when returning
+    """
+    JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS = auto()
+    """
+    EOF container section JUMPF's to a destination section with incompatible outputs
     """
     INVALID_MAX_STACK_HEIGHT = auto()
     """
