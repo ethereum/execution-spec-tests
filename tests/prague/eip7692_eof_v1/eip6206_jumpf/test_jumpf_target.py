@@ -105,9 +105,9 @@ def test_jumpf_target_rules(
     if target_non_returning or source_non_returning:
         if not target_non_returning and source_non_returning:
             # both as non-returning handled above
-            container.validity_error = EOFException.UNDEFINED_EXCEPTION
+            container.validity_error = EOFException.INVALID_NON_RETURNING_FLAG
     elif source_outputs < target_outputs:
-        container.validity_error = EOFException.UNDEFINED_EXCEPTION
+        container.validity_error = EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS
 
     eof_state_test(
         data=container,
