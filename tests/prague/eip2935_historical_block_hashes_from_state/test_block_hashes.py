@@ -20,6 +20,49 @@ REFERENCE_SPEC_VERSION = ref_spec_2935.version
 FORK_TIMESTAMP = 15_000
 
 
+def generate_block_check_code(
+    block_number: int | None,
+    populated_blockhash: bool,
+    populated_contract: bool,
+    storage: Storage,
+    check_contract_first: bool = False,
+) -> bytes:
+    """
+    Generate EVM code to check that the blockhashes are correctly stored in the state.
+
+    Args:
+        block_number (int | None): The block number to check (or None to return empty code).
+        populated_blockhash (bool): Whether the blockhash should be populated.
+        populated_contract (bool): Whether the contract should be populated.
+        storage (Storage): The storage object to use.
+        check_contract_first (bool): Whether to check the contract first, for slot warming checks.
+    """
+    if block_number is None:
+        # No block number to check
+        return b""
+
+    def check(populated: bool, op: bytes, prefix: bytes = b"") -> bytes:
+        return prefix + Op.SSTORE(storage.store_next(0 if populated else 1), Op.ISZERO(op))
+
+    call = Op.MSTORE(0, block_number)
+    call += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
+
+    if check_contract_first:
+        code = check(populated_contract, Op.MLOAD(0), call) + check(
+            populated_blockhash, Op.BLOCKHASH(block_number)
+        )
+    else:
+        code = check(populated_blockhash, Op.BLOCKHASH(block_number)) + check(
+            populated_contract, Op.MLOAD(0), call
+        )
+
+    if populated_contract and populated_blockhash:
+        # Both values must be equal
+        code += Op.SSTORE(storage.store_next(1), Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(block_number)))
+
+    return code
+
+
 @pytest.mark.parametrize(
     "blocks_before_fork",
     [
@@ -66,40 +109,30 @@ def test_block_hashes_history_at_transition(
             # And HISTORY_STORAGE_ADDRESS should be empty.
             code = b""
             storage = Storage()
-            # Check the first block outside the window
-            if i > Spec.BLOCKHASH_OLD_WINDOW:
-                # We can check that blocks before the window are not available
-                block_outside_window = i - Spec.BLOCKHASH_OLD_WINDOW - 1
 
-                # Check using BLOCKHASH, must be zero
-                code += Op.SSTORE(
-                    storage.store_next(1), Op.ISZERO(Op.BLOCKHASH(block_outside_window))
-                )
+            # Check the last block before the window
+            code += generate_block_check_code(
+                block_number=(
+                    i - Spec.BLOCKHASH_OLD_WINDOW - 1
+                    if i > Spec.BLOCKHASH_OLD_WINDOW
+                    else None  # Chain not long enough, no block to check
+                ),
+                populated_blockhash=False,
+                populated_contract=False,
+                storage=storage,
+            )
 
-                # Check calling the HISTORY_STORAGE_ADDRESS, must be zero
-                code += Op.MSTORE(0, block_outside_window)
-                code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
-                code += Op.RETURNDATACOPY(0, 0, 32)
-                code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.MLOAD(0)))
-
-            else:
-                # No block outside the window
-                pass
-
-            # Check the oldest block inside the window
-            if i > Spec.BLOCKHASH_OLD_WINDOW:
-                oldest_block = i - Spec.BLOCKHASH_OLD_WINDOW
-            else:
-                oldest_block = 0
-
-            # Check using BLOCKHASH, must be greater than zero
-            code += Op.SSTORE(storage.store_next(1), Op.GT(Op.BLOCKHASH(oldest_block), 0))
-
-            # Check calling the HISTORY_STORAGE_ADDRESS, must be zero
-            code += Op.MSTORE(0, oldest_block)
-            code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
-            code += Op.RETURNDATACOPY(0, 0, 32)
-            code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.MLOAD(0)))
+            # Check the first block inside the window
+            code += generate_block_check_code(
+                block_number=(
+                    i - Spec.BLOCKHASH_OLD_WINDOW
+                    if i > Spec.BLOCKHASH_OLD_WINDOW
+                    else 0  # Entire chain is inside the window, check genesis
+                ),
+                populated_blockhash=True,
+                populated_contract=False,
+                storage=storage,
+            )
 
             txs.append(
                 Transaction(
@@ -121,38 +154,30 @@ def test_block_hashes_history_at_transition(
     # And HISTORY_STORAGE_ADDRESS should be also serve the same values.
     code = b""
     storage = Storage()
-    if current_block_number > Spec.HISTORY_SERVE_WINDOW:
-        # We can check that blocks before the window are not available
-        block_outside_window = current_block_number - Spec.HISTORY_SERVE_WINDOW - 1
 
-        # Check using BLOCKHASH, must be zero
-        code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.BLOCKHASH(block_outside_window)))
+    # Check the last block before the window
+    code += generate_block_check_code(
+        block_number=(
+            current_block_number - Spec.HISTORY_SERVE_WINDOW - 1
+            if current_block_number > Spec.HISTORY_SERVE_WINDOW
+            else None  # Chain not long enough, no block to check
+        ),
+        populated_blockhash=False,
+        populated_contract=False,
+        storage=storage,
+    )
 
-        # Check calling the HISTORY_STORAGE_ADDRESS, must be zero
-        code += Op.MSTORE(0, block_outside_window)
-        code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
-        code += Op.RETURNDATACOPY(0, 0, 32)
-        code += Op.SSTORE(storage.store_next(1), Op.ISZERO(Op.MLOAD(0)))
-    else:
-        # No block outside the window
-        pass
-
-    if current_block_number > Spec.HISTORY_SERVE_WINDOW:
-        oldest_block = current_block_number - Spec.HISTORY_SERVE_WINDOW
-    else:
-        oldest_block = 0
-
-    # Check using BLOCKHASH, must be greater than zero
-    code += Op.SSTORE(storage.store_next(1), Op.GT(Op.BLOCKHASH(oldest_block), 0))
-
-    # Check calling the HISTORY_STORAGE_ADDRESS
-    code += Op.MSTORE(0, oldest_block)
-    code += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
-    code += Op.RETURNDATACOPY(0, 0, 32)
-    # Must be greater than zero
-    code += Op.SSTORE(storage.store_next(1), Op.GT(Op.MLOAD(0), 0))
-    # Must be equal to the value returned by BLOCKHASH
-    code += Op.SSTORE(storage.store_next(1), Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(oldest_block)))
+    # Check the first block inside the window
+    code += generate_block_check_code(
+        block_number=(
+            current_block_number - Spec.HISTORY_SERVE_WINDOW
+            if current_block_number > Spec.HISTORY_SERVE_WINDOW
+            else 0  # Entire chain is inside the window, check genesis
+        ),
+        populated_blockhash=True,
+        populated_contract=True,
+        storage=storage,
+    )
 
     txs.append(
         Transaction(
