@@ -36,3 +36,9 @@ runs:
       with:
         repo: ${{ steps.evm-config-reader.outputs.repo }}
         ref: ${{ steps.evm-config-reader.outputs.ref }}
+    - name: Build the EVM using EVMONE action
+      if: steps.evm-config-reader.outputs.impl == 'evmone'
+      uses: ./.github/actions/build-evmone-evm
+      with:
+        repo: ${{ steps.evm-config-reader.outputs.repo }}
+        ref: ${{ steps.evm-config-reader.outputs.ref }}
