@@ -57,11 +57,9 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     }
 
     if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
-        call = call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32)
-        tx_data = Initcode(deploy_code=call + call)
+        tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32) * 2)
     if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
-        call = call_instruction(1_000, TestAddress2, 0, 0, 0, 32)
-        tx_data = Initcode(deploy_code=call + call)
+        tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 32) * 2)
     # TODO(verkle): AUTHCALL
 
     tx = Transaction(
@@ -76,13 +74,9 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     )
     blocks = [Block(txs=[tx])]
 
-    # TODO(verkle): define witness assertion
-    witness_keys = ""
-
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness_keys=witness_keys,
     )

@@ -29,26 +29,9 @@ precompile_address = Address("0x09")
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize(
-    "target, bytecode",
-    [
-        (TestAddress2, "", 1_000_000),
-        (TestAddress2, Op.ADD(1, 2) * 10, 1_000_000),
-        (precompile_address, "", 1_000_000),
-        (TestAddress2, Op.ADD(1, 2) * 10, 3_000),
-    ],
-    ids=[
-        "eoa",
-        "contract",
-        "precompile",
-        "insufficient_gas",
-    ],
-)
-def test_extcodesize(
-    blockchain_test: BlockchainTestFiller, fork: str, call_instruction, target, bytecode, gas_limit
-):
+def test_extcodesize_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instruction):
     """
-    Test EXTCODESIZE witness.
+    Test EXTCODESIZE warm cost.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -60,28 +43,23 @@ def test_extcodesize(
     sender_balance = 1000000000000000000000
     pre = {
         TestAddress: Account(balance=sender_balance),
+        TestAddress2: Account(code=Op.ADD(1, 2) * 10),
     }
-    if target != precompile_address:
-        pre[TestAddress2] = Account(code=bytecode)
 
     tx = Transaction(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
         to=Address("0x00"),
-        gas_limit=gas_limit,
+        gas_limit=1_000_000,
         gas_price=10,
-        data=Initcode(deploy_code=Op.EXTCODESIZE(target)),
+        data=Initcode(deploy_code=Op.EXTCODESIZE(TestAddress2) * 2),
     )
     blocks = [Block(txs=[tx])]
-
-    # TODO(verkle): define witness assertion
-    witness_keys = ""
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness_keys=witness_keys,
     )
