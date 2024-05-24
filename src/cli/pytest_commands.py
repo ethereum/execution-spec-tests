@@ -150,19 +150,19 @@ def get_hive_flags_from_env():
     pytest_args = []
     xdist_workers = os.getenv("HIVE_PARALLELISM")
     if xdist_workers is not None:
-        pytest_args.extend("-n", xdist_workers)
+        pytest_args.extend(["-n", xdist_workers])
     test_pattern = os.getenv("HIVE_TEST_PATTERN")
     if test_pattern is not None:
         # TODO: Check that the regex is a valid pytest -k "test expression"
-        pytest_args.extend("-k", test_pattern)
+        pytest_args.extend(["-k", test_pattern])
     random_seed = os.getenv("HIVE_RANDOM_SEED")
     if random_seed is not None:
         # TODO: implement random seed
-        warnings.warning("HIVE_RANDOM_SEED is not yet supported.")
+        warnings.warn("HIVE_RANDOM_SEED is not yet supported.")
     log_level = os.getenv("HIVE_LOGLEVEL")
     if log_level is not None:
         # TODO add logging within simulators and implement log level via cli
-        warnings.warning("HIVE_LOG_LEVEL is not yet supported.")
+        warnings.warn("HIVE_LOG_LEVEL is not yet supported.")
     return pytest_args
 
 

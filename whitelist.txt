@@ -92,6 +92,7 @@ dup
 dunder
 EEST
 eip
+eip3540
 eips
 EIPs
 endianness
@@ -174,6 +175,7 @@ hyperledger
 iat
 ignoreRevsFile
 img
+immediates
 incrementing
 init
 initcode
