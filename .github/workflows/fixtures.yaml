@@ -24,6 +24,11 @@ jobs:
             fill-params: '--until=Prague --ignore=./tests/prague/eip7692_eof_v1'
             solc: '0.8.21'
             python: '3.11'
+          - name: 'fixtures_eof'
+            evm-type: 'evmone'
+            fill-params: '--fork=Prague ./tests/prague/eip7692_eof_v1'
+            solc: '0.8.21'
+            python: '3.11'
     steps:
       - uses: actions/checkout@v4
         with:

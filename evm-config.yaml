@@ -6,3 +6,7 @@ develop:
   impl: geth
   repo: lightclient/go-ethereum
   ref: prague-devnet-0
+eof:
+  impl: evmone
+  repo: ethereum/evmone
+  ref: master
