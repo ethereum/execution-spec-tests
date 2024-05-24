@@ -9,11 +9,11 @@ from pydantic import BaseModel, BeforeValidator, ConfigDict, RootModel, TypeAdap
 from pydantic.alias_generators import to_pascal
 
 
-def current_python_script_directory() -> str:
+def current_python_script_directory(*args: str) -> str:
     """
-    Get the current Python script directory.
+    Get the current Python script directory, optionally appending additional path components.
     """
-    return os.path.dirname(os.path.realpath(__file__))
+    return os.path.join(os.path.dirname(os.path.realpath(__file__)), *args)
 
 
 class TestVector(BaseModel):
@@ -68,10 +68,11 @@ def vectors_from_file(filename: str) -> List:
     """
     Load test vectors from a file.
     """
-    full_path = os.path.join(
-        current_python_script_directory(),
-        "vectors",
-        filename,
-    )
-    with open(full_path, "rb") as f:
+    with open(
+        current_python_script_directory(
+            "vectors",
+            filename,
+        ),
+        "rb",
+    ) as f:
         return [v.to_pytest_param() for v in TestVectorListAdapter.validate_json(f.read()).root]

@@ -1,8 +1,11 @@
 """
 Defines EIP-2537 specification constants and functions.
 """
+import json
 from dataclasses import dataclass
-from typing import Callable, Sized, SupportsBytes, Tuple
+from typing import Callable, List, Sized, SupportsBytes, Tuple
+
+from .helpers import current_python_script_directory
 
 
 @dataclass(frozen=True)
@@ -106,6 +109,11 @@ class Scalar(BytesConcatenation):
         return self.x.to_bytes(32, byteorder="big")
 
 
+with open(current_python_script_directory("msm_discount_table.json")) as f:
+    MSM_DISCOUNT_TABLE: List[int] = json.load(f)
+    assert type(MSM_DISCOUNT_TABLE) is list
+
+
 @dataclass(frozen=True)
 class Spec:
     """
@@ -141,137 +149,7 @@ class Spec:
     P = (X - 1) ** 2 * Q // 3 + X
     LEN_PER_PAIR = len(PointG1() + PointG2())
     MSM_MULTIPLIER = 1_000
-    MSM_DISCOUNT_TABLE = [
-        0,
-        1200,
-        888,
-        764,
-        641,
-        594,
-        547,
-        500,
-        453,
-        438,
-        423,
-        408,
-        394,
-        379,
-        364,
-        349,
-        334,
-        330,
-        326,
-        322,
-        318,
-        314,
-        310,
-        306,
-        302,
-        298,
-        294,
-        289,
-        285,
-        281,
-        277,
-        273,
-        269,
-        268,
-        266,
-        265,
-        263,
-        262,
-        260,
-        259,
-        257,
-        256,
-        254,
-        253,
-        251,
-        250,
-        248,
-        247,
-        245,
-        244,
-        242,
-        241,
-        239,
-        238,
-        236,
-        235,
-        233,
-        232,
-        231,
-        229,
-        228,
-        226,
-        225,
-        223,
-        222,
-        221,
-        220,
-        219,
-        219,
-        218,
-        217,
-        216,
-        216,
-        215,
-        214,
-        213,
-        213,
-        212,
-        211,
-        211,
-        210,
-        209,
-        208,
-        208,
-        207,
-        206,
-        205,
-        205,
-        204,
-        203,
-        202,
-        202,
-        201,
-        200,
-        199,
-        199,
-        198,
-        197,
-        196,
-        196,
-        195,
-        194,
-        193,
-        193,
-        192,
-        191,
-        191,
-        190,
-        189,
-        188,
-        188,
-        187,
-        186,
-        185,
-        185,
-        184,
-        183,
-        182,
-        182,
-        181,
-        180,
-        179,
-        179,
-        178,
-        177,
-        176,
-        176,
-        175,
-        174,
-    ]
+    MSM_DISCOUNT_TABLE = MSM_DISCOUNT_TABLE
 
     # Test constants (from https://github.com/ethereum/bls12-381-tests/tree/eip-2537)
     P1 = PointG1(  # random point in G1
