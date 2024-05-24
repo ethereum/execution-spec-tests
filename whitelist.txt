@@ -655,6 +655,7 @@ create
 create2
 create3
 create4
+authcall
 call
 callcode
 return
