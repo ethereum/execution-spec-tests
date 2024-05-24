@@ -8020,6 +8020,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_create_selfdestruct_same_tx_increased_nonce" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_create_selfdestruct_same_tx_increased_nonce
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -8036,7 +8045,7 @@
 
 
 <h1 id="test-selfdestruct">Test Selfdestruct<a class="headerlink" href="#test-selfdestruct" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/647a55a65dcab025b36495f4ac6b8951ccf02993/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/667a06802025b1222547493f78340e22a439d560/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</span>
@@ -8093,11 +8102,7 @@ transaction.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
@@ -8293,7 +8298,11 @@ transaction.</p>
 <span class="normal">423</span>
 <span class="normal">424</span>
 <span class="normal">425</span>
-<span class="normal">426</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_times,sendall_recipient_addresses&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -8530,11 +8539,7 @@ transaction.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span>
 <span class="normal">436</span>
@@ -8655,7 +8660,11 @@ transaction.</p>
 <span class="normal">551</span>
 <span class="normal">552</span>
 <span class="normal">553</span>
-<span class="normal">554</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_times&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;self_destructing_initcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
@@ -8816,11 +8825,7 @@ transaction.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">561</span>
 <span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
@@ -8868,7 +8873,11 @@ transaction.</p>
 <span class="normal">606</span>
 <span class="normal">607</span>
 <span class="normal">608</span>
-<span class="normal">609</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_address&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">compute_create_address</span><span class="p">(</span><span class="n">TestAddress</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;self_destructing_initcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
@@ -8957,11 +8966,7 @@ of multiple transactions.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">616</span>
 <span class="normal">617</span>
 <span class="normal">618</span>
 <span class="normal">619</span>
@@ -9066,7 +9071,11 @@ of multiple transactions.</p>
 <span class="normal">718</span>
 <span class="normal">719</span>
 <span class="normal">720</span>
-<span class="normal">721</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>  <span class="c1"># Can only recreate using CREATE2</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>  <span class="c1"># Can only recreate using CREATE2</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;sendall_recipient_addresses&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -9213,11 +9222,7 @@ the behavior before the EIP, but the account is not deleted.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
-<span class="normal">728</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">728</span>
 <span class="normal">729</span>
 <span class="normal">730</span>
 <span class="normal">731</span>
@@ -9385,7 +9390,11 @@ the behavior before the EIP, but the account is not deleted.</p>
 <span class="normal">893</span>
 <span class="normal">894</span>
 <span class="normal">895</span>
-<span class="normal">896</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">896</span>
+<span class="normal">897</span>
+<span class="normal">898</span>
+<span class="normal">899</span>
+<span class="normal">900</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_times,sendall_recipient_addresses&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -9585,11 +9594,7 @@ called, its balance is sent to the send-all address, but the account is not dele
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 899</span>
-<span class="normal"> 900</span>
-<span class="normal"> 901</span>
-<span class="normal"> 902</span>
-<span class="normal"> 903</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 903</span>
 <span class="normal"> 904</span>
 <span class="normal"> 905</span>
 <span class="normal"> 906</span>
@@ -9695,7 +9700,11 @@ called, its balance is sent to the send-all address, but the account is not dele
 <span class="normal">1006</span>
 <span class="normal">1007</span>
 <span class="normal">1008</span>
-<span class="normal">1009</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_times&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;selfdestruct_contract_address,entry_code_address&quot;</span><span class="p">,</span>
@@ -9833,11 +9842,7 @@ account that executes self-destruct, the calling account is deleted.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1012</span>
-<span class="normal">1013</span>
-<span class="normal">1014</span>
-<span class="normal">1015</span>
-<span class="normal">1016</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1016</span>
 <span class="normal">1017</span>
 <span class="normal">1018</span>
 <span class="normal">1019</span>
@@ -9993,7 +9998,11 @@ account that executes self-destruct, the calling account is deleted.</p>
 <span class="normal">1169</span>
 <span class="normal">1170</span>
 <span class="normal">1171</span>
-<span class="normal">1172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1172</span>
+<span class="normal">1173</span>
+<span class="normal">1174</span>
+<span class="normal">1175</span>
+<span class="normal">1176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;selfdestruct_code&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -10182,11 +10191,7 @@ is not deleted.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1175</span>
-<span class="normal">1176</span>
-<span class="normal">1177</span>
-<span class="normal">1178</span>
-<span class="normal">1179</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1179</span>
 <span class="normal">1180</span>
 <span class="normal">1181</span>
 <span class="normal">1182</span>
@@ -10336,7 +10341,11 @@ is not deleted.</p>
 <span class="normal">1326</span>
 <span class="normal">1327</span>
 <span class="normal">1328</span>
-<span class="normal">1329</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
+<span class="normal">1329</span>
+<span class="normal">1330</span>
+<span class="normal">1331</span>
+<span class="normal">1332</span>
+<span class="normal">1333</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_times&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -10476,6 +10485,370 @@ is not deleted.</p>
         <span class="n">post</span><span class="p">[</span><span class="n">delegate_caller_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">delegate_caller_code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">post</span><span class="p">[</span><span class="n">delegate_caller_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>  <span class="c1"># type: ignore</span>
+
+    <span class="n">nonce</span> <span class="o">=</span> <span class="n">count</span><span class="p">()</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">entry_code</span><span class="p">,</span>
+        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+        <span class="n">nonce</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">nonce</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000</span><span class="p">,</span>
+        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_create_selfdestruct_same_tx_increased_nonce" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_create_selfdestruct_same_tx_increased_nonce</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">entry_code_address</span><span class="p">,</span> <span class="n">selfdestruct_code</span><span class="p">,</span> <span class="n">selfdestruct_contract_initcode</span><span class="p">,</span> <span class="n">selfdestruct_contract_address</span><span class="p">,</span> <span class="n">sendall_recipient_addresses</span><span class="p">,</span> <span class="n">initcode_copy_from_address</span><span class="p">,</span> <span class="n">create_opcode</span><span class="p">,</span> <span class="n">call_times</span><span class="p">,</span> <span class="n">selfdestruct_contract_initial_balance</span><span class="p">)</span></code>
+
+<a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_create_selfdestruct_same_tx_increased_nonce" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Verify that a contract can self-destruct if it was created in the same transaction, even when
+its nonce has been increased due to contract creation.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1339</span>
+<span class="normal">1340</span>
+<span class="normal">1341</span>
+<span class="normal">1342</span>
+<span class="normal">1343</span>
+<span class="normal">1344</span>
+<span class="normal">1345</span>
+<span class="normal">1346</span>
+<span class="normal">1347</span>
+<span class="normal">1348</span>
+<span class="normal">1349</span>
+<span class="normal">1350</span>
+<span class="normal">1351</span>
+<span class="normal">1352</span>
+<span class="normal">1353</span>
+<span class="normal">1354</span>
+<span class="normal">1355</span>
+<span class="normal">1356</span>
+<span class="normal">1357</span>
+<span class="normal">1358</span>
+<span class="normal">1359</span>
+<span class="normal">1360</span>
+<span class="normal">1361</span>
+<span class="normal">1362</span>
+<span class="normal">1363</span>
+<span class="normal">1364</span>
+<span class="normal">1365</span>
+<span class="normal">1366</span>
+<span class="normal">1367</span>
+<span class="normal">1368</span>
+<span class="normal">1369</span>
+<span class="normal">1370</span>
+<span class="normal">1371</span>
+<span class="normal">1372</span>
+<span class="normal">1373</span>
+<span class="normal">1374</span>
+<span class="normal">1375</span>
+<span class="normal">1376</span>
+<span class="normal">1377</span>
+<span class="normal">1378</span>
+<span class="normal">1379</span>
+<span class="normal">1380</span>
+<span class="normal">1381</span>
+<span class="normal">1382</span>
+<span class="normal">1383</span>
+<span class="normal">1384</span>
+<span class="normal">1385</span>
+<span class="normal">1386</span>
+<span class="normal">1387</span>
+<span class="normal">1388</span>
+<span class="normal">1389</span>
+<span class="normal">1390</span>
+<span class="normal">1391</span>
+<span class="normal">1392</span>
+<span class="normal">1393</span>
+<span class="normal">1394</span>
+<span class="normal">1395</span>
+<span class="normal">1396</span>
+<span class="normal">1397</span>
+<span class="normal">1398</span>
+<span class="normal">1399</span>
+<span class="normal">1400</span>
+<span class="normal">1401</span>
+<span class="normal">1402</span>
+<span class="normal">1403</span>
+<span class="normal">1404</span>
+<span class="normal">1405</span>
+<span class="normal">1406</span>
+<span class="normal">1407</span>
+<span class="normal">1408</span>
+<span class="normal">1409</span>
+<span class="normal">1410</span>
+<span class="normal">1411</span>
+<span class="normal">1412</span>
+<span class="normal">1413</span>
+<span class="normal">1414</span>
+<span class="normal">1415</span>
+<span class="normal">1416</span>
+<span class="normal">1417</span>
+<span class="normal">1418</span>
+<span class="normal">1419</span>
+<span class="normal">1420</span>
+<span class="normal">1421</span>
+<span class="normal">1422</span>
+<span class="normal">1423</span>
+<span class="normal">1424</span>
+<span class="normal">1425</span>
+<span class="normal">1426</span>
+<span class="normal">1427</span>
+<span class="normal">1428</span>
+<span class="normal">1429</span>
+<span class="normal">1430</span>
+<span class="normal">1431</span>
+<span class="normal">1432</span>
+<span class="normal">1433</span>
+<span class="normal">1434</span>
+<span class="normal">1435</span>
+<span class="normal">1436</span>
+<span class="normal">1437</span>
+<span class="normal">1438</span>
+<span class="normal">1439</span>
+<span class="normal">1440</span>
+<span class="normal">1441</span>
+<span class="normal">1442</span>
+<span class="normal">1443</span>
+<span class="normal">1444</span>
+<span class="normal">1445</span>
+<span class="normal">1446</span>
+<span class="normal">1447</span>
+<span class="normal">1448</span>
+<span class="normal">1449</span>
+<span class="normal">1450</span>
+<span class="normal">1451</span>
+<span class="normal">1452</span>
+<span class="normal">1453</span>
+<span class="normal">1454</span>
+<span class="normal">1455</span>
+<span class="normal">1456</span>
+<span class="normal">1457</span>
+<span class="normal">1458</span>
+<span class="normal">1459</span>
+<span class="normal">1460</span>
+<span class="normal">1461</span>
+<span class="normal">1462</span>
+<span class="normal">1463</span>
+<span class="normal">1464</span>
+<span class="normal">1465</span>
+<span class="normal">1466</span>
+<span class="normal">1467</span>
+<span class="normal">1468</span>
+<span class="normal">1469</span>
+<span class="normal">1470</span>
+<span class="normal">1471</span>
+<span class="normal">1472</span>
+<span class="normal">1473</span>
+<span class="normal">1474</span>
+<span class="normal">1475</span>
+<span class="normal">1476</span>
+<span class="normal">1477</span>
+<span class="normal">1478</span>
+<span class="normal">1479</span>
+<span class="normal">1480</span>
+<span class="normal">1481</span>
+<span class="normal">1482</span>
+<span class="normal">1483</span>
+<span class="normal">1484</span>
+<span class="normal">1485</span>
+<span class="normal">1486</span>
+<span class="normal">1487</span>
+<span class="normal">1488</span>
+<span class="normal">1489</span>
+<span class="normal">1490</span>
+<span class="normal">1491</span>
+<span class="normal">1492</span>
+<span class="normal">1493</span>
+<span class="normal">1494</span>
+<span class="normal">1495</span>
+<span class="normal">1496</span>
+<span class="normal">1497</span>
+<span class="normal">1498</span>
+<span class="normal">1499</span>
+<span class="normal">1500</span>
+<span class="normal">1501</span>
+<span class="normal">1502</span>
+<span class="normal">1503</span>
+<span class="normal">1504</span>
+<span class="normal">1505</span>
+<span class="normal">1506</span>
+<span class="normal">1507</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;selfdestruct_pre_bytecode&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;increase_nonce_by_create&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;call_times,sendall_recipient_addresses&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x1000</span><span class="p">)],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;single_call&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x1000</span><span class="p">)],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;multiple_calls_single beneficiary&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_create_selfdestruct_same_tx_increased_nonce</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">selfdestruct_code</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
+    <span class="n">selfdestruct_contract_initcode</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
+    <span class="n">selfdestruct_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">sendall_recipient_addresses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
+    <span class="n">initcode_copy_from_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">create_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">call_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">selfdestruct_contract_initial_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify that a contract can self-destruct if it was created in the same transaction, even when</span>
+<span class="sd">    its nonce has been increased due to contract creation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Our entry point is an initcode that in turn creates a self-destructing contract</span>
+    <span class="n">entry_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
+
+    <span class="c1"># Create a dict to record the expected final balances</span>
+    <span class="n">sendall_final_balances</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">selfdestruct_contract_current_balance</span> <span class="o">=</span> <span class="n">selfdestruct_contract_initial_balance</span>
+
+    <span class="c1"># Bytecode used to create the contract, can be CREATE or CREATE2</span>
+    <span class="n">create_args</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Value</span>
+        <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Offset</span>
+        <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">)),</span>  <span class="c1"># Length</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">create_opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
+        <span class="c1"># CREATE2 requires a salt argument</span>
+        <span class="n">create_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">create_bytecode</span> <span class="o">=</span> <span class="n">create_opcode</span><span class="p">(</span><span class="o">*</span><span class="n">create_args</span><span class="p">)</span>
+
+    <span class="c1"># Entry code that will be executed, creates the contract and then calls it in the same tx</span>
+    <span class="n">entry_code</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># Initcode is already deployed at `initcode_copy_from_address`, so just copy it</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>
+            <span class="n">initcode_copy_from_address</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">)),</span>
+        <span class="p">)</span>
+        <span class="c1"># And we store the created address for verification purposes</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+            <span class="n">create_bytecode</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Store the EXTCODE* properties of the created address</span>
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">))),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">keccak256</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">))),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Call the self-destructing contract multiple times as required, increasing the wei sent each</span>
+    <span class="c1"># time</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sendall_recipient</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">call_times</span><span class="p">),</span> <span class="n">cycle</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">)):</span>
+        <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sendall_recipient</span><span class="p">)</span>
+        <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
+                <span class="n">Op</span><span class="o">.</span><span class="n">GASLIMIT</span><span class="p">,</span>  <span class="c1"># Gas</span>
+                <span class="n">selfdestruct_contract_address</span><span class="p">,</span>  <span class="c1"># Address</span>
+                <span class="n">i</span><span class="p">,</span>  <span class="c1"># Value</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">32</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">selfdestruct_contract_current_balance</span> <span class="o">+=</span> <span class="n">i</span>
+
+        <span class="c1"># Balance is always sent to other contracts</span>
+        <span class="k">if</span> <span class="n">sendall_recipient</span> <span class="o">!=</span> <span class="n">selfdestruct_contract_address</span><span class="p">:</span>
+            <span class="n">sendall_final_balances</span><span class="p">[</span><span class="n">sendall_recipient</span><span class="p">]</span> <span class="o">+=</span> <span class="n">selfdestruct_contract_current_balance</span>
+
+        <span class="c1"># Self-destructing contract must always have zero balance after the call because the</span>
+        <span class="c1"># self-destruct always happens in the same transaction in this test</span>
+        <span class="n">selfdestruct_contract_current_balance</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Check the EXTCODE* properties of the self-destructing contract again</span>
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">))),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">keccak256</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">))),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Lastly return zero so the entry point contract is created and we can retain the stored</span>
+    <span class="c1"># values for verification.</span>
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">)),</span> <span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x00&quot;</span><span class="p">,</span>
+            <span class="n">storage</span><span class="o">=</span><span class="n">entry_code_storage</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">initcode_copy_from_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="n">selfdestruct_contract_initcode</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Check the balances of the sendall recipients</span>
+    <span class="k">for</span> <span class="n">address</span><span class="p">,</span> <span class="n">balance</span> <span class="ow">in</span> <span class="n">sendall_final_balances</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+    <span class="c1"># Check the new contracts created from the self-destructing contract were correctly created.</span>
+    <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="n">compute_create_address</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">call_times</span><span class="p">)</span>
+    <span class="p">]:</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">post</span><span class="p">[</span><span class="n">selfdestruct_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>  <span class="c1"># type: ignore</span>
 
     <span class="n">nonce</span> <span class="o">=</span> <span class="n">count</span><span class="p">()</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
