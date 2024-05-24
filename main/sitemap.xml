@@ -731,6 +731,26 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/</loc>
+         <lastmod>2024-05-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/spec/</loc>
+         <lastmod>2024-05-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes/</loc>
+         <lastmod>2024-05-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes/index/test_cases/</loc>
+         <lastmod>2024-05-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip6110_deposits/</loc>
          <lastmod>2024-05-24</lastmod>
          <changefreq>daily</changefreq>
