@@ -30,18 +30,18 @@ precompile_address = Address("0x09")
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
-    "call_instruction",
+    "target, bytecode",
     [
-        Op.CALL,
-        Op.CALLCODE,
-        Op.DELEGATECALL,
-        Op.STATICCALL,
-        # TODO(verkle): add AUTHCALL when/if supported in mainnet.
+        (TestAddress2, ""),
+        (TestAddress2, Op.ADD(1, 2) * 10),
+        (precompile_address, ""),
     ],
 )
-def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instruction):
+def test_extcodesize(
+    blockchain_test: BlockchainTestFiller, fork: str, call_instruction, target, bytecode
+):
     """
-    Test *CALL charge warm cost on second call.
+    Test EXTCODESIZE witness.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -53,16 +53,9 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     sender_balance = 1000000000000000000000
     pre = {
         TestAddress: Account(balance=sender_balance),
-        TestAddress2: Account(code=Op.ADD(1, 2)),
     }
-
-    if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
-        call = call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32)
-        tx_data = Initcode(deploy_code=call + call)
-    if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
-        call = call_instruction(1_000, TestAddress2, 0, 0, 0, 32)
-        tx_data = Initcode(deploy_code=call + call)
-    # TODO(verkle): AUTHCALL
+    if target != precompile_address:
+        pre[TestAddress2] = Account(code=bytecode)
 
     tx = Transaction(
         ty=0x0,
@@ -71,8 +64,7 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
         to=Address("0x00"),
         gas_limit=100000000,
         gas_price=10,
-        value=0,
-        data=tx_data,
+        data=Initcode(deploy_code=Op.EXTCODESIZE(target)),
     )
     blocks = [Block(txs=[tx])]
 
