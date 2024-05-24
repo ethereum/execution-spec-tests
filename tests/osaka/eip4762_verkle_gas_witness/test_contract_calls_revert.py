@@ -17,6 +17,7 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -35,15 +36,12 @@ precompile_address = Address("0x09")
         Op.CALL,
         Op.CALLCODE,
         Op.DELEGATECALL,
-        Op.STATICCALL,
         # TODO(verkle): add AUTHCALL when/if supported in mainnet.
     ],
 )
-def test_calls_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: str, call_instruction
-):
+def test_calls_revert(blockchain_test: BlockchainTestFiller, fork: str, call_instruction):
     """
-    Test *CALL witness assertion when there's insufficient gas for the dynamic cost.
+    Test *CALL witness assertion when the sub-context reverts.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -52,15 +50,20 @@ def test_calls_insufficient_gas(
         number=1,
         timestamp=1000,
     )
-    sender_balance = 1000  # TODO(verkle): adjust
+    sender_balance = 1000000000000000000000
     pre = {
         TestAddress: Account(balance=sender_balance),
-        TestAddress2: Account(code=Op.ADD(1, 2)),
+        TestAddress2: Account(
+            code=Op.SSTORE(0x03, 0x42) + Op.REVERT,
+            storage={0x03: 0x41},
+        ),
     }
 
+    witness_address = TestAddress2
     if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
         tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32))
-    if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
+    if call_instruction == Op.DELEGATECALL:
+        witness_address = compute_create_address(TestAddress, 0)
         tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 32))
     # TODO(verkle): AUTHCALL
 
@@ -77,6 +80,7 @@ def test_calls_insufficient_gas(
     blocks = [Block(txs=[tx])]
 
     # TODO(verkle): define witness assertion
+    _ = witness_address
     witness_keys = ""
 
     blockchain_test(
