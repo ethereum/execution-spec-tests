@@ -41,24 +41,24 @@ def generate_block_check_code(
         # No block number to check
         return b""
 
-    def check(populated: bool, op: bytes, prefix: bytes = b"") -> bytes:
-        return prefix + Op.SSTORE(storage.store_next(0 if populated else 1), Op.ISZERO(op))
+    blockhash_key = storage.store_next(not populated_blockhash)
+    contract_key = storage.store_next(not populated_contract)
 
-    call = Op.MSTORE(0, block_number)
-    call += Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
+    check_blockhash = Op.SSTORE(blockhash_key, Op.ISZERO(Op.BLOCKHASH(block_number)))
+    check_contract = (
+        Op.MSTORE(0, block_number)
+        + Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
+        + Op.SSTORE(contract_key, Op.ISZERO(Op.MLOAD(0)))
+    )
 
     if check_contract_first:
-        code = check(populated_contract, Op.MLOAD(0), call) + check(
-            populated_blockhash, Op.BLOCKHASH(block_number)
-        )
+        code = check_contract + check_blockhash
     else:
-        code = check(populated_blockhash, Op.BLOCKHASH(block_number)) + check(
-            populated_contract, Op.MLOAD(0), call
-        )
+        code = check_blockhash + check_contract
 
     if populated_contract and populated_blockhash:
         # Both values must be equal
-        code += Op.SSTORE(storage.store_next(1), Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(block_number)))
+        code += Op.SSTORE(storage.store_next(True), Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(block_number)))
 
     return code
 
