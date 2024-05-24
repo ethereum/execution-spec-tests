@@ -302,7 +302,7 @@ class GrayGlacier(ArrowGlacier, solc_name="london", ignore=True):
 class Paris(
     London,
     transition_tool_name="Merge",
-    blockchain_test_network_name="Merge",
+    blockchain_test_network_name="Paris",
 ):
     """
     Paris (Merge) fork
@@ -365,14 +365,6 @@ class Cancun(Shanghai):
     """
     Cancun fork
     """
-
-    @classmethod
-    def is_deployed(cls):
-        """
-        Flags that Cancun has not been deployed to mainnet; it is under active
-        development.
-        """
-        return False
 
     @classmethod
     def solc_min_version(cls) -> Version:
@@ -482,3 +474,21 @@ class Prague(Cancun):
         Returns the minimum version of solc that supports this fork.
         """
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+    @classmethod
+    def engine_new_payload_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """
+        Starting at Prague, new payload calls must use version 4
+        """
+        return 4
+
+    @classmethod
+    def engine_forkchoice_updated_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """
+        At Prague, version number of NewPayload and ForkchoiceUpdated diverge.
+        """
+        return 3

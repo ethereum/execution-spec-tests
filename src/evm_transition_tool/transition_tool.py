@@ -14,7 +14,7 @@ from enum import Enum
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Type
 
 from ethereum_test_forks import Fork
 
@@ -45,6 +45,7 @@ class FixtureFormats(Enum):
     STATE_TEST = "state_test"
     BLOCKCHAIN_TEST = "blockchain_test"
     BLOCKCHAIN_TEST_HIVE = "blockchain_test_hive"
+    EOF_TEST = "eof_test"
 
     @classmethod
     def is_state_test(cls, format):  # noqa: D102
@@ -81,7 +82,25 @@ class FixtureFormats(Enum):
             return "Tests that generate a blockchain test fixture."
         elif format == cls.BLOCKCHAIN_TEST_HIVE:
             return "Tests that generate a blockchain test fixture in hive format."
+        elif format == cls.EOF_TEST:
+            return "Tests that generate an EOF test fixture."
         raise Exception(f"Unknown fixture format: {format}.")
+
+    @property
+    def output_base_dir_name(self) -> Path:
+        """
+        Returns the name of the subdirectory where this type of fixture should be dumped to.
+        """
+        return Path(self.value.replace("test", "tests"))
+
+    @property
+    def output_file_extension(self) -> str:
+        """
+        Returns the file extension for this type of fixture.
+
+        By default, fixtures are dumped as JSON files.
+        """
+        return ".json"
 
 
 class TransitionTool:
@@ -298,7 +317,7 @@ class TransitionTool:
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes a transition tool using the filesystem for its inputs and outputs.
         """
@@ -408,14 +427,14 @@ class TransitionTool:
 
         temp_dir.cleanup()
 
-        return output_contents["alloc"], output_contents["result"]
+        return output_contents
 
     def _evaluate_stream(
         self,
         *,
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes a transition tool using stdin and stdout for its inputs and outputs.
         """
@@ -459,7 +478,7 @@ class TransitionTool:
             self.collect_traces(output["result"]["receipts"], temp_dir, debug_output_path)
             temp_dir.cleanup()
 
-        return output["alloc"], output["result"]
+        return output
 
     def construct_args_stream(
         self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
@@ -540,7 +559,7 @@ class TransitionTool:
         reward: int = 0,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         """
         Executes the relevant evaluate method as required by the `t8n` tool.
 
@@ -564,13 +583,17 @@ class TransitionTool:
             )
 
     def verify_fixture(
-        self, fixture_format: FixtureFormats, fixture_path: Path, debug_output_path: Optional[Path]
+        self,
+        fixture_format: FixtureFormats,
+        fixture_path: Path,
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
     ):
         """
         Executes `evm [state|block]test` to verify the fixture at `fixture_path`.
 
         Currently only implemented by geth's evm.
         """
-        raise Exception(
+        raise NotImplementedError(
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
         )

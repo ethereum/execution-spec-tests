@@ -18,11 +18,10 @@ from .common import (
     AccessList,
     Account,
     Address,
-    Auto,
+    Alloc,
     EngineAPIError,
     Environment,
     Hash,
-    JSONEncoder,
     Removable,
     Storage,
     TestAddress,
@@ -35,13 +34,13 @@ from .common import (
     add_kzg_version,
     ceiling_division,
     compute_create2_address,
+    compute_create3_address,
     compute_create_address,
     copy_opcode_cost,
     cost_memory_bytes,
     eip_2028_transaction_data_cost,
-    transaction_list_root,
 )
-from .exceptions import BlockException, ExceptionList, ExceptionType, TransactionException
+from .exceptions import BlockException, EOFException, TransactionException
 from .reference_spec import ReferenceSpec, ReferenceSpecTypes
 from .spec import (
     SPEC_TYPES,
@@ -49,20 +48,24 @@ from .spec import (
     BaseTest,
     BlockchainTest,
     BlockchainTestFiller,
+    EOFStateTest,
+    EOFStateTestFiller,
+    EOFTest,
+    EOFTestFiller,
     FixtureCollector,
     StateTest,
     StateTestFiller,
     TestInfo,
 )
 from .spec.blockchain.types import Block, Header
-from .vm import Opcode, OpcodeCallArg, Opcodes
+from .vm import Macro, Macros, Opcode, OpcodeCallArg, Opcodes
 
 __all__ = (
     "SPEC_TYPES",
     "AccessList",
     "Account",
     "Address",
-    "Auto",
+    "Alloc",
     "BaseFixture",
     "BaseTest",
     "Block",
@@ -76,13 +79,17 @@ __all__ = (
     "Conditional",
     "EngineAPIError",
     "Environment",
-    "ExceptionList",
-    "ExceptionType",
+    "EOFException",
+    "EOFStateTest",
+    "EOFStateTestFiller",
+    "EOFTest",
+    "EOFTestFiller",
     "FixtureCollector",
     "Hash",
     "Header",
     "Initcode",
-    "JSONEncoder",
+    "Macro",
+    "Macros",
     "Opcode",
     "OpcodeCallArg",
     "Opcodes",
@@ -108,9 +115,9 @@ __all__ = (
     "ceiling_division",
     "compute_create_address",
     "compute_create2_address",
+    "compute_create3_address",
     "copy_opcode_cost",
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
-    "transaction_list_root",
 )

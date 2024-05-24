@@ -6,7 +6,7 @@ The execution-spec-tests test framework uses the [pytest framework](https://docs
     The command-line options specific to filling tests can be listed via:
 
     ```console
-    fill --test-help
+    fill --help
     ```
 
     See [Custom `fill` Command-Line Options](#custom-fill-command-line-options) for all options.
@@ -103,10 +103,12 @@ fill -s             # Print stdout from tests to the console during execution
 
 ## Custom `fill` Command-Line Options
 
-Options added by the execution-spec-tests pytest plugins can be listed with:
+To see all the options available to fill, including pytest and pytest plugin options, use `--pytest-help`.
+
+To list the options that only specific to fill, use:
 
 ```console
-fill --test-help
+fill --help
 ```
 
 Output:
@@ -152,6 +154,10 @@ Arguments defining filler location and output:
                         Don't group fixtures in JSON files by test function;
                         write each fixture to its own file. This can be used to
                         increase the granularity of --verify-fixtures.
+  --no-html             Don't generate an HTML test report (in the output
+                        directory). The --html flag can be used to specify a
+                        different path.
+
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
@@ -168,5 +174,4 @@ Arguments related to running execution-spec-tests:
                         and exit.
 
 Exit: After displaying help.
-
 ```

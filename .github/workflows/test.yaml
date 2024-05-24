@@ -29,7 +29,7 @@ jobs:
             evm-type: 'main'
             tox-cmd: 'tox run-parallel --parallel-no-spinner'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: ./.github/actions/build-evm
@@ -37,7 +37,7 @@ jobs:
         with:
           type: ${{ matrix.evm-type }}
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
           allow-prereleases: true
@@ -62,7 +62,7 @@ jobs:
         run: pip install tox
       - name: Run Tox (CPython)
         run: ${{ matrix.tox-cmd }}
-      - uses: DavidAnson/markdownlint-cli2-action@v11
+      - uses: DavidAnson/markdownlint-cli2-action@v16
         with:
           globs: |
             README.md

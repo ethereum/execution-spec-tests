@@ -1,9 +1,9 @@
 {
     "000/my_chain_id_test/Paris": {
         "_info": {
-            "hash": "0x61b10b97625c41f23bee558102248e8690f127041d1dc7262566c90e207e41d4"
+            "hash": "0x00137bf15a3dd71099691a3fde7563ed2a36928d98802dd98ef82b3513d59af3"
         },
-        "network": "Merge",
+        "network": "Paris",
         "genesisBlockHeader": {
             "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "uncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",

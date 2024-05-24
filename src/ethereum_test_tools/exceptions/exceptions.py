@@ -3,39 +3,14 @@ Exceptions for invalid execution.
 """
 
 from enum import Enum, auto, unique
-from typing import List, Union
+from typing import Annotated, Any, List
 
-
-class ExceptionList(list):
-    """
-    A list of exceptions.
-    """
-
-    def __init__(self, *exceptions: "ExceptionBase") -> None:
-        """
-        Create a new ExceptionList.
-        """
-        exceptions_set: List[ExceptionBase] = []
-        for exception in exceptions:
-            if not isinstance(exception, ExceptionBase):
-                raise TypeError(f"Expected ExceptionBase, got {type(exception)}")
-            if exception not in exceptions_set:
-                exceptions_set.append(exception)
-        super().__init__(exceptions_set)
-
-    def __or__(self, other: Union["ExceptionBase", "ExceptionList"]) -> "ExceptionList":
-        """
-        Combine two ExceptionLists.
-        """
-        if isinstance(other, list):
-            return ExceptionList(*(self + other))
-        return ExceptionList(*(self + [other]))
-
-    def __str__(self) -> str:
-        """
-        String representation of the ExceptionList.
-        """
-        return "|".join(str(exception) for exception in self)
+from pydantic import BeforeValidator, GetCoreSchemaHandler, PlainSerializer
+from pydantic_core.core_schema import (
+    PlainValidatorFunctionSchema,
+    no_info_plain_validator_function,
+    to_string_ser_schema,
+)
 
 
 class ExceptionBase(Enum):
@@ -43,22 +18,70 @@ class ExceptionBase(Enum):
     Base class for exceptions.
     """
 
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """
+        Calls the class constructor without info and appends the serialization schema.
+        """
+        return no_info_plain_validator_function(
+            source_type,
+            serialization=to_string_ser_schema(),
+        )
+
     def __contains__(self, exception) -> bool:
         """
         Checks if provided exception is equal to this
         """
         return self == exception
 
-    def __or__(
-        self,
-        other: Union["TransactionException", "BlockException", ExceptionList],
-    ) -> "ExceptionList":
+    def __str__(self) -> str:
         """
-        Combine two exceptions into an ExceptionList.
+        Returns the string representation of the exception
         """
-        if isinstance(other, ExceptionList):
-            return ExceptionList(self, *other)
-        return ExceptionList(self, other)
+        return f"{self.__class__.__name__}.{self.name}"
+
+
+def to_pipe_str(value: Any) -> str:
+    """
+    Single pipe-separated string representation of an exception list.
+
+    Obtain a deterministic ordering by ordering using the exception string
+    representations.
+    """
+    if isinstance(value, list):
+        return "|".join(str(exception) for exception in value)
+    return str(value)
+
+
+def create_exception_from_str(exception_str: str) -> ExceptionBase:
+    """
+    Create an exception instance from its string representation.
+    """
+    class_name, enum_name = exception_str.split(".")
+    exception_class = globals().get(class_name, None)
+
+    if exception_class and issubclass(exception_class, ExceptionBase):
+        enum_value = getattr(exception_class, enum_name, None)
+        if enum_value and enum_value in exception_class:
+            return exception_class(enum_value)
+        else:
+            raise ValueError(f"No such enum in class: {exception_str}")
+    else:
+        raise ValueError(f"No such exception class: {class_name}")
+
+
+def from_pipe_str(value: Any) -> ExceptionBase | List[ExceptionBase]:
+    """
+    Parses a single string as a pipe separated list into enum exceptions.
+    """
+    if isinstance(value, str):
+        exception_list = [create_exception_from_str(v) for v in value.split("|")]
+        if len(exception_list) == 1:
+            return exception_list[0]
+        return exception_list
+    return value
 
 
 @unique
@@ -159,4 +182,176 @@ class BlockException(ExceptionBase):
     """
 
 
-ExceptionType = Union[TransactionException, BlockException, ExceptionList]
+@unique
+class EOFException(ExceptionBase):
+    """
+    Exception raised when an EOF container is invalid
+    """
+
+    DEFAULT_EXCEPTION = auto()
+    """
+    Expect some exception, not yet known
+    """
+
+    UNDEFINED_EXCEPTION = auto()
+    """
+    Indicates that exception string is not mapped to an exception enum
+    """
+
+    UNDEFINED_INSTRUCTION = auto()
+    """
+    EOF container has undefined instruction in it's body code
+    """
+
+    UNKNOWN_VERSION = auto()
+    """
+    EOF container has an unknown version
+    """
+    INCOMPLETE_MAGIC = auto()
+    """
+    EOF container has not enough bytes to read magic
+    """
+    INVALID_MAGIC = auto()
+    """
+    EOF container has not allowed magic version byte
+    """
+    INVALID_VERSION = auto()
+    """
+    EOF container version bytes mismatch
+    """
+    INVALID_NON_RETURNING_FLAG = auto()
+    """
+    EOF container's section has non-returning flag set incorrectly
+    """
+    INVALID_RJUMP_DESTINATION = auto()
+    """
+    Code has RJUMP instruction with invalid parameters
+    """
+    MISSING_TYPE_HEADER = auto()
+    """
+    EOF container missing types section
+    """
+    INVALID_TYPE_SECTION_SIZE = auto()
+    """
+    EOF container types section has wrong size
+    """
+    INVALID_TYPE_BODY = auto()
+    """
+    EOF container types body section bytes are wrong
+    """
+    MISSING_CODE_HEADER = auto()
+    """
+    EOF container missing code section
+    """
+    INVALID_CODE_SECTION = auto()
+    """
+    EOF container code section bytes are incorrect
+    """
+    INCOMPLETE_CODE_HEADER = auto()
+    """
+    EOF container code header missing bytes
+    """
+    INCOMPLETE_DATA_HEADER = auto()
+    """
+    EOF container data header missing bytes
+    """
+    ZERO_SECTION_SIZE = auto()
+    """
+    EOF container data header construction is wrong
+    """
+    INCOMPLETE_CONTAINER = auto()
+    """
+    EOF container bytes are incomplete
+    """
+    INVALID_SECTION_BODIES_SIZE = auto()
+    """
+    Sections bodies does not match sections headers
+    """
+    TRAILING_BYTES = auto()
+    """
+    EOF container has bytes beyond data section
+    """
+    MISSING_TERMINATOR = auto()
+    """
+    EOF container missing terminator bytes between header and body
+    """
+    MISSING_HEADERS_TERMINATOR = auto()
+    """
+    Some type of another exception about missing headers terminator
+    """
+    INVALID_FIRST_SECTION_TYPE = auto()
+    """
+    EOF container header does not have types section first
+    """
+    INCOMPLETE_SECTION_NUMBER = auto()
+    """
+    EOF container header has section that is missing declaration bytes
+    """
+    INCOMPLETE_SECTION_SIZE = auto()
+    """
+    EOF container header has section that is defined incorrectly
+    """
+    TOO_MANY_CODE_SECTIONS = auto()
+    """
+    EOF container header has too many code sections
+    """
+    MISSING_STOP_OPCODE = auto()
+    """
+    EOF container's code missing STOP bytecode at it's end
+    """
+    UNREACHABLE_INSTRUCTIONS = auto()
+    """
+    EOF container's code have instructions that are unreachable
+    """
+    UNREACHABLE_CODE_SECTIONS = auto()
+    """
+    EOF container's body have code sections that are unreachable
+    """
+    STACK_UNDERFLOW = auto()
+    """
+    EOF container's code produces an stack underflow
+    """
+    MAX_STACK_HEIGHT_ABOVE_LIMIT = auto()
+    """
+    EOF container's specified max stack height is above the limit
+    """
+    STACK_HIGHER_THAN_OUTPUTS = auto()
+    """
+    EOF container section stack height is higher than the outputs
+    when returning
+    """
+    JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS = auto()
+    """
+    EOF container section JUMPF's to a destination section with incompatible outputs
+    """
+    INVALID_MAX_STACK_HEIGHT = auto()
+    """
+    EOF container section's specified max stack height does not match the actual stack height
+    """
+    INVALID_DATALOADN_INDEX = auto()
+    """
+    A DATALOADN instruction has out-of-bounds index for the data section
+    """
+
+
+"""
+Pydantic Annotated Types
+"""
+
+ExceptionInstanceOrList = Annotated[
+    TransactionException | BlockException | List[TransactionException | BlockException],
+    BeforeValidator(from_pipe_str),
+    PlainSerializer(to_pipe_str),
+]
+
+TransactionExceptionInstanceOrList = Annotated[
+    TransactionException | List[TransactionException],
+    BeforeValidator(from_pipe_str),
+    PlainSerializer(to_pipe_str),
+]
+
+BlockExceptionInstanceOrList = Annotated[
+    BlockException | List[BlockException],
+    BeforeValidator(from_pipe_str),
+    PlainSerializer(to_pipe_str),
+]

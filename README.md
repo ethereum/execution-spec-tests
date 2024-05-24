@@ -63,7 +63,7 @@ The following transition tools are supported by the framework:
 | [ethereum/evmone](https://github.com/ethereum/evmone) | `evmone-t8n` | Yes |
 | [ethereum/execution-specs](https://github.com/ethereum/execution-specs) | `ethereum-spec-evm` | Yes |
 | [ethereum/go-ethereum](https://github.com/ethereum/go-ethereum) | [`evm t8n`](https://github.com/ethereum/go-ethereum/tree/master/cmd/evm) | Yes |
-| [hyperledger/besu](https://github.com/hyperledger/besu/tree/main/ethereum/evmtool) | [`evm t8n-server`](https://github.com/hyperledger/besu/tree/main/ethereum/evmtool) | No |
+| [hyperledger/besu](https://github.com/hyperledger/besu/tree/main/ethereum/evmtool) | [`evm t8n-server`](https://github.com/hyperledger/besu/tree/main/ethereum/evmtool) | Yes |
 | [status-im/nimbus-eth1](https://github.com/status-im/nimbus-eth1) | [`t8n`](https://github.com/status-im/nimbus-eth1/blob/master/tools/t8n/readme.md) | Yes |
 
 ### Upcoming EIP Development
@@ -133,7 +133,7 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
         2. The corresponding fixture file has been generated:
 
            ```console
-           head fixtures/berlin/eip2930_access_list/acl/access_list.json
+           head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json
            ```
 
 ## Usage

@@ -1,6 +1,7 @@
 """
 Shared pytest definitions local to EIP-4788 tests.
 """
+
 from itertools import count
 from typing import Dict, Iterator, List
 
@@ -58,7 +59,7 @@ def beacon_root(request, beacon_roots: Iterator[bytes]) -> bytes:  # noqa: D103
 def env(timestamp: int, beacon_root: bytes) -> Environment:  # noqa: D103
     return Environment(
         timestamp=timestamp,
-        beacon_root=beacon_root,
+        parent_beacon_block_root=beacon_root,
     )
 
 
@@ -100,7 +101,7 @@ def contract_call_account(call_type: Op, call_value: int, call_gas: int) -> Acco
     if call_type == Op.CALL or call_type == Op.CALLCODE:
         contract_call_code += Op.SSTORE(
             0x00,  # store the result of the contract call in storage[0]
-            call_type(
+            call_type(  # type: ignore # https://github.com/ethereum/execution-spec-tests/issues/348 # noqa: E501
                 call_gas,
                 Spec.BEACON_ROOTS_ADDRESS,
                 call_value,
@@ -114,7 +115,7 @@ def contract_call_account(call_type: Op, call_value: int, call_gas: int) -> Acco
         # delegatecall and staticcall use one less argument
         contract_call_code += Op.SSTORE(
             0x00,
-            call_type(
+            call_type(  # type: ignore # https://github.com/ethereum/execution-spec-tests/issues/348 # noqa: E501
                 call_gas,
                 Spec.BEACON_ROOTS_ADDRESS,
                 args_start,

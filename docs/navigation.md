@@ -22,6 +22,7 @@
     * [State Tests](consuming_tests/state_test.md)
     * [Blockchain Tests](consuming_tests/blockchain_test.md)
     * [Blockchain Hive Tests](consuming_tests/blockchain_test_hive.md)
+    * [EOF Tests](consuming_tests/eof_test.md)
     * [Common Types](consuming_tests/common_types.md)
     * [Exceptions](consuming_tests/exceptions.md)
   * [Getting Help](getting_help/index.md)
