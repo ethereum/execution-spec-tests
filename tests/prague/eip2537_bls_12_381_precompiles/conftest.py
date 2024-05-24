@@ -50,11 +50,23 @@ def call_contract_post_storage() -> Storage:
 
 
 @pytest.fixture
+def call_succeeds(
+    expected_output: bytes | SupportsBytes,
+) -> bool:
+    """
+    By default, depending on the expected output, we can deduce if the call is expected to succeed
+    or fail.
+    """
+    return len(bytes(expected_output)) > 0
+
+
+@pytest.fixture
 def call_contract_code(
     precompile_address: int,
     precompile_gas: int,
     precompile_gas_modifier: int,
     expected_output: bytes | SupportsBytes,
+    call_succeeds: bool,
     call_opcode: Op,
     call_contract_post_storage: Storage,
 ) -> bytes:
@@ -73,6 +85,8 @@ def call_contract_code(
         expected_output:
             Expected output of the precompile call. This value is used to determine if the call is
             expected to succeed or fail.
+        call_succeeds:
+            Boolean that indicates if the call is expected to succeed or fail.
         call_opcode:
             Type of call used to call the precompile (Op.CALL, Op.CALLCODE, Op.DELEGATECALL,
             Op.STATICCALL).
@@ -80,9 +94,6 @@ def call_contract_code(
             Storage of the test contract after the transaction is executed.
     """
     expected_output = bytes(expected_output)
-
-    # Depending on the expected output, we can deduce if the call is expected to succeed or fail.
-    call_succeeds = len(expected_output) > 0
 
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
