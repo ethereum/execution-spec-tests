@@ -4,8 +4,6 @@ Defines EIP-2537 specification constants and functions.
 from dataclasses import dataclass
 from typing import Callable, Sized, SupportsBytes, Tuple
 
-from ethereum_test_forks import Prague
-
 
 @dataclass(frozen=True)
 class ReferenceSpec:
@@ -18,8 +16,6 @@ class ReferenceSpec:
 
 
 ref_spec_2537 = ReferenceSpec("EIPS/eip-2537.md", "cd0f016ad0c4c68b8b1f5c502ef61ab9353b6e5e")
-
-FORK = Prague
 
 
 class BytesConcatenation(SupportsBytes, Sized):

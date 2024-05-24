@@ -11,12 +11,12 @@ from ethereum_test_tools import Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Storage, Transaction
 
-from .spec import FORK, GAS_CALCULATION_FUNCTION_MAP, PointG1, PointG2, Scalar, Spec, ref_spec_2537
+from .spec import GAS_CALCULATION_FUNCTION_MAP, PointG1, PointG2, Scalar, Spec, ref_spec_2537
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
 
-pytestmark = pytest.mark.valid_from(str(FORK))
+pytestmark = pytest.mark.valid_from("Prague")
 
 G1_MSM_K_INPUT_LENGTH = len(PointG1() + Scalar())
 G2_MSM_K_INPUT_LENGTH = len(PointG2() + Scalar())

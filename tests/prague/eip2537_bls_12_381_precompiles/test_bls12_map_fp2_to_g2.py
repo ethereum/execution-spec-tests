@@ -11,13 +11,13 @@ from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Transaction
 
 from .helpers import vectors_from_file
-from .spec import FORK, FP2, PointG2, Spec, ref_spec_2537
+from .spec import FP2, PointG2, Spec, ref_spec_2537
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
 
 pytestmark = [
-    pytest.mark.valid_from(str(FORK)),
+    pytest.mark.valid_from("Prague"),
     pytest.mark.parametrize("precompile_address", [Spec.MAP_FP2_TO_G2], ids=[""]),
 ]
 
