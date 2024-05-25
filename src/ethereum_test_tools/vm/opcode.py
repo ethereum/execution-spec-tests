@@ -5434,7 +5434,7 @@ class Opcodes(Opcode, Enum):
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
 
-    RETURNDATALOAD = Opcode(0xf7, popped_stack_items=1)
+    RETURNDATALOAD = Opcode(0xF7, popped_stack_items=1)
     """
     RETURNDATALOAD(offset)
     ----
