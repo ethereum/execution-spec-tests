@@ -65,7 +65,7 @@ def test_storage_slot_write(blockchain_test: BlockchainTestFiller, fork: str, sl
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=Address(""),
+        to=None,
         gas_limit=100000000,
         gas_price=10,
         data=Op.SSTORE(slot_num, 0x42),
