@@ -9,9 +9,11 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     Environment,
+    Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
@@ -27,6 +29,13 @@ code_size = 128 * 31 + 60
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "instruction",
+    [
+        Op.CODECOPY,
+        Op.EXTCODECOPY,
+    ],
+)
 @pytest.mark.parametrize(
     "offset, size",
     [
@@ -52,9 +61,11 @@ code_size = 128 * 31 + 60
         "partial_out_of_bounds_touching_further_non_existent_code_chunk",
     ],
 )
-def test_codecopy(blockchain_test: BlockchainTestFiller, fork: str, offset, size):
+def test_generic_codecopy(
+    blockchain_test: BlockchainTestFiller, fork: str, instruction, offset, size
+):
     """
-    Test CODECOPY witness.
+    Test *CODECOPY witness.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -69,13 +80,20 @@ def test_codecopy(blockchain_test: BlockchainTestFiller, fork: str, offset, size
         TestAddress2: Account(code=Op.CODECOPY(0, offset, size) + Op.ORIGIN * (code_size - 7)),
     }
 
+    to: Address | None = TestAddress2
+    data = None
+    if instruction == Op.EXTCODECOPY:
+        to = None
+        data = Initcode(deploy_code=Op.EXTCODECOPY(TestAddress2, 0, offset, size))
+
     tx = Transaction(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=TestAddress2,
+        to=to,
         gas_limit=1_000_000,
         gas_price=10,
+        data=data,
     )
     blocks = [Block(txs=[tx])]
 
