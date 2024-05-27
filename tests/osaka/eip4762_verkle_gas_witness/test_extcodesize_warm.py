@@ -53,7 +53,7 @@ def test_extcodesize_warm(blockchain_test: BlockchainTestFiller, fork: str, call
         to=Address("0x00"),
         gas_limit=1_000_000,
         gas_price=10,
-        data=Initcode(deploy_code=Op.EXTCODESIZE(TestAddress2) * 2),
+        data=Initcode(deploy_code=Op.EXTCODESIZE(TestAddress2) * 2).bytecode,
     )
     blocks = [Block(txs=[tx])]
 

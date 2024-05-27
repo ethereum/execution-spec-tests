@@ -57,9 +57,13 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     }
 
     if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
-        tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32) * 2)
+        tx_data = Initcode(
+            deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32) * 2
+        ).bytecode
     if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
-        tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 32) * 2)
+        tx_data = Initcode(
+            deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 32) * 2
+        ).bytecode
     # TODO(verkle): AUTHCALL
 
     tx = Transaction(

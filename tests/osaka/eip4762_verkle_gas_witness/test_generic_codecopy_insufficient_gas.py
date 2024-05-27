@@ -56,7 +56,7 @@ def test_codecopy_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: 
     data = None
     if instruction == Op.EXTCODECOPY:
         to = None
-        data = Initcode(deploy_code=Op.EXTCODECOPY(TestAddress2, 0, 0, 100))
+        data = Initcode(deploy_code=Op.EXTCODECOPY(TestAddress2, 0, 0, 100)).bytecode
 
     tx = Transaction(
         ty=0x0,
