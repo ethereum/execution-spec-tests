@@ -1,11 +1,19 @@
 """
 abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663)
-    Tests for the SWAPN instruction.
+    Tests for the EXCHANGE instruction.
 """  # noqa: E501
 
 import pytest
 
-from ethereum_test_tools import Account, Environment, StateTestFiller, TestAddress, Transaction
+from ethereum_test_tools import (
+    Account,
+    Environment,
+    EOFException,
+    EOFTestFiller,
+    StateTestFiller,
+    TestAddress,
+    Transaction,
+)
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -23,7 +31,7 @@ def test_exchange_all_valid_immediates(
     state_test: StateTestFiller,
 ):
     """
-    Test case for all valid SWAPN immediates.
+    Test case for all valid EXCHANGE immediates.
     """
     n = 256
     s = 34
@@ -64,4 +72,47 @@ def test_exchange_all_valid_immediates(
         pre=pre,
         post=post,
         tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "stack_height,x,y",
+    [
+        # 2 and 3 are the lowest valid values for x and y, which translates to a
+        # zero immediate value.
+        pytest.param(0, 2, 3, id="stack_height=0_n=1_m=1"),
+        pytest.param(1, 2, 3, id="stack_height=1_n=1_m=1"),
+        pytest.param(2, 2, 3, id="stack_height=2_n=1_m=1"),
+        pytest.param(17, 2, 18, id="stack_height=17_n=1_m=16"),
+        pytest.param(17, 17, 18, id="stack_height=17_n=16_m=1"),
+        pytest.param(32, 17, 33, id="stack_height=32_n=16_m=16"),
+    ],
+)
+@pytest.mark.valid_from(EOF_FORK_NAME)
+def test_exchange_all_invalid_immediates(
+    eof_test: EOFTestFiller,
+    stack_height: int,
+    x: int,
+    y: int,
+):
+    """
+    Test case for all invalid EXCHANGE immediates.
+    """
+    eof_code = Container(
+        sections=[
+            Section.Code(
+                code=b"".join(Op.PUSH2(v) for v in range(stack_height))
+                + Op.EXCHANGE[x, y]
+                + Op.POP * stack_height
+                + Op.STOP,
+                code_inputs=0,
+                code_outputs=NON_RETURNING_SECTION,
+                max_stack_height=stack_height,
+            )
+        ],
+    )
+
+    eof_test(
+        data=eof_code,
+        expect_exception=EOFException.STACK_UNDERFLOW,
     )
