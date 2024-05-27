@@ -19,6 +19,8 @@ runs:
         ref: ${{ inputs.ref }}
         path: evmone
         submodules: true
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v2
     - name: Build evmone binary
       shell: bash
       run: |
@@ -26,6 +28,4 @@ runs:
         cd $GITHUB_WORKSPACE/evmone
         cmake -S . -B build -DEVMONE_TESTING=ON
         cmake --build build --parallel
-        ln -s $GITHUB_WORKSPACE/evmone/build/bin/evmone-t8n $GITHUB_WORKSPACE/evmone/build/bin/evm
-        echo $GITHUB_WORKSPACE/evmone/build/bin/evm >> $GITHUB_PATH
-        echo $GITHUB_WORKSPACE/evmone/build/bin/evmone-eofparse >> $GITHUB_PATH
+        echo $GITHUB_WORKSPACE/evmone/build/bin/ >> $GITHUB_PATH

@@ -26,7 +26,7 @@ jobs:
             python: '3.11'
           - name: 'fixtures_eof'
             evm-type: 'evmone'
-            fill-params: '--fork=Prague ./tests/prague/eip7692_eof_v1'
+            fill-params: '--evm-bin=evmone-t8n --fork=Prague ./tests/prague/eip7692_eof_v1'
             solc: '0.8.21'
             python: '3.11'
     steps:
