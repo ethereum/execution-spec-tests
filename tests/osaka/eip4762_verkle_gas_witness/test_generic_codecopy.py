@@ -110,7 +110,7 @@ def _generic_codecopy(
     data = None
     if instruction == Op.EXTCODECOPY:
         to = None
-        data = Initcode(deploy_code=Op.EXTCODECOPY(TestAddress2, 0, offset, size))
+        data = Initcode(deploy_code=Op.EXTCODECOPY(TestAddress2, 0, offset, size)).bytecode
 
     tx = Transaction(
         ty=0x0,

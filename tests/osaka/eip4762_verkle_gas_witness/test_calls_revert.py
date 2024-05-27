@@ -61,10 +61,12 @@ def test_calls_revert(blockchain_test: BlockchainTestFiller, fork: str, call_ins
 
     witness_address = TestAddress2
     if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
-        tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32))
+        tx_data = Initcode(
+            deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32)
+        ).bytecode
     if call_instruction == Op.DELEGATECALL:
         witness_address = compute_create_address(TestAddress, 0)
-        tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 32))
+        tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 32)).bytecode
     # TODO(verkle): AUTHCALL
 
     tx = Transaction(

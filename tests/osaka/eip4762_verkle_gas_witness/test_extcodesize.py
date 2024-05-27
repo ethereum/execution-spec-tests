@@ -71,7 +71,7 @@ def test_extcodesize(
         to=Address("0x00"),
         gas_limit=gas_limit,
         gas_price=10,
-        data=Initcode(deploy_code=Op.EXTCODESIZE(target)),
+        data=Initcode(deploy_code=Op.EXTCODESIZE(target)).bytecode,
     )
     blocks = [Block(txs=[tx])]
 

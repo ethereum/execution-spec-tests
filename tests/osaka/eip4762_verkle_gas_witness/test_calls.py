@@ -66,10 +66,12 @@ def test_calls(blockchain_test: BlockchainTestFiller, fork: str, call_instructio
 
     if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
         tx_value = 0
-        tx_data = Initcode(deploy_code=call_instruction(1_000, target, value, 0, 0, 0, 32))
+        tx_data = Initcode(
+            deploy_code=call_instruction(1_000, target, value, 0, 0, 0, 32)
+        ).bytecode
     if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
         tx_value = value
-        tx_data = Initcode(deploy_code=call_instruction(1_000, target, 0, 0, 0, 32))
+        tx_data = Initcode(deploy_code=call_instruction(1_000, target, 0, 0, 0, 32)).bytecode
     # TODO(verkle): AUTHCALL
 
     tx = Transaction(
