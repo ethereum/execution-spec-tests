@@ -15,6 +15,7 @@ from ethereum_test_tools import (
     Initcode,
     TestAddress,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -25,9 +26,16 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
-def test_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str):
+@pytest.mark.parametrize(
+    "instruction",
+    [
+        Op.CODECOPY,
+        Op.EXTCODECOPY,
+    ],
+)
+def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str, instruction):
     """
-    Test CODECOPY executed in initcode works as expected.
+    Test *CODECOPY executed in initcode works as expected.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -41,6 +49,12 @@ def test_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str):
         TestAddress: Account(balance=sender_balance),
     }
 
+    data = Initcode(deploy_code=Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100).bytecode
+    if instruction == Op.EXTCODECOPY:
+        contract_address = compute_create_address(TestAddress, 0)
+        deploy_code = Op.EXTCODECOPY(contract_address, 0, 0, 100) + Op.ORIGIN * 100
+        data = Initcode(deploy_code=deploy_code).bytecode
+
     tx = Transaction(
         ty=0x0,
         chain_id=0x01,
@@ -48,7 +62,7 @@ def test_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str):
         to=None,
         gas_limit=1_000_000,
         gas_price=10,
-        data=Initcode(deploy_code=Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100),
+        data=data,
     )
     blocks = [Block(txs=[tx])]
 
