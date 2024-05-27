@@ -12,6 +12,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
+    Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
@@ -22,39 +23,12 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-code_size = 128 * 31 + 60
-
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize(
-    "offset, size",
-    [
-        (0, 0),
-        (0, 127 * 31),
-        (0, 128 * 31),
-        (0, code_size - 5),
-        (0, code_size),
-        (code_size - 1, 1),
-        (code_size, 1),
-        (code_size - 1, 1 + 1),
-        (code_size - 1, 1 + 31),
-    ],
-    ids=[
-        "zero_bytes",
-        "within_chunks_account_header",
-        "all_chunks_account_header",
-        "contract_size_after_header_but_incomplete",
-        "contract_size",
-        "last_byte",
-        "all_out_of_bounds",
-        "partial_out_of_bounds_in_same_last_code_chunk",
-        "partial_out_of_bounds_touching_further_non_existent_code_chunk",
-    ],
-)
-def test_codecopy(blockchain_test: BlockchainTestFiller, fork: str, offset, size):
+def test_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str):
     """
-    Test CODECOPY witness.
+    Test CODECOPY executed in initcode works as expected.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -66,9 +40,6 @@ def test_codecopy(blockchain_test: BlockchainTestFiller, fork: str, offset, size
     sender_balance = 1000000000000000000000
     pre = {
         TestAddress: Account(balance=sender_balance),
-        TestAddress2: Account(
-            code=Op.CODECOPY(TestAddress2, offset, size) + Op.ORIGIN * (code_size - 7)
-        ),
     }
 
     tx = Transaction(
@@ -78,6 +49,7 @@ def test_codecopy(blockchain_test: BlockchainTestFiller, fork: str, offset, size
         to=TestAddress2,
         gas_limit=1_000_000,
         gas_price=10,
+        data=Initcode(deploy_code=Op.CODECOPY(TestAddress2, 0, 100) + Op.ORIGIN * 100),
     )
     blocks = [Block(txs=[tx])]
 
