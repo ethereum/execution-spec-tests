@@ -67,6 +67,30 @@ def test_generic_codecopy(
     """
     Test *CODECOPY witness.
     """
+    _generic_codecopy(blockchain_test, fork, instruction, offset, size, 1)
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "instruction",
+    [
+        Op.CODECOPY,
+        Op.EXTCODECOPY,
+    ],
+)
+def test_generic_codecopy_warm(
+    blockchain_test: BlockchainTestFiller, fork: str, instruction, offset, size
+):
+    """
+    Test *CODECOPY with WARM access.
+    """
+    _generic_codecopy(blockchain_test, fork, instruction, 0, code_size - 5, 2)
+
+
+def _generic_codecopy(
+    blockchain_test: BlockchainTestFiller, fork: str, instruction, offset, size, rep
+):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
@@ -77,7 +101,9 @@ def test_generic_codecopy(
     sender_balance = 1000000000000000000000
     pre = {
         TestAddress: Account(balance=sender_balance),
-        TestAddress2: Account(code=Op.CODECOPY(0, offset, size) + Op.ORIGIN * (code_size - 7)),
+        TestAddress2: Account(
+            code=Op.CODECOPY(0, offset, size) * rep + Op.ORIGIN * (code_size - 7 * rep)
+        ),
     }
 
     to: Address | None = TestAddress2
