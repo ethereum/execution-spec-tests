@@ -9,7 +9,6 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
-    Address,
     Block,
     BlockchainTestFiller,
     Environment,
@@ -60,7 +59,7 @@ def test_contract_creation(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=Address(""),
+        to=None,
         gas_limit=100000000,
         gas_price=10,
         value=value,

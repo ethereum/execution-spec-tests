@@ -14,7 +14,6 @@ from ethereum_test_tools import (
     Environment,
     Initcode,
     TestAddress,
-    TestAddress2,
     Transaction,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -46,10 +45,10 @@ def test_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str):
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=TestAddress2,
+        to=None,
         gas_limit=1_000_000,
         gas_price=10,
-        data=Initcode(deploy_code=Op.CODECOPY(TestAddress2, 0, 100) + Op.ORIGIN * 100),
+        data=Initcode(deploy_code=Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100),
     )
     blocks = [Block(txs=[tx])]
 
