@@ -51,9 +51,12 @@ def test_create_without_value(
     blockchain_test: BlockchainTestFiller, fork: str, create_instruction, code_size
 ):
     """
-    Test *CREATE witness.
+    Test *CREATE without sending value.
     """
-    _create(blockchain_test, fork, create_instruction, code_size, 0)
+    new_contract_witness = None  # TODO(verkle)
+    _create(
+        blockchain_test, fork, create_instruction, code_size, 0, 10000000000, new_contract_witness
+    )
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -68,13 +71,60 @@ def test_create_without_value(
 )
 def test_create_with_value(blockchain_test: BlockchainTestFiller, fork: str, create_instruction):
     """
-    Test *CREATE witness.
+    Test *CREATE sending value.
     """
-    _create(blockchain_test, fork, create_instruction, 130 * 31, 1)
+    new_contract_witness = None  # TODO(verkle)
+    _create(
+        blockchain_test, fork, create_instruction, 130 * 31, 1, 10000000000, new_contract_witness
+    )
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "create_instruction",
+    [
+        None,
+        Op.CREATE,
+        Op.CREATE2,
+    ],
+)
+@pytest.mark.parametrize(
+    "gas_limit, exp_new_contract_witness",
+    [
+        ["TBD1", "TBD1"],
+        ["TBD2", "TBD2"],
+        ["TBD3", "TBD3"],
+    ],
+    ids=[
+        "insufficient_for_contract_init",
+        "insufficient_for_all_contract_completion",
+        "insufficient_for_all_code_chunks",
+    ],
+)
+def test_create_insufficient_gas(
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    create_instruction,
+    gas_limit,
+    exp_new_contract_witness,
+):
+    """
+    Test *CREATE  with insufficient gas at different points of execution.
+    """
+    _create(
+        blockchain_test, fork, create_instruction, 130 * 31, 1, gas_limit, exp_new_contract_witness
+    )
 
 
 def _create(
-    blockchain_test: BlockchainTestFiller, fork: str, create_instruction, code_size, value
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    create_instruction,
+    code_size,
+    value,
+    gas_limit,
+    new_contract_witness,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -83,9 +133,8 @@ def _create(
         number=1,
         timestamp=1000,
     )
-    sender_balance = 1000000000000000000000
     pre = {
-        TestAddress: Account(balance=sender_balance),
+        TestAddress: Account(balance=1000000000000000000000),
     }
 
     contract_code = Initcode(deploy_code=Op.PUSH0 * code_size)
@@ -116,7 +165,7 @@ def _create(
         chain_id=0x01,
         nonce=0,
         to=tx_target,
-        gas_limit=100000000,
+        gas_limit=gas_limit,
         gas_price=10,
         value=tx_value,
         data=tx_data,
