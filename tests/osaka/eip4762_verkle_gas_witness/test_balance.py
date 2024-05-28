@@ -13,12 +13,9 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
-    Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
-    compute_create2_address,
-    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -32,30 +29,19 @@ ExampleAddress = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize(
-    "target",
-    [
-        ExampleAddress,
-        precompile_address,
-    ],
-)
-def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target):
+@pytest.mark.parametrize("target", [ExampleAddress, precompile_address])
+@pytest.mark.parametrize("warm", [True, False])
+def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target, warm):
     """
-    Test BALANCE witness.
+    Test BALANCE witness with/without WARM access.
     """
     exp_witness = None  # TODO(verkle)
-    _balance(blockchain_test, fork, target, exp_witness)
+    _balance(blockchain_test, fork, target, exp_witness, warm=warm)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize(
-    "target",
-    [
-        ExampleAddress,
-        precompile_address,
-    ],
-)
+@pytest.mark.parametrize("target", [ExampleAddress, precompile_address])
 def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str, target):
     """
     Test BALANCE with insufficient gas.
@@ -65,7 +51,12 @@ def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: s
 
 
 def _balance(
-    blockchain_test: BlockchainTestFiller, fork: str, target, exp_witness, gas_limit=1_000_000
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    target,
+    exp_witness,
+    gas_limit=1_000_000,
+    warm=False,
 ):
     """
     Test BALANCE witness.
@@ -79,7 +70,7 @@ def _balance(
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(code=Op.BALANCE(target)),
+        TestAddress2: Account(code=Op.BALANCE(target) * (1 if warm else 2)),
         target: Account(balance=0xF1),
     }
 
