@@ -16,6 +16,8 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    compute_create2_address,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -55,7 +57,12 @@ def test_create_without_value(
     """
     new_contract_witness = None  # TODO(verkle)
     _create(
-        blockchain_test, fork, create_instruction, code_size, 0, 10000000000, new_contract_witness
+        blockchain_test,
+        fork,
+        create_instruction,
+        new_contract_witness,
+        code_size,
+        value=0,
     )
 
 
@@ -75,7 +82,10 @@ def test_create_with_value(blockchain_test: BlockchainTestFiller, fork: str, cre
     """
     new_contract_witness = None  # TODO(verkle)
     _create(
-        blockchain_test, fork, create_instruction, 130 * 31, 1, 10000000000, new_contract_witness
+        blockchain_test,
+        fork,
+        create_instruction,
+        new_contract_witness,
     )
 
 
@@ -113,7 +123,35 @@ def test_create_insufficient_gas(
     Test *CREATE  with insufficient gas at different points of execution.
     """
     _create(
-        blockchain_test, fork, create_instruction, 130 * 31, 1, gas_limit, exp_new_contract_witness
+        blockchain_test, fork, create_instruction, exp_new_contract_witness, gas_limit=gas_limit
+    )
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "create_instruction",
+    [
+        None,
+        Op.CREATE,
+        Op.CREATE2,
+    ],
+)
+def test_create_collision(
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    create_instruction,
+):
+    """
+    Test *CREATE  with address collision.
+    """
+    new_contract_witness = None
+    _create(
+        blockchain_test,
+        fork,
+        create_instruction,
+        new_contract_witness,
+        generate_collision=True,
     )
 
 
@@ -121,10 +159,11 @@ def _create(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     create_instruction,
-    code_size,
-    value,
-    gas_limit,
     new_contract_witness,
+    code_size=130 * 31,
+    value=1,
+    gas_limit=10000000000,
+    generate_collision: bool = False,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -147,6 +186,9 @@ def _create(
         tx_target = TestAddress2
         tx_value = 0
         tx_data = contract_code.bytecode
+        if generate_collision:
+            contract_address = compute_create_address(TestAddress, 0)
+            pre[contract_address] = Account(nonce=1)
     elif create_instruction == Op.CREATE2:
         pre[TestAddress2] = Account(
             code=Op.CALLDATACOPY(0, 0, len(contract_code))
@@ -155,10 +197,16 @@ def _create(
         tx_target = TestAddress2
         tx_value = 0
         tx_data = contract_code.bytecode
+        if generate_collision:
+            contract_address = compute_create2_address(TestAddress, 0xDEADBEEF, contract_code)
+            pre[contract_address] = Account(nonce=1)
     else:
         tx_target = None
         tx_value = value
         tx_data = contract_code.bytecode
+        if generate_collision:
+            contract_address = compute_create_address(TestAddress, 0)
+            pre[contract_address] = Account(nonce=1)
 
     tx = Transaction(
         ty=0x0,
