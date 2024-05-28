@@ -164,6 +164,7 @@ hyperledger
 iat
 ignoreRevsFile
 img
+imm
 immediates
 incrementing
 init
