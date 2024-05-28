@@ -23,11 +23,12 @@ jobs:
             solc: '0.8.21'
             evm-type: 'develop'
             tox-cmd: 'tox -e tests-develop'
-          - os: ubuntu-latest
-            python: '3.11'
-            solc: '0.8.21'
-            evm-type: 'eof'
-            tox-cmd: 'tox -e tests-eof'
+          # Disabled to not be gated by evmone implementation
+          # - os: ubuntu-latest
+          #   python: '3.11'
+          #   solc: '0.8.21'
+          #   evm-type: 'eof'
+          #   tox-cmd: 'tox -e tests-eof'
           - os: macos-latest
             python: '3.11'
             solc: '0.8.22'
