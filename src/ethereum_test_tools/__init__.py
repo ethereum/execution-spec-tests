@@ -19,6 +19,7 @@ from .common import (
     Account,
     Address,
     Alloc,
+    DepositRequest,
     EngineAPIError,
     Environment,
     Hash,
@@ -31,6 +32,7 @@ from .common import (
     TestPrivateKey2,
     Transaction,
     Withdrawal,
+    WithdrawalRequest,
     add_kzg_version,
     ceiling_division,
     compute_create2_address,
@@ -48,6 +50,8 @@ from .spec import (
     BaseTest,
     BlockchainTest,
     BlockchainTestFiller,
+    EOFStateTest,
+    EOFStateTestFiller,
     EOFTest,
     EOFTestFiller,
     FixtureCollector,
@@ -56,7 +60,7 @@ from .spec import (
     TestInfo,
 )
 from .spec.blockchain.types import Block, Header
-from .vm import Macro, Opcode, OpcodeCallArg, Opcodes
+from .vm import Macro, Macros, Opcode, OpcodeCallArg, Opcodes
 
 __all__ = (
     "SPEC_TYPES",
@@ -75,9 +79,12 @@ __all__ = (
     "Code",
     "CodeGasMeasure",
     "Conditional",
+    "DepositRequest",
     "EngineAPIError",
     "Environment",
     "EOFException",
+    "EOFStateTest",
+    "EOFStateTestFiller",
     "EOFTest",
     "EOFTestFiller",
     "FixtureCollector",
@@ -85,6 +92,7 @@ __all__ = (
     "Header",
     "Initcode",
     "Macro",
+    "Macros",
     "Opcode",
     "OpcodeCallArg",
     "Opcodes",
@@ -104,6 +112,7 @@ __all__ = (
     "Transaction",
     "TransactionException",
     "Withdrawal",
+    "WithdrawalRequest",
     "Yul",
     "YulCompiler",
     "add_kzg_version",

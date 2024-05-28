@@ -1,4 +1,6 @@
 0xaa
+Account1
+Account2
 acl
 addr
 address
@@ -28,6 +30,7 @@ blockhash
 blocknum
 blocktest
 bls
+bls12
 blueswen
 boolean
 br
@@ -92,8 +95,12 @@ dup
 dunder
 EEST
 eip
+eip3540
 eips
 EIPs
+eip6110
+eip7002
+el
 endianness
 EngineAPI
 enum
@@ -128,6 +135,16 @@ formatter
 fromhex
 frozenbidict
 func
+fp
+fp2
+g1
+g1add
+g1mul
+g1msm
+g2
+g2add
+g2mul
+g2msm
 gaslimit
 gasprice
 GeneralStateTestsFiller
@@ -164,6 +181,8 @@ hyperledger
 iat
 ignoreRevsFile
 img
+imm
+immediates
 incrementing
 init
 initcode
@@ -201,6 +220,7 @@ metaclass
 mixhash
 mkdocs
 mkdocstrings
+msm
 mypy
 namespace
 nav
@@ -222,6 +242,8 @@ opc
 oprypin
 origin
 ori
+P1
+P2
 parseable
 pathlib
 pdb
@@ -235,10 +257,12 @@ ppas
 pre
 Pre
 precompile
+predeploy
 prepend
 PrevRandao
 prestateTracer
 programmatically
+pubkey
 px
 py
 pydantic
@@ -318,6 +342,7 @@ Tox
 traceback
 TransactionException
 trie
+triggerable
 tstorage
 tx
 txs

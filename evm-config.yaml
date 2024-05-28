@@ -4,5 +4,5 @@ main:
   ref: master
 develop:
   impl: geth
-  repo: ethereum/go-ethereum
-  ref: master
+  repo: lightclient/go-ethereum
+  ref: prague-devnet-0
