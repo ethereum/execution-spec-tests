@@ -43,6 +43,33 @@ def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target):
     """
     Test BALANCE witness.
     """
+    exp_witness = None  # TODO(verkle)
+    _balance(blockchain_test, fork, target, exp_witness)
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "target",
+    [
+        ExampleAddress,
+        precompile_address,
+    ],
+)
+def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str, target):
+    """
+    Test BALANCE with insufficient gas.
+    """
+    exp_witness = None  # TODO(verkle)
+    _balance(blockchain_test, fork, target, exp_witness, 1_042)
+
+
+def _balance(
+    blockchain_test: BlockchainTestFiller, fork: str, target, exp_witness, gas_limit=1_000_000
+):
+    """
+    Test BALANCE witness.
+    """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
@@ -61,7 +88,7 @@ def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target):
         chain_id=0x01,
         nonce=0,
         to=TestAddress2,
-        gas_limit=1_000_000,
+        gas_limit=gas_limit,
         gas_price=10,
     )
     blocks = [Block(txs=[tx])]
