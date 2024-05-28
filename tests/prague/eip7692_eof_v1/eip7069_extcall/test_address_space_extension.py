@@ -13,7 +13,6 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
 )
-from ethereum_test_tools.common.conversions import BytesConvertible, to_bytes
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -25,43 +24,53 @@ REFERENCE_SPEC_VERSION = "1795943aeacc86131d5ab6bb3d65824b3b1d4cad"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
-_call_type = itertools.count(1)
-ID_EXTCALL = next(_call_type)
-ID_CALL = next(_call_type)
-ID_EXTDELEGATECALL = next(_call_type)
-ID_DELEGATECALL = next(_call_type)
-ID_EXTSTATICCALL = next(_call_type)
-ID_STATICCALL = next(_call_type)
-ID_CALLCODE = next(_call_type)
 
-_address_allocation = itertools.count(100000000)
-ADDRESS_EXTCALL = Address(next(_address_allocation))
-ADDRESS_CALL = Address(next(_address_allocation))
-ADDRESS_EXTDELEGATECALL = Address(next(_address_allocation))
-ADDRESS_DELEGATECALL = Address(next(_address_allocation))
-ADDRESS_EXTSTATICCALL = Address(next(_address_allocation))
-ADDRESS_STATICCALL = Address(next(_address_allocation))
-ADDRESS_CALLCODE = Address(next(_address_allocation))
+_address_allocation = itertools.count(0x10000)
+address_caller = Address(next(_address_allocation))
+address_target = Address(next(_address_allocation))
+
+_slot = itertools.count(1)
+slot_top_level_call_status = next(_slot)
+slot_target_call_status = next(_slot)
+slot_target_returndata = next(_slot)
+
+value_legacy_success = 1
+value_eof_success = 0
+value_eof_fail = 1
 
 
 @pytest.mark.parametrize(
     "target_address",
     (
-        b"",
-        b"\x10\x00",
-        b"\x78" * 20,
-        b"\xff" * 20,
-        b"\x01" + (b"\x00" * 20),
-        b"\x5a" * 28,
-        b"\x5a" * 32,
-        b"\xff" * 32,
+        pytest.param(b"", id="zero"),
+        pytest.param(b"\xc0\xde", id="short"),
+        pytest.param(b"\x78" * 20, id="mid_20"),
+        pytest.param(b"\xff" * 20, id="max_20"),
+        pytest.param(b"\x01" + (b"\x00" * 20), id="min_ase"),
+        pytest.param(b"\x5a" * 28, id="mid_ase"),
+        pytest.param(b"\x5a" * 32, id="full_ase"),
+        pytest.param(b"\xff" * 32, id="max_ase"),
     ),
-    ids=["zero", "short", "mid20", "max20", "minAse", "midAse", "fullAse", "maxAse"],
 )
-@pytest.mark.parametrize("target_account_type", ("empty", "EOA", "Contract"), ids=lambda x: x)
+@pytest.mark.parametrize(
+    "target_account_type", ("empty", "EOA", "LegacyContract", "EOFContract"), ids=lambda x: x
+)
+@pytest.mark.parametrize(
+    "target_opcode",
+    (
+        Op.CALL,
+        Op.CALLCODE,
+        Op.STATICCALL,
+        Op.DELEGATECALL,
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
+    ),
+)
 def test_address_space_extension(
     state_test: StateTestFiller,
-    target_address: BytesConvertible,
+    target_address: bytes,
+    target_opcode: Op,
     target_account_type: str,
 ):
     """
@@ -69,129 +78,68 @@ def test_address_space_extension(
     """
     env = Environment()
 
-    address_bytes = to_bytes(target_address)
-    ase_address = len(address_bytes) > 20
-    if ase_address and address_bytes[0] == b"00":
+    ase_address = len(target_address) > 20
+    stripped_address = target_address[-20:] if ase_address else target_address
+    if ase_address and target_address[0] == b"00":
         raise ValueError("Test instrumentation requires target addresses trim leading zeros")
+
+    match target_opcode:
+        case Op.CALL | Op.CALLCODE:
+            call_suffix = [0, 0, 0, 0, 0]
+            ase_ready_opcode = False
+        case Op.DELEGATECALL | Op.STATICCALL:
+            call_suffix = [0, 0, 0, 0]
+            ase_ready_opcode = False
+        case Op.EXTCALL:
+            call_suffix = [0, 0, 0]
+            ase_ready_opcode = True
+        case Op.EXTDELEGATECALL | Op.EXTSTATICCALL:
+            call_suffix = [0, 0]
+            ase_ready_opcode = True
+        case _:
+            raise ValueError("Unexpected opcode ", target_opcode)
 
     pre = {
         TestAddress: Account(
             balance=1000000000000000000000,
             nonce=1,
         ),
-        Address(0x100): Account(
+        address_caller: Account(
             code=(
-                Op.MSTORE(0, Op.PUSH32(address_bytes))
-                + Op.SSTORE(ID_EXTCALL, Op.CALL(50000, ADDRESS_EXTCALL, 0, 0, 32, 0, 0))
-                + Op.SSTORE(ID_CALL, Op.CALL(50000, ADDRESS_CALL, 0, 0, 32, 0, 0))
+                Op.MSTORE(0, Op.PUSH32(target_address))
                 + Op.SSTORE(
-                    ID_EXTDELEGATECALL, Op.CALL(50000, ADDRESS_EXTDELEGATECALL, 0, 0, 32, 0, 0)
+                    slot_top_level_call_status,
+                    Op.CALL(50000, address_target, 0, 0, 32, 0, 0),
                 )
-                + Op.SSTORE(ID_DELEGATECALL, Op.CALL(50000, ADDRESS_DELEGATECALL, 0, 0, 32, 0, 0))
-                + Op.SSTORE(
-                    ID_EXTSTATICCALL, Op.CALL(50000, ADDRESS_EXTSTATICCALL, 0, 0, 32, 0, 0)
-                )
-                + Op.SSTORE(ID_STATICCALL, Op.CALL(50000, ADDRESS_STATICCALL, 0, 0, 32, 0, 0))
-                + Op.SSTORE(ID_CALLCODE, Op.CALL(50000, ADDRESS_CALLCODE, 0, 0, 32, 0, 0))
                 + Op.STOP()
             ),
             nonce=1,
         ),
-        ADDRESS_EXTCALL: Account(
+        address_target: Account(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.SSTORE(0, Op.EXTCALL(Op.CALLDATALOAD(0), 0, 0, 0))
-                        + Op.SSTORE(1, Op.RETURNDATALOAD(0))
+                        code=Op.SSTORE(
+                            slot_target_call_status,
+                            target_opcode(Op.CALLDATALOAD(0), *call_suffix),
+                        )
+                        + Op.SSTORE(slot_target_returndata, Op.RETURNDATALOAD(0))
                         + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=4,
+                        max_stack_height=1 + len(call_suffix),
                     )
                 ],
-            ),
-            nonce=1,
-        ),
-        ADDRESS_CALL: Account(
-            code=Op.SSTORE(0, Op.CALL(Op.GAS, Op.CALLDATALOAD(0), 0, 0, 0, 0, 0))
-            + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
-            + Op.SSTORE(1, Op.MLOAD(0))
+            )
+            if ase_ready_opcode
+            else Op.SSTORE(
+                slot_target_call_status,
+                target_opcode(Op.GAS, Op.CALLDATALOAD(0), *call_suffix),
+            )
+            + Op.SSTORE(slot_target_returndata, Op.RETURNDATALOAD(0))
             + Op.STOP,
             nonce=1,
         ),
-        ADDRESS_EXTDELEGATECALL: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.SSTORE(0, Op.EXTDELEGATECALL(Op.CALLDATALOAD(0), 0, 0))
-                        + Op.SSTORE(1, Op.RETURNDATALOAD(0))
-                        + Op.STOP,
-                        code_inputs=0,
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=3,
-                    )
-                ],
-            ),
-            nonce=1,
-        ),
-        ADDRESS_DELEGATECALL: Account(
-            code=Op.SSTORE(0, Op.DELEGATECALL(Op.GAS, Op.CALLDATALOAD(0), 0, 0, 0, 0))
-            + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
-            + Op.SSTORE(1, Op.MLOAD(0))
-            + Op.STOP,
-            nonce=1,
-        ),
-        ADDRESS_EXTSTATICCALL: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.SSTORE(0, Op.EXTSTATICCALL(Op.CALLDATALOAD(0), 0, 0))
-                        + Op.SSTORE(1, Op.RETURNDATALOAD(0))
-                        + Op.STOP,
-                        code_inputs=0,
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=3,
-                    )
-                ],
-            ),
-            nonce=1,
-        ),
-        ADDRESS_STATICCALL: Account(
-            code=Op.SSTORE(0, Op.STATICCALL(Op.GAS, Op.CALLDATALOAD(0), 0, 0, 0, 0))
-            + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
-            + Op.SSTORE(1, Op.MLOAD(0))
-            + Op.STOP,
-            nonce=1,
-        ),
-        ADDRESS_CALLCODE: Account(
-            code=Op.SSTORE(0, Op.CALLCODE(Op.GAS, Op.CALLDATALOAD(0), 0, 0, 0, 0, 0))
-            + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
-            + Op.SSTORE(1, Op.MLOAD(0))
-            + Op.STOP,
-            nonce=1,
-        ),
-    }
-
-    stripped_address = address_bytes[-20:] if ase_address else target_address
-    post = {
-        Address(0x100): Account(
-            storage={
-                ID_CALL: 1,
-                ID_DELEGATECALL: 1,
-                ID_STATICCALL: 1,
-                ID_CALLCODE: 1,
-            }
-            if ase_address
-            else {
-                ID_EXTCALL: 1,
-                ID_CALL: 1,
-                ID_EXTDELEGATECALL: 1,
-                ID_DELEGATECALL: 1,
-                ID_EXTSTATICCALL: 1,
-                ID_STATICCALL: 1,
-                ID_CALLCODE: 1,
-            }
-        )
     }
     match target_account_type:
         case "empty":
@@ -199,27 +147,71 @@ def test_address_space_extension(
             pass
         case "EOA":
             pre[Address(stripped_address)] = Account(code="", balance=10**18, nonce=9)
-        case "Contract":
+        case "LegacyContract":
             pre[Address(stripped_address)] = Account(
-                code=Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32), balance=0, nonce=0
+                code=Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32),
+                balance=0,
+                nonce=0,
             )
-            # For EOF variants the EXT*CALL reverts, so no storage updates for ASE address
-            post[ADDRESS_EXTCALL] = Account(storage={} if ase_address else {1: stripped_address})
-            post[ADDRESS_CALL] = Account(storage={0: 1, 1: stripped_address})
-            # EXTDELEGATECALL fails when calling legacy, so no stripped address
-            post[ADDRESS_EXTDELEGATECALL] = Account(storage={} if ase_address else {0: 1})
-            post[ADDRESS_DELEGATECALL] = Account(storage={0: 1, 1: ADDRESS_DELEGATECALL})
-            post[ADDRESS_EXTSTATICCALL] = Account(
-                storage={} if ase_address else {1: stripped_address}
+        case "EOFContract":
+            pre[Address(stripped_address)] = Account(
+                code=Container(
+                    sections=[
+                        Section.Code(
+                            code=Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32),
+                            code_outputs=NON_RETURNING_SECTION,
+                            max_stack_height=2,
+                        )
+                    ],
+                ),
+                balance=0,
+                nonce=0,
             )
-            post[ADDRESS_STATICCALL] = Account(storage={0: 1, 1: stripped_address})
-            post[ADDRESS_CALLCODE] = Account(storage={0: 1, 1: ADDRESS_CALLCODE})
-        case _:
-            raise ValueError("Unknown account type: " + target_account_type)
+
+    target_storage = {}
+    match target_account_type:
+        case "empty":
+            target_storage[slot_target_call_status] = 0 if ase_ready_opcode else 1
+        case "EOA":
+            pre[Address(stripped_address)] = Account(code="", balance=10**18, nonce=9)
+            target_storage[slot_target_call_status] = 0 if ase_ready_opcode else 1
+        case "LegacyContract" | "EOFContract":
+            match target_opcode:
+                case Op.CALL | Op.STATICCALL:
+                    target_storage[slot_target_call_status] = value_legacy_success
+                    # CALL and STATICCALL call will call the stripped address
+                    target_storage[slot_target_returndata] = stripped_address
+                case Op.CALLCODE | Op.DELEGATECALL:
+                    target_storage[slot_target_call_status] = value_legacy_success
+                    # CALLCODE and DELEGATECALL call will call the stripped address
+                    # but will change the sender to self
+                    target_storage[slot_target_returndata] = address_target
+                case Op.EXTCALL | Op.EXTSTATICCALL:
+                    target_storage[slot_target_call_status] = value_eof_success
+                    # EXTCALL and EXTSTATICCALL will fault if calling an ASE address
+                    target_storage[slot_target_returndata] = 0 if ase_address else stripped_address
+                case Op.EXTDELEGATECALL:
+                    if not ase_address and target_account_type == "LegacyContract":
+                        # If calling a legacy contract EXTDELEGATECALL fails
+                        target_storage[slot_target_call_status] = value_eof_fail
+                        target_storage[slot_target_returndata] = 0
+                    else:
+                        target_storage[slot_target_call_status] = value_eof_success
+                        # EXTDELEGATECALL will fault if calling an ASE address
+                        target_storage[slot_target_returndata] = (
+                            0 if ase_address else address_target
+                        )
+
+    post = {
+        address_caller: Account(
+            storage={slot_top_level_call_status: 0 if ase_ready_opcode and ase_address else 1}
+        ),
+        address_target: Account(storage=target_storage),
+    }
 
     tx = Transaction(
         nonce=1,
-        to=Address(0x100),
+        to=address_caller,
         gas_limit=50000000,
         gas_price=10,
         protected=False,
