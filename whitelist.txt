@@ -283,6 +283,7 @@ reentrant
 repo
 repo's
 repos
+returndata
 returndatacopy
 returndataload
 returndatasize

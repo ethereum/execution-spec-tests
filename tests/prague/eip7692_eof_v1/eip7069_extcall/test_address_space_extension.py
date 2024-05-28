@@ -168,7 +168,7 @@ def test_address_space_extension(
                 nonce=0,
             )
 
-    target_storage = {}
+    target_storage: dict[int, int | bytes | Address] = {}
     match target_account_type:
         case "empty":
             target_storage[slot_target_call_status] = 0 if ase_ready_opcode else 1
