@@ -30,33 +30,22 @@ ExampleAddress = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("target", [ExampleAddress, precompile_address])
-@pytest.mark.parametrize("warm", [True, False])
-def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target, warm):
+@pytest.mark.parametrize("contract_balance", [0, 1])
+def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target, contract_balance):
     """
-    Test BALANCE witness with/without WARM access.
-    """
-    exp_witness = None  # TODO(verkle)
-    _balance(blockchain_test, fork, target, exp_witness, warm=warm)
-
-
-# TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize("target", [ExampleAddress, precompile_address])
-def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str, target):
-    """
-    Test BALANCE with insufficient gas.
+    Test SELFDESTRUCT witness.
     """
     exp_witness = None  # TODO(verkle)
-    _balance(blockchain_test, fork, target, exp_witness, 1_042)
+    _selfdestruct(blockchain_test, fork, target, exp_witness, contract_balance)
 
 
-def _balance(
+def _selfdestruct(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     target,
     exp_witness,
+    contract_balance,
     gas_limit=1_000_000,
-    warm=False,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -67,8 +56,8 @@ def _balance(
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(code=Op.BALANCE(target) * (1 if warm else 2)),
-        target: Account(balance=0xF1),
+        TestAddress2: Account(code=Op.SELFDESTRUCT(target), value=contract_balance),
+        target: Account(balance=0xFF),
     }
 
     tx = Transaction(
