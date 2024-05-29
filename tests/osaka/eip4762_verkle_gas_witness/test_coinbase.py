@@ -14,7 +14,7 @@ from ethereum_test_tools import (
     Environment,
     TestAddress,
     TestAddress2,
-    Withdrawal,
+    Transaction,
 )
 
 # TODO(verkle): Update reference spec version
@@ -24,9 +24,10 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
-def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
+@pytest.mark.parametrize("priority_fee", [0, 100])
+def test_coinbase(blockchain_test: BlockchainTestFiller, fork: str, priority_fee):
     """
-    Test withdrawals witness.
+    Test coinbase witness.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -38,16 +39,16 @@ def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
     }
-
-    blocks = [
-        Block(
-            txs=[],
-            withdrawals=[
-                Withdrawal(index=0, validator_index=0, amount=3, address=TestAddress),
-                Withdrawal(index=1, validator_index=1, amount=4, address=TestAddress2),
-            ],
-        )
-    ]
+    tx = Transaction(
+        ty=2,
+        chain_id=0x01,
+        nonce=0,
+        to=TestAddress2,
+        value=100,
+        gas_limit=1_000_000,
+        gas_price=priority_fee,
+    )
+    blocks = [Block(txs=[tx])]
 
     # TODO(verkle): define witness assertion
     witness_keys = ""
