@@ -2,9 +2,13 @@
 Test interactions between CREATE, CREATE2, and EOFCREATE
 """
 
+from typing import SupportsBytes
+
 import pytest
 
-from ethereum_test_tools import Account, Environment, StateTestFiller, TestAddress
+from ethereum_test_tools import Account, Environment
+from ethereum_test_tools import Initcode as LegacyInitcode
+from ethereum_test_tools import StateTestFiller, TestAddress
 from ethereum_test_tools.vm.opcode import Opcodes
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -14,6 +18,7 @@ from .helpers import (
     slot_code_worked,
     slot_create_address,
     smallest_initcode_subcontainer,
+    smallest_runtime_subcontainer,
     value_code_worked,
     value_create_failed,
 )
@@ -26,30 +31,36 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
 @pytest.mark.parametrize(
-    "legacy_code_factory",
+    "legacy_create_opcode",
     [
-        lambda size: Op.CREATE(0, 0, size),
-        lambda size: Op.CREATE2(0, 0, size, 0),
+        pytest.param(Op.CREATE, id="CREATE"),
+        pytest.param(Op.CREATE2, id="CREATE2"),
     ],
-    ids=["CREATE", "CREATE2"],
+)
+@pytest.mark.parametrize(
+    "deploy_code",
+    [
+        pytest.param(smallest_initcode_subcontainer, id="deploy_eof_initcontainer"),
+        pytest.param(smallest_runtime_subcontainer, id="deploy_eof_container"),
+    ],
 )
 def test_cross_version_creates_fail(
     state_test: StateTestFiller,
-    legacy_code_factory: Opcodes,
+    legacy_create_opcode: Opcodes,
+    deploy_code: SupportsBytes,
 ):
     """
     Verifies that CREATE and CREATE2 cannot create EOF contracts
     """
     env = Environment()
-    eof_container_size = len(smallest_initcode_subcontainer)
+    salt_param = [0] if legacy_create_opcode == Op.CREATE2 else []
     pre = {
         TestAddress: Account(balance=10**21, nonce=1),
         default_address: Account(
-            code=Op.JUMP(eof_container_size + 3)  # PUSH1, xx, JUMP
-            + bytes(smallest_initcode_subcontainer)
-            + Op.JUMPDEST
-            + Op.CODECOPY(0, 3, eof_container_size)
-            + Op.SSTORE(slot_create_address, legacy_code_factory(eof_container_size))
+            code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
+            + Op.SSTORE(
+                slot_create_address, legacy_create_opcode(0, 0, Op.CALLDATASIZE, *salt_param)
+            )
             + Op.SSTORE(slot_code_worked, value_code_worked)
             + Op.STOP
         ),
@@ -65,40 +76,42 @@ def test_cross_version_creates_fail(
         )
     }
 
-    state_test(env=env, pre=pre, post=post, tx=simple_transaction())
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=simple_transaction(payload=bytes(deploy_code)),
+    )
 
 
 @pytest.mark.parametrize(
-    "legacy_code_factory",
+    "legacy_create_opcode",
     [
-        lambda size: Op.CREATE(0, 0, size),
-        lambda size: Op.CREATE2(0, 0, size, 0),
+        pytest.param(Op.CREATE, id="CREATE"),
+        pytest.param(Op.CREATE2, id="CREATE2"),
     ],
-    ids=["CREATE", "CREATE2"],
+)
+@pytest.mark.parametrize(
+    "deploy_code",
+    [
+        pytest.param(smallest_initcode_subcontainer, id="deploy_eof_initcontainer"),
+        pytest.param(smallest_runtime_subcontainer, id="deploy_eof_container"),
+    ],
 )
 def test_legacy_initcode_eof_contract_fails(
     state_test: StateTestFiller,
-    legacy_code_factory: Opcodes,
+    legacy_create_opcode: Opcodes,
+    deploy_code: SupportsBytes,
 ):
     """
     Verifies that legacy initcode cannot create EOF
     """
     env = Environment()
-    eof_container_size = len(smallest_initcode_subcontainer)
-    init_code = (
-        Op.JUMP(eof_container_size + 3)
-        + bytes(smallest_initcode_subcontainer)
-        + Op.JUMPDEST
-        + Op.CODECOPY(0, 3, eof_container_size)
-        + Op.RETURN(0, eof_container_size)
-    )
-    init_code_size = len(init_code)
+    init_code = LegacyInitcode(deploy_code=deploy_code)
+    salt_param = [0] if legacy_create_opcode == Op.CREATE2 else []
     factory_code = (
-        Op.JUMP(init_code_size + 3)
-        + bytes(init_code)
-        + Op.JUMPDEST
-        + Op.CODECOPY(0, 3, init_code_size)
-        + Op.SSTORE(slot_create_address, legacy_code_factory(init_code_size))
+        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
+        + Op.SSTORE(slot_create_address, legacy_create_opcode(0, 0, Op.CALLDATASIZE, *salt_param))
         + Op.SSTORE(slot_code_worked, value_code_worked)
     )
 
@@ -114,4 +127,4 @@ def test_legacy_initcode_eof_contract_fails(
         )
     }
 
-    state_test(env=env, pre=pre, post=post, tx=simple_transaction())
+    state_test(env=env, pre=pre, post=post, tx=simple_transaction(payload=bytes(init_code)))

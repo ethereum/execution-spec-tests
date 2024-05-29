@@ -12,7 +12,11 @@ from ethereum_test_tools import (
     compute_eofcreate_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1.constants import MAX_BYTECODE_SIZE, NON_RETURNING_SECTION
+from ethereum_test_tools.eof.v1.constants import (
+    MAX_BYTECODE_SIZE,
+    MAX_INITCODE_SIZE,
+    NON_RETURNING_SECTION,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .helpers import (
@@ -40,25 +44,22 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 @pytest.mark.parametrize(
     "revert",
     [
-        "",
-        "08c379a0",
+        pytest.param(b"", id="empty"),
+        pytest.param(b"\x08\xc3\x79\xa0", id="Error(string)"),
     ],
-    ids=["empty", "Error(string)"],
 )
-def test_initcode_revert(state_test: StateTestFiller, revert: str):
+def test_initcode_revert(state_test: StateTestFiller, revert: bytes):
     """
     Verifies proper handling of REVERT in initcode
     """
     env = Environment()
-    revert_bytes = bytes.fromhex(revert)
-    revert_size = len(revert_bytes)
+    revert_size = len(revert)
 
     initcode_subcontainer = Container(
         name="Initcode Subcontainer that reverts",
         sections=[
             Section.Code(
-                code=Op.MSTORE(0, int.from_bytes(revert_bytes, "big"))
-                + Op.REVERT(32 - revert_size, revert_size),
+                code=Op.MSTORE(0, Op.PUSH32(revert)) + Op.REVERT(32 - revert_size, revert_size),
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=2,
@@ -94,7 +95,7 @@ def test_initcode_revert(state_test: StateTestFiller, revert: str):
             storage={
                 slot_create_address: value_create_failed,
                 slot_returndata_size: revert_size,
-                slot_returndata: revert_bytes,
+                slot_returndata: revert,
                 slot_code_worked: value_code_worked,
             }
         )
@@ -139,10 +140,13 @@ def test_initcode_aborts(
             )
         ),
     }
-    # Storage in 0 should have the address,
+    # Storage in slot_create_address should not have the address,
     post = {
         default_address: Account(
-            storage={slot_create_address: value_create_failed, slot_code_worked: value_code_worked}
+            storage={
+                slot_create_address: value_create_failed,
+                slot_code_worked: value_code_worked,
+            }
         )
     }
 
@@ -158,8 +162,14 @@ factory_size = 30
 
 @pytest.mark.parametrize(
     "target_deploy_size",
-    [0x4000, 0x6000, 0x6001, 0xC000 - 30, 0xC001 - factory_size, 0xFFFF - factory_size],
-    ids=["large", "max", "overmax", "initcodemax", "initcodeovermax", "64k-1"],
+    [
+        pytest.param(0x4000, id="large"),
+        pytest.param(MAX_BYTECODE_SIZE, id="max"),
+        pytest.param(MAX_BYTECODE_SIZE + 1, id="overmax"),
+        pytest.param(MAX_INITCODE_SIZE - factory_size, id="initcodemax"),
+        pytest.param(MAX_INITCODE_SIZE - factory_size + 1, id="initcodeovermax"),
+        pytest.param(0xFFFF - factory_size, id="64k-1"),
+    ],
 )
 def test_eofcreate_deploy_sizes(
     state_test: StateTestFiller,
@@ -240,23 +250,22 @@ def test_eofcreate_deploy_sizes(
 
 
 @pytest.mark.parametrize(
-    "auxdata_bytes",
+    "auxdata_size",
     [
-        b"a" * (MAX_BYTECODE_SIZE - len(smallest_runtime_subcontainer)),
-        b"a" * (MAX_BYTECODE_SIZE - len(smallest_runtime_subcontainer) + 1),
-        b"a" * (0x10000 - 60),
-        b"a" * (0x10000 - 1),
-        b"a" * (0x10000),
-        b"a" * (0x10001),
+        pytest.param(MAX_BYTECODE_SIZE - len(smallest_runtime_subcontainer), id="maxcode"),
+        pytest.param(MAX_BYTECODE_SIZE - len(smallest_runtime_subcontainer) + 1, id="overmaxcode"),
+        pytest.param(0x10000 - 60, id="almost64k"),
+        pytest.param(0x10000 - 1, id="64k-1"),
+        pytest.param(0x10000, id="64k"),
+        pytest.param(0x10000 + 1, id="over64k"),
     ],
-    ids=["maxcode", "overmaxcode", "almost64k", "64k-1", "64k+1", "over64k"],
 )
-def test_auxdata_size_failures(state_test: StateTestFiller, auxdata_bytes: bytes):
+def test_auxdata_size_failures(state_test: StateTestFiller, auxdata_size: int):
     """
     Exercises a number of auxdata size violations, and one maxcode success
     """
     env = Environment()
-    auxdata_size = len(auxdata_bytes)
+    auxdata_bytes = b"a" * auxdata_size
 
     initcode_subcontainer = Container(
         name="Initcode Subcontainer",
@@ -312,8 +321,16 @@ def test_auxdata_size_failures(state_test: StateTestFiller, auxdata_bytes: bytes
     state_test(env=env, pre=pre, post=post, tx=simple_transaction(payload=auxdata_bytes))
 
 
+@pytest.mark.parametrize(
+    "value",
+    [
+        pytest.param(1, id="1_wei"),
+        pytest.param(10**9, id="1_gwei"),
+    ],
+)
 def test_eofcreate_insufficient_stipend(
     state_test: StateTestFiller,
+    value: int,
 ):
     """
     Exercises an EOFCREATE that fails because the calling account does not have enough ether to
@@ -323,7 +340,7 @@ def test_eofcreate_insufficient_stipend(
     initcode_container = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](10**12, 0, 0, 0))
+                code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](value, 0, 0, 0))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
                 code_inputs=0,
@@ -335,7 +352,7 @@ def test_eofcreate_insufficient_stipend(
     )
     pre = {
         TestAddress: Account(balance=10**11, nonce=1),
-        default_address: Account(code=initcode_container),
+        default_address: Account(balance=value - 1, code=initcode_container),
     }
     # create will fail but not trigger a halt, so canary at storage 1 should be set
     # also validate target created contract fails
