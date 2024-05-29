@@ -8,8 +8,8 @@ Note:
 
 Requirements:
 
-1. Access to a archive node for the network where the transaction
-    originates.
+1. Access to an archive node for the network where the transaction
+    originates. A provider may be used.
 2. A config file with the remote node data in JSON format
 
     ```json
