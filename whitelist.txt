@@ -126,6 +126,7 @@ extcodehash
 extcodesize
 F00
 filesystem
+firstlineno
 fn
 fname
 forkchoice

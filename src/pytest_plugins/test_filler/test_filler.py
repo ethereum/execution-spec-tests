@@ -22,6 +22,10 @@ from ethereum_test_forks import (
     get_forks_with_solc_support,
 )
 from ethereum_test_tools import SPEC_TYPES, BaseTest, FixtureCollector, TestInfo, Yul
+from ethereum_test_tools.utility.versioning import (
+    generate_github_url,
+    get_current_commit_hash_or_tag,
+)
 from evm_transition_tool import FixtureFormats, TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -560,6 +564,20 @@ def node_to_test_info(node) -> TestInfo:
 
 
 @pytest.fixture(scope="function")
+def fixture_source_url(request):
+    """
+    Returns the URL to the fixture source.
+    """
+    function_line_number = request.function.__code__.co_firstlineno
+    module_relative_path = os.path.relpath(request.module.__file__)
+    hash_or_tag = get_current_commit_hash_or_tag()
+    github_url = generate_github_url(
+        module_relative_path, branch_or_commit_or_tag=hash_or_tag, line_number=function_line_number
+    )
+    return github_url
+
+
+@pytest.fixture(scope="function")
 def fixture_description(request):
     """Fixture to extract and combine docstrings from the test class and the test function."""
     description_unavailable = (
@@ -598,6 +616,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         dump_dir_parameter_level,
         fixture_collector,
         fixture_description,
+        fixture_source_url,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -622,7 +641,12 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     fixture_format=fixture_format,
                     eips=eips,
                 )
-                fixture.fill_info(t8n, fixture_description, ref_spec=reference_spec)
+                fixture.fill_info(
+                    t8n,
+                    fixture_description,
+                    fixture_source_url=fixture_source_url,
+                    ref_spec=reference_spec,
+                )
 
                 fixture_path = fixture_collector.add_fixture(
                     node_to_test_info(request.node),
