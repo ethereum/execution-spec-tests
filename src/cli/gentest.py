@@ -17,7 +17,7 @@ Requirements:
         "remote_nodes" : [
             {
                 "name" : "mainnet_archive",
-                "node_url" : "https://example.arhive.node.url/v1
+                "node_url" : "https://example.archive.node.url/v1
                 "client_id" : "",
                 "secret" : ""
             }
