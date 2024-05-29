@@ -1,0 +1,6 @@
+eip7692:
+  evm-type: eip7692
+  fork: CancunEIP7692
+  tests: ./tests/prague
+  solc: 0.8.21
+  python: 3.11

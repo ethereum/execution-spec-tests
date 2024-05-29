@@ -27,8 +27,8 @@ jobs:
           # - os: ubuntu-latest
           #   python: '3.11'
           #   solc: '0.8.21'
-          #   evm-type: 'eof'
-          #   tox-cmd: 'tox -e tests-eof'
+          #   evm-type: 'eip7692'
+          #   tox-cmd: 'tox -e tests-eip7692'
           - os: macos-latest
             python: '3.11'
             solc: '0.8.22'

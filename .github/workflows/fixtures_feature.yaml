@@ -1,48 +1,44 @@
-name: Build and Package Fixtures
+name: Build and Package Fixtures for a feature
 
 on:
   push:
     branches:
       - main
     tags:
-      - 'v*'
-    tags-ignore:
-      - '*@*'
+      - '*@v*'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - name: 'stable'
-            evm-type: 'main'
-            fill-params: ''
-            solc: '0.8.21'
-            python: '3.11'
-          - name: 'develop'
-            evm-type: 'develop'
-            fill-params: '--until=Prague'
-            solc: '0.8.21'
-            python: '3.11'
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Get feature name
+        id: feature-name
+        shell: bash
+        run: |
+          echo name=eip7692 >> "$GITHUB_OUTPUT"
+      - name: Get the selected feature configuration from the config-feature.yaml
+        id: config-feature-reader
+        shell: bash
+        run: |
+          awk "/^${{ steps.feature-name.outputs.name }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./config-feature.yaml \
+          | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
       - uses: ./.github/actions/build-evm
         id: evm-builder
         with:
-          type: ${{ matrix.evm-type }}
+          type: ${{ steps.config-feature-reader.outputs.evm-type }}
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python }}
+          python-version: ${{ steps.config-feature-reader.outputs.python }}
       - name: Install solc compiler
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then PLATFORM="linux-amd64"; else PLATFORM="macosx-amd64"; fi
-          RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ matrix.solc }}" '.releases[$SOLC_VERSION]')
+          RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ steps.config-feature-reader.outputs.solc }}" '.releases[$SOLC_VERSION]')
           wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
           chmod a+x $GITHUB_WORKSPACE/bin/solc
           echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
@@ -53,7 +49,7 @@ jobs:
           python -m venv env
           source env/bin/activate
           pip install -e .
-          fill -n auto ${{ matrix.fill-params }}
+          fill -n auto --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} --fork=${{ steps.config-feature-reader.outputs.fork }} ${{ steps.config-feature-reader.outputs.tests }}
       - name: Create fixtures info file
         shell: bash
         run: |
@@ -62,11 +58,11 @@ jobs:
       - name: Tar fixtures output
         shell: bash
         run: |
-          tar -czvf fixtures_${{ matrix.name }}.tar.gz ./fixtures
+          tar -czvf fixtures_${{ steps.feature-name.outputs.name }}.tar.gz ./fixtures
       - uses: actions/upload-artifact@v4
         with:
-          name: fixtures_${{ matrix.name }}
-          path: fixtures_${{ matrix.name }}.tar.gz
+          name: fixtures_${{ steps.feature-name.outputs.name }}
+          path: fixtures_${{ steps.feature-name.outputs.name }}.tar.gz
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -76,10 +72,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: .
-      - name: Draft Release
+      - name: Draft Pre-release
         uses: softprops/action-gh-release@v2
         with:
           files: './**'
           draft: true
+          prerelease: true
           generate_release_notes: true
           fail_on_unmatched_files: true

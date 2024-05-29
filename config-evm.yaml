@@ -2,11 +2,14 @@ main:
   impl: geth
   repo: ethereum/go-ethereum
   ref: master
+  evm-bin: evm
 develop:
   impl: geth
   repo: lightclient/go-ethereum
   ref: prague-devnet-0
-eof:
+  evm-bin: evm
+eip7692:
   impl: evmone
   repo: ethereum/evmone
   ref: master
+  evm-bin: evmone-t8n
