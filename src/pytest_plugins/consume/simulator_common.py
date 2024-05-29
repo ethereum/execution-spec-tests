@@ -43,7 +43,11 @@ def fixture_description(fixture: Fixture, test_case: TestCase) -> str:
     """
     Return the description of the current test case.
     """
+    description = f"Test id: {test_case.id}"
+    if "url" in fixture.info:
+        description += f"\n\nTest source: {fixture.info['url']}"
     if "description" not in fixture.info:
-        return "No description field provided in the fixture's 'info' section."
-    description = f"Test id: {test_case.id}\n\n{fixture.info['description']}"
+        description += "\n\nNo description field provided in the fixture's 'info' section."
+    else:
+        description += f"\n\n{fixture.info['description']}"
     return description
