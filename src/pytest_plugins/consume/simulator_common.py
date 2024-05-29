@@ -39,10 +39,11 @@ def fixture(fixture_source: JsonSource, test_case: TestCase) -> Fixture:
 
 
 @pytest.fixture(scope="function")
-def fixture_description(fixture: Fixture) -> str:
+def fixture_description(fixture: Fixture, test_case: TestCase) -> str:
     """
     Return the description of the current test case.
     """
     if "description" not in fixture.info:
         return "No description field provided in the fixture's 'info' section."
-    return fixture.info["description"]
+    description = f"Test id: {test_case.id}\n\n{fixture.info['description']}"
+    return description
