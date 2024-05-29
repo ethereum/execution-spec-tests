@@ -100,6 +100,7 @@ class BaseFixture(CamelModel):
     def fill_info(
         self,
         t8n: TransitionTool,
+        fixture_description: str,
         ref_spec: ReferenceSpec | None,
     ):
         """
@@ -108,6 +109,7 @@ class BaseFixture(CamelModel):
         if "comment" not in self.info:
             self.info["comment"] = "`execution-spec-tests` generated test"
         self.info["filling-transition-tool"] = t8n.version()
+        self.info["description"] = fixture_description
         if ref_spec is not None:
             ref_spec.write_info(self.info)
 

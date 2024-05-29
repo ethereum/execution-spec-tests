@@ -559,6 +559,24 @@ def node_to_test_info(node) -> TestInfo:
     )
 
 
+@pytest.fixture(scope="function")
+def fixture_description(request):
+    """Fixture to extract and combine docstrings from the test class and the test function."""
+    description_unavailable = (
+        "No description available - add a docstring to the python test class or function."
+    )
+    test_class_doc = f"Test class documentation:\n{request.cls.__doc__}" if request.cls else ""
+    test_function_doc = (
+        f"Test function documentation:\n{request.function.__doc__}"
+        if request.function.__doc__
+        else ""
+    )
+    if not test_class_doc and not test_function_doc:
+        return description_unavailable
+    combined_docstring = f"{test_class_doc}\n\n{test_function_doc}".strip()
+    return combined_docstring
+
+
 def base_test_parametrizer(cls: Type[BaseTest]):
     """
     Generates a pytest.fixture for a given BaseTest subclass.
@@ -579,6 +597,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         eips,
         dump_dir_parameter_level,
         fixture_collector,
+        fixture_description,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -603,7 +622,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     fixture_format=fixture_format,
                     eips=eips,
                 )
-                fixture.fill_info(t8n, reference_spec)
+                fixture.fill_info(t8n, fixture_description, ref_spec=reference_spec)
 
                 fixture_path = fixture_collector.add_fixture(
                     node_to_test_info(request.node),
