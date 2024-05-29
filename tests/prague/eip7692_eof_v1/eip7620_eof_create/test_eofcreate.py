@@ -114,7 +114,7 @@ def test_eofcreate_then_call(
                 sections=[
                     Section.Code(
                         code=Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, 0))
-                        + Op.EXTCALL(callable_address, 0, 0, 0)
+                        + Op.EXTCALL(Op.SLOAD(slot_create_address), 0, 0, 0)
                         + Op.SSTORE(slot_code_worked, value_code_worked)
                         + Op.STOP,
                         code_inputs=0,
@@ -141,19 +141,23 @@ def test_eofcreate_then_call(
 @pytest.mark.parametrize(
     "auxdata_bytes",
     [
-        b"aabbccddeeff",
-        b"aabbccddeeffgghhii",
-        b"aabbcc",
+        pytest.param(b"", id="zero"),
+        pytest.param(b"aabbcc", id="short"),
+        pytest.param(b"aabbccddeef", id="one_byte_short"),
+        pytest.param(b"aabbccddeeff", id="exact"),
+        pytest.param(b"aabbccddeeffg", id="one_byte_long"),
+        pytest.param(b"aabbccddeeffgghhii", id="extra"),
     ],
-    ids=["exact", "extra", "short"],
 )
 def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
     """
     Verifies that auxdata bytes are correctly handled in RETURNCONTRACT
     """
     env = Environment()
-    auxdata: int = int.from_bytes(auxdata_bytes, byteorder="big")
     auxdata_size = len(auxdata_bytes)
+    pre_deploy_header_data_size = 18
+    pre_deploy_data = b"AABBCC"
+    deploy_success = len(auxdata_bytes) + len(pre_deploy_data) >= pre_deploy_header_data_size
 
     runtime_subcontainer = Container(
         name="Runtime Subcontainer with truncated data",
@@ -161,7 +165,7 @@ def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
             Section.Code(
                 code=Op.STOP, code_inputs=0, code_outputs=NON_RETURNING_SECTION, max_stack_height=0
             ),
-            Section.Data(data=b"AABBCC", custom_size=18),
+            Section.Data(data=pre_deploy_data, custom_size=pre_deploy_header_data_size),
         ],
     )
 
@@ -169,7 +173,8 @@ def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
         name="Initcode Subcontainer",
         sections=[
             Section.Code(
-                code=Op.MSTORE(0, auxdata) + Op.RETURNCONTRACT[0](0, auxdata_size),
+                code=Op.MSTORE(0, Op.PUSH32(auxdata_bytes.ljust(32, b"\0")))
+                + Op.RETURNCONTRACT[0](0, auxdata_size),
                 code_inputs=0,
                 code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=2,
@@ -203,7 +208,7 @@ def test_auxdata_variations(state_test: StateTestFiller, auxdata_bytes: bytes):
                 slot_create_address: compute_eofcreate_address(
                     default_address, 0, initcode_subcontainer
                 )
-                if auxdata_size >= 12
+                if deploy_success
                 else b"\0"
             }
         )
@@ -233,16 +238,15 @@ def test_calldata(state_test: StateTestFiller):
         ],
     )
 
-    calldata_bytes = b"\x45" * 32
-    calldata_size = len(calldata_bytes)
-    calldata = int.from_bytes(calldata_bytes, "big")
+    calldata_size = 32
+    calldata = b"\x45" * calldata_size
     pre = {
         TestAddress: Account(balance=10**21, nonce=1),
         default_address: Account(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.MSTORE(0, calldata)
+                        code=Op.MSTORE(0, Op.PUSH32(calldata))
                         + Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, calldata_size))
                         + Op.STOP,
                         code_inputs=0,
@@ -260,7 +264,7 @@ def test_calldata(state_test: StateTestFiller):
         name="deployed contract",
         sections=[
             *smallest_runtime_subcontainer.sections,
-            Section.Data(data=calldata_bytes),
+            Section.Data(data=calldata),
         ],
     )
     # factory contract Storage in 0 should have the created address,
@@ -278,7 +282,7 @@ def test_eofcreate_in_initcode(
     state_test: StateTestFiller,
 ):
     """
-    Verifies an EOFCREATE occuring within initcode creaes that contract
+    Verifies an EOFCREATE occuring within initcode creates that contract
     """
     nested_initcode_subcontainer = Container(
         sections=[
@@ -366,14 +370,20 @@ def test_eofcreate_in_initcode_reverts(
                     ),
                     Section.Container(container=nested_initcode_subcontainer),
                 ]
-            )
+            ),
+            storage={slot_create_address: value_canary_to_be_overwritten},
         ),
     }
 
     outer_address = compute_eofcreate_address(default_address, 0, nested_initcode_subcontainer)
     inner_address = compute_eofcreate_address(outer_address, 0, smallest_initcode_subcontainer)
     post = {
-        default_address: Account(storage={slot_code_worked: value_code_worked}),
+        default_address: Account(
+            storage={
+                slot_create_address: 0,
+                slot_code_worked: value_code_worked,
+            }
+        ),
         outer_address: Account.NONEXISTENT,
         inner_address: Account.NONEXISTENT,
     }
@@ -385,7 +395,7 @@ def test_return_data_cleared(
     state_test: StateTestFiller,
 ):
     """
-    Verifies a teh return data is not re-used from a extcall but is cleared upon eofcreate
+    Verifies the return data is not re-used from a extcall but is cleared upon eofcreate
     """
     env = Environment()
     callable_address = fixed_address(1)
