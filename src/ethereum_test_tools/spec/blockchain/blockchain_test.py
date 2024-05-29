@@ -8,7 +8,7 @@ from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tup
 from pydantic import Field
 
 from ethereum_test_forks import Fork
-from evm_transition_tool import EvmOneTransitionTool, FixtureFormats, TransitionTool
+from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import Alloc, EmptyTrieRoot, Environment, Hash, Requests, Transaction, Withdrawal
 from ...common.constants import EmptyOmmersRoot
@@ -234,15 +234,6 @@ class BlockchainTest(BaseTest):
         blob_gas_used: int | None = None
         if (blob_gas_per_blob := fork.blob_gas_per_blob(env.number, env.timestamp)) > 0:
             blob_gas_used = blob_gas_per_blob * count_blobs(txs)
-
-        if (
-            isinstance(t8n, EvmOneTransitionTool)
-            and transition_tool_output.result.requests_root is None
-            and fork.header_requests_required(env.number, env.timestamp)
-        ):
-            # TODO: Remove
-            # Incorporate the requests root into the extras.
-            transition_tool_output.result.requests_root = Requests(root=[]).trie_root
 
         header = FixtureHeader(
             **(
