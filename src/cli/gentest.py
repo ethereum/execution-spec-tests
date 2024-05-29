@@ -115,7 +115,7 @@ class TestConstructor:
                 state_str += pad + "storage={\n"
 
                 if account_obj.storage is not None:
-                    for record, value in account_obj.storage.items():
+                    for record, value in account_obj.storage.root.items():
                         pad_record = common.ZeroPaddedHexNumber(record)
                         pad_value = common.ZeroPaddedHexNumber(value)
                         state_str += f'{pad}    "{pad_record}" : "{pad_value}",\n'
@@ -141,7 +141,7 @@ class TestConstructor:
             "gas_limit",
             "value",
         ]
-        for field, value in asdict(tr.transaction).items():
+        for field, value in iter(tr.transaction):
             if value is None:
                 continue
 
