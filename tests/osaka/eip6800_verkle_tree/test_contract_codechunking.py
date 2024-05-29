@@ -9,7 +9,6 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
-    Address,
     Block,
     BlockchainTestFiller,
     Environment,
