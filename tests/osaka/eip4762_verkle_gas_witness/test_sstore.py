@@ -50,6 +50,27 @@ def test_sload(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_ac
     _sload(blockchain_test, fork, storage_slot_accesses, exp_witness)
 
 
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "gas_limit",
+    [
+        "TBD",
+        "TBD",
+    ],
+    ids=[
+        "insufficient_for_subtree_edit_cost",
+        "insufficient_for_chunk_edit_cost",
+    ],
+)
+def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str, gas_limit):
+    """
+    Test SLOAD with insufficient gas.
+    """
+    exp_witness = None  # TODO(verkle)
+    _sload(blockchain_test, fork, [0], exp_witness, gas_limit=gas_limit)
+
+
 def _sload(
     blockchain_test: BlockchainTestFiller,
     fork: str,
