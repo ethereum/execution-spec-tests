@@ -8,8 +8,16 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- ✨ Add `test_create_selfdestruct_same_tx_increased_nonce` which tests self-destructing a contract with a nonce > 1 ([#478](https://github.com/ethereum/execution-spec-tests/pull/478)).
 - ✨ Add `test_double_kill` and `test_recreate` which test resurrection of accounts killed with `SELFDESTRUCT` ([#488](https://github.com/ethereum/execution-spec-tests/pull/488)).
 - ✨ Add eof example valid invalid tests from ori, fetch EOF Container implementation ([#535](https://github.com/ethereum/execution-spec-tests/pull/535)).
+- ✨ Add tests for [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537) ([#499](https://github.com/ethereum/execution-spec-tests/pull/499)).
+- ✨ [EIP-663](https://eips.ethereum.org/EIPS/eip-663): Add `test_dupn.py` and `test_swapn.py` ([#502](https://github.com/ethereum/execution-spec-tests/pull/502)).
+- ✨ Add tests for [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110) ([#530](https://github.com/ethereum/execution-spec-tests/pull/530)).
+- ✨ Add tests for [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002) ([#530](https://github.com/ethereum/execution-spec-tests/pull/530)).
+- ✨ Add tests for [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685) ([#530](https://github.com/ethereum/execution-spec-tests/pull/530)).
+- ✨ Add tests for [EIP-2935: Serve historical block hashes from state
+](https://eips.ethereum.org/EIPS/eip-2935) ([#564](https://github.com/ethereum/execution-spec-tests/pull/564)).
 
 ### 🛠️ Framework
 

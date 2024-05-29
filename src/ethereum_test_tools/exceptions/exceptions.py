@@ -180,6 +180,10 @@ class BlockException(ExceptionBase):
     """
     Block's rlp encoding is valid but ethereum structures in it are invalid
     """
+    INVALID_REQUESTS = auto()
+    """
+    Block's requests are invalid
+    """
 
 
 @unique
@@ -218,6 +222,10 @@ class EOFException(ExceptionBase):
     INVALID_VERSION = auto()
     """
     EOF container version bytes mismatch
+    """
+    INVALID_NON_RETURNING_FLAG = auto()
+    """
+    EOF container's section has non-returning flag set incorrectly
     """
     INVALID_RJUMP_DESTINATION = auto()
     """
@@ -302,6 +310,27 @@ class EOFException(ExceptionBase):
     UNREACHABLE_CODE_SECTIONS = auto()
     """
     EOF container's body have code sections that are unreachable
+    """
+    STACK_UNDERFLOW = auto()
+    """
+    EOF container's code produces an stack underflow
+    """
+    MAX_STACK_HEIGHT_ABOVE_LIMIT = auto()
+    """
+    EOF container's specified max stack height is above the limit
+    """
+    STACK_HIGHER_THAN_OUTPUTS = auto()
+    """
+    EOF container section stack height is higher than the outputs
+    when returning
+    """
+    JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS = auto()
+    """
+    EOF container section JUMPF's to a destination section with incompatible outputs
+    """
+    INVALID_MAX_STACK_HEIGHT = auto()
+    """
+    EOF container section's specified max stack height does not match the actual stack height
     """
     INVALID_DATALOADN_INDEX = auto()
     """
