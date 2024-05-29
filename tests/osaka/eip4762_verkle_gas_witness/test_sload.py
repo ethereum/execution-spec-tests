@@ -46,6 +46,27 @@ def test_sload(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_ac
     """
     Test SLOAD witness.
     """
+    exp_witness = None  # TODO(verkle)
+    _sload(blockchain_test, fork, storage_slot_accesses, exp_witness)
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
+    """
+    Test SLOAD with insufficient gas.
+    """
+    exp_witness = None  # TODO(verkle)
+    _sload(blockchain_test, fork, [1000], exp_witness, gas_limit=1_024)
+
+
+def _sload(
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    storage_slot_accesses,
+    exp_witness,
+    gas_limit=1_000_000,
+):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
@@ -70,7 +91,7 @@ def test_sload(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_ac
         chain_id=0x01,
         nonce=0,
         to=TestAddress2,
-        gas_limit=1_000_000,
+        gas_limit=gas_limit,
         gas_price=10,
     )
     blocks = [Block(txs=[tx])]
