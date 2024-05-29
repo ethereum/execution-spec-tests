@@ -77,8 +77,7 @@ def compute_eofcreate_address(
     init_container: BytesConvertible,
 ) -> Address:
     """
-    Compute address of the resulting contract created using the `CREATE3`
-    opcode.
+    Compute address of the resulting contract created using the `EOFCREATE` opcode.
     """
     hash = keccak256(b"\xff" + Address(address) + Hash(salt) + keccak256(Bytes(init_container)))
     return Address(hash[-20:])
