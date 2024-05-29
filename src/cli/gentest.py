@@ -317,6 +317,10 @@ class RequestManager:
         response = self._make_request(data)
         res = response.json().get("result", None)
 
+        assert (
+            res["type"] == "0x0"
+        ), f"Transaction has type {res['type']}: Currently only type 0 transactions are supported."
+
         return RequestManager.RemoteTransaction(
             block_number=res["blockNumber"],
             tr_hash=res["hash"],
