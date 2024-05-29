@@ -30,7 +30,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
     "bytecode",
     [
         "",
-        Op.STOP * 1024,
+        Op.STOP * (128 * 31 + 1000),
     ],
     ids=["empty", "non_empty"],
 )
