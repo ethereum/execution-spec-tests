@@ -6,7 +6,7 @@ import itertools
 import sys
 import textwrap
 from dataclasses import dataclass, field
-from typing import Any, List
+from typing import Any, Dict, List
 
 import pytest
 from pytest import Metafunc
@@ -147,6 +147,16 @@ fork_covariant_descriptors = [
         parameter_name="precompile",
     ),
 ]
+
+
+def get_last_descendant(fork_names: List[str], fork_map: Dict[str, Fork], fork_name: str) -> str:
+    """
+    Get the last descendant of a class in the inheritance hierarchy.
+    """
+    for next_fork in reversed(fork_names):
+        if fork_map[next_fork] >= fork_map[fork_name]:
+            return next_fork
+    return fork_name
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -381,7 +391,9 @@ def pytest_generate_tests(metafunc):
             valid_from = metafunc.config.fork_names[0]
 
         if not valid_until:
-            valid_until = metafunc.config.fork_names[-1]
+            valid_until = get_last_descendant(
+                metafunc.config.fork_names, metafunc.config.fork_map, valid_from
+            )
 
         test_fork_range = set(
             metafunc.config.fork_names[
