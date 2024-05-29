@@ -19,7 +19,7 @@ jobs:
         id: feature-name
         shell: bash
         run: |
-          echo name=eip7692 >> "$GITHUB_OUTPUT"
+          echo name=${GITHUB_REF_NAME//@*/} >> "$GITHUB_OUTPUT"
       - name: Get the selected feature configuration from the config-feature.yaml
         id: config-feature-reader
         shell: bash
