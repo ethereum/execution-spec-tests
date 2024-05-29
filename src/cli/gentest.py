@@ -293,6 +293,7 @@ class RequestManager:
         error_str = "An error occurred while making remote request: "
         try:
             response = requests.post(self.node_url, headers=self.headers, data=json.dumps(data))
+            response.raise_for_status()
             if response.status_code >= 200 and response.status_code < 300:
                 return response
             else:
