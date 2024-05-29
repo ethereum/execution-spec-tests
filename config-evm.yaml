@@ -1,4 +1,4 @@
-main:
+stable:
   impl: geth
   repo: ethereum/go-ethereum
   ref: master

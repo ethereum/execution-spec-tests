@@ -1,6 +1,15 @@
+stable:
+  evm-type: stable
+  fill-params: ''
+  python: 3.11
+  solc: 0.8.21
+develop:
+  evm-type: develop
+  fill-params: --until=Prague
+  python: 3.11
+  solc: 0.8.21
 eip7692:
   evm-type: eip7692
-  fork: CancunEIP7692
-  tests: ./tests/prague
-  solc: 0.8.21
+  fill-params: --fork=CancunEIP7692 ./tests/prague
   python: 3.11
+  solc: 0.8.21

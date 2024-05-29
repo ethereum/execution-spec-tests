@@ -1,0 +1,58 @@
+name: Build and Package Fixtures
+inputs:
+  name:
+    description: 'Name of the fixture package'
+    required: true
+  evm-type:
+    description: 'Type of evm tool to use to build the fixtures'
+    required: true
+  fill-params:
+    description: 'Parameters to pass to the fill command'
+    required: true
+  python:
+    description: 'Python version to use'
+    required: true
+  solc:
+    description: 'solc compiler version to use'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: ./.github/actions/build-evm
+      id: evm-builder
+      with:
+        type: ${{ inputs.evm-type }}
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python }}
+    - name: Install solc compiler
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then PLATFORM="linux-amd64"; else PLATFORM="macosx-amd64"; fi
+        RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ inputs.solc }}" '.releases[$SOLC_VERSION]')
+        wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
+        chmod a+x $GITHUB_WORKSPACE/bin/solc
+        echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
+    - name: Run fixtures fill
+      shell: bash
+      run: |
+        pip install --upgrade pip
+        python -m venv env
+        source env/bin/activate
+        pip install -e .
+        fill -n auto --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ inputs.fill-params }}
+    - name: Create fixtures info file
+      shell: bash
+      run: |
+        echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
+        > fixtures/info.txt
+    - name: Tar fixtures output
+      shell: bash
+      run: |
+        tar -czvf fixtures_${{ inputs.name }}.tar.gz ./fixtures
+    - uses: actions/upload-artifact@v4
+      with:
+        name: fixtures_${{ inputs.name }}
+        path: fixtures_${{ inputs.name }}.tar.gz

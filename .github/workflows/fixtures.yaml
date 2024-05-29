@@ -11,62 +11,42 @@ on:
   workflow_dispatch:
 
 jobs:
+  features:
+    runs-on: ubuntu-latest
+    outputs:
+      features: ${{ steps.parse.outputs.features }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      - name: Setup yq
+        shell: bash
+        run: |
+          pip install yq
+      - name: Parse config-feature.yaml
+        id: parse
+        shell: bash
+        run: |
+          echo "features=$(yq -c '[. | to_entries | .[] | {"name": .key} * .value]' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
   build:
+    needs: features
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - name: 'stable'
-            evm-type: 'main'
-            fill-params: ''
-            solc: '0.8.21'
-            python: '3.11'
-          - name: 'develop'
-            evm-type: 'develop'
-            fill-params: '--until=Prague'
-            solc: '0.8.21'
-            python: '3.11'
+        include: ${{ fromJson(needs.features.outputs.features) }}
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - uses: ./.github/actions/build-evm
-        id: evm-builder
+      - uses: ./.github/actions/build-fixtures
         with:
-          type: ${{ matrix.evm-type }}
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Install solc compiler
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then PLATFORM="linux-amd64"; else PLATFORM="macosx-amd64"; fi
-          RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ matrix.solc }}" '.releases[$SOLC_VERSION]')
-          wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
-          chmod a+x $GITHUB_WORKSPACE/bin/solc
-          echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
-      - name: Run fixtures fill
-        shell: bash
-        run: |
-          pip install --upgrade pip
-          python -m venv env
-          source env/bin/activate
-          pip install -e .
-          fill -n auto ${{ matrix.fill-params }}
-      - name: Create fixtures info file
-        shell: bash
-        run: |
-          echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
-          > fixtures/info.txt
-      - name: Tar fixtures output
-        shell: bash
-        run: |
-          tar -czvf fixtures_${{ matrix.name }}.tar.gz ./fixtures
-      - uses: actions/upload-artifact@v4
-        with:
-          name: fixtures_${{ matrix.name }}
-          path: fixtures_${{ matrix.name }}.tar.gz
+          name: ${{ matrix.name }}
+          evm-type: ${{ matrix.evm-type }}
+          fill-params: ${{ matrix.fill-params }}
+          python: ${{ matrix.python }}
+          solc: ${{ matrix.solc }}
   release:
     runs-on: ubuntu-latest
     needs: build
