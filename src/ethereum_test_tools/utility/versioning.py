@@ -2,7 +2,6 @@
 Utility module with helper functions for versioning.
 """
 
-import os
 import re
 
 from git import InvalidGitRepositoryError, Repo  # type: ignore
@@ -23,11 +22,9 @@ def get_current_commit_hash_or_tag(repo_path="."):
         # to execute pytest within a pytest session (for top-level tests of our pytest plugins).
         # The pytester fixture executes these tests in a temporary directory, which is not a git
         # repository; this is a workaround to stop these tests failing.
-        if os.path.abspath(os.getcwd()).startswith("/tmp"):
-            # Should be true for unix-like systems; this won't work on windows.
-            return "Not a git repository (running under /tmp)"
-        else:
-            raise
+        #
+        # Tried monkeypatching the pytest plugin tests, but it didn't play well with pytester.
+        return "Not a git repository (running under /tmp)"
 
 
 def generate_github_url(file_path, branch_or_commit_or_tag="main", line_number=""):

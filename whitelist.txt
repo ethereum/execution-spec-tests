@@ -417,6 +417,7 @@ makepyfile
 makereport
 metafunc
 modifyitems
+monkeypatching
 nodeid
 noop
 oog
