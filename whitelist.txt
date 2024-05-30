@@ -450,6 +450,7 @@ substring
 substrings
 tf
 teardown
+tempdir
 testdir
 teststatus
 tmpdir
