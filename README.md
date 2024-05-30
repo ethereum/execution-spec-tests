@@ -72,7 +72,7 @@ Generally, specific `t8n` implementations and branches must be used when develop
 
 We use named reference tags to point to the specific version of the `t8n` implementation that needs to be used fill the tests.
 
-All current tags, their t8n implementation and branch they point to, are listed in [config-evm.yaml](config-evm.yaml).
+All current tags, their t8n implementation and branch they point to, are listed in [configs/evm.yaml](configs/evm.yaml).
 
 ## Getting Started
 

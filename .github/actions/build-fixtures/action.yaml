@@ -18,9 +18,7 @@ runs:
       id: properties
       shell: bash
       run: |
-        echo "evm-type=$(yq --arg feature "${{ inputs.name }}" '.[$feature]."evm-type"' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
-        echo "fill-params=$(yq --arg feature "${{ inputs.name }}" '.[$feature]."fill-params"' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
-        echo "solc=$(yq --arg feature "${{ inputs.name }}" '.[$feature]."solc"' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
+        yq -r --arg feature "${{ inputs.name }}" '.[$feature] | to_entries | map("\(.key)=\(.value)")[]' ./configs/feature.yaml >> "$GITHUB_OUTPUT"
     - uses: ./.github/actions/build-evm
       id: evm-builder
       with:

@@ -17,11 +17,11 @@ jobs:
       features: ${{ steps.parse.outputs.features }}
     steps:
       - uses: actions/checkout@v4
-      - name: Get names from config-feature.yaml
+      - name: Get names from configs/feature.yaml
         id: parse
         shell: bash
         run: |
-          echo "features=$(grep -Po "^[0-9a-zA-Z_\-]+" ./config-feature.yaml | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
+          echo "features=$(grep -Po "^[0-9a-zA-Z_\-]+" ./configs/feature.yaml | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
   build:
     needs: features
     runs-on: ubuntu-latest

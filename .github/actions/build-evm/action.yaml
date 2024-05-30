@@ -21,11 +21,11 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Get the selected EVM version from the config-evm.yaml
+    - name: Get the selected EVM version from the configs/evm.yaml
       id: config-evm-reader
       shell: bash
       run: |
-        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./config-evm.yaml \
+        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./configs/evm.yaml \
         | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
     - name: Print Variables for the selected EVM type
       shell: bash
