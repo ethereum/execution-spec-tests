@@ -1,8 +1,0 @@
-main:
-  impl: geth
-  repo: ethereum/go-ethereum
-  ref: master
-develop:
-  impl: geth
-  repo: lightclient/go-ethereum
-  ref: prague-devnet-0
