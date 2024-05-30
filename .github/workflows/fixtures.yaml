@@ -17,25 +17,17 @@ jobs:
       features: ${{ steps.parse.outputs.features }}
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.11
-      - name: Setup yq
-        shell: bash
-        run: |
-          pip install yq
-      - name: Parse config-feature.yaml
+      - name: Get names from config-feature.yaml
         id: parse
         shell: bash
         run: |
-          echo "features=$(yq -c '[. | to_entries | .[] | {"name": .key} * .value]' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
+          echo "features=$(grep -Po "^[0-9a-zA-Z_\-]+" ./config-feature.yaml | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
   build:
     needs: features
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include: ${{ fromJson(needs.features.outputs.features) }}
+        name: ${{ fromJson(needs.features.outputs.features) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,10 +35,6 @@ jobs:
       - uses: ./.github/actions/build-fixtures
         with:
           name: ${{ matrix.name }}
-          evm-type: ${{ matrix.evm-type }}
-          fill-params: ${{ matrix.fill-params }}
-          python: ${{ matrix.python }}
-          solc: ${{ matrix.solc }}
   release:
     runs-on: ubuntu-latest
     needs: build

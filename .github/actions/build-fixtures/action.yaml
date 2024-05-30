@@ -3,35 +3,33 @@ inputs:
   name:
     description: 'Name of the fixture package'
     required: true
-  evm-type:
-    description: 'Type of evm tool to use to build the fixtures'
-    required: true
-  fill-params:
-    description: 'Parameters to pass to the fill command'
-    required: true
-  python:
-    description: 'Python version to use'
-    required: true
-  solc:
-    description: 'solc compiler version to use'
-    required: true
-
 runs:
   using: "composite"
   steps:
-    - uses: ./.github/actions/build-evm
-      id: evm-builder
-      with:
-        type: ${{ inputs.evm-type }}
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: ${{ inputs.python }}
+        python-version: 3.11
+    - name: Install yq
+      shell: bash
+      run: |
+        pip install yq
+    - name: Extract fixture properties
+      id: properties
+      shell: bash
+      run: |
+        echo "evm-type=$(yq --arg feature "${{ inputs.name }}" '.[$feature]."evm-type"' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
+        echo "fill-params=$(yq --arg feature "${{ inputs.name }}" '.[$feature]."fill-params"' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
+        echo "solc=$(yq --arg feature "${{ inputs.name }}" '.[$feature]."solc"' ./config-feature.yaml)" >> "$GITHUB_OUTPUT"
+    - uses: ./.github/actions/build-evm
+      id: evm-builder
+      with:
+        type: ${{ steps.properties.outputs.evm-type }}
     - name: Install solc compiler
       shell: bash
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then PLATFORM="linux-amd64"; else PLATFORM="macosx-amd64"; fi
-        RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ inputs.solc }}" '.releases[$SOLC_VERSION]')
+        RELEASE_NAME=$(curl https://binaries.soliditylang.org/${PLATFORM}/list.json | jq -r --arg SOLC_VERSION "${{ steps.properties.outputs.solc }}" '.releases[$SOLC_VERSION]')
         wget -O $GITHUB_WORKSPACE/bin/solc https://binaries.soliditylang.org/${PLATFORM}/$RELEASE_NAME
         chmod a+x $GITHUB_WORKSPACE/bin/solc
         echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
@@ -42,7 +40,7 @@ runs:
         python -m venv env
         source env/bin/activate
         pip install -e .
-        fill -n auto --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ inputs.fill-params }}
+        fill -n auto --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }}
     - name: Create fixtures info file
       shell: bash
       run: |

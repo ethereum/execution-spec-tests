@@ -20,19 +20,9 @@ jobs:
         shell: bash
         run: |
           echo name=${GITHUB_REF_NAME//@*/} >> "$GITHUB_OUTPUT"
-      - name: Get the selected feature configuration from the config-feature.yaml
-        id: config-feature-reader
-        shell: bash
-        run: |
-          awk "/^${{ steps.feature-name.outputs.name }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./config-feature.yaml \
-          | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
       - uses: ./.github/actions/build-fixtures
         with:
           name: ${{ steps.feature-name.outputs.name }}
-          evm-type: ${{ steps.config-feature-reader.outputs.evm-type }}
-          fill-params: ${{ steps.config-feature-reader.outputs.fill-params }}
-          python: ${{ steps.config-feature-reader.outputs.python }}
-          solc: ${{ steps.config-feature-reader.outputs.solc }}
   release:
     runs-on: ubuntu-latest
     needs: build
