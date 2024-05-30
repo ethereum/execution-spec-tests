@@ -33,6 +33,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ The `fill` command now generates HTML test reports with links to the JSON fixtures and debug information ([#537](https://github.com/ethereum/execution-spec-tests/pull/537)).
 - ✨ Add an Ethereum RPC client class for use with consume commands ([#556](https://github.com/ethereum/execution-spec-tests/pull/556)).
 - ✨ Add a "slow" pytest marker, in order to be able to limit the filled tests until release ([#562](https://github.com/ethereum/execution-spec-tests/pull/562)).
+- ✨ Add a CLI tool that generates blockchain tests as Python from a transaction hash ([#470](https://github.com/ethereum/execution-spec-tests/pull/470), [#576](https://github.com/ethereum/execution-spec-tests/pull/576)).
 
 ### 🔧 EVM Tools
 
