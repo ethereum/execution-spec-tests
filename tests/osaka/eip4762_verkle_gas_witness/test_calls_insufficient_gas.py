@@ -30,20 +30,39 @@ precompile_address = Address("0x09")
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
-    "call_instruction",
+    "call_instruction, gas_limit",
     [
-        Op.CALL,
-        Op.CALLCODE,
-        Op.DELEGATECALL,
-        Op.STATICCALL,
+        (Op.CALL, "TBD_insufficient_dynamic_cost"),
+        (Op.CALL, "TBD_insufficient_value_bearing"),
+        (Op.CALL, "TBD_insufficient_63/64"),
+        (Op.CALLCODE, "TBD_insufficient_dynamic_cost"),
+        (Op.CALLCODE, "TBD_insufficient_value_bearing"),
+        (Op.CALLCODE, "TBD_insufficient_63/64"),
+        (Op.DELEGATECALL, "TBD_insufficient_63/64"),
+        (Op.DELEGATECALL, "TBD_insufficient_dynamic_cost"),
+        (Op.STATICCALL, "TBD_insufficient_63/64"),
+        (Op.STATICCALL, "TBD_insufficient_dynamic_cost"),
         # TODO(verkle): add AUTHCALL when/if supported in mainnet.
+    ],
+    ids=[
+        "CALL_insufficient_dynamic_cost",
+        "CALL_insufficient_value_bearing",
+        "CALL_insufficient_63/64",
+        "CALLCODE_insufficient_dynamic_cost",
+        "CALLCODE_insufficient_value_bearing",
+        "CALLCODE_insufficient_63/64",
+        "DELEGATECALL_insufficient_63/64",
+        "DELEGATECALL_insufficient_dynamic_cost",
+        "STATICCALL_insufficient_63/64",
+        "STATICCALL_insufficient_dynamic_cost",
     ],
 )
 def test_calls_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: str, call_instruction
+    blockchain_test: BlockchainTestFiller, fork: str, call_instruction, gas_limit
 ):
     """
-    Test *CALL witness assertion when there's insufficient gas for the dynamic cost.
+    Test *CALL witness assertion when there's insufficient gas for the dynamic cost or 1/64
+    reservation.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -60,7 +79,7 @@ def test_calls_insufficient_gas(
 
     if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
         tx_data = Initcode(
-            deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 0, 32)
+            deploy_code=call_instruction(1_000, TestAddress2, 1, 0, 0, 0, 32)
         ).bytecode
     if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
         tx_data = Initcode(deploy_code=call_instruction(1_000, TestAddress2, 0, 0, 0, 32)).bytecode
