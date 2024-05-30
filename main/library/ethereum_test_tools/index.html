@@ -3100,6 +3100,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.MISSING_DATA_SECTION" class="md-nav__link">
+    <span class="md-ellipsis">
+      MISSING_DATA_SECTION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.EOFException.INCOMPLETE_CONTAINER" class="md-nav__link">
     <span class="md-ellipsis">
       INCOMPLETE_CONTAINER
@@ -3184,6 +3193,15 @@
   <a href="#ethereum_test_tools.EOFException.MISSING_STOP_OPCODE" class="md-nav__link">
     <span class="md-ellipsis">
       MISSING_STOP_OPCODE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INPUTS_OUTPUTS_NUM_ABOVE_LIMIT
     </span>
   </a>
   
@@ -15998,6 +16016,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.MISSING_DATA_SECTION" class="md-nav__link">
+    <span class="md-ellipsis">
+      MISSING_DATA_SECTION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.EOFException.INCOMPLETE_CONTAINER" class="md-nav__link">
     <span class="md-ellipsis">
       INCOMPLETE_CONTAINER
@@ -16082,6 +16109,15 @@
   <a href="#ethereum_test_tools.EOFException.MISSING_STOP_OPCODE" class="md-nav__link">
     <span class="md-ellipsis">
       MISSING_STOP_OPCODE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INPUTS_OUTPUTS_NUM_ABOVE_LIMIT
     </span>
   </a>
   
@@ -28196,7 +28232,15 @@ a fork that is not active yet.</p>
 <span class="normal">335</span>
 <span class="normal">336</span>
 <span class="normal">337</span>
-<span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when an EOF container is invalid</span>
@@ -28273,6 +28317,10 @@ a fork that is not active yet.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container data header construction is wrong</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MISSING_DATA_SECTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF container missing data section</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INCOMPLETE_CONTAINER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container bytes are incomplete</span>
@@ -28312,6 +28360,10 @@ a fork that is not active yet.</p>
     <span class="n">MISSING_STOP_OPCODE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container&#39;s code missing STOP bytecode at it&#39;s end</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INPUTS_OUTPUTS_NUM_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF container code section inputs/outputs number is above the limit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">UNREACHABLE_INSTRUCTIONS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -28822,6 +28874,33 @@ a fork that is not active yet.</p>
 
 
 
+<h3 id="ethereum_test_tools.EOFException.MISSING_DATA_SECTION" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">MISSING_DATA_SECTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.EOFException.MISSING_DATA_SECTION" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>EOF container missing data section</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
 <h3 id="ethereum_test_tools.EOFException.INCOMPLETE_CONTAINER" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">INCOMPLETE_CONTAINER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
 
@@ -29079,6 +29158,33 @@ a fork that is not active yet.</p>
     <div class="doc doc-contents ">
 
       <p>EOF container's code missing STOP bytecode at it's end</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INPUTS_OUTPUTS_NUM_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>EOF container code section inputs/outputs number is above the limit</p>
     </div>
 
 </div>
@@ -33474,7 +33580,7 @@ spec type as filler for the test.</p>
             <span class="k">return</span> <span class="n">fixture</span>
 
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">fixture</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fork</span><span class="p">))</span>
+            <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">())</span>
             <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
@@ -33729,7 +33835,7 @@ spec type as filler for the test.</p>
         <span class="k">return</span> <span class="n">fixture</span>
 
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">fixture</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fork</span><span class="p">))</span>
+        <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
