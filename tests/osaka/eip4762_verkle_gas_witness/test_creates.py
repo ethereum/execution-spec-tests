@@ -107,6 +107,7 @@ def test_create_with_value(blockchain_test: BlockchainTestFiller, fork: str, cre
         ["TBD3", "TBD3"],
     ],
     ids=[
+        "insufficient_63/64_reservation",
         "insufficient_for_contract_init",
         "insufficient_for_all_contract_completion",
         "insufficient_for_all_code_chunks",
