@@ -55,7 +55,7 @@ from .base_types import (
     NumberBoundTypeVar,
     ZeroPaddedHexNumber,
 )
-from .constants import TestPrivateKey
+from .constants import TestAddress, TestPrivateKey, TestPrivateKey2
 from .conversions import BytesConvertible, FixedSizeBytesConvertible, NumberConvertible
 
 
@@ -489,6 +489,48 @@ class Account(CopyValidateModel):
         return cls(**kwargs)
 
 
+class Sender(Address):
+    """
+    Address of the sender of a transaction.
+    """
+
+    key: Hash | None
+    nonce: Number
+
+    def __new__(
+        cls,
+        address: "FixedSizeBytesConvertible | Address | Sender | None" = None,
+        *,
+        key: FixedSizeBytesConvertible | None = None,
+        nonce: NumberConvertible = 0,
+    ):
+        """
+        Init the sender.
+        """
+        if address is None:
+            if key is None:
+                raise ValueError("impossible to initialize sender without address")
+            private_key = PrivateKey(Hash(key))
+            public_key = private_key.public_key
+            address = Address(keccak256(public_key.format(compressed=False)[1:])[32 - 20 :])
+        elif isinstance(address, Sender):
+            return address
+        instance = super(Sender, cls).__new__(cls, address)
+        instance.key = Hash(key) if key is not None else None
+        instance.nonce = Number(nonce)
+        return instance
+
+
+MAX_SENDERS = 50
+SENDERS_ITER = iter(
+    Sender(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0) for i in count(0)
+)
+SENDERS = [next(SENDERS_ITER) for _ in range(MAX_SENDERS)]
+
+# TODO: This should be modified to use a higher address range.
+start_contract_address = 0x100
+
+
 class Alloc(RootModel[Dict[Address, Account | None]]):
     """
     Allocation of accounts in the state, pre and post test execution.
@@ -636,6 +678,73 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                     account.check_alloc(address, got_account)
                 else:
                     raise Alloc.MissingAccount(address)
+
+    def deploy_contract(
+        self,
+        code: BytesConvertible,
+        *,
+        storage: Storage
+        | Dict[StorageKeyValueTypeConvertible, StorageKeyValueTypeConvertible] = {},
+        balance: NumberConvertible = 0,
+        nonce: NumberConvertible = 1,
+        address: Address | None = None,
+    ) -> Address:
+        """
+        Deploy a contract to the allocation.
+
+        Warning: `address` parameter is a temporary solution to allow tests to hard-code the
+        contract address. Do NOT use in new tests as it will be removed in the future!
+        """
+        if address is not None:
+            assert address not in self, f"address {address} already in allocation"
+            contract_address = address
+        else:
+            current_address = start_contract_address
+            while current_address in self:
+                current_address += 0x100
+            contract_address = Address(current_address)
+
+        # TODO: re-enable this assert
+        # assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
+
+        self[contract_address] = Account(
+            nonce=nonce,
+            balance=balance,
+            code=code,
+            storage=storage,
+        )
+
+        return Address(contract_address)
+
+    def fund_sender(self, amount: NumberConvertible) -> Sender:
+        """
+        Fund a sender with a given amount to be able to afford transactions.
+        """
+        for sender in SENDERS:
+            if sender not in self:
+                self[sender] = Account(
+                    nonce=0,
+                    balance=amount,
+                )
+                return Sender(
+                    Address(sender),
+                    key=sender.key,
+                    nonce=0,
+                )
+        raise ValueError("no more senders available")
+
+    def fund_address(self, address: Address, amount: NumberConvertible):
+        """
+        Fund an address with a given amount.
+        """
+        if address in self:
+            account = self[address]
+            if account is not None:
+                current_balance = account.balance or 0
+                account.balance = ZeroPaddedHexNumber(current_balance + Number(amount))
+                return
+
+        self[address] = Account(balance=amount)
 
 
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
@@ -825,7 +934,7 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     v: NumberBoundTypeVar | None = None
     r: NumberBoundTypeVar | None = None
     s: NumberBoundTypeVar | None = None
-    sender: Address | None = None
+    sender: Sender | None = None
 
 
 class TransactionFixtureConverter(CamelModel):
@@ -950,7 +1059,11 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             raise Transaction.InvalidSignaturePrivateKey()
 
         if self.v is None and self.secret_key is None:
-            self.secret_key = Hash(TestPrivateKey)
+            if self.sender is not None:
+                self.secret_key = self.sender.key
+            else:
+                self.secret_key = Hash(TestPrivateKey)
+                self.sender = Sender(address=TestAddress, key=self.secret_key, nonce=0)
 
         if "ty" not in self.model_fields_set:
             # Try to deduce transaction type from included fields
@@ -969,6 +1082,10 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
             self.max_priority_fee_per_gas = 0
+
+        if "nonce" not in self.model_fields_set and self.sender is not None:
+            self.nonce = self.sender.nonce
+            self.sender.nonce += 1
 
     def with_error(
         self, error: List[TransactionException] | TransactionException
