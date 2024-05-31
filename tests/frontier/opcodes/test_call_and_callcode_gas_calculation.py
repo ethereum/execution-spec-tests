@@ -31,9 +31,10 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Address,
+    Alloc,
     Environment,
+    Sender,
     StateTestFiller,
-    TestAddress,
     Transaction,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -67,21 +68,7 @@ class Contract:
 
     caller: int = 0x0A
     callee: int = 0x0B
-    nonexistent: int = 0x0C
-
-
-@pytest.fixture
-def caller_code(caller_gas_limit: int) -> bytes:
-    """
-    Code to CALL the callee contract:
-        PUSH1 0x00 * 5
-        PUSH2 Contract.callee
-        PUSH2 caller_gas <- gas limit set for CALL to callee contract
-        CALL
-        PUSH1 0x00
-        SSTORE
-    """
-    return Op.SSTORE(0, Op.CALL(caller_gas_limit, Contract.callee, 0, 0, 0, 0, 0))
+    nonexistent: int = 0x0C  # TODO: Change, this is now a precompile
 
 
 @pytest.fixture
@@ -98,41 +85,66 @@ def callee_code(callee_opcode: Op) -> bytes:
 
 
 @pytest.fixture
-def caller_tx() -> Transaction:
+def sender(pre: Alloc) -> Sender:
+    """
+    Sender for all transactions.
+    """
+    return pre.fund_sender(0x0BA1A9CE)
+
+
+@pytest.fixture
+def callee_address(pre: Alloc, callee_code: bytes) -> Address:
+    """
+    Address of the callee.
+    """
+    return pre.deploy_contract(callee_code, balance=0x03, address=Address(Contract.callee))
+
+
+@pytest.fixture
+def caller_code(caller_gas_limit: int, callee_address: Address) -> bytes:
+    """
+    Code to CALL the callee contract:
+        PUSH1 0x00 * 5
+        PUSH2 Contract.callee
+        PUSH2 caller_gas <- gas limit set for CALL to callee contract
+        CALL
+        PUSH1 0x00
+        SSTORE
+    """
+    return Op.SSTORE(0, Op.CALL(caller_gas_limit, int.from_bytes(callee_address), 0, 0, 0, 0, 0))
+
+
+@pytest.fixture
+def caller_address(pre: Alloc, caller_code: bytes) -> Address:
+    """
+    Code to CALL the callee contract:
+        PUSH1 0x00 * 5
+        PUSH2 Contract.callee
+        PUSH2 caller_gas <- gas limit set for CALL to callee contract
+        CALL
+        PUSH1 0x00
+        SSTORE
+    """
+    return pre.deploy_contract(caller_code, balance=0x03, address=Address(Contract.caller))
+
+
+@pytest.fixture
+def caller_tx(sender: Sender, caller_address: Address) -> Transaction:
     """Transaction that performs the call to the caller contract."""
     return Transaction(
         chain_id=0x01,
-        nonce=0,
-        to=Address(Contract.caller),
+        to=caller_address,
         value=1,
         gas_limit=500000,
         gas_price=7,
+        sender=sender,
     )
 
 
 @pytest.fixture
-def pre(caller_code: bytes, callee_code: bytes) -> Dict[Address, Account]:  # noqa: D103
+def post(caller_address: Address, is_sufficient_gas: bool) -> Dict[Address, Account]:  # noqa: D103
     return {
-        Address(Contract.caller): Account(
-            balance=0x03,
-            code=caller_code,
-            nonce=1,
-        ),
-        Address(Contract.callee): Account(
-            balance=0x03,
-            code=callee_code,
-            nonce=1,
-        ),
-        TestAddress: Account(
-            balance=0x0BA1A9CE,
-        ),
-    }
-
-
-@pytest.fixture
-def post(is_sufficient_gas: bool) -> Dict[Address, Account]:  # noqa: D103
-    return {
-        Address(Contract.caller): Account(storage={0x00: 0x01 if is_sufficient_gas else 0x00}),
+        caller_address: Account(storage={0x00: 0x01 if is_sufficient_gas else 0x00}),
     }
 
 
@@ -149,7 +161,7 @@ def post(is_sufficient_gas: bool) -> Dict[Address, Account]:  # noqa: D103
 @pytest.mark.valid_until("Shanghai")
 def test_value_transfer_gas_calculation(
     state_test: StateTestFiller,
-    pre: Dict[str, Account],
+    pre: Alloc,
     caller_tx: Transaction,
     post: Dict[str, Account],
 ):
