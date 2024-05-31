@@ -3,6 +3,7 @@ Useful types for generating Ethereum tests.
 """
 
 from dataclasses import dataclass
+from enum import IntEnum
 from functools import cached_property
 from itertools import count
 from typing import (
@@ -531,12 +532,23 @@ SENDERS = [next(SENDERS_ITER) for _ in range(MAX_SENDERS)]
 start_contract_address = 0x100
 
 
+class AllocMode(IntEnum):
+    """
+    Allocation mode for the state.
+    """
+
+    PERMISSIVE = 0
+    STRICT = 1
+
+
 class Alloc(RootModel[Dict[Address, Account | None]]):
     """
     Allocation of accounts in the state, pre and post test execution.
     """
 
     root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
+
+    alloc_mode: ClassVar[AllocMode] = AllocMode.PERMISSIVE
 
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
@@ -696,6 +708,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         contract address. Do NOT use in new tests as it will be removed in the future!
         """
         if address is not None:
+            assert self.alloc_mode == AllocMode.PERMISSIVE, "address parameter is not supported"
             assert address not in self, f"address {address} already in allocation"
             contract_address = address
         else:
@@ -704,8 +717,8 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                 current_address += 0x100
             contract_address = Address(current_address)
 
-        # TODO: re-enable this assert
-        # assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
+        if self.alloc_mode == AllocMode.STRICT:
+            assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 
         self[contract_address] = Account(
             nonce=nonce,
