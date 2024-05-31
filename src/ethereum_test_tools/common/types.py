@@ -1357,6 +1357,19 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             for blob_versioned_hash in tx.blob_versioned_hashes
         ]
 
+    @cached_property
+    def created_contract(self) -> Address:
+        """
+        Returns the address of the contract created by the transaction.
+        """
+        if self.to is not None:
+            raise ValueError("transaction is not a contract creation")
+        nonce_bytes = (
+            bytes() if self.nonce == 0 else self.nonce.to_bytes(length=1, byteorder="big")
+        )
+        hash = keccak256(eth_rlp.encode([self.sender, nonce_bytes]))
+        return Address(hash[-20:])
+
 
 class RequestBase:
     """
