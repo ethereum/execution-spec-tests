@@ -7,7 +7,6 @@ import pytest
 from ethereum_test_forks import Fork, Frontier, Homestead
 from ethereum_test_tools import (
     Account,
-    Address,
     Alloc,
     Environment,
     StateTestFiller,
