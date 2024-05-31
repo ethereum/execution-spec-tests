@@ -25,7 +25,7 @@ def test_chainid(state_test: StateTestFiller, pre: Alloc):
         timestamp=1000,
     )
 
-    contract_address = pre.deploy_contract(Op.SSTORE(1, Op.CHAINID) + Op.STOP, nonce=0)
+    contract_address = pre.deploy_contract(Op.SSTORE(1, Op.CHAINID) + Op.STOP)
     sender = pre.fund_sender(1_000_000_000_000_000_000_000)
 
     tx = Transaction(

@@ -4,7 +4,7 @@ Test ACL Transaction Source Code Examples
 
 import pytest
 
-from ethereum_test_tools import AccessList, Account, Address, Alloc, Environment
+from ethereum_test_tools import AccessList, Account, Alloc, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Transaction
 
@@ -22,7 +22,6 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
     contract_address = pre.deploy_contract(
         Op.PC + Op.SLOAD + Op.POP + Op.PC + Op.SLOAD,
         balance=0x03,
-        address=Address(0xAAAA),
     )
     sender = pre.fund_sender(0x300000)
 

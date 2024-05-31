@@ -37,8 +37,6 @@ def test_yul(state_test: StateTestFiller, pre: Alloc, yul: YulCompiler, fork: Fo
             """
         ),
         balance=0x0BA1A9CE0BA1A9CE,
-        nonce=0,
-        address=Address(0x1000000000000000000000000000000000000000),
     )
     sender = pre.fund_sender(amount=0x0BA1A9CE0BA1A9CE)
 
