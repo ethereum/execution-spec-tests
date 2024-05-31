@@ -25,7 +25,7 @@ class SenderAccount:
     """Test sender account descriptor."""
 
     address: Address
-    key: str
+    key: int
 
 
 TestAccount1 = SenderAccount(TestAddress, TestPrivateKey)
