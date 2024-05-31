@@ -136,7 +136,7 @@ def client_files(
     - Keys are the target file paths in the client's docker container, and,
     - Values are in-memory buffered file objects.
     """
-    files = {f"/blocks/{i:04d}.rlp": block_rlp for i, block_rlp in enumerate(buffered_blocks_rlp)}
+    files = {f"/blocks/{i + 1:04d}.rlp": rlp for i, rlp in enumerate(buffered_blocks_rlp)}
     files["/genesis.json"] = buffered_genesis
     return files
 
@@ -174,7 +174,11 @@ def client(
         client_type=client_type, environment=environment, files=client_files
     )
     timing_data.start_client = time.perf_counter() - t_start
-    assert client is not None
+    error_message = (
+        f"Unable to connect to the client container ({client_type.name}) via Hive during test "
+        "setup. Check the client or Hive server logs for more information."
+    )
+    assert client is not None, error_message
     yield client
     t_start = time.perf_counter()
     client.stop()
