@@ -154,6 +154,22 @@ def pytest_addoption(parser):
         default=False,
         help=("[DEBUG ONLY] Disallows deploying a contract in a predefined address."),
     )
+    test_group.addoption(
+        "--test-contract-start-address",
+        action="store",
+        dest="test_contract_start_address",
+        default=None,
+        type=str,
+        help="The starting address from which tests will deploy contracts.",
+    )
+    test_group.addoption(
+        "--test-contract-address-increments",
+        action="store",
+        dest="test_contract_address_increments",
+        default=None,
+        type=str,
+        help="The address increment value to each deployed contract by a test.",
+    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -386,12 +402,20 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def pre_alloc_mode(request):
+def configure_pre_alloc(request):
     """
     Returns the configured solc binary path.
     """
     if request.config.getoption("strict_alloc"):
         Alloc.alloc_mode = AllocMode.STRICT
+    if request.config.getoption("test_contract_start_address"):
+        Alloc.start_contract_address = int(
+            request.config.getoption("test_contract_start_address"), 0
+        )
+    if request.config.getoption("test_contract_address_increments"):
+        Alloc.contract_address_increments = int(
+            request.config.getoption("test_contract_address_increments"), 0
+        )
 
 
 @pytest.fixture(autouse=True)

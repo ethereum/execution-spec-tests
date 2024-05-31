@@ -528,9 +528,6 @@ SENDERS_ITER = iter(
 )
 SENDERS = [next(SENDERS_ITER) for _ in range(MAX_SENDERS)]
 
-# TODO: This should be modified to use a higher address range.
-start_contract_address = 0x100
-
 
 class AllocMode(IntEnum):
     """
@@ -549,6 +546,8 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
     root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
 
     alloc_mode: ClassVar[AllocMode] = AllocMode.PERMISSIVE
+    start_contract_address: ClassVar[int] = 0x1000
+    contract_address_increments: ClassVar[int] = 0x100
 
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
@@ -712,9 +711,9 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
             assert address not in self, f"address {address} already in allocation"
             contract_address = address
         else:
-            current_address = start_contract_address
+            current_address = self.start_contract_address
             while current_address in self:
-                current_address += 0x100
+                current_address += self.contract_address_increments
             contract_address = Address(current_address)
 
         if self.alloc_mode == AllocMode.STRICT:
