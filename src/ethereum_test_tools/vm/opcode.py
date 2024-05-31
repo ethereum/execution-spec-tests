@@ -5511,26 +5511,28 @@ class Opcodes(Opcode, Enum):
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
 
-    RETURNDATALOAD = Opcode(0xF7, popped_stack_items=1)
+    CREATE4 = Opcode(0xF7, popped_stack_items=5, pushed_stack_items=1)
     """
-    RETURNDATALOAD(offset)
+    !!! Note: This opcode is under development
+
+    CREATE4()
     ----
 
     Description
     ----
-    Copy 32 bytes from returndata at offset onto the stack
 
     Inputs
     ----
-    - offset: byte offset in the return data from the last executed sub context to copy
+
+    Outputs
+    ----
 
     Fork
     ----
-    EOF
 
     Gas
     ----
-    3
+
     """
 
     REVERT = Opcode(0xFD, popped_stack_items=2)
