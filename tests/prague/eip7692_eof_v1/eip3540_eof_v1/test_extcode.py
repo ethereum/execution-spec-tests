@@ -1,6 +1,7 @@
 """
 test execution semantics changes
 """
+import pytest
 from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
@@ -15,6 +16,10 @@ from ethereum_test_tools import (
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+
+from .. import EOF_FORK_NAME
+
+pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4750.md"
 REFERENCE_SPEC_VERSION = "90f716078d0b08ce508a1e57803f885cc2f2e15e"
@@ -39,7 +44,10 @@ def test_legacy_calls_eof_sstore(
         address_eof_contract: Account(
             code=Container(
                 sections=[
-                    Section.Code(code=Op.RJUMP[0] + Op.STOP, code_output=NON_RETURNING_SECTION)
+                    Section.Code(
+                        code=Op.RJUMP[0] + Op.STOP,
+                        code_outputs=NON_RETURNING_SECTION,
+                    )
                 ]
             ),
             nonce=1,
