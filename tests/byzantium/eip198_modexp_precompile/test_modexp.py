@@ -247,7 +247,6 @@ def test_modexp(
         + Op.CREATE(0, 0, Op.ADD(16, Op.RETURNDATASIZE()))
         # STOP (handy for tracing)
         + Op.STOP(),
-        nonce=0,  # TODO: Remove.
     )
 
     tx = Transaction(
@@ -262,7 +261,7 @@ def test_modexp(
 
     post = {}
     if output.call_return_code != "0x00":
-        contract_address = compute_create_address(account, 0)
+        contract_address = compute_create_address(account, 1)
         post[contract_address] = Account(code=output.returned_data)
     post[account] = Account(storage={0: output.call_return_code})
 

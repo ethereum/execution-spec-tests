@@ -23,7 +23,6 @@ abstract: Tests the nested CALL/CALLCODE opcode gas consumption with a positive 
        verify whether the provided gas was sufficient or insufficient.
 """
 
-from dataclasses import dataclass
 from typing import Dict
 
 import pytest
@@ -62,15 +61,6 @@ CALLCODE_GAS = 11600
 CALLCODE_SUFFICIENT_GAS = CALLCODE_GAS + CALLEE_INIT_STACK_GAS
 
 
-@dataclass(frozen=True)
-class Contract:
-    """Contract accounts used in the test."""
-
-    caller: int = 0x0A
-    callee: int = 0x0B
-    nonexistent: int = 0x0C  # TODO: Change, this is now a precompile
-
-
 @pytest.fixture
 def callee_code(callee_opcode: Op) -> bytes:
     """
@@ -81,7 +71,7 @@ def callee_code(callee_opcode: Op) -> bytes:
         GAS <- value doesn't matter
         CALL/CALLCODE
     """
-    return callee_opcode(Op.GAS(), Contract.nonexistent, 1, 0, 0, 0, 0)
+    return callee_opcode(Op.GAS(), 0xFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1, 0, 0, 0, 0)
 
 
 @pytest.fixture
@@ -97,7 +87,7 @@ def callee_address(pre: Alloc, callee_code: bytes) -> Address:
     """
     Address of the callee.
     """
-    return pre.deploy_contract(callee_code, balance=0x03, address=Address(Contract.callee))
+    return pre.deploy_contract(callee_code, balance=0x03)
 
 
 @pytest.fixture
@@ -111,7 +101,7 @@ def caller_code(caller_gas_limit: int, callee_address: Address) -> bytes:
         PUSH1 0x00
         SSTORE
     """
-    return Op.SSTORE(0, Op.CALL(caller_gas_limit, int.from_bytes(callee_address), 0, 0, 0, 0, 0))
+    return Op.SSTORE(0, Op.CALL(caller_gas_limit, callee_address, 0, 0, 0, 0, 0))
 
 
 @pytest.fixture
@@ -125,7 +115,7 @@ def caller_address(pre: Alloc, caller_code: bytes) -> Address:
         PUSH1 0x00
         SSTORE
     """
-    return pre.deploy_contract(caller_code, balance=0x03, address=Address(Contract.caller))
+    return pre.deploy_contract(caller_code, balance=0x03)
 
 
 @pytest.fixture

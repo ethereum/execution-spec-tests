@@ -60,7 +60,7 @@ def test_dup(
     # Save each stack value into different keys in storage
     account_code += b"".join([Op.PUSH1(i) + Op.SSTORE for i in range(0x11)])
 
-    account = pre.deploy_contract(account_code, nonce=0)
+    account = pre.deploy_contract(account_code)
 
     tx = Transaction(
         ty=0x0,
