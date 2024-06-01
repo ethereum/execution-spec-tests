@@ -529,8 +529,8 @@ class Prague(Cancun):
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
         """
-        Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110,
-        the exits contract for EIP-7002, and the history storage contract for EIP-2935.
+        Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110
+        and the exits contract for EIP-7002.
         """
         new_allocation = {}
 
@@ -542,7 +542,7 @@ class Prague(Cancun):
             storage[i] = next_hash
             next_hash = sha256(next_hash + next_hash).digest()
 
-        with open(CURRENT_FOLDER / "deposit_contract.bin", mode="rb") as f:
+        with open(CURRENT_FOLDER / "contracts/deposit_contract.bin", mode="rb") as f:
             new_allocation.update(
                 {
                     0x00000000219AB540356CBB839CBE05303D7705FA: {
@@ -554,7 +554,7 @@ class Prague(Cancun):
             )
 
         # Add the withdrawal request contract
-        with open(CURRENT_FOLDER / "withdrawal_request.bin", mode="rb") as f:
+        with open(CURRENT_FOLDER / "contracts/withdrawal_request.bin", mode="rb") as f:
             new_allocation.update(
                 {
                     0x00A3CA265EBCB825B45F985A16CEFB49958CE017: {
@@ -565,7 +565,7 @@ class Prague(Cancun):
             )
 
         # Add the history storage contract
-        with open(CURRENT_FOLDER / "history_contract.bin", mode="rb") as f:
+        with open(CURRENT_FOLDER / "contracts/history_contract.bin", mode="rb") as f:
             new_allocation.update(
                 {
                     0x25A219378DAD9B3503C8268C9CA836A52427A4FB: {
