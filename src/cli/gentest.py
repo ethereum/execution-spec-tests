@@ -59,7 +59,6 @@ from sys import stderr
 from typing import Dict, List, TextIO
 
 import click
-import requests
 
 from ethereum_test_tools import Account, Address, Transaction, common
 from ethereum_test_tools.rpc.rpc import EthRPC
@@ -344,9 +343,16 @@ class RequestManager:
 
     def debug_trace_call(self, tr: RemoteTransaction) -> Dict[Address, Account]:
         """
-        Get pre state required for transaction
+        Get pre-state required for transaction
         """
-        response = self.rpc.debug_trace_call(tr)
+        response = self.rpc.debug_trace_call(
+            {
+                "from": f"{str(tr.transaction.sender)}",
+                "to": f"{str(tr.transaction.to)}",
+                "data": f"{str(tr.transaction.data)}",
+            },
+            tr.block_number
+        )
         if "error" in response:
             raise Exception(response["error"]["message"])
         assert "result" in response, "No result in response on debug_traceCall"

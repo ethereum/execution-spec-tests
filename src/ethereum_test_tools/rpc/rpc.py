@@ -6,7 +6,6 @@ from abc import ABC
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import requests
-from cli.gentest import RequestManager
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_tools import Address
@@ -95,7 +94,7 @@ class EthRPC(BaseRPC):
     
     def get_transaction_by_hash(self, transaction_hash: str):
         """
-        `eth_getTransactionByHash`: Returns transation details.
+        `eth_getTransactionByHash`: Returns transaction details.
         """
         return self.post_request("eth_getTransactionByHash", [f"{transaction_hash}"])
 
@@ -121,17 +120,13 @@ class EthRPC(BaseRPC):
             results[key] = storage_value
         return results
     
-    def debug_trace_call(self, tr: RequestManager.RemoteTransaction):
+    def debug_trace_call(self, tr: dict[str, str], block_number: str):
         """
         `debug_traceCall`: Returns pre state required for transaction
         """
         params = [
-            {
-                "from": f"{str(tr.transaction.sender)}",
-                "to": f"{str(tr.transaction.to)}",
-                "data": f"{str(tr.transaction.data)}",
-            },
-            f"{tr.block_number}",
+            tr,
+            block_number,
             {"tracer": "prestateTracer"},
         ]
         return self.post_request("debug_traceCall", params)
