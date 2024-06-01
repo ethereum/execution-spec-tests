@@ -1,6 +1,7 @@
 """
 Defines EIP-2935 specification constants and functions.
 """
+
 from dataclasses import dataclass
 
 
@@ -14,7 +15,7 @@ class ReferenceSpec:
     version: str
 
 
-ref_spec_2935 = ReferenceSpec("EIPS/eip-2935.md", "3ab311ccd6029c080fb2a8b9615d493dfc093377")
+ref_spec_2935 = ReferenceSpec("EIPS/eip-2935.md", "1cbdaf0ffa622e0cb4ec16a552c2f78522652150")
 
 
 @dataclass(frozen=True)
@@ -24,6 +25,7 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-2935
     """
 
+    FORK_TIMESTAMP = 15_000
     HISTORY_STORAGE_ADDRESS = 0x25A219378DAD9B3503C8268C9CA836A52427A4FB
     HISTORY_SERVE_WINDOW = 8192
     BLOCKHASH_OLD_WINDOW = 256
