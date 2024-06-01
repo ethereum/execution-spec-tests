@@ -34,6 +34,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add an Ethereum RPC client class for use with consume commands ([#556](https://github.com/ethereum/execution-spec-tests/pull/556)).
 - ✨ Add a "slow" pytest marker, in order to be able to limit the filled tests until release ([#562](https://github.com/ethereum/execution-spec-tests/pull/562)).
 - ✨ Add a CLI tool that generates blockchain tests as Python from a transaction hash ([#470](https://github.com/ethereum/execution-spec-tests/pull/470), [#576](https://github.com/ethereum/execution-spec-tests/pull/576)).
+- 🔀 Remove `_make_request` from `RequestManager` in `cli.gentest.py`. Replace using `_make_request` to next `EthRPC` methods: `get_block_by_number`, `get_transaction_by_hash`, `debug_trace_call`. Add 2 more new methods to `EthRPC`: `get_transaction_by_hash`, `debug_trace_call` ([#568](https://github.com/ethereum/execution-spec-tests/pull/568)).
 
 ### 🔧 EVM Tools
 

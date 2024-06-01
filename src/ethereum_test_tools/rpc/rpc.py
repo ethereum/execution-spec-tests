@@ -6,6 +6,7 @@ from abc import ABC
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import requests
+from cli.gentest import RequestManager
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_tools import Address
@@ -91,6 +92,12 @@ class EthRPC(BaseRPC):
         """
         block = hex(block_number) if isinstance(block_number, int) else block_number
         return self.post_request("eth_getTransactionCount", [address, block])
+    
+    def get_transaction_by_hash(self, transaction_hash: str):
+        """
+        `eth_getTransactionByHash`: Returns transation details.
+        """
+        return self.post_request("eth_getTransactionByHash", [f"{transaction_hash}"])
 
     def get_storage_at(
         self, address: str, position: str, block_number: BlockNumberType = "latest"
@@ -113,3 +120,18 @@ class EthRPC(BaseRPC):
             storage_value = self.get_storage_at(account, key, block_number)
             results[key] = storage_value
         return results
+    
+    def debug_trace_call(self, tr: RequestManager.RemoteTransaction):
+        """
+        `debug_traceCall`: Returns pre state required for transaction
+        """
+        params = [
+            {
+                "from": f"{str(tr.transaction.sender)}",
+                "to": f"{str(tr.transaction.to)}",
+                "data": f"{str(tr.transaction.data)}",
+            },
+            f"{tr.block_number}",
+            {"tracer": "prestateTracer"},
+        ]
+        return self.post_request("debug_traceCall", params)

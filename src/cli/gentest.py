@@ -53,6 +53,7 @@ Limitations:
 
 import json
 import os
+import urllib
 from dataclasses import asdict, dataclass
 from sys import stderr
 from typing import Dict, List, TextIO
@@ -61,6 +62,7 @@ import click
 import requests
 
 from ethereum_test_tools import Account, Address, Transaction, common
+from ethereum_test_tools.rpc.rpc import EthRPC
 
 
 @click.command()
@@ -278,43 +280,28 @@ class RequestManager:
     node_url: str
     headers: dict[str, str]
 
+    @staticmethod
+    def _get_ip_from_url(node_url):
+        return urllib.parse.urlsplit(node_url).netloc.split(":")[0]
+
     def __init__(self, node_config: Config.RemoteNode):
         """
         Initialize the RequestManager with specific client config.
         """
         self.node_url = node_config.node_url
+        client_ip = self._get_ip_from_url(node_config.node_url)
+        self.rpc = EthRPC(client_ip)
         self.headers = {
             "CF-Access-Client-Id": node_config.client_id,
             "CF-Access-Client-Secret": node_config.secret,
             "Content-Type": "application/json",
         }
 
-    def _make_request(self, data) -> requests.Response:
-        error_str = "An error occurred while making remote request: "
-        try:
-            response = requests.post(self.node_url, headers=self.headers, data=json.dumps(data))
-            response.raise_for_status()
-            if response.status_code >= 200 and response.status_code < 300:
-                return response
-            else:
-                print(error_str + response.text, file=stderr)
-                raise requests.exceptions.HTTPError
-        except requests.exceptions.RequestException as e:
-            print(error_str, e, file=stderr)
-            raise e
-
     def eth_get_transaction_by_hash(self, transaction_hash: str) -> RemoteTransaction:
         """
         Get transaction data.
         """
-        data = {
-            "jsonrpc": "2.0",
-            "method": "eth_getTransactionByHash",
-            "params": [f"{transaction_hash}"],
-            "id": 1,
-        }
-
-        response = self._make_request(data)
+        response = self.rpc.get_transaction_by_hash(transaction_hash)
         res = response.json().get("result", None)
 
         assert (
@@ -344,13 +331,7 @@ class RequestManager:
         """
         Get block by number
         """
-        data = {
-            "jsonrpc": "2.0",
-            "method": "eth_getBlockByNumber",
-            "params": [f"{block_number}", False],
-            "id": 1,
-        }
-        response = self._make_request(data)
+        response = self.rpc.get_block_by_number(block_number)
         res = response.json().get("result", None)
 
         return RequestManager.RemoteBlock(
@@ -365,22 +346,7 @@ class RequestManager:
         """
         Get pre state required for transaction
         """
-        data = {
-            "jsonrpc": "2.0",
-            "method": "debug_traceCall",
-            "params": [
-                {
-                    "from": f"{str(tr.transaction.sender)}",
-                    "to": f"{str(tr.transaction.to)}",
-                    "data": f"{str(tr.transaction.data)}",
-                },
-                f"{tr.block_number}",
-                {"tracer": "prestateTracer"},
-            ],
-            "id": 1,
-        }
-
-        response = self._make_request(data).json()
+        response = self.rpc.debug_trace_call(tr)
         if "error" in response:
             raise Exception(response["error"]["message"])
         assert "result" in response, "No result in response on debug_traceCall"
