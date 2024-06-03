@@ -51,7 +51,7 @@ code_size = 128 * 31 + 60
     ],
     ids=[
         "zero_bytes",
-        "within_chunks_account_header",
+        "chunks_only_account_header",
         "all_chunks_account_header",
         "contract_size_after_header_but_incomplete",
         "contract_size",
@@ -98,9 +98,8 @@ def _generic_codecopy(
         number=1,
         timestamp=1000,
     )
-    sender_balance = 1000000000000000000000
     pre = {
-        TestAddress: Account(balance=sender_balance),
+        TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(
             code=Op.CODECOPY(0, offset, size) * rep + Op.ORIGIN * (code_size - 7 * rep)
         ),
