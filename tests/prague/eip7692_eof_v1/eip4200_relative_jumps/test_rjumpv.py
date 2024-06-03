@@ -18,7 +18,7 @@ from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .helpers import slot_code_worked, slot_conditional_result, value_code_worked
+from .. import EOF_FORK_NAME
 from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4200.md"
