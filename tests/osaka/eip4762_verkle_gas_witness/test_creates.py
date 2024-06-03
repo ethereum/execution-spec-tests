@@ -42,11 +42,13 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
         0,
         127 * 32,
         130 * 32,
+        130 * 32 + 1,
     ],
     ids=[
         "empty",
         "all_chunks_in_account_header",
         "chunks_outside_account_header",
+        "with_partial_code_chunk",
     ],
 )
 def test_create_without_value(
@@ -56,7 +58,7 @@ def test_create_without_value(
     Test *CREATE without sending value.
     """
     new_contract_witness = None  # TODO(verkle)
-    _create(
+    _create_with_codesize(
         blockchain_test,
         fork,
         create_instruction,
@@ -81,7 +83,7 @@ def test_create_with_value(blockchain_test: BlockchainTestFiller, fork: str, cre
     Test *CREATE sending value.
     """
     new_contract_witness = None  # TODO(verkle)
-    _create(
+    _create_with_codesize(
         blockchain_test,
         fork,
         create_instruction,
@@ -123,7 +125,7 @@ def test_create_insufficient_gas(
     """
     Test *CREATE  with insufficient gas at different points of execution.
     """
-    _create(
+    _create_with_codesize(
         blockchain_test, fork, create_instruction, exp_new_contract_witness, gas_limit=gas_limit
     )
 
@@ -147,11 +149,65 @@ def test_create_collision(
     Test *CREATE  with address collision.
     """
     new_contract_witness = None
+    _create_with_codesize(
+        blockchain_test,
+        fork,
+        create_instruction,
+        new_contract_witness,
+        generate_collision=True,
+    )
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "create_instruction",
+    [
+        None,
+        Op.CREATE,
+        Op.CREATE2,
+    ],
+)
+def test_big_calldata(
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    create_instruction,
+):
+    """
+    Test *CREATE checking that code-chunk touching in the witness is not calculated from calldata
+    size but actual returned code from initcode execution.
+    """
+    contract_code = (
+        Initcode(initcode_prefix=Op.STOP, deploy_code=Op.BALANCE * (31 * 1000)).bytecode,
+    )
+    new_contract_witness = None  # TODO(verkle)
     _create(
         blockchain_test,
         fork,
         create_instruction,
         new_contract_witness,
+        contract_code=contract_code,
+        generate_collision=True,
+    )
+
+
+def _create_with_codesize(
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    create_instruction,
+    new_contract_witness,
+    code_size=130 * 31,
+    value=1,
+    gas_limit=10000000000,
+    generate_collision: bool = False,
+):
+    contract_code = Initcode(deploy_code=Op.PUSH0 * code_size)
+    _create(
+        blockchain_test,
+        fork,
+        create_instruction,
+        new_contract_witness,
+        contract_code=contract_code,
         generate_collision=True,
     )
 
@@ -161,7 +217,7 @@ def _create(
     fork: str,
     create_instruction,
     new_contract_witness,
-    code_size=130 * 31,
+    contract_code,
     value=1,
     gas_limit=10000000000,
     generate_collision: bool = False,
@@ -176,8 +232,6 @@ def _create(
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
     }
-
-    contract_code = Initcode(deploy_code=Op.PUSH0 * code_size)
 
     if create_instruction == Op.CREATE:
         pre[TestAddress2] = Account(
