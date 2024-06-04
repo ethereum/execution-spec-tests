@@ -777,7 +777,7 @@ def test_rjumpv_into_push_n(
     data_portion_end: bool,
 ):
     """EOF1I4200_0039 (Invalid) EOF code containing RJUMPV with target PUSH1 immediate"""
-    data_portion_length = int.from_bytes(opcode) - 0x5F
+    data_portion_length = int.from_bytes(opcode, byteorder="big") - 0x5F
     if jump == JumpDirection.FORWARD:
         invalid_destination = data_portion_length + 1 if data_portion_end else 2
         jump_table = [0 for _ in range(table_size)]

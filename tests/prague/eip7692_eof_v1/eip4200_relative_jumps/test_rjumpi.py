@@ -561,7 +561,7 @@ def test_rjumpi_into_push_n(
     data_portion_end: bool,
 ):
     """EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate"""
-    data_portion_length = int.from_bytes(opcode) - 0x5F
+    data_portion_length = int.from_bytes(opcode, byteorder="big") - 0x5F
     if jump == JumpDirection.FORWARD:
         offset = data_portion_length if data_portion_end else 1
         code = Op.PUSH1(1) + Op.RJUMPI[offset] + opcode[0]
