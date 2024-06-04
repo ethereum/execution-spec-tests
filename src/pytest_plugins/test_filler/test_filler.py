@@ -408,7 +408,7 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
 @pytest.fixture(autouse=True, scope="session")
 def configure_pre_alloc(request):
     """
-    Returns the configured solc binary path.
+    Modifies the `Alloc` class for all instances to have the same configuration.
     """
     if request.config.getoption("strict_alloc"):
         Alloc.alloc_mode = AllocMode.STRICT
