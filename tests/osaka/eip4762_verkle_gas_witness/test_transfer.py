@@ -5,8 +5,6 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
     (https://eips.ethereum.org/EIPS/eip-4762).
 """
 
-from typing import Dict
-
 import pytest
 
 from ethereum_test_tools import (
@@ -20,7 +18,7 @@ from ethereum_test_tools import (
     Transaction,
 )
 
-from ..temp_verkle_helpers import AccountHeaderEntry, vkt_key_header
+from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -67,17 +65,8 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, valu
     )
     blocks = [Block(txs=[tx])]
 
-    witness_keys: Dict[str, int | bytes] = {}
-    witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.VERSION)] = 0
-    witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.BALANCE)] = sender_balance
-    witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.NONCE)] = 0
-    witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.CODE_HASH)] = bytes([0] * 32)
-    witness_keys[vkt_key_header(TestAddress, AccountHeaderEntry.CODE_SIZE)] = 0
-    witness_keys[vkt_key_header(target, AccountHeaderEntry.VERSION)] = 0
-    witness_keys[vkt_key_header(target, AccountHeaderEntry.BALANCE)] = value
-    witness_keys[vkt_key_header(target, AccountHeaderEntry.NONCE)] = 0
-    witness_keys[vkt_key_header(target, AccountHeaderEntry.CODE_HASH)] = bytes([0] * 32)
-    witness_keys[vkt_key_header(target, AccountHeaderEntry.CODE_SIZE)] = 0
+    # TODO(verkle): add assertions
+    witness_keys = Witness()
 
     blockchain_test(
         genesis_environment=env,
