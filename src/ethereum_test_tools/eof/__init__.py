@@ -1,5 +1,5 @@
 """
-EVM Object Format Libary to generate bytecode for testing purposes
+EVM Object Format Library to generate bytecode for testing purposes
 """
 from .constants import LATEST_EOF_VERSION
 

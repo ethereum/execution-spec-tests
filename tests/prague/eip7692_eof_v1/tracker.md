@@ -67,7 +67,7 @@
 - [ ] Subcontainer section header truncated before subcontainer number
 - [ ] Subcontainer section header truncated before subcontainer size
 - [ ] Truncated subcontainer size
-- [ ] 0 container section numner
+- [ ] 0 container section number
 - [ ] 0 container size
 - [ ] Truncated container section body
 - [ ] Multiple container section headers
