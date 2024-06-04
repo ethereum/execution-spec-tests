@@ -650,6 +650,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         class BaseTestWrapper(cls):
             def __init__(self, *args, **kwargs):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
+                if "pre" not in kwargs:
+                    kwargs["pre"] = request.getfixturevalue("pre")
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 fixture = self.generate(
                     t8n=t8n,
