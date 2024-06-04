@@ -18,25 +18,21 @@ from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
+from .spec import CALL_SUCCESS, EXTCALL_FAILURE, EXTCALL_SUCCESS
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7069.md"
 REFERENCE_SPEC_VERSION = "1795943aeacc86131d5ab6bb3d65824b3b1d4cad"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
-
 _address_allocation = itertools.count(0x10000)
+address_entry_point = Address(next(_address_allocation))
 address_caller = Address(next(_address_allocation))
-address_target = Address(next(_address_allocation))
 
 _slot = itertools.count(1)
 slot_top_level_call_status = next(_slot)
 slot_target_call_status = next(_slot)
 slot_target_returndata = next(_slot)
-
-value_legacy_success = 1
-value_eof_success = 0
-value_eof_fail = 1
 
 
 @pytest.mark.parametrize(
@@ -104,18 +100,18 @@ def test_address_space_extension(
             balance=1000000000000000000000,
             nonce=1,
         ),
-        address_caller: Account(
+        address_entry_point: Account(
             code=(
                 Op.MSTORE(0, Op.PUSH32(target_address))
                 + Op.SSTORE(
                     slot_top_level_call_status,
-                    Op.CALL(50000, address_target, 0, 0, 32, 0, 0),
+                    Op.CALL(50000, address_caller, 0, 0, 32, 0, 0),
                 )
                 + Op.STOP()
             ),
             nonce=1,
         ),
-        address_target: Account(
+        address_caller: Account(
             code=Container(
                 sections=[
                     Section.Code(
@@ -173,44 +169,50 @@ def test_address_space_extension(
     target_storage: dict[int, int | bytes | Address] = {}
     match target_account_type:
         case "empty" | "EOA":
-            target_storage[slot_target_call_status] = 0 if ase_ready_opcode else 1
+            target_storage[slot_target_call_status] = (
+                EXTCALL_SUCCESS if ase_ready_opcode else CALL_SUCCESS
+            )
         case "LegacyContract" | "EOFContract":
             match target_opcode:
                 case Op.CALL | Op.STATICCALL:
-                    target_storage[slot_target_call_status] = value_legacy_success
+                    target_storage[slot_target_call_status] = CALL_SUCCESS
                     # CALL and STATICCALL call will call the stripped address
                     target_storage[slot_target_returndata] = stripped_address
                 case Op.CALLCODE | Op.DELEGATECALL:
-                    target_storage[slot_target_call_status] = value_legacy_success
+                    target_storage[slot_target_call_status] = CALL_SUCCESS
                     # CALLCODE and DELEGATECALL call will call the stripped address
                     # but will change the sender to self
-                    target_storage[slot_target_returndata] = address_target
+                    target_storage[slot_target_returndata] = address_caller
                 case Op.EXTCALL | Op.EXTSTATICCALL:
-                    target_storage[slot_target_call_status] = value_eof_success
+                    target_storage[slot_target_call_status] = EXTCALL_SUCCESS
                     # EXTCALL and EXTSTATICCALL will fault if calling an ASE address
                     target_storage[slot_target_returndata] = 0 if ase_address else stripped_address
                 case Op.EXTDELEGATECALL:
                     if not ase_address and target_account_type == "LegacyContract":
                         # If calling a legacy contract EXTDELEGATECALL fails
-                        target_storage[slot_target_call_status] = value_eof_fail
+                        target_storage[slot_target_call_status] = EXTCALL_FAILURE
                         target_storage[slot_target_returndata] = 0
                     else:
-                        target_storage[slot_target_call_status] = value_eof_success
+                        target_storage[slot_target_call_status] = EXTCALL_SUCCESS
                         # EXTDELEGATECALL will fault if calling an ASE address
                         target_storage[slot_target_returndata] = (
-                            0 if ase_address else address_target
+                            0 if ase_address else address_caller
                         )
 
     post = {
-        address_caller: Account(
-            storage={slot_top_level_call_status: 0 if ase_ready_opcode and ase_address else 1}
+        address_entry_point: Account(
+            storage={
+                slot_top_level_call_status: EXTCALL_SUCCESS
+                if ase_ready_opcode and ase_address
+                else CALL_SUCCESS
+            }
         ),
-        address_target: Account(storage=target_storage),
+        address_caller: Account(storage=target_storage),
     }
 
     tx = Transaction(
         nonce=1,
-        to=address_caller,
+        to=address_entry_point,
         gas_limit=50000000,
         gas_price=10,
         protected=False,

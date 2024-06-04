@@ -2,4 +2,10 @@
 EOF V1 Constants used throughout all tests
 """
 
-EOF_FORK_NAME = "Prague"
+EOF_FORK_NAME = "CancunEIP7692"
+
+CALL_FAILURE = 0
+CALL_SUCCESS = 1
+EXTCALL_SUCCESS = 0
+EXTCALL_FAILURE = 1
+EXTCALL_REVERT = 2
