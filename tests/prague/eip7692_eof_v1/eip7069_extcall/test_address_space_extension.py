@@ -17,7 +17,7 @@ from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .spec import EOF_FORK_NAME
+from .. import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7069.md"
 REFERENCE_SPEC_VERSION = "1795943aeacc86131d5ab6bb3d65824b3b1d4cad"
@@ -123,7 +123,8 @@ def test_address_space_extension(
                             slot_target_call_status,
                             target_opcode(Op.CALLDATALOAD(0), *call_suffix),
                         )
-                        + Op.SSTORE(slot_target_returndata, Op.RETURNDATALOAD(0))
+                        + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
+                        + Op.SSTORE(slot_target_returndata, Op.MLOAD(0))
                         + Op.STOP,
                         code_inputs=0,
                         code_outputs=NON_RETURNING_SECTION,
@@ -136,7 +137,8 @@ def test_address_space_extension(
                 slot_target_call_status,
                 target_opcode(Op.GAS, Op.CALLDATALOAD(0), *call_suffix),
             )
-            + Op.SSTORE(slot_target_returndata, Op.RETURNDATALOAD(0))
+            + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
+            + Op.SSTORE(slot_target_returndata, Op.MLOAD(0))
             + Op.STOP,
             nonce=1,
         ),
@@ -170,10 +172,7 @@ def test_address_space_extension(
 
     target_storage: dict[int, int | bytes | Address] = {}
     match target_account_type:
-        case "empty":
-            target_storage[slot_target_call_status] = 0 if ase_ready_opcode else 1
-        case "EOA":
-            pre[Address(stripped_address)] = Account(code="", balance=10**18, nonce=9)
+        case "empty" | "EOA":
             target_storage[slot_target_call_status] = 0 if ase_ready_opcode else 1
         case "LegacyContract" | "EOFContract":
             match target_opcode:
