@@ -251,6 +251,7 @@ parseable
 pathlib
 pdb
 perf
+permalink
 petersburg
 pformat
 png
