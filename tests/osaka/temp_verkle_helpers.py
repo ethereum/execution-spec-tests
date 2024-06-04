@@ -5,9 +5,11 @@ NOTE: This file is temporary, probably it should live in other place in the libr
 """
 
 from enum import Enum
-from typing import ClassVar
+from typing import ClassVar, Dict
 
-from ethereum_test_tools import Address
+from ethereum.crypto.hash import keccak256
+
+from ethereum_test_tools import Account, Address, Hash
 
 
 class AccountHeaderEntry(Enum):
@@ -15,53 +17,74 @@ class AccountHeaderEntry(Enum):
     Represents all the data entries in an account header.
     """
 
-    VERSION = 0
-    BALANCE = 1
-    NONCE = 2
-    CODE_HASH = 3
-    CODE_SIZE = 4
+    BASIC_DATA = 0
+    CODEHASH = 1
 
     PRESENT: ClassVar[None] = None
 
 
-def vkt_key_header(address: Address, entry: AccountHeaderEntry):
+class Witness:
     """
-    Return the Verkle Tree key for the address for the given address and entry.
+    Witness is a list of witness key-values.
     """
-    # TODO(verkle):
-    #   Must call `evm transition verkle-key <address-hex>` which returns a
-    #   32-byte key in hex.
-    tree_key = {}
 
-    # We override the least-significant byte of the returned address with the
-    # provided sub-index.
-    tree_key[31] = entry
+    # TODO(verkle): "Hash" as value type isn't the right name but correct underlying type.
+    # Change to appropriate type.
+    witness: Dict[Hash, Hash]
 
-    return tree_key
+    def add_account_full(self, addr: Address, account: Account):
+        """
+        Add the full account present witness for the given address.
+        """
+        self.add_account_basic_data(addr, account)
+        self.add_account_codehash(addr, Hash(keccak256(account.code)))
 
+    def add_account_basic_data(self, address: Address, account: Account):
+        """
+        Adds the basic data witness for the given address.
+        """
+        # | Name        | Offset | Size |
+        # | ----------- | ------ | ---- |
+        # | `version`   | 0      | 1    |
+        # | `nonce`     | 4      | 8    |
+        # | `code_size` | 12     | 4    |
+        # | `balance`   | 16     | 16   |
+        basic_data_value = Hash(0)  # TODO(verkle): encode as little_endian(table_above)
+        self.witness[_account_key(address, AccountHeaderEntry.BASIC_DATA)] = basic_data_value
 
-def vkt_key_storage_slot(address, storage_slot):
-    """
-    Return the Verkle Tree key for the address for the given address storage slot.
-    """
-    # TODO(verkle):
-    #   Must call `evm transition verkle-key <address-hex> <storage-slot-hex>` which returns a
-    #   32-byte key in hex.
-    tree_key = {}
+    def add_account_codehash(self, address: Address, codehash: Hash):
+        """
+        Adds the CODEHASH witness for the given address.
+        """
+        self.witness[_account_key(address, AccountHeaderEntry.CODEHASH)] = codehash
 
-    return tree_key
+    def add_storage_slot(self, address, storage_slot, value):
+        """
+        Adds the storage slot witness for the given address and storage slot.
+        """
+        # TODO(verkle):
+        #   Must call `evm transition verkle-key <address-hex> <storage-slot-hex>` which returns a
+        #   32-byte key in hex.
+        tree_key = {}
 
+        self.witness[tree_key] = value
 
-def vkt_key_code_chunk(address, chunk_number):
-    """
-    Return the Verkle Tree key corresponding to the chunk_numberfor the given address.
-    """
-    # TODO(verkle):
-    #   Must call `evm transition code-chunk-key <address-hex> <chunk-number>` which returns a
-    #   32-byte key in hex.
-    tree_key = {}
+    def add_code_chunk(self, address, chunk_number, value):
+        """
+        Adds the code chunk witness for the given address and chunk number.
+        """
+        # TODO(verkle):
+        #   Must call `evm transition code-chunk-key <address-hex> <chunk-number>` which returns a
+        #   32-byte key in hex.
+        tree_key = {}
 
-    return tree_key
+        self.witness[tree_key] = value
+
+    def merge(self, other):
+        """
+        Merge the provided witness into this witness.
+        """
+        self.witness.update(other.witness)
 
 
 def vkt_chunkify(bytecode):
@@ -77,12 +100,17 @@ def vkt_chunkify(bytecode):
     return code_chunks
 
 
-def vkt_add_all_headers_present(witness_keys, addr):
+def _account_key(address: Address, entry: AccountHeaderEntry):
     """
-    Adds to witness_keys that all account headers entries should be present.
+    Return the Verkle Tree key for the address for the given address and entry.
     """
-    witness_keys[vkt_key_header(addr, AccountHeaderEntry.VERSION)] = AccountHeaderEntry.PRESENT
-    witness_keys[vkt_key_header(addr, AccountHeaderEntry.BALANCE)] = AccountHeaderEntry.PRESENT
-    witness_keys[vkt_key_header(addr, AccountHeaderEntry.NONCE)] = AccountHeaderEntry.PRESENT
-    witness_keys[vkt_key_header(addr, AccountHeaderEntry.CODE_HASH)] = AccountHeaderEntry.PRESENT
-    witness_keys[vkt_key_header(addr, AccountHeaderEntry.CODE_SIZE)] = AccountHeaderEntry.PRESENT
+    # TODO(verkle):
+    #   Must call `evm transition verkle-key <address-hex>` which returns a
+    #   32-byte key in hex.
+    tree_key = {}
+
+    # We override the least-significant byte of the returned address with the
+    # provided sub-index.
+    tree_key[31] = entry
+
+    return tree_key

@@ -114,6 +114,7 @@ eip7002
 eip7251
 el
 endianness
+endian
 EngineAPI
 enum
 env
@@ -547,6 +548,7 @@ returndatasize
 returndatacopy
 returndataload
 extcodehash
+codehash
 blockhash
 coinbase
 timestamp
