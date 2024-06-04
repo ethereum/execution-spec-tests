@@ -24,7 +24,7 @@ def get_current_commit_hash_or_tag(repo_path="."):
         # repository; this is a workaround to stop these tests failing.
         #
         # Tried monkeypatching the pytest plugin tests, but it didn't play well with pytester.
-        return "Not a git repository (running under /tmp)"
+        return "Not a git repository; this should only be seen in framework tests."
 
 
 def generate_github_url(file_path, branch_or_commit_or_tag="main", line_number=""):
@@ -36,16 +36,9 @@ def generate_github_url(file_path, branch_or_commit_or_tag="main", line_number="
     repository = "execution-spec-tests"
     if line_number:
         line_number = f"#L{line_number}"
-    if re.match(
-        r"^v[0-9]{1,2}\.[0-9]{1,3}\.[0-9]{1,3}(a[0-9]+|b[0-9]+|rc[0-9]+)?$",
-        branch_or_commit_or_tag,
-    ):
-        return (
-            f"{base_url}/{username}/{repository}/tree/"
-            f"{branch_or_commit_or_tag}/{file_path}{line_number}"
-        )
-    else:
-        return (
-            f"{base_url}/{username}/{repository}/blob/"
-            f"{branch_or_commit_or_tag}/{file_path}{line_number}"
-        )
+    release_tag_regex = r"^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(a[0-9]+|b[0-9]+|rc[0-9]+)?$"
+    tree_or_blob = "tree" if re.match(release_tag_regex, branch_or_commit_or_tag) else "blob"
+    return (
+        f"{base_url}/{username}/{repository}/{tree_or_blob}/"
+        f"{branch_or_commit_or_tag}/{file_path}{line_number}"
+    )
