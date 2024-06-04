@@ -16,9 +16,12 @@ from typing import Tuple
 
 import mkdocs_gen_files
 import pytest
-from git import Repo
 
 from ethereum_test_forks import get_development_forks, get_forks
+from ethereum_test_tools.utility.versioning import (
+    generate_github_url,
+    get_current_commit_hash_or_tag,
+)
 
 logger = logging.getLogger("mkdocs")
 
@@ -204,44 +207,6 @@ def run_collect_only(test_path: Path = source_directory) -> Tuple[str, str]:
         if collect_only_output:
             break
     return f'fill {" ".join(collect_only_args)}', collect_only_output
-
-
-def generate_github_url(file_path, branch_or_commit_or_tag="main"):
-    """
-    Generate a link to a source file in Github.
-    """
-    base_url = "https://github.com"
-    username = "ethereum"
-    repository = "execution-spec-tests"
-    if re.match(
-        r"^v[0-9]{1,2}\.[0-9]{1,3}\.[0-9]{1,3}(a[0-9]+|b[0-9]+|rc[0-9]+)?$",
-        branch_or_commit_or_tag,
-    ):
-        return f"{base_url}/{username}/{repository}/tree/{branch_or_commit_or_tag}/{file_path}"
-    else:
-        return f"{base_url}/{username}/{repository}/blob/{branch_or_commit_or_tag}/{file_path}"
-
-
-def get_current_commit_hash_or_tag(repo_path="."):
-    """
-    Get the latest commit hash or tag from the clone where doc is being built.
-    """
-    repo = Repo(repo_path)
-    try:
-        # Get the tag that points to the current commit
-        current_tag = next((tag for tag in repo.tags if tag.commit == repo.head.commit))
-        return current_tag.name
-    except StopIteration:
-        # If there are no tags that point to the current commit, return the commit hash
-        return repo.head.commit.hexsha
-
-
-def get_current_commit_hash(repo_path="."):
-    """
-    Get the latest commit hash from the clone where doc is being built.
-    """
-    repo = Repo(repo_path)
-    return repo.head.commit.hexsha
 
 
 COMMIT_HASH_OR_TAG = get_current_commit_hash_or_tag()

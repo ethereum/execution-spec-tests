@@ -128,6 +128,7 @@ extcodehash
 extcodesize
 F00
 filesystem
+firstlineno
 fn
 fname
 forkchoice
@@ -250,6 +251,7 @@ parseable
 pathlib
 pdb
 perf
+permalink
 petersburg
 pformat
 png
@@ -420,6 +422,7 @@ makepyfile
 makereport
 metafunc
 modifyitems
+monkeypatching
 nodeid
 noop
 oog
@@ -453,6 +456,7 @@ substring
 substrings
 tf
 teardown
+tempdir
 testdir
 teststatus
 tmpdir

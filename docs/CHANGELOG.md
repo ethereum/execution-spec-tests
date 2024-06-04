@@ -35,6 +35,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add a "slow" pytest marker, in order to be able to limit the filled tests until release ([#562](https://github.com/ethereum/execution-spec-tests/pull/562)).
 - ✨ Add a CLI tool that generates blockchain tests as Python from a transaction hash ([#470](https://github.com/ethereum/execution-spec-tests/pull/470), [#576](https://github.com/ethereum/execution-spec-tests/pull/576)).
 - ✨ Add more Transaction and Block exceptions from existing ethereum/tests repo ([#572](https://github.com/ethereum/execution-spec-tests/pull/572)).
+- ✨ Add "description" and "url" fields containing test case documentation and a source code permalink to fixtures during `fill` and use them in `consume`-generated Hive test reports ([#579](https://github.com/ethereum/execution-spec-tests/pull/579)).
 
 ### 🔧 EVM Tools
 
