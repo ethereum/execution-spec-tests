@@ -351,7 +351,7 @@ class RequestManager:
                 "to": f"{str(tr.transaction.to)}",
                 "data": f"{str(tr.transaction.data)}",
             },
-            tr.block_number
+            tr.block_number,
         )
         if "error" in response:
             raise Exception(response["error"]["message"])

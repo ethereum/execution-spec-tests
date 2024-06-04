@@ -91,7 +91,7 @@ class EthRPC(BaseRPC):
         """
         block = hex(block_number) if isinstance(block_number, int) else block_number
         return self.post_request("eth_getTransactionCount", [address, block])
-    
+
     def get_transaction_by_hash(self, transaction_hash: str):
         """
         `eth_getTransactionByHash`: Returns transaction details.
@@ -119,7 +119,7 @@ class EthRPC(BaseRPC):
             storage_value = self.get_storage_at(account, key, block_number)
             results[key] = storage_value
         return results
-    
+
     def debug_trace_call(self, tr: dict[str, str], block_number: str):
         """
         `debug_traceCall`: Returns pre state required for transaction
