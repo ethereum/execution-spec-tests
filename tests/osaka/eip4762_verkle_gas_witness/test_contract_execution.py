@@ -19,7 +19,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..temp_verkle_helpers import vkt_add_all_headers_present, vkt_chunkify, vkt_key_code_chunk
+from ..temp_verkle_helpers import Witness, vkt_chunkify
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -230,17 +230,17 @@ def test_contract_execution(
     code_chunks = vkt_chunkify(bytecode)
     assert len(code_chunks) > 1
 
-    witness_keys = {}
+    # TODO(verkle): add assertions
+    witness = Witness()
+    witness.add_account_full(TestAddress, pre[TestAddress])
+    witness.add_account_full(TestAddress2, pre[TestAddress2])
     for chunk_number in witness_code_chunk_numbers:
-        witness_keys[vkt_key_code_chunk(TestAddress2, chunk_number)] = code_chunks[chunk_number]
-
-    vkt_add_all_headers_present(witness_keys, TestAddress)
-    vkt_add_all_headers_present(witness_keys, TestAddress2)
+        witness.add_code_chunk(TestAddress2, chunk_number, code_chunks[chunk_number])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness_keys=witness_keys,
+        witness=witness,
     )
