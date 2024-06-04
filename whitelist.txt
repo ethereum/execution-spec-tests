@@ -53,6 +53,7 @@ chainid
 changelog
 chfast
 classdict
+cli
 cli2
 codeAddr
 codecopy
@@ -106,6 +107,7 @@ EngineAPI
 enum
 env
 envvar
+EOA
 eof
 EOF1
 eofparse
@@ -253,6 +255,7 @@ petersburg
 pformat
 png
 Pomerantz
+POS
 ppa
 ppas
 pre
@@ -366,6 +369,7 @@ visualstudio
 vm
 vscode
 vv
+VRS
 wd
 wds
 wei
