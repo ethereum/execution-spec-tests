@@ -13,18 +13,52 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
-    Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from ..temp_verkle_helpers import Witness
+
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
+caller_address = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
+system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 precompile_address = Address("0x09")
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "call_instruction, value",
+    [
+        (Op.CALL, 0),
+        (Op.CALL, 1),
+        (Op.CALLCODE, 0),
+        (Op.CALLCODE, 1),
+        (Op.DELEGATECALL, 0),
+        (Op.DELEGATECALL, 1),
+        (Op.STATICCALL, 0),
+    ],
+)
+@pytest.mark.parametrize(
+    "target",
+    [
+        TestAddress2,
+        precompile_address,
+        system_contract_address,
+    ],
+)
+def test_calls(
+    blockchain_test: BlockchainTestFiller, fork: str, call_instruction, target: Address, value
+):
+    """
+    Test *CALL instructions gas and witness.
+    """
+    _generic_call(blockchain_test, fork, call_instruction, target, value)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -36,20 +70,154 @@ precompile_address = Address("0x09")
         Op.CALLCODE,
         Op.DELEGATECALL,
         Op.STATICCALL,
-        # TODO(verkle): add AUTHCALL when/if supported in mainnet.
     ],
 )
-@pytest.mark.parametrize(
-    "target",
-    [TestAddress2, precompile_address],
-)
-@pytest.mark.parametrize(
-    "value",
-    [0, 1],
-)
-def test_calls(blockchain_test: BlockchainTestFiller, fork: str, call_instruction, target, value):
+def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instruction):
     """
-    Test *CALL instructions gas and witness.
+    Test *CALL warm cost.
+    """
+    _generic_call(blockchain_test, fork, call_instruction, TestAddress2, 0, warm=True)
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "call_instruction, gas_limit",
+    [
+        (Op.CALL, "TBD_insufficient_dynamic_cost"),
+        (Op.CALL, "TBD_insufficient_value_bearing"),
+        (Op.CALL, "TBD_insufficient_63/64"),
+        (Op.CALLCODE, "TBD_insufficient_dynamic_cost"),
+        (Op.CALLCODE, "TBD_insufficient_value_bearing"),
+        (Op.CALLCODE, "TBD_insufficient_63/64"),
+        (Op.DELEGATECALL, "TBD_insufficient_dynamic_cost"),
+        (Op.DELEGATECALL, "TBD_insufficient_63/64"),
+        (Op.STATICCALL, "TBD_insufficient_dynamic_cost"),
+        (Op.STATICCALL, "TBD_insufficient_63/64"),
+    ],
+    ids=[
+        "CALL_insufficient_dynamic_cost",
+        "CALL_insufficient_value_bearing",
+        "CALL_insufficient_minimum_63/64",
+        "CALLCODE_insufficient_dynamic_cost",
+        "CALLCODE_insufficient_value_bearing",
+        "CALLCODE_insufficient_minimum_63/64",
+        "DELEGATECALL_insufficient_dynamic_cost",
+        "DELEGATECALL_insufficient_minimum_63/64",
+        "STATICCALL_insufficient_dynamic_cost",
+        "STATICCALL_insufficient_minimum_63/64",
+    ],
+)
+def test_calls_insufficient_gas(
+    blockchain_test: BlockchainTestFiller, fork: str, call_instruction, gas_limit
+):
+    """
+    Test *CALL witness assertion when there's insufficient gas for different scenarios.
+    """
+    _generic_call(
+        blockchain_test,
+        fork,
+        call_instruction,
+        TestAddress2,
+        0,
+        gas_limit=gas_limit,
+        enough_gas_read_witness=False,
+    )
+
+
+def _generic_call(
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    call_instruction,
+    target: Address,
+    value,
+    gas_limit: int = 100000000,
+    enough_gas_read_witness: bool = True,
+    warm=False,
+):
+    env = Environment(
+        fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        difficulty=0x20000,
+        gas_limit=10000000000,
+        number=1,
+        timestamp=1000,
+    )
+
+    if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
+        tx_value = 0
+        caller_code = call_instruction(1_000, target, value, 0, 0, 0, 32)
+    if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
+        tx_value = value
+        caller_code = call_instruction(1_000, target, 0, 0, 0, 32)
+
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+        TestAddress2: Account(code=Op.ADD(1, 2)),
+        caller_address: Account(
+            balance=2000000000000000000000, code=caller_code * 2 if warm else 1
+        ),
+        precompile_address: Account(balance=3000000000000000000000),
+        system_contract_address: Account(balance=4000000000000000000000),
+    }
+
+    tx = Transaction(
+        ty=0x0,
+        chain_id=0x01,
+        nonce=0,
+        to=caller_address,
+        gas_limit=gas_limit,
+        gas_price=10,
+        value=tx_value,
+    )
+    blocks = [Block(txs=[tx])]
+
+    if call_instruction == Op.DELEGATECALL:
+        post = {
+            caller_address: Account(
+                balance=pre[caller_address].balance + value, code=pre[caller_address].code
+            ),
+            target: pre[target],
+        }
+    else:
+        post = {
+            target: Account(balance=pre[target].balance + value, code=pre[target].code),
+        }
+
+    witness = Witness()
+    witness.add_account_basic_data(TestAddress, pre[TestAddress])
+    witness.add_account_basic_data(caller_address, pre[caller_address])
+    if target != precompile_address and enough_gas_read_witness:
+        witness.add_account_basic_data(target, pre[target])
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post=post,
+        blocks=blocks,
+        witness=witness,
+    )
+
+
+# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "call_instruction, gas_limit, enough_gas_account_creation",
+    [
+        (Op.CALL, 100000000, True),
+        (Op.CALL, 1042, False),
+        (Op.CALLCODE, 100000000, True),
+        (Op.CALLCODE, 1042, False),
+    ],
+)
+def test_call_non_existent_account(
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    call_instruction,
+    gas_limit: int,
+    enough_gas_account_creation: bool,
+):
+    """
+    Test *CALL witness assertion when there's insufficient gas for different scenarios.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -58,41 +226,41 @@ def test_calls(blockchain_test: BlockchainTestFiller, fork: str, call_instructio
         number=1,
         timestamp=1000,
     )
-    sender_balance = 1000000000000000000000
-    pre = {
-        TestAddress: Account(balance=sender_balance),
-        TestAddress2: Account(code=Op.ADD(1, 2)),
-    }
 
-    if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
-        tx_value = 0
-        tx_data = Initcode(
-            deploy_code=call_instruction(1_000, target, value, 0, 0, 0, 32)
-        ).bytecode
-    if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
-        tx_value = value
-        tx_data = Initcode(deploy_code=call_instruction(1_000, target, 0, 0, 0, 32)).bytecode
-    # TODO(verkle): AUTHCALL
+    call_value = 100
+
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+        caller_address: Account(
+            balance=2000000000000000000000,
+            code=call_instruction(1_000, TestAddress2, call_value, 0, 0, 0, 32),
+        ),
+    }
 
     tx = Transaction(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=Address("0x00"),
-        gas_limit=100000000,
+        to=caller_address,
+        gas_limit=gas_limit,
         gas_price=10,
-        value=tx_value,
-        data=tx_data,
     )
     blocks = [Block(txs=[tx])]
 
-    # TODO(verkle): define witness assertion
-    witness_keys = ""
+    if enough_gas_account_creation:
+        post = {
+            TestAddress2: Account(balance=call_value),
+        }
+
+    witness = Witness()
+    witness.add_account_basic_data(TestAddress, pre[TestAddress])
+    witness.add_account_basic_data(caller_address, pre[caller_address])
+    witness.add_account_basic_data(TestAddress2, None)
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
-        post={},
+        post=post,
         blocks=blocks,
-        witness_keys=witness_keys,
+        witness=witness,
     )
