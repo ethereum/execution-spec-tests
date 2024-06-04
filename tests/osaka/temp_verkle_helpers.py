@@ -30,7 +30,7 @@ class Witness:
 
     # TODO(verkle): "Hash" as value type isn't the right name but correct underlying type.
     # Change to appropriate type.
-    witness: Dict[Hash, Hash]
+    witness: Dict[Hash, Hash | None]
 
     def add_account_full(self, addr: Address, account: Account):
         """
@@ -39,10 +39,14 @@ class Witness:
         self.add_account_basic_data(addr, account)
         self.add_account_codehash(addr, Hash(keccak256(account.code)))
 
-    def add_account_basic_data(self, address: Address, account: Account):
+    def add_account_basic_data(self, address: Address, account: Account | None):
         """
         Adds the basic data witness for the given address.
         """
+        if account is None:
+            self.witness[_account_key(address, AccountHeaderEntry.BASIC_DATA)] = None
+            return
+
         # | Name        | Offset | Size |
         # | ----------- | ------ | ---- |
         # | `version`   | 0      | 1    |
