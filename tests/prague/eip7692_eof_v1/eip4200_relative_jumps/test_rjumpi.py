@@ -20,13 +20,13 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from .helpers import (
+    JumpDirection,
     slot_code_worked,
     slot_conditional_result,
     value_calldata_false,
     value_calldata_true,
     value_code_worked,
 )
-from .spec import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4200.md"
 REFERENCE_SPEC_VERSION = "17d4a8d12d2b5e0f2985c866376c16c8c6df7cba"
@@ -300,7 +300,7 @@ def test_rjump_truncated(
                 )
             ],
         ),
-        expect_exception=EOFException.UNDEFINED_EXCEPTION,
+        expect_exception=EOFException.TRUNCATED_INSTRUCTION,
     )
 
 
@@ -318,7 +318,7 @@ def test_rjump_truncated_2(
                 )
             ],
         ),
-        expect_exception=EOFException.UNDEFINED_EXCEPTION,
+        expect_exception=EOFException.TRUNCATED_INSTRUCTION,
     )
 
 
@@ -487,15 +487,22 @@ def test_rjumpi_into_rjumpi(
     )
 
 
-def test_rjumpi_into_push(
+@pytest.mark.parametrize("jump", [JumpDirection.FORWARD, JumpDirection.BACKWARD])
+def test_rjumpi_into_push_1(
     eof_test: EOFTestFiller,
+    jump: JumpDirection,
 ):
-    """EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH immediate"""
+    """EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH1 immediate"""
+    code = (
+        Op.PUSH1(1) + Op.RJUMPI[-4] + Op.STOP
+        if jump == JumpDirection.BACKWARD
+        else Op.PUSH1(1) + Op.RJUMPI[1] + Op.STOP
+    )
     eof_test(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(1) + Op.RJUMPI[-4] + Op.STOP,
+                    code=code,
                     code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
@@ -505,19 +512,99 @@ def test_rjumpi_into_push(
     )
 
 
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.PUSH2,
+        Op.PUSH3,
+        Op.PUSH4,
+        Op.PUSH5,
+        Op.PUSH6,
+        Op.PUSH7,
+        Op.PUSH8,
+        Op.PUSH9,
+        Op.PUSH10,
+        Op.PUSH11,
+        Op.PUSH12,
+        Op.PUSH13,
+        Op.PUSH14,
+        Op.PUSH15,
+        Op.PUSH16,
+        Op.PUSH17,
+        Op.PUSH18,
+        Op.PUSH19,
+        Op.PUSH20,
+        Op.PUSH21,
+        Op.PUSH22,
+        Op.PUSH23,
+        Op.PUSH24,
+        Op.PUSH25,
+        Op.PUSH26,
+        Op.PUSH27,
+        Op.PUSH28,
+        Op.PUSH29,
+        Op.PUSH30,
+        Op.PUSH31,
+        Op.PUSH32,
+    ],
+)
+@pytest.mark.parametrize("jump", [JumpDirection.FORWARD, JumpDirection.BACKWARD])
+@pytest.mark.parametrize(
+    "data_portion_end",
+    [True, False],
+    ids=["data_portion_end", "data_portion_start"],
+)
+def test_rjumpi_into_push_n(
+    eof_test: EOFTestFiller,
+    opcode: Op,
+    jump: JumpDirection,
+    data_portion_end: bool,
+):
+    """EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate"""
+    data_portion_length = int.from_bytes(opcode) - 0x5F
+    if jump == JumpDirection.FORWARD:
+        offset = data_portion_length if data_portion_end else 1
+        code = Op.PUSH1(1) + Op.RJUMPI[offset] + opcode[0]
+    else:
+        offset = -4 if data_portion_end else -4 - data_portion_length + 1
+        code = opcode[0] + Op.RJUMPI[offset]
+    eof_test(
+        data=Container(
+            sections=[
+                Section.Code(
+                    code=code,
+                    code_outputs=NON_RETURNING_SECTION,
+                    max_stack_height=1,
+                )
+            ],
+        ),
+        expect_exception=EOFException.INVALID_RJUMP_DESTINATION,
+    )
+
+
+@pytest.mark.parametrize("target_rjumpv_table_size", [1, 256])
+@pytest.mark.parametrize(
+    "data_portion_end",
+    [True, False],
+    ids=["data_portion_end", "data_portion_start"],
+)
 def test_rjumpi_into_rjumpv(
     eof_test: EOFTestFiller,
+    target_rjumpv_table_size: int,
+    data_portion_end: bool,
 ):
     """EOF1I4200_0025 (Invalid) EOF code containing RJUMPI with target RJUMPV immediate"""
+    invalid_destination = 4 + (2 * target_rjumpv_table_size) if data_portion_end else 4
+    target_jump_table = [0 for _ in range(target_rjumpv_table_size)]
     eof_test(
         data=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
-                    + Op.RJUMPI[5]
+                    + Op.RJUMPI[invalid_destination]
                     + Op.STOP
                     + Op.PUSH1(1)
-                    + Op.RJUMPV[0]
+                    + Op.RJUMPV[target_jump_table]
                     + Op.STOP,
                     code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
@@ -528,15 +615,22 @@ def test_rjumpi_into_rjumpv(
     )
 
 
+@pytest.mark.parametrize(
+    "data_portion_end",
+    [True, False],
+    ids=["data_portion_end", "data_portion_start"],
+)
 def test_rjumpi_into_callf(
     eof_test: EOFTestFiller,
+    data_portion_end: bool,
 ):
     """EOF1I4200_0026 (Invalid) EOF code containing RJUMPI with target CALLF immediate"""
+    invalid_destination = 2 if data_portion_end else 1
     eof_test(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(1) + Op.RJUMPI[2] + Op.CALLF(1) + Op.STOP,
+                    code=Op.PUSH1(1) + Op.RJUMPI[invalid_destination] + Op.CALLF[1] + Op.STOP,
                     code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 ),
