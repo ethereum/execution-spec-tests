@@ -15,10 +15,141 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }} # Checks out the PR branch
           fetch-depth: 0 # Necessary to fetch all history for diff
 
-      - name: Docker Action
-        uses: ./github/actions/build-evmone-coverage@v2
+      - name: Fetch target branch
+        run: git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+
+      - name: Install deps
+        run: |
+          echo $(pwd)
+          echo ${{ github.workspace }}
+
+          #install pyspec deps from root repo
+          python3 --version
+          python3 -m venv ./venv/
+          source ./venv/bin/activate
+          pip install -e .
+
+          #install solc
+          curl -L --output solc "https://github.com/ethereum/solidity/releases/download/v0.8.25/solc-static-linux"
+          sudo mv solc /usr/local/bin
+          sudo chmod +x /usr/local/bin/solc
+          solc --version
+
+      # Required to fill .py tests
+      - name: Build GO EVM
+        uses: ./.github/actions/build-evm
+        id: evm-builder
         with:
-          who-to-greet: 'Mona the Octocat'
+          type: 'main'
+
+      - name: Build EVMONE EVM
+        uses: ./.github/actions/build-evmone-evm
+        id: evm-builder2
+        with:
+          type: 'main'
+
+      - name: Checkout ethereum/tests
+        uses: actions/checkout@v4
+        with:
+          repository: ethereum/tests
+          path: testpath
+          sparse-checkout: |
+            GeneralStateTests
 
 
+      # This command diffs the file and filters in new lines
+      - name: Parse converted tests from converted-ethereum-tests.txt
+        run: |
+          echo "New lines introduced in converted-ethereum-tests.txt:"
+          lines=$(git diff origin/${{ github.base_ref }} HEAD -- converted-ethereum-tests.txt | grep "^+" | grep -v "^+++")
+          files=$(echo "$lines" | grep -oP '(?<=\+).+\.json')
 
+          if [ -z "$files" ]; then
+             echo "Error: No new JSON files found in converted-ethereum-tests.txt"
+              exit 1
+          fi
+
+          for file in $files; do
+              echo $file
+          done
+
+          mkdir -p ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+          for file in $files; do
+              cp ${{ github.workspace }}/testpath/$file ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+          done
+          
+
+     # This command diffs the .py scripts introduced by a PR
+      - name: Parse and fill introduced test sources
+        run: |
+          python3 -m venv ./venv/
+          source ./venv/bin/activate
+
+          files=$(git diff --name-status origin/${{ github.base_ref }}...HEAD -- tests/ | grep -E '^[AM]' | grep '\.py$')
+          echo "Modified or new .py files in tests folder:"
+          echo "$files" | while read line; do
+            file=$(echo "$line" | cut -c 3-)
+            echo $file
+          done
+
+          # fill new tests
+          echo "$files" | while read line; do
+            file=$(echo "$line" | cut -c 3-)
+            fill $file --until=Cancun --evm-bin evmone-t8n
+          done
+
+          files=$(find fixtures/state_tests -type f -name "*.json")
+          if [ -z "$files" ]; then
+              echo "Error: No filled JSON fixtures found in fixtures/state_tests."
+               exit 1
+          fi
+
+          mkdir -p ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
+          find fixtures/state_tests -type f -name "*.json" -exec cp {} ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS \;
+
+      - name: Print tests that will be covered
+        run: |
+          echo "Original BASE tests:"
+          ls ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+          echo "--------------------"
+          echo "Ported PATCH tests:"
+          ls ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
+
+      - name: Run coverage of the BASE tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: winsvega/evmone-coverage-script:latest
+          options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
+          run: /entrypoint.sh --mode=cover --testpath=/tests/BASE_TESTS --outputname=BASE
+
+      - name: Run coverage of the PATCH tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: winsvega/evmone-coverage-script:latest
+          options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
+          run: /entrypoint.sh --mode=cover --testpath=/tests/PATCH_TESTS --outputname=PATCH
+
+      - name: Run coverage DIFF of the PATCH tests compared to BASE tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: winsvega/evmone-coverage-script:latest
+          options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
+          run: /entrypoint.sh --mode=diff --basefile=coverage_BASE.lcov --patchfile=coverage_PATCH.lcov
+
+      - name: Chmod coverage results
+        run: |
+          user=$(whoami)
+          sudo chown -R $user:$user ${{ github.workspace }}/evmtest_coverage/coverage
+
+      - name: Upload coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-diff
+          path: ${{ github.workspace }}/evmtest_coverage/coverage
+
+      - name: Verify coverage results
+        uses: addnab/docker-run-action@v3
+        with:
+          image: winsvega/evmone-coverage-script:latest
+          options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
+          run: /check.sh
