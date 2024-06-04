@@ -16,9 +16,12 @@ from typing import Tuple
 
 import mkdocs_gen_files
 import pytest
-from git import Repo
 
 from ethereum_test_forks import get_development_forks, get_forks
+from ethereum_test_tools.utility.versioning import (
+    generate_github_url,
+    get_current_commit_hash_or_tag,
+)
 
 logger = logging.getLogger("mkdocs")
 
@@ -186,59 +189,24 @@ def run_collect_only(test_path: Path = source_directory) -> Tuple[str, str]:
         str: The command used to collect the tests.
         str: A list of the collected tests.
     """
-    buffer = io.StringIO()
-    with contextlib.redirect_stdout(buffer):
-        pytest.main(["--collect-only", "-q", "--until", DEV_FORKS[-1], str(test_path)])
-    output = buffer.getvalue()
-    collect_only_command = f"fill --collect-only -q --until {DEV_FORKS[-1]} {test_path}"
-    # strip out the test module
-    output_lines = [
-        line.split("::")[1]
-        for line in output.split("\n")
-        if line.startswith("tests/") and "::" in line
-    ]
-    # prefix with required indent for admonition in MARKDOWN_TEST_CASES_TEMPLATE
-    collect_only_output = "\n".join("    " + line for line in output_lines)
-    collect_only_output = collect_only_output[4:]  # strip out indent for first line
-    return collect_only_command, collect_only_output
-
-
-def generate_github_url(file_path, branch_or_commit_or_tag="main"):
-    """
-    Generate a link to a source file in Github.
-    """
-    base_url = "https://github.com"
-    username = "ethereum"
-    repository = "execution-spec-tests"
-    if re.match(
-        r"^v[0-9]{1,2}\.[0-9]{1,3}\.[0-9]{1,3}(a[0-9]+|b[0-9]+|rc[0-9]+)?$",
-        branch_or_commit_or_tag,
-    ):
-        return f"{base_url}/{username}/{repository}/tree/{branch_or_commit_or_tag}/{file_path}"
-    else:
-        return f"{base_url}/{username}/{repository}/blob/{branch_or_commit_or_tag}/{file_path}"
-
-
-def get_current_commit_hash_or_tag(repo_path="."):
-    """
-    Get the latest commit hash or tag from the clone where doc is being built.
-    """
-    repo = Repo(repo_path)
-    try:
-        # Get the tag that points to the current commit
-        current_tag = next((tag for tag in repo.tags if tag.commit == repo.head.commit))
-        return current_tag.name
-    except StopIteration:
-        # If there are no tags that point to the current commit, return the commit hash
-        return repo.head.commit.hexsha
-
-
-def get_current_commit_hash(repo_path="."):
-    """
-    Get the latest commit hash from the clone where doc is being built.
-    """
-    repo = Repo(repo_path)
-    return repo.head.commit.hexsha
+    for fork in DEV_FORKS:
+        collect_only_args = ["--collect-only", "-q", "--until", fork, str(test_path)]
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            pytest.main(collect_only_args)
+        output = buffer.getvalue()
+        # strip out the test module
+        output_lines = [
+            line.split("::")[1]
+            for line in output.split("\n")
+            if line.startswith("tests/") and "::" in line
+        ]
+        # prefix with required indent for admonition in MARKDOWN_TEST_CASES_TEMPLATE
+        collect_only_output = "\n".join("    " + line for line in output_lines)
+        collect_only_output = collect_only_output[4:]  # strip out indent for first line
+        if collect_only_output:
+            break
+    return f'fill {" ".join(collect_only_args)}', collect_only_output
 
 
 COMMIT_HASH_OR_TAG = get_current_commit_hash_or_tag()

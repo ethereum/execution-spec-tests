@@ -11,6 +11,7 @@ api
 apis
 at5
 AutoSection
+auxdata
 balance
 base64
 basefee
@@ -53,6 +54,7 @@ chainid
 changelog
 chfast
 classdict
+cli
 cli2
 codeAddr
 codecopy
@@ -106,6 +108,7 @@ EngineAPI
 enum
 env
 envvar
+EOA
 eof
 EOF1
 eofparse
@@ -126,6 +129,7 @@ extcodehash
 extcodesize
 F00
 filesystem
+firstlineno
 fn
 fname
 forkchoice
@@ -248,10 +252,12 @@ parseable
 pathlib
 pdb
 perf
+permalink
 petersburg
 pformat
 png
 Pomerantz
+POS
 ppa
 ppas
 pre
@@ -366,6 +372,7 @@ visualstudio
 vm
 vscode
 vv
+VRS
 wd
 wds
 wei
@@ -417,6 +424,7 @@ makepyfile
 makereport
 metafunc
 modifyitems
+monkeypatching
 nodeid
 noop
 oog
@@ -445,10 +453,12 @@ runpytest
 runtest
 subclasses
 subcommand
+subcontainer
 substring
 substrings
 tf
 teardown
+tempdir
 testdir
 teststatus
 tmpdir
@@ -613,6 +623,7 @@ call
 callcode
 return
 delegatecall
+eofcreate
 extcall
 extdelegatecall
 staticcall

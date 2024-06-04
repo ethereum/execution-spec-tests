@@ -1,0 +1,12 @@
+stable:
+  evm-type: stable
+  fill-params: ''
+  solc: 0.8.21
+develop:
+  evm-type: develop
+  fill-params: --until=Prague
+  solc: 0.8.21
+eip7692:
+  evm-type: eip7692
+  fill-params: --fork=CancunEIP7692 ./tests/prague
+  solc: 0.8.21

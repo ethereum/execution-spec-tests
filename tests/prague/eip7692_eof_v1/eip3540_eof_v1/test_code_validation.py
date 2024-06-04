@@ -14,9 +14,11 @@ from ethereum_test_tools import (
     EOFTestFiller,
     TestAddress,
     Transaction,
-    compute_create3_address,
+    compute_eofcreate_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Initcode
+
+from .. import EOF_FORK_NAME
 
 # from .code_validation import INVALID as INVALID_CODE
 # from .code_validation import VALID as VALID_CODE
@@ -26,7 +28,6 @@ from ethereum_test_tools.eof.v1 import Container, Initcode
 # from .code_validation_jump import VALID as VALID_RJUMP
 from .container import INVALID as INVALID_CONTAINERS
 from .container import VALID as VALID_CONTAINERS
-from .spec import EOF_FORK_NAME
 
 # from .tests_execution_function import VALID as VALID_EXEC_FN
 
@@ -103,7 +104,7 @@ def post(  # noqa: D103
     container: Container,
     create3_opcode_contract_address: str,
 ) -> Dict[Address, Account]:
-    create_opcode_created_contract_address = compute_create3_address(
+    create_opcode_created_contract_address = compute_eofcreate_address(
         create3_opcode_contract_address,
         0,
         bytes(create3_init_container.init_container),
