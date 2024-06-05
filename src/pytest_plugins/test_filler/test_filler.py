@@ -639,6 +639,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         class BaseTestWrapper(cls):
             def __init__(self, *args, **kwargs):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
+                if "tag" not in kwargs:
+                    kwargs["tag"] = request.node.name
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 fixture = self.generate(
                     t8n=t8n,
