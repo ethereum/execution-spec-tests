@@ -2,6 +2,7 @@
 Useful types for generating Ethereum tests.
 """
 
+import inspect
 from dataclasses import dataclass
 from enum import IntEnum
 from functools import cached_property
@@ -193,8 +194,11 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"incorrect value in address {self.address} for "
+                f"incorrect value in address {self.address}{label_str} for "
                 + f"key {Hash(self.key)}:"
                 + f" want {HexNumber(self.want)} (dec:{self.want}),"
                 + f" got {HexNumber(self.got)} (dec:{self.got})"
@@ -369,8 +373,11 @@ class Account(CopyValidateModel):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"unexpected nonce for account {self.address}: "
+                f"unexpected nonce for account {self.address}{label_str}: "
                 + f"want {self.want}, got {self.got}"
             )
 
@@ -393,8 +400,11 @@ class Account(CopyValidateModel):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"unexpected balance for account {self.address}: "
+                f"unexpected balance for account {self.address}{label_str}: "
                 + f"want {self.want}, got {self.got}"
             )
 
@@ -417,8 +427,11 @@ class Account(CopyValidateModel):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"unexpected code for account {self.address}: "
+                f"unexpected code for account {self.address}{label_str}: "
                 + f"want {self.want}, got {self.got}"
             )
 
@@ -520,6 +533,12 @@ class Sender(Address):
         instance.key = Hash(key) if key is not None else None
         instance.nonce = Number(nonce)
         return instance
+
+    def copy(self) -> "Sender":
+        """
+        Returns a copy of the sender.
+        """
+        return Sender(Address(self), key=self.key, nonce=self.nonce)
 
 
 MAX_SENDERS = 50
@@ -699,6 +718,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         balance: NumberConvertible = 0,
         nonce: NumberConvertible = 1,
         address: Address | None = None,
+        label: str | None = None,
     ) -> Address:
         """
         Deploy a contract to the allocation.
@@ -725,10 +745,22 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
             code=code,
             storage=storage,
         )
+        if label is None:
+            # Try to deduce the label from the code
+            frame = inspect.currentframe()
+            if frame is not None:
+                caller_frame = frame.f_back
+                if caller_frame is not None:
+                    code_context = inspect.getframeinfo(caller_frame).code_context
+                    if code_context is not None:
+                        line = code_context[0].strip()
+                        if "=" in line:
+                            label = line.split("=")[0].strip()
 
-        return Address(contract_address)
+        contract_address.label = label
+        return contract_address
 
-    def fund_sender(self, amount: NumberConvertible) -> Sender:
+    def fund_sender(self, amount: NumberConvertible, label: str | None = None) -> Sender:
         """
         Fund a sender with a given amount to be able to afford transactions.
         """
@@ -738,11 +770,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                     nonce=0,
                     balance=amount,
                 )
-                return Sender(
-                    Address(sender),
-                    key=sender.key,
-                    nonce=0,
-                )
+                return sender.copy()
         raise ValueError("no more senders available")
 
     def fund_address(self, address: Address, amount: NumberConvertible):

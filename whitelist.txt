@@ -69,6 +69,7 @@ controlflow
 cp
 CPUs
 crypto
+currentframe
 customizations
 Customizations
 danceratopz
@@ -153,6 +154,7 @@ gaslimit
 gasprice
 GeneralStateTestsFiller
 gentest
+getframeinfo
 geth
 geth's
 getitem
