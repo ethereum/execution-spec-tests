@@ -99,7 +99,6 @@ def test_block_hashes_history_at_transition(
     sender = pre.fund_sender(10_000_000_000)
     post: Dict[Address, Account] = {}
 
-    current_code_address = 0x10000
     for i in range(1, blocks_before_fork):
         txs: List[Transaction] = []
         if i == blocks_before_fork - 1:
@@ -133,8 +132,7 @@ def test_block_hashes_history_at_transition(
                 storage=storage,
             )
 
-            code_address = pre.deploy_contract(code, address=Address(current_code_address))
-            current_code_address += 0x100
+            code_address = pre.deploy_contract(code)
             txs.append(
                 Transaction(
                     to=code_address,
@@ -178,7 +176,7 @@ def test_block_hashes_history_at_transition(
         storage=storage,
     )
 
-    code_address = pre.deploy_contract(code, address=Address(current_code_address))
+    code_address = pre.deploy_contract(code)
     txs.append(
         Transaction(
             to=code_address,
@@ -186,7 +184,6 @@ def test_block_hashes_history_at_transition(
             sender=sender,
         )
     )
-    current_code_address += 0x100
     post[code_address] = Account(storage=storage)
 
     blocks.append(Block(timestamp=FORK_TIMESTAMP, txs=txs))

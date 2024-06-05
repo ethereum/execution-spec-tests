@@ -130,9 +130,7 @@ def call_contract_code(
 @pytest.fixture
 def call_contract_address(pre: Alloc, call_contract_code: bytes) -> Address:
     """Address where the test contract will be deployed."""
-    return pre.deploy_contract(
-        call_contract_code, address=Address(0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA)
-    )
+    return pre.deploy_contract(call_contract_code)
 
 
 @pytest.fixture
