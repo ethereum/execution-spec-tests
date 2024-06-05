@@ -1,0 +1,4 @@
+src/
+  EOFTestsFiller/
+    EIP3540/
+      validInvalidFiller.yml
