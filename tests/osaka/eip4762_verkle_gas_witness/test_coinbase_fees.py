@@ -9,6 +9,7 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Block,
     BlockchainTestFiller,
     Environment,
@@ -16,6 +17,8 @@ from ethereum_test_tools import (
     TestAddress2,
     Transaction,
 )
+
+from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -25,12 +28,13 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("priority_fee", [0, 100])
-def test_coinbase(blockchain_test: BlockchainTestFiller, fork: str, priority_fee):
+def test_coinbase_fees(blockchain_test: BlockchainTestFiller, fork: str, priority_fee):
     """
     Test coinbase witness.
     """
+    coinbase_addr = Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba")
     env = Environment(
-        fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        fee_recipient=coinbase_addr,
         difficulty=0x20000,
         gas_limit=10000000000,
         number=1,
@@ -50,13 +54,18 @@ def test_coinbase(blockchain_test: BlockchainTestFiller, fork: str, priority_fee
     )
     blocks = [Block(txs=[tx])]
 
-    # TODO(verkle): define witness assertion
-    witness_keys = ""
+    # TODO(verkle): change value when filling
+    post = {} if priority_fee == 0 else {coinbase_addr: Account(balance=0x42)}
+
+    witness = Witness()
+    witness.add_account_full(coinbase_addr, None)
+    witness.add_account_full(TestAddress, pre[TestAddress])
+    witness.add_account_full(TestAddress2, pre[TestAddress2])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
-        post={},
+        post=post,
         blocks=blocks,
-        witness_keys=witness_keys,
+        witness=witness,
     )

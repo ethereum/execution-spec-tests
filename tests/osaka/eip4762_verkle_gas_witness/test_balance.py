@@ -95,6 +95,7 @@ def _balance(
     }
 
     witness = Witness()
+    witness.add_account_full(env.fee_recipient, None)
     witness.add_account_full(TestAddress, pre[TestAddress])
     witness.add_account_full(TestAddress2, pre[TestAddress2])
     for addr in exp_addr_basic_data:
