@@ -212,9 +212,8 @@ def test_contract_execution(
         number=1,
         timestamp=1000,
     )
-    sender_balance = 1000000000000000000000
     pre = {
-        TestAddress: Account(balance=sender_balance),
+        TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(code=bytecode),
     }
     tx = Transaction(
@@ -230,8 +229,8 @@ def test_contract_execution(
     code_chunks = vkt_chunkify(bytecode)
     assert len(code_chunks) > 1
 
-    # TODO(verkle): add assertions
     witness = Witness()
+    witness.add_account_full(env.fee_recipient, None)
     witness.add_account_full(TestAddress, pre[TestAddress])
     witness.add_account_full(TestAddress2, pre[TestAddress2])
     for chunk_number in witness_code_chunk_numbers:
