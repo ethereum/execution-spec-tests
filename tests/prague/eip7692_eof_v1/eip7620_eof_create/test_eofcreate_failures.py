@@ -168,7 +168,11 @@ factory_size = 30
         pytest.param(MAX_BYTECODE_SIZE + 1, id="overmax"),
         pytest.param(MAX_INITCODE_SIZE - factory_size, id="initcodemax"),
         pytest.param(MAX_INITCODE_SIZE - factory_size + 1, id="initcodeovermax"),
-        pytest.param(0xFFFF - factory_size, id="64k-1"),
+        pytest.param(
+            0xFFFF - factory_size,
+            id="64k-1",
+            marks=pytest.mark.skip("Oversized container in pre-alloc"),
+        ),
     ],
 )
 def test_eofcreate_deploy_sizes(
