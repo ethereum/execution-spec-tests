@@ -184,8 +184,9 @@ def _generic_call(
         }
 
     witness = Witness()
-    witness.add_account_basic_data(TestAddress, pre[TestAddress])
-    witness.add_account_basic_data(caller_address, pre[caller_address])
+    witness.add_account_full(env.fee_recipient, None)
+    witness.add_account_full(TestAddress, pre[TestAddress])
+    witness.add_account_full(caller_address, pre[caller_address])
     if target != precompile_address and enough_gas_read_witness:
         witness.add_account_basic_data(target, pre[target])
 
@@ -253,8 +254,9 @@ def test_call_non_existent_account(
         }
 
     witness = Witness()
-    witness.add_account_basic_data(TestAddress, pre[TestAddress])
-    witness.add_account_basic_data(caller_address, pre[caller_address])
+    witness.add_account_full(env.fee_recipient, None)
+    witness.add_account_full(TestAddress, pre[TestAddress])
+    witness.add_account_full(caller_address, pre[caller_address])
     witness.add_account_basic_data(TestAddress2, None)
 
     blockchain_test(

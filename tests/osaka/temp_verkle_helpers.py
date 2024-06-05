@@ -32,12 +32,14 @@ class Witness:
     # Change to appropriate type.
     witness: Dict[Hash, Hash | None]
 
-    def add_account_full(self, addr: Address, account: Account):
+    def add_account_full(self, addr: Address, account: Account | None):
         """
         Add the full account present witness for the given address.
         """
         self.add_account_basic_data(addr, account)
-        self.add_account_codehash(addr, Hash(keccak256(account.code)))
+        self.add_account_codehash(
+            addr, Hash(keccak256(account.code)) if account is not None else None
+        )
 
     def add_account_basic_data(self, address: Address, account: Account | None):
         """
@@ -56,7 +58,7 @@ class Witness:
         basic_data_value = Hash(0)  # TODO(verkle): encode as little_endian(table_above)
         self.witness[_account_key(address, AccountHeaderEntry.BASIC_DATA)] = basic_data_value
 
-    def add_account_codehash(self, address: Address, codehash: Hash):
+    def add_account_codehash(self, address: Address, codehash: Hash | None):
         """
         Adds the CODEHASH witness for the given address.
         """
