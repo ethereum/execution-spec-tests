@@ -150,16 +150,16 @@ def _extcodehash(
     )
     blocks = [Block(txs=[tx])]
 
+    post = {}
+    if not fails:
+        # TODO(verkle): assign correct storage slot value when filling
+        post[TestAddress2] = Account(code=pre[TestAddress2].code, storage={0: 0x424242})
+
     witness = Witness()
     witness.add_account_full(env.fee_recipient, None)
     witness.add_account_full(TestAddress, pre[TestAddress])
     witness.add_account_full(TestAddress2, pre[TestAddress2])
     witness.merge(extra_witness)
-
-    post = {}
-    if not fails:
-        # TODO(verkle): assign correct storage slot value when filling
-        post[TestAddress2] = Account(code=pre[TestAddress2].code, storage={0: 0x424242})
 
     blockchain_test(
         genesis_environment=env,
