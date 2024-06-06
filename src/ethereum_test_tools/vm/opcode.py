@@ -5393,7 +5393,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    EOF Fork
+    Prague
 
     Gas
     ----
@@ -5402,35 +5402,6 @@ class Opcodes(Opcode, Enum):
     dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
         + positive_value_cost + value_to_empty_account_cost
     ```
-
-    Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
-    """
-
-    RETURNDATALOAD = Opcode(0xF7, popped_stack_items=1, pushed_stack_items=1)
-    """
-    RETURNDATALOAD(offset) = returndata
-    ----
-
-    Description
-    ----
-    Copies 32 bytes of return data onto the operand stack
-
-    Inputs
-    ----
-    - offset: The offset within the return data to start copying. There must be 32 byes of return
-      data at that address or an exceptional halt occurs.
-
-    Outputs
-    ----
-    - returndata: the 32 bytes of return data at the offset
-
-    Fork
-    ----
-    EOF Fork
-
-    Gas
-    ----
-    3
 
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
@@ -5460,7 +5431,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    EOF Fork
+    Prague
 
     Gas
     ----
@@ -5530,7 +5501,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    EOF Fork
+    Prague
 
     Gas
     ----
@@ -5538,6 +5509,28 @@ class Opcodes(Opcode, Enum):
     - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
 
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
+    """
+
+    RETURNDATALOAD = Opcode(0xF7, popped_stack_items=1)
+    """
+    RETURNDATALOAD(offset)
+    ----
+
+    Description
+    ----
+    Copy 32 bytes from returndata at offset onto the stack
+
+    Inputs
+    ----
+    - offset: byte offset in the return data from the last executed sub context to copy
+
+    Fork
+    ----
+    EOF
+
+    Gas
+    ----
+    3
     """
 
     REVERT = Opcode(0xFD, popped_stack_items=2)

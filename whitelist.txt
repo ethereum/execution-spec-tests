@@ -291,7 +291,6 @@ repo's
 repos
 returndata
 returndatacopy
-returndataload
 returndatasize
 returncontract
 rlp
@@ -620,7 +619,7 @@ tstore
 create
 create2
 create3
-txcreate
+create4
 call
 callcode
 return
