@@ -967,8 +967,6 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         if self.ty == 3 and self.max_fee_per_blob_gas is None:
             self.max_fee_per_blob_gas = 1
-        if self.ty == 3 and self.blob_kzg_commitments is None:
-            self.blob_versioned_hashes = [Hash(0)]
 
     def with_error(
         self, error: List[TransactionException] | TransactionException
