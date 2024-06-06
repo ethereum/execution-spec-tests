@@ -58,6 +58,8 @@ def infer_fixture_format_from_path(file: Path) -> FixtureFormats:
         return FixtureFormats.BLOCKCHAIN_TEST_HIVE
     if "blockchain_tests" in file.parts:
         return FixtureFormats.BLOCKCHAIN_TEST
+    if "BlockchainTests" in file.parts:  # ethereum/tests
+        return FixtureFormats.BLOCKCHAIN_TEST
     if "state_tests" in file.parts:
         return FixtureFormats.STATE_TEST
     return FixtureFormats.UNSET_TEST_FORMAT
