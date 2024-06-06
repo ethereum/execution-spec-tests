@@ -14,11 +14,10 @@ from ethereum_test_tools import (
     Transaction,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
-from .spec import CALL_SUCCESS, EXTCALL_FAILURE, EXTCALL_SUCCESS
+from .spec import CALL_SUCCESS, EXTCALL_REVERT, EXTCALL_SUCCESS
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7069.md"
 REFERENCE_SPEC_VERSION = "1795943aeacc86131d5ab6bb3d65824b3b1d4cad"
@@ -33,6 +32,8 @@ _slot = itertools.count(1)
 slot_top_level_call_status = next(_slot)
 slot_target_call_status = next(_slot)
 slot_target_returndata = next(_slot)
+
+value_exceptional_abort_canary = 0x1984
 
 
 @pytest.mark.parametrize(
@@ -110,6 +111,9 @@ def test_address_space_extension(
                 + Op.STOP()
             ),
             nonce=1,
+            storage={
+                slot_top_level_call_status: value_exceptional_abort_canary,
+            },
         ),
         address_caller: Account(
             code=Container(
@@ -123,7 +127,6 @@ def test_address_space_extension(
                         + Op.SSTORE(slot_target_returndata, Op.MLOAD(0))
                         + Op.STOP,
                         code_inputs=0,
-                        code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=1 + len(call_suffix),
                     )
                 ],
@@ -137,6 +140,10 @@ def test_address_space_extension(
             + Op.SSTORE(slot_target_returndata, Op.MLOAD(0))
             + Op.STOP,
             nonce=1,
+            storage={
+                slot_target_call_status: value_exceptional_abort_canary,
+                slot_target_returndata: value_exceptional_abort_canary,
+            },
         ),
     }
     match target_account_type:
@@ -157,7 +164,6 @@ def test_address_space_extension(
                     sections=[
                         Section.Code(
                             code=Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32),
-                            code_outputs=NON_RETURNING_SECTION,
                             max_stack_height=2,
                         )
                     ],
@@ -166,38 +172,50 @@ def test_address_space_extension(
                 nonce=0,
             )
 
-    target_storage: dict[int, int | bytes | Address] = {}
+    caller_storage: dict[int, int | bytes | Address] = {}
     match target_account_type:
         case "empty" | "EOA":
-            target_storage[slot_target_call_status] = (
-                EXTCALL_SUCCESS if ase_ready_opcode else CALL_SUCCESS
-            )
+            if ase_address and ase_ready_opcode:
+                caller_storage[slot_target_call_status] = value_exceptional_abort_canary
+                caller_storage[slot_target_returndata] = value_exceptional_abort_canary
+            elif target_opcode == Op.EXTDELEGATECALL:
+                caller_storage[slot_target_call_status] = EXTCALL_REVERT
+                caller_storage[slot_target_returndata] = 0
+            else:
+                caller_storage[slot_target_call_status] = (
+                    EXTCALL_SUCCESS if ase_ready_opcode else CALL_SUCCESS
+                )
         case "LegacyContract" | "EOFContract":
             match target_opcode:
                 case Op.CALL | Op.STATICCALL:
-                    target_storage[slot_target_call_status] = CALL_SUCCESS
+                    caller_storage[slot_target_call_status] = CALL_SUCCESS
                     # CALL and STATICCALL call will call the stripped address
-                    target_storage[slot_target_returndata] = stripped_address
+                    caller_storage[slot_target_returndata] = stripped_address
                 case Op.CALLCODE | Op.DELEGATECALL:
-                    target_storage[slot_target_call_status] = CALL_SUCCESS
+                    caller_storage[slot_target_call_status] = CALL_SUCCESS
                     # CALLCODE and DELEGATECALL call will call the stripped address
                     # but will change the sender to self
-                    target_storage[slot_target_returndata] = address_caller
+                    caller_storage[slot_target_returndata] = address_caller
                 case Op.EXTCALL | Op.EXTSTATICCALL:
-                    target_storage[slot_target_call_status] = EXTCALL_SUCCESS
                     # EXTCALL and EXTSTATICCALL will fault if calling an ASE address
-                    target_storage[slot_target_returndata] = 0 if ase_address else stripped_address
-                case Op.EXTDELEGATECALL:
-                    if not ase_address and target_account_type == "LegacyContract":
-                        # If calling a legacy contract EXTDELEGATECALL fails
-                        target_storage[slot_target_call_status] = EXTCALL_FAILURE
-                        target_storage[slot_target_returndata] = 0
+                    if ase_address:
+                        caller_storage[slot_target_call_status] = value_exceptional_abort_canary
+                        caller_storage[slot_target_returndata] = value_exceptional_abort_canary
                     else:
-                        target_storage[slot_target_call_status] = EXTCALL_SUCCESS
-                        # EXTDELEGATECALL will fault if calling an ASE address
-                        target_storage[slot_target_returndata] = (
-                            0 if ase_address else address_caller
-                        )
+                        caller_storage[slot_target_call_status] = EXTCALL_SUCCESS
+                        caller_storage[slot_target_returndata] = stripped_address
+                case Op.EXTDELEGATECALL:
+                    if ase_address:
+                        caller_storage[slot_target_call_status] = value_exceptional_abort_canary
+                        caller_storage[slot_target_returndata] = value_exceptional_abort_canary
+                    elif target_account_type == "LegacyContract":
+                        caller_storage[slot_target_call_status] = EXTCALL_REVERT
+                        caller_storage[slot_target_returndata] = 0
+                    else:
+                        caller_storage[slot_target_call_status] = EXTCALL_SUCCESS
+                        # EXTDELEGATECALL call will call the stripped address
+                        # but will change the sender to self
+                        caller_storage[slot_target_returndata] = address_caller
 
     post = {
         address_entry_point: Account(
@@ -207,7 +225,7 @@ def test_address_space_extension(
                 else CALL_SUCCESS
             }
         ),
-        address_caller: Account(storage=target_storage),
+        address_caller: Account(storage=caller_storage),
     }
 
     tx = Transaction(
