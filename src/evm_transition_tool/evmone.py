@@ -37,3 +37,11 @@ class EvmOneTransitionTool(TransitionTool):
         Currently, evmone-t8n provides no way to determine supported forks.
         """
         return True
+
+    @classmethod
+    def empty_string_to(cls) -> bool:
+        """
+        Evmone requires an empty string to be passed as an `to` field in the case of
+        contract-creating transactions.
+        """
+        return True

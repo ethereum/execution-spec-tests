@@ -225,6 +225,13 @@ class TransitionTool:
 
         return cls.detect_binary_pattern.match(binary_output) is not None
 
+    @classmethod
+    def empty_string_to(cls) -> bool:
+        """
+        Returns True if the tool requires empty strings as addresses
+        """
+        return False
+
     def version(self) -> str:
         """
         Return name and version of tool used to state transition
@@ -311,6 +318,18 @@ class TransitionTool:
         fork_name: str
         chain_id: int = field(default=1)
         reward: int = field(default=0)
+        empty_string_to: bool = field(default=False)
+
+        def __post_init__(self):
+            """
+            Ensure that the `to` field of transactions is not None
+            """
+            if self.empty_string_to:
+                for tx in self.txs:
+                    if "to" not in tx:
+                        tx["to"] = ""
+                    elif tx["to"] is None:
+                        tx["to"] = ""
 
     def _evaluate_filesystem(
         self,
@@ -571,7 +590,13 @@ class TransitionTool:
         if int(env["currentNumber"], 0) == 0:
             reward = -1
         t8n_data = TransitionTool.TransitionToolData(
-            alloc=alloc, txs=txs, env=env, fork_name=fork_name, chain_id=chain_id, reward=reward
+            alloc=alloc,
+            txs=txs,
+            env=env,
+            fork_name=fork_name,
+            chain_id=chain_id,
+            reward=reward,
+            empty_string_to=self.empty_string_to(),
         )
 
         if self.t8n_use_stream:
