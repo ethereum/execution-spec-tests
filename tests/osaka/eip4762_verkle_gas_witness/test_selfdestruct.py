@@ -16,83 +16,115 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
-    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+
+from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-precompile_address = Address("0x09")
 ExampleAddress = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
-
-contract_address = compute_create_address(TestAddress, 0)
+precompile_address = Address("0x09")
+system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
-    "target, target_exists",
+    "target, beneficiary_must_exist",
     [
         [ExampleAddress, True],
         [ExampleAddress, False],
-        [precompile_address, True],
-        [contract_address, True],
+        [TestAddress2, True],
+        [precompile_address, False],
+        [system_contract_address, False],
     ],
     ids=[
-        "target_exists",
-        "target_does_not_exist",
+        "beneficiary_exists",
+        "beneficiary_does_not_exist",
+        "self_beneficiary",
         "precompile",
-        "beneficiary_equal_contract",
+        "system_contract",
     ],
 )
-@pytest.mark.parametrize("contract_balance", [0, 1])
+@pytest.mark.parametrize(
+    "contract_balance",
+    [0, 1],
+)
 def test_balance(
-    blockchain_test: BlockchainTestFiller, fork: str, target, target_exists, contract_balance
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    target,
+    beneficiary_must_exist,
+    contract_balance,
 ):
     """
     Test SELFDESTRUCT witness.
     """
-    exp_witness = None  # TODO(verkle)
-    _selfdestruct(blockchain_test, fork, target, target_exists, contract_balance, exp_witness)
+    _selfdestruct(
+        blockchain_test,
+        fork,
+        target,
+        beneficiary_must_exist,
+        contract_balance,
+        contract_balance > 0,
+        contract_balance > 0 and not beneficiary_must_exist,
+    )
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
-    "gas_limit",
+    "gas_limit, beneficiary_must_exist, beneficiary_add_basic_data, beneficiary_add_codehash",
     [
-        "TBD",
-        "TBD",
-        "TBD",
-        "TBD",
+        ("TBD", True, False, False),
+        ("TBD", True, False, False),
+        ("TBD", False, False, False),
+        ("TBD", False, True, False),
     ],
     ids=[
-        "fail_cover_staticcost_plus_read_contract_basicdata",
-        "fail_write_contract_basicdata",
-        "fail_write_beneficiary_basicdata",
-        "fail_write_beneficiary_code",
+        "beneficiary_exist_not_enough_substract_contract_balance",
+        "beneficiary_exist_not_enough_add_beneficiary_balance",
+        "beneficiary_doesnt_exist_create_account_basic_data",
+        "beneficiary_doesnt_exist_create_account_codehash",
     ],
 )
 def test_balance_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: str, target, gas_limit
+    blockchain_test: BlockchainTestFiller,
+    fork: str,
+    gas_limit,
+    beneficiary_must_exist,
+    beneficiary_add_basic_data,
+    beneficiary_add_codehash,
 ):
     """
     Test SELFDESTRUCT insufficient gas.
     """
-    exp_witness = None  # TODO(verkle)
-    _selfdestruct(blockchain_test, fork, target, False, 1, exp_witness, gas_limit)
+    _selfdestruct(
+        blockchain_test,
+        fork,
+        ExampleAddress,
+        beneficiary_must_exist,
+        100,
+        beneficiary_add_basic_data,
+        beneficiary_add_codehash,
+        gas_limit=gas_limit,
+        fail=True,
+    )
 
 
 def _selfdestruct(
     blockchain_test: BlockchainTestFiller,
     fork: str,
-    target,
-    target_exists,
-    contract_balance,
-    exp_witness,
+    beneficiary: Address,
+    beneficiary_must_exist: bool,
+    contract_balance: int,
+    beneficiary_add_basic_data: bool,
+    beneficiary_add_codehash: bool,
     gas_limit=1_000_000,
+    fail=False,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -103,10 +135,12 @@ def _selfdestruct(
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(code=Op.SELFDESTRUCT(target), value=contract_balance),
+        TestAddress2: Account(code=Op.SELFDESTRUCT(beneficiary), balance=contract_balance),
     }
-    if target != TestAddress:
-        pre[target] = Account(balance=0xFF, nonce=1 if target_exists else 0)
+
+    assert beneficiary != TestAddress
+    if beneficiary_must_exist and beneficiary != TestAddress2:
+        pre[beneficiary] = Account(balance=0xFF)
 
     tx = Transaction(
         ty=0x0,
@@ -118,13 +152,28 @@ def _selfdestruct(
     )
     blocks = [Block(txs=[tx])]
 
-    # TODO(verkle): define witness assertion
-    witness_keys = ""
+    witness = Witness()
+    witness.add_account_full(env.fee_recipient, None)
+    witness.add_account_full(TestAddress, pre[TestAddress])
+    witness.add_account_full(TestAddress2, pre[TestAddress2])
+    if beneficiary_add_basic_data:
+        witness.add_account_basic_data(beneficiary, pre.get(beneficiary))
+    if beneficiary_add_codehash:
+        witness.add_account_codehash(beneficiary, None)
+
+    if not fail and contract_balance > 0 and beneficiary != TestAddress2:
+        beneficiary_account = pre.get(beneficiary)
+        beneficiary_balance = 0 if beneficiary_account is None else beneficiary_account.balance
+        pre[TestAddress2]
+        post = {
+            TestAddress2: Account(code=pre[TestAddress2].code, balance=0),
+            beneficiary: Account(balance=beneficiary_balance + contract_balance),
+        }
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
-        post={},
+        post=post,
         blocks=blocks,
-        witness_keys=witness_keys,
+        witness=witness,
     )
