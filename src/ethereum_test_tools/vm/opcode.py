@@ -5115,30 +5115,6 @@ class Opcodes(Opcode, Enum):
 
     """
 
-    TXCREATE = Opcode(0xED, popped_stack_items=5, pushed_stack_items=1)
-    """
-    !!! Note: This opcode is under development
-
-    TXCREATE(tx_initcode_hash, value, salt, input_offset, input_size)
-    ----
-
-    Description
-    ----
-
-    Inputs
-    ----
-
-    Outputs
-    ----
-
-    Fork
-    ----
-
-    Gas
-    ----
-
-    """
-
     RETURNCONTRACT = Opcode(
         0xEE, popped_stack_items=2, pushed_stack_items=1, data_portion_length=1
     )
