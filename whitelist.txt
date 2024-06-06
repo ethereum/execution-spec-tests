@@ -18,6 +18,7 @@ basename
 bb
 besu
 bidict
+bigint
 big0
 big1
 blobgasfee
