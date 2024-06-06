@@ -13,6 +13,7 @@
     * [Types of Test](writing_tests/types_of_tests.md)
     * [Adding a New Test](writing_tests/adding_a_new_test.md)
     * [Writing a New Test](writing_tests/writing_a_new_test.md)
+    * [Test Markers](writing_tests/test_markers.md)
     * [Referencing an EIP Spec Version](writing_tests/reference_specification.md)
     * [Verifying Changes Locally](writing_tests/verifying_changes.md)
     * [Exception Tests](writing_tests/exception_tests.md)
