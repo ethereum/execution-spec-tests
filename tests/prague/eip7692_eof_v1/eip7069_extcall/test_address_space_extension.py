@@ -18,10 +18,11 @@ from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
+from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 from .spec import CALL_SUCCESS, EXTCALL_FAILURE, EXTCALL_SUCCESS
 
-REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7069.md"
-REFERENCE_SPEC_VERSION = "1795943aeacc86131d5ab6bb3d65824b3b1d4cad"
+REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
+REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
