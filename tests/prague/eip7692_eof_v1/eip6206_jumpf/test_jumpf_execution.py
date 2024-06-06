@@ -49,14 +49,15 @@ def test_jumpf_backward(
             sections=[
                 Section.Code(
                     code=Op.CALLF[2] + Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 ),
                 Section.Code(
                     code=Op.RETF,
+                    code_outputs=0,
                 ),
                 Section.Code(
                     code=Op.JUMPF[1],
+                    code_outputs=0,
                 ),
             ],
         ),
@@ -153,7 +154,7 @@ def test_callf_to_non_returning_section(
                 ),
                 Section.Code(
                     code=Op.STOP,
-                    outputs=NON_RETURNING_SECTION,
+                    code_outputs=0,
                 ),
             ],
             validity_error=EOFException.MISSING_STOP_OPCODE,
