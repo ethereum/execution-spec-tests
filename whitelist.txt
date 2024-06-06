@@ -5,6 +5,7 @@ acl
 addr
 address
 address2
+ase
 alloc
 api
 apis
@@ -507,8 +508,10 @@ gasprice
 extcode
 extcodesize
 extcodecopy
+returndata
 returndatasize
 returndatacopy
+returndataload
 extcodehash
 blockhash
 coinbase
