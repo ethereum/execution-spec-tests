@@ -5,7 +5,6 @@ import pytest
 
 from ethereum_test_tools import Account, EOFException, EOFStateTestFiller
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
@@ -26,11 +25,9 @@ def test_jumpf_forward(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[1],
-                    code_outputs=NON_RETURNING_SECTION,
                 ),
                 Section.Code(
                     Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 ),
             ],
@@ -80,7 +77,6 @@ def test_jumpf_to_self(
                     + Op.STOP
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.JUMPF[0],
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 )
             ],
@@ -99,7 +95,6 @@ def test_jumpf_too_large(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[1025],
-                    code_outputs=NON_RETURNING_SECTION,
                 )
             ],
             validity_error=EOFException.UNDEFINED_EXCEPTION,
@@ -116,7 +111,6 @@ def test_jumpf_way_too_large(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[0xFFFF],
-                    code_outputs=NON_RETURNING_SECTION,
                 )
             ],
             validity_error=EOFException.UNDEFINED_EXCEPTION,
@@ -133,7 +127,6 @@ def test_jumpf_to_nonexistent_section(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[5],
-                    code_outputs=NON_RETURNING_SECTION,
                 )
             ],
             validity_error=EOFException.UNDEFINED_EXCEPTION,
@@ -150,7 +143,6 @@ def test_callf_to_non_returning_section(
             sections=[
                 Section.Code(
                     code=Op.CALLF[1],
-                    code_outputs=NON_RETURNING_SECTION,
                 ),
                 Section.Code(
                     code=Op.STOP,
