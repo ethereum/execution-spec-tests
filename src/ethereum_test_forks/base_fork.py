@@ -8,6 +8,7 @@ from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Type
 from semver import Version
 
 from .base_decorators import prefer_transition_to_method
+from .types import EVMCodeType
 
 
 class ForkAttribute(Protocol):
@@ -257,6 +258,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     ) -> Optional[int]:
         """
         Returns `None` if the forks canonical chain cannot be set using the forkchoice method.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
+        """
+        Returns the list of EVM code types supported by the fork.
         """
         pass
 
