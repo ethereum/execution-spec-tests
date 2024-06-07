@@ -1196,6 +1196,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/</loc>
+         <lastmod>2024-06-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/types_of_tests/</loc>
          <lastmod>2024-06-07</lastmod>
          <changefreq>daily</changefreq>
