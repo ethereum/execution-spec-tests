@@ -52,6 +52,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Relax minor and patch dependency requirements to avoid conflicting package dependencies ([#510](https://github.com/ethereum/execution-spec-tests/pull/510)).
 - 🔀 Update all CI actions to use their respective Node.js 20 versions, ahead of their Node.js 16 version deprecations ([#527](https://github.com/ethereum/execution-spec-tests/pull/527)).
 - ✨ Releases now contain a `fixtures_eip7692.tar.gz` which contains all EOF fixtures ([#573](https://github.com/ethereum/execution-spec-tests/pull/573)).
+- ✨ Use `solc-select` for tox when running locally and within CI ([#604](https://github.com/ethereum/execution-spec-tests/pull/604)).
 
 ### 💥 Breaking Change
 
