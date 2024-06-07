@@ -228,7 +228,8 @@ class TransitionTool:
     @classmethod
     def empty_string_to(cls) -> bool:
         """
-        Returns True if the tool requires empty strings as addresses
+        Returns True if the tool requires an empty string `to` field
+        for contract creating transactions.
         """
         return False
 
