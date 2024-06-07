@@ -41,7 +41,7 @@ class EvmOneTransitionTool(TransitionTool):
     @classmethod
     def empty_string_to(cls) -> bool:
         """
-        Evmone requires an empty string to be passed as an `to` field in the case of
+        Evmone requires an empty string within the `to` field for
         contract-creating transactions.
         """
         return True
