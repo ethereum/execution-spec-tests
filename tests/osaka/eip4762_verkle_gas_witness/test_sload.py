@@ -18,9 +18,13 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from ..temp_verkle_helpers import Witness
+
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
+
+TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -33,21 +37,26 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
         [0, 1],
         [0, 1000],
         [1000, 1000],
+        [5042],
     ],
     ids=[
         "in_account_header",
         "outside_account_header",
         "two_in_same_branch",
         "two_in_different_branch",
-        "cold_plus_warm_cost",
+        "cold_plus_warm_access",
+        "empty",
     ],
 )
 def test_sload(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_accesses):
     """
     Test SLOAD witness.
     """
-    exp_witness = None  # TODO(verkle)
-    _sload(blockchain_test, fork, storage_slot_accesses, exp_witness)
+    witness = Witness()
+    for slot in storage_slot_accesses:
+        witness.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
+
+    _sload(blockchain_test, fork, storage_slot_accesses, witness)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -56,15 +65,18 @@ def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str
     """
     Test SLOAD with insufficient gas.
     """
-    exp_witness = None  # TODO(verkle)
-    _sload(blockchain_test, fork, [1000], exp_witness, gas_limit=1_024)
+    witness = Witness()
+    for slot in [1000, 1001]:
+        witness.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
+
+    _sload(blockchain_test, fork, [1000, 1001, 1002, 1003], witness, gas_limit=1_024)
 
 
 def _sload(
     blockchain_test: BlockchainTestFiller,
     fork: str,
-    storage_slot_accesses,
-    exp_witness,
+    storage_slot_accesses: list[int],
+    extra_witness: Witness,
     gas_limit=1_000_000,
 ):
     env = Environment(
@@ -81,8 +93,8 @@ def _sload(
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(
-            storage={0: 0xAA, 1000: 0xBB},
             code=code,
+            storage=TestAddress2Storage,
         ),
     }
 
@@ -96,13 +108,16 @@ def _sload(
     )
     blocks = [Block(txs=[tx])]
 
-    # TODO(verkle): define witness assertion
-    witness_keys = ""
+    witness = Witness()
+    witness.add_account_full(env.fee_recipient, None)
+    witness.add_account_full(TestAddress, pre[TestAddress])
+    witness.add_account_full(TestAddress2, pre[TestAddress2])
+    witness.merge(extra_witness)
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness_keys=witness_keys,
+        witness=witness,
     )
