@@ -327,10 +327,7 @@ class TransitionTool:
             """
             if self.empty_string_to:
                 for tx in self.txs:
-                    if "to" not in tx:
-                        tx["to"] = ""
-                    elif tx["to"] is None:
-                        tx["to"] = ""
+                    tx["to"] = tx.get("to") or ""
 
     def _evaluate_filesystem(
         self,
