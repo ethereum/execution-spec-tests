@@ -324,6 +324,16 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             elif other[key] != 0:
                 raise Storage.KeyValueMismatch(address=address, key=key, want=0, got=other[key])
 
+    def canary_storage(self, canary_value: int = 0xBA53) -> "Storage":
+        """
+        Returns a copy of the storage with the canary value in every key.
+
+        This is normally used to fill the storage with a known non-zero value as pre-allocation
+        for the test to properly verify that a value was actually modified during the execution
+        and not left as zero due to an error.
+        """
+        return Storage({key: HashInt(canary_value) for key in self.root})
+
 
 class Account(CopyValidateModel):
     """
