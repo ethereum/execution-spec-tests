@@ -509,8 +509,10 @@ gasprice
 extcode
 extcodesize
 extcodecopy
+returndata
 returndatasize
 returndatacopy
+returndataload
 extcodehash
 blockhash
 coinbase

@@ -157,7 +157,6 @@ def test_returndatacopy_handling(
                     sections=[
                         Section.Code(
                             code=code_under_test,
-                            code_outputs=NON_RETURNING_SECTION,
                             max_stack_height=4,
                         )
                     ]
@@ -243,7 +242,6 @@ def test_returndataload_handling(
                         + Op.SSTORE(slot_result_start, Op.RETURNDATALOAD(offset))
                         + Op.SSTORE(slot_code_worked, value_code_worked)
                         + Op.STOP,
-                        code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=len(call_suffix) + 1,
                     )
                 ]
@@ -255,7 +253,6 @@ def test_returndataload_handling(
                 sections=[
                     Section.Code(
                         code=Op.DATACOPY(0, 0, Op.DATASIZE) + Op.RETURN(0, Op.DATASIZE),
-                        code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=3,
                     ),
                     Section.Data(data=return_data),
