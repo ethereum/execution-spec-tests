@@ -5393,7 +5393,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    EOF Fork
+    Prague
 
     Gas
     ----
@@ -5431,7 +5431,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    EOF Fork
+    Prague
 
     Gas
     ----
@@ -5501,7 +5501,7 @@ class Opcodes(Opcode, Enum):
 
     Fork
     ----
-    EOF Fork
+    Prague
 
     Gas
     ----
