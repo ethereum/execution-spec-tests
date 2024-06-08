@@ -2,6 +2,7 @@
 abstract: Tests [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069)
     Tests for the RETURNDATALOAD instriction
 """  # noqa: E501
+from typing import List
 
 import pytest
 
@@ -27,9 +28,21 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
-@pytest.mark.parametrize("container_style", ["EOF", "Legacy"], ids=lambda x: x)
 @pytest.mark.parametrize(
-    "returndata",
+    ["call_prefix", "opcode", "call_suffix"],
+    [
+        pytest.param([500_000], Op.CALL, [0, 0, 0, 0, 0], id="CALL"),
+        pytest.param([500_000], Op.CALLCODE, [0, 0, 0, 0, 0], id="CALLCODE"),
+        pytest.param([500_000], Op.DELEGATECALL, [0, 0, 0, 0], id="DELEGATECALL"),
+        pytest.param([500_000], Op.STATICCALL, [0, 0, 0, 0], id="STATICCALL"),
+        pytest.param([], Op.EXTCALL, [0, 0, 0], id="EXTCALL"),
+        pytest.param([], Op.EXTDELEGATECALL, [0, 0], id="EXTDELEGATECALL"),
+        pytest.param([], Op.EXTSTATICCALL, [0, 0], id="EXTSTATICCALL"),
+    ],
+    ids=lambda x: x,
+)
+@pytest.mark.parametrize(
+    "return_data",
     [
         b"",
         b"\x10" * 0x10,
@@ -60,8 +73,10 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 )
 def test_returndatacopy_handling(
     state_test: StateTestFiller,
-    container_style: str,
-    returndata: bytes,
+    call_prefix: List[int],
+    opcode: Op,
+    call_suffix: List[int],
+    return_data: bytes,
     offset: int,
     size: int,
 ):
@@ -89,14 +104,9 @@ def test_returndatacopy_handling(
             nonce=1,
             code=Op.NOOP
             # First, create a "dirty" area, so we can check zero overwrite
-            + Op.PUSH1(1)
-            + Op.PUSH0
-            + Op.SUB
-            + Op.MSTORE(0x00, Op.DUP1)
-            + Op.MSTORE(0x20, Op.DUP1)
-            + Op.POP
+            + Op.MSTORE(0x00, -1) + Op.MSTORE(0x20, -1)
             # call the contract under test
-            + Op.DELEGATECALL(1_00_000, address_caller, 0, 0, 0, 0)
+            + Op.DELEGATECALL(1_000_000, address_caller, 0, 0, 0, 0)
             + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE)
             # store the return data
             + Op.SSTORE(slot_result_start, Op.MLOAD(0x0))
@@ -113,7 +123,7 @@ def test_returndatacopy_handling(
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=3,
                     ),
-                    Section.Data(data=returndata),
+                    Section.Data(data=return_data),
                 ]
             ),
         ),
@@ -121,9 +131,9 @@ def test_returndatacopy_handling(
 
     result = [0xFF] * 0x40
     result[0:size] = [0] * size
-    extent = size - max(0, size + offset - len(returndata))
-    if extent > 0 and len(returndata) > 0:
-        result[0:extent] = [returndata[0]] * extent
+    extent = size - max(0, size + offset - len(return_data))
+    if extent > 0 and len(return_data) > 0:
+        result[0:extent] = [return_data[0]] * extent
     post = {
         address_entry_point: Account(
             storage={
@@ -135,28 +145,29 @@ def test_returndatacopy_handling(
     }
 
     code_under_test: bytes = (
-        Op.RETURNDATACOPY(0, offset, size)
+        opcode(*call_prefix, address_returner, *call_suffix)
+        + Op.RETURNDATACOPY(0, offset, size)
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.RETURN(0, size)
     )
-    match container_style:
-        case "EOF":
+    match opcode:
+        case Op.EXTCALL | Op.EXTDELEGATECALL | Op.EXTSTATICCALL:
             pre[address_caller] = Account(
                 code=Container(
                     sections=[
                         Section.Code(
-                            code=Op.EXTCALL(address_returner, 0, 0, 0) + code_under_test,
+                            code=code_under_test,
                             code_outputs=NON_RETURNING_SECTION,
                             max_stack_height=4,
                         )
                     ]
                 )
             )
-        case "Legacy":
+        case Op.CALL | Op.CALLCODE | Op.DELEGATECALL | Op.STATICCALL:
             pre[address_caller] = Account(
-                code=Op.CALL(500_000, address_returner, 0, 0, 0, 0, 0) + code_under_test,
+                code=code_under_test,
             )
-            if (offset + size) > len(returndata):
+            if (offset + size) > len(return_data):
                 post[address_entry_point] = Account(
                     storage={
                         slot_code_worked: value_code_worked,
@@ -174,7 +185,16 @@ def test_returndatacopy_handling(
 
 
 @pytest.mark.parametrize(
-    "returndata",
+    ["opcode", "call_suffix"],
+    [
+        pytest.param(Op.EXTCALL, [0, 0, 0], id="EXTCALL"),
+        pytest.param(Op.EXTDELEGATECALL, [0, 0], id="EXTDELEGATECALL"),
+        pytest.param(Op.EXTSTATICCALL, [0, 0], id="EXTSTATICCALL"),
+    ],
+    ids=lambda x: x,
+)
+@pytest.mark.parametrize(
+    "return_data",
     [
         b"",
         b"\x10" * 0x10,
@@ -195,7 +215,9 @@ def test_returndatacopy_handling(
 )
 def test_returndataload_handling(
     state_test: StateTestFiller,
-    returndata: bytes,
+    opcode: Op,
+    call_suffix: List[int],
+    return_data: bytes,
     offset: int,
 ):
     """
@@ -217,12 +239,12 @@ def test_returndataload_handling(
             code=Container(
                 sections=[
                     Section.Code(
-                        code=Op.EXTDELEGATECALL(address_returner, 0, 0)
+                        code=opcode(address_returner, *call_suffix)
                         + Op.SSTORE(slot_result_start, Op.RETURNDATALOAD(offset))
                         + Op.SSTORE(slot_code_worked, value_code_worked)
                         + Op.STOP,
                         code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=3,
+                        max_stack_height=len(call_suffix) + 1,
                     )
                 ]
             ),
@@ -236,23 +258,21 @@ def test_returndataload_handling(
                         code_outputs=NON_RETURNING_SECTION,
                         max_stack_height=3,
                     ),
-                    Section.Data(data=returndata),
+                    Section.Data(data=return_data),
                 ]
             ),
         ),
     }
 
     result = [0] * 0x20
-    extent = 0x20 - max(0, 0x20 + offset - len(returndata))
-    if extent > 0 and len(returndata) > 0:
-        result[0:extent] = [returndata[0]] * extent
-    print(result)
+    extent = 0x20 - max(0, 0x20 + offset - len(return_data))
+    if extent > 0 and len(return_data) > 0:
+        result[0:extent] = [return_data[0]] * extent
     post = {
         address_entry_point: Account(
             storage={
                 slot_code_worked: value_code_worked,
-                slot_result_start: bytes(result[:0x20]),
-                (slot_result_start + 0x1): bytes(result[0x20:]),
+                slot_result_start: bytes(result),
             }
         )
     }
