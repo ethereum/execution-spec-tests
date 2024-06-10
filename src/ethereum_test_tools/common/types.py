@@ -1098,7 +1098,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             else:
                 self.ty = 0
 
-        if self.v is not None and (self.secret_key is not None or self.sender is not None):
+        if self.v is not None and self.secret_key is not None:
             raise Transaction.InvalidSignaturePrivateKey()
 
         if self.v is None and self.secret_key is None:
