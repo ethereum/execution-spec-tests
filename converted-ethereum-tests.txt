@@ -1,4 +1,1 @@
-src/
-  EOFTestsFiller/
-    EIP3540/
-      validInvalidFiller.yml
+EOFTests/EIP3540/validInvalid.json
