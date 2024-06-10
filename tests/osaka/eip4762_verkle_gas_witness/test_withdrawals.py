@@ -17,6 +17,8 @@ from ethereum_test_tools import (
     Withdrawal,
 )
 
+from ..temp_verkle_helpers import Witness
+
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -49,13 +51,20 @@ def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
         )
     ]
 
-    # TODO(verkle): define witness assertion
-    witness_keys = ""
+    post = {
+        TestAddress: Account(balance=1000000000003000000000),
+        TestAddress2: Account(balance=4000000000),
+    }
+
+    witness = Witness()
+    witness.add_account_full(env.fee_recipient, None)
+    witness.add_account_full(TestAddress, pre[TestAddress])
+    witness.add_account_full(TestAddress2, pre[TestAddress2])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
-        post={},
+        post=post,
         blocks=blocks,
-        witness_keys=witness_keys,
+        witness=witness,
     )
