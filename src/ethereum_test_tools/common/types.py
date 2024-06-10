@@ -122,7 +122,8 @@ def example_from_annotation(annotation: Any, field_counter: Iterator[int]) -> An
     if issubclass(annotation, FixedSizeBytes) or issubclass(annotation, int):
         return next(field_counter)
     if issubclass(annotation, bytes):
-        return int.to_bytes(next(field_counter))
+        field_index = next(field_counter)
+        return int.to_bytes(field_index, length=1 if field_index <= 0xFF else 2, byteorder="big")
     if issubclass(annotation, str):
         return "example"
     if issubclass(annotation, Enum):
