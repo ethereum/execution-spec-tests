@@ -10,6 +10,7 @@ plugins:
   - git-authors:
       exclude:
         - tests/*
+        - tool_specs/t8n/types.md
         - navigation.md
   - glightbox
   - mkdocstrings:
@@ -24,7 +25,7 @@ plugins:
   - gen-files:
       scripts:
         - docs/gen_test_case_reference.py
-        - docs/gen_tool_specs_types.py
+        - docs/gen_type_files.py
   - literate-nav:
       nav_file: navigation.md
 

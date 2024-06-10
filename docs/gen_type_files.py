@@ -13,14 +13,6 @@ from pydantic import BaseModel, RootModel
 
 from ethereum_test_tools.common.json import to_json
 
-t8n_types_file = "tool_specs/t8n/types.md"
-
-# Parse the file to get the types to be populated
-file_lines: List[str] = []
-with mkdocs_gen_files.open(t8n_types_file, "r") as f:
-    file_lines = f.readlines()
-
-
 module_cache = {}
 
 
@@ -50,19 +42,29 @@ def print_type(module: str | None, type_name: str | None, f: TextIOWrapper):
             f.write("\n```\n\n")
 
 
-with mkdocs_gen_files.open(t8n_types_file, "w") as f:
-    current_module: str | None = None
-    current_type: str | None = None
-    for line in file_lines:
-        if line.startswith("## "):
-            if current_module is not None or current_type is not None:
-                print_type(current_module, current_type, f)
-            current_module = line[3:].strip()
-            current_type = None
-        elif line.startswith("### "):
-            if current_module is not None or current_type is not None:
-                print_type(current_module, current_type, f)
-            current_type = line[4:].strip()
-        f.write(line)
-    if current_module is not None or current_type is not None:
-        print_type(current_module, current_type, f)
+type_files = [
+    "tool_specs/t8n/types.md",
+]
+
+for type_file in type_files:
+    # Parse the file to get the types to be populated
+    file_lines: List[str] = []
+    with mkdocs_gen_files.open(type_file, "r") as f:
+        file_lines = f.readlines()
+
+    with mkdocs_gen_files.open(type_file, "w") as f:
+        current_module: str | None = None
+        current_type: str | None = None
+        for line in file_lines:
+            if line.startswith("## "):
+                if current_module is not None or current_type is not None:
+                    print_type(current_module, current_type, f)
+                current_module = line[3:].strip()
+                current_type = None
+            elif line.startswith("### "):
+                if current_module is not None or current_type is not None:
+                    print_type(current_module, current_type, f)
+                current_type = line[4:].strip()
+            f.write(line)
+        if current_module is not None or current_type is not None:
+            print_type(current_module, current_type, f)
