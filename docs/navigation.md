@@ -36,6 +36,7 @@
     * [Transition Tool (T8N)](tool_specs/t8n/spec.md)
       * [Types](tool_specs/t8n/types.md)
     * [EOF Tool](tool_specs/eof/spec.md)
+      * [Types](tool_specs/eof/types.md)
   * [Changelog](CHANGELOG.md)
   * [Library Reference](library/index.md)
     * [EVM Transition Tool Package](library/evm_transition_tool.md)

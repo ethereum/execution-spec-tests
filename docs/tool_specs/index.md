@@ -5,3 +5,5 @@
 - [Types](./t8n/types.md)
 
 ## [EOF Tool](./eof/spec.md)
+
+- [Types](./eof/types.md)

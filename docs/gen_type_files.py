@@ -44,6 +44,7 @@ def print_type(module: str | None, type_name: str | None, f: TextIOWrapper):
 
 type_files = [
     "tool_specs/t8n/types.md",
+    "tool_specs/eof/types.md",
 ]
 
 for type_file in type_files:

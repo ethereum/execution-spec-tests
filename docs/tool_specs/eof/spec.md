@@ -3,7 +3,7 @@
 
 # Ethereum EVM Object Format code verification tool
 
-Each client is required to implement the `evm eof` tool, which is used to validate eof code tests by verifying eof container validity.
+Each client is required to implement the `evm eof` tool, which is used to validate EOF code tests by verifying EOF container validity.
 
 **Format**: `[eof code] -> [result]`
 
@@ -19,18 +19,18 @@ Each client is required to implement the `evm eof` tool, which is used to valida
 ```
 Parameters:
   --state.fork value (required)
-     Sets the fork rules and all EIPs included in it for eof code validation.
+     Sets the fork rules and all EIPs included in it for EOF code validation.
      Current supported forks and EIPs: ["Prague"]
 
 Inputs:
   --hex code (required)
-     Direct input of the evm eof bytecode
+     Direct input of the EVM EOF bytecode
 
 
 Outputs:
-    If called with the `--hex` arg:
-      The tool don't write any files. Instead if an input eof container is invalid
-      it finishes with an error code and stderr an error message prefixed by eof
+    If called with the `--hex` argument:
+      The tool don't write any files. Instead if an input EOF container is invalid
+      it finishes with an error code and an error message will be written to standard error prefixed by EOF
       exception error code, followed by the error message.
 
       If the container is valid, the tool finishes with 0 code. And the strout message
@@ -54,7 +54,7 @@ Outputs:
         OK 5f35...000400,5f5ff3,5f5ffd,fe,e4
         eof00001 err: unreachable_instructions
 
-    Note: The bytes were ommited here to save screen space. the code represents valid eof
+    Note: The bytes were ommited here to save screen space. the code represents valid EOF
     Note: eof00001 - is an example exception code, the table of exception codes to be defined
 
   --help
