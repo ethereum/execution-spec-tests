@@ -10,12 +10,12 @@ from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools.eof.v1 import Container, EOFException, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 
-from .. import EOF_FORK_NAME
+#from .. import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3540.md"
 REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
 
-pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
+pytestmark = pytest.mark.valid_from("Cancun")
 
 
 @pytest.mark.parametrize(
@@ -143,7 +143,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         pytest.param(
             # Trailing bytes after code section
             bytes.fromhex("ef000101000402000100010400000000000000feaabbcc"),
-            EOFException.INVALID_SECTION_BODIES_SIZE,
+            EOFException.INVALID_FIRST_SECTION_TYPE,
             id="EOF1I3540_0027",
         ),
         pytest.param(
@@ -185,7 +185,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         pytest.param(
             # Trailing bytes after data section
             bytes.fromhex("ef000101000402000100010400020000000000feaabbccdd"),
-            EOFException.INVALID_SECTION_BODIES_SIZE,
+            EOFException.INVALID_FIRST_SECTION_TYPE,
             id="EOF1I3540_0035",
         ),
         pytest.param(
