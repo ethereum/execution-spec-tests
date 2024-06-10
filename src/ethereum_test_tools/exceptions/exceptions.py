@@ -5,8 +5,10 @@ Exceptions for invalid execution.
 from enum import Enum, auto, unique
 from typing import Annotated, Any, List
 
-from pydantic import BeforeValidator, GetCoreSchemaHandler, PlainSerializer
+from pydantic import BeforeValidator, GetCoreSchemaHandler, GetJsonSchemaHandler, PlainSerializer
+from pydantic.json_schema import JsonSchemaValue
 from pydantic_core.core_schema import (
+    CoreSchema,
     PlainValidatorFunctionSchema,
     no_info_plain_validator_function,
     to_string_ser_schema,
@@ -29,6 +31,22 @@ class ExceptionBase(Enum):
             source_type,
             serialization=to_string_ser_schema(),
         )
+
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the BLSPublicKey type.
+        """
+        json_schema = {
+            "title": f"{cls.__name__}",
+            "description": f"Exception of type {cls.__name__}, which can contain one or"
+            " more allowed exceptions separated by a pipe ('|').",
+            "type": "string",
+            "enum": [f"{cls.__name__}.{exception.name}" for exception in cls],
+        }
+        return json_schema
 
     def __contains__(self, exception) -> bool:
         """

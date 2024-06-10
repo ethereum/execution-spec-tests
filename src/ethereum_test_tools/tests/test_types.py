@@ -39,6 +39,7 @@ from ..spec.blockchain.types import (
     FixtureTransaction,
     InvalidFixtureBlock,
 )
+from ..spec.eof.types import Fixture as EOFFixture
 from ..spec.state.types import FixtureForkPost
 from ..vm.opcode import Opcodes as Op
 
@@ -1755,6 +1756,7 @@ def test_parsing(json_str: str, type_adapter: TypeAdapter, expected: Any):
         pytest.param(Result, id="Result"),
         pytest.param(TransactionLog, id="TransactionLog"),
         pytest.param(TransitionToolOutput, id="TransitionToolOutput"),
+        pytest.param(EOFFixture, id="EOFFixture"),
     ],
 )
 def test_json_schemas(model: BaseModel):
@@ -1779,6 +1781,7 @@ def test_json_schemas(model: BaseModel):
         pytest.param(RejectedTransaction, id="RejectedTransaction"),
         pytest.param(Result, id="Result"),
         pytest.param(TransitionToolOutput, id="TransitionToolOutput"),
+        pytest.param(EOFFixture, id="EOFFixture"),
     ],
 )
 def test_json_examples(model: CamelModel):

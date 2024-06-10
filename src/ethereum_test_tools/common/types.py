@@ -104,7 +104,7 @@ def example_from_annotation(annotation: Any, field_counter: Iterator[int]) -> An
         return annotation.model_json_example()
     if get_origin(annotation) in (collections.abc.Sequence, list):
         return [example_from_annotation(get_args(annotation)[0], field_counter)]
-    if get_origin(annotation) is dict:
+    if get_origin(annotation) is dict or get_origin(annotation) == collections.abc.Mapping:
         return {
             example_from_annotation(
                 get_args(annotation)[0], field_counter

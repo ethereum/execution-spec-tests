@@ -3,9 +3,9 @@ EOFTest Type Definitions
 """
 
 
-from typing import Any, ClassVar, Mapping
+from typing import Any, ClassVar, List, Mapping
 
-from pydantic import Field
+from pydantic import BaseModel, Field, RootModel
 
 from evm_transition_tool import FixtureFormats
 
@@ -33,6 +33,16 @@ class Result(CamelModel):
         elif self.valid and self.exception is not None:
             raise ValueError("Invalid test: valid but exception is set")
         super().model_post_init(__context)
+
+    @classmethod
+    def model_json_examples(cls) -> List[BaseModel | RootModel]:
+        """
+        Returns JSON examples.
+        """
+        return [
+            cls(exception=EOFException.UNKNOWN_VERSION, valid=False),
+            cls(exception=None, valid=True),
+        ]
 
 
 class Vector(CamelModel):

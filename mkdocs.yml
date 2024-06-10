@@ -11,6 +11,7 @@ plugins:
       exclude:
         - tests/*
         - tool_specs/t8n/types.md
+        - tool_specs/eof/types.md
         - navigation.md
   - glightbox
   - mkdocstrings:
