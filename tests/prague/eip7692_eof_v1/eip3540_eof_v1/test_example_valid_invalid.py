@@ -49,7 +49,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 ],
             ),
             "ef0001010004020001000304000400008000013050000bad",
-            None,
+            EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
             id="undersize_data_ok",
         ),
         pytest.param(
