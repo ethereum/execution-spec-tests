@@ -5,6 +5,7 @@ acl
 addr
 address
 address2
+ase
 alloc
 api
 apis
@@ -343,6 +344,7 @@ time15k
 timestamp
 todo
 toml
+toplevel
 tox
 Tox
 traceback
@@ -508,8 +510,10 @@ gasprice
 extcode
 extcodesize
 extcodecopy
+returndata
 returndatasize
 returndatacopy
+returndataload
 extcodehash
 blockhash
 coinbase

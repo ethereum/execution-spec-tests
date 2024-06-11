@@ -18,6 +18,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add tests for [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685) ([#530](https://github.com/ethereum/execution-spec-tests/pull/530)).
 - ✨ Add tests for [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935) ([#564](https://github.com/ethereum/execution-spec-tests/pull/564)).
 - ✨ Add tests for [EIP-4200: EOF - Static relative jumps](https://eips.ethereum.org/EIPS/eip-4200) ([#581](https://github.com/ethereum/execution-spec-tests/pull/581)).
+- ✨ Add tests for [EIP-7069: EOF - Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069) ([#595](https://github.com/ethereum/execution-spec-tests/pull/595)).
+- 🐞 Fix typos in self-destruct collision test from erroneous pytest parametrization ([#608](https://github.com/ethereum/execution-spec-tests/pull/608)).
 
 ### 🛠️ Framework
 
@@ -37,6 +39,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add more Transaction and Block exceptions from existing ethereum/tests repo ([#572](https://github.com/ethereum/execution-spec-tests/pull/572)).
 - ✨ Add "description" and "url" fields containing test case documentation and a source code permalink to fixtures during `fill` and use them in `consume`-generated Hive test reports ([#579](https://github.com/ethereum/execution-spec-tests/pull/579)).
 - ✨ Add git workflow evmone coverage script for any new lines mentioned in converted_ethereum_tests.txt ([#503](https://github.com/ethereum/execution-spec-tests/pull/503)).
+- ✨ Add a new covariant marker `with_all_contract_creating_tx_types` that allows automatic parametrization of a test with all contract-creating transaction types at the current executing fork ([#602](https://github.com/ethereum/execution-spec-tests/pull/602)).
 - ✨ Enable loading of [ethereum/tests/BlockchainTests](https://github.com/ethereum/tests/tree/develop/BlockchainTests) ([#596](https://github.com/ethereum/execution-spec-tests/pull/596)).
 
 ### 🔧 EVM Tools
@@ -52,6 +55,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Relax minor and patch dependency requirements to avoid conflicting package dependencies ([#510](https://github.com/ethereum/execution-spec-tests/pull/510)).
 - 🔀 Update all CI actions to use their respective Node.js 20 versions, ahead of their Node.js 16 version deprecations ([#527](https://github.com/ethereum/execution-spec-tests/pull/527)).
 - ✨ Releases now contain a `fixtures_eip7692.tar.gz` which contains all EOF fixtures ([#573](https://github.com/ethereum/execution-spec-tests/pull/573)).
+- ✨ Use `solc-select` for tox when running locally and within CI ([#604](https://github.com/ethereum/execution-spec-tests/pull/604)).
 
 ### 💥 Breaking Change
 
