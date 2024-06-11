@@ -3,6 +3,7 @@ Helper methods to resolve forks during test filling
 """
 from typing import List, Optional
 
+from pydantic.json_schema import JsonSchemaValue
 from semver import Version
 
 from .base_fork import BaseFork, Fork
@@ -165,3 +166,22 @@ def forks_from(fork: Fork, deployed_only: bool = True) -> List[Fork]:
     else:
         latest_fork = get_forks()[-1]
     return forks_from_until(fork, latest_fork)
+
+
+class Forks:
+    """
+    Helper class to get forks as a JSON schema
+    """
+
+    @classmethod
+    def model_json_schema(cls) -> JsonSchemaValue:
+        """
+        Returns the JSON schema for the Forks type.
+        """
+        json_schema = {
+            "title": "Fork",
+            "description": "The fork to use for the test",
+            "type": "string",
+            "enum": [fork.name() for fork in get_forks()],
+        }
+        return json_schema
