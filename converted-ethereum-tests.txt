@@ -1,1 +1,2 @@
 EOFTests/EIP3540/validInvalid.json
+GeneralStateTests/stChainId/chainId.json
