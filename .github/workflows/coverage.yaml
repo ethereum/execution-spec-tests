@@ -58,6 +58,15 @@ jobs:
             GeneralStateTests
             EOFTests
 
+      - name: Checkout ethereum/legacytests
+        uses: actions/checkout@v4
+        with:
+          repository: ethereum/legacytests
+          path: legacytestpath
+          sparse-checkout: |
+            Cancun/GeneralStateTests
+
+
       # This command diffs the file and filters in new lines
       - name: Parse converted tests from converted-ethereum-tests.txt
         run: |
@@ -74,9 +83,15 @@ jobs:
               echo $file
           done
 
-          mkdir -p ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+          BASE_TESTS_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+          mkdir -p $BASE_TESTS_PATH
           for file in $files; do
-              cp ${{ github.workspace }}/testpath/$file ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+              cp ${{ github.workspace }}/testpath/$file $BASE_TESTS_PATH
+              if [[ "$file" == *"GeneralStateTests"* ]]; then
+                  base_name=$(basename "$file")
+                  legacy_file_name="legacy_$base_name"
+                  cp ${{ github.workspace }}/legacytestpath/Cancun/$file $BASE_TESTS_PATH/$legacy_file_name
+              fi
           done
           
 
