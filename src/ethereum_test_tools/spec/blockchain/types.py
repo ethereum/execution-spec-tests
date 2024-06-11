@@ -43,6 +43,7 @@ from ...common.base_types import (
 from ...common.constants import EmptyOmmersRoot, EngineAPIError
 from ...common.types import (
     Alloc,
+    AuthorizationTupleGeneric,
     CamelModel,
     DepositRequest,
     DepositRequestGeneric,
@@ -519,10 +520,27 @@ class FixtureEngineNewPayload(CamelModel):
         return new_payload
 
 
+class FixtureAuthorizationTuple(AuthorizationTupleGeneric[ZeroPaddedHexNumber]):
+    """
+    Authorization tuple for fixture transactions.
+    """
+
+    @classmethod
+    def from_authorization_tuple(
+        cls, auth_tuple: AuthorizationTupleGeneric
+    ) -> "FixtureAuthorizationTuple":
+        """
+        Returns a FixtureAuthorizationTuple from an AuthorizationTuple.
+        """
+        return cls(**auth_tuple.model_dump())
+
+
 class FixtureTransaction(TransactionFixtureConverter, TransactionGeneric[ZeroPaddedHexNumber]):
     """
     Representation of an Ethereum transaction within a test Fixture.
     """
+
+    authorization_tuples: List[FixtureAuthorizationTuple] | None = None
 
     @classmethod
     def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
