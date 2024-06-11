@@ -15,6 +15,7 @@ from .code import (
     YulCompiler,
 )
 from .common import (
+    EOA,
     AccessList,
     Account,
     Address,
@@ -24,7 +25,6 @@ from .common import (
     Environment,
     Hash,
     Removable,
-    Sender,
     Storage,
     TestAddress,
     TestAddress2,
@@ -100,7 +100,7 @@ __all__ = (
     "ReferenceSpec",
     "ReferenceSpecTypes",
     "Removable",
-    "Sender",
+    "EOA",
     "StateTest",
     "StateTestFiller",
     "Storage",

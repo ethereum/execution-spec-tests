@@ -503,9 +503,11 @@ class Account(CopyValidateModel):
         return cls(**kwargs)
 
 
-class Sender(Address):
+class EOA(Address):
     """
-    Address of the sender of a transaction.
+    An Externally Owned Account (EOA) is an account controlled by a private key.
+
+    The EOA is defined by its address and (optionally) by its corresponding private key.
     """
 
     key: Hash | None
@@ -513,40 +515,48 @@ class Sender(Address):
 
     def __new__(
         cls,
-        address: "FixedSizeBytesConvertible | Address | Sender | None" = None,
+        address: "FixedSizeBytesConvertible | Address | EOA | None" = None,
         *,
         key: FixedSizeBytesConvertible | None = None,
         nonce: NumberConvertible = 0,
     ):
         """
-        Init the sender.
+        Init the EOA.
         """
         if address is None:
             if key is None:
-                raise ValueError("impossible to initialize sender without address")
+                raise ValueError("impossible to initialize EOA without address")
             private_key = PrivateKey(Hash(key))
             public_key = private_key.public_key
             address = Address(keccak256(public_key.format(compressed=False)[1:])[32 - 20 :])
-        elif isinstance(address, Sender):
+        elif isinstance(address, EOA):
             return address
-        instance = super(Sender, cls).__new__(cls, address)
+        instance = super(EOA, cls).__new__(cls, address)
         instance.key = Hash(key) if key is not None else None
         instance.nonce = Number(nonce)
         return instance
 
-    def copy(self) -> "Sender":
+    def get_nonce(self) -> Number:
         """
-        Returns a copy of the sender.
+        Returns the current nonce of the EOA and increments it by one.
         """
-        return Sender(Address(self), key=self.key, nonce=self.nonce)
+        nonce = self.nonce
+        self.nonce = Number(nonce + 1)
+        return nonce
+
+    def copy(self) -> "EOA":
+        """
+        Returns a copy of the EOA.
+        """
+        return EOA(Address(self), key=self.key, nonce=self.nonce)
 
 
 @cache
-def sender_by_index(i: int) -> Sender:
+def eoa_by_index(i: int) -> EOA:
     """
-    Returns a sender by index.
+    Returns an EOA by index.
     """
-    return Sender(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0)
+    return EOA(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0)
 
 
 class AllocMode(IntEnum):
@@ -775,23 +785,23 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         contract_address.label = label
         return contract_address
 
-    def fund_sender(self, amount: NumberConvertible, label: str | None = None) -> Sender:
+    def fund_eoa(self, amount: NumberConvertible, label: str | None = None) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
-        for sender in (sender_by_index(i) for i in count()):
-            if sender not in self:
-                self[sender] = Account(
+        for eoa in (eoa_by_index(i) for i in count()):
+            if eoa not in self:
+                self[eoa] = Account(
                     nonce=0,
                     balance=amount,
                 )
-                return sender.copy()
+                return eoa.copy()
         raise ValueError("no more senders available")
 
     def fund_address(self, address: Address, amount: NumberConvertible):
         """
         Fund an address with a given amount.
-        
+
         If the address is already present in the pre-alloc the amount will be
         added to its existing balance.
         """
@@ -992,7 +1002,7 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     v: NumberBoundTypeVar | None = None
     r: NumberBoundTypeVar | None = None
     s: NumberBoundTypeVar | None = None
-    sender: Sender | None = None
+    sender: EOA | None = None
 
 
 class TransactionFixtureConverter(CamelModel):
@@ -1124,7 +1134,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
                 self.secret_key = self.sender.key
             else:
                 self.secret_key = Hash(TestPrivateKey)
-                self.sender = Sender(address=TestAddress, key=self.secret_key, nonce=0)
+                self.sender = EOA(address=TestAddress, key=self.secret_key, nonce=0)
 
         # Set default values for fields that are required for certain tx types
         if self.ty <= 1 and self.gas_price is None:
@@ -1141,8 +1151,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             self.max_fee_per_blob_gas = 1
 
         if "nonce" not in self.model_fields_set and self.sender is not None:
-            self.nonce = self.sender.nonce
-            self.sender.nonce += 1
+            self.nonce = HexNumber(self.sender.get_nonce())
 
     def with_error(
         self, error: List[TransactionException] | TransactionException

@@ -646,7 +646,7 @@ def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mappin
     """
     pre = Alloc()
     code_address = pre.deploy_contract(switch_bytecode)
-    sender = pre.fund_sender(10_000_000)
+    sender = pre.fund_eoa(10_000_000)
     tx = Transaction(to=code_address, data=tx_data, gas_limit=1_000_000, sender=sender)
     post = {sender: Account(nonce=1), code_address: Account(storage=expected_storage)}
     state_test = StateTest(

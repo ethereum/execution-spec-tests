@@ -291,7 +291,7 @@ class EOFStateTest(EOFTest):
         """
         assert self.pre is not None, "pre must be set to generate a StateTest."
         container_address = self.pre.deploy_contract(code=self.data)
-        sender = self.pre.fund_sender(amount=self.tx_sender_funding_amount)
+        sender = self.pre.fund_eoa(amount=self.tx_sender_funding_amount)
         tx = Transaction(
             to=container_address,
             gas_limit=self.tx_gas_limit,

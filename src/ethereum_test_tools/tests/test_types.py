@@ -391,11 +391,11 @@ def test_alloc_deploy_contract():
 
 def test_alloc_fund_sender():
     """
-    Test `Alloc.fund_sender` functionallity.
+    Test `Alloc.fund_eoa` functionallity.
     """
     alloc = Alloc()
-    sender_1 = alloc.fund_sender(10**18)
-    sender_2 = alloc.fund_sender(10**18)
+    sender_1 = alloc.fund_eoa(10**18)
+    sender_2 = alloc.fund_eoa(10**18)
     assert sender_1 != sender_2
     assert sender_1 in alloc
     assert sender_2 in alloc

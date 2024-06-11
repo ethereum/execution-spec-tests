@@ -36,6 +36,7 @@ from .helpers import (
 )
 from .json import to_json
 from .types import (
+    EOA,
     AccessList,
     Account,
     Alloc,
@@ -43,7 +44,6 @@ from .types import (
     Environment,
     Removable,
     Requests,
-    Sender,
     Storage,
     Transaction,
     Withdrawal,
@@ -70,7 +70,7 @@ __all__ = (
     "Number",
     "Removable",
     "Requests",
-    "Sender",
+    "EOA",
     "Storage",
     "TestParameterGroup",
     "TestAddress",

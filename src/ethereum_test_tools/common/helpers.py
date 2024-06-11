@@ -10,7 +10,7 @@ from ethereum.rlp import encode
 
 from .base_types import Address, Bytes, Hash
 from .conversions import BytesConvertible, FixedSizeBytesConvertible
-from .types import Sender
+from .types import EOA
 
 """
 Helper functions
@@ -25,12 +25,12 @@ def ceiling_division(a: int, b: int) -> int:
     return -(a // -b)
 
 
-def compute_create_address(address: FixedSizeBytesConvertible | Sender, nonce: int = 0) -> Address:
+def compute_create_address(address: FixedSizeBytesConvertible | EOA, nonce: int = 0) -> Address:
     """
     Compute address of the resulting contract created using a transaction
     or the `CREATE` opcode.
     """
-    if isinstance(address, Sender):
+    if isinstance(address, EOA):
         nonce = address.nonce
     else:
         address = Address(address)

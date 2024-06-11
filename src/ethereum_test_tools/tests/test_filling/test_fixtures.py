@@ -96,7 +96,7 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
         ),
         balance=0x0BA1A9CE0BA1A9CE,
     )
-    pre.fund_sender(0x0BA1A9CE0BA1A9CE)
+    pre.fund_eoa(0x0BA1A9CE0BA1A9CE)
 
     t8n = GethTransitionTool()
     fixture = BlockchainTest(
