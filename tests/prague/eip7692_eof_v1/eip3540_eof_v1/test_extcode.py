@@ -56,7 +56,7 @@ def test_legacy_calls_eof_sstore(
     )
     address_test_contract = pre.deploy_contract(test_contract_code)
 
-    sender = pre.fund_sender(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
 
     tx = Transaction(
         sender=sender,

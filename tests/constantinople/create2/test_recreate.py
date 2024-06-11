@@ -29,7 +29,7 @@ def test_recreate(
         0, 0, Op.CALLDATASIZE, 0
     )
     creator_address = pre.deploy_contract(creator_contract_code)
-    sender = pre.fund_sender(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
 
     deploy_code = Yul(
         """

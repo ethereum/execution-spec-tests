@@ -309,7 +309,7 @@ def test_valid_deposit_withdrawal_request_from_same_tx(
             )
         )
 
-    sender = pre.fund_sender(10**18)
+    sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
         code=contract_code,
         balance=deposit_request.value + withdrawal_request_fee,

@@ -53,7 +53,7 @@ def test_cross_version_creates_fail(
     """
     env = Environment()
     salt_param = [0] if legacy_create_opcode == Op.CREATE2 else []
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(
         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         + Op.SSTORE(slot_create_address, legacy_create_opcode(0, 0, Op.CALLDATASIZE, *salt_param))
@@ -120,7 +120,7 @@ def test_legacy_initcode_eof_contract_fails(
         + Op.SSTORE(slot_code_worked, value_code_worked)
     )
 
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(code=factory_code)
 
     # Storage in 0 should be empty as the final CREATE filed

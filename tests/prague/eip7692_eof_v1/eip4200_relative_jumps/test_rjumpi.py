@@ -44,7 +44,7 @@ def test_rjumpi_condition_forwards(
 ):
     """Test RJUMPI contract switching based on external input"""
     env = Environment()
-    sender = pre.fund_sender(10**18)
+    sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -90,7 +90,7 @@ def test_rjumpi_condition_backwards(
 ):
     """Test RJUMPI contract switching based on external input"""
     env = Environment()
-    sender = pre.fund_sender(10**18)
+    sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -138,7 +138,7 @@ def test_rjumpi_condition_zero(
 ):
     """Test RJUMPI contract switching based on external input"""
     env = Environment()
-    sender = pre.fund_sender(10**18)
+    sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[

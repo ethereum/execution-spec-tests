@@ -28,11 +28,11 @@ from typing import Dict
 import pytest
 
 from ethereum_test_tools import (
+    EOA,
     Account,
     Address,
     Alloc,
     Environment,
-    Sender,
     StateTestFiller,
     Transaction,
 )
@@ -75,11 +75,11 @@ def callee_code(callee_opcode: Op) -> bytes:
 
 
 @pytest.fixture
-def sender(pre: Alloc) -> Sender:
+def sender(pre: Alloc) -> EOA:
     """
     Sender for all transactions.
     """
-    return pre.fund_sender(0x0BA1A9CE)
+    return pre.fund_eoa(0x0BA1A9CE)
 
 
 @pytest.fixture
@@ -119,7 +119,7 @@ def caller_address(pre: Alloc, caller_code: bytes) -> Address:
 
 
 @pytest.fixture
-def caller_tx(sender: Sender, caller_address: Address) -> Transaction:
+def caller_tx(sender: EOA, caller_address: Address) -> Transaction:
     """Transaction that performs the call to the caller contract."""
     return Transaction(
         chain_id=0x01,

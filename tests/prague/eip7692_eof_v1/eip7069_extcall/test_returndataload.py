@@ -87,7 +87,7 @@ def test_returndatacopy_handling(
 
     slot_result_start = 0x1000
 
-    sender = pre.fund_sender(10**18)
+    sender = pre.fund_eoa(10**18)
 
     address_returner = pre.deploy_contract(
         Container(
@@ -219,7 +219,7 @@ def test_returndataload_handling(
 
     slot_result_start = 0x1000
 
-    sender = pre.fund_sender(10**18)
+    sender = pre.fund_eoa(10**18)
     address_returner = pre.deploy_contract(
         Container(
             sections=[

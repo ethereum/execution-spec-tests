@@ -96,7 +96,7 @@ def test_block_hashes_history_at_transition(
     blocks: List[Block] = []
     assert blocks_before_fork >= 1 and blocks_before_fork < FORK_TIMESTAMP
 
-    sender = pre.fund_sender(10_000_000_000)
+    sender = pre.fund_eoa(10_000_000_000)
     post: Dict[Address, Account] = {}
 
     for i in range(1, blocks_before_fork):

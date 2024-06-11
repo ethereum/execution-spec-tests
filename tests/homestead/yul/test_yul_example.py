@@ -37,7 +37,7 @@ def test_yul(state_test: StateTestFiller, pre: Alloc, yul: YulCompiler, fork: Fo
         ),
         balance=0x0BA1A9CE0BA1A9CE,
     )
-    sender = pre.fund_sender(amount=0x0BA1A9CE0BA1A9CE)
+    sender = pre.fund_eoa(amount=0x0BA1A9CE0BA1A9CE)
 
     tx = Transaction(
         ty=0x0,

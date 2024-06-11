@@ -322,7 +322,7 @@ def test_eof_functions_contract_call_succeed(
     """
     env = Environment()
 
-    sender = pre.fund_sender(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
     container_address = pre.deploy_contract(container)
     caller_contract = Op.SSTORE(0, Op.CALL(Op.GAS, container_address, 0, 0, 0, 0, 0)) + Op.STOP()
     caller_address = pre.deploy_contract(caller_contract)
@@ -357,7 +357,7 @@ def test_eof_functions_contract_call_fail(
     """
     env = Environment()
 
-    sender = pre.fund_sender(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
     container_address = pre.deploy_contract(container)
     caller_contract = Op.SSTORE(Op.CALL(Op.GAS, container_address, 0, 0, 0, 0, 0), 1) + Op.STOP()
     caller_address = pre.deploy_contract(caller_contract)
@@ -428,7 +428,7 @@ def test_eof_functions_contract_call_within_deep_nested(
         ],
     )
     callee_address = pre.deploy_contract(contract_call_within_deep_nested_callf)
-    sender = pre.fund_sender(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
 
     tx = Transaction(
         to=callee_address,

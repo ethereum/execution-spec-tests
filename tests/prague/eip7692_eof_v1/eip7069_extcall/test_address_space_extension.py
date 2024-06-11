@@ -93,7 +93,7 @@ def test_address_space_extension(
         case _:
             raise ValueError("Unexpected opcode ", target_opcode)
 
-    sender = pre.fund_sender(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
 
     address_caller = pre.deploy_contract(
         Container(
@@ -143,7 +143,7 @@ def test_address_space_extension(
             pass
         case "EOA":
             pre.fund_address(Address(stripped_address), 10**18)
-            # TODO: we could use pre.fund_sender here with nonce!=0.
+            # TODO: we could use pre.fund_eoa here with nonce!=0.
         case "LegacyContract":
             pre[Address(stripped_address)] = Account(
                 code=Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32),

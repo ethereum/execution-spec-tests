@@ -7,12 +7,12 @@ from typing import Dict, List
 import pytest
 
 from ethereum_test_tools import (
+    EOA,
     Account,
     Address,
     Alloc,
     Environment,
     EOFTestFiller,
-    Sender,
     Transaction,
     compute_eofcreate_address,
 )
@@ -51,7 +51,7 @@ def env():  # noqa: D103
 
 @pytest.fixture
 def sender(pre: Alloc):  # noqa: D103
-    return pre.fund_sender(1_000_000_000_000_000_000_000)
+    return pre.fund_eoa(1_000_000_000_000_000_000_000)
 
 
 @pytest.fixture
@@ -69,7 +69,7 @@ def create3_opcode_contract_address(  # noqa: D103
 
 @pytest.fixture
 def txs(  # noqa: D103
-    sender: Sender,
+    sender: EOA,
     create3_opcode_contract_address: Address,
 ) -> List[Transaction]:
     return [

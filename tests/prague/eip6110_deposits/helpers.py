@@ -6,11 +6,11 @@ from functools import cached_property
 from hashlib import sha256 as sha256_hashlib
 from typing import Callable, ClassVar, List
 
-from ethereum_test_tools import Address, Alloc
+from ethereum_test_tools import EOA, Address, Alloc
 from ethereum_test_tools import DepositRequest as DepositRequestBase
 from ethereum_test_tools import Hash
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import Sender, Transaction
+from ethereum_test_tools import Transaction
 
 from .spec import Spec
 
@@ -102,7 +102,7 @@ class DepositInteractionBase:
     """
     Balance of the account that sends the transaction.
     """
-    sender_account: Sender | None = None
+    sender_account: EOA | None = None
     """
     Account that sends the transaction.
     """
@@ -145,7 +145,7 @@ class DepositTransaction(DepositInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_sender(self.sender_balance)
+        self.sender_account = pre.fund_eoa(self.sender_balance)
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
         """Return the list of deposit requests that should be included in the block."""
@@ -227,7 +227,7 @@ class DepositContract(DepositInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_sender(self.sender_balance)
+        self.sender_account = pre.fund_eoa(self.sender_balance)
         self.contract_address = pre.deploy_contract(
             code=self.contract_code, balance=self.contract_balance
         )

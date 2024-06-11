@@ -6,7 +6,7 @@ from typing import SupportsBytes
 import pytest
 from ethereum.crypto.hash import keccak256
 
-from ethereum_test_tools import Address, Alloc, Sender, Storage, Transaction
+from ethereum_test_tools import EOA, Address, Alloc, Storage, Transaction
 from ethereum_test_tools.vm import Opcodes as Op
 
 from .spec import GAS_CALCULATION_FUNCTION_MAP
@@ -134,9 +134,9 @@ def call_contract_address(pre: Alloc, call_contract_code: bytes) -> Address:
 
 
 @pytest.fixture
-def sender(pre: Alloc) -> Sender:
+def sender(pre: Alloc) -> EOA:
     """Sender of the transaction."""
-    return pre.fund_sender(1_000_000_000_000_000)
+    return pre.fund_eoa(1_000_000_000_000_000)
 
 
 @pytest.fixture
@@ -162,7 +162,7 @@ def tx(
     input: bytes,
     tx_gas_limit: int,
     call_contract_address: Address,
-    sender: Sender,
+    sender: EOA,
 ) -> Transaction:
     """Transaction for the test."""
     return Transaction(

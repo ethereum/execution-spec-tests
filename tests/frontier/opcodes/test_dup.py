@@ -48,7 +48,7 @@ def test_dup(
         by Ori Pomerantz.
     """  # noqa: E501
     env = Environment()
-    sender = pre.fund_sender(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
     post = {}
 
     # Push 0x00 - 0x10 onto the stack

@@ -76,7 +76,7 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
         ],
     )
 
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(code=factory_contract)
 
     post = {
@@ -107,7 +107,7 @@ def test_initcode_aborts(
     Verifies correct handling of a halt in EOF initcode
     """
     env = Environment()
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -213,7 +213,7 @@ def test_eofcreate_deploy_sizes(
         len(initcode_subcontainer),
     )
 
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -306,7 +306,7 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
         ],
     )
 
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -379,7 +379,7 @@ def test_eofcreate_insufficient_stipend(
             Section.Container(container=smallest_initcode_subcontainer),
         ]
     )
-    sender = pre.fund_sender(10**11)
+    sender = pre.fund_eoa(10**11)
     contract_address = pre.deploy_contract(
         code=initcode_container,
         balance=value - 1,
@@ -427,7 +427,7 @@ def test_insufficient_initcode_gas(
         ],
     )
 
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -490,7 +490,7 @@ def test_insufficient_gas_memory_expansion(
             Section.Container(container=smallest_initcode_subcontainer),
         ],
     )
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(
         code=initcode_container,
         storage={
@@ -551,7 +551,7 @@ def test_insufficient_returncontract_auxdata_gas(
         ],
     )
 
-    sender = pre.fund_sender(10**21)
+    sender = pre.fund_eoa(10**21)
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[

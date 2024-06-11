@@ -6,11 +6,11 @@ import itertools
 import pytest
 
 from ethereum_test_tools import (
+    EOA,
     Account,
     Address,
     Alloc,
     Environment,
-    Sender,
     StateTestFiller,
     Storage,
     TestAddress,
@@ -55,11 +55,11 @@ contract_eof_sstore = Container(
 
 
 @pytest.fixture
-def sender(pre: Alloc) -> Sender:
+def sender(pre: Alloc) -> EOA:
     """
     The sender of the transaction
     """
-    return pre.fund_sender(1_000_000_000_000_000_000_000)
+    return pre.fund_eoa(1_000_000_000_000_000_000_000)
 
 
 @pytest.mark.parametrize(
@@ -75,7 +75,7 @@ def sender(pre: Alloc) -> Sender:
 def test_legacy_calls_eof_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
-    sender: Sender,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
@@ -141,7 +141,7 @@ def test_legacy_calls_eof_sstore(
 def test_legacy_calls_eof_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
-    sender: Sender,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
@@ -208,7 +208,7 @@ def test_legacy_calls_eof_mstore(
 def test_eof_calls_eof_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
-    sender: Sender,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
@@ -277,7 +277,7 @@ def test_eof_calls_eof_sstore(
 def test_eof_calls_eof_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
-    sender: Sender,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
@@ -350,7 +350,7 @@ def test_eof_calls_eof_mstore(
 def test_eof_calls_legacy_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
-    sender: Sender,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
@@ -419,7 +419,7 @@ def test_eof_calls_legacy_sstore(
 def test_eof_calls_legacy_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
-    sender: Sender,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):

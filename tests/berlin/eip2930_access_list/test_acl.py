@@ -23,7 +23,7 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
         Op.PC + Op.SLOAD + Op.POP + Op.PC + Op.SLOAD,
         balance=0x03,
     )
-    sender = pre.fund_sender(0x300000)
+    sender = pre.fund_eoa(0x300000)
 
     tx = Transaction(
         ty=1,
