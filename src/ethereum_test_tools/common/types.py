@@ -565,9 +565,9 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
 
     root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
 
-    alloc_mode: ClassVar[AllocMode] = AllocMode.PERMISSIVE
-    start_contract_address: ClassVar[int] = 0x1000
-    contract_address_increments: ClassVar[int] = 0x100
+    _alloc_mode: ClassVar[AllocMode] = AllocMode.PERMISSIVE
+    _start_contract_address: ClassVar[int] = 0x1000
+    _contract_address_increments: ClassVar[int] = 0x100
 
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
@@ -618,6 +618,20 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                 merged.pop(address, None)
 
         return Alloc(merged)
+
+    def __init_subclass__(
+        cls,
+        *,
+        alloc_mode: AllocMode = AllocMode.PERMISSIVE,
+        start_contract_address: int = 0x1000,
+        contract_address_increments: int = 0x100,
+    ) -> None:
+        """
+        Initializes the new Alloc sub-class.
+        """
+        cls._alloc_mode = alloc_mode
+        cls._start_contract_address = start_contract_address
+        cls._contract_address_increments = contract_address_increments
 
     def __iter__(self):
         """
@@ -728,16 +742,16 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         contract address. Do NOT use in new tests as it will be removed in the future!
         """
         if address is not None:
-            assert self.alloc_mode == AllocMode.PERMISSIVE, "address parameter is not supported"
+            assert self._alloc_mode == AllocMode.PERMISSIVE, "address parameter is not supported"
             assert address not in self, f"address {address} already in allocation"
             contract_address = address
         else:
-            current_address = self.start_contract_address
+            current_address = self._start_contract_address
             while current_address in self:
-                current_address += self.contract_address_increments
+                current_address += self._contract_address_increments
             contract_address = Address(current_address)
 
-        if self.alloc_mode == AllocMode.STRICT:
+        if self._alloc_mode == AllocMode.STRICT:
             assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 
         self[contract_address] = Account(

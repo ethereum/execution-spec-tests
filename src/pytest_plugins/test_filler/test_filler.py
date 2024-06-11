@@ -9,7 +9,7 @@ writes the generated fixtures to file.
 import os
 import warnings
 from pathlib import Path
-from typing import Generator, List, Optional, Type
+from typing import Any, Dict, Generator, List, Optional, Type
 
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
@@ -408,28 +408,34 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def configure_pre_alloc(request):
+def alloc_class(request) -> Type[Alloc]:
     """
     Modifies the `Alloc` class for all instances to have the same configuration.
     """
+    kw_args: Dict[str, Any] = {}
     if request.config.getoption("strict_alloc"):
-        Alloc.alloc_mode = AllocMode.STRICT
+        kw_args["alloc_mode"] = AllocMode.STRICT
     if request.config.getoption("test_contract_start_address"):
-        Alloc.start_contract_address = int(
+        kw_args["start_contract_address"] = int(
             request.config.getoption("test_contract_start_address"), 0
         )
     if request.config.getoption("test_contract_address_increments"):
-        Alloc.contract_address_increments = int(
+        kw_args["contract_address_increments"] = int(
             request.config.getoption("test_contract_address_increments"), 0
         )
 
+    class AllocSubclass(Alloc, **kw_args):
+        pass
+
+    return AllocSubclass
+
 
 @pytest.fixture(autouse=True)
-def pre() -> Alloc:
+def pre(alloc_class: Type[Alloc]) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
     """
-    return Alloc()
+    return alloc_class()
 
 
 @pytest.fixture(scope="session")
