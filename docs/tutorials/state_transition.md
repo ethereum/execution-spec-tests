@@ -95,7 +95,7 @@ For more information, [see the static test documentation](../consuming_tests/sta
 #### Pre State
 
 For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the test executes.
-It can be used as a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), which is the Python term for an associative array, but the appropriate way to populate it is by using the methods `fund_sender`, `deploy_contract` or `fund_address` from the `Alloc` object.
+It can be used as a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), which is the Python term for an associative array, but the appropriate way to populate it is by using the methods `fund_eoa`, `deploy_contract` or `fund_address` from the `Alloc` object.
 
 In this example we are using the `deploy_contract` method to deploy a contract to some address available in the pre-state.
 
@@ -167,12 +167,12 @@ Within this example test Yul code we have a function definition, and inside it w
 Generally for execution spec tests the `sstore` instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the Yul code has run successfully.
 
 ```python
-    sender = pre.fund_sender(amount=0x0BA1A9CE0BA1A9CE)
+    sender = pre.fund_eoa(amount=0x0BA1A9CE0BA1A9CE)
 ```
 
-In this line we specify that we require a single sender account with a balance of `0x0BA1A9CE0BA1A9CE` Wei.
+In this line we specify that we require a single externally owned account (EOA) with a balance of `0x0BA1A9CE0BA1A9CE` Wei.
 
-The returned sender information, which includes the private key, address, and nonce, is stored in the `sender` variable and this will be later used in the transaction.
+The returned object, which includes a private key, an address, and a nonce, is stored in the `sender` variable and will later be used as the sender of the transaction.
 
 #### Transactions
 
