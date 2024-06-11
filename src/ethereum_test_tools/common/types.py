@@ -5,7 +5,7 @@ Useful types for generating Ethereum tests.
 import inspect
 from dataclasses import dataclass
 from enum import IntEnum
-from functools import cached_property
+from functools import cache, cached_property
 from itertools import count
 from typing import (
     Any,
@@ -541,11 +541,12 @@ class Sender(Address):
         return Sender(Address(self), key=self.key, nonce=self.nonce)
 
 
-MAX_SENDERS = 50
-SENDERS_ITER = iter(
-    Sender(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0) for i in count(0)
-)
-SENDERS = [next(SENDERS_ITER) for _ in range(MAX_SENDERS)]
+@cache
+def sender_by_index(i: int) -> Sender:
+    """
+    Returns a sender by index.
+    """
+    return Sender(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0)
 
 
 class AllocMode(IntEnum):
@@ -764,7 +765,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
-        for sender in SENDERS:
+        for sender in (sender_by_index(i) for i in count()):
             if sender not in self:
                 self[sender] = Account(
                     nonce=0,
