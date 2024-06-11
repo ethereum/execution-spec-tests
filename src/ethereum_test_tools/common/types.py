@@ -776,6 +776,9 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
     def fund_address(self, address: Address, amount: NumberConvertible):
         """
         Fund an address with a given amount.
+        
+        If the address is already present in the pre-alloc the amount will be
+        added to its existing balance.
         """
         if address in self:
             account = self[address]
