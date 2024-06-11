@@ -1,6 +1,6 @@
 # Ethereum EVM Object Format code verification tool
 
-Each client is requiencouragedred to implement the `evm eof` tool, which is used to validate EOF code tests by verifying EOF container validity.
+Each client is encouraged to implement the `evm eof` tool, which is used to validate EOF code tests by verifying EOF container validity.
 
 ## Inputs
 

@@ -291,6 +291,7 @@ readme
 readthedocs
 reentrancy
 reentrant
+RejectedTransaction
 repo
 repo's
 repos
@@ -342,6 +343,7 @@ testability
 TestAddress
 TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
+TestPass
 textwrap
 tf
 ThreeHrSleep
@@ -355,6 +357,8 @@ tox
 Tox
 traceback
 TransactionException
+TransactionLog
+TransitionToolOutput
 trie
 triggerable
 tstorage
