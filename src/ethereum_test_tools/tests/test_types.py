@@ -1751,6 +1751,7 @@ def test_parsing(json_str: str, type_adapter: TypeAdapter, expected: Any):
 @pytest.mark.parametrize(
     "model",
     [
+        pytest.param(Alloc, id="Alloc"),
         pytest.param(Environment, id="Environment"),
         pytest.param(RejectedTransaction, id="RejectedTransaction"),
         pytest.param(Result, id="Result"),

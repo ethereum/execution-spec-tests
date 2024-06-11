@@ -62,3 +62,12 @@ class Fixture(BaseFixture):
     vectors: Mapping[str, Vector]
 
     format: ClassVar[FixtureFormats] = FixtureFormats.EOF_TEST
+
+
+class TestPass(CamelModel):
+    """
+    Output from execution of a single test by the EOF parser tool.
+    """
+
+    result: bool = Field(..., alias="pass")
+    exception: EOFException | None = None
