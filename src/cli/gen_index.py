@@ -25,6 +25,7 @@ from evm_transition_tool import FixtureFormats
 
 from .hasher import HashableItem
 
+# TODO: remove when these tests are ported or fixed within ethereum/tests.
 fixtures_to_skip = set(
     [
         # These fixtures have invalid fields that we can't load into our pydantic models (bigint).
