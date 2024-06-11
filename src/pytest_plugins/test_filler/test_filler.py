@@ -152,14 +152,14 @@ def pytest_addoption(parser):
         ),
     )
     test_group.addoption(
-        "--strict-alloc-mode",
+        "--strict-alloc",
         action="store_true",
         dest="strict_alloc",
         default=False,
         help=("[DEBUG ONLY] Disallows deploying a contract in a predefined address."),
     )
     test_group.addoption(
-        "--test-contract-start-address",
+        "--ca-start",
         action="store",
         dest="test_contract_start_address",
         default=None,
@@ -167,7 +167,7 @@ def pytest_addoption(parser):
         help="The starting address from which tests will deploy contracts.",
     )
     test_group.addoption(
-        "--test-contract-address-increments",
+        "--ca-incr-size",
         action="store",
         dest="test_contract_address_increments",
         default=None,
