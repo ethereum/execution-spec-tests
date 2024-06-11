@@ -9,7 +9,6 @@ from typing import List
 
 import mkdocs_gen_files
 import yaml
-from pydantic import BaseModel, RootModel
 
 from ethereum_test_tools.common.json import to_json
 
@@ -25,16 +24,16 @@ def print_type(module: str | None, type_name: str | None, f: TextIOWrapper):
     if module not in module_cache:
         module_cache[module] = importlib.import_module(module)
     imported_module = module_cache[module]
-    type = getattr(imported_module, type_name)
-    assert issubclass(type, BaseModel) or issubclass(type, RootModel)
-    type_json_schema = type.model_json_schema()
+    ty = getattr(imported_module, type_name)
+    assert hasattr(ty, "model_json_schema"), f"Type {ty} does not have a model_json_schema method"
+    type_json_schema = ty.model_json_schema()
     f.write("#### JSON schema\n\n")
     f.write("```yaml\n")
     f.write(yaml.dump(type_json_schema, indent=2, default_flow_style=False, sort_keys=False))
     f.write("```\n\n")
 
-    if hasattr(type, "model_json_examples"):
-        type_json_examples = type.model_json_examples()
+    if hasattr(ty, "model_json_examples"):
+        type_json_examples = ty.model_json_examples()
         f.write("#### JSON example\n\n")
         for type_json_example in type_json_examples:
             f.write("```json\n")
