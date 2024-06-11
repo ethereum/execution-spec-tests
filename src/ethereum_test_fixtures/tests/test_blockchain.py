@@ -22,6 +22,7 @@ from ethereum_test_exceptions import BlockException, EngineAPIError, Transaction
 from ethereum_test_forks import Prague
 from ethereum_test_types import (
     AccessList,
+    AuthorizationTuple,
     ConsolidationRequest,
     DepositRequest,
     Requests,
@@ -32,6 +33,7 @@ from ethereum_test_types import (
 
 from ..blockchain import (
     EngineNewPayloadParameters,
+    FixtureAuthorizationTuple,
     FixtureBlockBase,
     FixtureEngineNewPayload,
     FixtureExecutionPayload,
