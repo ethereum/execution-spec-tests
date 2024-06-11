@@ -762,7 +762,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
 
     def fund_sender(self, amount: NumberConvertible, label: str | None = None) -> Sender:
         """
-        Fund a sender with a given amount to be able to afford transactions.
+        Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
         for sender in SENDERS:
             if sender not in self:
