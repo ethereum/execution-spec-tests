@@ -403,7 +403,7 @@ def test_alloc_fund_sender():
     assert Address(sender_2) == TestAddress2
     assert alloc[sender_1].balance == 10**18
     assert alloc[sender_2].balance == 10**18
-    
+
 
 @pytest.mark.parametrize(
     ["account_1", "account_2", "expected_account"],
