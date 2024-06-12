@@ -9,7 +9,7 @@ writes the generated fixtures to file.
 import os
 import warnings
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Optional, Type
+from typing import Generator, List, Optional, Type
 
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
@@ -407,35 +407,23 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     t8n.shutdown()
 
 
-@pytest.fixture(autouse=True, scope="session")
-def alloc_class(request) -> Type[Alloc]:
-    """
-    Modifies the `Alloc` class for all instances to have the same configuration.
-    """
-    kw_args: Dict[str, Any] = {}
-    if request.config.getoption("strict_alloc"):
-        kw_args["alloc_mode"] = AllocMode.STRICT
-    if request.config.getoption("test_contract_start_address"):
-        kw_args["start_contract_address"] = int(
-            request.config.getoption("test_contract_start_address"), 0
-        )
-    if request.config.getoption("test_contract_address_increments"):
-        kw_args["contract_address_increments"] = int(
-            request.config.getoption("test_contract_address_increments"), 0
-        )
-
-    class AllocSubclass(Alloc, **kw_args):
-        pass
-
-    return AllocSubclass
-
-
 @pytest.fixture(autouse=True)
-def pre(alloc_class: Type[Alloc]) -> Alloc:
+def pre(request) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
     """
-    return alloc_class()
+    pre = Alloc()
+    if request.config.getoption("strict_alloc"):
+        pre._alloc_mode = AllocMode.STRICT
+    if request.config.getoption("test_contract_start_address"):
+        pre._start_contract_address = int(
+            request.config.getoption("test_contract_start_address"), 0
+        )
+    if request.config.getoption("test_contract_address_increments"):
+        pre._contract_address_increments = int(
+            request.config.getoption("test_contract_address_increments"), 0
+        )
+    return pre
 
 
 @pytest.fixture(scope="session")
