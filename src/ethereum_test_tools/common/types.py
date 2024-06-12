@@ -630,20 +630,6 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
 
         return Alloc(merged)
 
-    def __init_subclass__(
-        cls,
-        *,
-        alloc_mode: AllocMode = AllocMode.PERMISSIVE,
-        start_contract_address: int = 0x1000,
-        contract_address_increments: int = 0x100,
-    ) -> None:
-        """
-        Initializes the new Alloc sub-class.
-        """
-        cls._alloc_mode = alloc_mode
-        cls._start_contract_address = start_contract_address
-        cls._contract_address_increments = contract_address_increments
-
     def __iter__(self):
         """
         Returns an iterator over the allocation.
