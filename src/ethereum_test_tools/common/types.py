@@ -560,6 +560,22 @@ def eoa_by_index(i: int) -> EOA:
     return EOA(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0)
 
 
+def eoa_iterator() -> Iterator[EOA]:
+    """
+    Returns an iterator over EOAs copies.
+    """
+    return iter(eoa_by_index(i).copy() for i in count())
+
+
+def contract_address_iterator(
+    start_address: int = 0x1000, increments: int = 0x100
+) -> Iterator[Address]:
+    """
+    Returns an iterator over contract addresses.
+    """
+    return iter(Address(start_address + (i * increments)) for i in count())
+
+
 class AllocMode(IntEnum):
     """
     Allocation mode for the state.
@@ -577,8 +593,10 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
     root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
 
     _alloc_mode: AllocMode = PrivateAttr(default=AllocMode.PERMISSIVE)
-    _start_contract_address: int = PrivateAttr(default=0x1000)
-    _contract_address_increments: int = PrivateAttr(default=0x100)
+    _contract_address_iterator: Iterator[Address] = PrivateAttr(
+        default_factory=contract_address_iterator
+    )
+    _eoa_iterator: Iterator[EOA] = PrivateAttr(default_factory=eoa_iterator)
 
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
@@ -743,10 +761,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
             assert address not in self, f"address {address} already in allocation"
             contract_address = address
         else:
-            current_address = self._start_contract_address
-            while current_address in self:
-                current_address += self._contract_address_increments
-            contract_address = Address(current_address)
+            contract_address = next(self._contract_address_iterator)
 
         if self._alloc_mode == AllocMode.STRICT:
             assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
@@ -776,14 +791,12 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
-        for eoa in (eoa_by_index(i) for i in count()):
-            if eoa not in self:
-                self[eoa] = Account(
-                    nonce=0,
-                    balance=amount,
-                )
-                return eoa.copy()
-        raise ValueError("no more senders available")
+        eoa = next(self._eoa_iterator)
+        self[eoa] = Account(
+            nonce=0,
+            balance=amount,
+        )
+        return eoa
 
     def fund_address(self, address: Address, amount: NumberConvertible):
         """

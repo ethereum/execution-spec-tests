@@ -22,7 +22,7 @@ from ethereum_test_forks import (
     get_forks_with_solc_support,
 )
 from ethereum_test_tools import SPEC_TYPES, Alloc, BaseTest, FixtureCollector, TestInfo, Yul
-from ethereum_test_tools.common.types import AllocMode
+from ethereum_test_tools.common.types import AllocMode, contract_address_iterator
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -415,14 +415,16 @@ def pre(request) -> Alloc:
     pre = Alloc()
     if request.config.getoption("strict_alloc"):
         pre._alloc_mode = AllocMode.STRICT
-    if request.config.getoption("test_contract_start_address"):
-        pre._start_contract_address = int(
-            request.config.getoption("test_contract_start_address"), 0
-        )
-    if request.config.getoption("test_contract_address_increments"):
-        pre._contract_address_increments = int(
-            request.config.getoption("test_contract_address_increments"), 0
-        )
+    test_contract_start_address = request.config.getoption("test_contract_start_address")
+    test_contract_address_increments = request.config.getoption("test_contract_address_increments")
+    if test_contract_start_address is not None or test_contract_address_increments is not None:
+        kw_args = {}
+        if test_contract_start_address is not None:
+            kw_args["start_address"] = int(test_contract_start_address, 0)
+        if test_contract_address_increments is not None:
+            kw_args["increment"] = int(test_contract_address_increments, 0)
+        pre._contract_address_iterator = contract_address_iterator(**kw_args)
+
     return pre
 
 
