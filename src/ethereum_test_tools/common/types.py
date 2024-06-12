@@ -32,6 +32,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    PrivateAttr,
     RootModel,
     TypeAdapter,
     computed_field,
@@ -575,9 +576,9 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
 
     root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
 
-    _alloc_mode: ClassVar[AllocMode] = AllocMode.PERMISSIVE
-    _start_contract_address: ClassVar[int] = 0x1000
-    _contract_address_increments: ClassVar[int] = 0x100
+    _alloc_mode: AllocMode = PrivateAttr(default=AllocMode.PERMISSIVE)
+    _start_contract_address: int = PrivateAttr(default=0x1000)
+    _contract_address_increments: int = PrivateAttr(default=0x100)
 
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
