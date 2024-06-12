@@ -795,7 +795,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         contract_address.label = label
         return contract_address
 
-    def fund_eoa(self, amount: NumberConvertible, label: str | None = None) -> EOA:
+    def fund_eoa(self, amount: NumberConvertible = 10**21, label: str | None = None) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
