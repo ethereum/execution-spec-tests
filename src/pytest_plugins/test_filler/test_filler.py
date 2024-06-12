@@ -9,7 +9,7 @@ writes the generated fixtures to file.
 import os
 import warnings
 from pathlib import Path
-from typing import Generator, List, Optional, Type
+from typing import Any, Dict, Generator, List, Optional, Type
 
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
@@ -21,7 +21,8 @@ from ethereum_test_forks import (
     get_closest_fork_with_solc_support,
     get_forks_with_solc_support,
 )
-from ethereum_test_tools import SPEC_TYPES, BaseTest, FixtureCollector, TestInfo, Yul
+from ethereum_test_tools import SPEC_TYPES, Alloc, BaseTest, FixtureCollector, TestInfo, Yul
+from ethereum_test_tools.common.types import AllocMode
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -149,6 +150,31 @@ def pytest_addoption(parser):
             "Don't generate an HTML test report (in the output directory). "
             "The --html flag can be used to specify a different path."
         ),
+    )
+    test_group.addoption(
+        "--strict-alloc",
+        action="store_true",
+        dest="strict_alloc",
+        default=False,
+        help=("[DEBUG ONLY] Disallows deploying a contract in a predefined address."),
+    )
+    test_group.addoption(
+        "--ca-start",
+        "--contract-address-start",
+        action="store",
+        dest="test_contract_start_address",
+        default=None,
+        type=str,
+        help="The starting address from which tests will deploy contracts.",
+    )
+    test_group.addoption(
+        "--ca-incr",
+        "--contract-address-increment",
+        action="store",
+        dest="test_contract_address_increments",
+        default=None,
+        type=str,
+        help="The address increment value to each deployed contract by a test.",
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -379,6 +405,37 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     )
     yield t8n
     t8n.shutdown()
+
+
+@pytest.fixture(autouse=True, scope="session")
+def alloc_class(request) -> Type[Alloc]:
+    """
+    Modifies the `Alloc` class for all instances to have the same configuration.
+    """
+    kw_args: Dict[str, Any] = {}
+    if request.config.getoption("strict_alloc"):
+        kw_args["alloc_mode"] = AllocMode.STRICT
+    if request.config.getoption("test_contract_start_address"):
+        kw_args["start_contract_address"] = int(
+            request.config.getoption("test_contract_start_address"), 0
+        )
+    if request.config.getoption("test_contract_address_increments"):
+        kw_args["contract_address_increments"] = int(
+            request.config.getoption("test_contract_address_increments"), 0
+        )
+
+    class AllocSubclass(Alloc, **kw_args):
+        pass
+
+    return AllocSubclass
+
+
+@pytest.fixture(autouse=True)
+def pre(alloc_class: Type[Alloc]) -> Alloc:
+    """
+    Returns the default pre allocation for all tests (Empty alloc).
+    """
+    return alloc_class()
 
 
 @pytest.fixture(scope="session")
@@ -639,6 +696,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         class BaseTestWrapper(cls):
             def __init__(self, *args, **kwargs):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
+                if "pre" not in kwargs:
+                    kwargs["pre"] = request.getfixturevalue("pre")
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 fixture = self.generate(
                     t8n=t8n,

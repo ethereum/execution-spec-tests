@@ -2,8 +2,10 @@
 Useful types for generating Ethereum tests.
 """
 
+import inspect
 from dataclasses import dataclass
-from functools import cached_property
+from enum import IntEnum
+from functools import cache, cached_property
 from itertools import count
 from typing import (
     Any,
@@ -55,7 +57,7 @@ from .base_types import (
     NumberBoundTypeVar,
     ZeroPaddedHexNumber,
 )
-from .constants import TestPrivateKey
+from .constants import TestAddress, TestPrivateKey, TestPrivateKey2
 from .conversions import BytesConvertible, FixedSizeBytesConvertible, NumberConvertible
 
 
@@ -192,8 +194,11 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"incorrect value in address {self.address} for "
+                f"incorrect value in address {self.address}{label_str} for "
                 + f"key {Hash(self.key)}:"
                 + f" want {HexNumber(self.want)} (dec:{self.want}),"
                 + f" got {HexNumber(self.got)} (dec:{self.got})"
@@ -368,8 +373,11 @@ class Account(CopyValidateModel):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"unexpected nonce for account {self.address}: "
+                f"unexpected nonce for account {self.address}{label_str}: "
                 + f"want {self.want}, got {self.got}"
             )
 
@@ -392,8 +400,11 @@ class Account(CopyValidateModel):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"unexpected balance for account {self.address}: "
+                f"unexpected balance for account {self.address}{label_str}: "
                 + f"want {self.want}, got {self.got}"
             )
 
@@ -416,8 +427,11 @@ class Account(CopyValidateModel):
 
         def __str__(self):
             """Print exception string"""
+            label_str = ""
+            if self.address.label is not None:
+                label_str = f" ({self.address.label})"
             return (
-                f"unexpected code for account {self.address}: "
+                f"unexpected code for account {self.address}{label_str}: "
                 + f"want {self.want}, got {self.got}"
             )
 
@@ -489,12 +503,81 @@ class Account(CopyValidateModel):
         return cls(**kwargs)
 
 
+class EOA(Address):
+    """
+    An Externally Owned Account (EOA) is an account controlled by a private key.
+
+    The EOA is defined by its address and (optionally) by its corresponding private key.
+    """
+
+    key: Hash | None
+    nonce: Number
+
+    def __new__(
+        cls,
+        address: "FixedSizeBytesConvertible | Address | EOA | None" = None,
+        *,
+        key: FixedSizeBytesConvertible | None = None,
+        nonce: NumberConvertible = 0,
+    ):
+        """
+        Init the EOA.
+        """
+        if address is None:
+            if key is None:
+                raise ValueError("impossible to initialize EOA without address")
+            private_key = PrivateKey(Hash(key))
+            public_key = private_key.public_key
+            address = Address(keccak256(public_key.format(compressed=False)[1:])[32 - 20 :])
+        elif isinstance(address, EOA):
+            return address
+        instance = super(EOA, cls).__new__(cls, address)
+        instance.key = Hash(key) if key is not None else None
+        instance.nonce = Number(nonce)
+        return instance
+
+    def get_nonce(self) -> Number:
+        """
+        Returns the current nonce of the EOA and increments it by one.
+        """
+        nonce = self.nonce
+        self.nonce = Number(nonce + 1)
+        return nonce
+
+    def copy(self) -> "EOA":
+        """
+        Returns a copy of the EOA.
+        """
+        return EOA(Address(self), key=self.key, nonce=self.nonce)
+
+
+@cache
+def eoa_by_index(i: int) -> EOA:
+    """
+    Returns an EOA by index.
+    """
+    return EOA(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0)
+
+
+class AllocMode(IntEnum):
+    """
+    Allocation mode for the state.
+    """
+
+    PERMISSIVE = 0
+    STRICT = 1
+
+
 class Alloc(RootModel[Dict[Address, Account | None]]):
     """
     Allocation of accounts in the state, pre and post test execution.
     """
 
     root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
+
+    _alloc_mode: ClassVar[AllocMode] = AllocMode.PERMISSIVE
+    _start_contract_address: ClassVar[int] = 0x1000
+    _contract_address_increments: ClassVar[int] = 0x100
 
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
@@ -545,6 +628,20 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                 merged.pop(address, None)
 
         return Alloc(merged)
+
+    def __init_subclass__(
+        cls,
+        *,
+        alloc_mode: AllocMode = AllocMode.PERMISSIVE,
+        start_contract_address: int = 0x1000,
+        contract_address_increments: int = 0x100,
+    ) -> None:
+        """
+        Initializes the new Alloc sub-class.
+        """
+        cls._alloc_mode = alloc_mode
+        cls._start_contract_address = start_contract_address
+        cls._contract_address_increments = contract_address_increments
 
     def __iter__(self):
         """
@@ -636,6 +733,86 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                     account.check_alloc(address, got_account)
                 else:
                     raise Alloc.MissingAccount(address)
+
+    def deploy_contract(
+        self,
+        code: BytesConvertible,
+        *,
+        storage: Storage
+        | Dict[StorageKeyValueTypeConvertible, StorageKeyValueTypeConvertible] = {},
+        balance: NumberConvertible = 0,
+        nonce: NumberConvertible = 1,
+        address: Address | None = None,
+        label: str | None = None,
+    ) -> Address:
+        """
+        Deploy a contract to the allocation.
+
+        Warning: `address` parameter is a temporary solution to allow tests to hard-code the
+        contract address. Do NOT use in new tests as it will be removed in the future!
+        """
+        if address is not None:
+            assert self._alloc_mode == AllocMode.PERMISSIVE, "address parameter is not supported"
+            assert address not in self, f"address {address} already in allocation"
+            contract_address = address
+        else:
+            current_address = self._start_contract_address
+            while current_address in self:
+                current_address += self._contract_address_increments
+            contract_address = Address(current_address)
+
+        if self._alloc_mode == AllocMode.STRICT:
+            assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
+
+        self[contract_address] = Account(
+            nonce=nonce,
+            balance=balance,
+            code=code,
+            storage=storage,
+        )
+        if label is None:
+            # Try to deduce the label from the code
+            frame = inspect.currentframe()
+            if frame is not None:
+                caller_frame = frame.f_back
+                if caller_frame is not None:
+                    code_context = inspect.getframeinfo(caller_frame).code_context
+                    if code_context is not None:
+                        line = code_context[0].strip()
+                        if "=" in line:
+                            label = line.split("=")[0].strip()
+
+        contract_address.label = label
+        return contract_address
+
+    def fund_eoa(self, amount: NumberConvertible, label: str | None = None) -> EOA:
+        """
+        Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
+        """
+        for eoa in (eoa_by_index(i) for i in count()):
+            if eoa not in self:
+                self[eoa] = Account(
+                    nonce=0,
+                    balance=amount,
+                )
+                return eoa.copy()
+        raise ValueError("no more senders available")
+
+    def fund_address(self, address: Address, amount: NumberConvertible):
+        """
+        Fund an address with a given amount.
+
+        If the address is already present in the pre-alloc the amount will be
+        added to its existing balance.
+        """
+        if address in self:
+            account = self[address]
+            if account is not None:
+                current_balance = account.balance or 0
+                account.balance = ZeroPaddedHexNumber(current_balance + Number(amount))
+                return
+
+        self[address] = Account(balance=amount)
 
 
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
@@ -825,7 +1002,7 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     v: NumberBoundTypeVar | None = None
     r: NumberBoundTypeVar | None = None
     s: NumberBoundTypeVar | None = None
-    sender: Address | None = None
+    sender: EOA | None = None
 
 
 class TransactionFixtureConverter(CamelModel):
@@ -937,6 +1114,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             or self.max_fee_per_blob_gas is not None
         ):
             raise Transaction.InvalidFeePayment()
+
         if "ty" not in self.model_fields_set:
             # Try to deduce transaction type from included fields
             if self.max_fee_per_blob_gas is not None or self.blob_kzg_commitments is not None:
@@ -952,7 +1130,11 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             raise Transaction.InvalidSignaturePrivateKey()
 
         if self.v is None and self.secret_key is None:
-            self.secret_key = Hash(TestPrivateKey)
+            if self.sender is not None:
+                self.secret_key = self.sender.key
+            else:
+                self.secret_key = Hash(TestPrivateKey)
+                self.sender = EOA(address=TestAddress, key=self.secret_key, nonce=0)
 
         # Set default values for fields that are required for certain tx types
         if self.ty <= 1 and self.gas_price is None:
@@ -967,6 +1149,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         if self.ty == 3 and self.max_fee_per_blob_gas is None:
             self.max_fee_per_blob_gas = 1
+
+        if "nonce" not in self.model_fields_set and self.sender is not None:
+            self.nonce = HexNumber(self.sender.get_nonce())
 
     def with_error(
         self, error: List[TransactionException] | TransactionException
@@ -1238,6 +1423,19 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             if tx.blob_versioned_hashes is not None
             for blob_versioned_hash in tx.blob_versioned_hashes
         ]
+
+    @cached_property
+    def created_contract(self) -> Address:
+        """
+        Returns the address of the contract created by the transaction.
+        """
+        if self.to is not None:
+            raise ValueError("transaction is not a contract creation")
+        nonce_bytes = (
+            bytes() if self.nonce == 0 else self.nonce.to_bytes(length=1, byteorder="big")
+        )
+        hash = keccak256(eth_rlp.encode([self.sender, nonce_bytes]))
+        return Address(hash[-20:])
 
 
 class RequestBase:
