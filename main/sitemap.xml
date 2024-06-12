@@ -101,6 +101,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/installation_troubleshooting/</loc>
+         <lastmod>2024-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/quick_start/</loc>
          <lastmod>2024-06-12</lastmod>
          <changefreq>daily</changefreq>
