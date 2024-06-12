@@ -152,6 +152,7 @@ g2mul
 g2msm
 gaslimit
 gasprice
+gcc
 GeneralStateTestsFiller
 gentest
 geth
@@ -273,6 +274,7 @@ pubkey
 px
 py
 pydantic
+pyproject
 pyspelling
 pytest
 Pytest
@@ -328,6 +330,7 @@ subclasscheck
 subdirectories
 subdirectory
 subgraph
+subprocess
 subscriptable
 substring
 sudo
@@ -342,6 +345,7 @@ tf
 ThreeHrSleep
 time15k
 timestamp
+tmp
 todo
 toml
 toplevel
@@ -362,6 +366,7 @@ ubuntu
 ukiyo
 uncomment
 undersize
+usr
 util
 utils
 v0

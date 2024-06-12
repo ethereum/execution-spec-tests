@@ -151,6 +151,10 @@ For further help with working with this codebase, see the [online documentation]
 
 The available test cases can be browsed in the [Test Case Reference doc](https://ethereum.github.io/execution-spec-tests/tests/).
 
+## Installation Troubleshooting
+
+If you encounter issues during the installation process, please refer to the [Installation Troubleshooting](https://ethereum.github.io/execution-spec-tests/main/getting_started/installation_troubleshooting/) page.
+
 ## Contributing
 
 Contributions and feedback are welcome. Please see the [online documentation](https://ethereum.github.io/execution-spec-tests/writing_tests/) for this repository's coding standards and help on implementing new tests.
