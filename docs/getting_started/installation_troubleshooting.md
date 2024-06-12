@@ -9,7 +9,7 @@ This page provides guidance on how to troubleshoot common issues that may arise 
 If you encounter an error when installing the `coincurve` package like the following:
 
 ```bash
-Stored in directory: /tmp/pip-ephem-wheel-cache-xmvrga07/wheels/8c/b8/07/7845e7297caf68e1436089da2b0e18050e199745a918a7441b
+Stored in directory: /tmp/...
   Building wheel for coincurve (pyproject.toml) ... error
   error: subprocess-exited-with-error
   
@@ -17,7 +17,6 @@ Stored in directory: /tmp/pip-ephem-wheel-cache-xmvrga07/wheels/8c/b8/07/7845e72
   │ exit code: 1
   ╰─> [27 lines of output]
       ...
-      build/temp.linux-x86_64-cpython-312/_libsecp256k1.c:571:10: fatal error: secp256k1_extrakeys.h: No such file or directory
         571 | #include <secp256k1_extrakeys.h>
             |          ^~~~~~~~~~~~~~~~~~~~~~~
       compilation terminated.
