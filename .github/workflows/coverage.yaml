@@ -139,14 +139,14 @@ jobs:
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --testpath=/tests/BASE_TESTS --outputname=BASE
+          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/BASE_TESTS --outputname=BASE
 
       - name: Run coverage of the PATCH tests
         uses: addnab/docker-run-action@v3
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --testpath=/tests/PATCH_TESTS --outputname=PATCH
+          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/PATCH_TESTS --outputname=PATCH
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
         uses: addnab/docker-run-action@v3
