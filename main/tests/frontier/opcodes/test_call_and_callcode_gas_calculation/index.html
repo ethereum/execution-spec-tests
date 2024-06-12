@@ -11215,7 +11215,7 @@
 
 
 <h1 id="test-call-and-callcode-gas-calculation">Test Call And Callcode Gas Calculation<a class="headerlink" href="#test-call-and-callcode-gas-calculation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</span>
@@ -11279,9 +11279,7 @@ failing with an out-of-gas error.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
@@ -11299,7 +11297,9 @@ failing with an out-of-gas error.</p>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_opcode, caller_gas_limit, is_sufficient_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">CALL_SUFFICIENT_GAS</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
@@ -11312,7 +11312,7 @@ failing with an out-of-gas error.</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_until</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_value_transfer_gas_calculation</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">caller_tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
 <span class="p">):</span>

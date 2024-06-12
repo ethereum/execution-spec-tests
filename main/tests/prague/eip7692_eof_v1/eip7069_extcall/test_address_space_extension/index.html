@@ -11217,7 +11217,7 @@
 
 
 <h1 id="test-address-space-extension">Test Address Space Extension<a class="headerlink" href="#test-address-space-extension" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11252,7 +11252,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip7069_extcall.test_address_space_extension.test_address_space_extension" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_address_space_extension</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">target_address</span><span class="p">,</span> <span class="n">target_opcode</span><span class="p">,</span> <span class="n">target_account_type</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_address_space_extension</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">target_address</span><span class="p">,</span> <span class="n">target_opcode</span><span class="p">,</span> <span class="n">target_account_type</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip7069_extcall.test_address_space_extension.test_address_space_extension" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11263,7 +11263,18 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 39</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
 <span class="normal"> 40</span>
 <span class="normal"> 41</span>
 <span class="normal"> 42</span>
@@ -11461,15 +11472,7 @@ For all forks up to and including Prague:
 <span class="normal">234</span>
 <span class="normal">235</span>
 <span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_address&quot;</span><span class="p">,</span>
     <span class="p">(</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">),</span>
@@ -11483,7 +11486,14 @@ For all forks up to and including Prague:
     <span class="p">),</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;target_account_type&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span> <span class="s2">&quot;EOA&quot;</span><span class="p">,</span> <span class="s2">&quot;LegacyContract&quot;</span><span class="p">,</span> <span class="s2">&quot;EOFContract&quot;</span><span class="p">),</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+    <span class="s2">&quot;target_account_type&quot;</span><span class="p">,</span>
+    <span class="p">(</span>
+        <span class="s2">&quot;empty&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;EOA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;LegacyContract&quot;</span><span class="p">,</span>  <span class="c1"># Hard-codes an address in pre-alloc</span>
+        <span class="s2">&quot;EOFContract&quot;</span><span class="p">,</span>  <span class="c1"># Hard-codes an address in pre-alloc</span>
+    <span class="p">),</span>
+    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_opcode&quot;</span><span class="p">,</span>
@@ -11499,6 +11509,7 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_address_space_extension</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">target_address</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
     <span class="n">target_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">target_account_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -11529,62 +11540,57 @@ For all forks up to and including Prague:
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unexpected opcode &quot;</span><span class="p">,</span> <span class="n">target_opcode</span><span class="p">)</span>
 
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">address_entry_point</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">target_address</span><span class="p">))</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-                    <span class="n">slot_top_level_call_status</span><span class="p">,</span>
-                    <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">50000</span><span class="p">,</span> <span class="n">address_caller</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">()</span>
-            <span class="p">),</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">slot_top_level_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-            <span class="p">},</span>
-        <span class="p">),</span>
-        <span class="n">address_caller</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-                            <span class="n">slot_target_call_status</span><span class="p">,</span>
-                            <span class="n">target_opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="n">call_suffix</span><span class="p">),</span>
-                        <span class="p">)</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_target_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_suffix</span><span class="p">),</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
+
+    <span class="n">address_caller</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+                        <span class="n">slot_target_call_status</span><span class="p">,</span>
+                        <span class="n">target_opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="n">call_suffix</span><span class="p">),</span>  <span class="c1"># type: ignore</span>
                     <span class="p">)</span>
-                <span class="p">],</span>
-            <span class="p">)</span>
-            <span class="k">if</span> <span class="n">ase_ready_opcode</span>
-            <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-                <span class="n">slot_target_call_status</span><span class="p">,</span>
-                <span class="n">target_opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="n">call_suffix</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_target_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">slot_target_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-                <span class="n">slot_target_returndata</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-            <span class="p">},</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_target_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_suffix</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ase_ready_opcode</span>
+        <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">slot_target_call_status</span><span class="p">,</span>
+            <span class="n">target_opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="n">call_suffix</span><span class="p">),</span>  <span class="c1"># type: ignore</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_target_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">slot_target_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+            <span class="n">slot_target_returndata</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">address_entry_point</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">target_address</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">slot_top_level_call_status</span><span class="p">,</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">50000</span><span class="p">,</span> <span class="n">address_caller</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">(),</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">slot_top_level_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
     <span class="k">match</span> <span class="n">target_account_type</span><span class="p">:</span>
         <span class="k">case</span> <span class="s2">&quot;empty&quot;</span><span class="p">:</span>
             <span class="c1"># add no account</span>
             <span class="k">pass</span>
         <span class="k">case</span> <span class="s2">&quot;EOA&quot;</span><span class="p">:</span>
-            <span class="n">pre</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="n">stripped_address</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+            <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">Address</span><span class="p">(</span><span class="n">stripped_address</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">)</span>
+            <span class="c1"># TODO: we could use pre.fund_eoa here with nonce!=0.</span>
         <span class="k">case</span> <span class="s2">&quot;LegacyContract&quot;</span><span class="p">:</span>
             <span class="n">pre</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="n">stripped_address</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
@@ -11662,9 +11668,9 @@ For all forks up to and including Prague:
     <span class="p">}</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">address_entry_point</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50_000_000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>

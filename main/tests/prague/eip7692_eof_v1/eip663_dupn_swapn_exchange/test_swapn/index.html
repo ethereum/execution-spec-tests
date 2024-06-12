@@ -11235,7 +11235,7 @@
 
 
 <h1 id="test-swapn">Test Swapn<a class="headerlink" href="#test-swapn" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py"><code>tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py"><code>tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11274,7 +11274,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip663_dupn_swapn_exchange.test_swapn.test_swapn_all_valid_immediates" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_swapn_all_valid_immediates</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">state_test</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_swapn_all_valid_immediates</span><span class="p">(</span><span class="n">eof_state_test</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip663_dupn_swapn_exchange.test_swapn.test_swapn_all_valid_immediates" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11285,7 +11285,15 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -11303,28 +11311,8 @@ For all forks up to and including Prague:
 <span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="n">EOF_FORK_NAME</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_swapn_all_valid_immediates</span><span class="p">(</span>
-    <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="n">EOF_FORK_NAME</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_swapn_all_valid_immediates</span><span class="p">(</span><span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test case for all valid SWAPN immediates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11342,19 +11330,13 @@ For all forks up to and including Prague:
         <span class="p">],</span>
     <span class="p">)</span>
 
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1_000_000_000</span><span class="p">),</span>
-        <span class="n">tx</span><span class="o">.</span><span class="n">to</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">eof_code</span><span class="p">),</span>
-    <span class="p">}</span>
-
     <span class="n">values_rotated</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">+</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span><span class="n">tx</span><span class="o">.</span><span class="n">to</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">values_rotated</span><span class="p">))))}</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">values_rotated</span><span class="p">))))</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">eof_state_test</span><span class="p">(</span>
+        <span class="n">tx_sender_funding_amount</span><span class="o">=</span><span class="mi">1_000_000_000</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">eof_code</span><span class="p">,</span>
+        <span class="n">container_post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -11382,7 +11364,24 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
@@ -11392,24 +11391,7 @@ For all forks up to and including Prague:
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;swapn_operand&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="mi">0</span><span class="p">,</span>
@@ -11463,7 +11445,24 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
@@ -11475,24 +11474,7 @@ For all forks up to and including Prague:
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;stack_height&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="mi">0</span><span class="p">,</span>

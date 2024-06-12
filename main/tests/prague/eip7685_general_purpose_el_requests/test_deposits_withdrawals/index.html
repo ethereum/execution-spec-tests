@@ -11233,7 +11233,7 @@
 
 
 <h1 id="test-deposits-withdrawals">Test Deposits Withdrawals<a class="headerlink" href="#test-deposits-withdrawals" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals.py"><code>tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals.py"><code>tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11291,7 +11291,8 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 39</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 38</span>
+<span class="normal"> 39</span>
 <span class="normal"> 40</span>
 <span class="normal"> 41</span>
 <span class="normal"> 42</span>
@@ -11452,26 +11453,57 @@ For all forks up to and including Prague:
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
-<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;requests&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">DepositTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;single_deposit_from_eoa_single_withdrawal_from_eoa&quot;</span><span class="p">,</span>
@@ -11479,20 +11511,24 @@ For all forks up to and including Prague:
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">DepositTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;single_withdrawal_from_eoa_single_deposit_from_eoa&quot;</span><span class="p">,</span>
@@ -11500,29 +11536,35 @@ For all forks up to and including Prague:
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">DepositTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">DepositTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;two_deposits_from_eoa_single_withdrawal_from_eoa&quot;</span><span class="p">,</span>
@@ -11530,27 +11572,33 @@ For all forks up to and including Prague:
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">DepositTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;two_withdrawals_from_eoa_single_deposit_from_eoa&quot;</span><span class="p">,</span>
@@ -11558,20 +11606,24 @@ For all forks up to and including Prague:
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">DepositContract</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;single_deposit_from_contract_single_withdrawal_from_contract&quot;</span><span class="p">,</span>
@@ -11579,20 +11631,24 @@ For all forks up to and including Prague:
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">DepositContract</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;single_withdrawal_from_contract_single_deposit_from_contract&quot;</span><span class="p">,</span>
@@ -11602,7 +11658,7 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_valid_deposit_withdrawal_requests</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -11629,7 +11685,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7685_general_purpose_el_requests.test_deposits_withdrawals.test_valid_deposit_withdrawal_request_from_same_tx" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_valid_deposit_withdrawal_request_from_same_tx</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">deposit_first</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_valid_deposit_withdrawal_request_from_same_tx</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">deposit_first</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7685_general_purpose_el_requests.test_deposits_withdrawals.test_valid_deposit_withdrawal_request_from_same_tx" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11640,34 +11696,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
@@ -11754,7 +11783,30 @@ For all forks up to and including Prague:
 <span class="normal">314</span>
 <span class="normal">315</span>
 <span class="normal">316</span>
-<span class="normal">317</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;deposit_first&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deposit_first&quot;</span><span class="p">),</span>
@@ -11763,12 +11815,12 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_valid_deposit_withdrawal_request_from_same_tx</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">deposit_first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test making a deposit to the beacon chain deposit contract and a withdrawal in the same tx.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">contract_address</span> <span class="o">=</span> <span class="mh">0x200</span>
     <span class="n">withdrawal_request_fee</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">deposit_request</span> <span class="o">=</span> <span class="n">DepositRequest</span><span class="p">(</span>
         <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
@@ -11780,7 +11832,6 @@ For all forks up to and including Prague:
     <span class="n">withdrawal_request</span> <span class="o">=</span> <span class="n">WithdrawalRequest</span><span class="p">(</span>
         <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
         <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">source_address</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">deposit_first</span><span class="p">:</span>
         <span class="n">calldata</span> <span class="o">=</span> <span class="n">deposit_request</span><span class="o">.</span><span class="n">calldata</span> <span class="o">+</span> <span class="n">withdrawal_request</span><span class="o">.</span><span class="n">calldata</span>
@@ -11837,37 +11888,34 @@ For all forks up to and including Prague:
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">contract_code</span><span class="p">,</span>
-            <span class="n">balance</span><span class="o">=</span><span class="n">deposit_request</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">withdrawal_request_fee</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">contract_code</span><span class="p">,</span>
+        <span class="n">balance</span><span class="o">=</span><span class="n">deposit_request</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">withdrawal_request_fee</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">withdrawal_request</span> <span class="o">=</span> <span class="n">withdrawal_request</span><span class="o">.</span><span class="n">with_source_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mh">0x07</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">calldata</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">block</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span>
-        <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
-        <span class="n">header_verify</span><span class="o">=</span><span class="n">Header</span><span class="p">(</span>
-            <span class="n">requests_root</span><span class="o">=</span><span class="p">[</span><span class="n">deposit_request</span><span class="p">,</span> <span class="n">withdrawal_request</span><span class="p">],</span>
-        <span class="p">),</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block</span><span class="p">],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">Block</span><span class="p">(</span>
+                <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
+                <span class="n">header_verify</span><span class="o">=</span><span class="n">Header</span><span class="p">(</span>
+                    <span class="n">requests_root</span><span class="o">=</span><span class="p">[</span><span class="n">deposit_request</span><span class="p">,</span> <span class="n">withdrawal_request</span><span class="p">],</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -11895,30 +11943,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">343</span>
 <span class="normal">344</span>
 <span class="normal">345</span>
 <span class="normal">346</span>
@@ -11950,26 +11975,57 @@ For all forks up to and including Prague:
 <span class="normal">372</span>
 <span class="normal">373</span>
 <span class="normal">374</span>
-<span class="normal">375</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;requests,block_body_override_requests,exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">WithdrawalRequest</span><span class="p">(</span>
-                        <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">WithdrawalRequest</span><span class="p">(</span>
+                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">fee</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">DepositTransaction</span><span class="p">(</span>
-                    <span class="n">request</span><span class="o">=</span><span class="n">DepositRequest</span><span class="p">(</span>
-                        <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-                        <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-                        <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                    <span class="p">),</span>
+                    <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">DepositRequest</span><span class="p">(</span>
+                            <span class="n">pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">withdrawal_credentials</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">32_000_000_000</span><span class="p">,</span>
+                            <span class="n">signature</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+                            <span class="n">index</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="p">[</span>
@@ -11994,7 +12050,7 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_deposit_withdrawal_requests</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

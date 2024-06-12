@@ -11242,7 +11242,7 @@
 
 
 <h1 id="test-bls12-g1add">Test Bls12 G1add<a class="headerlink" href="#test-bls12-g1add" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1add.py"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1add.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1add.py"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1add.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11354,7 +11354,7 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_valid</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
@@ -11591,7 +11591,7 @@ For all forks up to and including Prague:
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INVALID</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_invalid</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
@@ -11680,7 +11680,7 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_gas</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
@@ -11771,7 +11771,7 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_call_types</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>

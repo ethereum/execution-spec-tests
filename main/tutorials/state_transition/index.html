@@ -11422,22 +11422,22 @@ It is the spec test equivalent of this <a href="https://github.com/ethereum/test
 <span class="sd">&quot;&quot;&quot;</span>
 </code></pre></div>
 <p>In Python, multi-line strings are denoted using <code>"""</code>. As a convention, a file's purpose is often described in the opening string of the file.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ethereum_test_forks</span> <span class="kn">import</span> <span class="n">Fork</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ethereum_test_forks</span> <span class="kn">import</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">Frontier</span><span class="p">,</span> <span class="n">Homestead</span>
 <span class="kn">from</span> <span class="nn">ethereum_test_tools</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Account</span><span class="p">,</span>
+    <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">Environment</span><span class="p">,</span>
     <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">TestAddress</span><span class="p">,</span>
     <span class="n">Transaction</span><span class="p">,</span>
-    <span class="n">Yul</span><span class="p">,</span>
+    <span class="n">YulCompiler</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
 <p>In this snippet the required constants, types and helper functions are imported from <code>ethereum_test_tools</code> and <code>ethereum_test_forks</code>. We will go over these as we come across them.</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Homestead&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>In Python this kind of definition is called a <a href="https://docs.python.org/3/search.html?q=decorator"><em>decorator</em></a>.
 It modifies the action of the function after it.
-In this case, the decorator is a custom <a href="https://docs.pytest.org/en/latest/explanation/fixtures.html">pytest fixture</a> defined by the execution-specs-test framework that specifies that the test is valid for the <a href="https://ethereum.org/en/history/#berlin">Berlin fork</a> and all forks after it. The framework will then execute this test case for all forks in the fork range specified by the command-line arguments.</p>
+In this case, the decorator is a custom <a href="https://docs.pytest.org/en/latest/explanation/fixtures.html">pytest fixture</a> defined by the execution-specs-test framework that specifies that the test is valid for the <a href="https://ethereum.org/en/history/#homestead">Homestead fork</a> and all forks after it. The framework will then execute this test case for all forks in the fork range specified by the command-line arguments.</p>
 <div class="admonition info">
 <p class="admonition-title">Executing the test</p>
 <p>To execute this test for all the specified forks, we can specify pytest's <code>-k</code> flag that <a href="https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests">filters test cases by keyword expression</a>:</p>
@@ -11447,7 +11447,7 @@ In this case, the decorator is a custom <a href="https://docs.pytest.org/en/late
 <div class="highlight"><pre><span></span><code><span class="go">fill -k test_yul --from London --until Paris</span>
 </code></pre></div>
 </div>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">test_yul</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">test_yul</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">yul</span><span class="p">:</span> <span class="n">YulCompiler</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test YUL compiled bytecode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11459,31 +11459,55 @@ The function definition ends when there is a line that is no longer indented. As
 <p class="admonition-title">The <code>state_test</code> function argument</p>
 <p>This test defines a state test and, as such, <em>must</em> include the <code>state_test</code> in its function arguments. This is a callable object (actually a wrapper class to the <code>StateTest</code>); we will see how it is called later.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">The <code>pre</code> function argument</p>
+<p>For all types of tests, it is highly encouraged that we define the <code>pre</code> allocation as a function argument, which will be populated with the pre-state requirements during the execution of the test function (see below).</p>
+</div>
 <div class="highlight"><pre><span></span><code>    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 </code></pre></div>
-<p>This line specifies that <code>env</code> is an <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L878"><code>Environment</code></a> object, and that we just use the default parameters.
+<p>This line specifies that <code>env</code> is an <a href="https://github.com/ethereum/execution-spec-tests/blob/8b4504aaf6ae0b69c3e847a6c051e64fcefa4db0/src/ethereum_test_tools/common/types.py#L711"><code>Environment</code></a> object, and that we just use the default parameters.
 If necessary we can modify the environment to have different block gas limits, block numbers, etc.
 In most tests the defaults are good enough.</p>
-<p>For more information, <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#env">see the static test documentation</a>.</p>
+<p>For more information, <a href="../../consuming_tests/state_test/">see the static test documentation</a>.</p>
 <h4 id="pre-state">Pre State<a class="headerlink" href="#pre-state" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code>    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
+<p>For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the test executes.
+It can be used as a <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary</a>, which is the Python term for an associative array, but the appropriate way to populate it is by using the methods <code>fund_eoa</code>, <code>deploy_contract</code> or <code>fund_address</code> from the <code>Alloc</code> object.</p>
+<p>In this example we are using the <code>deploy_contract</code> method to deploy a contract to some address available in the pre-state.</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">yul</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            {</span>
+<span class="sd">                function f(a, b) -&gt; c {</span>
+<span class="sd">                    c := add(a, b)</span>
+<span class="sd">                }</span>
+
+<span class="sd">                sstore(0, f(1, 2))</span>
+<span class="sd">                return(0, 32)</span>
+<span class="sd">            }</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="p">),</span>
+        <span class="n">balance</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">,</span>
+    <span class="p">)</span>
 </code></pre></div>
-<p>Here we define the pre-state section, the one that tells us what is on the "blockchain" before the test.
-It is a <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary</a>, which is the Python term for an associative array.</p>
-<div class="highlight"><pre><span></span><code>        <span class="s2">&quot;0x1000000000000000000000000000000000000000&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-</code></pre></div>
-<p>The keys of the dictionary are addresses (as strings), and the values are <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L517"><code>Account</code></a> objects.
-You can read more about address fields <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#address-fields">in the static test documentation</a>.</p>
+<p>Specifically we deploy a contract with yul code that adds two numbers and stores the result in storage.</p>
 <div class="highlight"><pre><span></span><code>            <span class="n">balance</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">,</span>
 </code></pre></div>
 <p>This field is the balance: the amount of Wei that the account has. It usually doesn't matter what its value is in the case of state test contracts.</p>
-<div class="highlight"><pre><span></span><code>            <span class="n">code</span><span class="o">=</span><span class="n">Yul</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code>    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+</code></pre></div>
+<p>As return value of the <code>deploy_contract</code> method we get the address where the contract was deployed and put it in the <code>contract_address</code> variable, which will later be used in the transaction.</p>
+<div class="highlight"><pre><span></span><code>        <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+            <span class="mh">0x00</span><span class="p">:</span> <span class="mh">0x00</span><span class="p">,</span>
+        <span class="p">},</span>
+</code></pre></div>
+<p>We could also specify a starting storage for the contract, which is done by adding a <code>storage</code> parameter to the <code>deploy_contract</code> method.</p>
+<div class="highlight"><pre><span></span><code>            <span class="n">code</span><span class="o">=</span><span class="n">yul</span><span class="p">(</span>
 </code></pre></div>
 <p>Here we define the <a href="https://docs.soliditylang.org/en/v0.8.17/yul.html">Yul</a> code for the contract. It is defined as a multi-line string and starts and ends with curly braces (<code>{ &lt;yul&gt; }</code>).</p>
 <p>When running the test filler <code>fill</code>, the solidity compiler <code>solc</code> will automatically translate the Yul to EVM opcode at runtime.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Currently Yul and direct EVM opcode are supported in execution spec tests. LLL and Solidity may be supported in the future.</p>
+<p>Currently Yul and direct EVM opcode are supported in execution spec tests.</p>
 </div>
 <div class="highlight"><pre><span></span><code><span class="w">                </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">                {</span>
@@ -11494,33 +11518,37 @@ You can read more about address fields <a href="https://ethereum-tests.readthedo
 <span class="sd">                    return(0, 32)</span>
 <span class="sd">                }</span>
 <span class="sd">                &quot;&quot;&quot;</span>
-            <span class="p">),</span>
-        <span class="p">),</span>
 </code></pre></div>
 <p>Within this example test Yul code we have a function definition, and inside it we are using the Yul <code>add</code> instruction. When compiled with <code>solc</code> it translates the instruction directly to the <code>ADD</code> opcode. For further Yul instructions <a href="https://docs.soliditylang.org/en/latest/yul.html#evm-dialect">see here</a>. Notice that function is utilized with the Yul <code>sstore</code> instruction, which stores the result of <code>add(1, 2)</code> to the storage address <code>0x00</code>.</p>
 <p>Generally for execution spec tests the <code>sstore</code> instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the Yul code has run successfully.</p>
-<div class="highlight"><pre><span></span><code>        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">),</span>
-    <span class="p">}</span>
+<div class="highlight"><pre><span></span><code>    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mh">0x0BA1A9CE0BA1A9CE</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/constants.py#L7"><code>TestAddress</code></a> is an address for which the test filler has the private key.
-This means that the test runner can issue a transaction as that contract.
-Of course, this address also needs a balance to be able to issue transactions.</p>
+<p>In this line we specify that we require a single externally owned account (EOA) with a balance of <code>0x0BA1A9CE0BA1A9CE</code> Wei.</p>
+<p>The returned object, which includes a private key, an address, and a nonce, is stored in the <code>sender</code> variable and will later be used as the sender of the transaction.</p>
 <h4 id="transactions">Transactions<a class="headerlink" href="#transactions" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code>    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="s2">&quot;0x1000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">fork</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Frontier</span><span class="p">,</span> <span class="n">Homestead</span><span class="p">]</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div>
-<p>With the pre-state specified, we can add a description for the <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_tools/common/types.py#L1155"><code>Transaction</code></a>.
-For more information, <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#transaction">see the static test documentation</a></p>
+<p>With the pre-state built, we can add a description for the <a href="https://github.com/ethereum/execution-spec-tests/blob/8b4504aaf6ae0b69c3e847a6c051e64fcefa4db0/src/ethereum_test_tools/common/types.py#L887"><code>Transaction</code></a>.</p>
+<div class="highlight"><pre><span></span><code>            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+</code></pre></div>
+<p>We use the sender variable from the pre-state to specify the sender of the transaction, which already has the necessary information to sign the transaction, and also contains the correct <code>nonce</code> for the transaction.</p>
+<p>The <code>nonce</code> is a protection mechanism to prevent replay attacks, and the current rules of Ethereum require that the nonce of a transaction is equal to the number of transactions sent from the sender's address, starting from zero. This means that the first transaction sent from an address must have a nonce of zero, the second transaction must have a nonce of one, and so on.</p>
+<p>The <code>nonce</code> field of the <code>sender</code> variable is automatically incremented for us by the <code>Transaction</code> object when the transaction is signed, so if we were to create another transaction with the same sender, the nonce would be incremented by one yet another time.</p>
+<div class="highlight"><pre><span></span><code>            <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
+</code></pre></div>
+<p>The <code>to</code> field specifies the address of the contract we want to call and, in this case, it is the address of the contract we deployed earlier.</p>
+<p>For more information, <a href="../../consuming_tests/state_test/">see the static test documentation</a></p>
 <h4 id="post-state">Post State<a class="headerlink" href="#post-state" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code>    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;0x1000000000000000000000000000000000000000&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mh">0x00</span><span class="p">:</span> <span class="mh">0x03</span><span class="p">,</span>
             <span class="p">},</span>

@@ -11262,7 +11262,7 @@
 
 
 <h1 id="test-calls">Test Calls<a class="headerlink" href="#test-calls" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11297,7 +11297,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_legacy_calls_eof_sstore" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_legacy_calls_eof_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_legacy_calls_eof_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_legacy_calls_eof_sstore" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11308,15 +11308,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 65</span>
 <span class="normal"> 66</span>
 <span class="normal"> 67</span>
 <span class="normal"> 68</span>
@@ -11379,11 +11371,7 @@ For all forks up to and including Prague:
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
@@ -11395,35 +11383,23 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_legacy_calls_eof_sstore</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">suffix</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test legacy contracts calling EOF contracts that use SSTORE&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000000</span><span class="p">)</span>
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000001</span><span class="p">)</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">contract_eof_sstore</span><span class="p">)</span>
 
     <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
         <span class="n">slot_call_result</span><span class="p">,</span> <span class="n">opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">destination_contract_address</span><span class="p">,</span> <span class="o">*</span><span class="n">suffix</span><span class="p">)</span>
     <span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
 
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">caller_contract</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">contract_eof_sstore</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_contract</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
@@ -11474,7 +11450,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_legacy_calls_eof_mstore" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_legacy_calls_eof_mstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_legacy_calls_eof_mstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_legacy_calls_eof_mstore" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11485,7 +11461,11 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -11546,24 +11526,7 @@ For all forks up to and including Prague:
 <span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
@@ -11575,13 +11538,23 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_legacy_calls_eof_mstore</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">suffix</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test legacy contracts calling EOF contracts that only return data&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000000</span><span class="p">)</span>
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000001</span><span class="p">)</span>
+    <span class="n">destination_contract_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
+        <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span>
+                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">)),</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">destination_contract_code</span><span class="p">)</span>
 
     <span class="n">caller_contract</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_call_result</span><span class="p">,</span> <span class="n">opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">destination_contract_address</span><span class="p">,</span> <span class="o">*</span><span class="n">suffix</span><span class="p">))</span>
@@ -11590,33 +11563,10 @@ For all forks up to and including Prague:
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
     <span class="p">)</span>
-
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">caller_contract</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">)),</span>
-                        <span class="n">code_outputs</span><span class="o">=</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                    <span class="p">)</span>
-                <span class="p">]</span>
-            <span class="p">),</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_contract</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
@@ -11657,7 +11607,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_eof_sstore" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_eof_calls_eof_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_eof_calls_eof_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_eof_sstore" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11668,7 +11618,24 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">216</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
@@ -11717,38 +11684,7 @@ For all forks up to and including Prague:
 <span class="normal">262</span>
 <span class="normal">263</span>
 <span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
@@ -11759,13 +11695,14 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eof_calls_eof_sstore</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">suffix</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling EOF contracts that use SSTORE&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000000</span><span class="p">)</span>
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000001</span><span class="p">)</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">contract_eof_sstore</span><span class="p">)</span>
 
     <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
@@ -11773,29 +11710,14 @@ For all forks up to and including Prague:
                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_call_result</span><span class="p">,</span> <span class="n">opcode</span><span class="p">(</span><span class="n">destination_contract_address</span><span class="p">,</span> <span class="o">*</span><span class="n">suffix</span><span class="p">))</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">code_outputs</span><span class="o">=</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span>
                 <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">]</span>
     <span class="p">)</span>
-
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">caller_contract</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">contract_eof_sstore</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_contract</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
@@ -11844,7 +11766,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_eof_mstore" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_eof_calls_eof_mstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_eof_calls_eof_mstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_eof_mstore" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11855,7 +11777,38 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">299</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
 <span class="normal">300</span>
 <span class="normal">301</span>
 <span class="normal">302</span>
@@ -11894,52 +11847,7 @@ For all forks up to and including Prague:
 <span class="normal">335</span>
 <span class="normal">336</span>
 <span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span>
-<span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span>
-<span class="normal">363</span>
-<span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
@@ -11950,13 +11858,23 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eof_calls_eof_mstore</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">suffix</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling EOF contracts that return data&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000000</span><span class="p">)</span>
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000001</span><span class="p">)</span>
+    <span class="n">destination_contract_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
+        <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span>
+                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">destination_contract_code</span><span class="p">)</span>
 
     <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
@@ -11966,38 +11884,14 @@ For all forks up to and including Prague:
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">code_outputs</span><span class="o">=</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span>
                 <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">]</span>
     <span class="p">)</span>
-
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">caller_contract</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
-                        <span class="n">code_outputs</span><span class="o">=</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                    <span class="p">)</span>
-                <span class="p">]</span>
-            <span class="p">),</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_contract</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
@@ -12039,7 +11933,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_legacy_sstore" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_eof_calls_legacy_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_eof_calls_legacy_sstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_legacy_sstore" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -12050,7 +11944,52 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">386</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
 <span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
@@ -12071,10 +12010,100 @@ For all forks up to and including Prague:
 <span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span>
+<span class="normal">407</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;suffix&quot;</span><span class="p">],</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+        <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+        <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+    <span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;extcall&quot;</span><span class="p">,</span> <span class="s2">&quot;extdelegatecall&quot;</span><span class="p">,</span> <span class="s2">&quot;extstaticall&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_eof_calls_legacy_sstore</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">suffix</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling Legacy contracts that use SSTORE&quot;&quot;&quot;</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+    <span class="n">destination_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_caller</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">destination_contract_code</span><span class="p">)</span>
+
+    <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
+        <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_call_result</span><span class="p">,</span> <span class="n">opcode</span><span class="p">(</span><span class="n">destination_contract_address</span><span class="p">,</span> <span class="o">*</span><span class="n">suffix</span><span class="p">))</span>
+                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_contract</span><span class="p">)</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
+        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">calling_storage</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">value_eof_call_worked</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+    <span class="p">}</span>
+    <span class="n">destination_storage</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">:</span>
+        <span class="n">destination_storage</span><span class="p">[</span><span class="n">slot_caller</span><span class="p">]</span> <span class="o">=</span> <span class="n">calling_contract_address</span>
+    <span class="k">elif</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">:</span>
+        <span class="c1"># EOF delegate call to legacy is a failure by rule</span>
+        <span class="n">calling_storage</span><span class="p">[</span><span class="n">slot_call_result</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_eof_call_failed</span>
+    <span class="k">elif</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">:</span>
+        <span class="n">calling_storage</span><span class="p">[</span><span class="n">slot_call_result</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_eof_call_reverted</span>
+
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">calling_storage</span><span class="p">),</span>
+        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">destination_storage</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_legacy_mstore" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_eof_calls_legacy_mstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_legacy_mstore" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Test EOF contracts calling Legacy contracts that return data</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">410</span>
 <span class="normal">411</span>
 <span class="normal">412</span>
 <span class="normal">413</span>
@@ -12129,113 +12158,10 @@ For all forks up to and including Prague:
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
-<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;suffix&quot;</span><span class="p">],</span>
-    <span class="p">[</span>
-        <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-        <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-        <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
-    <span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;extcall&quot;</span><span class="p">,</span> <span class="s2">&quot;extdelegatecall&quot;</span><span class="p">,</span> <span class="s2">&quot;extstaticall&quot;</span><span class="p">],</span>
-<span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_eof_calls_legacy_sstore</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
-    <span class="n">suffix</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling Legacy contracts that use SSTORE&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000000</span><span class="p">)</span>
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000001</span><span class="p">)</span>
-
-    <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
-        <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_call_result</span><span class="p">,</span> <span class="n">opcode</span><span class="p">(</span><span class="n">destination_contract_address</span><span class="p">,</span> <span class="o">*</span><span class="n">suffix</span><span class="p">))</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">code_outputs</span><span class="o">=</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="p">]</span>
-    <span class="p">)</span>
-
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">caller_contract</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_caller</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">calling_storage</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">value_eof_call_worked</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-    <span class="p">}</span>
-    <span class="n">destination_storage</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">:</span>
-        <span class="n">destination_storage</span><span class="p">[</span><span class="n">slot_caller</span><span class="p">]</span> <span class="o">=</span> <span class="n">calling_contract_address</span>
-    <span class="k">elif</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">:</span>
-        <span class="c1"># EOF delegate call to legacy is a failure by rule</span>
-        <span class="n">calling_storage</span><span class="p">[</span><span class="n">slot_call_result</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_eof_call_failed</span>
-    <span class="k">elif</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">:</span>
-        <span class="n">calling_storage</span><span class="p">[</span><span class="n">slot_call_result</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_eof_call_reverted</span>
-
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">calling_storage</span><span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">destination_storage</span><span class="p">),</span>
-    <span class="p">}</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_legacy_mstore" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_eof_calls_legacy_mstore</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
-
-<a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_calls.test_eof_calls_legacy_mstore" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Test EOF contracts calling Legacy contracts that return data</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">468</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
 <span class="normal">469</span>
 <span class="normal">470</span>
 <span class="normal">471</span>
@@ -12247,76 +12173,7 @@ For all forks up to and including Prague:
 <span class="normal">477</span>
 <span class="normal">478</span>
 <span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">480</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
@@ -12327,13 +12184,17 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eof_calls_legacy_mstore</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">suffix</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling Legacy contracts that return data&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000000</span><span class="p">)</span>
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x1000001</span><span class="p">)</span>
+    <span class="n">destination_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">destination_contract_code</span><span class="p">)</span>
 
     <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
@@ -12343,29 +12204,14 @@ For all forks up to and including Prague:
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">code_outputs</span><span class="o">=</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span>
                 <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">]</span>
     <span class="p">)</span>
-
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">caller_contract</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_contract</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>

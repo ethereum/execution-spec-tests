@@ -11215,7 +11215,7 @@
 
 
 <h1 id="test-acl">Test ACL<a class="headerlink" href="#test-acl" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/berlin/eip2930_access_list/test_acl.py"><code>tests/berlin/eip2930_access_list/test_acl.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/berlin/eip2930_access_list/test_acl.py"><code>tests/berlin/eip2930_access_list/test_acl.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py</span>
@@ -11246,7 +11246,7 @@
 
 
 <h2 id="tests.berlin.eip2930_access_list.test_acl.test_access_list" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_access_list</span><span class="p">(</span><span class="n">state_test</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_access_list</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">)</span></code>
 
 <a href="#tests.berlin.eip2930_access_list.test_acl.test_access_list" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11301,36 +11301,23 @@
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_access_list</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_access_list</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test type 1 transaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;0x000000000000000000000000000000000000aaaa&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PC</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mh">0x300000</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">PC</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PC</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">,</span>
+        <span class="n">balance</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mh">0x300000</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="s2">&quot;0x000000000000000000000000000000000000aaaa&quot;</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">323328</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
@@ -11344,15 +11331,16 @@
         <span class="p">],</span>
         <span class="n">secret_key</span><span class="o">=</span><span class="s2">&quot;0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8&quot;</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;0x000000000000000000000000000000000000aaaa&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x5854505854&quot;</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="s2">&quot;0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b&quot;</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">sender</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mh">0x2CD931</span><span class="p">,</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>

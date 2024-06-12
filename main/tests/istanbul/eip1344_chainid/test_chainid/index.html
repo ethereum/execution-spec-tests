@@ -11215,7 +11215,7 @@
 
 
 <h1 id="test-chainid">Test CHAINID<a class="headerlink" href="#test-chainid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1ac85f4ded1cc9276e58c739768505e425ae9c99/tests/istanbul/eip1344_chainid/test_chainid.py"><code>tests/istanbul/eip1344_chainid/test_chainid.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ecf9aca13a12a1a9e356e9516b0968df3b327b16/tests/istanbul/eip1344_chainid/test_chainid.py"><code>tests/istanbul/eip1344_chainid/test_chainid.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip1344_chainid/test_chainid.py</span>
@@ -11250,7 +11250,7 @@
 
 
 <h2 id="tests.istanbul.eip1344_chainid.test_chainid.test_chainid" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_chainid</span><span class="p">(</span><span class="n">state_test</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_chainid</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">)</span></code>
 
 <a href="#tests.istanbul.eip1344_chainid.test_chainid.test_chainid" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11261,7 +11261,14 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/istanbul/eip1344_chainid/test_chainid.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
@@ -11283,17 +11290,8 @@
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_chainid</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">):</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_chainid</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test CHAINID opcode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11305,22 +11303,20 @@
         <span class="n">timestamp</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CHAINID</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CHAINID</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">Address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x4660015500&quot;</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x01&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">}),</span>
+        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x01&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">}),</span>
     <span class="p">}</span>
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
