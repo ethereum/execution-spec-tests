@@ -4,6 +4,7 @@
     * [Quick Start](getting_started/quick_start.md)
     * [VS Code Setup](getting_started/setup_vs_code.md)
     * [Repository Overview](getting_started/repository_overview.md)
+    * [Installation Troubleshooting](getting_started/installation_troubleshooting.md)
     * [Executing Tests at a Prompt](getting_started/executing_tests_command_line.md)
     * [Executing Tests in VS Code](getting_started/executing_tests_vs_code.md)
     * [Executing Tests for Features Under Development](getting_started/executing_tests_dev_fork.md)
