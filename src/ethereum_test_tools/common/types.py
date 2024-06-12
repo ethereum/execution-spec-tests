@@ -678,6 +678,14 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
             address = Address(address)
         self.root.pop(address, None)
 
+    def __eq__(self, other) -> bool:
+        """
+        Returns True if both allocations are equal.
+        """
+        if not isinstance(other, Alloc):
+            return False
+        return self.root == other.root
+
     def __contains__(self, address: Address | FixedSizeBytesConvertible) -> bool:
         """
         Checks if an account is in the allocation.
