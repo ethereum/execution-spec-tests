@@ -25,8 +25,10 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from evm_transition_tool import TransitionTool
 
-REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4895.md"
-REFERENCE_SPEC_VERSION = "81af3b60b632bc9c03513d1d137f25410e3f4d34"
+from .spec import ref_spec_4895
+
+REFERENCE_SPEC_GIT_PATH = ref_spec_4895.git_path
+REFERENCE_SPEC_VERSION = ref_spec_4895.version
 
 pytestmark = pytest.mark.valid_from("Shanghai")
 
@@ -50,7 +52,7 @@ class TestUseValueInTx:
     """
 
     @pytest.fixture
-    def tx(self):  # noqa: D102
+    def tx(self, sender):  # noqa: D102
         # Transaction sent from the `TestAddress`, which has 0 balance at start
         return Transaction(
             nonce=0,
@@ -58,6 +60,7 @@ class TestUseValueInTx:
             gas_limit=21000,
             to=Address(0x100),
             data="0x",
+            sender=sender,
         )
 
     @pytest.fixture
