@@ -6,7 +6,7 @@ This page provides guidance on how to troubleshoot common issues that may arise 
 
 ### Coincurve Installation
 
-If you encounter an error when installing the `coincurve` package, like the following:
+If you encounter an error when installing the `coincurve` package like the following:
 
 ```bash
 Stored in directory: /tmp/pip-ephem-wheel-cache-xmvrga07/wheels/8c/b8/07/7845e7297caf68e1436089da2b0e18050e199745a918a7441b
