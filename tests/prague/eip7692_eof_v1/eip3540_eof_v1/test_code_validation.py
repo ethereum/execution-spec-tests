@@ -51,7 +51,7 @@ def env():  # noqa: D103
 
 @pytest.fixture
 def sender(pre: Alloc):  # noqa: D103
-    return pre.fund_eoa(1_000_000_000_000_000_000_000)
+    return pre.fund_eoa()
 
 
 @pytest.fixture

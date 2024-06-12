@@ -212,7 +212,7 @@ def test_modexp(
     Test the MODEXP precompile
     """
     env = Environment()
-    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa()
 
     account = pre.deploy_contract(
         # Store all CALLDATA into memory (offset 0)

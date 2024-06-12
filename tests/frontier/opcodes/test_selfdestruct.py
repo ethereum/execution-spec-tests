@@ -18,7 +18,7 @@ def test_double_kill(blockchain_test: BlockchainTestFiller, pre: Alloc):
     Dragon).
     """
     env = Environment()
-    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa()
 
     deploy_code = Op.SELFDESTRUCT(Op.ADDRESS)
 

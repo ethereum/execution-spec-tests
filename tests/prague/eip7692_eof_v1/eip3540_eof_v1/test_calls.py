@@ -59,7 +59,7 @@ def sender(pre: Alloc) -> EOA:
     """
     The sender of the transaction
     """
-    return pre.fund_eoa(1_000_000_000_000_000_000_000)
+    return pre.fund_eoa()
 
 
 @pytest.mark.parametrize(

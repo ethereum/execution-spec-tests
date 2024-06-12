@@ -45,7 +45,7 @@ def test_simple_eofcreate(
     Verifies a simple EOFCREATE case
     """
     env = Environment()
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -103,7 +103,7 @@ def test_eofcreate_then_call(
         ]
     )
 
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         Container(
             sections=[
@@ -181,7 +181,7 @@ def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_byt
         ],
     )
 
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -240,7 +240,7 @@ def test_calldata(state_test: StateTestFiller, pre: Alloc):
 
     calldata_size = 32
     calldata = b"\x45" * calldata_size
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -303,7 +303,7 @@ def test_eofcreate_in_initcode(
     )
 
     env = Environment()
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -361,7 +361,7 @@ def test_eofcreate_in_initcode_reverts(
     )
 
     env = Environment()
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -422,7 +422,7 @@ def test_return_data_cleared(
     )
 
     slot_returndata_size_2 = slot_last_slot * 2 + slot_returndata_size
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -479,7 +479,7 @@ def test_address_collision(
 
     slot_create_address_2 = slot_last_slot * 2 + slot_create_address
     slot_create_address_3 = slot_last_slot * 3 + slot_create_address
-    sender = pre.fund_eoa(10**21)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[

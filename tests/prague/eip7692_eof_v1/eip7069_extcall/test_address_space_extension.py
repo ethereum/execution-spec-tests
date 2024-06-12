@@ -93,7 +93,7 @@ def test_address_space_extension(
         case _:
             raise ValueError("Unexpected opcode ", target_opcode)
 
-    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa()
 
     address_caller = pre.deploy_contract(
         Container(

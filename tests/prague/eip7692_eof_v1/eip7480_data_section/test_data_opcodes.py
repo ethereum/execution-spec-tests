@@ -161,7 +161,7 @@ def test_data_section_succeed(
     entry_point = pre.deploy_contract(
         code=Op.SSTORE(0, Op.DELEGATECALL(Op.GAS, callee_contract, 0, 0, 0, 0)) + Op.STOP()
     )
-    sender = pre.fund_eoa(1_000_000_000_000_000_000_000)
+    sender = pre.fund_eoa()
 
     tx = Transaction(
         to=entry_point,
