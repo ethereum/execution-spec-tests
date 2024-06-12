@@ -1008,19 +1008,21 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     parent_gas_limit: NumberBoundTypeVar | None = Field(None)
 
 
-class Environment(EnvironmentGeneric[Number]):
+class Environment(EnvironmentGeneric[HexNumber]):
     """
     Structure used to keep track of the context in which a block
     must be executed.
     """
 
-    blob_gas_used: Number | None = Field(None, alias="currentBlobGasUsed", title="Blob Gas Used")
+    blob_gas_used: HexNumber | None = Field(
+        None, alias="currentBlobGasUsed", title="Blob Gas Used"
+    )
     parent_ommers_hash: Hash = Field(Hash(0), alias="parentUncleHash")
-    parent_blob_gas_used: Number | None = Field(None)
-    parent_excess_blob_gas: Number | None = Field(None)
+    parent_blob_gas_used: HexNumber | None = Field(None)
+    parent_excess_blob_gas: HexNumber | None = Field(None)
     parent_beacon_block_root: Hash | None = Field(None)
 
-    block_hashes: Dict[Number, Hash] = Field(default_factory=dict)
+    block_hashes: Dict[HexNumber, Hash] = Field(default_factory=dict)
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
