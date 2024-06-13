@@ -280,7 +280,7 @@ def pytest_configure(config):
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
 
-    config.stash[metadata_key]["Versions"] = {
+    config.stash[metadata_key]["Tools"] = {
         "t8n": t8n.version(),
         "solc": str(config.solc_version),
     }
@@ -293,8 +293,8 @@ def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header"""
     if config.option.collectonly:
         return
-    t8n_version = config.stash[metadata_key]["Versions"]["t8n"]
-    solc_version = config.stash[metadata_key]["Versions"]["solc"]
+    t8n_version = config.stash[metadata_key]["Tools"]["t8n"]
+    solc_version = config.stash[metadata_key]["Tools"]["solc"]
     return [(f"{t8n_version}, {solc_version}")]
 
 
@@ -533,25 +533,40 @@ def output_dir(request, is_output_tarball: bool) -> Path:
 @pytest.fixture(scope="session", autouse=True)
 def create_properties_file(request, output_dir: Path) -> None:
     """
-    Create a properties file in the output directory with the solc version.
+    Create a properties file in the fixture output directory.
     """
     if is_output_stdout(request.config.getoption("output")):
         return
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
-    properties = {
+
+    fixture_properties = {
         "timestamp": datetime.datetime.now().isoformat(),
     }
     if build_name := request.config.getoption("build_name"):
-        properties["build"] = build_name
+        fixture_properties["build"] = build_name
     if github_ref := os.getenv("GITHUB_REF"):
-        properties["ref"] = github_ref
+        fixture_properties["ref"] = github_ref
     if github_sha := os.getenv("GITHUB_SHA"):
-        properties["commit"] = github_sha
-    properties["solc_version"] = request.config.solc_version
+        fixture_properties["commit"] = github_sha
+    command_line_args = request.config.stash[metadata_key]["Command-line args"]
+    command_line_args = command_line_args.replace("<code>", "").replace("</code>", "")
+    fixture_properties["command_line_args"] = command_line_args
 
     config = configparser.ConfigParser()
-    config["FIXTURES"] = properties
+    config["fixtures"] = fixture_properties
+    environment_properties = {}
+    for key, val in request.config.stash[metadata_key].items():
+        if key.lower() == "command-line args":
+            continue
+        if isinstance(val, str):
+            environment_properties[key] = val
+        elif isinstance(val, dict):
+            config[key.lower()] = val
+        else:
+            warnings.warn(f"Properties file: Skipping metadata key {key} with value {val}.")
+    config["environment"] = environment_properties
+
     properties_filename = output_dir / "fixtures.properties"
     with open(properties_filename, "w") as f:
         config.write(f)

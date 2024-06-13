@@ -536,7 +536,7 @@ def test_fixture_output_based_on_command_line_args(
     config = configparser.ConfigParser()
     config.read(properties_file)
 
-    properties = {key: value for key, value in config.items("FIXTURES")}
+    properties = {key: value for key, value in config.items("fixtures")}
     assert "timestamp" in properties
     timestamp = datetime.fromisoformat(properties["timestamp"])
     assert timestamp.year == datetime.now().year
