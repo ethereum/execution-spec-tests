@@ -7,12 +7,12 @@ from typing import Dict, List
 import pytest
 
 from ethereum_test_tools import (
+    EOA,
     Account,
     Address,
     Alloc,
     Environment,
     EOFTestFiller,
-    TestAddress,
     Transaction,
     compute_eofcreate_address,
 )
@@ -50,50 +50,36 @@ def env():  # noqa: D103
 
 
 @pytest.fixture
+def sender(pre: Alloc):  # noqa: D103
+    return pre.fund_eoa()
+
+
+@pytest.fixture
 def create3_init_container(container: Container) -> Initcode:  # noqa: D103
     return Initcode(deploy_container=container)
 
 
 @pytest.fixture
-def create3_opcode_contract_address() -> Address:  # noqa: D103
-    return Address(0x300)
-
-
-@pytest.fixture
-def pre(  # noqa: D103
-    create3_opcode_contract_address: Address,
+def create3_opcode_contract_address(  # noqa: D103
+    pre: Alloc,
     create3_init_container: Initcode,
-) -> Alloc:
-    return Alloc(
-        {
-            TestAddress: Account(
-                balance=1000000000000000000000,
-                nonce=0,
-            ),
-            create3_opcode_contract_address: Account(
-                code=create3_init_container,
-            ),
-        }
-    )
+) -> Address:
+    return pre.deploy_contract(create3_init_container, address=Address(0x300))
 
 
 @pytest.fixture
 def txs(  # noqa: D103
-    create3_opcode_contract_address: str,
+    sender: EOA,
+    create3_opcode_contract_address: Address,
 ) -> List[Transaction]:
     return [
         Transaction(
-            nonce=nonce,
-            to=address,
+            to=create3_opcode_contract_address,
             gas_limit=100000000,
             gas_price=10,
             # data=initcode,
             protected=False,
-        )
-        for nonce, address in enumerate(
-            [
-                create3_opcode_contract_address,
-            ]
+            sender=sender,
         )
     ]
 
@@ -102,7 +88,7 @@ def txs(  # noqa: D103
 def post(  # noqa: D103
     create3_init_container: Initcode,
     container: Container,
-    create3_opcode_contract_address: str,
+    create3_opcode_contract_address: Address,
 ) -> Dict[Address, Account]:
     create_opcode_created_contract_address = compute_eofcreate_address(
         create3_opcode_contract_address,
@@ -170,108 +156,3 @@ def test_legacy_initcode_invalid_eof_v1_contract(
         data=bytes(container),
         expect_exception=container.validity_error,
     )
-
-
-"""
-@test_from(EOF_FORK_NAME)
-def test_legacy_initcode_invalid_eof_v1_contract(_):
-    Test creating various types of invalid EOF V1 contracts using legacy
-    initcode, a contract creating transaction,
-    and the CREATE opcode.
-    tx_created_contract_address = compute_create_address(TestAddress, 0)
-    create_opcode_created_contract_address = compute_create_address(0x100, 0)
-
-    env = Environment()
-
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=0,
-        ),
-        Address(0x100): Account(
-            code=create_initcode_from_calldata,
-        ),
-        Address(0x200): Account(
-            code=create2_initcode_from_calldata,
-        ),
-    }
-
-    post = {
-        Address(0x100): Account(
-            storage={
-                0: 1,
-            }
-        ),
-        tx_created_contract_address: Account.NONEXISTENT,
-        create_opcode_created_contract_address: Account.NONEXISTENT,
-    }
-
-    tx_create_contract = Transaction(
-        nonce=0,
-        to=None,
-        gas_limit=100000000,
-        gas_price=10,
-        protected=False,
-    )
-    tx_create_opcode = Transaction(
-        nonce=1,
-        to=Address(0x100),
-        gas_limit=100000000,
-        gas_price=10,
-        protected=False,
-    )
-    tx_create2_opcode = Transaction(
-        nonce=2,
-        to=Address(0x200),
-        gas_limit=100000000,
-        gas_price=10,
-        protected=False,
-    )
-
-    for container in ALL_INVALID:
-        # print(container.name + ": " + bytes(container).hex())
-        if container.validity_error == "":
-            print(
-                "WARN: Invalid container "
-                + f"`{container.name}` without validity error"
-            )
-        legacy_initcode = Initcode(deploy_code=container)
-        tx_create_contract.data = legacy_initcode
-        tx_create_opcode.data = legacy_initcode
-        tx_create2_opcode.data = legacy_initcode
-        create2_opcode_created_contract_address = compute_create2_address(
-            0x200, 0, bytes(legacy_initcode)
-        )
-        post[create2_opcode_created_contract_address] = Account.NONEXISTENT
-        yield StateTest(
-            env=env,
-            pre=pre,
-            post=post,
-            txs=[
-                tx_create_contract,
-                tx_create_opcode,
-                tx_create2_opcode,
-            ],
-            name=container.name
-            if container.name is not None
-            else "unknown_container",
-        )
-        del post[create2_opcode_created_contract_address]
-    """
-
-
-# TODO: EOF cannot create legacy code:
-#       Tx -> EOF-initcode -> Legacy return (Fail)
-#       EOF contract CREATE -> EOF-initcode -> Legacy return (Fail)
-#       EOF contract CREATE2 -> EOF-initcode -> Legacy return (Fail)
-#
-#       Tx -> Legacy-initcode -> Legacy return (Pass)
-#       EOF contract CREATE -> Legacy-initcode -> Legacy return (Fail)
-#       EOF contract CREATE2 -> Legacy-initcode -> Legacy return (Fail)
-#
-#       Tx -> Legacy-initcode -> EOF return (Pass)
-#       EOF contract CREATE -> Legacy-initcode -> EOF return (Fail)
-#       EOF contract CREATE2 -> Legacy-initcode -> EOF return (Fail)
-# TODO: Create empty contract from EOF
-# TODO: No new opcodes in legacy code
-# TODO: General EOF initcode validation
