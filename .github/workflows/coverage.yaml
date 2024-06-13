@@ -8,6 +8,10 @@ on:
 jobs:
   evmone-coverage-diff:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        driver: [retesteth, native]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -122,9 +126,10 @@ jobs:
                exit 1
           fi
 
-          mkdir -p ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
-          find fixtures/state_tests -type f -name "*.json" -exec cp {} ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS \;
-          find fixtures/eof_tests -type f -name "*.json" -exec cp {} ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS \;
+          PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
+          mkdir -p $PATCH_TEST_PATH
+          find fixtures/state_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
+          find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
       - name: Print tests that will be covered
         run: |
@@ -139,14 +144,14 @@ jobs:
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/BASE_TESTS --outputname=BASE
+          run: /entrypoint.sh --mode=cover --driver=${{ matrix.driver }} --testpath=/tests/BASE_TESTS --outputname=BASE
 
       - name: Run coverage of the PATCH tests
         uses: addnab/docker-run-action@v3
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/PATCH_TESTS --outputname=PATCH
+          run: /entrypoint.sh --mode=cover --driver=${{ matrix.driver }} --testpath=/tests/PATCH_TESTS --outputname=PATCH
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
         uses: addnab/docker-run-action@v3
