@@ -140,10 +140,10 @@ def pytest_addoption(parser):
         type=Path,
         default=Path(default_output_directory()),
         help=(
-            "Directory path to store the generated test fixtures. Can be deleted. "
+            "Directory path to store the generated test fixtures. "
             "If the specified path ends in '.tar.gz', then the specified tarball is additionally "
             "created (the fixtures are still written to the specified path without '.tar.gz' "
-            f"suffix). Default: '{default_output_directory()}'."
+            f"suffix). Can be deleted. Default: '{default_output_directory()}'."
         ),
     )
     test_group.addoption(
