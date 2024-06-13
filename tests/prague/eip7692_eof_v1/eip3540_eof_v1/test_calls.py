@@ -6,16 +6,16 @@ import itertools
 import pytest
 
 from ethereum_test_tools import (
+    EOA,
     Account,
     Address,
+    Alloc,
     Environment,
     StateTestFiller,
     Storage,
-    TestAddress,
     Transaction,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
@@ -47,11 +47,18 @@ contract_eof_sstore = Container(
     sections=[
         Section.Code(
             code=Op.SSTORE(slot_caller, Op.CALLER()) + Op.STOP,
-            code_outputs=NON_RETURNING_SECTION,
             max_stack_height=2,
         )
     ]
 )
+
+
+@pytest.fixture
+def sender(pre: Alloc) -> EOA:
+    """
+    The sender of the transaction
+    """
+    return pre.fund_eoa()
 
 
 @pytest.mark.parametrize(
@@ -66,35 +73,23 @@ contract_eof_sstore = Container(
 )
 def test_legacy_calls_eof_sstore(
     state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
     """Test legacy contracts calling EOF contracts that use SSTORE"""
     env = Environment()
-    calling_contract_address = Address(0x1000000)
-    destination_contract_address = Address(0x1000001)
+    destination_contract_address = pre.deploy_contract(contract_eof_sstore)
 
     caller_contract = Op.SSTORE(
         slot_call_result, opcode(Op.GAS, destination_contract_address, *suffix)
     ) + Op.SSTORE(slot_code_worked, value_code_worked)
 
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=1,
-        ),
-        calling_contract_address: Account(
-            code=caller_contract,
-            nonce=1,
-        ),
-        destination_contract_address: Account(
-            code=contract_eof_sstore,
-            nonce=1,
-        ),
-    }
+    calling_contract_address = pre.deploy_contract(caller_contract)
 
     tx = Transaction(
-        nonce=1,
+        sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
         gas_price=10,
@@ -113,7 +108,7 @@ def test_legacy_calls_eof_sstore(
     if opcode == Op.CALL:
         destination_storage[slot_caller] = calling_contract_address
     elif opcode == Op.DELEGATECALL:
-        calling_storage[slot_caller] = TestAddress
+        calling_storage[slot_caller] = sender
     elif opcode == Op.CALLCODE:
         calling_storage[slot_caller] = calling_contract_address
     elif opcode == Op.STATICCALL:
@@ -144,13 +139,23 @@ def test_legacy_calls_eof_sstore(
 )
 def test_legacy_calls_eof_mstore(
     state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
     """Test legacy contracts calling EOF contracts that only return data"""
     env = Environment()
-    calling_contract_address = Address(0x1000000)
-    destination_contract_address = Address(0x1000001)
+    destination_contract_code = Container(
+        sections=[
+            Section.Code(
+                code=Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big"))
+                + Op.RETURN(0, len(value_returndata_magic)),
+                max_stack_height=2,
+            )
+        ]
+    )
+    destination_contract_address = pre.deploy_contract(destination_contract_code)
 
     caller_contract = (
         Op.SSTORE(slot_call_result, opcode(Op.GAS, destination_contract_address, *suffix))
@@ -159,33 +164,10 @@ def test_legacy_calls_eof_mstore(
         + Op.SSTORE(slot_returndata, Op.MLOAD(0))
         + Op.SSTORE(slot_code_worked, value_code_worked)
     )
-
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=1,
-        ),
-        calling_contract_address: Account(
-            code=caller_contract,
-            nonce=1,
-        ),
-        destination_contract_address: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big"))
-                        + Op.RETURN(0, len(value_returndata_magic)),
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=2,
-                    )
-                ]
-            ),
-            nonce=1,
-        ),
-    }
+    calling_contract_address = pre.deploy_contract(caller_contract)
 
     tx = Transaction(
-        nonce=1,
+        sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
         gas_price=10,
@@ -224,13 +206,14 @@ def test_legacy_calls_eof_mstore(
 )
 def test_eof_calls_eof_sstore(
     state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
     """Test EOF contracts calling EOF contracts that use SSTORE"""
     env = Environment()
-    calling_contract_address = Address(0x1000000)
-    destination_contract_address = Address(0x1000001)
+    destination_contract_address = pre.deploy_contract(contract_eof_sstore)
 
     caller_contract = Container(
         sections=[
@@ -238,29 +221,14 @@ def test_eof_calls_eof_sstore(
                 code=Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
-                code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=1 + len(suffix),
             )
         ]
     )
-
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=1,
-        ),
-        calling_contract_address: Account(
-            code=caller_contract,
-            nonce=1,
-        ),
-        destination_contract_address: Account(
-            code=contract_eof_sstore,
-            nonce=1,
-        ),
-    }
+    calling_contract_address = pre.deploy_contract(caller_contract)
 
     tx = Transaction(
-        nonce=1,
+        sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
         gas_price=10,
@@ -279,7 +247,7 @@ def test_eof_calls_eof_sstore(
     if opcode == Op.EXTCALL:
         destination_storage[slot_caller] = calling_contract_address
     elif opcode == Op.EXTDELEGATECALL:
-        calling_storage[slot_caller] = TestAddress
+        calling_storage[slot_caller] = sender
     elif opcode == Op.EXTSTATICCALL:
         calling_storage[slot_call_result] = value_eof_call_reverted
 
@@ -307,13 +275,23 @@ def test_eof_calls_eof_sstore(
 )
 def test_eof_calls_eof_mstore(
     state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
     """Test EOF contracts calling EOF contracts that return data"""
     env = Environment()
-    calling_contract_address = Address(0x1000000)
-    destination_contract_address = Address(0x1000001)
+    destination_contract_code = Container(
+        sections=[
+            Section.Code(
+                code=Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big"))
+                + Op.RETURN(0, 32),
+                max_stack_height=2,
+            )
+        ]
+    )
+    destination_contract_address = pre.deploy_contract(destination_contract_code)
 
     caller_contract = Container(
         sections=[
@@ -323,38 +301,14 @@ def test_eof_calls_eof_mstore(
                 + Op.SSTORE(slot_returndata, Op.RETURNDATALOAD(0))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
-                code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=1 + len(suffix),
             )
         ]
     )
-
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=1,
-        ),
-        calling_contract_address: Account(
-            code=caller_contract,
-            nonce=1,
-        ),
-        destination_contract_address: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big"))
-                        + Op.RETURN(0, 32),
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=2,
-                    )
-                ]
-            ),
-            nonce=1,
-        ),
-    }
+    calling_contract_address = pre.deploy_contract(caller_contract)
 
     tx = Transaction(
-        nonce=1,
+        sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
         gas_price=10,
@@ -394,13 +348,15 @@ def test_eof_calls_eof_mstore(
 )
 def test_eof_calls_legacy_sstore(
     state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
     """Test EOF contracts calling Legacy contracts that use SSTORE"""
     env = Environment()
-    calling_contract_address = Address(0x1000000)
-    destination_contract_address = Address(0x1000001)
+    destination_contract_code = Op.SSTORE(slot_caller, Op.CALLER()) + Op.STOP
+    destination_contract_address = pre.deploy_contract(destination_contract_code)
 
     caller_contract = Container(
         sections=[
@@ -408,29 +364,14 @@ def test_eof_calls_legacy_sstore(
                 code=Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
-                code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=1 + len(suffix),
             )
         ]
     )
-
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=1,
-        ),
-        calling_contract_address: Account(
-            code=caller_contract,
-            nonce=1,
-        ),
-        destination_contract_address: Account(
-            code=Op.SSTORE(slot_caller, Op.CALLER()) + Op.STOP,
-            nonce=1,
-        ),
-    }
+    calling_contract_address = pre.deploy_contract(caller_contract)
 
     tx = Transaction(
-        nonce=1,
+        sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
         gas_price=10,
@@ -476,13 +417,17 @@ def test_eof_calls_legacy_sstore(
 )
 def test_eof_calls_legacy_mstore(
     state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
     opcode: Op,
     suffix: list[int],
 ):
     """Test EOF contracts calling Legacy contracts that return data"""
     env = Environment()
-    calling_contract_address = Address(0x1000000)
-    destination_contract_address = Address(0x1000001)
+    destination_contract_code = Op.MSTORE8(
+        0, int.from_bytes(value_returndata_magic, "big")
+    ) + Op.RETURN(0, 32)
+    destination_contract_address = pre.deploy_contract(destination_contract_code)
 
     caller_contract = Container(
         sections=[
@@ -492,29 +437,14 @@ def test_eof_calls_legacy_mstore(
                 + Op.SSTORE(slot_returndata, Op.RETURNDATALOAD(0))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
-                code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=1 + len(suffix),
             )
         ]
     )
-
-    pre = {
-        TestAddress: Account(
-            balance=1000000000000000000000,
-            nonce=1,
-        ),
-        calling_contract_address: Account(
-            code=caller_contract,
-            nonce=1,
-        ),
-        destination_contract_address: Account(
-            code=Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big")) + Op.RETURN(0, 32),
-            nonce=1,
-        ),
-    }
+    calling_contract_address = pre.deploy_contract(caller_contract)
 
     tx = Transaction(
-        nonce=1,
+        sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
         gas_price=10,
