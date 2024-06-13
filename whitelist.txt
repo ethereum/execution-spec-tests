@@ -192,6 +192,7 @@ ignoreRevsFile
 img
 imm
 immediates
+incr
 incrementing
 init
 initcode
