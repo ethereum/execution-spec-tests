@@ -9,6 +9,7 @@ ase
 alloc
 api
 apis
+arcname
 at5
 AutoSection
 auxdata
