@@ -6,6 +6,7 @@ and that modifies pytest hooks in order to fill test specs for all tests and
 writes the generated fixtures to file.
 """
 
+import configparser
 import datetime
 import os
 import tarfile
@@ -548,10 +549,12 @@ def create_properties_file(request, output_dir: Path) -> None:
     if github_sha := os.getenv("GITHUB_SHA"):
         properties["commit"] = github_sha
     properties["solc_version"] = request.config.solc_version
+
+    config = configparser.ConfigParser()
+    config["FIXTURES"] = properties
     properties_filename = output_dir / "fixtures.properties"
-    with open(properties_filename, "w") as file:
-        for key, value in properties.items():
-            file.write(f"{key}={value}\n")
+    with open(properties_filename, "w") as f:
+        config.write(f)
 
 
 @pytest.fixture(scope="session", autouse=True)
