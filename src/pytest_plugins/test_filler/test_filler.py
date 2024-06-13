@@ -6,6 +6,7 @@ and that modifies pytest hooks in order to fill test specs for all tests and
 writes the generated fixtures to file.
 """
 
+import datetime
 import os
 import tarfile
 import warnings
@@ -54,6 +55,13 @@ def strip_output_tarball_suffix(output: Path) -> Path:
     if str(output).endswith(".tar.gz"):
         return output.with_suffix("").with_suffix("")
     return output
+
+
+def is_output_stdout(output: Path) -> bool:
+    """
+    Returns True if the fixture output is configured to be stdout.
+    """
+    return strip_output_tarball_suffix(output).name == "stdout"
 
 
 def pytest_addoption(parser):
@@ -163,6 +171,14 @@ def pytest_addoption(parser):
             "The --html flag can be used to specify a different path."
         ),
     )
+    test_group.addoption(
+        "--build-name",
+        action="store",
+        dest="build_name",
+        default=None,
+        type=str,
+        help="Specify a build name for the fixtures.properties file, e.g., 'stable'.",
+    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -265,7 +281,7 @@ def pytest_report_teststatus(report, config):
     ...x...
     ```
     """
-    if strip_output_tarball_suffix(config.getoption("output")).name == "stdout":
+    if is_output_stdout(config.getoption("output")):
         return report.outcome, "", report.outcome.upper()
 
 
@@ -467,6 +483,31 @@ def output_dir(request, is_output_tarball: bool) -> Path:
 
 
 @pytest.fixture(scope="session", autouse=True)
+def create_properties_file(request, output_dir: Path) -> None:
+    """
+    Create a properties file in the output directory with the solc version.
+    """
+    if is_output_stdout(request.config.getoption("output")):
+        return
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+    properties = {
+        "timestamp": datetime.datetime.now().isoformat(),
+    }
+    if build_name := request.config.getoption("build_name"):
+        properties["build"] = build_name
+    if github_ref := os.getenv("GITHUB_REF"):
+        properties["ref"] = github_ref
+    if github_sha := os.getenv("GITHUB_SHA"):
+        properties["commit"] = github_sha
+    properties["solc_version"] = request.config.solc_version
+    properties_filename = output_dir / "fixtures.properties"
+    with open(properties_filename, "w") as file:
+        for key, value in properties.items():
+            file.write(f"{key}={value}\n")
+
+
+@pytest.fixture(scope="session", autouse=True)
 def create_tarball(
     request, output_dir: Path, is_output_tarball: bool
 ) -> Generator[None, None, None]:
@@ -517,7 +558,7 @@ def get_fixture_collection_scope(fixture_name, config):
 
     See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
     """
-    if strip_output_tarball_suffix(config.getoption("output")).name == "stdout":
+    if is_output_stdout(config.getoption("output")):
         return "session"
     if config.getoption("single_fixture_per_file"):
         return "function"

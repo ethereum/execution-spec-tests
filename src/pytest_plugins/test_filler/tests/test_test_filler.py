@@ -495,6 +495,11 @@ def test_fixture_output_based_on_command_line_args(
 
     all_files = get_all_files_in_directory(output_dir)
 
+    for file in all_files:
+        if file.name == "fixtures.properties":
+            all_files.remove(file)
+            break
+
     for fixture_file, fixture_count in zip(expected_fixture_files, expected_fixture_counts):
         assert fixture_file.exists()
         assert fixture_count == count_keys_in_fixture(fixture_file)
