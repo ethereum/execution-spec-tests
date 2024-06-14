@@ -96,6 +96,7 @@ class BesuTransitionTool(TransitionTool):
         txs: Any,
         env: Any,
         fork_name: str,
+        vkt: Any = None,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
