@@ -61,7 +61,7 @@ from typing import Dict, List, TextIO
 import click
 
 from ethereum_test_tools import Account, Address, Transaction, common
-from ethereum_test_tools.rpc.rpc import EthRPC
+from ethereum_test_tools.rpc.rpc import BlockNumberType, EthRPC
 
 
 @click.command()
@@ -97,7 +97,7 @@ def make_test(transaction_hash: str, output_file: TextIO, config_file: TextIO):
     state = request.debug_trace_call(tr)
 
     print("Perform eth_get_block_by_number", file=stderr)
-    block = request.eth_get_block_by_number(tr.block_number)
+    block = request.eth_get_block_by_number(int(tr.block_number))
 
     print("Generate py test", file=stderr)
     constructor = TestConstructor(PYTEST_TEMPLATE)
@@ -326,7 +326,7 @@ class RequestManager:
             ),
         )
 
-    def eth_get_block_by_number(self, block_number: str) -> RemoteBlock:
+    def eth_get_block_by_number(self, block_number: BlockNumberType) -> RemoteBlock:
         """
         Get block by number
         """
