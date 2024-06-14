@@ -204,7 +204,7 @@ def pytest_addoption(parser):
         dest="build_name",
         default=None,
         type=str,
-        help="Specify a build name for the fixtures.properties file, e.g., 'stable'.",
+        help="Specify a build name for the fixtures.ini file, e.g., 'stable'.",
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -533,7 +533,8 @@ def output_dir(request, is_output_tarball: bool) -> Path:
 @pytest.fixture(scope="session", autouse=True)
 def create_properties_file(request, output_dir: Path) -> None:
     """
-    Create a properties file in the fixture output directory.
+    Creates an ini file with fixture build properties in the fixture output
+    directory.
     """
     if is_output_stdout(request.config.getoption("output")):
         return
@@ -559,16 +560,17 @@ def create_properties_file(request, output_dir: Path) -> None:
     for key, val in request.config.stash[metadata_key].items():
         if key.lower() == "command-line args":
             continue
-        if isinstance(val, str):
+        if key.lower() in ["python", "platform"]:
             environment_properties[key] = val
         elif isinstance(val, dict):
             config[key.lower()] = val
         else:
-            warnings.warn(f"Properties file: Skipping metadata key {key} with value {val}.")
+            warnings.warn(f"Fixtures ini file: Skipping metadata key {key} with value {val}.")
     config["environment"] = environment_properties
 
-    properties_filename = output_dir / "fixtures.properties"
-    with open(properties_filename, "w") as f:
+    ini_filename = output_dir / "fixtures.ini"
+    with open(ini_filename, "w") as f:
+        f.write("; This file describes fixture build properties\n\n")
         config.write(f)
 
 
@@ -577,10 +579,10 @@ def create_tarball(
     request, output_dir: Path, is_output_tarball: bool
 ) -> Generator[None, None, None]:
     """
-    Create a tarball of the output directory if the configured output ends
-    with '.tar.gz'.
+    Create a tarball of json files the output directory if the configured
+    output ends with '.tar.gz'.
 
-    Only include .json and .properties files in the archive.
+    Only include .json and .ini files in the archive.
     """
     yield
     if is_output_tarball:
@@ -588,7 +590,7 @@ def create_tarball(
         tarball_filename = request.config.getoption("output")
         with tarfile.open(tarball_filename, "w:gz") as tar:
             for file in source_dir.rglob("*"):
-                if file.suffix in {".json", ".properties"}:
+                if file.suffix in {".json", ".ini"}:
                     arcname = file.relative_to(source_dir.parent)
                     tar.add(file, arcname=arcname)
 

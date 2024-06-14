@@ -115,7 +115,7 @@ total_test_count = test_count_paris + test_count_shanghai
                 Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            id="build-name-in-properties-file",
+            id="build-name-in-fixtures-ini-file",
         ),
         pytest.param(
             ["--flat-output"],
@@ -517,10 +517,11 @@ def test_fixture_output_based_on_command_line_args(
 
     all_files = get_all_files_in_directory(output_dir)
 
-    properties_file = None
+    ini_file = None
+    expected_fixtures_ini_filename = "fixtures.ini"
     for file in all_files:
-        if file.name == "fixtures.properties":
-            properties_file = file
+        if file.name == expected_fixtures_ini_filename:
+            ini_file = file
             all_files.remove(file)
             break
 
@@ -532,9 +533,9 @@ def test_fixture_output_based_on_command_line_args(
         expected_fixture_files
     ), f"Unexpected files in directory: {set(all_files) - set(expected_fixture_files)}"
 
-    assert properties_file is not None, "No properties file was written"
+    assert ini_file is not None, f"No {expected_fixtures_ini_filename} file was written"
     config = configparser.ConfigParser()
-    config.read(properties_file)
+    config.read(ini_file)
 
     properties = {key: value for key, value in config.items("fixtures")}
     assert "timestamp" in properties
