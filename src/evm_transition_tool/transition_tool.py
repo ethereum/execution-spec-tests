@@ -13,13 +13,13 @@ from dataclasses import dataclass, field
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Dict, List, Mapping, Optional, Type
+from typing import Any, Dict, List, Mapping, Optional, Type
 
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_fixtures import FixtureFormat, FixtureVerifier
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types import Alloc, Environment, Transaction, VerkleTree
 
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput
@@ -34,7 +34,9 @@ class UnknownTransitionTool(Exception):
 class TransitionToolNotFoundInPath(Exception):
     """Exception raised if the specified t8n tool is not found in the path"""
 
-    def __init__(self, message="The transition tool was not found in the path", binary=None):
+    def __init__(
+        self, message="The transition tool was not found in the path", binary=None
+    ):
         if binary:
             message = f"{message} ({binary})"
         super().__init__(message)
@@ -59,6 +61,7 @@ class TransitionTool(FixtureVerifier):
     t8n_subcommand: Optional[str] = None
     statetest_subcommand: Optional[str] = None
     blocktest_subcommand: Optional[str] = None
+    verkle_subcommand: Optional[str] = None
     cached_version: Optional[str] = None
     t8n_use_stream: bool = False
 
@@ -67,7 +70,6 @@ class TransitionTool(FixtureVerifier):
     process: Optional[subprocess.Popen] = None
 
     # Abstract methods that each tool must implement
-
     @abstractmethod
     def __init__(
         self,
@@ -112,7 +114,9 @@ class TransitionTool(FixtureVerifier):
         cls.default_tool = tool_subclass
 
     @classmethod
-    def from_binary_path(cls, *, binary_path: Optional[Path], **kwargs) -> "TransitionTool":
+    def from_binary_path(
+        cls, *, binary_path: Optional[Path], **kwargs
+    ) -> "TransitionTool":
         """
         Instantiates the appropriate TransitionTool subclass derived from the
         tool's binary path.
@@ -139,7 +143,9 @@ class TransitionTool(FixtureVerifier):
         ):
             try:
                 result = subprocess.run(
-                    [binary, version_flag], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    [binary, version_flag],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                 )
                 if result.returncode != 0:
                     raise Exception(f"Non-zero return code: {result.returncode}")
@@ -259,6 +265,7 @@ class TransitionTool(FixtureVerifier):
         txs: List[Transaction]
         env: Environment
         fork_name: str
+        vkt: Any = None
         chain_id: int = field(default=1)
         reward: int = field(default=0)
 
@@ -267,9 +274,7 @@ class TransitionTool(FixtureVerifier):
             Convert the data to a TransactionToolInput object
             """
             return TransitionToolInput(
-                alloc=self.alloc,
-                txs=self.txs,
-                env=self.env,
+                alloc=self.alloc, txs=self.txs, env=self.env, vkt=self.vkt
             )
 
     def _evaluate_filesystem(
@@ -285,20 +290,23 @@ class TransitionTool(FixtureVerifier):
         os.mkdir(os.path.join(temp_dir.name, "input"))
         os.mkdir(os.path.join(temp_dir.name, "output"))
 
-        input_contents = t8n_data.to_input().model_dump(mode="json", **model_dump_config)
+        input_contents = t8n_data.to_input().model_dump(
+            mode="json", **model_dump_config
+        )
 
         input_paths = {
-            k: os.path.join(temp_dir.name, "input", f"{k}.json") for k in input_contents.keys()
+            k: os.path.join(temp_dir.name, "input", f"{k}.json")
+            for k in input_contents.keys()
         }
         for key, file_path in input_paths.items():
             write_json_file(input_contents[key], file_path)
 
         output_paths = {
-            output: os.path.join("output", f"{output}.json") for output in ["alloc", "result"]
+            output: os.path.join("output", f"{output}.json")
+            for output in ["alloc", "result"]
         }
         output_paths["body"] = os.path.join("output", "txs.rlp")
 
-        # Construct args for evmone-t8n binary
         args = [
             str(self.binary),
             "--state.fork",
@@ -323,6 +331,13 @@ class TransitionTool(FixtureVerifier):
             str(t8n_data.chain_id),
         ]
 
+        # TODO: Verkle specific logic, update when Verkle fork is confirmed.
+        if t8n_data.fork_name == "Prague":
+            output_paths["vkt"] = os.path.join("output", "vkt.json")
+            args.extend(["--output.vkt", output_paths["vkt"]])
+            if t8n_data.vkt is not None:
+                args.extend(["--input.vkt", input_paths["vkt"]])
+
         if self.trace:
             args.append("--trace")
 
@@ -342,9 +357,11 @@ class TransitionTool(FixtureVerifier):
                 t8n_call = t8n_call.replace(
                     os.path.dirname(file_path), os.path.join(debug_output_path, "input")
                 )
-            t8n_call = t8n_call.replace(  # use a new output path for basedir and outputs
-                temp_dir.name,
-                t8n_output_base_dir,
+            t8n_call = (
+                t8n_call.replace(  # use a new output path for basedir and outputs
+                    temp_dir.name,
+                    t8n_output_base_dir,
+                )
             )
             t8n_script = textwrap.dedent(
                 f"""\
@@ -431,7 +448,9 @@ class TransitionTool(FixtureVerifier):
                 f"response: {response.text}"
             )
 
-        output: TransitionToolOutput = TransitionToolOutput.model_validate(response.json())
+        output: TransitionToolOutput = TransitionToolOutput.model_validate(
+            response.json()
+        )
 
         if debug_output_path:
             response_info = (
@@ -477,16 +496,23 @@ class TransitionTool(FixtureVerifier):
         if result.returncode != 0:
             raise Exception("failed to evaluate: " + result.stderr.decode())
 
-        output: TransitionToolOutput = TransitionToolOutput.model_validate_json(result.stdout)
+        output: TransitionToolOutput = TransitionToolOutput.model_validate_json(
+            result.stdout
+        )
 
         if debug_output_path:
+            files_to_dump = {
+                "output/alloc.json": output.alloc,
+                "output/result.json": output.result,
+                "output/txs.rlp": str(output.body),
+            }
+            # Only dump verkle if present
+            if output.vkt:
+                files_to_dump["output/vkt.json"] = output.vkt
+
             dump_files_to_directory(
                 debug_output_path,
-                {
-                    "output/alloc.json": output.alloc,
-                    "output/result.json": output.result,
-                    "output/txs.rlp": str(output.body),
-                },
+                files_to_dump,
             )
 
         if self.trace:
@@ -509,6 +535,9 @@ class TransitionTool(FixtureVerifier):
             "--input.alloc=stdin",
             "--input.txs=stdin",
             "--input.env=stdin",
+        ]
+
+        args += [
             "--output.result=stdout",
             "--output.alloc=stdout",
             "--output.body=stdout",
@@ -516,6 +545,12 @@ class TransitionTool(FixtureVerifier):
             f"--state.chainid={t8n_data.chain_id}",
             f"--state.reward={t8n_data.reward}",
         ]
+
+        # TODO: Verkle specific logic, update when Verkle fork is confirmed.
+        if t8n_data.fork_name == "Prague":
+            args.append("--output.vkt=stdout")
+            if t8n_data.vkt is not None:
+                args.append("--input.vkt=stdin")
 
         if self.trace:
             args.append("--trace")
@@ -548,21 +583,27 @@ class TransitionTool(FixtureVerifier):
             {t8n_call} < {debug_output_path}/stdin.txt
             """
         )
+
+        files_to_dump = {
+            "args.py": args,
+            "input/alloc.json": stdin.alloc,
+            "input/env.json": stdin.env,
+            "input/txs.json": [
+                tx.model_dump(mode="json", **model_dump_config) for tx in stdin.txs
+            ],
+            "returncode.txt": result.returncode,
+            "stdin.txt": stdin,
+            "stdout.txt": result.stdout.decode(),
+            "stderr.txt": result.stderr.decode(),
+            "t8n.sh+x": t8n_script,
+        }
+        # Only dump verkle if present
+        if stdin.vkt:
+            files_to_dump["input/vkt.json"] = stdin.vkt
+
         dump_files_to_directory(
             debug_output_path,
-            {
-                "args.py": args,
-                "input/alloc.json": stdin.alloc,
-                "input/env.json": stdin.env,
-                "input/txs.json": [
-                    tx.model_dump(mode="json", **model_dump_config) for tx in stdin.txs
-                ],
-                "returncode.txt": result.returncode,
-                "stdin.txt": stdin,
-                "stdout.txt": result.stdout.decode(),
-                "stderr.txt": result.stderr.decode(),
-                "t8n.sh+x": t8n_script,
-            },
+            files_to_dump,
         )
 
     def evaluate(
@@ -572,6 +613,7 @@ class TransitionTool(FixtureVerifier):
         txs: List[Transaction],
         env: Environment,
         fork: Fork,
+        vkt: Any = None,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
@@ -599,15 +641,20 @@ class TransitionTool(FixtureVerifier):
             txs=txs,
             env=env,
             fork_name=fork_name,
+            vkt=vkt,
             chain_id=chain_id,
             reward=reward,
         )
 
         if self.t8n_use_server:
-            return self._evaluate_server(t8n_data=t8n_data, debug_output_path=debug_output_path)
+            return self._evaluate_server(
+                t8n_data=t8n_data, debug_output_path=debug_output_path
+            )
 
         if self.t8n_use_stream:
-            return self._evaluate_stream(t8n_data=t8n_data, debug_output_path=debug_output_path)
+            return self._evaluate_stream(
+                t8n_data=t8n_data, debug_output_path=debug_output_path
+            )
 
         return self._evaluate_filesystem(
             t8n_data=t8n_data,
@@ -628,4 +675,14 @@ class TransitionTool(FixtureVerifier):
         """
         raise NotImplementedError(
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
+        )
+
+    def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
+        """
+        Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.
+
+        Currently only implemented by geth's evm.
+        """
+        raise NotImplementedError(
+            "The `from_mpt_to_vkt` function is not supported by this tool. Use geth's evm tool."
         )

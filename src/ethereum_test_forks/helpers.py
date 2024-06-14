@@ -1,7 +1,8 @@
 """
 Helper methods to resolve forks during test filling
 """
-from typing import List, Optional, Set
+
+from typing import List, Optional
 
 from semver import Version
 
@@ -32,6 +33,9 @@ def get_forks() -> List[Fork]:
             continue
         if issubclass(fork, BaseFork) and fork is not BaseFork:
             all_forks.append(fork)
+
+    all_forks += get_transition_forks(always_execute=True)
+
     return all_forks
 
 
@@ -87,7 +91,7 @@ def get_closest_fork_with_solc_support(fork: Fork, solc_version: Version) -> Opt
     )
 
 
-def get_transition_forks() -> List[Fork]:
+def get_transition_forks(always_execute: bool = False) -> List[Fork]:
     """
     Returns all the transition forks
     """
@@ -98,6 +102,8 @@ def get_transition_forks() -> List[Fork]:
         if not isinstance(fork, type):
             continue
         if issubclass(fork, TransitionBaseClass) and issubclass(fork, BaseFork):
+            if always_execute and not fork.always_execute():
+                continue
             transition_forks.append(fork)
 
     return transition_forks

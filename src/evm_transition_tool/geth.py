@@ -3,8 +3,10 @@ Go-ethereum Transition tool interface.
 """
 
 import json
+import os
 import shutil
 import subprocess
+import tempfile
 import textwrap
 from pathlib import Path
 from re import compile
@@ -12,6 +14,8 @@ from typing import Optional
 
 from ethereum_test_fixtures import BlockchainFixture, StateFixture
 from ethereum_test_forks import Fork
+from ethereum_test_tools.common.json import to_json
+from ethereum_test_tools.common.types import Alloc, VerkleTree
 
 from .transition_tool import FixtureFormat, TransitionTool, dump_files_to_directory
 
@@ -26,6 +30,8 @@ class GethTransitionTool(TransitionTool):
     t8n_subcommand: Optional[str] = "t8n"
     statetest_subcommand: Optional[str] = "statetest"
     blocktest_subcommand: Optional[str] = "blocktest"
+    verkle_subcommand: Optional[str] = "verkle"
+
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
@@ -42,7 +48,9 @@ class GethTransitionTool(TransitionTool):
         try:
             result = subprocess.run(args, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
-            raise Exception("evm process unexpectedly returned a non-zero status code: " f"{e}.")
+            raise Exception(
+                "evm process unexpectedly returned a non-zero status code: " f"{e}."
+            )
         except Exception as e:
             raise Exception(f"Unexpected exception calling evm tool: {e}.")
         self.help_string = result.stdout
@@ -63,7 +71,9 @@ class GethTransitionTool(TransitionTool):
         try:
             result = subprocess.run(args, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
-            raise Exception("evm process unexpectedly returned a non-zero status code: " f"{e}.")
+            raise Exception(
+                "evm process unexpectedly returned a non-zero status code: " f"{e}."
+            )
         except Exception as e:
             raise Exception(f"Unexpected exception calling evm tool: {e}.")
         return result.stdout
@@ -147,3 +157,39 @@ class GethTransitionTool(TransitionTool):
         else:
             result_json = []  # there is no parseable format for blocktest output
         return result_json
+
+    def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
+        """
+        Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.
+        """
+        # Write the MPT alloc to a temporary file: alloc.json
+        with tempfile.TemporaryDirectory() as temp_dir:
+            input_dir = os.path.join(temp_dir, "input")
+            os.mkdir(input_dir)
+            alloc_path = os.path.join(input_dir, "alloc.json")
+            with open(alloc_path, "w") as f:
+                json.dump(to_json(mpt_alloc), f)
+
+            # Check if the file was created
+            if not os.path.exists(alloc_path):
+                raise Exception(f"Failed to create alloc.json at {alloc_path}")
+
+            # Run the verkle subcommand with the alloc.json file as input
+            command = [
+                str(self.binary),
+                str(self.verkle_subcommand),
+                "tree-keys",
+                "--input.alloc",
+                alloc_path,
+            ]
+            result = subprocess.run(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            if result.returncode != 0:
+                raise Exception(
+                    f"Failed to run verkle subcommand: '{' '.join(command)}'. "
+                    f"Error: '{result.stderr.decode()}'"
+                )
+            return VerkleTree(json.loads(result.stdout.decode()))

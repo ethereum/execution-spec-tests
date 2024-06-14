@@ -20,7 +20,7 @@ from ethereum_test_fixtures.state import (
     FixtureForkPost,
     FixtureTransaction,
 )
-from ethereum_test_forks import Fork
+from ethereum_test_forks import EIP6800Transition, Fork
 from ethereum_test_types import Alloc, Environment, Transaction
 from evm_transition_tool import TransitionTool
 
@@ -180,10 +180,17 @@ class StateTest(BaseTest):
         """
         if fixture_format in BlockchainTest.supported_fixture_formats:
             return self.generate_blockchain_test().generate(
-                request=request, t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips
+                request=request,
+                t8n=t8n,
+                fork=fork,
+                fixture_format=fixture_format,
+                eips=eips,
             )
         elif fixture_format == StateFixture:
-            return self.make_state_test_fixture(t8n, fork, eips)
+            if fork is not EIP6800Transition:
+                return self.make_state_test_fixture(t8n, fork, eips)
+            else:
+                pytest.skip("State tests are not supported for EIP-6800 transition.")
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
