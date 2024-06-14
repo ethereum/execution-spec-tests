@@ -5,17 +5,8 @@ abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.et
 
 import pytest
 
-from ethereum_test_tools import (
-    Account,
-    Environment,
-    EOFException,
-    EOFTestFiller,
-    StateTestFiller,
-    TestAddress,
-    Transaction,
-)
+from ethereum_test_tools import Account, EOFException, EOFStateTestFiller, EOFTestFiller
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
@@ -26,10 +17,7 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 
 
 @pytest.mark.valid_from(EOF_FORK_NAME)
-def test_exchange_all_valid_immediates(
-    tx: Transaction,
-    state_test: StateTestFiller,
-):
+def test_exchange_all_valid_immediates(eof_state_test: EOFStateTestFiller):
     """
     Test case for all valid EXCHANGE immediates.
     """
@@ -44,17 +32,10 @@ def test_exchange_all_valid_immediates(
                 + b"".join(Op.EXCHANGE(x) for x in range(0, n))
                 + b"".join((Op.PUSH1(x) + Op.SSTORE) for x in range(0, s))
                 + Op.STOP,
-                code_inputs=0,
-                code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=s + 1,
             )
         ],
     )
-
-    pre = {
-        TestAddress: Account(balance=1_000_000_000),
-        tx.to: Account(code=eof_code),
-    }
 
     # this does the same full-loop exchange
     values_rotated = list(range(0x3E8, 0x3E8 + s))
@@ -65,13 +46,12 @@ def test_exchange_all_valid_immediates(
         values_rotated[a] = values_rotated[b]
         values_rotated[b] = temp
 
-    post = {tx.to: Account(storage=dict(zip(range(0, s), reversed(values_rotated))))}
+    post = Account(storage=dict(zip(range(0, s), reversed(values_rotated))))
 
-    state_test(
-        env=Environment(),
-        pre=pre,
-        post=post,
-        tx=tx,
+    eof_state_test(
+        tx_sender_funding_amount=1_000_000_000,
+        data=eof_code,
+        container_post=post,
     )
 
 
@@ -105,8 +85,6 @@ def test_exchange_all_invalid_immediates(
                 + Op.EXCHANGE[x, y]
                 + Op.POP * stack_height
                 + Op.STOP,
-                code_inputs=0,
-                code_outputs=NON_RETURNING_SECTION,
                 max_stack_height=stack_height,
             )
         ],

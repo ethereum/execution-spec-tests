@@ -88,6 +88,10 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
             head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json
             ```
 
+## Installation Troubleshooting
+
+If you encounter issues during installation, see the [Installation Troubleshooting](./installation_troubleshooting.md) guide.
+
 ## Next Steps
 
 1. Learn [useful command-line flags](./executing_tests_command_line.md).

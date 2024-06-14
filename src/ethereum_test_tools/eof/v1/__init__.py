@@ -20,6 +20,7 @@ from .constants import (
     HEADER_SECTION_COUNT_BYTE_LENGTH,
     HEADER_SECTION_KIND_BYTE_LENGTH,
     HEADER_SECTION_SIZE_BYTE_LENGTH,
+    NON_RETURNING_SECTION,
     TYPES_INPUTS_BYTE_LENGTH,
     TYPES_OUTPUTS_BYTE_LENGTH,
     TYPES_STACK_BYTE_LENGTH,
@@ -102,7 +103,7 @@ class Section(CopyValidateModel):
     """
     Data stack items consumed by this code section (function)
     """
-    code_outputs: int = 0
+    code_outputs: int = NON_RETURNING_SECTION
     """
     Data stack items produced by or expected at the end of this code section
     (function)
@@ -209,6 +210,10 @@ class Section(CopyValidateModel):
         Creates the single code header for all code sections contained in
         the list.
         """
+        # Allow 'types section' to use skip_header_listing flag
+        if sections[0].skip_header_listing:
+            return b""
+
         if sections[0].kind not in SUPPORT_MULTI_SECTION_HEADER:
             return b"".join(s.header for s in sections)
 

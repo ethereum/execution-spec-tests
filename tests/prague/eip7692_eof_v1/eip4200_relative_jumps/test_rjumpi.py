@@ -6,16 +6,15 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Alloc,
     Environment,
     EOFException,
     EOFStateTestFiller,
     EOFTestFiller,
     StateTestFiller,
-    TestAddress,
     Transaction,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
-from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
@@ -40,38 +39,36 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 )
 def test_rjumpi_condition_forwards(
     state_test: StateTestFiller,
+    pre: Alloc,
     calldata: bytes,
 ):
     """Test RJUMPI contract switching based on external input"""
     env = Environment()
+    sender = pre.fund_eoa(10**18)
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1(0)
+                    + Op.CALLDATALOAD
+                    + Op.RJUMPI[6]
+                    + Op.SSTORE(slot_conditional_result, value_calldata_false)
+                    + Op.STOP
+                    + Op.SSTORE(slot_conditional_result, value_calldata_true)
+                    + Op.STOP,
+                    max_stack_height=2,
+                )
+            ]
+        ),
+    )
     tx = Transaction(
-        nonce=1,
+        to=contract_address,
         gas_limit=10_000_000,
         data=calldata,
+        sender=sender,
     )
-    pre = {
-        TestAddress: Account(balance=10**18, nonce=tx.nonce),
-        tx.to: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.PUSH1(0)
-                        + Op.CALLDATALOAD
-                        + Op.RJUMPI[6]
-                        + Op.SSTORE(slot_conditional_result, value_calldata_false)
-                        + Op.STOP
-                        + Op.SSTORE(slot_conditional_result, value_calldata_true)
-                        + Op.STOP,
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=2,
-                    )
-                ]
-            ),
-            nonce=1,
-        ),
-    }
     post = {
-        tx.to: Account(
+        contract_address: Account(
             storage={
                 slot_conditional_result: value_calldata_false
                 if calldata == b"\0"
@@ -88,40 +85,38 @@ def test_rjumpi_condition_forwards(
 )
 def test_rjumpi_condition_backwards(
     state_test: StateTestFiller,
+    pre: Alloc,
     calldata: bytes,
 ):
     """Test RJUMPI contract switching based on external input"""
     env = Environment()
+    sender = pre.fund_eoa(10**18)
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1(1)
+                    + Op.RJUMPI[6]
+                    + Op.SSTORE(slot_conditional_result, value_calldata_true)
+                    + Op.STOP
+                    + Op.PUSH0
+                    + Op.CALLDATALOAD
+                    + Op.RJUMPI[-11]
+                    + Op.SSTORE(slot_conditional_result, value_calldata_false)
+                    + Op.STOP,
+                    max_stack_height=2,
+                )
+            ]
+        )
+    )
     tx = Transaction(
-        nonce=1,
+        to=contract_address,
         gas_limit=10_000_000,
         data=calldata,
+        sender=sender,
     )
-    pre = {
-        TestAddress: Account(balance=10**18, nonce=tx.nonce),
-        tx.to: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.PUSH1(1)
-                        + Op.RJUMPI[6]
-                        + Op.SSTORE(slot_conditional_result, value_calldata_true)
-                        + Op.STOP
-                        + Op.PUSH0
-                        + Op.CALLDATALOAD
-                        + Op.RJUMPI[-11]
-                        + Op.SSTORE(slot_conditional_result, value_calldata_false)
-                        + Op.STOP,
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=2,
-                    )
-                ]
-            ),
-            nonce=1,
-        ),
-    }
     post = {
-        tx.to: Account(
+        contract_address: Account(
             storage={
                 slot_conditional_result: value_calldata_false
                 if calldata == b"\0"
@@ -138,35 +133,33 @@ def test_rjumpi_condition_backwards(
 )
 def test_rjumpi_condition_zero(
     state_test: StateTestFiller,
+    pre: Alloc,
     calldata: bytes,
 ):
     """Test RJUMPI contract switching based on external input"""
     env = Environment()
+    sender = pre.fund_eoa(10**18)
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.CALLDATALOAD
+                    + Op.RJUMPI[0]
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.STOP,
+                    max_stack_height=2,
+                )
+            ]
+        ),
+    )
     tx = Transaction(
-        nonce=1,
+        to=contract_address,
         gas_limit=10_000_000,
         data=calldata,
+        sender=sender,
     )
-    pre = {
-        TestAddress: Account(balance=10**18, nonce=tx.nonce),
-        tx.to: Account(
-            code=Container(
-                sections=[
-                    Section.Code(
-                        code=Op.PUSH0
-                        + Op.CALLDATALOAD
-                        + Op.RJUMPI[0]
-                        + Op.SSTORE(slot_code_worked, value_code_worked)
-                        + Op.STOP,
-                        code_outputs=NON_RETURNING_SECTION,
-                        max_stack_height=2,
-                    )
-                ]
-            ),
-            nonce=1,
-        ),
-    }
-    post = {tx.to: Account(storage={slot_code_worked: value_code_worked})}
+    post = {contract_address: Account(storage={slot_code_worked: value_code_worked})}
     state_test(env=env, tx=tx, pre=pre, post=post)
 
 
@@ -185,7 +178,6 @@ def test_rjumpi_forwards(
                     + Op.STOP
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 )
             ],
@@ -209,7 +201,6 @@ def test_rjumpi_backwards(
                     + Op.PUSH1(1)
                     + Op.RJUMPI[-12]
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 )
             ],
@@ -230,7 +221,6 @@ def test_rjumpi_zero(
                     + Op.RJUMPI[0]
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 )
             ],
@@ -252,7 +242,6 @@ def test_rjumpi_max_forward(
                     + Op.NOOP * 32768
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 )
             ],
@@ -277,7 +266,6 @@ def test_rjumpi_max_backward(
                     + Op.PUSH0
                     + Op.RJUMPI[0x8000]
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=2,
                 )
             ],
@@ -295,7 +283,6 @@ def test_rjump_truncated(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(0) + Op.RJUMPI,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -313,7 +300,6 @@ def test_rjump_truncated_2(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(0) + Op.RJUMPI + b"\0",
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -334,7 +320,6 @@ def test_rjumpi_into_header(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[-7] + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -355,7 +340,6 @@ def test_rjumpi_jump_before_header(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[-25] + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -376,7 +360,6 @@ def test_rjumpi_into_data(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[2] + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 ),
                 Section.Data(data=b"\xaa\xbb\xcc"),
@@ -398,7 +381,6 @@ def test_rjumpi_after_container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[2] + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -419,7 +401,6 @@ def test_rjumpi_to_code_end(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[1] + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 ),
             ],
@@ -437,7 +418,6 @@ def test_rjumpi_into_self(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[-1] + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -455,7 +435,6 @@ def test_rjumpi_into_rjump(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[3] + Op.STOP + Op.RJUMP[-9],
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -478,7 +457,6 @@ def test_rjumpi_into_rjumpi(
                     + Op.PUSH1(1)
                     + Op.RJUMPI[-11]
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -501,11 +479,7 @@ def test_rjumpi_into_push_1(
     eof_test(
         data=Container(
             sections=[
-                Section.Code(
-                    code=code,
-                    code_outputs=NON_RETURNING_SECTION,
-                    max_stack_height=1,
-                )
+                Section.Code(code=code, max_stack_height=1),
             ],
         ),
         expect_exception=EOFException.INVALID_RJUMP_DESTINATION,
@@ -571,11 +545,7 @@ def test_rjumpi_into_push_n(
     eof_test(
         data=Container(
             sections=[
-                Section.Code(
-                    code=code,
-                    code_outputs=NON_RETURNING_SECTION,
-                    max_stack_height=1,
-                )
+                Section.Code(code=code, max_stack_height=1),
             ],
         ),
         expect_exception=EOFException.INVALID_RJUMP_DESTINATION,
@@ -606,7 +576,6 @@ def test_rjumpi_into_rjumpv(
                     + Op.PUSH1(1)
                     + Op.RJUMPV[target_jump_table]
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 )
             ],
@@ -631,7 +600,6 @@ def test_rjumpi_into_callf(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[invalid_destination] + Op.CALLF[1] + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=1,
                 ),
                 Section.Code(
@@ -660,7 +628,6 @@ def test_rjumpi_into_dupn(
                     + Op.DUPN[1]
                     + Op.SSTORE
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=3,
                 ),
             ],
@@ -684,7 +651,6 @@ def test_rjumpi_into_swapn(
                     + Op.SWAPN[1]
                     + Op.SSTORE
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=3,
                 ),
             ],
@@ -709,7 +675,6 @@ def test_rjump_into_exchange(
                     + Op.EXCHANGE[0x00]
                     + Op.SSTORE
                     + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=4,
                 ),
             ],
@@ -727,7 +692,6 @@ def test_rjumpi_into_eofcreate(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 + Op.RJUMPI[9] + Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=4,
                 ),
                 Section.Container(
@@ -735,16 +699,12 @@ def test_rjumpi_into_eofcreate(
                         sections=[
                             Section.Code(
                                 code=Op.RETURNCONTRACT[0](0, 0),
-                                code_outputs=NON_RETURNING_SECTION,
                                 max_stack_height=2,
                             ),
                             Section.Container(
                                 container=Container(
                                     sections=[
-                                        Section.Code(
-                                            code=Op.STOP,
-                                            code_outputs=NON_RETURNING_SECTION,
-                                        )
+                                        Section.Code(code=Op.STOP),
                                     ]
                                 )
                             ),
@@ -766,7 +726,6 @@ def test_rjumpi_into_returncontract(
             sections=[
                 Section.Code(
                     code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP,
-                    code_outputs=NON_RETURNING_SECTION,
                     max_stack_height=4,
                 ),
                 Section.Container(
@@ -774,16 +733,12 @@ def test_rjumpi_into_returncontract(
                         sections=[
                             Section.Code(
                                 code=Op.PUSH0 + Op.RJUMPI[5] + Op.RETURNCONTRACT[0](0, 0),
-                                code_outputs=NON_RETURNING_SECTION,
                                 max_stack_height=2,
                             ),
                             Section.Container(
                                 container=Container(
                                     sections=[
-                                        Section.Code(
-                                            code=Op.STOP,
-                                            code_outputs=NON_RETURNING_SECTION,
-                                        )
+                                        Section.Code(code=Op.STOP),
                                     ]
                                 )
                             ),
