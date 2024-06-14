@@ -283,12 +283,11 @@ class RequestManager:
         Initialize the RequestManager with specific client config.
         """
         self.node_url = node_config.node_url
-        self.rpc = EthRPC(node_config.node_url)
-        self.headers = {
+        headers = {
             "CF-Access-Client-Id": node_config.client_id,
             "CF-Access-Client-Secret": node_config.secret,
-            "Content-Type": "application/json",
         }
+        self.rpc = EthRPC(node_config.node_url, extra_headers=headers)
 
     def eth_get_transaction_by_hash(self, transaction_hash: str) -> RemoteTransaction:
         """

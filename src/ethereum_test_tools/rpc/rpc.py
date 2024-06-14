@@ -18,13 +18,12 @@ class BaseRPC(ABC):
     Represents a base RPC class for every RPC call used within EEST based hive simulators.
     """
 
-    def __init__(self, url: str):
+    def __init__(self, url: str, extra_headers: Optional[Dict] = None):
         self.url = url
+        self.extra_headers = extra_headers
 
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, max=10))
-    def post_request(
-        self, method: str, params: List[Any], extra_headers: Optional[Dict] = None
-    ) -> Dict:
+    def post_request(self, method: str, params: List[Any]) -> Dict:
         """
         Sends a JSON-RPC POST request to the client RPC server at port defined in the url.
         """
@@ -37,7 +36,9 @@ class BaseRPC(ABC):
         base_header = {
             "Content-Type": "application/json",
         }
-        headers = base_header if extra_headers is None else {**base_header, **extra_headers}
+        headers = (
+            base_header if self.extra_headers is None else {**base_header, **self.extra_headers}
+        )
 
         response = requests.post(self.url, json=payload, headers=headers)
         response.raise_for_status()
@@ -64,11 +65,11 @@ class EthRPC(BaseRPC):
     hive simulators.
     """
 
-    def __init__(self, url):
+    def __init__(self, url: str, extra_headers: Optional[Dict] = None):
         """
         Initializes the EthRPC class with the http port 8545, which requires no authentication.
         """
-        super().__init__(url)
+        super().__init__(url, extra_headers=extra_headers)
 
     BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
