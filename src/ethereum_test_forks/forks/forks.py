@@ -13,6 +13,7 @@ from ethereum_test_base_types import Address
 from ethereum_test_vm import EVMCodeType, Opcodes
 
 from ..base_fork import BaseFork
+from ..transition_base_fork import transition_fork
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
@@ -366,6 +367,20 @@ class Frontier(BaseFork, solc_name="homestead"):
         Frontier does not require pre-allocated accounts
         """
         return {}
+
+    @classmethod
+    def environment_verkle_conversion_starts(cls) -> bool:
+        """
+        Returns true if the fork starts the verkle conversion process.
+        """
+        return False
+
+    @classmethod
+    def environment_verkle_conversion_completed(cls) -> bool:
+        """
+        Returns true if verkle conversion must have been completed by this fork.
+        """
+        return False
 
 
 class Homestead(Frontier):
@@ -927,7 +942,65 @@ class Prague(Cancun):
         return 3
 
 
-class CancunEIP7692(  # noqa: SC200
+class ShanghaiEIP6800(
+    Shanghai,
+    transition_tool_name="Prague",
+    blockchain_test_network_name="Prague",
+    solc_name="shanghai",
+):
+    """
+    Shanghai + EIP-6800 (Verkle) fork
+    """
+
+    @classmethod
+    def is_deployed(cls) -> bool:
+        """
+        Flags that the fork has not been deployed to mainnet; it is under active
+        development.
+        """
+        return False
+
+    @classmethod
+    def environment_verkle_conversion_completed(cls) -> bool:
+        """
+        Verkle conversion has already completed in this fork.
+        """
+        return True
+
+    @classmethod
+    def pre_allocation_blockchain(cls) -> Mapping:
+        """
+        Verkle requires pre-allocation of the history storage contract for EIP-2935 on blockchain
+        type tests.
+        """
+        new_allocation = {
+            0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE: {
+                "nonce": 1,
+                "code": (
+                    "0x60203611603157600143035f35116029575f35612000014311602957612000"
+                    "5f3506545f5260205ff35b5f5f5260205ff35b5f5ffd00"
+                ),
+            }
+        }
+        # TODO: Utilize when testing for large init MPT
+        # return VERKLE_PRE_ALLOCATION | super(Shanghai, cls).pre_allocation()
+        return new_allocation | super(Shanghai, cls).pre_allocation_blockchain()
+
+
+# TODO: move back to transition.py after filling and executing ShanghaiEIP6800 tests successfully
+@transition_fork(to_fork=ShanghaiEIP6800, at_timestamp=32)
+class EIP6800Transition(
+    Shanghai,
+    blockchain_test_network_name="ShanghaiToPragueAtTime32",
+):
+    """
+    Shanghai to Verkle transition at Timestamp 32.
+    """
+
+    pass
+
+
+class CancunEIP7692(
     Cancun,
     transition_tool_name="Prague",  # Evmone enables (only) EOF at Prague
     blockchain_test_network_name="Prague",  # Evmone enables (only) EOF at Prague

@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 from ethereum_test_base_types import to_hex
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
 from ethereum_test_forks import Fork
-from ethereum_test_types import Environment, Transaction, Withdrawal
+from ethereum_test_types import Alloc, Environment, Transaction, VerkleTree, Withdrawal
 from evm_transition_tool import Result, TransitionTool
 
 
@@ -59,6 +59,30 @@ def verify_result(result: Result, env: Environment):
     """
     if env.withdrawals is not None:
         assert result.withdrawals_root == to_hex(Withdrawal.list_root(env.withdrawals))
+
+
+def verify_post_vkt(t8n: TransitionTool, expected_post: Alloc, got_vkt: VerkleTree):
+    """
+    Verify that the final verkle tree from t8n matches the expected post alloc defined within
+    the test. Raises exception on unexpected values.
+    """
+    if not t8n.verkle_subcommand:
+        raise Exception("Only geth's evm tool is supported to verify verkle trees.")
+
+    # Convert the expected post alloc to a verkle tree for comparison.
+    expected_vkt = t8n.from_mpt_to_vkt(mpt_alloc=expected_post)
+
+    # TODO: utilize missing keys?
+    # Check for keys that are missing the actual VKT
+    _ = [key for key in expected_vkt.root if key not in got_vkt.root]
+
+    # Compare the values for each key in the expected VKT
+    for key, expected_value in expected_vkt.root.items():
+        actual_value = got_vkt.root.get(key)
+        if expected_value != actual_value:
+            raise Exception(
+                f"VKT mismatch at key {key}: expected {expected_value}, got {actual_value}"
+            )
 
 
 class BaseTest(BaseModel):

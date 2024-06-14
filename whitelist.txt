@@ -61,6 +61,7 @@ caller
 callvalue
 cancun
 cd
+CFI
 chainid
 ChainIDType
 changelog
@@ -114,6 +115,10 @@ EEST
 eip
 eip3540
 eip4844
+P6800
+P7692
+eips
+EIPs
 eip6110
 eip7002
 eip7251
@@ -254,6 +259,7 @@ mixhash
 mkdocs
 mkdocstrings
 msm
+mpt
 mypy
 ctx
 namespace
@@ -380,6 +386,7 @@ textwrap
 tf
 ThreeHrSleep
 time15k
+Time32
 timestamp
 tmp
 todo
@@ -413,7 +420,9 @@ v3
 validator
 validators
 venv
+verkle
 visualstudio
+vkt
 vm
 VRS
 vscode

@@ -106,9 +106,9 @@ class FixtureHeader(CamelModel):
     extra_data: Bytes
     prev_randao: Hash = Field(Hash(0), alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
-    base_fee_per_gas: Annotated[
-        ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")
-    ] | None = Field(None)
+    base_fee_per_gas: Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")] | None = (
+        Field(None)
+    )
     withdrawals_root: Annotated[Hash, HeaderForkRequirement("withdrawals")] | None = Field(None)
     blob_gas_used: (
         Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("blob_gas_used")] | None
@@ -234,9 +234,9 @@ class FixtureExecutionPayload(CamelModel):
             withdrawals=withdrawals,
             deposit_requests=requests.deposit_requests() if requests is not None else None,
             withdrawal_requests=requests.withdrawal_requests() if requests is not None else None,
-            consolidation_requests=requests.consolidation_requests()
-            if requests is not None
-            else None,
+            consolidation_requests=(
+                requests.consolidation_requests() if requests is not None else None
+            ),
         )
 
 

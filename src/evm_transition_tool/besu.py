@@ -10,7 +10,7 @@ import tempfile
 import textwrap
 from pathlib import Path
 from re import compile
-from typing import List, Optional
+from typing import Any, List, Optional
 
 import requests
 
@@ -99,6 +99,7 @@ class BesuTransitionTool(TransitionTool):
         txs: List[Transaction],
         env: Environment,
         fork: Fork,
+        vkt: Any = None,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
