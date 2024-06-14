@@ -53,7 +53,6 @@ Limitations:
 
 import json
 import os
-import urllib
 from dataclasses import asdict, dataclass
 from sys import stderr
 from typing import Dict, List, TextIO
@@ -279,17 +278,12 @@ class RequestManager:
     node_url: str
     headers: dict[str, str]
 
-    @staticmethod
-    def _get_ip_from_url(node_url):
-        return urllib.parse.urlsplit(node_url).netloc.split(":")[0]
-
     def __init__(self, node_config: Config.RemoteNode):
         """
         Initialize the RequestManager with specific client config.
         """
         self.node_url = node_config.node_url
-        client_ip = self._get_ip_from_url(node_config.node_url)
-        self.rpc = EthRPC(client_ip)
+        self.rpc = EthRPC(node_config.node_url)
         self.headers = {
             "CF-Access-Client-Id": node_config.client_id,
             "CF-Access-Client-Secret": node_config.secret,

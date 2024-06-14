@@ -18,9 +18,8 @@ class BaseRPC(ABC):
     Represents a base RPC class for every RPC call used within EEST based hive simulators.
     """
 
-    def __init__(self, client_ip: str, port: int):
-        self.ip = client_ip
-        self.url = f"http://{client_ip}:{port}"
+    def __init__(self, url: str):
+        self.url = url
 
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, max=10))
     def post_request(
@@ -63,11 +62,11 @@ class EthRPC(BaseRPC):
     hive simulators.
     """
 
-    def __init__(self, client_ip):
+    def __init__(self, url):
         """
         Initializes the EthRPC class with the http port 8545, which requires no authentication.
         """
-        super().__init__(client_ip, port=8545)
+        super().__init__(url)
 
     BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
