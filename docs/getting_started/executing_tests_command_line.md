@@ -170,8 +170,8 @@ Arguments defining filler location and output:
                         The address increment value to each deployed contract by
                         a test.
   --build-name BUILD_NAME
-                        Specify a build name for the fixtures.properties file,
-                        e.g., 'stable'.
+                        Specify a build name for the fixtures.ini file, e.g.,
+                        'stable'.
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
