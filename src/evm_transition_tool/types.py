@@ -13,6 +13,7 @@ from ethereum_test_types import (
     DepositRequest,
     Environment,
     Transaction,
+    VerkleTree,
     WithdrawalRequest,
 )
 
@@ -88,6 +89,16 @@ class Result(CamelModel):
     withdrawal_requests: List[WithdrawalRequest] | None = None
     consolidation_requests: List[ConsolidationRequest] | None = None
 
+    # Verkle fields within the result
+    verkle_conversion_address: Address | None = Field(None, alias="currentConversionAddress")
+    verkle_conversion_slot_hash: Hash | None = Field(None, alias="currentConversionSlotHash")
+    verkle_conversion_started: bool | None = Field(None, alias="currentConversionStarted")
+    verkle_conversion_ended: bool | None = Field(None, alias="currentConversionEnded")
+    verkle_conversion_storage_processed: bool | None = Field(
+        None,
+        alias="currentConversionStorageProcessed",
+    )
+
 
 class TransitionToolInput(CamelModel):
     """
@@ -97,6 +108,7 @@ class TransitionToolInput(CamelModel):
     alloc: Alloc
     txs: List[Transaction]
     env: Environment
+    vkt: VerkleTree | None = None
 
 
 class TransitionToolOutput(CamelModel):
@@ -107,3 +119,4 @@ class TransitionToolOutput(CamelModel):
     alloc: Alloc
     result: Result
     body: Bytes | None = None
+    vkt: VerkleTree | None = None
