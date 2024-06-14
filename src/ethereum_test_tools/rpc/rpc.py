@@ -41,7 +41,9 @@ class BaseRPC(ABC):
 
         response = requests.post(self.url, json=payload, headers=headers)
         response.raise_for_status()
-        result = response.json().get("result")
+        response_json = response.json()
+        assert "result" in response_json, "RPC response didn't contain a result field"
+        result = response_json["result"]
 
         if result is None or "error" in result:
             error_info = "result is None; and therefore contains no error info"
