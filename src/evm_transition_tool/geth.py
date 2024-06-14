@@ -12,9 +12,9 @@ from pathlib import Path
 from re import compile
 from typing import Optional
 
+from ethereum_test_base_types import to_json
 from ethereum_test_forks import Fork
-from ethereum_test_tools.common.json import to_json
-from ethereum_test_tools.common.types import Alloc, VerkleTree
+from ethereum_test_types import Alloc, VerkleTree
 
 from .transition_tool import FixtureFormats, TransitionTool, dump_files_to_directory
 

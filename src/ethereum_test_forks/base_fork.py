@@ -342,6 +342,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         return cls
 
     @classmethod
+    def transition_at(cls) -> int:
+        """
+        Return the timestamp at which the fork will start transitioning to the next fork.
+        Useful only for transition forks.
+        """
+        return 0
+
+    @classmethod
     @abstractmethod
     def transition_tool_name(cls, block_number: int = 0, timestamp: int = 0) -> str:
         """

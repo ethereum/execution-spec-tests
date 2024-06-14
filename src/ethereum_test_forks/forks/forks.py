@@ -997,7 +997,12 @@ class EIP6800Transition(
     Shanghai to Verkle transition at Timestamp 32.
     """
 
-    pass
+    @classmethod
+    def transition_at(cls) -> int:
+        """
+        The timestamp at which the fork transition occurs.
+        """
+        return 32
 
 
 class CancunEIP7692(

@@ -322,7 +322,7 @@ ruleset = {
         "HIVE_SHANGHAI_TIMESTAMP": 0,
         "HIVE_CANCUN_TIMESTAMP": 15000,
     },
-    "ShanghaiToPragueAt32": {  # TODO: Make this verkle specific
+    "ShanghaiToPragueAtTime32": {  # TODO: Make this verkle specific
         "HIVE_FORK_HOMESTEAD": 0,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
