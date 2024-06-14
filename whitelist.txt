@@ -194,6 +194,7 @@ imm
 immediates
 incr
 incrementing
+ini
 init
 initcode
 instantiation
