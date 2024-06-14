@@ -12049,6 +12049,7 @@
 <li>✨ Add a new covariant marker <code>with_all_contract_creating_tx_types</code> that allows automatic parametrization of a test with all contract-creating transaction types at the current executing fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/602">#602</a>).</li>
 <li>✨ Tests are now encouraged to declare a <code>pre: Alloc</code> parameter to get the pre-allocation object for the test, and use <code>pre.deploy_contract</code> and <code>pre.fund_eoa</code> to deploy contracts and fund accounts respectively, instead of declaring the <code>pre</code> as a dictionary or modifying its contents directly (see the <a href="https://ethereum.github.io/execution-spec-tests/main/tutorials/state_transition/">state test tutorial</a> for an updated example) (<a href="https://github.com/ethereum/execution-spec-tests/pull/584">#584</a>).</li>
 <li>✨ Enable loading of <a href="https://github.com/ethereum/tests/tree/develop/BlockchainTests">ethereum/tests/BlockchainTests</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/596">#596</a>).</li>
+<li>🔀 Refactor <code>gentest</code> to use <code>ethereum_test_tools.rpc.rpc</code> by adding to <code>get_transaction_by_hash</code>, <code>debug_trace_call</code> to <code>EthRPC</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/568">#568</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
@@ -12339,6 +12340,7 @@
     <nav>
       
         <a href="mailto:34320705+yperbasis@users.noreply.github.com">Andrew Ashikhmin</a>, 
+        <a href="mailto:tomas-cooper@mail.ru">Artem</a>, 
         <a href="mailto:danceratopz@gmail.com">Dan</a>, 
         <a href="mailto:danno.ferrin@shemnon.com">Danno Ferrin</a>, 
         <a href="mailto:danno@numisight.com">Danno Ferrin</a>, 
