@@ -96,7 +96,7 @@ def make_test(transaction_hash: str, output_file: TextIO, config_file: TextIO):
     state = request.debug_trace_call(tr)
 
     print("Perform eth_get_block_by_number", file=stderr)
-    block = request.eth_get_block_by_number(int(tr.block_number))
+    block = request.eth_get_block_by_number(int(tr.block_number, 16))
 
     print("Generate py test", file=stderr)
     constructor = TestConstructor(PYTEST_TEMPLATE)
@@ -294,8 +294,7 @@ class RequestManager:
         """
         Get transaction data.
         """
-        response = self.rpc.get_transaction_by_hash(transaction_hash)
-        res = response.json().get("result", None)
+        res = self.rpc.get_transaction_by_hash(transaction_hash)
 
         assert (
             res["type"] == "0x0"
@@ -324,8 +323,7 @@ class RequestManager:
         """
         Get block by number
         """
-        response = self.rpc.get_block_by_number(block_number)
-        res = response.json().get("result", None)
+        res = self.rpc.get_block_by_number(block_number)
 
         return RequestManager.RemoteBlock(
             coinbase=res["miner"],
@@ -339,7 +337,7 @@ class RequestManager:
         """
         Get pre-state required for transaction
         """
-        response = self.rpc.debug_trace_call(
+        return self.rpc.debug_trace_call(
             {
                 "from": f"{str(tr.transaction.sender)}",
                 "to": f"{str(tr.transaction.to)}",
@@ -347,10 +345,6 @@ class RequestManager:
             },
             tr.block_number,
         )
-        if "error" in response:
-            raise Exception(response["error"]["message"])
-        assert "result" in response, "No result in response on debug_traceCall"
-        return response["result"]
 
 
 PYTEST_TEMPLATE = """
