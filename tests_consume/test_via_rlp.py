@@ -190,7 +190,7 @@ def eth_rpc(client: Client) -> EthRPC:
     """
     Initialize ethereum RPC client for the execution client under test.
     """
-    return EthRPC(client_ip=client.ip)
+    return EthRPC(url=f"http://{client.ip}:8545")
 
 
 def compare_models(expected: FixtureHeader, got: FixtureHeader) -> dict:
