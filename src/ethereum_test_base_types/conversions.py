@@ -1,6 +1,7 @@
 """
 Common conversion methods.
 """
+
 from re import sub
 from typing import Any, List, Optional, SupportsBytes, TypeAlias
 
