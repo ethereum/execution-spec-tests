@@ -560,7 +560,7 @@ def create_properties_file(request, output_dir: Path) -> None:
     for key, val in request.config.stash[metadata_key].items():
         if key.lower() == "command-line args":
             continue
-        if key.lower() in ["python", "platform"]:
+        if key.lower() in ["ci", "python", "platform"]:
             environment_properties[key] = val
         elif isinstance(val, dict):
             config[key.lower()] = val
