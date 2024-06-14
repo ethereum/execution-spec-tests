@@ -282,6 +282,7 @@ pytest
 Pytest
 pytest's
 pytestArgs
+pytrace
 Pyspec
 qGpsxSA
 quickstart
@@ -390,8 +391,11 @@ www
 xdist
 xF
 xFA
+xfailed
 xFD
 xFF
+xpass
+xpassed
 yaml
 YAML
 yml

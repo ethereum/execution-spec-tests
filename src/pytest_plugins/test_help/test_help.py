@@ -42,14 +42,18 @@ def show_test_help(config):
     arguments.
     """
     pytest_ini = Path(config.inifile)
+    test_group_substrings = [
+        "execution-spec-tests",
+        "defining debug",
+    ]
     if pytest_ini.name == "pytest.ini":
-        test_group_substrings = [
-            "execution-spec-tests",
+        test_group_substrings += [
             "evm",
             "solc",
             "fork range",
             "filler location",
             "defining debug",
+            "EIP version",
         ]
     elif pytest_ini.name in [
         "pytest-consume-all.ini",
@@ -57,10 +61,8 @@ def show_test_help(config):
         "pytest-consume-rlp.ini",
         "pytest-consume-engine.ini",
     ]:
-        test_group_substrings = [
-            "execution-spec-tests",
+        test_group_substrings += [
             "consuming",
-            "defining debug",
         ]
     else:
         raise ValueError("Unexpected pytest.ini file option generating test help.")
