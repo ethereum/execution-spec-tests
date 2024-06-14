@@ -222,9 +222,9 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         value: StorageKeyValueTypeConvertible | StorageKeyValueType,
     ):  # noqa: SC200
         """Sets an item in the storage"""
-        self.root[
-            StorageKeyValueTypeAdapter.validate_python(key)
-        ] = StorageKeyValueTypeAdapter.validate_python(value)
+        self.root[StorageKeyValueTypeAdapter.validate_python(key)] = (
+            StorageKeyValueTypeAdapter.validate_python(value)
+        )
 
     def __delitem__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType):
         """Deletes an item from the storage"""
@@ -1711,12 +1711,12 @@ class Result(CamelModel):
     )
 
 
-class VerkleTree(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
+class VerkleTree(RootModel[Dict[str, str]]):
     """
     Definition of a verkle tree return from the geth t8n.
     """
 
-    root: Dict[StorageKeyValueType, StorageKeyValueType] = Field(default_factory=dict)
+    root: Dict[str, str] = Field(default_factory=dict)
 
 
 class TransitionToolOutput(CamelModel):
