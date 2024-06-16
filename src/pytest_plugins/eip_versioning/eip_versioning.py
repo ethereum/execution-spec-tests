@@ -98,8 +98,10 @@ def pytest_configure(config):
     - client binary configured for this test session.
     """
     config.addinivalue_line(
-        "markers", "requires(eip, version): mark test as requiring an EIP at a specific version."
+        "markers",
+        "eip_version_test(eip, version): mark test as implementing an EIP at a specific version.",
     )
+
     if config.getoption("eip_version_mode") == EipVersionModes.OFF:
         return
     if config.getoption("eip_version_mode") in ["normal", "strict"]:
@@ -152,7 +154,7 @@ def pytest_collection_modifyitems(config, items):
     if eip_version_mode == EipVersionModes.OFF:
         return
     for item in items:
-        for marker in item.iter_markers(name="requires"):
+        for marker in item.iter_markers(name="eip_version_test"):
             eip = marker.args[0]
             version_test = semver.Version.parse(marker.args[1])
             version_client = config.eip_versions_client.get(eip, None)
@@ -160,7 +162,7 @@ def pytest_collection_modifyitems(config, items):
 
             if version_client is None:
                 warnings.warn(
-                    f"Test requires {eip} v{version_test} but EIP not reported by client binary."
+                    f"Test implements {eip} v{version_test} but EIP not reported by client binary."
                 )
             else:
                 version_client = semver.Version.parse(version_client)
@@ -172,7 +174,7 @@ def pytest_collection_modifyitems(config, items):
                         pytest.mark.xfail(
                             run=True,
                             reason=(
-                                f"Test implementation requires {eip}, v{version_test}; "
+                                f"Test implements {eip}, v{version_test}; "
                                 f"client reports v{version_client}."
                             ),
                         )
@@ -180,7 +182,7 @@ def pytest_collection_modifyitems(config, items):
 
             if version_spec is None:
                 warnings.warn(
-                    f"Test requires {eip} v{version_test} but EIP not reported by ethereum/EIPs."
+                    f"Test implements {eip} v{version_test} but EIP not reported by ethereum/EIPs."
                 )
             else:
                 version_spec = semver.Version.parse(version_spec)
@@ -195,23 +197,23 @@ def pytest_runtest_call(item):
     """
     if item.config.getoption("eip_version_mode") != EipVersionModes.STRICT:
         return
-    for marker in item.iter_markers(name="requires"):
+    for marker in item.iter_markers(name="eip_version_test"):
         # TODO: If multiple markers for the same EIP are present, e.g., once on the module and once
         # on the function level, all will be checked. However,only the closest one should be
-        # checked. This is left as-is for now to check all requires with different EIP numbers.
-        # Can item.get_closest_marker("requires") be used on a argument value (EIP number) basis?
+        # checked. This is left as-is for now to check all eip_version_test with different EIP
+        # numbers. Can item.get_closest_marker("eip_version_test") be used on a argument value
+        # (EIP number) basis?
 
         eip = marker.args[0]
         version_test = semver.Version.parse(marker.args[1])
         version_client = item.config.eip_versions_client.get(eip, None)
         if version_client is None:
             pytest.fail(
-                f"Test requires {eip} v{version_test} but EIP not reported by client binary."
+                f"Test implements {eip} v{version_test} but EIP not reported by client binary."
             )
         version_client = semver.Version.parse(version_client)
         if version_test.major != version_client.major:
             pytest.fail(
-                f"Test implementation requires {eip}, v{version_test}; "
-                f"client reports v{version_client}.",
+                f"Test implements {eip} v{version_test} but client reports v{version_client}.",
                 pytrace=False,
             )

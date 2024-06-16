@@ -2,9 +2,9 @@
 Test cases for EIP versioning.
 """
 
-# TODO: Test multiple requires with multiple EIPs and versions.
+# TODO: Test multiple eip_version_test markers with multiple EIPs and versions.
 # TODO: Test warnings for EIPs not reported by client or spec.
-# result.stdout.fnmatch_lines([""])
+# assert result.stdout.fnmatch_lines(["EIP not reported by client binary."])
 
 import pytest
 
@@ -55,7 +55,7 @@ import pytest
         ),
     ],
 )
-def test_single_requires(
+def test_single_eip_version_test_marker(
     pytester, version_required, version_check_mode, test_is_pass, expected_outcome
 ):
     """
@@ -65,7 +65,7 @@ def test_single_requires(
         f"""
         import pytest
 
-        @pytest.mark.requires("EIP-1559", "{version_required}")
+        @pytest.mark.eip_version_test("EIP-1559", "{version_required}")
         def test_example(state_test):
             assert {test_is_pass}
         """
