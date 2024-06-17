@@ -30,12 +30,12 @@ def test_max_size(
     """
     Verify EOF container valid at maximum size, invalid above
     """
-    minimal_code = bytearray(bytes(VALID_CONTAINER))
     # Expand the minimal EOF code by more noop code, reaching the desired target container size.
     code = Container(
         sections=[
             Section.Code(
-                code=Op.JUMPDEST * (MAX_INITCODE_SIZE - len(minimal_code) + over_limit) + Op.STOP
+                code=Op.JUMPDEST * (MAX_INITCODE_SIZE - len(VALID_CONTAINER) + over_limit)
+                + Op.STOP
             )
         ]
     )
