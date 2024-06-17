@@ -75,7 +75,7 @@ def test_jumpf_target_rules(
     )
 
     base_code = (
-        bytes(Op.JUMPF[source_section_index])
+        Op.JUMPF[source_section_index]
         if source_non_returning
         else (Op.CALLF[source_section_index](0, 0) + Op.STOP)
     )
