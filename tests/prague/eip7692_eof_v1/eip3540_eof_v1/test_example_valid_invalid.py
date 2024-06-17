@@ -26,7 +26,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.ADDRESS + Op.POP + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0xef"),
                 ],
@@ -43,7 +42,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.ADDRESS + Op.POP + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad", custom_size=4),
                 ],
@@ -59,7 +57,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.ADDRESS + Op.POP + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A70BAD", custom_size=4),
                 ],
@@ -75,7 +72,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.ADDRESS + Op.POP + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -91,7 +87,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.ADDRESS + Opcode(0xEF) + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -107,7 +102,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.ADDRESS + Op.POP + Op.INVALID,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -123,7 +117,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.ADDRESS + Op.POP + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0xef"),
                 ],
@@ -145,7 +138,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                         + Op.RJUMP[3]
                         + Op.RJUMP[-6]
                         + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -174,7 +166,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.PUSH1(1) + Op.RJUMPI[1] + Op.NOOP + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -197,15 +188,12 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                         + Op.JUMPF[3]
                         + Op.CALLF[4]
                         + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Code(
                         code=Op.PUSH0 + Op.PUSH0 + Op.RETURN,
-                        max_stack_height=2,
                     ),
                     Section.Code(
                         code=Op.PUSH0 + Op.PUSH0 + Op.REVERT,
-                        max_stack_height=2,
                     ),
                     Section.Code(code=Op.INVALID),
                     Section.Code(
@@ -233,7 +221,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                         + Op.ADDRESS
                         + Op.POP
                         + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -255,7 +242,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                         + Op.ADDRESS
                         + Op.POP
                         + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -272,7 +258,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.PUSH1(1) + Op.RJUMPI[1] + Op.ADDRESS + Op.NOOP + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -307,7 +292,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                         + Op.RJUMPI[2]
                         + Op.RJUMPI[-6]
                         + Op.STOP,
-                        max_stack_height=3,
                     ),
                     Section.Data("0x0bad60A7"),
                 ],
@@ -323,7 +307,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 sections=[
                     Section.Code(
                         code=Op.PUSH1(3) + Op.JUMP + Op.JUMPDEST + Op.STOP,
-                        max_stack_height=1,
                     ),
                     Section.Data("0xef"),
                 ],
@@ -425,7 +408,6 @@ def test_code_section_header_body_mismatch(
         sections=[
             Section.Code(
                 code=Op.ADDRESS + Op.POP + Op.STOP,
-                max_stack_height=1,
             ),
             Section.Code(
                 code=Op.ADDRESS + Op.POP + Op.STOP,
