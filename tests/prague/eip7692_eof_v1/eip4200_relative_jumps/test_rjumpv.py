@@ -47,9 +47,9 @@ def test_rjumpv_condition(
     target_length = 7
     jump_table = [(i + 1) * target_length for i in range(table_size)]
 
-    jump_targets = b""
-    for i in range(table_size):
-        jump_targets += Op.SSTORE(slot_conditional_result, i + value_base) + Op.STOP
+    jump_targets = sum(
+        (Op.SSTORE(slot_conditional_result, i + value_base) + Op.STOP) for i in range(table_size)
+    )
 
     fall_through_case = Op.SSTORE(slot_conditional_result, value_fall_through) + Op.STOP
 
@@ -279,7 +279,7 @@ def test_rjumpv_truncated(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(1) + Op.RJUMPV + b"\0",
+                    code=Op.PUSH1(1) + Op.RJUMPV[b"\0"],
                     max_stack_height=1,
                 )
             ],
@@ -314,7 +314,7 @@ def test_rjumpv_truncated_2(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(1) + Op.RJUMPV + b"\0\0",
+                    code=Op.PUSH1(1) + Op.RJUMPV[b"\0\0"],
                     max_stack_height=1,
                 )
             ],
@@ -331,7 +331,7 @@ def test_rjumpv_truncated_3(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(1) + Op.RJUMPV + b"\0\0",
+                    code=Op.PUSH1(1) + Op.RJUMPV[b"\0\0"],
                     max_stack_height=1,
                 )
             ],
@@ -348,7 +348,7 @@ def test_rjumpv_truncated_4(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(1) + Op.RJUMPV + b"\2\0\0\0\0",
+                    code=Op.PUSH1(1) + Op.RJUMPV[b"\2\0\0\0\0"],
                     max_stack_height=1,
                 )
             ],

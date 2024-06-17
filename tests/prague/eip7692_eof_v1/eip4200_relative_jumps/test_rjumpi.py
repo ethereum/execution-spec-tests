@@ -299,7 +299,7 @@ def test_rjump_truncated_2(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(0) + Op.RJUMPI + b"\0",
+                    code=Op.PUSH1(0) + Op.RJUMPI + Op.STOP,
                     max_stack_height=1,
                 )
             ],
