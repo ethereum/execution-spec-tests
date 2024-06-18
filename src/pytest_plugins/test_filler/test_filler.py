@@ -15,6 +15,7 @@ import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_forks import (
+    EVMCodeType,
     Fork,
     Frontier,
     Paris,
@@ -23,7 +24,9 @@ from ethereum_test_forks import (
 )
 from ethereum_test_tools import SPEC_TYPES, Alloc, BaseTest, FixtureCollector, TestInfo, Yul
 from ethereum_test_tools.code import Solc
+from ethereum_test_tools.common.conversions import BytesConvertible
 from ethereum_test_tools.common.types import AllocMode, contract_address_iterator
+from ethereum_test_tools.eof.v1 import Container
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -408,12 +411,32 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     t8n.shutdown()
 
 
+@pytest.fixture
+def evm_code_type() -> EVMCodeType:
+    """
+    Returns the default EVM code type for all tests (LEGACY).
+    """
+    return EVMCodeType.LEGACY
+
+
 @pytest.fixture(autouse=True)
-def pre(request) -> Alloc:
+def pre(request, evm_code_type: EVMCodeType) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
     """
-    pre = Alloc()
+    match evm_code_type:
+        case EVMCodeType.EOF_V1:
+
+            class EOFAlloc(Alloc):
+                def _code_pre_processor(self, code: BytesConvertible) -> BytesConvertible:
+                    """
+                    Pre-processes the code before storing it in the allocation.
+                    """
+                    return Container.Code(code=code)
+
+            pre = EOFAlloc()
+        case _:
+            pre = Alloc()  # type: ignore
     if request.config.getoption("strict_alloc"):
         pre._alloc_mode = AllocMode.STRICT
     test_contract_start_address = request.config.getoption("test_contract_start_address")
