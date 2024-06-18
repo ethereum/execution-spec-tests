@@ -15,12 +15,21 @@ from .eof.eof_test import (
     EOFTestSpec,
 )
 from .fixture_collector import FixtureCollector, TestInfo
-from .state.state_test import StateTest, StateTestFiller, StateTestOnly, StateTestSpec
+from .state.state_test import (
+    SimpleStateTest,
+    SimpleStateTestFiller,
+    SimpleStateTestSpec,
+    StateTest,
+    StateTestFiller,
+    StateTestOnly,
+    StateTestSpec,
+)
 
 SPEC_TYPES: List[Type[BaseTest]] = [
     BlockchainTest,
     StateTest,
     StateTestOnly,
+    SimpleStateTest,
     EOFTest,
     EOFStateTest,
 ]
@@ -39,6 +48,9 @@ __all__ = (
     "EOFTestFiller",
     "EOFTestSpec",
     "FixtureCollector",
+    "SimpleStateTest",
+    "SimpleStateTestFiller",
+    "SimpleStateTestSpec",
     "StateTest",
     "StateTestFiller",
     "StateTestOnly",

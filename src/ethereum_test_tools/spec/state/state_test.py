@@ -4,10 +4,13 @@ Ethereum state test spec definition and filler.
 
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Type
 
+from pydantic import Field
+
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats, TransitionTool
 
-from ...common import Alloc, Environment, Transaction
+from ...common import Account, Alloc, Environment, Transaction
+from ...common.base_types import Bytes
 from ...common.constants import EngineAPIError
 from ...common.json import to_json
 from ...common.types import TransitionToolOutput
@@ -196,3 +199,92 @@ class StateTestOnly(StateTest):
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]
 StateTestFiller = Type[StateTest]
+
+
+class SimpleStateTest(BaseTest):
+    """
+    Defines a simplified state test with a single contract interaction or a contract-creating
+    transaction.
+    """
+
+    env: Environment = Field(default_factory=Environment)
+
+    contract: Bytes | None = None
+    contract_post: Account | None = Field(default_factory=Account)
+
+    tx_type: int = 0
+    tx_data: Bytes = Bytes(b"")
+    tx_gas_limit: int = 10_000_000
+    tx_sender_funding_amount: int = 1_000_000_000_000_000_000_000
+
+    pre: Alloc | None = None
+
+    supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
+        FixtureFormats.STATE_TEST,
+        FixtureFormats.BLOCKCHAIN_TEST,
+        FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+    ]
+
+    def generate_state_test(self) -> StateTest:
+        """
+        Generate the StateTest filler.
+        """
+        assert self.pre is not None, "pre must be set to generate a StateTest."
+        sender = self.pre.fund_eoa(amount=self.tx_sender_funding_amount)
+        if self.contract is None:
+            # Contract-creating transaction
+            tx = Transaction(
+                type=self.tx_type,
+                to=None,
+                gas_limit=self.tx_gas_limit,
+                data=self.tx_data,
+                sender=sender,
+            )
+            contract_address = tx.created_contract
+        else:
+            # Contract interaction transaction
+            contract_address = self.pre.deploy_contract(self.contract)
+            tx = Transaction(
+                type=self.tx_type,
+                to=contract_address,
+                gas_limit=self.tx_gas_limit,
+                data=self.tx_data,
+                sender=sender,
+            )
+
+        post = Alloc({
+            contract_address: self.contract_post,
+        })
+        return StateTest(
+            pre=self.pre,
+            tx=tx,
+            env=self.env,
+            post=post,
+        )
+
+    def generate(
+        self,
+        *,
+        t8n: TransitionTool,
+        fork: Fork,
+        eips: Optional[List[int]] = None,
+        fixture_format: FixtureFormats,
+        **_,
+    ) -> BaseFixture:
+        """
+        Generate the BlockchainTest fixture.
+        """
+        if fixture_format in (
+            FixtureFormats.STATE_TEST,
+            FixtureFormats.BLOCKCHAIN_TEST,
+            FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+        ):
+            return self.generate_state_test().generate(
+                t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips
+            )
+
+        raise Exception(f"Unknown fixture format: {fixture_format}")
+
+
+SimpleStateTestSpec = Callable[[str], Generator[SimpleStateTest, None, None]]
+SimpleStateTestFiller = Type[SimpleStateTest]
