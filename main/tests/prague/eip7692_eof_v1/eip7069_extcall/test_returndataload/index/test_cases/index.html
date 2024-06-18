@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -11203,7 +11203,7 @@
 <h1 id="test-returndataload-test-cases">Test Returndataload - Test Cases<a class="headerlink" href="#test-returndataload-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/cbe983f5a9f0a8cd6cd1273aabf1b10ca67a2663/tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/946e74bea8c2ceca9d45e951fe5c11d820e1a53b/tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_returndatacopy_handling[fork_CancunEIP7692-blockchain_test-size_0-offset_0-len_0-CALL]
 test_returndatacopy_handling[fork_CancunEIP7692-blockchain_test-size_0-offset_0-len_0-CALLCODE]
 test_returndatacopy_handling[fork_CancunEIP7692-blockchain_test-size_0-offset_0-len_0-DELEGATECALL]
@@ -12692,6 +12692,12 @@ test_returndataload_handling[fork_CancunEIP7692-state_test-offset_30-len_20-EXTS
 test_returndataload_handling[fork_CancunEIP7692-state_test-offset_30-len_30-EXTCALL]
 test_returndataload_handling[fork_CancunEIP7692-state_test-offset_30-len_30-EXTDELEGATECALL]
 test_returndataload_handling[fork_CancunEIP7692-state_test-offset_30-len_30-EXTSTATICCALL]
+test_returndatacopy_oob[fork_CancunEIP7692-blockchain_test-CallerIsLegacy]
+test_returndatacopy_oob[fork_CancunEIP7692-blockchain_test-CallerIsEOF]
+test_returndatacopy_oob[fork_CancunEIP7692-blockchain_test_hive-CallerIsLegacy]
+test_returndatacopy_oob[fork_CancunEIP7692-blockchain_test_hive-CallerIsEOF]
+test_returndatacopy_oob[fork_CancunEIP7692-state_test-CallerIsLegacy]
+test_returndatacopy_oob[fork_CancunEIP7692-state_test-CallerIsEOF]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.test_filler.test_filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.test_help.test_help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</span>

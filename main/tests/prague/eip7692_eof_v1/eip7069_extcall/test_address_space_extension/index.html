@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -11217,7 +11217,7 @@
 
 
 <h1 id="test-address-space-extension">Test Address Space Extension<a class="headerlink" href="#test-address-space-extension" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cbe983f5a9f0a8cd6cd1273aabf1b10ca67a2663/tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/946e74bea8c2ceca9d45e951fe5c11d820e1a53b/tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11263,7 +11263,8 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 27</span>
+<span class="normal"> 28</span>
 <span class="normal"> 29</span>
 <span class="normal"> 30</span>
 <span class="normal"> 31</span>
@@ -11471,8 +11472,7 @@ For all forks up to and including Prague:
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_address&quot;</span><span class="p">,</span>
     <span class="p">(</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">),</span>
