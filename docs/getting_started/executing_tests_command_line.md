@@ -117,7 +117,8 @@ Output:
 usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--verify-fixtures]
             [--verify-fixtures-bin VERIFY_FIXTURES_BIN] [--solc-bin SOLC_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
-            [--single-fixture-per-file] [--enable-hive]
+            [--single-fixture-per-file] [--no-html] [--strict-alloc]
+            [--ca-start CA_START] [--ca-incr CA_INCR] [--build-name BUILD_NAME]
             [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK] [--from FROM]
             [--until UNTIL] [--test-help]
 
@@ -130,11 +131,11 @@ Arguments defining evm executable behavior:
   --traces              Collect traces of the execution information from the
                         transition tool.
   --verify-fixtures     Verify generated fixture JSON files using geth's evm
-                        blocktest command. By default, the same evm binary as
-                        for the t8n tool is used. A different (geth) evm binary
-                        may be specified via --verify-fixtures-bin, this must
-                        be specified if filling with a non-geth t8n tool that
-                        does not support blocktest.
+                        blocktest command. By default, the same evm binary as for
+                        the t8n tool is used. A different (geth) evm binary may
+                        be specified via --verify-fixtures-bin, this must be
+                        specified if filling with a non-geth t8n tool that does
+                        not support blocktest.
   --verify-fixtures-bin VERIFY_FIXTURES_BIN
                         Path to an evm executable that provides the `blocktest`
                         command. Default: The first (geth) 'evm' entry in PATH.
@@ -146,10 +147,13 @@ Arguments defining the solc executable:
 Arguments defining filler location and output:
   --filler-path FILLER_PATH
                         Path to filler directives
-  --output OUTPUT       Directory to store the generated test fixtures. Can be
-                        deleted.
-  --flat-output         Output each test case in the directory without the
-                        folder structure.
+  --output OUTPUT       Directory path to store the generated test fixtures. Can
+                        be deleted. If the specified path ends in '.tar.gz', then
+                        the specified tarball is additionally created (the
+                        fixtures are still written to the specified path without
+                        '.tar.gz' suffix). Default: './fixtures'.
+  --flat-output         Output each test case in the directory without the folder
+                        structure.
   --single-fixture-per-file
                         Don't group fixtures in JSON files by test function;
                         write each fixture to its own file. This can be used to
@@ -157,7 +161,17 @@ Arguments defining filler location and output:
   --no-html             Don't generate an HTML test report (in the output
                         directory). The --html flag can be used to specify a
                         different path.
-
+  --strict-alloc        [DEBUG ONLY] Disallows deploying a contract in a
+                        predefined address.
+  --ca-start CA_START, --contract-address-start CA_START
+                        The starting address from which tests will deploy
+                        contracts.
+  --ca-incr CA_INCR, --contract-address-increment CA_INCR
+                        The address increment value to each deployed contract by
+                        a test.
+  --build-name BUILD_NAME
+                        Specify a build name for the fixtures.ini file, e.g.,
+                        'stable'.
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
@@ -170,8 +184,8 @@ Specify the fork range to generate fixtures for:
   --until UNTIL         Fill tests until and including the specified fork.
 
 Arguments related to running execution-spec-tests:
-  --test-help           Only show help options specific to execution-spec-tests
-                        and exit.
+  --test-help           Only show help options specific to a specific execution-
+                        spec-tests command and exit.
 
 Exit: After displaying help.
 ```

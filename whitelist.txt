@@ -9,6 +9,7 @@ ase
 alloc
 api
 apis
+arcname
 at5
 AutoSection
 auxdata
@@ -191,7 +192,9 @@ ignoreRevsFile
 img
 imm
 immediates
+incr
 incrementing
+ini
 init
 initcode
 instantiation

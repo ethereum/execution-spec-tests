@@ -31,16 +31,7 @@ runs:
         source env/bin/activate
         pip install -e .
         solc-select use  ${{ steps.properties.outputs.solc }} --always-install
-        fill -n auto --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }}
-    - name: Create fixtures info file
-      shell: bash
-      run: |
-        echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
-        > fixtures/info.txt
-    - name: Tar fixtures output
-      shell: bash
-      run: |
-        tar -czvf fixtures_${{ inputs.name }}.tar.gz ./fixtures
+        fill -n auto --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.name }}.tar.gz --build-name ${{ inputs.name }}
     - uses: actions/upload-artifact@v4
       with:
         name: fixtures_${{ inputs.name }}
