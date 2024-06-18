@@ -153,6 +153,13 @@ fork_covariant_descriptors = [
         fork_attribute_name="precompiles",
         parameter_name="precompile",
     ),
+    CovariantDescriptor(
+        marker_name="with_all_evm_code_types",
+        description="marks a test to be parametrized for all EVM code types at parameter named"
+        " evm_code_type of type EVMCodeType",
+        fork_attribute_name="evm_code_types",
+        parameter_name="evm_code_type",
+    ),
 ]
 
 

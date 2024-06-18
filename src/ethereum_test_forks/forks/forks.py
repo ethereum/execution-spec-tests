@@ -10,6 +10,7 @@ from typing import List, Mapping, Optional
 from semver import Version
 
 from ..base_fork import BaseFork
+from ..types import EVMCodeType
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
@@ -169,6 +170,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         At Genesis, no pre-compiles are allowed
         """
         return []
+
+    @classmethod
+    def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
+        """
+        At Genesis, only legacy EVM code is supported.
+        """
+        return [EVMCodeType.LEGACY]
 
     @classmethod
     def pre_allocation(cls) -> Mapping:
@@ -613,6 +621,16 @@ class CancunEIP7692(  # noqa: SC200
     """
     Cancun + EIP-7692 (EOF) fork
     """
+
+    @classmethod
+    def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
+        """
+        EOF V1 is supported starting from this fork.
+        """
+        return super(CancunEIP7692, cls,).evm_code_types(  # noqa: SC200
+            block_number,
+            timestamp,
+        ) + [EVMCodeType.EOF_V1]
 
     @classmethod
     def is_deployed(cls) -> bool:

@@ -33,6 +33,7 @@ from ethereum_test_tools import StateTestFiller, Storage, Transaction
     ],
     ids=lambda op: str(op),
 )
+@pytest.mark.with_all_evm_code_types
 def test_dup(
     state_test: StateTestFiller,
     fork: str,
@@ -58,7 +59,7 @@ def test_dup(
     account_code += dup_opcode
 
     # Save each stack value into different keys in storage
-    account_code += sum(Op.PUSH1(i) + Op.SSTORE for i in range(0x11))
+    account_code += sum(Op.PUSH1(i) + Op.SSTORE for i in range(0x11)) + Op.STOP
 
     account = pre.deploy_contract(account_code)
 

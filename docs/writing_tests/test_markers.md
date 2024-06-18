@@ -53,7 +53,7 @@ import pytest
 
 @pytest.mark.with_all_tx_types
 @pytest.mark.valid_from("Berlin")
-def test_something_with_all_tx_types(tx_type):
+def test_something_with_all_tx_types(tx_type: int):
     pass
 ```
 
@@ -74,11 +74,29 @@ import pytest
 
 @pytest.mark.with_all_precompiles
 @pytest.mark.valid_from("Shanghai")
-def test_something_with_all_precompiles(precompile):
+def test_something_with_all_precompiles(precompile: int):
     pass
 ```
 
 In this example, the test will be parameterized for parameter `precompile` with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]` for fork Shanghai, but with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` for fork Cancun (because of EIP-4844).
+
+### pytest.mark.with_all_evm_code_types
+
+This marker is used to automatically parameterize a test with all EVM code types that are valid for the fork being tested.
+
+```python
+import pytest
+from ethereum_test_forks import EVMCodeType
+
+@pytest.mark.with_all_evm_code_types
+@pytest.mark.valid_from("Frontier")
+def test_something_with_all_evm_code_types(evm_code_type: EVMCodeType):
+    pass
+```
+
+In this example, the test will be parameterized for parameter `precompile` only with value `[EVMCodeType.LEGACY]` for fork Frontier, but eventually it will be parametrized with with values `[EVMCodeType.LEGACY, EVMCodeType.EOF_V1]` on the EOF activation fork.
+
+There will not be any automatic test conversion for the `EVMCodeType` parameter, so the test writer must handle the different code types manually.
 
 ## Other Markers
 

@@ -39,10 +39,12 @@ from .helpers import (
     transition_fork_from_to,
     transition_fork_to,
 )
+from .types import EVMCodeType
 
 __all__ = [
     "Fork",
     "ForkAttribute",
+    "EVMCodeType",
     "ArrowGlacier",
     "Berlin",
     "BerlinToLondonAt5",

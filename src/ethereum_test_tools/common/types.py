@@ -747,6 +747,14 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
                 else:
                     raise Alloc.MissingAccount(address)
 
+    def _code_pre_processor(self, code: BytesConvertible) -> BytesConvertible:
+        """
+        Pre-processes the code before storing it in the allocation.
+
+        To be overridden by subclasses in necessary.
+        """
+        return code
+
     def deploy_contract(
         self,
         code: BytesConvertible,
@@ -777,7 +785,7 @@ class Alloc(RootModel[Dict[Address, Account | None]]):
         self[contract_address] = Account(
             nonce=nonce,
             balance=balance,
-            code=code,
+            code=self._code_pre_processor(code),
             storage=storage,
         )
         if label is None:
