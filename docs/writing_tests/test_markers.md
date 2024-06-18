@@ -86,6 +86,21 @@ In this example, the test will be parameterized for parameter `precompile` with 
 
 This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.
 
+### pytest.mark.pre_alloc_modifier
+
+This marker is used to mark tests that access and modify the internal accounts of `pre` , instead of using the default `pre.deploy_contract` or `pre.fund_eoa` functions.
+
+This is sometimes necessary when the test requires a specific account state that is not possible to achieve using the default functions, but limits the environment in which the test can be run.
+
+```python
+import pytest
+
+@pytest.mark.pre_alloc_modifier
+def test_something_with_modified_pre(pre):
+    pre[0x0000000000000000000000000000000000000000] = Account(storage={0: 1})
+    ...
+```
+
 ### pytest.mark.skip("reason")
 
 This marker is used to skip a test with a reason.
