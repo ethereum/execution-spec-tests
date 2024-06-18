@@ -5,11 +5,10 @@ abstract: Test DUP
 """
 import pytest
 
-from ethereum_test_forks import EVMCodeType, Frontier, Homestead
+from ethereum_test_forks import Frontier, Homestead
 from ethereum_test_tools import Account, Alloc, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Storage, Transaction
-from ethereum_test_tools.eof.v1 import Container
 
 
 @pytest.mark.parametrize(
@@ -37,7 +36,6 @@ from ethereum_test_tools.eof.v1 import Container
 @pytest.mark.with_all_evm_code_types
 def test_dup(
     state_test: StateTestFiller,
-    evm_code_type: EVMCodeType,
     fork: str,
     dup_opcode: Op,
     pre: Alloc,
@@ -63,9 +61,7 @@ def test_dup(
     # Save each stack value into different keys in storage
     account_code += sum(Op.PUSH1(i) + Op.SSTORE for i in range(0x11)) + Op.STOP
 
-    account = pre.deploy_contract(
-        account_code if evm_code_type == EVMCodeType.LEGACY else Container.Code(account_code)
-    )
+    account = pre.deploy_contract(account_code)
 
     tx = Transaction(
         ty=0x0,
