@@ -12,7 +12,11 @@ from ethereum_test_tools import (
     Transaction,
     compute_create2_address,
     compute_create_address,
+    compute_eofcreate_address,
 )
+from ethereum_test_tools.eof.v1 import Container, Section
+
+from ...prague.eip7692_eof_v1 import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7610.md"
 REFERENCE_SPEC_VERSION = "80ef48d0bbb5a4939ade51caaaac57b5df6acd4e"
@@ -86,8 +90,10 @@ def test_init_collision_create_opcode(
 
     sender = pre.fund_eoa()
 
+    deploy_code = Op.STOP
+
     initcode = Initcode(
-        deploy_code=Op.STOP,
+        deploy_code=deploy_code,
         initcode_prefix=Op.SSTORE(0, 1) + Op.SSTORE(1, 0),
     )
 
@@ -115,8 +121,76 @@ def test_init_collision_create_opcode(
     tx = Transaction(
         sender=sender,
         to=contract_creator_address,
-        data=initcode,
-        gas_price=10,
+        gas_limit=2_000_000,
+    )
+
+    pre[created_contract_address] = Account(
+        storage={0x01: 0x01},
+        nonce=nonce,
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={
+            created_contract_address: Account(
+                storage={0x01: 0x01},
+            ),
+            contract_creator_address: Account(storage={0x01: 0x00}),
+        },
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize("nonce", [0, 1])
+@pytest.mark.pre_alloc_modifier  # We need to modify the pre-alloc to include the collision
+@pytest.mark.valid_from(EOF_FORK_NAME)
+def test_init_collision_eofcreate_opcode(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    nonce: int,
+):
+    """
+    Test that a EOF contract creation opcode exceptionally aborts when the target address has a
+    non-empty storage.
+    """
+    env = Environment()
+
+    sender = pre.fund_eoa()
+
+    deploy_container = Container(sections=[Section.Code(Op.STOP)])
+
+    init_container = Container(
+        sections=[
+            Section.Code(
+                code=Op.RETURNCONTRACT[0](0, 0),
+                max_stack_height=2,
+            ),
+            Section.Container(container=deploy_container),
+        ]
+    )
+
+    salt = 0x00
+    contract_creator_container = Container(
+        sections=[
+            Section.Code(
+                code=Op.SSTORE(0x01, Op.EOFCREATE[0](0, salt, 0, 0)) + Op.STOP,
+                max_stack_height=4,
+            ),
+            Section.Container(init_container),
+        ]
+    )
+    contract_creator_address = pre.deploy_contract(
+        contract_creator_container,
+        storage={0x01: 0x01},
+    )
+    created_contract_address = compute_eofcreate_address(
+        contract_creator_address, salt, init_container
+    )
+
+    tx = Transaction(
+        sender=sender,
+        to=contract_creator_address,
         gas_limit=2_000_000,
     )
 
