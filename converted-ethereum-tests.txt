@@ -1,4 +1,4 @@
-([#440](https://github.com/ethereum/execution-spec-tests/pull/440))
+([#636](https://github.com/ethereum/execution-spec-tests/pull/636))
 GeneralStateTests/stSStoreTest/InitCollision.json
 GeneralStateTests/stSStoreTest/InitCollisionNonZeroNonce.json
 GeneralStateTests/stSStoreTest/InitCollisionParis.json
