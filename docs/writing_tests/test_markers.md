@@ -101,6 +101,16 @@ def test_something_with_modified_pre(pre):
     ...
 ```
 
+```python
+import pytest
+
+@pytest.mark.pre_alloc_modifier
+def test_something_with_modified_pre():
+    # Test defines its own pre-alloc
+    pre = Alloc()
+    ...
+```
+
 ### pytest.mark.skip("reason")
 
 This marker is used to skip a test with a reason.
