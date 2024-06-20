@@ -44,6 +44,8 @@ from ...common.constants import EmptyOmmersRoot, EngineAPIError
 from ...common.types import (
     Alloc,
     CamelModel,
+    ConsolidationRequest,
+    ConsolidationRequestGeneric,
     DepositRequest,
     DepositRequestGeneric,
     Environment,
@@ -355,7 +357,7 @@ class Block(Header):
     """
     List of withdrawals to perform for this block.
     """
-    requests: List[DepositRequest | WithdrawalRequest] | None = None
+    requests: List[DepositRequest | WithdrawalRequest | ConsolidationRequest] | None = None
     """
     Custom list of requests to embed in this block.
     """
@@ -438,6 +440,7 @@ class FixtureExecutionPayload(CamelModel):
     withdrawals: List[Withdrawal] | None = None
     deposit_requests: List[DepositRequest] | None = None
     withdrawal_requests: List[WithdrawalRequest] | None = None
+    consolidation_requests: List[ConsolidationRequest] | None = None
 
     @classmethod
     def from_fixture_header(
@@ -457,6 +460,9 @@ class FixtureExecutionPayload(CamelModel):
             withdrawals=withdrawals,
             deposit_requests=requests.deposit_requests() if requests is not None else None,
             withdrawal_requests=requests.withdrawal_requests() if requests is not None else None,
+            consolidation_requests=requests.consolidation_requests()
+            if requests is not None
+            else None,
         )
 
 
@@ -574,6 +580,22 @@ class FixtureWithdrawalRequest(WithdrawalRequestGeneric[ZeroPaddedHexNumber]):
         return cls(**d.model_dump())
 
 
+class FixtureConsolidationRequest(ConsolidationRequestGeneric[ZeroPaddedHexNumber]):
+    """
+    Structure to represent a single consolidation request to be processed by the beacon
+    chain.
+    """
+
+    @classmethod
+    def from_consolidation_request(
+        cls, d: ConsolidationRequestGeneric
+    ) -> "FixtureConsolidationRequest":
+        """
+        Returns a FixtureConsolidationRequest from a ConsolidationRequest.
+        """
+        return cls(**d.model_dump())
+
+
 class FixtureBlockBase(CamelModel):
     """Representation of an Ethereum block within a test Fixture without RLP bytes."""
 
@@ -583,6 +605,7 @@ class FixtureBlockBase(CamelModel):
     withdrawals: List[FixtureWithdrawal] | None = None
     deposit_requests: List[FixtureDepositRequest] | None = None
     withdrawal_requests: List[FixtureWithdrawalRequest] | None = None
+    consolidation_requests: List[FixtureConsolidationRequest] | None = None
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
