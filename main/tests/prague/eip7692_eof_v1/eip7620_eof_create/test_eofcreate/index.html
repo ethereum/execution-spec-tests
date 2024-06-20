@@ -11438,6 +11438,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_eofcreate.test_eofcreate_revert_eof_returndata" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_eofcreate_revert_eof_returndata
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -11454,7 +11463,7 @@
 
 
 <h1 id="test-eofcreate">Test Eofcreate<a class="headerlink" href="#test-eofcreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/de0bfd95fda1e6984cb002919abdf548491645d1/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/97ad1f7e6e948b9eb4d463a8c4fc10ddddf37a3e/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -12593,6 +12602,145 @@ For all forks up to and including Prague:
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip7620_eof_create.test_eofcreate.test_eofcreate_revert_eof_returndata" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_eofcreate_revert_eof_returndata</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_eofcreate.test_eofcreate_revert_eof_returndata" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Verifies the return data is not being deployed, even if happens to be valid EOF</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_revert_eof_returndata</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verifies the return data is not being deployed, even if happens to be valid EOF</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+    <span class="n">code_reverts_with_calldata</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Initcode Subcontainer reverting with its calldata&quot;</span><span class="p">,</span>
+        <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
+    <span class="n">salt</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_create_address</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">))</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_returndata_size</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">container</span><span class="o">=</span><span class="n">code_reverts_with_calldata</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_create_address</span><span class="p">:</span> <span class="n">value_canary_to_be_overwritten</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">eof_create_address</span> <span class="o">=</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span>
+        <span class="n">contract_address</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">code_reverts_with_calldata</span>
+    <span class="p">)</span>
+
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+                <span class="n">slot_create_address</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">slot_returndata_size</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">smallest_runtime_subcontainer</span><span class="p">),</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+        <span class="n">eof_create_address</span><span class="p">:</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="c1"># Simplest possible valid EOF container, which is going to be</span>
+        <span class="c1"># revert-returned from initcode and must not end up being deployed.</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">smallest_runtime_subcontainer</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
