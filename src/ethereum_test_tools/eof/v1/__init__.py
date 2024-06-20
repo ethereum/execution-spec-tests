@@ -9,8 +9,9 @@ from typing import Dict, List, Optional, Tuple
 
 from pydantic import Field
 
-from ...common import Bytes
+from ...common import Address, Bytes
 from ...common.conversions import BytesConvertible
+from ...common.helpers import compute_eofcreate_address
 from ...common.types import CopyValidateModel
 from ...exceptions import EOFException
 from ...vm.opcode import Bytecode
@@ -415,6 +416,12 @@ class Container(CopyValidateModel):
         """
         kwargs.pop("kind", None)
         return cls(sections=[Section.Code(code=code, **kwargs)])
+
+    def eofcreate_address(self, creator_address: Address, salt: int) -> Address:
+        """
+        Computes the address of a contract created by this container.
+        """
+        return compute_eofcreate_address(creator_address, salt, self)
 
     def __bytes__(self) -> bytes:
         """
