@@ -1703,6 +1703,7 @@ class Result(CamelModel):
     requests_root: Hash | None = None
     deposit_requests: List[DepositRequest] | None = None
     withdrawal_requests: List[WithdrawalRequest] | None = None
+    consolidation_requests: List[ConsolidationRequest] | None = None
 
 
 class TransitionToolOutput(CamelModel):
