@@ -138,6 +138,20 @@ class Bytecode:
             return bytes(self) == bytes(other)
         raise NotImplementedError(f"Unsupported type for comparison f{type(other)}")
 
+    def __hash__(self):
+        """
+        Return the hash of the bytecode representation.
+        """
+        return hash(
+            (
+                bytes(self),
+                self.popped_stack_items,
+                self.pushed_stack_items,
+                self.max_stack_height,
+                self.min_stack_height,
+            )
+        )
+
     def __add__(self, other: "Bytecode | int | None") -> "Bytecode":
         """
         Concatenate the bytecode representation with another bytecode object.
