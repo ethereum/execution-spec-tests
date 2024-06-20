@@ -526,25 +526,28 @@ def test_eofcreate_revert_eof_returndata(
         sections=[
             Section.Code(
                 code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.REVERT(0, Op.CALLDATASIZE),
-                max_stack_height=3,
             ),
         ],
     )
 
     sender = pre.fund_eoa()
+    salt = 0
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
                 Section.Code(
                     code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-                    + Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, 0, 0, Op.CALLDATASIZE))
+                    + Op.SSTORE(slot_create_address, Op.EOFCREATE[0](0, salt, 0, Op.CALLDATASIZE))
                     + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
                     + Op.STOP,
-                    max_stack_height=4,
                 ),
                 Section.Container(container=code_reverts_with_calldata),
             ],
-        )
+        ),
+        storage={slot_create_address: value_canary_to_be_overwritten},
+    )
+    eof_create_address = compute_eofcreate_address(
+        contract_address, salt, code_reverts_with_calldata
     )
 
     post = {
@@ -554,6 +557,7 @@ def test_eofcreate_revert_eof_returndata(
                 slot_returndata_size: len(smallest_runtime_subcontainer),
             },
         ),
+        eof_create_address: Account.NONEXISTENT,
     }
 
     tx = Transaction(
