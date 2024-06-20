@@ -659,7 +659,7 @@ def test_rjumpv_into_push_1(
         code = Op.PUSH1(1) + Op.RJUMPV[jump_table] + Op.STOP
     eof_test(
         data=Container(
-            sections=[Section.Code(code=code, max_stack_height=1)],  # FIXME: max_stack_height
+            sections=[Section.Code(code=code)],
         ),
         expect_exception=EOFException.INVALID_RJUMP_DESTINATION,
     )
@@ -749,9 +749,7 @@ def test_rjumpv_into_push_n(
         code = opcode[1] + Op.RJUMPV[jump_table] + Op.STOP
     eof_test(
         data=Container(
-            sections=[
-                Section.Code(code=code, max_stack_height=1),  # FIXME: max_stack_height
-            ],
+            sections=[Section.Code(code=code)],
         ),
         expect_exception=EOFException.INVALID_RJUMP_DESTINATION,
     )

@@ -436,7 +436,6 @@ def test_rjump_into_dupn(
                     + Op.DUPN[1]
                     + Op.SSTORE
                     + Op.STOP,
-                    max_stack_height=2,  # FIXME: Might be 3
                 ),
             ],
         ),
