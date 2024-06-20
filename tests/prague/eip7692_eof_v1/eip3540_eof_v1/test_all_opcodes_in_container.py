@@ -4,7 +4,7 @@ EOF Container: check how every opcode behaves in the middle of the valid eof con
 
 import pytest
 
-from ethereum_test_tools import EOFTestFiller, Opcode
+from ethereum_test_tools import Bytecode, EOFTestFiller, Opcode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import UndefinedOpcodes
 from ethereum_test_tools.eof.v1 import Container, EOFException, Section
@@ -72,11 +72,11 @@ def expect_exception(opcode: Opcode) -> EOFException | None:
     return None
 
 
-def make_opcode_valid_bytes(opcode: Opcode) -> Opcode | bytes:
+def make_opcode_valid_bytes(opcode: Opcode) -> Opcode | Bytecode:
     """
     Construct a valid stack and bytes for the opcode
     """
-    code: Opcode | bytes
+    code: Opcode | Bytecode
     if opcode.data_portion_length == 0 and opcode.data_portion_formatter is None:
         code = opcode
     elif opcode == Op.CALLF:
