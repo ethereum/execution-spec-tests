@@ -688,6 +688,18 @@ class EOFException(ExceptionBase):
     """
     Top-level EOF container has data section truncated
     """
+    INVALID_CONTAINER_SECTION_INDEX = auto()
+    """
+    EOFCREATE or RETURNCONTRACT has invalid section index.
+    """
+    EOFCREATE_RUNTIME_CONTAINER = auto()
+    """
+    EOFCREATE tries to initialize a container using a runtime container.
+    """
+    RETURNCONTRACT_INITCONTAINER = auto()
+    """
+    RETURNCONTRACT tries to return an init-container.
+    """
 
 
 """

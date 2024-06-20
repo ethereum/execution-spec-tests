@@ -197,6 +197,7 @@ incrementing
 ini
 init
 initcode
+initcontainer
 instantiation
 io
 islice

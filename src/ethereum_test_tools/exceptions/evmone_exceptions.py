@@ -14,7 +14,16 @@ class ExceptionMessage:
     """Defines a mapping between an exception and a message."""
 
     exception: EOFException
-    message: str
+    message: str = ""
+
+    def __post_init__(self):
+        """
+        Set the default error message if none provided.
+        """
+        assert isinstance(self.exception, EOFException), "exception must be an EOFException"
+        # default message is "err: <exception_name in lowercase>"
+        if not self.message:
+            self.message = f"err: {self.exception.name.lower()}"
 
 
 class EvmoneExceptionMapper:
@@ -33,33 +42,23 @@ class EvmoneExceptionMapper:
             EOFException.MISSING_HEADERS_TERMINATOR, "err: section_headers_not_terminated"
         ),
         ExceptionMessage(EOFException.INVALID_VERSION, "err: eof_version_unknown"),
-        ExceptionMessage(
-            EOFException.INVALID_NON_RETURNING_FLAG, "err: invalid_non_returning_flag"
-        ),
+        ExceptionMessage(EOFException.INVALID_NON_RETURNING_FLAG),
         ExceptionMessage(EOFException.INVALID_MAGIC, "err: invalid_prefix"),
-        ExceptionMessage(
-            EOFException.INVALID_FIRST_SECTION_TYPE, "err: invalid_first_section_type"
-        ),
-        ExceptionMessage(
-            EOFException.INVALID_SECTION_BODIES_SIZE, "err: invalid_section_bodies_size"
-        ),
-        ExceptionMessage(EOFException.INVALID_TYPE_SECTION_SIZE, "err: invalid_type_section_size"),
-        ExceptionMessage(EOFException.INCOMPLETE_SECTION_SIZE, "err: incomplete_section_size"),
-        ExceptionMessage(EOFException.INCOMPLETE_SECTION_NUMBER, "err: incomplete_section_number"),
-        ExceptionMessage(EOFException.TOO_MANY_CODE_SECTIONS, "err: too_many_code_sections"),
-        ExceptionMessage(EOFException.ZERO_SECTION_SIZE, "err: zero_section_size"),
+        ExceptionMessage(EOFException.INVALID_FIRST_SECTION_TYPE),
+        ExceptionMessage(EOFException.INVALID_SECTION_BODIES_SIZE),
+        ExceptionMessage(EOFException.INVALID_TYPE_SECTION_SIZE),
+        ExceptionMessage(EOFException.INCOMPLETE_SECTION_SIZE),
+        ExceptionMessage(EOFException.INCOMPLETE_SECTION_NUMBER),
+        ExceptionMessage(EOFException.TOO_MANY_CODE_SECTIONS),
+        ExceptionMessage(EOFException.ZERO_SECTION_SIZE),
         ExceptionMessage(EOFException.MISSING_DATA_SECTION, "err: data_section_missing"),
-        ExceptionMessage(EOFException.UNDEFINED_INSTRUCTION, "err: undefined_instruction"),
-        ExceptionMessage(
-            EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT, "err: inputs_outputs_num_above_limit"
-        ),
-        ExceptionMessage(EOFException.UNREACHABLE_INSTRUCTIONS, "err: unreachable_instructions"),
-        ExceptionMessage(EOFException.INVALID_RJUMP_DESTINATION, "err: invalid_rjump_destination"),
-        ExceptionMessage(EOFException.UNREACHABLE_CODE_SECTIONS, "err: unreachable_code_sections"),
-        ExceptionMessage(EOFException.STACK_UNDERFLOW, "err: stack_underflow"),
-        ExceptionMessage(
-            EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT, "err: max_stack_height_above_limit"
-        ),
+        ExceptionMessage(EOFException.UNDEFINED_INSTRUCTION),
+        ExceptionMessage(EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT),
+        ExceptionMessage(EOFException.UNREACHABLE_INSTRUCTIONS),
+        ExceptionMessage(EOFException.INVALID_RJUMP_DESTINATION),
+        ExceptionMessage(EOFException.UNREACHABLE_CODE_SECTIONS),
+        ExceptionMessage(EOFException.STACK_UNDERFLOW),
+        ExceptionMessage(EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT),
         ExceptionMessage(
             EOFException.STACK_HIGHER_THAN_OUTPUTS, "err: stack_higher_than_outputs_required"
         ),
@@ -67,12 +66,13 @@ class EvmoneExceptionMapper:
             EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS,
             "err: jumpf_destination_incompatible_outputs",
         ),
-        ExceptionMessage(EOFException.INVALID_MAX_STACK_HEIGHT, "err: invalid_max_stack_height"),
-        ExceptionMessage(EOFException.INVALID_DATALOADN_INDEX, "err: invalid_dataloadn_index"),
-        ExceptionMessage(EOFException.TRUNCATED_INSTRUCTION, "err: truncated_instruction"),
-        ExceptionMessage(
-            EOFException.TOPLEVEL_CONTAINER_TRUNCATED, "err: toplevel_container_truncated"
-        ),
+        ExceptionMessage(EOFException.INVALID_MAX_STACK_HEIGHT),
+        ExceptionMessage(EOFException.INVALID_DATALOADN_INDEX),
+        ExceptionMessage(EOFException.TRUNCATED_INSTRUCTION),
+        ExceptionMessage(EOFException.TOPLEVEL_CONTAINER_TRUNCATED),
+        ExceptionMessage(EOFException.INVALID_CONTAINER_SECTION_INDEX),
+        ExceptionMessage(EOFException.EOFCREATE_RUNTIME_CONTAINER),
+        ExceptionMessage(EOFException.RETURNCONTRACT_INITCONTAINER),
     )
 
     def __init__(self) -> None:
