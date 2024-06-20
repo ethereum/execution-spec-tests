@@ -8,6 +8,8 @@ from ethereum_test_tools import (
     Account,
     Alloc,
     Environment,
+    EOFException,
+    EOFTestFiller,
     StateTestFiller,
     Transaction,
     compute_eofcreate_address,
@@ -570,3 +572,462 @@ def test_eofcreate_revert_eof_returndata(
     )
 
     state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(
+                        code=sum(Op.EOFCREATE[i](0, 0, 0, 0) for i in range(0x100)) + Op.STOP,
+                    ),
+                    *(
+                        Section.Container(container=smallest_initcode_subcontainer)
+                        for _ in range(0x100)
+                    ),
+                ],
+            ),
+            id="max_referenced_subcontainers",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(
+                        code=Op.RJUMPI[len(Op.EOFCREATE[0](0, 0, 0, 0))](0)
+                        + Op.EOFCREATE[0](0, 0, 0, 0)
+                        + Op.EOFCREATE[0](0, 0, 0, 0)
+                        + Op.STOP,
+                    ),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                ],
+            ),
+            id="multiple_eofcreate_referencing_same_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                ],
+            ),
+            id="orphan_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[1](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                ],
+            ),
+            id="orphan_container_2",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    *(
+                        Section.Container(container=smallest_initcode_subcontainer)
+                        for _ in range(0x100)
+                    ),
+                ],
+            ),
+            id="max_orphan_containers",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                    Section.Container(container=smallest_runtime_subcontainer),
+                ],
+            ),
+            id="valid_orphan_runtime_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[1](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_runtime_subcontainer),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                ],
+            ),
+            id="valid_orphan_runtime_container_2",
+        ),
+    ],
+)
+def test_eofcreate_container_validation(
+    eof_test: EOFTestFiller,
+    container: Container,
+):
+    """
+    Verifies cases where EOFCREATE is correctly used and generates a valid container.
+    """
+    eof_test(
+        data=container,
+    )
+
+
+@pytest.mark.parametrize(
+    "container,expect_exception",
+    [
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[1](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                ],
+            ),
+            EOFException.INVALID_CONTAINER_SECTION_INDEX,
+            id="out_of_bounds_section_index_eofcreate",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(
+                        code=sum(Op.EOFCREATE[i](0, 0, 0, 0) for i in range(0x100)) + Op.STOP,
+                    ),
+                    *(
+                        Section.Container(container=smallest_initcode_subcontainer)
+                        for _ in range(0xFF)
+                    ),
+                ],
+            ),
+            EOFException.INVALID_CONTAINER_SECTION_INDEX,
+            id="out_of_bounds_section_index_eofcreate_max_subcontainers",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(code=Op.RETURNCONTRACT[0](0, 0)),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            EOFException.INVALID_CONTAINER_SECTION_INDEX,
+            id="invalid_orphan_init_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_runtime_subcontainer),
+                ],
+            ),
+            EOFException.EOFCREATE_RUNTIME_CONTAINER,
+            id="eofcreate_runtime_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(container=smallest_runtime_subcontainer),
+                    Section.Container(container=smallest_initcode_subcontainer),
+                ],
+            ),
+            EOFException.EOFCREATE_RUNTIME_CONTAINER,
+            id="incorrect_container_selected",
+        ),
+    ],
+)
+def test_eofcreate_container_validation_negative(
+    eof_test: EOFTestFiller,
+    container: Container,
+    expect_exception: EOFException,
+):
+    """
+    Verifies cases where EOFCREATE is incorrectly used.
+    """
+    eof_test(
+        data=container,
+        expect_exception=expect_exception,
+    )
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=sum(
+                                        Op.RJUMPI[len(Op.RETURNCONTRACT[0](0, 0))](0)
+                                        + Op.RETURNCONTRACT[i](0, 0)
+                                        for i in range(0xFF)
+                                    )
+                                    + Op.RETURNCONTRACT[0xFF](0, 0),
+                                ),
+                                *(
+                                    Section.Container(container=smallest_runtime_subcontainer)
+                                    for _ in range(0x100)
+                                ),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            id="max_referenced_subcontainers",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RJUMPI[len(Op.RETURNCONTRACT[0](0, 0))](0)
+                                    + Op.RETURNCONTRACT[0](0, 0)
+                                    + Op.RETURNCONTRACT[0](0, 0),
+                                ),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            id="multiple_returncontract_referencing_same_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RETURNCONTRACT[0](0, 0),
+                                ),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            id="orphan_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RETURNCONTRACT[1](0, 0),
+                                ),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            id="orphan_container_2",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RETURNCONTRACT[0](0, 0),
+                                ),
+                                *(
+                                    Section.Container(container=smallest_runtime_subcontainer)
+                                    for _ in range(0x100)
+                                ),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            id="max_orphan_containers",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RETURNCONTRACT[0](0, 0),
+                                ),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                                Section.Container(container=smallest_initcode_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            id="valid_orphan_initcontainer",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RETURNCONTRACT[1](0, 0),
+                                ),
+                                Section.Container(container=smallest_initcode_subcontainer),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            id="valid_orphan_initcontainer_2",
+        ),
+    ],
+)
+def test_returncontract_container_validation(
+    eof_test: EOFTestFiller,
+    container: Container,
+):
+    """
+    Verifies cases where RETURNCONTRACT is correctly used and returns a valid container.
+    """
+    eof_test(
+        data=container,
+    )
+
+
+@pytest.mark.parametrize(
+    "container,expect_exception",
+    [
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(code=Op.RETURNCONTRACT[1](0, 0)),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            EOFException.INVALID_CONTAINER_SECTION_INDEX,
+            id="out_of_bounds_section_index_returncontract",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=sum(
+                                        Op.RJUMPI[len(Op.RETURNCONTRACT[0](0, 0))](0)
+                                        + Op.RETURNCONTRACT[i](0, 0)
+                                        for i in range(0xFF)
+                                    )
+                                    + Op.RETURNCONTRACT[0xFF](0, 0),
+                                ),
+                                *(
+                                    Section.Container(container=smallest_runtime_subcontainer)
+                                    for _ in range(0xFF)
+                                ),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            EOFException.INVALID_CONTAINER_SECTION_INDEX,
+            id="out_of_bounds_section_index_returncontract_max_subcontainers",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(code=Op.RETURNCONTRACT[0](0, 0)),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                                Section.Container(container=Container.Code(code=Op.POP)),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            EOFException.STACK_UNDERFLOW,
+            id="invalid_orphan_container",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RETURNCONTRACT[0](0, 0),
+                                ),
+                                Section.Container(container=smallest_initcode_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            EOFException.RETURNCONTRACT_INITCONTAINER,
+            id="returncontract_initcontainer",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container(
+                        container=Container(
+                            sections=[
+                                Section.Code(
+                                    code=Op.RETURNCONTRACT[0](0, 0),
+                                ),
+                                Section.Container(container=smallest_initcode_subcontainer),
+                                Section.Container(container=smallest_runtime_subcontainer),
+                            ],
+                        )
+                    ),
+                ],
+            ),
+            EOFException.RETURNCONTRACT_INITCONTAINER,
+            id="incorrect_container_selected",
+        ),
+    ],
+)
+def test_returncontract_container_validation_negative(
+    eof_test: EOFTestFiller,
+    container: Container,
+    expect_exception: EOFException,
+):
+    """
+    Verifies cases where RETURNCONTRACT is incorrectly used.
+    """
+    eof_test(
+        data=container,
+        expect_exception=expect_exception,
+    )
