@@ -11322,7 +11322,7 @@
 
 
 <h1 id="test-returndataload">Test Returndataload<a class="headerlink" href="#test-returndataload" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11525,9 +11525,7 @@ based on offset and size params.  Cases are expected to trigger boundary violati
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;call_prefix&quot;</span><span class="p">,</span> <span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;call_suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">([</span><span class="mi">500_000</span><span class="p">],</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;CALL&quot;</span><span class="p">),</span>
@@ -11601,7 +11599,6 @@ based on offset and size params.  Cases are expected to trigger boundary violati
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">DATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DATASIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DATASIZE</span><span class="p">),</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">return_data</span><span class="p">),</span>
             <span class="p">]</span>
@@ -11627,7 +11624,6 @@ based on offset and size params.  Cases are expected to trigger boundary violati
                     <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                             <span class="n">code</span><span class="o">=</span><span class="n">code_under_test</span><span class="p">,</span>
-                            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                         <span class="p">)</span>
                     <span class="p">]</span>
                 <span class="p">)</span>
@@ -11706,7 +11702,9 @@ The parameters offset and return data are configured to test boundary conditions
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
@@ -11794,11 +11792,7 @@ The parameters offset and return data are configured to test boundary conditions
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;call_suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EXTCALL&quot;</span><span class="p">),</span>
@@ -11850,7 +11844,6 @@ The parameters offset and return data are configured to test boundary conditions
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">DATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DATASIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DATASIZE</span><span class="p">),</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">return_data</span><span class="p">),</span>
             <span class="p">]</span>
@@ -11864,7 +11857,6 @@ The parameters offset and return data are configured to test boundary conditions
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_result_start</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATALOAD</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">call_suffix</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">]</span>
         <span class="p">)</span>
@@ -11919,7 +11911,11 @@ RETURNDATACOPY instance under test.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">282</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
 <span class="normal">285</span>
@@ -12021,11 +12017,7 @@ RETURNDATACOPY instance under test.</p>
 <span class="normal">381</span>
 <span class="normal">382</span>
 <span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">384</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;call_prefix&quot;</span><span class="p">,</span> <span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;call_suffix&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">([</span><span class="mi">500_000</span><span class="p">],</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;CallerIsLegacy&quot;</span><span class="p">),</span>

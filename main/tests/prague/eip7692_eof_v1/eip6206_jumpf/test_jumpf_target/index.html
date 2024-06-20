@@ -11313,7 +11313,7 @@
 
 
 <h1 id="test-jumpf-target">Test Jumpf Target<a class="headerlink" href="#test-jumpf-target" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py"><code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py"><code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11452,10 +11452,7 @@ We are not testing stack so a lot of the logic is to get correct stack values.</
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_outputs&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">127</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;to-</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;N&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">NON_RETURNING_SECTION</span> <span class="k">else</span> <span class="n">x</span><span class="p">),</span>
@@ -11512,7 +11509,7 @@ We are not testing stack so a lot of the logic is to get correct stack values.</
     <span class="p">)</span>
 
     <span class="n">base_code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">bytes</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="n">source_section_index</span><span class="p">])</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="n">source_section_index</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">source_non_returning</span>
         <span class="k">else</span> <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="n">source_section_index</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
     <span class="p">)</span>
@@ -11526,16 +11523,13 @@ We are not testing stack so a lot of the logic is to get correct stack values.</
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">base_code</span><span class="p">,</span>
-                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">max_stack_height</span><span class="o">=</span><span class="n">base_height</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">source_section</span><span class="p">,</span>
             <span class="n">target_section</span><span class="p">,</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">],</span>
     <span class="p">)</span>
@@ -11578,15 +11572,15 @@ Test a section that contains multiple JUMPF to different targets with different 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Not implemented&quot;</span><span class="p">)</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Not implemented&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_jumpf_multi_target_rules</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>

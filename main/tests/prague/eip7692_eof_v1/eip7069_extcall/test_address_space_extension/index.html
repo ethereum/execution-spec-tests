@@ -11304,7 +11304,7 @@
 
 
 <h1 id="test-address-space-extension">Test Address Space Extension<a class="headerlink" href="#test-address-space-extension" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11557,9 +11557,7 @@ For all forks up to and including Prague:
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_address&quot;</span><span class="p">,</span>
     <span class="p">(</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">),</span>
@@ -11641,7 +11639,6 @@ For all forks up to and including Prague:
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_target_returndata</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_suffix</span><span class="p">),</span>
                 <span class="p">)</span>
             <span class="p">],</span>
         <span class="p">)</span>
@@ -11690,7 +11687,6 @@ For all forks up to and including Prague:
                     <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                             <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
-                            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                         <span class="p">)</span>
                     <span class="p">],</span>
                 <span class="p">),</span>

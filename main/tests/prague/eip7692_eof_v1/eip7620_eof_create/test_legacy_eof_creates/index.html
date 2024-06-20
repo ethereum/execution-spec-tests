@@ -11313,7 +11313,7 @@
 
 
 <h1 id="test-legacy-eof-creates">Test Legacy Eof Creates<a class="headerlink" href="#test-legacy-eof-creates" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11434,7 +11434,7 @@ For all forks up to and including Prague:
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">legacy_create_opcode</span><span class="p">:</span> <span class="n">Opcodes</span><span class="p">,</span>
-    <span class="n">deploy_code</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
+    <span class="n">deploy_code</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifies that CREATE and CREATE2 cannot create EOF contracts</span>
@@ -11569,7 +11569,7 @@ For all forks up to and including Prague:
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">legacy_create_opcode</span><span class="p">:</span> <span class="n">Opcodes</span><span class="p">,</span>
-    <span class="n">deploy_code</span><span class="p">:</span> <span class="n">SupportsBytes</span><span class="p">,</span>
+    <span class="n">deploy_code</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifies that legacy initcode cannot create EOF</span>

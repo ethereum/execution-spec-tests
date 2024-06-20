@@ -11302,7 +11302,7 @@
 
 
 <h1 id="test-block-hashes">Test Block Hashes<a class="headerlink" href="#test-block-hashes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11357,15 +11357,7 @@ before the fork, are included in the state at the moment of the transition.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 73</span>
 <span class="normal"> 74</span>
 <span class="normal"> 75</span>
 <span class="normal"> 76</span>
@@ -11488,7 +11480,15 @@ before the fork, are included in the state at the moment of the transition.</p>
 <span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
-<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blocks_before_fork&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fork_at_1&quot;</span><span class="p">),</span>
@@ -11531,7 +11531,7 @@ before the fork, are included in the state at the moment of the transition.</p>
             <span class="c1"># On the last block before the fork, BLOCKHASH must return values for the last 256</span>
             <span class="c1"># blocks but not for the blocks before that.</span>
             <span class="c1"># And HISTORY_STORAGE_ADDRESS should be empty.</span>
-            <span class="n">code</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 
             <span class="c1"># Check the last block before the window</span>
@@ -11575,7 +11575,7 @@ before the fork, are included in the state at the moment of the transition.</p>
     <span class="c1"># On the block after the fork, BLOCKHASH must return values for the last</span>
     <span class="c1"># Spec.HISTORY_SERVE_WINDOW blocks.</span>
     <span class="c1"># And HISTORY_STORAGE_ADDRESS should be also serve the same values.</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 
     <span class="c1"># Check the last block before the window</span>

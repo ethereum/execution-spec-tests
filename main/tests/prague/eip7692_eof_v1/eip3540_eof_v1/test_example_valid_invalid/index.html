@@ -11313,7 +11313,7 @@
 
 
 <h1 id="test-example-valid-invalid">Test Example Valid Invalid<a class="headerlink" href="#test-example-valid-invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11629,21 +11629,7 @@ For all forks up to and including Prague:
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;eof_code,expected_hex_bytecode,exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -11653,7 +11639,6 @@ For all forks up to and including Prague:
                 <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0xef&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11669,7 +11654,6 @@ For all forks up to and including Prague:
                 <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xEF</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11685,7 +11669,6 @@ For all forks up to and including Prague:
                 <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11701,7 +11684,6 @@ For all forks up to and including Prague:
                 <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0xef&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11723,7 +11705,6 @@ For all forks up to and including Prague:
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11752,7 +11733,6 @@ For all forks up to and including Prague:
                 <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11775,15 +11755,12 @@ For all forks up to and including Prague:
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
@@ -11811,7 +11788,6 @@ For all forks up to and including Prague:
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11833,7 +11809,6 @@ For all forks up to and including Prague:
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11850,7 +11825,6 @@ For all forks up to and including Prague:
                 <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11885,7 +11859,6 @@ For all forks up to and including Prague:
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span>
                         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11901,7 +11874,6 @@ For all forks up to and including Prague:
                 <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0xef&quot;</span><span class="p">),</span>
                 <span class="p">],</span>
@@ -11954,7 +11926,21 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">306</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
 <span class="normal">309</span>
@@ -12038,22 +12024,7 @@ For all forks up to and including Prague:
 <span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">390</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;skip_header_listing, skip_body_listing, skip_types_body_listing, skip_types_header_listing,&quot;</span>
     <span class="s2">&quot;expected_code, expected_exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -12126,7 +12097,6 @@ For all forks up to and including Prague:
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>

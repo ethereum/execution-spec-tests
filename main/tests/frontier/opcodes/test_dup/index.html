@@ -11302,7 +11302,7 @@
 
 
 <h1 id="test-dup">Test DUP<a class="headerlink" href="#test-dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_dup.py</span>
@@ -11484,13 +11484,13 @@ by Ori Pomerantz.
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># Push 0x00 - 0x10 onto the stack</span>
-    <span class="n">account_code</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x11</span><span class="p">)])</span>
+    <span class="n">account_code</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x11</span><span class="p">))</span>
 
     <span class="c1"># Use the DUP opcode</span>
     <span class="n">account_code</span> <span class="o">+=</span> <span class="n">dup_opcode</span>
 
     <span class="c1"># Save each stack value into different keys in storage</span>
-    <span class="n">account_code</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x11</span><span class="p">)])</span>
+    <span class="n">account_code</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x11</span><span class="p">))</span>
 
     <span class="n">account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">account_code</span><span class="p">)</span>
 

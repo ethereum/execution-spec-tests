@@ -11320,7 +11320,7 @@
 
 
 <h1 id="test-dynamic-create2-selfdestruct-collision">Test Dynamic Create2 Selfdestruct Collision<a class="headerlink" href="#test-dynamic-create2-selfdestruct-collision" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</span>
@@ -11377,8 +11377,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 42</span>
-<span class="normal"> 43</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 43</span>
 <span class="normal"> 44</span>
 <span class="normal"> 45</span>
 <span class="normal"> 46</span>
@@ -11563,7 +11562,8 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
-<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">228</span>
+<span class="normal">229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;create2_dest_already_in_state&quot;</span><span class="p">,</span>
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
@@ -11744,7 +11744,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
         <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="k">if</span> <span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(),</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>
@@ -11790,8 +11790,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">231</span>
-<span class="normal">232</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
@@ -12032,7 +12031,8 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 <span class="normal">470</span>
 <span class="normal">471</span>
 <span class="normal">472</span>
-<span class="normal">473</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">473</span>
+<span class="normal">474</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;create2_dest_already_in_state&quot;</span><span class="p">,</span>
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
@@ -12256,7 +12256,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
                         <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
                         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="k">if</span> <span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(),</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
                         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
                         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="p">),</span>
@@ -12267,7 +12267,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
                         <span class="n">to</span><span class="o">=</span><span class="n">address_to_second</span><span class="p">,</span>
                         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="k">if</span> <span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(),</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
                         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
                         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="p">),</span>
@@ -12313,8 +12313,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">476</span>
-<span class="normal">477</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">477</span>
 <span class="normal">478</span>
 <span class="normal">479</span>
 <span class="normal">480</span>
@@ -12548,7 +12547,8 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 <span class="normal">708</span>
 <span class="normal">709</span>
 <span class="normal">710</span>
-<span class="normal">711</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">711</span>
+<span class="normal">712</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;selfdestruct_on_first_tx,recreate_on_first_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -12613,8 +12613,8 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
     <span class="n">second_call_value</span> <span class="o">=</span> <span class="mi">11</span>
 
     <span class="c1"># Code is divided in two transactions part of the same block</span>
-    <span class="n">first_tx_code</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
-    <span class="n">second_tx_code</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
+    <span class="n">first_tx_code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
+    <span class="n">second_tx_code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
 
     <span class="n">first_tx_code</span> <span class="o">+=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span><span class="p">()</span>
@@ -12765,7 +12765,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
                         <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
                         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="k">if</span> <span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(),</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
                         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
                         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="p">),</span>
@@ -12776,7 +12776,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
                         <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
                         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="k">if</span> <span class="n">initcode</span><span class="o">.</span><span class="n">bytecode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(),</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
                         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
                         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="p">),</span>

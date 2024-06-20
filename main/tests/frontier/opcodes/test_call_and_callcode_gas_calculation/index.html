@@ -11302,7 +11302,7 @@
 
 
 <h1 id="test-call-and-callcode-gas-calculation">Test Call And Callcode Gas Calculation<a class="headerlink" href="#test-call-and-callcode-gas-calculation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</span>
@@ -11366,8 +11366,7 @@ failing with an out-of-gas error.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
-<span class="normal">142</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
@@ -11386,7 +11385,8 @@ failing with an out-of-gas error.</p>
 <span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
-<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">161</span>
+<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_opcode, caller_gas_limit, is_sufficient_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">CALL_SUFFICIENT_GAS</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>

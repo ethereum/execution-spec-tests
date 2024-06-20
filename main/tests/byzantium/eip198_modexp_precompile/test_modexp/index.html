@@ -11302,7 +11302,7 @@
 
 
 <h1 id="test-modexp">Test Modexp<a class="headerlink" href="#test-modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/071a2e3a90f425cd6ccb1817007060920b439130/tests/byzantium/eip198_modexp_precompile/test_modexp.py"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a3743c807eacce14fe9d147a3414578d082171f9/tests/byzantium/eip198_modexp_precompile/test_modexp.py"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/byzantium/eip198_modexp_precompile/test_modexp.py</span>
@@ -11677,7 +11677,7 @@ labelled with <code>EIP-198-caseX</code> in the test id.</p>
                     <span class="c1"># in memory at offset 0 (memory right-aligns stack items which are not</span>
                     <span class="c1"># 32 bytes)</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span>
-                        <span class="p">(</span>
+                        <span class="nb">bytes</span><span class="p">(</span>
                             <span class="n">Op</span><span class="o">.</span><span class="n">CODECOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CODESIZE</span><span class="p">(),</span> <span class="mi">16</span><span class="p">))</span>
                             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CODESIZE</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
                         <span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
