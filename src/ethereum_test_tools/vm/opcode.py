@@ -5249,9 +5249,7 @@ class Opcodes(Opcode, Enum):
 
     """
 
-    RETURNCONTRACT = Opcode(
-        0xEE, popped_stack_items=2, pushed_stack_items=1, data_portion_length=1
-    )
+    RETURNCONTRACT = Opcode(0xEE, popped_stack_items=2, data_portion_length=1)
     """
     !!! Note: This opcode is under development
 
