@@ -18,44 +18,44 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 # Invalid Opcodes will produce EOFException.UNDEFINED_INSTRUCTION when used in EOFContainer
 invalid_eof_opcodes = {
-    Op.CODESIZE._name_,
-    Op.SELFDESTRUCT._name_,
-    Op.CREATE2._name_,
-    Op.CODECOPY._name_,
-    Op.EXTCODESIZE._name_,
-    Op.EXTCODECOPY._name_,
-    Op.EXTCODEHASH._name_,
-    Op.JUMP._name_,
-    Op.JUMPI._name_,
-    Op.PC._name_,
-    Op.GAS._name_,
-    Op.CREATE._name_,
-    Op.CALL._name_,
-    Op.CALLCODE._name_,
-    Op.DELEGATECALL._name_,
-    Op.STATICCALL._name_,
+    Op.CODESIZE,
+    Op.SELFDESTRUCT,
+    Op.CREATE2,
+    Op.CODECOPY,
+    Op.EXTCODESIZE,
+    Op.EXTCODECOPY,
+    Op.EXTCODEHASH,
+    Op.JUMP,
+    Op.JUMPI,
+    Op.PC,
+    Op.GAS,
+    Op.CREATE,
+    Op.CALL,
+    Op.CALLCODE,
+    Op.DELEGATECALL,
+    Op.STATICCALL,
 }
 
 # Halting the execution opcodes can be placed without STOP instruction at the end
 halting_opcodes = {
-    Op.STOP._name_,
-    Op.JUMPF._name_,
-    Op.RETURNCONTRACT._name_,
-    Op.RETURN._name_,
-    Op.REVERT._name_,
-    Op.INVALID._name_,
+    Op.STOP,
+    Op.JUMPF,
+    Op.RETURNCONTRACT,
+    Op.RETURN,
+    Op.REVERT,
+    Op.INVALID,
 }
 
 # Special eof opcodes that require [] operator
 eof_opcodes = {
-    Op.DATALOADN._name_,
-    Op.RJUMPV._name_,
-    Op.CALLF._name_,
-    Op.RETF._name_,
-    Op.JUMPF._name_,
-    Op.EOFCREATE._name_,
-    Op.RETURNCONTRACT._name_,
-    Op.EXCHANGE._name_,
+    Op.DATALOADN,
+    Op.RJUMPV,
+    Op.CALLF,
+    Op.RETF,
+    Op.JUMPF,
+    Op.EOFCREATE,
+    Op.RETURNCONTRACT,
+    Op.EXCHANGE,
 }
 
 
@@ -63,7 +63,7 @@ def expect_exception(opcode: Opcode) -> EOFException | None:
     """
     Returns exception that eof container reports when having this opcode in the middle of the code
     """
-    if opcode._name_ in invalid_eof_opcodes or opcode in list(UndefinedOpcodes):
+    if opcode in invalid_eof_opcodes or opcode in list(UndefinedOpcodes):
         return EOFException.UNDEFINED_INSTRUCTION
 
     # RETF not allowed in first section
@@ -83,7 +83,7 @@ def make_opcode_valid_bytes(opcode: Opcode) -> Opcode | Bytecode:
         code = opcode[1]
     else:
         code = opcode[0]
-    if opcode._name_ not in halting_opcodes:
+    if opcode not in halting_opcodes:
         return code + Op.STOP
     return code
 
@@ -92,7 +92,7 @@ def eof_opcode_stack(opcode: Opcode) -> int:
     """
     Eof opcode has special stack influence
     """
-    if opcode._name_ in eof_opcodes:
+    if opcode in eof_opcodes:
         if opcode == Op.CALLF or opcode == Op.JUMPF or opcode == Op.EXCHANGE:
             return 0
         return 1
