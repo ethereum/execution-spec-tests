@@ -8,6 +8,10 @@ on:
 jobs:
   evmone-coverage-diff:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        driver: [retesteth, native]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,20 +24,12 @@ jobs:
           echo $(pwd)
           echo ${{ github.workspace }}
 
-          #install solc for `pip install -e .` command
-          curl -L --output solc "https://github.com/ethereum/solidity/releases/download/v0.8.25/solc-static-linux"
-          sudo mv solc /usr/local/bin
-          sudo chmod +x /usr/local/bin/solc
-          solc --version
-
           #install pyspec deps from root repo
           python3 --version
+          pip install --upgrade pip
           python3 -m venv ./venv/
           source ./venv/bin/activate
           pip install -e .
-
-          # fix pyspec dependecy
-          pip3 install solc-select
           solc-select use 0.8.25 --always-install
 
       # Required to fill .py tests
@@ -82,15 +78,37 @@ jobs:
           for file in $files; do
               echo $file
           done
+          echo "----------------"
+          echo "Discovered existing json tests that will be BASE files:"
+
 
           BASE_TESTS_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
           mkdir -p $BASE_TESTS_PATH
           for file in $files; do
-              cp ${{ github.workspace }}/testpath/$file $BASE_TESTS_PATH
+              # Make sure each file exist at least in develop of legacy tests
+              file_found=0
+              file_path=${{ github.workspace }}/testpath/$file
+              if [ -e "$file_path" ]; then
+                file_found=1
+                cp $file_path $BASE_TESTS_PATH
+                echo $file_path
+              fi
+
+              # Do not search EOF files in legacy tests (assuming blockchain files we do not cover yet)
               if [[ "$file" == *"GeneralStateTests"* ]]; then
+                  file_path=${{ github.workspace }}/legacytestpath/Cancun/$file
                   base_name=$(basename "$file")
                   legacy_file_name="legacy_$base_name"
-                  cp ${{ github.workspace }}/legacytestpath/Cancun/$file $BASE_TESTS_PATH/$legacy_file_name
+                  if [ -e "$file_path" ]; then
+                    file_found=1
+                    cp $file_path $BASE_TESTS_PATH/$legacy_file_name
+                    echo $file_path
+                  fi
+              fi
+
+              if [ $file_found -eq 0 ]; then
+               echo "Error: Failed to find the test file $file in test repo"
+                exit 1
               fi
           done
           
@@ -120,19 +138,20 @@ jobs:
           echo "$files" | while read line; do
             file=$(echo "$line" | cut -c 3-)
             fill $file --until=Cancun --evm-bin evmone-t8n || true
-            fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n || true
+            fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true
           done
 
           filesState=$(find fixtures/state_tests -type f -name "*.json")
           filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
-          if [ -z "$filesState" || -z "$filesEOF" ]; then
+          if [ -z "$filesState" ] && [ -z "$filesEOF" ]; then
               echo "Error: No filled JSON fixtures found in fixtures."
                exit 1
           fi
 
-          mkdir -p ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
-          find fixtures/state_tests -type f -name "*.json" -exec cp {} ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS \;
-          find fixtures/eof_tests -type f -name "*.json" -exec cp {} ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS \;
+          PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
+          mkdir -p $PATCH_TEST_PATH
+          find fixtures/state_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
+          find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
       - name: Print tests that will be covered
         run: |
@@ -147,14 +166,14 @@ jobs:
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --testpath=/tests/BASE_TESTS --outputname=BASE
+          run: /entrypoint.sh --mode=cover --driver=${{ matrix.driver }} --testpath=/tests/BASE_TESTS --outputname=BASE
 
       - name: Run coverage of the PATCH tests
         uses: addnab/docker-run-action@v3
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --testpath=/tests/PATCH_TESTS --outputname=PATCH
+          run: /entrypoint.sh --mode=cover --driver=${{ matrix.driver }} --testpath=/tests/PATCH_TESTS --outputname=PATCH
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
         uses: addnab/docker-run-action@v3
