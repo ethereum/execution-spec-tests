@@ -12902,13 +12902,7 @@ and return.</p>
 <span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">):</span>
+<span class="normal">464</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook used to dynamically generate test cases.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12974,12 +12968,6 @@ and return.</p>
                     <span class="p">)</span>
                 <span class="p">]</span>
                 <span class="n">metafunc</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;fork&quot;</span><span class="p">,</span> <span class="n">pytest_params</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># This will not be reported in the test execution output; it will be listed</span>
-                <span class="c1"># in the pytest collection summary at the start of the test run.</span>
-                <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2"> is not valid for any any of forks specified on the command-line.&quot;</span>
-                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pytest_params</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">(</span>
@@ -13025,15 +13013,15 @@ and return.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">473</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
 <span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_fork_covariant_parameters</span><span class="p">(</span>
+<span class="normal">475</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_fork_covariant_parameters</span><span class="p">(</span>
     <span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">,</span> <span class="n">fork_parametrizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ForkParametrizer</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -13068,20 +13056,20 @@ and return.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">484</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
 <span class="normal">485</span>
 <span class="normal">486</span>
 <span class="normal">487</span>
 <span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parametrize_fork</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">,</span> <span class="n">fork_parametrizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ForkParametrizer</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parametrize_fork</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">,</span> <span class="n">fork_parametrizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ForkParametrizer</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add the fork parameters to the test function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
