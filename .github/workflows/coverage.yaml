@@ -78,15 +78,37 @@ jobs:
           for file in $files; do
               echo $file
           done
+          echo "----------------"
+          echo "Discovered existing json tests that will be BASE files:"
+
 
           BASE_TESTS_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
           mkdir -p $BASE_TESTS_PATH
           for file in $files; do
-              cp ${{ github.workspace }}/testpath/$file $BASE_TESTS_PATH
+              # Make sure each file exist at least in develop or legacy tests
+              file_found=0
+              file_path=${{ github.workspace }}/testpath/$file
+              if [ -e "$file_path" ]; then
+                file_found=1
+                cp $file_path $BASE_TESTS_PATH
+                echo $file_path
+              fi
+
+              # Do not search EOF files in legacy tests (assuming blockchain files we do not cover yet)
               if [[ "$file" == *"GeneralStateTests"* ]]; then
+                  file_path=${{ github.workspace }}/legacytestpath/Cancun/$file
                   base_name=$(basename "$file")
                   legacy_file_name="legacy_$base_name"
-                  cp ${{ github.workspace }}/legacytestpath/Cancun/$file $BASE_TESTS_PATH/$legacy_file_name
+                  if [ -e "$file_path" ]; then
+                    file_found=1
+                    cp $file_path $BASE_TESTS_PATH/$legacy_file_name
+                    echo $file_path
+                  fi
+              fi
+
+              if [ $file_found -eq 0 ]; then
+               echo "Error: Failed to find the test file $file in test repo"
+                exit 1
               fi
           done
           
