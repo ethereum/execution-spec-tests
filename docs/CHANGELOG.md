@@ -22,6 +22,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add tests for [EIP-7069: EOF - Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069) ([#595](https://github.com/ethereum/execution-spec-tests/pull/595)).
 - 🐞 Fix typos in self-destruct collision test from erroneous pytest parametrization ([#608](https://github.com/ethereum/execution-spec-tests/pull/608)).
 - ✨ Add tests for [EIP-3540: EOF - EVM Object Format v1](https://eips.ethereum.org/EIPS/eip-3540) ([#634](https://github.com/ethereum/execution-spec-tests/pull/634)).
+- 🔀 Update EIP-7002 tests to match spec changes in [ethereum/execution-apis#549](https://github.com/ethereum/execution-apis/pull/549) ([#600](https://github.com/ethereum/execution-spec-tests/pull/600))
 
 ### 🛠️ Framework
 
