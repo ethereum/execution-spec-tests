@@ -16,7 +16,7 @@ jobs:
             python: '3.12'
             evm-type: 'stable'
             tox-cmd: 'tox run-parallel --parallel-no-spinner'
-          # Disabled to unavailable evm implementation for devnet-1
+          # Disabled due to unavailable evm implementation for devnet-1
           # - os: ubuntu-latest
           #   python: '3.11'
           #   evm-type: 'develop'
