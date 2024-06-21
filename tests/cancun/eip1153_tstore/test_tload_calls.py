@@ -15,6 +15,7 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
 )
+from ethereum_test_tools.vm.opcode import Bytecode
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-1153.md"
@@ -42,7 +43,7 @@ def test_tload_calls(state_test: StateTestFiller, call_type: Op):
     slot_b_subcall_tload_result = 2
     slot_b_subcall_updated_tload_result = 3
 
-    def make_call(call_type: Op) -> bytes:
+    def make_call(call_type: Op) -> Bytecode:
         if call_type == Op.DELEGATECALL or call_type == Op.STATICCALL:
             return call_type(Op.GAS(), address_call, 0, 32, 0, 0)
         else:
