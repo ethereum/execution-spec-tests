@@ -59,6 +59,8 @@ def to_fixed_size_bytes(input: FixedSizeBytesConvertible, size: int) -> bytes:
     Converts multiple types into fixed-size bytes.
     """
     if isinstance(input, int):
+        if input < 0:
+            return int.to_bytes(input, length=size, byteorder="big", signed=True)
         return int.to_bytes(input, length=size, byteorder="big")
     input = to_bytes(input)
     if len(input) > size:
