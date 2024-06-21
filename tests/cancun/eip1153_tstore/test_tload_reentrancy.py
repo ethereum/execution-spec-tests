@@ -18,6 +18,7 @@ from ethereum_test_tools import (
     TestAddress,
     Transaction,
 )
+from ethereum_test_tools.vm.opcode import Bytecode
 from ethereum_test_tools.vm.opcode import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -31,7 +32,7 @@ address_code = Address("B00000000000000000000000000000000000000B")
 @pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Om.OOG])
 @pytest.mark.parametrize("call_dest", [Op.ADDRESS(), address_code])
 def test_tload_reentrancy(
-    state_test: StateTestFiller, call_type: Op, call_return: Op, call_dest: bytes
+    state_test: StateTestFiller, call_type: Op, call_return: Op, call_dest: Bytecode
 ):
     """
     Ported .json vectors:
@@ -53,7 +54,7 @@ def test_tload_reentrancy(
     do_load = 1
     do_reenter = 2
 
-    def make_call(call_type: Op) -> bytes:
+    def make_call(call_type: Op) -> Bytecode:
         if call_type == Op.DELEGATECALL or call_type == Op.STATICCALL:
             return call_type(Op.GAS(), call_dest, 0, 32, 32, 32)
         else:
@@ -82,7 +83,7 @@ def test_tload_reentrancy(
                         + Op.SSTORE(slot_code_worked, 1),
                     ),
                 ],
-                default_action=b"",
+                default_action=None,
             ),
             storage={
                 slot_tload_in_subcall_result: 0xFF,
