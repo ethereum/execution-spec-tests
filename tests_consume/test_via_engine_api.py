@@ -8,7 +8,7 @@ Implemented using the pytest framework as a pytest plugin.
 
 import pytest
 
-from ethereum_test_tools.spec.blockchain.types import HiveFixture
+from ethereum_test_fixtures.blockchain import HiveFixture
 
 
 @pytest.mark.skip(reason="Not implemented yet.")

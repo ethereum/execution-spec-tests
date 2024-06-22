@@ -22,10 +22,9 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 from pydantic import BaseModel
 
-from ethereum_test_tools.common.base_types import Bytes
-from ethereum_test_tools.common.json import to_json
+from ethereum_test_base_types import Bytes, to_json
+from ethereum_test_fixtures.blockchain import Fixture, FixtureHeader
 from ethereum_test_tools.rpc import EthRPC
-from ethereum_test_tools.spec.blockchain.types import Fixture, FixtureHeader
 from pytest_plugins.consume.hive_ruleset import ruleset
 
 
