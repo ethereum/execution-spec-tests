@@ -15,8 +15,12 @@ the exceptions.
 
 ## `TransactionException`
 
-::: ethereum_test_tools.TransactionException
+::: ethereum_test_exceptions.TransactionException
 
 ## `BlockException`
 
-::: ethereum_test_tools.BlockException
+::: ethereum_test_exceptions.BlockException
+
+## `EOFException`
+
+::: ethereum_test_exceptions.EOFException
