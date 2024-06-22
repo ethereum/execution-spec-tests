@@ -6,7 +6,7 @@ stable:
 develop:
   impl: geth
   repo: lightclient/go-ethereum
-  ref: prague-devnet-0
+  ref: prague-devnet-1
   evm-bin: evm
 eip7692:
   impl: evmone
