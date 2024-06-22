@@ -14,12 +14,13 @@ from pydantic_core.core_schema import (
     to_string_ser_schema,
 )
 
-from ...common import Bytes
-from ...common.conversions import BytesConvertible
-from ...common.types import CopyValidateModel
-from ...exceptions import EOFException
-from ...vm.opcode import Bytecode
-from ...vm.opcode import Opcodes as Op
+from ethereum_test_base_types import Bytes
+from ethereum_test_base_types.conversions import BytesConvertible
+from ethereum_test_base_types.pydantic import CopyValidateModel
+from ethereum_test_exceptions import EOFException
+from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Opcodes as Op
+
 from ..constants import EOF_HEADER_TERMINATOR, EOF_MAGIC
 from .constants import (
     HEADER_SECTION_COUNT_BYTE_LENGTH,
