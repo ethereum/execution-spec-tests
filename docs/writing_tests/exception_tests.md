@@ -4,7 +4,7 @@ Exception tests are a special type of test which verify that an invalid transact
 
 ## Creating an Exception Test
 
-To test for an exception, the test can use either of the following types from `ethereum_test_tools` library:
+To test for an exception, the test can use either of the following types from `ethereum_test_exceptions` library:
 
 1. [`TransactionException`](../consuming_tests/exceptions.md#transactionexception): To be added to the `error` field of the `Transaction` object, and to the `exception` field of the `Block` object that includes the transaction; this exception type is used when a transaction is invalid, and therefore when included in a block, the block is expected to be invalid too. This is different from valid transactions where an exception during EVM execution is expected (e.g. a revert, or out-of-gas), which can be included in valid blocks.
 
