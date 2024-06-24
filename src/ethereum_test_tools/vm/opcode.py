@@ -8,7 +8,7 @@ to @ThreeHrSleep for integrating it in the docstrings.
 """
 
 from enum import Enum
-from typing import Any, Callable, Iterable, List, Optional, SupportsBytes
+from typing import Any, Callable, Iterable, List, Mapping, Optional, SupportsBytes
 
 from ethereum.crypto.hash import keccak256
 
@@ -302,6 +302,9 @@ class Bytecode:
         return keccak256(self._bytes_)
 
 
+KW_ARGS_TYPE = Mapping[str, "int | bytes | str | Opcode | Bytecode | FixedSizeBytes | None"]
+
+
 class Opcode(Bytecode):
     """
     Represents a single Opcode instruction in the EVM, with extra metadata useful to parametrize
@@ -318,6 +321,7 @@ class Opcode(Bytecode):
 
     data_portion_length: int
     data_portion_formatter: Optional[Callable[[Any], bytes]]
+    kwargs: KW_ARGS_TYPE
 
     def __new__(
         cls,
@@ -330,6 +334,7 @@ class Opcode(Bytecode):
         data_portion_length: int = 0,
         data_portion_formatter=None,
         unchecked_stack=False,
+        kwargs: KW_ARGS_TYPE | None = None,
     ):
         """
         Creates a new opcode instance.
@@ -360,6 +365,7 @@ class Opcode(Bytecode):
             obj.data_portion_length = data_portion_length
             obj.data_portion_formatter = data_portion_formatter
             obj.unchecked_stack = unchecked_stack
+            obj.kwargs = kwargs
             return obj
         raise TypeError("Opcode constructor '__new__' didn't return an instance!")
 
@@ -422,6 +428,7 @@ class Opcode(Bytecode):
         self,
         *args_t: "int | bytes | str | Bytecode | FixedSizeBytes | Iterable[int]",
         unchecked: bool = False,
+        **kwargs: "int | bytes | str | Opcode | Bytecode | FixedSizeBytes",
     ) -> "Bytecode":
         """
         Makes all opcode instances callable to return formatted bytecode, which constitutes a data
@@ -463,6 +470,16 @@ class Opcode(Bytecode):
             get_item_arg = args.pop()
             assert not isinstance(get_item_arg, Bytecode)
             return self[get_item_arg](*args)
+
+        if self.kwargs is not None and len(kwargs) > 0:
+            assert len(args) == 0, f"Cannot mix positional and keyword arguments {args} {kwargs}"
+            for kw, default in self.kwargs.items():
+                if kw in kwargs:
+                    args.append(kwargs[kw])
+                else:
+                    if default is None:
+                        raise ValueError(f"Missing keyword argument '{kw}'")
+                    args.append(default)
 
         return super().__call__(*args, unchecked=unchecked)
 
@@ -5225,7 +5242,18 @@ class Opcodes(Opcode, Enum):
 
     """
 
-    EOFCREATE = Opcode(0xEC, popped_stack_items=4, pushed_stack_items=1, data_portion_length=1)
+    EOFCREATE = Opcode(
+        0xEC,
+        popped_stack_items=4,
+        pushed_stack_items=1,
+        data_portion_length=1,
+        kwargs={
+            "value": 0,
+            "salt": 0,
+            "input_offset": 0,
+            "input_size": 0,
+        },
+    )
     """
     !!! Note: This opcode is under development
 
@@ -5275,9 +5303,18 @@ class Opcodes(Opcode, Enum):
 
     """
 
-    CREATE = Opcode(0xF0, popped_stack_items=3, pushed_stack_items=1)
+    CREATE = Opcode(
+        0xF0,
+        popped_stack_items=3,
+        pushed_stack_items=1,
+        kwargs={
+            "value": 0,
+            "offset": 0,
+            "size": 0,
+        },
+    )
     """
-    CREATE(value, offset, length) = address
+    CREATE(value, offset, size) = address
     ----
 
     Description
@@ -5313,9 +5350,22 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#F0](https://www.evm.codes/#F0)
     """
 
-    CALL = Opcode(0xF1, popped_stack_items=7, pushed_stack_items=1)
+    CALL = Opcode(
+        0xF1,
+        popped_stack_items=7,
+        pushed_stack_items=1,
+        kwargs={
+            "gas": GAS,
+            "address": 0,
+            "value": 0,
+            "args_offset": 0,
+            "args_size": 0,
+            "ret_offset": 0,
+            "ret_size": 0,
+        },
+    )
     """
-    CALL(gas, address, value, argsOffset, argsSize, retOffset, retSize) = success
+    CALL(gas, address, value, args_offset, args_size, ret_offset, ret_size) = success
     ----
 
     Description
@@ -5328,11 +5378,11 @@ class Opcodes(Opcode, Enum):
         context is returned to this one
     - address: the account which context to execute
     - value: value in wei to send to the account
-    - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
-    - argsSize: byte size to copy (size of the calldata)
-    - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
+    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_size: byte size to copy (size of the calldata)
+    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
         context
-    - retSize: byte size to copy (size of the return data)
+    - ret_size: byte size to copy (size of the return data)
 
     Outputs
     ----
@@ -5353,9 +5403,22 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#F1](https://www.evm.codes/#F1)
     """
 
-    CALLCODE = Opcode(0xF2, popped_stack_items=7, pushed_stack_items=1)
+    CALLCODE = Opcode(
+        0xF2,
+        popped_stack_items=7,
+        pushed_stack_items=1,
+        kwargs={
+            "gas": GAS,
+            "address": 0,
+            "value": 0,
+            "args_offset": 0,
+            "args_size": 0,
+            "ret_offset": 0,
+            "ret_size": 0,
+        },
+    )
     """
-    CALLCODE(gas, address, value, argsOffset, argsSize, retOffset, retSize) = success
+    CALLCODE(gas, address, value, args_offset, args_size, ret_offset, ret_size) = success
     ----
 
     Description
@@ -5369,11 +5432,11 @@ class Opcodes(Opcode, Enum):
         context is returned to this one
     - address: the account which code to execute
     - value: value in wei to send to the account
-    - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
-    - argsSize: byte size to copy (size of the calldata)
-    - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
+    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_size: byte size to copy (size of the calldata)
+    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
         context
-    - retSize: byte size to copy (size of the return data)
+    - ret_size: byte size to copy (size of the return data)
 
     Outputs
     ----
@@ -5425,9 +5488,21 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#F3](https://www.evm.codes/#F3)
     """
 
-    DELEGATECALL = Opcode(0xF4, popped_stack_items=6, pushed_stack_items=1)
+    DELEGATECALL = Opcode(
+        0xF4,
+        popped_stack_items=6,
+        pushed_stack_items=1,
+        kwargs={
+            "gas": GAS,
+            "address": 0,
+            "args_offset": 0,
+            "args_size": 0,
+            "ret_offset": 0,
+            "ret_size": 0,
+        },
+    )
     """
-    DELEGATECALL(gas, address, argsOffset, argsSize, retOffset, retSize) = success
+    DELEGATECALL(gas, address, args_offset, args_size, ret_offset, ret_size) = success
     ----
 
     Description
@@ -5440,11 +5515,11 @@ class Opcodes(Opcode, Enum):
     - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
         context is returned to this one
     - address: the account which code to execute
-    - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
-    - argsSize: byte size to copy (size of the calldata)
-    - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
+    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_size: byte size to copy (size of the calldata)
+    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
         context
-    - retSize: byte size to copy (size of the return data)
+    - ret_size: byte size to copy (size of the return data)
 
     Outputs
     ----
@@ -5462,7 +5537,17 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#F4](https://www.evm.codes/#F4)
     """
 
-    CREATE2 = Opcode(0xF5, popped_stack_items=4, pushed_stack_items=1)
+    CREATE2 = Opcode(
+        0xF5,
+        popped_stack_items=4,
+        pushed_stack_items=1,
+        kwargs={
+            "value": 0,
+            "offset": 0,
+            "size": 0,
+            "salt": 0,
+        },
+    )
     """
     CREATE2(value, offset, size, salt) = address
     ----
@@ -5502,9 +5587,19 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#F5](https://www.evm.codes/#F5)
     """
 
-    EXTCALL = Opcode(0xF8, popped_stack_items=4, pushed_stack_items=1)
+    EXTCALL = Opcode(
+        0xF8,
+        popped_stack_items=4,
+        pushed_stack_items=1,
+        kwargs={
+            "address": 0,
+            "args_offset": 0,
+            "args_size": 0,
+            "value": 0,
+        },
+    )
     """
-    EXTCALL(target_address, input_offset, input_size, value) = address
+    EXTCALL(address, args_offset, args_size, value) = address
     ----
 
     Description
@@ -5513,9 +5608,9 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - target_address: the account which context to execute
-    - input_offset: byte offset in the memory in bytes, the calldata of the sub context
-    - input_size: byte size to copy (size of the calldata)
+    - address: the account which context to execute
+    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_size: byte size to copy (size of the calldata)
     - value: value in wei to send to the account
 
     Outputs
@@ -5540,9 +5635,18 @@ class Opcodes(Opcode, Enum):
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
 
-    EXTDELEGATECALL = Opcode(0xF9, popped_stack_items=3, pushed_stack_items=1)
+    EXTDELEGATECALL = Opcode(
+        0xF9,
+        popped_stack_items=3,
+        pushed_stack_items=1,
+        kwargs={
+            "address": 0,
+            "args_offset": 0,
+            "args_size": 0,
+        },
+    )
     """
-    EXTDELEGATECALL(target_address, input_offset, input_size) = address
+    EXTDELEGATECALL(address, args_offset, args_size) = address
     ----
 
     Description
@@ -5552,9 +5656,9 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - target_address: the account which context to execute
-    - input_offset: byte offset in the memory in bytes, the calldata of the sub context
-    - input_size: byte size to copy (size of the calldata)
+    - address: the account which context to execute
+    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_size: byte size to copy (size of the calldata)
 
     Outputs
     ----
@@ -5575,9 +5679,21 @@ class Opcodes(Opcode, Enum):
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
 
-    STATICCALL = Opcode(0xFA, popped_stack_items=6, pushed_stack_items=1)
+    STATICCALL = Opcode(
+        0xFA,
+        popped_stack_items=6,
+        pushed_stack_items=1,
+        kwargs={
+            "gas": GAS,
+            "address": 0,
+            "args_offset": 0,
+            "args_size": 0,
+            "ret_offset": 0,
+            "ret_size": 0,
+        },
+    )
     """
-    STATICCALL(gas, address, argsOffset, argsSize, retOffset, retSize) = success
+    STATICCALL(gas, address, args_offset, args_size, ret_offset, ret_size) = success
     ----
 
     Description
@@ -5589,11 +5705,11 @@ class Opcodes(Opcode, Enum):
     - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
         context is returned to this one
     - address: the account which context to execute
-    - argsOffset: byte offset in the memory in bytes, the calldata of the sub context
-    - argsSize: byte size to copy (size of the calldata)
-    - retOffset: byte offset in the memory in bytes, where to store the return data of the sub
+    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_size: byte size to copy (size of the calldata)
+    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
         context
-    - retSize: byte size to copy (size of the return data)
+    - ret_size: byte size to copy (size of the return data)
 
     Outputs
     ----
@@ -5611,9 +5727,18 @@ class Opcodes(Opcode, Enum):
     Source: [evm.codes/#FA](https://www.evm.codes/#FA)
     """
 
-    EXTSTATICCALL = Opcode(0xFB, popped_stack_items=3, pushed_stack_items=1)
+    EXTSTATICCALL = Opcode(
+        0xFB,
+        popped_stack_items=3,
+        pushed_stack_items=1,
+        kwargs={
+            "address": 0,
+            "args_offset": 0,
+            "args_size": 0,
+        },
+    )
     """
-    EXTSTATICCALL(target_address, input_offset, input_size) = address
+    EXTSTATICCALL(address, args_offset, args_size) = address
     ----
 
     Description
@@ -5622,9 +5747,9 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - target_address: the account which context to execute
-    - input_offset: byte offset in the memory in bytes, the calldata of the sub context
-    - input_size: byte size to copy (size of the calldata)
+    - address: the account which context to execute
+    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_size: byte size to copy (size of the calldata)
 
     Outputs
     ----
