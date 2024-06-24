@@ -1,3 +1,6 @@
+EOFTests/efValidation/EOF1_returncontract_invalid_.json
+EOFTests/efValidation/EOF1_returncontract_valid_.json
+
 ([#440](https://github.com/ethereum/execution-spec-tests/pull/440))
 GeneralStateTests/Cancun/stEIP1153-transientStorage/01_tloadBeginningTxn.json
 GeneralStateTests/Cancun/stEIP1153-transientStorage/02_tloadAfterTstore.json
