@@ -106,6 +106,7 @@ eips
 EIPs
 eip6110
 eip7002
+eip7251
 el
 endianness
 EngineAPI
