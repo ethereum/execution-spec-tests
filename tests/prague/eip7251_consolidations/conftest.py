@@ -33,16 +33,16 @@ def included_requests(
     """
     Return the list of consolidation requests that should be included in each block.
     """
-    excess_withdrawal_requests = 0
+    excess_consolidation_requests = 0
     carry_over_requests: List[ConsolidationRequest] = []
     per_block_included_requests: List[List[ConsolidationRequest]] = []
-    for block_withdrawal_requests in blocks_consolidation_requests:
+    for block_consolidation_requests in blocks_consolidation_requests:
         # Get fee for the current block
-        current_minimum_fee = Spec.get_fee(excess_withdrawal_requests)
+        current_minimum_fee = Spec.get_fee(excess_consolidation_requests)
 
         # With the fee, get the valid consolidation requests for the current block
         current_block_requests = []
-        for w in block_withdrawal_requests:
+        for w in block_consolidation_requests:
             current_block_requests += w.valid_requests(current_minimum_fee)
 
         # Get the consolidation requests that should be included in the block
@@ -53,8 +53,8 @@ def included_requests(
         carry_over_requests = pending_requests[Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK :]
 
         # Update the excess consolidation requests
-        excess_withdrawal_requests = Spec.get_excess_consolidation_requests(
-            excess_withdrawal_requests,
+        excess_consolidation_requests = Spec.get_excess_consolidation_requests(
+            excess_consolidation_requests,
             len(current_block_requests),
         )
     return per_block_included_requests

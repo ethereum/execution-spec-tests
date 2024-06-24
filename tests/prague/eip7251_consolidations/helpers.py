@@ -133,7 +133,7 @@ class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
 class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     """Class used to describe a consolidation originated from a contract."""
 
-    tx_gas_limit: int = 1_000_000
+    tx_gas_limit: int = 10_000_000
     """
     Gas limit for the transaction.
     """
