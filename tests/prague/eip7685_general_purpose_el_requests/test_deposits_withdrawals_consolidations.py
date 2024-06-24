@@ -5,20 +5,22 @@ abstract: Tests [EIP-7685: General purpose execution layer requests](https://eip
 """  # noqa: E501
 
 from itertools import permutations
-from typing import List
+from typing import Generator, List
 
 import pytest
 
 from ethereum_test_tools import (
+    Account,
     Alloc,
     Block,
     BlockchainTestFiller,
     BlockException,
+    Bytecode,
     Environment,
     Header,
 )
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import TestAddress, Transaction
+from ethereum_test_tools import Storage, TestAddress, Transaction
 
 from ..eip6110_deposits.helpers import DepositContract, DepositRequest, DepositTransaction
 from ..eip6110_deposits.spec import Spec as Spec_EIP6110
@@ -33,6 +35,7 @@ from ..eip7251_consolidations.helpers import (
     ConsolidationRequestContract,
     ConsolidationRequestTransaction,
 )
+from ..eip7251_consolidations.spec import Spec as Spec_EIP7251
 from .spec import ref_spec_7685
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7685.git_path
@@ -41,83 +44,79 @@ REFERENCE_SPEC_VERSION = ref_spec_7685.version
 pytestmark = pytest.mark.valid_from("Prague")
 
 
-def single_deposit_from_eoa(i: int) -> DepositTransaction:  # noqa: D103
-    return DepositTransaction(
-        requests=[
-            DepositRequest(
-                pubkey=(i * 3),
-                withdrawal_credentials=(i * 3) + 1,
-                amount=32_000_000_000,
-                signature=(i * 3) + 2,
-                index=i,
-            )
-        ],
+def single_deposit(i: int) -> DepositRequest:  # noqa: D103
+    return DepositRequest(
+        pubkey=(i * 3),
+        withdrawal_credentials=(i * 3) + 1,
+        amount=32_000_000_000,
+        signature=(i * 3) + 2,
+        index=i,
     )
 
 
+def single_deposit_from_eoa(i: int) -> DepositTransaction:  # noqa: D103
+    return DepositTransaction(requests=[single_deposit(i)])
+
+
 def single_deposit_from_contract(i: int) -> DepositContract:  # noqa: D103
-    return DepositContract(
-        requests=[
-            DepositRequest(
-                pubkey=(i * 3),
-                withdrawal_credentials=(i * 3) + 1,
-                amount=32_000_000_000,
-                signature=(i * 3) + 2,
-                index=i,
-            )
-        ],
+    return DepositContract(requests=[single_deposit(i)])
+
+
+def single_withdrawal(i: int) -> WithdrawalRequest:  # noqa: D103
+    return WithdrawalRequest(
+        validator_pubkey=i + 1,
+        amount=0,
+        fee=1,
     )
 
 
 def single_withdrawal_from_eoa(i: int) -> WithdrawalRequestTransaction:  # noqa: D103
-    return WithdrawalRequestTransaction(
-        requests=[
-            WithdrawalRequest(
-                validator_pubkey=i + 1,
-                amount=0,
-                fee=1,
-            )
-        ],
-    )
+    return WithdrawalRequestTransaction(requests=[single_withdrawal(i)])
 
 
 def single_withdrawal_from_contract(i: int) -> WithdrawalRequestContract:  # noqa: D103
-    return WithdrawalRequestContract(
-        requests=[
-            WithdrawalRequest(
-                validator_pubkey=i + 1,
-                amount=0,
-                fee=1,
-            )
-        ],
+    return WithdrawalRequestContract(requests=[single_withdrawal(i)])
+
+
+def single_consolidation(i: int) -> ConsolidationRequest:  # noqa: D103
+    return ConsolidationRequest(
+        source_pubkey=(i * 2),
+        target_pubkey=(i * 2) + 1,
+        fee=1,
     )
 
 
 def single_consolidation_from_eoa(i: int) -> ConsolidationRequestTransaction:  # noqa: D103
-    return ConsolidationRequestTransaction(
-        requests=[
-            ConsolidationRequest(
-                source_pubkey=(i * 2),
-                target_pubkey=(i * 2) + 1,
-                fee=1,
-            )
-        ],
-    )
+    return ConsolidationRequestTransaction(requests=[single_consolidation(i)])
 
 
 def single_consolidation_from_contract(i: int) -> ConsolidationRequestContract:  # noqa: D103
-    return ConsolidationRequestContract(
-        requests=[
-            ConsolidationRequest(
-                source_pubkey=(i * 2),
-                target_pubkey=(i * 2) + 1,
-                fee=1,
-            )
-        ],
-    )
+    return ConsolidationRequestContract(requests=[single_consolidation(i)])
 
 
-def get_eoa_permutations() -> pytest.param:
+def get_permutations(n: int = 3) -> Generator[pytest.param, None, None]:
+    """
+    Returns all possible permutations of the requests from an EOA.
+    """
+    requests = [
+        (
+            "deposit",
+            single_deposit(0),
+        ),
+        (
+            "withdrawal",
+            single_withdrawal(0),
+        ),
+        (
+            "consolidation",
+            single_consolidation(0),
+        ),
+    ]
+    for perm in permutations(requests, n):
+        yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))
+
+
+def get_eoa_permutations(n: int = 3) -> pytest.param:
     """
     Returns all possible permutations of the requests from an EOA.
     """
@@ -135,11 +134,11 @@ def get_eoa_permutations() -> pytest.param:
             single_consolidation_from_eoa(0),
         ),
     ]
-    for perm in permutations(requests, 3):
+    for perm in permutations(requests, n):
         yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))
 
 
-def get_contract_permutations() -> pytest.param:
+def get_contract_permutations(n: int = 3) -> pytest.param:
     """
     Returns all possible permutations of the requests from a contract.
     """
@@ -157,7 +156,7 @@ def get_contract_permutations() -> pytest.param:
             single_consolidation_from_contract(0),
         ),
     ]
-    for perm in permutations(requests, 3):
+    for perm in permutations(requests, n):
         yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))
 
 
@@ -234,99 +233,66 @@ def test_valid_deposit_withdrawal_consolidation_requests(
     )
 
 
-@pytest.mark.parametrize(
-    "deposit_first",
-    [
-        pytest.param(True, id="deposit_first"),
-        pytest.param(False, id="withdrawal_first"),
-    ],
-)
+@pytest.mark.parametrize("requests", [*get_permutations()])
 def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    deposit_first: bool,
+    requests: List[DepositRequest | WithdrawalRequest | ConsolidationRequest],
 ):
     """
     Test making a deposit to the beacon chain deposit contract and a withdrawal in the same tx.
     """
     withdrawal_request_fee = 1
-    deposit_request = DepositRequest(
-        pubkey=0x01,
-        withdrawal_credentials=0x02,
-        amount=32_000_000_000,
-        signature=0x03,
-        index=0x0,
-    )
-    withdrawal_request = WithdrawalRequest(
-        validator_pubkey=0x01,
-        amount=0,
-    )
-    if deposit_first:
-        calldata = deposit_request.calldata + withdrawal_request.calldata
-        contract_code = (
-            Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-            + Op.POP(
-                Op.CALL(
-                    Op.GAS,
-                    Spec_EIP6110.DEPOSIT_CONTRACT_ADDRESS,
-                    deposit_request.value,
-                    0,
-                    len(deposit_request.calldata),
-                    0,
-                    0,
-                )
-            )
-            + Op.POP(
-                Op.CALL(
-                    Op.GAS,
-                    Spec_EIP7002.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS,
-                    withdrawal_request_fee,
-                    len(deposit_request.calldata),
-                    len(withdrawal_request.calldata),
-                    0,
-                    0,
-                )
-            )
-        )
-    else:
-        calldata = withdrawal_request.calldata + deposit_request.calldata
-        contract_code = (
-            Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-            + Op.POP(
-                Op.CALL(
-                    Op.GAS,
-                    Spec_EIP7002.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS,
-                    withdrawal_request_fee,
-                    0,
-                    len(withdrawal_request.calldata),
-                    0,
-                    0,
-                )
-            )
-            + Op.POP(
-                Op.CALL(
-                    Op.GAS,
-                    Spec_EIP6110.DEPOSIT_CONTRACT_ADDRESS,
-                    deposit_request.value,
-                    len(withdrawal_request.calldata),
-                    len(deposit_request.calldata),
-                    0,
-                    0,
-                )
-            )
+    consolidation_request_fee = 1
+
+    calldata = b""
+    contract_code = Bytecode()
+    total_value = 0
+    storage = Storage()
+
+    for request in requests:
+        calldata_start = len(calldata)
+        current_calldata = request.calldata
+        calldata += current_calldata
+
+        contract_code += Op.CALLDATACOPY(0, calldata_start, len(current_calldata))
+
+        call_contract_address = 0
+        value = 0
+        if isinstance(request, DepositRequest):
+            call_contract_address = Spec_EIP6110.DEPOSIT_CONTRACT_ADDRESS
+            value = request.value
+        elif isinstance(request, WithdrawalRequest):
+            call_contract_address = Spec_EIP7002.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS
+            value = withdrawal_request_fee
+        elif isinstance(request, ConsolidationRequest):
+            call_contract_address = Spec_EIP7251.CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS
+            value = consolidation_request_fee
+
+        total_value += value
+
+        contract_code += Op.SSTORE(
+            storage.store_next(1),
+            Op.CALL(
+                Op.GAS,
+                call_contract_address,
+                value,
+                0,
+                len(current_calldata),
+                0,
+                0,
+            ),
         )
 
-    sender = pre.fund_eoa(10**18)
+    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=contract_code,
-        balance=deposit_request.value + withdrawal_request_fee,
     )
-    withdrawal_request = withdrawal_request.with_source_address(contract_address)
 
     tx = Transaction(
         gas_limit=10_000_000,
         to=contract_address,
-        value=0,
+        value=total_value,
         data=calldata,
         sender=sender,
     )
@@ -334,12 +300,19 @@ def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
     blockchain_test(
         genesis_environment=Environment(),
         pre=pre,
-        post={},
+        post={
+            contract_address: Account(
+                storage=storage,
+            )
+        },
         blocks=[
             Block(
                 txs=[tx],
                 header_verify=Header(
-                    requests_root=[deposit_request, withdrawal_request],
+                    requests_root=[
+                        request.with_source_address(contract_address)
+                        for request in sorted(requests, key=lambda r: r.type_byte())
+                    ]
                 ),
             )
         ],
