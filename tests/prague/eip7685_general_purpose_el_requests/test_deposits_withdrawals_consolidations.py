@@ -4,6 +4,7 @@ abstract: Tests [EIP-7685: General purpose execution layer requests](https://eip
 
 """  # noqa: E501
 
+from itertools import permutations
 from typing import List
 
 import pytest
@@ -27,6 +28,11 @@ from ..eip7002_el_triggerable_withdrawals.helpers import (
     WithdrawalRequestTransaction,
 )
 from ..eip7002_el_triggerable_withdrawals.spec import Spec as Spec_EIP7002
+from ..eip7251_consolidations.helpers import (
+    ConsolidationRequest,
+    ConsolidationRequestContract,
+    ConsolidationRequestTransaction,
+)
 from .spec import ref_spec_7685
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7685.git_path
@@ -35,183 +41,184 @@ REFERENCE_SPEC_VERSION = ref_spec_7685.version
 pytestmark = pytest.mark.valid_from("Prague")
 
 
+def single_deposit_from_eoa(i: int) -> DepositTransaction:  # noqa: D103
+    return DepositTransaction(
+        requests=[
+            DepositRequest(
+                pubkey=(i * 3),
+                withdrawal_credentials=(i * 3) + 1,
+                amount=32_000_000_000,
+                signature=(i * 3) + 2,
+                index=i,
+            )
+        ],
+    )
+
+
+def single_deposit_from_contract(i: int) -> DepositContract:  # noqa: D103
+    return DepositContract(
+        requests=[
+            DepositRequest(
+                pubkey=(i * 3),
+                withdrawal_credentials=(i * 3) + 1,
+                amount=32_000_000_000,
+                signature=(i * 3) + 2,
+                index=i,
+            )
+        ],
+    )
+
+
+def single_withdrawal_from_eoa(i: int) -> WithdrawalRequestTransaction:  # noqa: D103
+    return WithdrawalRequestTransaction(
+        requests=[
+            WithdrawalRequest(
+                validator_pubkey=i + 1,
+                amount=0,
+                fee=1,
+            )
+        ],
+    )
+
+
+def single_withdrawal_from_contract(i: int) -> WithdrawalRequestContract:  # noqa: D103
+    return WithdrawalRequestContract(
+        requests=[
+            WithdrawalRequest(
+                validator_pubkey=i + 1,
+                amount=0,
+                fee=1,
+            )
+        ],
+    )
+
+
+def single_consolidation_from_eoa(i: int) -> ConsolidationRequestTransaction:  # noqa: D103
+    return ConsolidationRequestTransaction(
+        requests=[
+            ConsolidationRequest(
+                source_pubkey=(i * 2),
+                target_pubkey=(i * 2) + 1,
+                fee=1,
+            )
+        ],
+    )
+
+
+def single_consolidation_from_contract(i: int) -> ConsolidationRequestContract:  # noqa: D103
+    return ConsolidationRequestContract(
+        requests=[
+            ConsolidationRequest(
+                source_pubkey=(i * 2),
+                target_pubkey=(i * 2) + 1,
+                fee=1,
+            )
+        ],
+    )
+
+
+def get_eoa_permutations() -> pytest.param:
+    """
+    Returns all possible permutations of the requests from an EOA.
+    """
+    requests = [
+        (
+            "deposit_from_eoa",
+            single_deposit_from_eoa(0),
+        ),
+        (
+            "withdrawal_from_eoa",
+            single_withdrawal_from_eoa(0),
+        ),
+        (
+            "consolidation_from_eoa",
+            single_consolidation_from_eoa(0),
+        ),
+    ]
+    for perm in permutations(requests, 3):
+        yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))
+
+
+def get_contract_permutations() -> pytest.param:
+    """
+    Returns all possible permutations of the requests from a contract.
+    """
+    requests = [
+        (
+            "deposit_from_contract",
+            single_deposit_from_contract(0),
+        ),
+        (
+            "withdrawal_from_contract",
+            single_withdrawal_from_contract(0),
+        ),
+        (
+            "consolidation_from_contract",
+            single_consolidation_from_contract(0),
+        ),
+    ]
+    for perm in permutations(requests, 3):
+        yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))
+
+
 @pytest.mark.parametrize(
     "requests",
     [
+        *get_eoa_permutations(),
+        *get_contract_permutations(),
         pytest.param(
             [
-                DepositTransaction(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x0,
-                        )
-                    ],
-                ),
-                WithdrawalRequestTransaction(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=0,
-                            fee=1,
-                        )
-                    ],
-                ),
+                single_deposit_from_eoa(0),
+                single_withdrawal_from_eoa(0),
+                single_deposit_from_contract(1),
             ],
-            id="single_deposit_from_eoa_single_withdrawal_from_eoa",
+            id="deposit_from_eoa+withdrawal_from_eoa+deposit_from_contract",
         ),
         pytest.param(
             [
-                WithdrawalRequestTransaction(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=0,
-                            fee=1,
-                        )
-                    ],
-                ),
-                DepositTransaction(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x0,
-                        )
-                    ],
-                ),
+                single_withdrawal_from_eoa(0),
+                single_deposit_from_eoa(0),
+                single_withdrawal_from_contract(1),
             ],
-            id="single_withdrawal_from_eoa_single_deposit_from_eoa",
+            id="withdrawal_from_eoa+deposit_from_eoa+withdrawal_from_contract",
         ),
         pytest.param(
             [
-                DepositTransaction(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x0,
-                        )
-                    ],
-                ),
-                WithdrawalRequestTransaction(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=0,
-                            fee=1,
-                        )
-                    ],
-                ),
-                DepositTransaction(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x1,
-                        )
-                    ],
-                ),
+                single_deposit_from_eoa(0),
+                single_consolidation_from_eoa(0),
+                single_deposit_from_contract(1),
             ],
-            id="two_deposits_from_eoa_single_withdrawal_from_eoa",
+            id="deposit_from_eoa+consolidation_from_eoa+deposit_from_contract",
         ),
         pytest.param(
             [
-                WithdrawalRequestTransaction(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=0,
-                            fee=1,
-                        )
-                    ],
-                ),
-                DepositTransaction(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x0,
-                        )
-                    ],
-                ),
-                WithdrawalRequestTransaction(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=1,
-                            fee=1,
-                        )
-                    ],
-                ),
+                single_consolidation_from_eoa(0),
+                single_deposit_from_eoa(0),
+                single_consolidation_from_contract(1),
             ],
-            id="two_withdrawals_from_eoa_single_deposit_from_eoa",
+            marks=pytest.mark.skip("Only one consolidation request is allowed per block"),
+            id="consolidation_from_eoa+deposit_from_eoa+consolidation_from_contract",
         ),
         pytest.param(
             [
-                DepositContract(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x0,
-                        )
-                    ],
-                ),
-                WithdrawalRequestContract(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=0,
-                            fee=1,
-                        )
-                    ],
-                ),
+                single_consolidation_from_eoa(0),
+                single_withdrawal_from_eoa(0),
+                single_consolidation_from_contract(1),
             ],
-            id="single_deposit_from_contract_single_withdrawal_from_contract",
+            marks=pytest.mark.skip("Only one consolidation request is allowed per block"),
+            id="consolidation_from_eoa+withdrawal_from_eoa+consolidation_from_contract",
         ),
         pytest.param(
             [
-                WithdrawalRequestContract(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=0,
-                            fee=1,
-                        )
-                    ],
-                ),
-                DepositContract(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x0,
-                        )
-                    ],
-                ),
+                single_withdrawal_from_eoa(0),
+                single_consolidation_from_eoa(0),
+                single_withdrawal_from_contract(1),
             ],
-            id="single_withdrawal_from_contract_single_deposit_from_contract",
+            id="withdrawal_from_eoa+consolidation_from_eoa+withdrawal_from_contract",
         ),
-        # TODO: Deposit and withdrawal in the same transaction
     ],
 )
-def test_valid_deposit_withdrawal_requests(
+def test_valid_deposit_withdrawal_consolidation_requests(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
@@ -234,7 +241,7 @@ def test_valid_deposit_withdrawal_requests(
         pytest.param(False, id="withdrawal_first"),
     ],
 )
-def test_valid_deposit_withdrawal_request_from_same_tx(
+def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     deposit_first: bool,
@@ -317,8 +324,7 @@ def test_valid_deposit_withdrawal_request_from_same_tx(
     withdrawal_request = withdrawal_request.with_source_address(contract_address)
 
     tx = Transaction(
-        gas_limit=1_000_000,
-        gas_price=0x07,
+        gas_limit=10_000_000,
         to=contract_address,
         value=0,
         data=calldata,
@@ -386,7 +392,7 @@ def test_valid_deposit_withdrawal_request_from_same_tx(
         ),
     ],
 )
-def test_invalid_deposit_withdrawal_requests(
+def test_invalid_deposit_withdrawal_consolidation_requests(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
