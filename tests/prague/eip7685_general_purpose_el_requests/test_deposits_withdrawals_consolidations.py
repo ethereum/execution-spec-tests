@@ -20,7 +20,7 @@ from ethereum_test_tools import (
     Header,
 )
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import Storage, TestAddress, Transaction
+from ethereum_test_tools import Storage, TestAddress, TestAddress2, Transaction
 
 from ..eip6110_deposits.helpers import DepositContract, DepositRequest, DepositTransaction
 from ..eip6110_deposits.spec import Spec as Spec_EIP6110
@@ -324,44 +324,42 @@ def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
     [
         pytest.param(
             [
-                WithdrawalRequestTransaction(
-                    requests=[
-                        WithdrawalRequest(
-                            validator_pubkey=0x01,
-                            amount=0,
-                            fee=1,
-                        )
-                    ],
-                ),
-                DepositTransaction(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
-                            signature=0x03,
-                            index=0x0,
-                        )
-                    ],
-                ),
+                single_withdrawal_from_eoa(0),
+                single_deposit_from_eoa(0),
             ],
             [
-                WithdrawalRequest(
-                    validator_pubkey=0x01,
-                    amount=0,
-                    source_address=TestAddress,
-                ),
-                DepositRequest(
-                    pubkey=0x01,
-                    withdrawal_credentials=0x02,
-                    amount=32_000_000_000,
-                    signature=0x03,
-                    index=0x0,
-                ),
+                single_withdrawal(0).with_source_address(TestAddress),
+                single_deposit(0),
             ],
             # TODO: on the Engine API, the issue should be detected as an invalid block hash
             BlockException.INVALID_REQUESTS,
-            id="single_deposit_from_eoa_single_withdrawal_from_eoa_incorrect_order",
+            id="single_withdrawal_single_deposit_incorrect_order",
+        ),
+        pytest.param(
+            [
+                single_consolidation_from_eoa(0),
+                single_deposit_from_eoa(0),
+            ],
+            [
+                single_consolidation(0).with_source_address(TestAddress),
+                single_deposit(0),
+            ],
+            # TODO: on the Engine API, the issue should be detected as an invalid block hash
+            BlockException.INVALID_REQUESTS,
+            id="single_consolidation_single_deposit_incorrect_order",
+        ),
+        pytest.param(
+            [
+                single_consolidation_from_eoa(0),
+                single_withdrawal_from_eoa(0),
+            ],
+            [
+                single_consolidation(0).with_source_address(TestAddress),
+                single_withdrawal(0).with_source_address(TestAddress2),
+            ],
+            # TODO: on the Engine API, the issue should be detected as an invalid block hash
+            BlockException.INVALID_REQUESTS,
+            id="single_consolidation_single_withdrawal_incorrect_order",
         ),
     ],
 )
