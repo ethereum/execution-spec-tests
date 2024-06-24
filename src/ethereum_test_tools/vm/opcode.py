@@ -369,9 +369,7 @@ class Opcode(Bytecode):
             return obj
         raise TypeError("Opcode constructor '__new__' didn't return an instance!")
 
-    def __getitem__(
-        self, *args: "int | bytes | str | FixedSizeBytes | Iterable[int]"
-    ) -> "Bytecode":
+    def __getitem__(self, *args: "int | bytes | str | FixedSizeBytes | Iterable[int]") -> "Opcode":
         """
         Initialize a new instance of the opcode with the data portion set, and also clear
         the data portion variables to avoid reusing them.
@@ -413,13 +411,16 @@ class Opcode(Bytecode):
             and self.pushed_stack_items is not None
             and self.min_stack_height is not None
         )
-        new_opcode = Bytecode(
+        new_opcode = Opcode(
             bytes(self) + data_portion,
             popped_stack_items=self.popped_stack_items,
             pushed_stack_items=self.pushed_stack_items,
             min_stack_height=self.min_stack_height,
             max_stack_height=self.max_stack_height,
+            data_portion_length=0,
+            data_portion_formatter=None,
             unchecked_stack=self.unchecked_stack,
+            kwargs=self.kwargs,
         )
         new_opcode._name_ = self._name_
         return new_opcode
