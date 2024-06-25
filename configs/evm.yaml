@@ -5,7 +5,7 @@ stable:
   evm-bin: evm
 develop:
   impl: geth
-  repo: lightclient/go-ethereum
+  repo: marioevz/go-ethereum
   ref: prague-devnet-1
   evm-bin: evm
 eip7692:
