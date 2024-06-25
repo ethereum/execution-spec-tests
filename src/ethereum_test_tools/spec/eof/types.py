@@ -41,6 +41,7 @@ class Vector(CamelModel):
     """
 
     code: Bytes
+    initcode: bool
     results: Mapping[str, Result]
 
 

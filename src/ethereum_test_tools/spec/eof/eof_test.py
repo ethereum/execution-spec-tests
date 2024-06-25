@@ -137,6 +137,7 @@ class EOFTest(BaseTest):
 
     data: Bytes
     expect_exception: EOFException | None = None
+    initcode: bool = False
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
         FixtureFormats.EOF_TEST,
@@ -182,6 +183,7 @@ class EOFTest(BaseTest):
             vectors={
                 "0": {
                     "code": self.data,
+                    "initcode": self.initcode,
                     "results": {
                         fork.blockchain_test_network_name(): {
                             "exception": self.expect_exception,
