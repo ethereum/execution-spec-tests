@@ -1,7 +1,6 @@
 """
 EOF Container: check how every opcode behaves in the middle of the valid eof container code
 """
-
 from typing import List
 
 import pytest
@@ -90,25 +89,27 @@ def sections(
     """
     sections = [Section.Code(code=bytecode)]
 
-    if opcode == Op.CALLF:
-        sections.append(
-            Section.Code(
-                code=Op.RETF,
-                code_inputs=0,
-                code_outputs=0,
-                max_stack_height=0,
+    match opcode:
+        case Op.EOFCREATE | Op.RETURNCONTRACT:
+            sections.append(
+                Section.Container(
+                    container=Container(
+                        sections=[
+                            Section.Code(code=Op.REVERT(0, 0)),
+                        ]
+                    )
+                )
             )
-        )
-    sections += [
-        Section.Container(
-            container=Container(
-                sections=[
-                    Section.Code(code=Op.STOP),
-                ]
+        case Op.CALLF:
+            sections.append(
+                Section.Code(
+                    code=Op.RETF,
+                    code_inputs=0,
+                    code_outputs=0,
+                    max_stack_height=0,
+                )
             )
-        ),
-        Section.Data("1122334455667788" * 4),
-    ]
+    sections.append(Section.Data("1122334455667788" * 4))
     return sections
 
 
