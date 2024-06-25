@@ -30,6 +30,7 @@ BlockchainTestFiller
 BlockchainTests
 BlockException
 blockhash
+blockhashes
 blocknum
 blocktest
 bls
@@ -311,6 +312,7 @@ sandboxed
 secp256k1
 selfbalance
 ser
+servable
 setitem
 sha
 SHA
