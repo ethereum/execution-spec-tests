@@ -49,9 +49,7 @@ def generate_block_check_code(
     )
 
     blockhash_key = storage.store_next(not populated_blockhash)
-    blockhash_key.label += f", check_block_number={check_block_number}"
     contract_key = storage.store_next(not populated_history_storage_contract)
-    contract_key.label += f", check_block_number={check_block_number}"
 
     check_blockhash = Op.SSTORE(blockhash_key, Op.ISZERO(Op.BLOCKHASH(check_block_number)))
     check_contract = (
@@ -68,7 +66,6 @@ def generate_block_check_code(
     if populated_history_storage_contract and populated_blockhash:
         # Both values must be equal
         store_equal_key = storage.store_next(True)
-        store_equal_key.label += f", check_block_number={check_block_number}"
         code += Op.SSTORE(store_equal_key, Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(check_block_number)))
 
     return code
