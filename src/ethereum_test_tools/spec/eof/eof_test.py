@@ -135,7 +135,7 @@ class EOFTest(BaseTest):
     Filler type that tests EOF containers.
     """
 
-    data: Bytes
+    data: Container
     expect_exception: EOFException | None = None
     initcode: bool = False
 
@@ -152,8 +152,12 @@ class EOFTest(BaseTest):
         if isinstance(data, dict):
             container = data.get("data")
             expect_exception = data.get("expect_exception")
+            initcode = data.get("initcode")
             if container is not None and isinstance(container, Container):
-                if container.validity_error is not None:
+                if (
+                    "validity_error" in container.model_fields_set
+                    and container.validity_error is not None
+                ):
                     if expect_exception is not None:
                         assert container.validity_error == expect_exception, (
                             f"Container validity error {container.validity_error} "
@@ -161,6 +165,13 @@ class EOFTest(BaseTest):
                         )
                     if expect_exception is None:
                         data["expect_exception"] = container.validity_error
+                if "initcode" in container.model_fields_set:
+                    if initcode is not None:
+                        assert container.initcode == initcode, (
+                            f"Container initcode flag {container.initcode} "
+                            f"does not match test {initcode}."
+                        )
+                    data["initcode"] = container.initcode
         return data
 
     @classmethod
@@ -203,7 +214,10 @@ class EOFTest(BaseTest):
             expected_result = vector.results.get(fork.blockchain_test_network_name())
             if expected_result is None:
                 raise Exception(f"EOF Fixture missing vector result for fork: {fork}")
-            result = eof_parse.run(input=str(vector.code))
+            args = []
+            if vector.initcode:
+                args.append("--initcode")
+            result = eof_parse.run(*args, input=str(vector.code))
             self.verify_result(result, expected_result, vector.code)
 
         return fixture

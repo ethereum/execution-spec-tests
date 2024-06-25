@@ -327,6 +327,10 @@ class Container(CopyValidateModel):
 
     TODO: Remove str
     """
+    initcode: bool = False
+    """
+    Whether the container is an initcode.
+    """
     raw_bytes: Optional[Bytes] = None
     """
     Optional raw bytes that represent the container.
