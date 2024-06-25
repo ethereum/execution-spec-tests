@@ -565,7 +565,7 @@ class Prague(Cancun):
             )
 
         # Add the consolidation request contract
-        with open(CURRENT_FOLDER / "consolidation_request.bin", mode="rb") as f:
+        with open(CURRENT_FOLDER / "contracts" / "consolidation_request.bin", mode="rb") as f:
             new_allocation.update(
                 {
                     0x00B42DBF2194E931E80326D950320F7D9DBEAC02: {
