@@ -16814,7 +16814,7 @@ type tests</p>
             <span class="n">storage</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_hash</span>
             <span class="n">next_hash</span> <span class="o">=</span> <span class="n">sha256</span><span class="p">(</span><span class="n">next_hash</span> <span class="o">+</span> <span class="n">next_hash</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;deposit_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;deposit_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
                     <span class="mh">0x00000000219AB540356CBB839CBE05303D7705FA</span><span class="p">:</span> <span class="p">{</span>
@@ -16826,7 +16826,7 @@ type tests</p>
             <span class="p">)</span>
 
         <span class="c1"># Add the withdrawal request contract</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;withdrawal_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;withdrawal_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
                     <span class="mh">0x00A3CA265EBCB825B45F985A16CEFB49958CE017</span><span class="p">:</span> <span class="p">{</span>
@@ -16837,10 +16837,10 @@ type tests</p>
             <span class="p">)</span>
 
         <span class="c1"># Add the history storage contract</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;history_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;history_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="mh">0x25A219378DAD9B3503C8268C9CA836A52427A4FB</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="mh">0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                         <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                     <span class="p">}</span>
@@ -17127,7 +17127,7 @@ the exits contract for EIP-7002, and the history storage contract for EIP-2935.<
         <span class="n">storage</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_hash</span>
         <span class="n">next_hash</span> <span class="o">=</span> <span class="n">sha256</span><span class="p">(</span><span class="n">next_hash</span> <span class="o">+</span> <span class="n">next_hash</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;deposit_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;deposit_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="mh">0x00000000219AB540356CBB839CBE05303D7705FA</span><span class="p">:</span> <span class="p">{</span>
@@ -17139,7 +17139,7 @@ the exits contract for EIP-7002, and the history storage contract for EIP-2935.<
         <span class="p">)</span>
 
     <span class="c1"># Add the withdrawal request contract</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;withdrawal_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;withdrawal_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="mh">0x00A3CA265EBCB825B45F985A16CEFB49958CE017</span><span class="p">:</span> <span class="p">{</span>
@@ -17150,10 +17150,10 @@ the exits contract for EIP-7002, and the history storage contract for EIP-2935.<
         <span class="p">)</span>
 
     <span class="c1"># Add the history storage contract</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;history_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;history_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="mh">0x25A219378DAD9B3503C8268C9CA836A52427A4FB</span><span class="p">:</span> <span class="p">{</span>
+                <span class="mh">0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                 <span class="p">}</span>

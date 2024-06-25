@@ -11445,7 +11445,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/60e5eb4a71fc7faa861e9c151571d7f1c19a2c9d/tests/prague/eip2935_historical_block_hashes_from_state/spec.py"><code>tests/prague/eip2935_historical_block_hashes_from_state/spec.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4f5a541202c6231c0ea970557e911008f545e64e/tests/prague/eip2935_historical_block_hashes_from_state/spec.py"><code>tests/prague/eip2935_historical_block_hashes_from_state/spec.py</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -11490,8 +11490,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/prague/eip2935_historical_block_hashes_from_state/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
-<span class="normal">21</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
@@ -11499,14 +11498,17 @@
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
-<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-2935 specifications as defined at</span>
 <span class="sd">    https://eips.ethereum.org/EIPS/eip-2935</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">HISTORY_STORAGE_ADDRESS</span> <span class="o">=</span> <span class="mh">0x25A219378DAD9B3503C8268C9CA836A52427A4FB</span>
+    <span class="n">FORK_TIMESTAMP</span> <span class="o">=</span> <span class="mi">15_000</span>
+    <span class="n">HISTORY_STORAGE_ADDRESS</span> <span class="o">=</span> <span class="mh">0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E</span>
     <span class="n">HISTORY_SERVE_WINDOW</span> <span class="o">=</span> <span class="mi">8192</span>
     <span class="n">BLOCKHASH_OLD_WINDOW</span> <span class="o">=</span> <span class="mi">256</span>
 </code></pre></div></td></tr></table></div>
