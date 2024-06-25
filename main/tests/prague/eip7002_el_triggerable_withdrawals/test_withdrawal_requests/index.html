@@ -11398,7 +11398,7 @@
 
 
 <h1 id="test-withdrawal-requests">Test Withdrawal Requests<a class="headerlink" href="#test-withdrawal-requests" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ffdfc6315d7d6fbede06e287ae52877688b0a29d/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py"><code>tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/60e5eb4a71fc7faa861e9c151571d7f1c19a2c9d/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py"><code>tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11944,7 +11944,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -11960,7 +11960,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="p">)</span>
@@ -11976,7 +11976,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">calldata_modifier</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
@@ -11994,7 +11994,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">calldata_modifier</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -12012,12 +12012,12 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
@@ -12033,7 +12033,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -12042,7 +12042,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -12058,7 +12058,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -12075,12 +12075,12 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="p">),</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
@@ -12096,12 +12096,12 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="p">),</span>
@@ -12117,7 +12117,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="c1"># Value obtained from trace minus one</span>
@@ -12125,7 +12125,7 @@ For all forks up to and including Prague:
                                 <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                             <span class="p">),</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
@@ -12141,12 +12141,12 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="c1"># Value obtained from trace minus one</span>
@@ -12166,7 +12166,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -12187,7 +12187,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
@@ -12203,7 +12203,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -12220,14 +12220,14 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="p">)</span>
                         <span class="p">]</span>
                         <span class="o">+</span> <span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -12244,7 +12244,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                             <span class="p">)</span>
@@ -12252,7 +12252,7 @@ For all forks up to and including Prague:
                         <span class="p">]</span>
                         <span class="o">+</span> <span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_WITHDRAWAL_REQUESTS_PER_BLOCK</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_WITHDRAWAL_REQUESTS_PER_BLOCK</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span>
                                 <span class="k">if</span> <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_WITHDRAWAL_REQUESTS_PER_BLOCK</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
                                 <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
@@ -12270,7 +12270,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -12279,7 +12279,7 @@ For all forks up to and including Prague:
                         <span class="p">]</span>
                         <span class="o">+</span> <span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                                 <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -12298,7 +12298,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
@@ -12308,7 +12308,7 @@ For all forks up to and including Prague:
                         <span class="p">]</span>
                         <span class="o">+</span> <span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_WITHDRAWAL_REQUESTS_PER_BLOCK</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_WITHDRAWAL_REQUESTS_PER_BLOCK</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -12326,7 +12326,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -12345,7 +12345,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AMOUNT</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -12369,7 +12369,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -12380,7 +12380,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -12391,7 +12391,7 @@ For all forks up to and including Prague:
                     <span class="n">WithdrawalRequestContract</span><span class="p">(</span>
                         <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                                <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                                <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                                 <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                                 <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -12646,7 +12646,7 @@ block's transactions do not match.</p>
             <span class="p">[],</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                 <span class="p">),</span>
@@ -12659,7 +12659,7 @@ block's transactions do not match.</p>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                     <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                         <span class="p">),</span>
@@ -12675,7 +12675,7 @@ block's transactions do not match.</p>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                     <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                         <span class="p">),</span>
@@ -12684,7 +12684,7 @@ block's transactions do not match.</p>
             <span class="p">],</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">TestAddress</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -12697,7 +12697,7 @@ block's transactions do not match.</p>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                     <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                         <span class="p">)</span>
@@ -12706,7 +12706,7 @@ block's transactions do not match.</p>
             <span class="p">],</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">TestAddress</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -12719,7 +12719,7 @@ block's transactions do not match.</p>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                     <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                         <span class="p">)</span>
@@ -12728,7 +12728,7 @@ block's transactions do not match.</p>
             <span class="p">],</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">TestAddress2</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -12741,12 +12741,12 @@ block's transactions do not match.</p>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                     <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                         <span class="p">),</span>
                         <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                            <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                         <span class="p">),</span>
@@ -12755,12 +12755,12 @@ block's transactions do not match.</p>
             <span class="p">],</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x02</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">TestAddress</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">TestAddress</span><span class="p">,</span>
                 <span class="p">),</span>
@@ -12773,7 +12773,7 @@ block's transactions do not match.</p>
                 <span class="n">WithdrawalRequestTransaction</span><span class="p">(</span>
                     <span class="n">requests</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                            <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                            <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                             <span class="n">fee</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">get_fee</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                         <span class="p">)</span>
@@ -12782,12 +12782,12 @@ block's transactions do not match.</p>
             <span class="p">],</span>
             <span class="p">[</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">TestAddress</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">WithdrawalRequest</span><span class="p">(</span>
-                    <span class="n">validator_public_key</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+                    <span class="n">validator_pubkey</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
                     <span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">source_address</span><span class="o">=</span><span class="n">TestAddress</span><span class="p">,</span>
                 <span class="p">),</span>
