@@ -7,14 +7,7 @@ from typing import Dict, Union
 
 import pytest
 
-from ethereum_test_tools import (
-    Account,
-    Address,
-    Environment,
-    StateTestFiller,
-    TestAddress,
-    Transaction,
-)
+from ethereum_test_tools import Account, Address, Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .spec import Spec, ref_spec_1153
@@ -26,6 +19,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1153.version
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_transaction_begin(
     state_test: StateTestFiller,
+    pre: Alloc,
 ):
     """
     Ported .json vectors:
@@ -36,38 +30,27 @@ def test_basic_tload_transaction_begin(
     slot_tload_at_transaction_begin_result = 1
     slot_code_worked = 2
 
-    address_to = Address("A00000000000000000000000000000000000000A")
-    pre = {
-        address_to: Account(
-            balance=1000000000000000000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            # 01 test
-            + Op.SSTORE(slot_tload_at_transaction_begin_result, Op.TLOAD(0))
-            + Op.SSTORE(slot_code_worked, 1),
-            storage={
-                slot_tload_at_transaction_begin_result: 0xFF,
-            },
-        ),
-        TestAddress: Account(
-            balance=7000000000000000000,
-            nonce=0,
-            code="0x",
-            storage={},
-        ),
-    }
-
-    post: Dict[Address, Union[Account, object]] = {}
-
-    post[address_to] = Account(
+    address_to = pre.deploy_contract(
+        code=Op.JUMPDEST()
+        # 01 test
+        + Op.SSTORE(slot_tload_at_transaction_begin_result, Op.TLOAD(0))
+        + Op.SSTORE(slot_code_worked, 1),
         storage={
-            slot_tload_at_transaction_begin_result: 0x00,
-            slot_code_worked: 0x01,
-        }
+            slot_tload_at_transaction_begin_result: 0xFF,
+        },
     )
 
+    post = {
+        address_to: Account(
+            storage={
+                slot_tload_at_transaction_begin_result: 0x00,
+                slot_code_worked: 0x01,
+            }
+        )
+    }
+
     tx = Transaction(
-        nonce=0,
+        sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
         gas_price=10,
         data=b"",
@@ -81,6 +64,7 @@ def test_basic_tload_transaction_begin(
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_works(
     state_test: StateTestFiller,
+    pre: Alloc,
 ):
     """
     Ported .json vectors:
@@ -94,42 +78,31 @@ def test_basic_tload_works(
     slot_tload_after_tstore_result_second_time = 1
     slot_code_worked = 2
 
-    address_to = Address("A00000000000000000000000000000000000000A")
-    pre = {
-        address_to: Account(
-            balance=1000000000000000000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            # 02 test
-            + Op.TSTORE(2, tstore_value)
-            + Op.SSTORE(slot_tload_after_tstore_result, Op.TLOAD(2))
-            + Op.SSTORE(slot_tload_after_tstore_result_second_time, Op.TLOAD(2))
-            + Op.SSTORE(slot_code_worked, 1),
-            storage={
-                slot_tload_after_tstore_result: 0xFF,
-                slot_tload_after_tstore_result_second_time: 0xFF,
-            },
-        ),
-        TestAddress: Account(
-            balance=7000000000000000000,
-            nonce=0,
-            code="0x",
-            storage={},
-        ),
-    }
-
-    post: Dict[Address, Union[Account, object]] = {}
-
-    post[address_to] = Account(
+    address_to = pre.deploy_contract(
+        code=Op.JUMPDEST()
+        # 02 test
+        + Op.TSTORE(2, tstore_value)
+        + Op.SSTORE(slot_tload_after_tstore_result, Op.TLOAD(2))
+        + Op.SSTORE(slot_tload_after_tstore_result_second_time, Op.TLOAD(2))
+        + Op.SSTORE(slot_code_worked, 1),
         storage={
-            slot_tload_after_tstore_result: tstore_value,
-            slot_tload_after_tstore_result_second_time: tstore_value,
-            slot_code_worked: 0x01,
-        }
+            slot_tload_after_tstore_result: 0xFF,
+            slot_tload_after_tstore_result_second_time: 0xFF,
+        },
     )
 
+    post = {
+        address_to: Account(
+            storage={
+                slot_tload_after_tstore_result: tstore_value,
+                slot_tload_after_tstore_result_second_time: tstore_value,
+                slot_code_worked: 0x01,
+            }
+        )
+    }
+
     tx = Transaction(
-        nonce=0,
+        sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
         gas_price=10,
         data=b"",
@@ -143,6 +116,7 @@ def test_basic_tload_works(
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_other_after_tstore(
     state_test: StateTestFiller,
+    pre: Alloc,
 ):
     """
     Ported .json vectors:
@@ -155,39 +129,28 @@ def test_basic_tload_other_after_tstore(
     slot_tload_untouched_slot_after_tstore_result = 1
     slot_code_worked = 2
 
-    address_to = Address("A00000000000000000000000000000000000000A")
-    pre = {
-        address_to: Account(
-            balance=1000000000000000000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            # 03 test
-            + Op.TSTORE(3, tstore_value)
-            + Op.SSTORE(slot_tload_untouched_slot_after_tstore_result, Op.TLOAD(0))
-            + Op.SSTORE(slot_code_worked, 1),
-            storage={
-                slot_tload_untouched_slot_after_tstore_result: 0xFF,
-            },
-        ),
-        TestAddress: Account(
-            balance=7000000000000000000,
-            nonce=0,
-            code="0x",
-            storage={},
-        ),
-    }
-
-    post: Dict[Address, Union[Account, object]] = {}
-
-    post[address_to] = Account(
+    address_to = pre.deploy_contract(
+        code=Op.JUMPDEST()
+        # 03 test
+        + Op.TSTORE(3, tstore_value)
+        + Op.SSTORE(slot_tload_untouched_slot_after_tstore_result, Op.TLOAD(0))
+        + Op.SSTORE(slot_code_worked, 1),
         storage={
-            slot_tload_untouched_slot_after_tstore_result: 0x00,
-            slot_code_worked: 0x01,
-        }
+            slot_tload_untouched_slot_after_tstore_result: 0xFF,
+        },
     )
 
+    post = {
+        address_to: Account(
+            storage={
+                slot_tload_untouched_slot_after_tstore_result: 0x00,
+                slot_code_worked: 0x01,
+            }
+        )
+    }
+
     tx = Transaction(
-        nonce=0,
+        sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
         gas_price=10,
         data=b"",
@@ -201,6 +164,7 @@ def test_basic_tload_other_after_tstore(
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_gasprice(
     state_test: StateTestFiller,
+    pre: Alloc,
 ):
     """
     Ported .json vectors:
@@ -211,8 +175,6 @@ def test_basic_tload_gasprice(
     slot_tload_nonzero_gas_price_result = 1
     slot_tload_zero_gas_price_result = 2
     slot_code_worked = 3
-
-    address_to = Address("A00000000000000000000000000000000000000A")
 
     """
     N         OPNAME       GAS_COST  TOTAL_GAS REMAINING_GAS     STACK
@@ -227,57 +189,46 @@ def test_basic_tload_gasprice(
     """
     extra_opcode_gas = 11  # mstore(3), push1(3),gas(2),push1(3)
 
-    pre = {
-        address_to: Account(
-            balance=1000000000000000000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            # 16 test
-            + Op.TSTORE(16, 2)
-            + Op.MSTORE(0, Op.GAS())  # hot load the memory to make the extra_opcode_gas be 11
-            + Op.MSTORE(0, Op.GAS())
-            + Op.TLOAD(16)
-            + Op.MSTORE(32, Op.GAS())
-            + Op.SSTORE(slot_tload_nonzero_gas_price_result, Op.SUB(Op.MLOAD(0), Op.MLOAD(32)))
-            + Op.SSTORE(
-                slot_tload_nonzero_gas_price_result,
-                Op.SUB(Op.SLOAD(slot_tload_nonzero_gas_price_result), extra_opcode_gas),
-            )
-            # from zero slot
-            + Op.MSTORE(0, Op.GAS())
-            + Op.TLOAD(5)
-            + Op.MSTORE(32, Op.GAS())
-            + Op.SSTORE(slot_tload_zero_gas_price_result, Op.SUB(Op.MLOAD(0), Op.MLOAD(32)))
-            + Op.SSTORE(
-                slot_tload_zero_gas_price_result,
-                Op.SUB(Op.SLOAD(slot_tload_zero_gas_price_result), extra_opcode_gas),
-            )
-            + Op.SSTORE(slot_code_worked, 1),
-            storage={
-                slot_tload_nonzero_gas_price_result: 0xFF,
-                slot_tload_zero_gas_price_result: 0xFF,
-            },
-        ),
-        TestAddress: Account(
-            balance=7000000000000000000,
-            nonce=0,
-            code="0x",
-            storage={},
-        ),
-    }
-
-    post: Dict[Address, Union[Account, object]] = {}
-
-    post[address_to] = Account(
+    address_to = pre.deploy_contract(
+        code=Op.JUMPDEST()
+        # 16 test
+        + Op.TSTORE(16, 2)
+        + Op.MSTORE(0, Op.GAS())  # hot load the memory to make the extra_opcode_gas be 11
+        + Op.MSTORE(0, Op.GAS())
+        + Op.TLOAD(16)
+        + Op.MSTORE(32, Op.GAS())
+        + Op.SSTORE(slot_tload_nonzero_gas_price_result, Op.SUB(Op.MLOAD(0), Op.MLOAD(32)))
+        + Op.SSTORE(
+            slot_tload_nonzero_gas_price_result,
+            Op.SUB(Op.SLOAD(slot_tload_nonzero_gas_price_result), extra_opcode_gas),
+        )
+        + Op.MSTORE(0, Op.GAS())
+        + Op.TLOAD(5)  # tload slot at 5 is 0
+        + Op.MSTORE(32, Op.GAS())
+        + Op.SSTORE(slot_tload_zero_gas_price_result, Op.SUB(Op.MLOAD(0), Op.MLOAD(32)))
+        + Op.SSTORE(
+            slot_tload_zero_gas_price_result,
+            Op.SUB(Op.SLOAD(slot_tload_zero_gas_price_result), extra_opcode_gas),
+        )
+        + Op.SSTORE(slot_code_worked, 1),
         storage={
-            slot_tload_nonzero_gas_price_result: Spec.TLOAD_GAS_COST,
-            slot_tload_zero_gas_price_result: Spec.TLOAD_GAS_COST,
-            slot_code_worked: 0x01,
-        }
+            slot_tload_nonzero_gas_price_result: 0xFF,
+            slot_tload_zero_gas_price_result: 0xFF,
+        },
     )
 
+    post = {
+        address_to: Account(
+            storage={
+                slot_tload_nonzero_gas_price_result: Spec.TLOAD_GAS_COST,
+                slot_tload_zero_gas_price_result: Spec.TLOAD_GAS_COST,
+                slot_code_worked: 0x01,
+            }
+        )
+    }
+
     tx = Transaction(
-        nonce=0,
+        sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
         gas_price=10,
         data=b"",
@@ -291,6 +242,7 @@ def test_basic_tload_gasprice(
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_after_store(
     state_test: StateTestFiller,
+    pre: Alloc,
 ):
     """
     Ported .json vectors:
@@ -298,34 +250,21 @@ def test_basic_tload_after_store(
     (18_tloadAfterStoreFiller.yml)
     tload from same slot after store returns 0
     """
-    address_to = Address("A00000000000000000000000000000000000000A")
-
     slot_tload_from_sstore_result = 1
     slot_code_worked = 2
 
-    pre = {
-        address_to: Account(
-            balance=1000000000000000000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            # 18 test
-            + Op.SSTORE(slot_tload_from_sstore_result, 22)
-            + Op.SSTORE(slot_tload_from_sstore_result, Op.TLOAD(slot_tload_from_sstore_result))
-            + Op.SSTORE(slot_code_worked, 1),
-            storage={
-                slot_tload_from_sstore_result: 0xFF,
-            },
-        ),
-        TestAddress: Account(
-            balance=7000000000000000000,
-            nonce=0,
-            code="0x",
-            storage={},
-        ),
-    }
+    address_to = pre.deploy_contract(
+        code=Op.JUMPDEST()
+        # 18 test
+        + Op.SSTORE(slot_tload_from_sstore_result, 22)
+        + Op.SSTORE(slot_tload_from_sstore_result, Op.TLOAD(slot_tload_from_sstore_result))
+        + Op.SSTORE(slot_code_worked, 1),
+        storage={
+            slot_tload_from_sstore_result: 0xFF,
+        },
+    )
 
     post: Dict[Address, Union[Account, object]] = {}
-
     post[address_to] = Account(
         storage={
             slot_tload_from_sstore_result: 0x00,
@@ -334,7 +273,7 @@ def test_basic_tload_after_store(
     )
 
     tx = Transaction(
-        nonce=0,
+        sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
         gas_price=10,
         data=b"",

@@ -3,18 +3,9 @@ Ethereum Transient Storage EIP Tests
 https://eips.ethereum.org/EIPS/eip-1153
 """
 
-from typing import Dict, Union
-
 import pytest
 
-from ethereum_test_tools import (
-    Account,
-    Address,
-    Environment,
-    StateTestFiller,
-    TestAddress,
-    Transaction,
-)
+from ethereum_test_tools import Account, Address, Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Bytecode
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -24,7 +15,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL])
-def test_tload_calls(state_test: StateTestFiller, call_type: Op):
+def test_tload_calls(state_test: StateTestFiller, pre: Alloc, call_type: Op):
     """
     Ported .json vectors:
 
@@ -34,76 +25,63 @@ def test_tload_calls(state_test: StateTestFiller, call_type: Op):
     (12_tloadDelegateCallFiller.yml)
     delegatecall reads transient storage in the context of the current address
     """
-    address_to = Address("A00000000000000000000000000000000000000A")
-    address_call = Address("B00000000000000000000000000000000000000B")
-
     # Storage variables
     slot_a_tload_after_subcall_result = 0
     slot_a_subcall_result = 1
     slot_b_subcall_tload_result = 2
     slot_b_subcall_updated_tload_result = 3
 
-    def make_call(call_type: Op) -> Bytecode:
+    def make_call(call_type: Op, address: Address) -> Bytecode:
         if call_type == Op.DELEGATECALL or call_type == Op.STATICCALL:
-            return call_type(Op.GAS(), address_call, 0, 32, 0, 0)
+            return call_type(Op.GAS(), address, 0, 32, 0, 0)
         else:
-            return call_type(Op.GAS(), address_call, 0, 0, 32, 0, 0)
+            return call_type(Op.GAS(), address, 0, 0, 32, 0, 0)
 
-    pre = {
+    address_call = pre.deploy_contract(
+        balance=1_000_000_000_000_000_000,
+        code=Op.JUMPDEST()
+        + Op.SSTORE(slot_b_subcall_tload_result, Op.TLOAD(0))
+        + Op.TSTORE(0, 20)
+        + Op.SSTORE(slot_b_subcall_updated_tload_result, Op.TLOAD(0)),
+        storage={
+            slot_b_subcall_tload_result: 0xFF,
+            slot_b_subcall_updated_tload_result: 0xFF,
+        },
+    )
+
+    address_to = pre.deploy_contract(
+        balance=1_000_000_000_000_000_000,
+        code=Op.JUMPDEST()
+        + Op.TSTORE(0, 10)
+        + Op.SSTORE(slot_a_subcall_result, make_call(call_type, address_call))
+        + Op.SSTORE(slot_a_tload_after_subcall_result, Op.TLOAD(0)),
+        storage={
+            slot_a_subcall_result: 0xFF,
+            slot_a_tload_after_subcall_result: 0xFF,
+        },
+    )
+
+    post = {
         address_to: Account(
-            balance=1000000000000000000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            + Op.TSTORE(0, 10)
-            + Op.SSTORE(slot_a_subcall_result, make_call(call_type))
-            + Op.SSTORE(slot_a_tload_after_subcall_result, Op.TLOAD(0)),
             storage={
-                slot_a_subcall_result: 0xFF,
-                slot_a_tload_after_subcall_result: 0xFF,
-            },
+                # other calls don't change context, there for tload updated in this account
+                slot_a_tload_after_subcall_result: 10 if call_type == Op.CALL else 20,
+                slot_a_subcall_result: 1,
+                # since context unchanged the subcall works as if continued execution
+                slot_b_subcall_tload_result: 0 if call_type == Op.CALL else 10,
+                slot_b_subcall_updated_tload_result: 0 if call_type == Op.CALL else 20,
+            }
         ),
         address_call: Account(
-            balance=7000000000000000000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            + Op.SSTORE(slot_b_subcall_tload_result, Op.TLOAD(0))
-            + Op.TSTORE(0, 20)
-            + Op.SSTORE(slot_b_subcall_updated_tload_result, Op.TLOAD(0)),
             storage={
-                slot_b_subcall_tload_result: 0xFF,
-                slot_b_subcall_updated_tload_result: 0xFF,
-            },
-        ),
-        TestAddress: Account(
-            balance=7000000000000000000,
-            nonce=0,
-            code="0x",
-            storage={},
+                slot_b_subcall_tload_result: 0 if call_type == Op.CALL else 0xFF,
+                slot_b_subcall_updated_tload_result: 20 if call_type == Op.CALL else 0xFF,
+            }
         ),
     }
 
-    post: Dict[Address, Union[Account, object]] = {}
-
-    post[address_to] = Account(
-        storage={
-            # other calls don't change context, there for tload updated in this account
-            slot_a_tload_after_subcall_result: 10 if call_type == Op.CALL else 20,
-            slot_a_subcall_result: 1,
-            # since context unchanged the subcall works as if continued execution
-            slot_b_subcall_tload_result: 0 if call_type == Op.CALL else 10,
-            slot_b_subcall_updated_tload_result: 0 if call_type == Op.CALL else 20,
-        }
-    )
-
-    post[address_call] = Account(
-        storage={
-            slot_b_subcall_tload_result: 0 if call_type == Op.CALL else 0xFF,
-            slot_b_subcall_updated_tload_result: 20 if call_type == Op.CALL else 0xFF,
-        }
-    )
-
     tx = Transaction(
-        nonce=0,
+        sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
         gas_price=10,
         data=b"",
