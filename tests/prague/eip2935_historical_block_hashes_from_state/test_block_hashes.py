@@ -26,7 +26,7 @@ REFERENCE_SPEC_VERSION = ref_spec_2935.version
 
 
 def generate_block_check_code(
-    block_number: int | None,
+    block_number: int,
     populated_blockhash: bool,
     populated_history_storage_contract: bool,
     storage: Storage,
@@ -42,8 +42,8 @@ def generate_block_check_code(
         storage (Storage): The storage object to use.
         check_contract_first (bool): Whether to check the contract first, for slot warming checks.
     """
-    if block_number is None:
-        # No block number to check
+    if block_number < 0:
+        # Block number outside of range, nothing to check
         return Bytecode()
 
     blockhash_key = storage.store_next(not populated_blockhash)
@@ -66,6 +66,10 @@ def generate_block_check_code(
         code += Op.SSTORE(storage.store_next(True), Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(block_number)))
 
     return code
+
+
+# TODO: Test at transition: `BLOCKHASH_OLD_WINDOW + 1` blocks before transition
+# TODO: Test post fork: `HISTORY_SERVE_WINDOW` + 1 blocks after transition
 
 
 @pytest.mark.parametrize(
@@ -112,6 +116,7 @@ def test_block_hashes_history_at_transition(
 
     sender = pre.fund_eoa(10_000_000_000)
     post: Dict[Address, Account] = {}
+    current_block_number = 1
 
     for i in range(1, blocks_before_fork):
         txs: List[Transaction] = []
@@ -124,11 +129,7 @@ def test_block_hashes_history_at_transition(
 
             # Check the last block before blockhash the window
             code += generate_block_check_code(
-                block_number=(
-                    i - Spec.BLOCKHASH_OLD_WINDOW - 1
-                    if i > Spec.BLOCKHASH_OLD_WINDOW
-                    else None  # Chain not long enough, no block to check
-                ),
+                block_number=i - Spec.BLOCKHASH_OLD_WINDOW - 1,
                 populated_blockhash=False,
                 populated_history_storage_contract=False,
                 storage=storage,
@@ -146,19 +147,19 @@ def test_block_hashes_history_at_transition(
                 storage=storage,
             )
 
-            code_address = pre.deploy_contract(code)
+            check_before_fork_code = pre.deploy_contract(code)
             txs.append(
                 Transaction(
-                    to=code_address,
+                    to=check_before_fork_code,
                     gas_limit=10_000_000,
                     sender=sender,
                 )
             )
-            post[code_address] = Account(storage=storage)
+            post[check_before_fork_code] = Account(storage=storage)
         blocks.append(Block(timestamp=i, txs=txs))
+        current_block_number += 1
 
     # Add the fork block
-    current_block_number = len(blocks) + 1
     txs = []
     # On the fork block, `BLOCKHASH` must still return values for the last 256 blocks.
     # `HISTORY_STORAGE_ADDRESS` system contract will store the blockhash for this block during
@@ -168,11 +169,7 @@ def test_block_hashes_history_at_transition(
 
     # Check the last block before the window
     code += generate_block_check_code(
-        block_number=(
-            current_block_number - Spec.BLOCKHASH_OLD_WINDOW - 1
-            if current_block_number > Spec.BLOCKHASH_OLD_WINDOW
-            else None  # Chain not long enough, no block to check
-        ),
+        block_number=current_block_number - Spec.BLOCKHASH_OLD_WINDOW - 1,
         populated_blockhash=False,
         populated_history_storage_contract=False,
         storage=storage,
@@ -190,21 +187,21 @@ def test_block_hashes_history_at_transition(
         storage=storage,
     )
 
-    code_address = pre.deploy_contract(code)
+    check_fork_block_code = pre.deploy_contract(code)
     txs.append(
         Transaction(
-            to=code_address,
+            to=check_fork_block_code,
             gas_limit=10_000_000,
             sender=sender,
         )
     )
-    post[code_address] = Account(storage=storage)
+    post[check_fork_block_code] = Account(storage=storage)
 
     blocks.append(Block(timestamp=Spec.FORK_TIMESTAMP, txs=txs))
+    current_block_number += 1
 
     # Add blocks after the fork transition to gradually fill up the `HISTORY_SERVE_WINDOW`
     for i in range(1, blocks_after_fork + 1):
-        current_block_number += 1
         txs = []
         # On these blocks, `BLOCKHASH` will still return values for the last 256 blocks, and
         # `HISTORY_STORAGE_ADDRESS` should now serve values for the previous blocks in the new
@@ -230,17 +227,18 @@ def test_block_hashes_history_at_transition(
                 storage=storage,
             )
 
-        code_address = pre.deploy_contract(code)
+        check_blocks_after_fork_code = pre.deploy_contract(code)
         txs.append(
             Transaction(
-                to=code_address,
+                to=check_blocks_after_fork_code,
                 gas_limit=10_000_000,
                 sender=sender,
             )
         )
-        post[code_address] = Account(storage=storage)
+        post[check_blocks_after_fork_code] = Account(storage=storage)
 
         blocks.append(Block(timestamp=Spec.FORK_TIMESTAMP + 0x0C, txs=txs))
+        current_block_number += 1
 
     blockchain_test(
         genesis_environment=Environment(),
