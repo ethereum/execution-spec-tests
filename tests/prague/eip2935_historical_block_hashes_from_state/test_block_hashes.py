@@ -38,7 +38,7 @@ def generate_block_check_code(
     Args:
         block_number (int | None): The block number to check (or None to return empty code).
         populated_blockhash (bool): Whether the blockhash should be populated.
-        populated_contract (bool): Whether the contract should be populated.
+        populated_history_storage_contract (bool): Whether the contract should be populated.
         storage (Storage): The storage object to use.
         check_contract_first (bool): Whether to check the contract first, for slot warming checks.
     """
