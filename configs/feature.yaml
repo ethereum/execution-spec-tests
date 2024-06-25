@@ -6,6 +6,10 @@ develop:
   evm-type: develop
   fill-params: --until=Prague
   solc: 0.8.21
+devnet-1:
+  evm-type: develop
+  fill-params: --until=Prague
+  solc: 0.8.21
 eip7692:
   evm-type: eip7692
   fill-params: --fork=CancunEIP7692 ./tests/prague
