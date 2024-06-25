@@ -297,3 +297,61 @@ def test_block_hashes_history(
         blocks=blocks,
         post=post,
     )
+
+
+@pytest.mark.parametrize(
+    "block_number,reverts",
+    [
+        pytest.param(1, False, id="current_block"),
+        pytest.param(2, False, id="future_block"),
+        pytest.param(2**64 - 1, False, id="2**64-1"),
+        pytest.param(2**64, True, id="2**64"),
+    ],
+)
+@pytest.mark.valid_from("Prague")
+def test_invalid_history_contract_calls(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    block_number: int,
+    reverts: bool,
+):
+    """
+    Test calling the history contract with invalid block numbers, such as blocks from the future
+    or overflowing block numbers.
+
+    Also test the BLOCKHASH opcode with the same block numbers, which should not affect the
+    behavior of the opcode, even after verkle.
+    """
+    storage = Storage()
+
+    return_code_slot = storage.store_next(not reverts)
+    returned_block_hash_slot = storage.store_next(0)
+    block_hash_opcode_slot = storage.store_next(0)
+
+    # Check the first block outside of the window if any
+    code = (
+        Op.MSTORE(0, block_number)
+        + Op.SSTORE(
+            return_code_slot, Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 32, 64)
+        )
+        + Op.SSTORE(returned_block_hash_slot, Op.MLOAD(32))
+        + Op.SSTORE(block_hash_opcode_slot, Op.BLOCKHASH(block_number))
+    )
+    check_contract_address = pre.deploy_contract(code, storage=storage.canary())
+
+    txs = [
+        Transaction(
+            to=check_contract_address,
+            gas_limit=10_000_000,
+            sender=pre.fund_eoa(),
+        )
+    ]
+    post = {check_contract_address: Account(storage=storage)}
+
+    blocks = [Block(txs=txs)]
+    blockchain_test(
+        pre=pre,
+        blocks=blocks,
+        post=post,
+        reverts=reverts,
+    )
