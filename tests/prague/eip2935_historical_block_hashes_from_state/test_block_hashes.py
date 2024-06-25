@@ -39,12 +39,12 @@ def generate_block_check_code(
         return Bytecode()
 
     populated_blockhash = (
-        check_block_number >= current_block_number - Spec.BLOCKHASH_OLD_WINDOW
+        current_block_number - check_block_number <= Spec.BLOCKHASH_OLD_WINDOW
         and check_block_number < current_block_number
     )
     populated_history_storage_contract = (
         check_block_number >= fork_block_number - 1
-        and current_block_number - check_block_number < Spec.HISTORY_SERVE_WINDOW
+        and current_block_number - check_block_number <= Spec.HISTORY_SERVE_WINDOW
         and check_block_number < current_block_number
     )
 
@@ -201,7 +201,7 @@ def test_block_hashes_history_at_transition(
             Spec.HISTORY_SERVE_WINDOW + 1,
             False,
             marks=pytest.mark.slow,
-            id="full_history_check_blockhash_first",
+            id="full_history_plus_one_check_blockhash_first",
         ),
     ],
 )
@@ -225,9 +225,9 @@ def test_block_hashes_history(
     current_block_number = 1
     fork_block_number = 0  # We fork at genesis
 
-    for i in range(block_count - 1):
+    for _ in range(block_count - 1):
         # Generate empty blocks after the fork.
-        blocks.append(Block(txs=[]))
+        blocks.append(Block())
         current_block_number += 1
 
     txs = []
@@ -258,6 +258,15 @@ def test_block_hashes_history(
     # Check the first block outside the BLOCKHASH window
     code += generate_block_check_code(
         check_block_number=current_block_number - Spec.BLOCKHASH_OLD_WINDOW - 1,
+        current_block_number=current_block_number,
+        fork_block_number=fork_block_number,
+        storage=storage,
+        check_contract_first=check_contract_first,
+    )
+
+    # Check the first block inside the BLOCKHASH window
+    code += generate_block_check_code(
+        check_block_number=current_block_number - Spec.BLOCKHASH_OLD_WINDOW,
         current_block_number=current_block_number,
         fork_block_number=fork_block_number,
         storage=storage,
