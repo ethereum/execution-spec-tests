@@ -17,7 +17,7 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 
 from ...common import Account, Alloc, Environment, Transaction
 from ...common.base_types import Bytes
-from ...eof.v1 import Container
+from ...eof.v1 import Container, ContainerKind
 from ...exceptions import EOFException, EvmoneExceptionMapper
 from ..base.base_test import BaseFixture, BaseTest
 from ..state.state_test import StateTest
@@ -137,7 +137,7 @@ class EOFTest(BaseTest):
 
     data: Bytes
     expect_exception: EOFException | None = None
-    initcode: bool = False
+    container_kind: ContainerKind = ContainerKind.RUNTIME
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
         FixtureFormats.EOF_TEST,
@@ -152,7 +152,7 @@ class EOFTest(BaseTest):
         if isinstance(data, dict):
             container = data.get("data")
             expect_exception = data.get("expect_exception")
-            initcode = data.get("initcode")
+            container_kind = data.get("container_kind")
             if container is not None and isinstance(container, Container):
                 if (
                     "validity_error" in container.model_fields_set
@@ -165,13 +165,13 @@ class EOFTest(BaseTest):
                         )
                     if expect_exception is None:
                         data["expect_exception"] = container.validity_error
-                if "initcode" in container.model_fields_set:
-                    if initcode is not None:
-                        assert container.initcode == initcode, (
-                            f"Container initcode flag {container.initcode} "
-                            f"does not match test {initcode}."
+                if "container_kind" in container.model_fields_set:
+                    if container_kind is not None:
+                        assert str(container.kind) == container_kind, (
+                            f"Container kind type {str(container.kind)} "
+                            f"does not match test {container_kind}."
                         )
-                    data["initcode"] = container.initcode
+                    data["container_kind"] = str(container.kind)
         return data
 
     @classmethod
@@ -194,7 +194,7 @@ class EOFTest(BaseTest):
             vectors={
                 "0": {
                     "code": self.data,
-                    "initcode": self.initcode,
+                    "container_kind": self.container_kind,
                     "results": {
                         fork.blockchain_test_network_name(): {
                             "exception": self.expect_exception,
@@ -215,7 +215,7 @@ class EOFTest(BaseTest):
             if expected_result is None:
                 raise Exception(f"EOF Fixture missing vector result for fork: {fork}")
             args = []
-            if vector.initcode:
+            if vector.container_kind == ContainerKind.INITCODE:
                 args.append("--initcode")
             result = eof_parse.run(*args, input=str(vector.code))
             self.verify_result(result, expected_result, vector.code)
