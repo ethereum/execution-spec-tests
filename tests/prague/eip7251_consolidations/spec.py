@@ -48,7 +48,6 @@ class Spec:
     CONSOLIDATION_REQUEST_FEE_UPDATE_FRACTION = 17
     EXCESS_INHIBITOR = 1181
 
-    MAX_AMOUNT = 2**64 - 1
 
     @staticmethod
     def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
