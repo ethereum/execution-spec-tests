@@ -21,7 +21,7 @@ from ...eof.v1 import Container, ContainerKind
 from ...exceptions import EOFException, EvmoneExceptionMapper
 from ..base.base_test import BaseFixture, BaseTest
 from ..state.state_test import StateTest
-from .types import Fixture, Result
+from .types import Fixture, Result, Vector
 
 
 class EOFBaseException(Exception):
@@ -190,20 +190,19 @@ class EOFTest(BaseTest):
         """
         Generate the EOF test fixture.
         """
-        fixture = Fixture(
-            vectors={
-                "0": {
-                    "code": self.data,
-                    "container_kind": self.container_kind,
-                    "results": {
-                        fork.blockchain_test_network_name(): {
-                            "exception": self.expect_exception,
-                            "valid": self.expect_exception is None,
-                        }
-                    },
-                }
-            }
-        )
+        vectors = [
+            Vector(
+                code=self.data,
+                container_kind=self.container_kind,
+                results={
+                    fork.blockchain_test_network_name(): Result(
+                        exception=self.expect_exception,
+                        valid=self.expect_exception is None,
+                    ),
+                },
+            )
+        ]
+        fixture = Fixture(vectors=dict(enumerate(vectors)))
         try:
             eof_parse = EOFParse()
         except FileNotFoundError as e:
