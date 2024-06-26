@@ -62,6 +62,22 @@ pytestmark = pytest.mark.valid_from("Prague")
                         requests=[
                             ConsolidationRequest(
                                 source_pubkey=0x01,
+                                target_pubkey=0x01,
+                                fee=Spec.get_fee(0),
+                            )
+                        ],
+                    ),
+                ],
+            ],
+            id="single_block_single_consolidation_request_from_eoa_equal_pubkeys",
+        ),
+        pytest.param(
+            [
+                [
+                    ConsolidationRequestTransaction(
+                        requests=[
+                            ConsolidationRequest(
+                                source_pubkey=0x01,
                                 target_pubkey=0x02,
                                 fee=0,
                             )
