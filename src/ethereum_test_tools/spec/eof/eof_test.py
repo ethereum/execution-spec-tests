@@ -135,7 +135,7 @@ class EOFTest(BaseTest):
     Filler type that tests EOF containers.
     """
 
-    data: Container
+    data: Bytes
     expect_exception: EOFException | None = None
     initcode: bool = False
 
