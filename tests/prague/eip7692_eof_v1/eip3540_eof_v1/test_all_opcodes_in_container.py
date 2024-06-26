@@ -46,18 +46,6 @@ halting_opcodes = {
     Op.INVALID,
 }
 
-# Special eof opcodes that require [] operator
-eof_opcodes = {
-    Op.DATALOADN,
-    Op.RJUMPV,
-    Op.CALLF,
-    Op.RETF,
-    Op.JUMPF,
-    Op.EOFCREATE,
-    Op.RETURNCONTRACT,
-    Op.EXCHANGE,
-}
-
 
 def expect_exception(opcode: Opcode) -> EOFException | None:
     """
@@ -88,17 +76,6 @@ def make_opcode_valid_bytes(opcode: Opcode) -> Opcode | Bytecode:
     return code
 
 
-def eof_opcode_stack(opcode: Opcode) -> int:
-    """
-    Eof opcode has special stack influence
-    """
-    if opcode in eof_opcodes:
-        if opcode == Op.CALLF or opcode == Op.JUMPF or opcode == Op.EXCHANGE:
-            return 0
-        return 1
-    return 0
-
-
 @pytest.mark.parametrize("opcode", list(Op) + list(UndefinedOpcodes))
 def test_all_opcodes_in_container(eof_test: EOFTestFiller, opcode: Opcode):
     """
@@ -122,10 +99,7 @@ def test_all_opcodes_in_container(eof_test: EOFTestFiller, opcode: Opcode):
                 code=Op.PUSH1(00) * 20 + make_opcode_valid_bytes(opcode),
                 max_stack_height=max(
                     20,
-                    20
-                    + opcode.pushed_stack_items
-                    - opcode.popped_stack_items
-                    + eof_opcode_stack(opcode),
+                    20 + opcode.pushed_stack_items - opcode.popped_stack_items,
                 ),
             ),
             Section.Container(
