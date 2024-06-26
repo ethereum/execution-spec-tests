@@ -137,7 +137,7 @@ class EOFTest(BaseTest):
 
     data: Bytes
     expect_exception: EOFException | None = None
-    container_kind: ContainerKind = ContainerKind.RUNTIME
+    container_kind: ContainerKind | None = None
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
         FixtureFormats.EOF_TEST,
@@ -171,7 +171,8 @@ class EOFTest(BaseTest):
                             f"Container kind type {str(container.kind)} "
                             f"does not match test {container_kind}."
                         )
-                    data["container_kind"] = str(container.kind)
+                    if container.kind != ContainerKind.RUNTIME:
+                        data["container_kind"] = str(container.kind)
         return data
 
     @classmethod
