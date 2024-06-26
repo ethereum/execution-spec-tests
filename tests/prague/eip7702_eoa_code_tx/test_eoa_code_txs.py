@@ -34,7 +34,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7702.version
 pytestmark = pytest.mark.valid_from("Prague")
 
 
-class InvalidityReasons(Enum):
+class InvalidityReason(Enum):
     """
     Reasons for invalidity.
     """
@@ -58,7 +58,6 @@ def test_set_code_to_sstore(
     pre: Alloc,
     suffix: Bytecode,
     succeeds: bool,
-    chain_id: int,
 ):
     """
     Test the executing a simple SSTORE in a set-code transaction.
@@ -703,12 +702,12 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
 
 @pytest.mark.parametrize(
     "invalidity_reason",
-    list(InvalidityReasons),
+    list(InvalidityReason),
 )
 def test_set_code_invalid_authorization_tuple(
     state_test: StateTestFiller,
     pre: Alloc,
-    invalidity_reason: InvalidityReasons,
+    invalidity_reason: InvalidityReason,
 ):
     """
     Test attempting to set the code of an account with invalid authorization tuple.
@@ -727,11 +726,11 @@ def test_set_code_invalid_authorization_tuple(
         authorization_tuples=[
             AuthorizationTuple(
                 address=set_code_to_address,
-                nonce=1 if invalidity_reason == InvalidityReasons.NONCE else 0,
+                nonce=1 if invalidity_reason == InvalidityReason.NONCE else 0,
                 chain_id=2
-                if invalidity_reason == InvalidityReasons.CHAIN_ID
+                if invalidity_reason == InvalidityReason.CHAIN_ID
                 else [0, 1]
-                if invalidity_reason == InvalidityReasons.MULTIPLE_NONCE
+                if invalidity_reason == InvalidityReason.MULTIPLE_NONCE
                 else 0,
                 signer=signer,
             )
