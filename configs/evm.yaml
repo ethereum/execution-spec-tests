@@ -13,3 +13,8 @@ eip7692:
   repo: ethereum/evmone
   ref: master
   evm-bin: evmone-t8n
+eip6800:
+  impl: geth
+  repo: gballet/go-ethereum
+  ref: base-root-last-merkle-root-merge 
+  evm-bin: evm

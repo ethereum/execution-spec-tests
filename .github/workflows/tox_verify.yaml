@@ -26,6 +26,11 @@ jobs:
           #   python: '3.11'
           #   evm-type: 'eip7692'
           #   tox-cmd: 'tox -e tests-eip7692'
+          # Disabled for now until verkle testing framework is refined
+          # - os: ubuntu-latest
+          #   python: '3.11'
+          #   evm-type: 'eip6800'
+          #   tox-cmd: 'tox -e tests-eip6800'
           - os: macos-latest
             python: '3.11'
             evm-type: 'stable'

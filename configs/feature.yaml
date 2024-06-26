@@ -10,3 +10,7 @@ eip7692:
   evm-type: eip7692
   fill-params: --fork=CancunEIP7692 ./tests/prague
   solc: 0.8.21
+eip6800:
+  evm-type: eip6800 
+  fill-params: --fork=EIP6800Transition -m blockchain_test
+  solc: 0.8.21
