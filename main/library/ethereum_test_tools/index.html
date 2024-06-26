@@ -39329,23 +39329,7 @@ spec type as filler for the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
@@ -39404,7 +39388,23 @@ spec type as filler for the test.</p>
 <span class="normal">334</span>
 <span class="normal">335</span>
 <span class="normal">336</span>
-<span class="normal">337</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">):</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests EOF containers and also generates a state/blockchain test.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -39512,12 +39512,12 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Workaround for pytest parameter name.</span>
@@ -39549,29 +39549,29 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
 <span class="normal">309</span>
-<span class="normal">310</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the StateTest filler.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -39620,23 +39620,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">328</span>
 <span class="normal">329</span>
 <span class="normal">330</span>
 <span class="normal">331</span>
@@ -39645,7 +39629,23 @@ spec type as filler for the test.</p>
 <span class="normal">334</span>
 <span class="normal">335</span>
 <span class="normal">336</span>
-<span class="normal">337</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -39833,13 +39833,30 @@ spec type as filler for the test.</p>
 <span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
-<span class="normal">255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests EOF containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span><span class="p">:</span> <span class="n">Bytes</span>
     <span class="n">expect_exception</span><span class="p">:</span> <span class="n">EOFException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">container_kind</span><span class="p">:</span> <span class="n">ContainerKind</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">supported_fixture_formats</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureFormats</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">EOF_TEST</span><span class="p">,</span>
@@ -39854,8 +39871,12 @@ spec type as filler for the test.</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">container</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
             <span class="n">expect_exception</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expect_exception&quot;</span><span class="p">)</span>
+            <span class="n">container_kind</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;container_kind&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">container</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">Container</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="s2">&quot;validity_error&quot;</span> <span class="ow">in</span> <span class="n">container</span><span class="o">.</span><span class="n">model_fields_set</span>
+                    <span class="ow">and</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="p">):</span>
                     <span class="k">if</span> <span class="n">expect_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">assert</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="o">==</span> <span class="n">expect_exception</span><span class="p">,</span> <span class="p">(</span>
                             <span class="sa">f</span><span class="s2">&quot;Container validity error </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">validity_error</span><span class="si">}</span><span class="s2"> &quot;</span>
@@ -39863,6 +39884,14 @@ spec type as filler for the test.</p>
                         <span class="p">)</span>
                     <span class="k">if</span> <span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;expect_exception&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span>
+                <span class="k">if</span> <span class="s2">&quot;container_kind&quot;</span> <span class="ow">in</span> <span class="n">container</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">container_kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="n">container_kind</span><span class="p">,</span> <span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;Container kind type </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;does not match test </span><span class="si">{</span><span class="n">container_kind</span><span class="si">}</span><span class="s2">.&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">container</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">:</span>
+                        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;container_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span>
 
     <span class="nd">@classmethod</span>
@@ -39881,19 +39910,19 @@ spec type as filler for the test.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate the EOF test fixture.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span>
-            <span class="n">vectors</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                    <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="p">{</span>
-                            <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span><span class="p">,</span>
-                            <span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
-                        <span class="p">}</span>
-                    <span class="p">},</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Vector</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">container_kind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">container_kind</span><span class="p">,</span>
+                <span class="n">results</span><span class="o">=</span><span class="p">{</span>
+                    <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">Result</span><span class="p">(</span>
+                        <span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span><span class="p">,</span>
+                        <span class="n">valid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span><span class="n">vectors</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">vectors</span><span class="p">)))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">eof_parse</span> <span class="o">=</span> <span class="n">EOFParse</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -39904,7 +39933,10 @@ spec type as filler for the test.</p>
             <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">())</span>
             <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">vector</span><span class="o">.</span><span class="n">container_kind</span> <span class="o">==</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--initcode&quot;</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">verify_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fixture</span>
@@ -39988,8 +40020,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
-<span class="normal">146</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
@@ -40006,7 +40037,20 @@ spec type as filler for the test.</p>
 <span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
-<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
 <span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">check_container_exception</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -40015,8 +40059,12 @@ spec type as filler for the test.</p>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">container</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
         <span class="n">expect_exception</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expect_exception&quot;</span><span class="p">)</span>
+        <span class="n">container_kind</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;container_kind&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">container</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">Container</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="s2">&quot;validity_error&quot;</span> <span class="ow">in</span> <span class="n">container</span><span class="o">.</span><span class="n">model_fields_set</span>
+                <span class="ow">and</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">):</span>
                 <span class="k">if</span> <span class="n">expect_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">assert</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="o">==</span> <span class="n">expect_exception</span><span class="p">,</span> <span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;Container validity error </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">validity_error</span><span class="si">}</span><span class="s2"> &quot;</span>
@@ -40024,6 +40072,14 @@ spec type as filler for the test.</p>
                     <span class="p">)</span>
                 <span class="k">if</span> <span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;expect_exception&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span>
+            <span class="k">if</span> <span class="s2">&quot;container_kind&quot;</span> <span class="ow">in</span> <span class="n">container</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">container_kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span> <span class="o">==</span> <span class="n">container_kind</span><span class="p">,</span> <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Container kind type </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;does not match test </span><span class="si">{</span><span class="n">container_kind</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">container</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">:</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;container_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -40055,12 +40111,12 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Workaround for pytest parameter name.</span>
@@ -40092,20 +40148,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
@@ -40127,7 +40170,23 @@ spec type as filler for the test.</p>
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
-<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -40136,19 +40195,19 @@ spec type as filler for the test.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the EOF test fixture.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span>
-        <span class="n">vectors</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="p">{</span>
-                        <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span><span class="p">,</span>
-                        <span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="p">}</span>
-                <span class="p">},</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">)</span>
+    <span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Vector</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">container_kind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">container_kind</span><span class="p">,</span>
+            <span class="n">results</span><span class="o">=</span><span class="p">{</span>
+                <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">Result</span><span class="p">(</span>
+                    <span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span><span class="p">,</span>
+                    <span class="n">valid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">fixture</span> <span class="o">=</span> <span class="n">Fixture</span><span class="p">(</span><span class="n">vectors</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">vectors</span><span class="p">)))</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">eof_parse</span> <span class="o">=</span> <span class="n">EOFParse</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -40159,7 +40218,10 @@ spec type as filler for the test.</p>
         <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">vector</span><span class="o">.</span><span class="n">container_kind</span> <span class="o">==</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--initcode&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eof_parse</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">verify_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fixture</span>
@@ -40189,23 +40251,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
@@ -40218,7 +40264,23 @@ spec type as filler for the test.</p>
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
-<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks that the reported exception string matches the expected error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -40274,22 +40336,22 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
