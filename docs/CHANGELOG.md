@@ -68,6 +68,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - Cancun is now the latest deployed fork, and the development fork is now Prague ([#489](https://github.com/ethereum/execution-spec-tests/pull/489)).
 - Stable fixtures artifact `fixtures.tar.gz` has been renamed to `fixtures_stable.tar.gz` ([#573](https://github.com/ethereum/execution-spec-tests/pull/573))
+- EOF fixtures now contain an `containerKind` optional field that specifies whether the container should be interpreted as a runtime container (default when the field is missing) or initcode container, with string `RUNTIME` or `INITCODE` respectively ([#651](https://github.com/ethereum/execution-spec-tests/pull/651))
 
 ## 🔜 [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 
