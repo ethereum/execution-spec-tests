@@ -117,7 +117,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
     root: Dict[StorageKeyValueType, StorageKeyValueType] = Field(default_factory=dict)
 
-    _current_slot: Iterator[int] = count(0)
+    _next_slot: int = PrivateAttr(1)
 
     StorageDictType: ClassVar[TypeAlias] = Dict[
         str | int | bytes | SupportsBytes, str | int | bytes | SupportsBytes
@@ -254,6 +254,10 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         """Returns True if the storage is not empty"""
         return any(v for v in self.root.values())
 
+    def __add__(self, other: "Storage") -> "Storage":
+        """Returns a new storage with the sum of the keys and values of both storages"""
+        return Storage({**self.root, **other.root})
+
     def keys(self) -> set[StorageKeyValueType]:
         """Returns the keys of the storage"""
         return set(self.root.keys())
@@ -267,9 +271,23 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         Increments the key counter so the next time this function is called,
         the next key is used.
         """
-        slot = StorageKeyValueTypeAdapter.validate_python(next(self._current_slot))
+        slot = StorageKeyValueTypeAdapter.validate_python(self._next_slot)
+        self._next_slot += 1
         self[slot] = StorageKeyValueTypeAdapter.validate_python(value)
         return slot
+
+    def next_slot(self) -> int:
+        """
+        Returns the next slot that will be used by `store_next`.
+        """
+        return self._next_slot
+
+    def with_start_slot(self, start_slot: int) -> "Storage":
+        """
+        Returns a new storage with the start slot set to the provided value.
+        """
+        self._next_slot = start_slot
+        return self
 
     def contains(self, other: "Storage") -> bool:
         """
