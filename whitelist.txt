@@ -134,6 +134,7 @@ extcodehash
 extcodesize
 F00
 filesystem
+fillvalue
 firstlineno
 fn
 fname

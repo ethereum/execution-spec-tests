@@ -77,9 +77,26 @@ pytestmark = pytest.mark.valid_from("Prague")
                     ConsolidationRequestTransaction(
                         requests=[
                             ConsolidationRequest(
+                                source_pubkey=-1,
+                                target_pubkey=-2,
+                                fee=Spec.get_fee(0),
+                            )
+                        ],
+                    ),
+                ],
+            ],
+            id="single_block_single_consolidation_request_from_eoa_max_pubkeys",
+        ),
+        pytest.param(
+            [
+                [
+                    ConsolidationRequestTransaction(
+                        requests=[
+                            ConsolidationRequest(
                                 source_pubkey=0x01,
                                 target_pubkey=0x02,
                                 fee=0,
+                                valid=False,
                             )
                         ],
                     ),
@@ -184,6 +201,9 @@ pytestmark = pytest.mark.valid_from("Prague")
                     )
                 ],
             ],
+            marks=pytest.mark.skip(
+                reason="duplicate test due to MAX_CONSOLIDATION_REQUESTS_PER_BLOCK==1"
+            ),
             id="single_block_max_consolidation_requests_from_eoa",
         ),
         pytest.param(
@@ -278,7 +298,6 @@ pytestmark = pytest.mark.valid_from("Prague")
         ),
         pytest.param(
             [
-                # Block 1
                 [
                     ConsolidationRequestTransaction(
                         requests=[
@@ -287,14 +306,10 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 target_pubkey=i * 2 + 1,
                                 fee=Spec.get_fee(0),
                             )
-                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 2)
+                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ]
                     )
                 ],
-                # Block 2, no new consolidation requests, but queued requests from previous block
-                [],
-                # Block 3, no new nor queued consolidation requests
-                [],
             ],
             id="multiple_block_above_max_consolidation_requests_from_eoa",
         ),
@@ -324,9 +339,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 target_pubkey=i * 2 + 1,
                                 fee=Spec.get_fee(0),
                             )
-                            for i in range(
-                                Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK
-                            )  # TODO: MAX_CONSOLIDATION_REQUESTS_PER_BLOCK not ideal
+                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ],
                     ),
                 ],
@@ -350,9 +363,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 target_pubkey=i * 2 + 1,
                                 fee=Spec.get_fee(0),
                             )
-                            for i in range(
-                                1, Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK
-                            )  # TODO: MAX_CONSOLIDATION_REQUESTS_PER_BLOCK not ideal
+                            for i in range(1, Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ],
                     ),
                 ],
@@ -369,7 +380,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 target_pubkey=i * 2 + 1,
                                 fee=Spec.get_fee(0),
                             )
-                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK - 1)
+                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ]
                         + [
                             ConsolidationRequest(
@@ -377,7 +388,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 target_pubkey=-2,
                                 fee=0,
                             )
-                        ],  # TODO: MAX_CONSOLIDATION_REQUESTS_PER_BLOCK not ideal
+                        ],
                     ),
                 ],
             ],
@@ -404,9 +415,9 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 fee=Spec.get_fee(0),
                                 valid=True,
                             )
-                            for i in range(1, Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK)
+                            for i in range(1, Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ],
-                    ),  # TODO: MAX_CONSOLIDATION_REQUESTS_PER_BLOCK not ideal
+                    ),
                 ],
             ],
             id="single_block_multiple_consolidation_requests_from_contract_first_oog",
@@ -423,7 +434,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 gas_limit=1_000_000,
                                 valid=True,
                             )
-                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK)
+                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ]
                         + [
                             ConsolidationRequest(
@@ -434,7 +445,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 valid=False,
                             )
                         ],
-                    ),  # TODO: MAX_CONSOLIDATION_REQUESTS_PER_BLOCK not ideal
+                    ),
                 ],
             ],
             id="single_block_multiple_consolidation_requests_from_contract_last_oog",
@@ -450,11 +461,11 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 fee=Spec.get_fee(0),
                                 valid=False,
                             )
-                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK)
+                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ],
                         extra_code=Op.REVERT(0, 0),
                     ),
-                ],  # TODO: MAX_CONSOLIDATION_REQUESTS_PER_BLOCK not ideal
+                ],
             ],
             id="single_block_multiple_consolidation_requests_from_contract_caller_reverts",
         ),
@@ -469,10 +480,10 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 fee=Spec.get_fee(0),
                                 valid=False,
                             )
-                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK)
+                            for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ],
                         extra_code=Macros.OOG(),
-                    ),  # TODO: MAX_CONSOLIDATION_REQUESTS_PER_BLOCK not ideal
+                    ),
                 ],
             ],
             id="single_block_multiple_consolidation_requests_from_contract_caller_oog",
