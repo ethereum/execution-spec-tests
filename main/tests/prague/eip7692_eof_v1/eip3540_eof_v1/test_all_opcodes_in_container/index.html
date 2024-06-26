@@ -11391,7 +11391,7 @@
 
 
 <h1 id="test-all-opcodes-in-container">Test All Opcodes In Container<a class="headerlink" href="#test-all-opcodes-in-container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22b96b91d74ba090ffe0ebc3e1061f467edeab53/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/79550018a01cc8e476e0aebb422c74af35435f4e/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -11426,7 +11426,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_all_opcodes_in_container.test_all_opcodes_in_container" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_all_opcodes_in_container</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">opcode</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_all_opcodes_in_container</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">sections</span><span class="p">,</span> <span class="n">expect_exception</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_all_opcodes_in_container.test_all_opcodes_in_container" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -11438,20 +11438,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
@@ -11468,68 +11455,23 @@ For all forks up to and including Prague:
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">Op</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">UndefinedOpcodes</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">test_all_opcodes_in_container</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Opcode</span><span class="p">):</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">op</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">Op</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">UndefinedOpcodes</span><span class="p">)</span> <span class="k">if</span> <span class="n">op</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">skip_opcodes</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_all_opcodes_in_container</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">sections</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Section</span><span class="p">],</span>
+    <span class="n">expect_exception</span><span class="p">:</span> <span class="n">EOFException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test all opcodes inside valid container</span>
 <span class="sd">    257 because 0x5B is duplicated</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">section_call</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">:</span>
-        <span class="n">section_call</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">]</span>
-
-    <span class="n">eof_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
-        <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">00</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="n">make_opcode_valid_bytes</span><span class="p">(</span><span class="n">opcode</span><span class="p">),</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span>
-                    <span class="mi">20</span><span class="p">,</span>
-                    <span class="mi">20</span>
-                    <span class="o">+</span> <span class="n">opcode</span><span class="o">.</span><span class="n">pushed_stack_items</span>
-                    <span class="o">-</span> <span class="n">opcode</span><span class="o">.</span><span class="n">popped_stack_items</span>
-                    <span class="o">+</span> <span class="n">eof_opcode_stack</span><span class="p">(</span><span class="n">opcode</span><span class="p">),</span>
-                <span class="p">),</span>
-            <span class="p">),</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span>
-                <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
-                    <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                    <span class="p">]</span>
-                <span class="p">)</span>
-            <span class="p">),</span>
-        <span class="p">]</span>
-        <span class="o">+</span> <span class="n">section_call</span>
-        <span class="o">+</span> <span class="p">[</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;1122334455667788&quot;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
-        <span class="p">],</span>
-    <span class="p">)</span>
+    <span class="n">eof_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span><span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">)</span>
 
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">eof_code</span><span class="p">,</span>
-        <span class="n">expect_exception</span><span class="o">=</span><span class="n">expect_exception</span><span class="p">(</span><span class="n">opcode</span><span class="p">),</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">expect_exception</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
