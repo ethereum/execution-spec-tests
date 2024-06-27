@@ -4,9 +4,9 @@ EOF validation tests for EIP-3540 container format
 
 import pytest
 
-from ethereum_test_tools import EOFTestFiller
+from ethereum_test_tools import EOFException, EOFTestFiller
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools.eof.v1 import Container, EOFException, Section
+from ethereum_test_tools.eof.v1 import Container, Section
 
 from .. import EOF_FORK_NAME
 
