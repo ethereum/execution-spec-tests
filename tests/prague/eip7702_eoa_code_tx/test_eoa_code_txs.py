@@ -162,15 +162,20 @@ def test_set_code_to_contract_creator(
     deployed_code = Op.STOP
     initcode = Initcode(deploy_code=deployed_code)
 
-    deployed_contract_address = compute_create_address(auth_signer)
+    if op == Op.CREATE:
+        deployed_contract_address = compute_create_address(auth_signer)
+    elif op == Op.CREATE2:
+        deployed_contract_address = compute_create2_address(
+            address=auth_signer,
+            salt=0,
+            initcode=initcode,
+        )
 
     set_code = Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.SSTORE(
         storage.store_next(deployed_contract_address),
         op(value=0, offset=0, size=Op.CALLDATASIZE),
     )
-    set_code_to_address = pre.deploy_contract(
-        set_code,
-    )
+    set_code_to_address = pre.deploy_contract(set_code)
 
     tx = Transaction(
         gas_limit=1_000_000,
@@ -651,7 +656,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer(
         tx=tx,
         post={
             auth_signer: Account(
-                nonce=1,
+                nonce=0,
                 code=b"",
                 storage={
                     success_slot: 1,
@@ -700,7 +705,7 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
         tx=tx,
         post={
             auth_signer: Account(
-                nonce=1,
+                nonce=0,
                 code=b"",
                 storage={
                     success_slot: 2,
@@ -736,12 +741,12 @@ def test_set_code_invalid_authorization_tuple(
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
-                nonce=1 if invalidity_reason == InvalidityReason.NONCE else 0,
-                chain_id=2
-                if invalidity_reason == InvalidityReason.CHAIN_ID
+                nonce=1
+                if invalidity_reason == InvalidityReason.NONCE
                 else [0, 1]
                 if invalidity_reason == InvalidityReason.MULTIPLE_NONCE
                 else 0,
+                chain_id=2 if invalidity_reason == InvalidityReason.CHAIN_ID else 0,
                 signer=auth_signer,
             )
         ],
@@ -754,10 +759,10 @@ def test_set_code_invalid_authorization_tuple(
         tx=tx,
         post={
             auth_signer: Account(
-                nonce=1,
+                nonce=0,
                 code=b"",
                 storage={
-                    success_slot: 1,
+                    success_slot: 0,
                 },
             ),
         },
