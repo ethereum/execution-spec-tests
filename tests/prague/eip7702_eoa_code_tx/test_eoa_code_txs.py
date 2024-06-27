@@ -45,6 +45,13 @@ class InvalidityReason(Enum):
 
 
 @pytest.mark.parametrize(
+    "eoa_balance",
+    [
+        0,
+        1,
+    ],
+)
+@pytest.mark.parametrize(
     "suffix,succeeds",
     [
         pytest.param(Op.STOP, True, id="stop"),
@@ -58,12 +65,13 @@ def test_set_code_to_sstore(
     pre: Alloc,
     suffix: Bytecode,
     succeeds: bool,
+    eoa_balance: int,
 ):
     """
     Test the executing a simple SSTORE in a set-code transaction.
     """
     storage = Storage()
-    signer = pre.fund_eoa(0)
+    signer = pre.fund_eoa(eoa_balance)
 
     set_code = (
         Op.SSTORE(storage.store_next(1), 1)
@@ -79,7 +87,7 @@ def test_set_code_to_sstore(
         gas_limit=1_000_000,
         to=signer,
         value=0,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
@@ -115,7 +123,7 @@ def test_set_code_to_self_destruct(
         gas_limit=1_000_000,
         to=signer,
         value=0,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
@@ -169,7 +177,7 @@ def test_set_code_to_contract_creator(
         to=signer,
         value=0,
         data=initcode,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
@@ -238,7 +246,7 @@ def test_set_code_to_self_caller(
         gas_limit=1_000_000,
         to=signer,
         value=value,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
@@ -308,7 +316,7 @@ def test_set_code_to_set_code_caller(
         gas_limit=1_000_000,
         to=signer_1,
         value=value,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address_1,
                 nonce=0,
@@ -361,7 +369,7 @@ def test_address_from_set_code(
         gas_limit=1_000_000,
         to=signer,
         value=0,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
@@ -431,7 +439,7 @@ def test_ext_code_on_set_code(
     tx = Transaction(
         gas_limit=1_000_000,
         to=signer,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
@@ -492,7 +500,7 @@ def test_self_code_on_set_code(
     tx = Transaction(
         gas_limit=1_000_000,
         to=signer,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
@@ -569,7 +577,7 @@ def test_set_code_to_account_deployed_in_same_tx(
         to=contract_creator_address,
         value=0,
         data=initcode,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=deployed_contract_address,
                 nonce=0,
@@ -624,7 +632,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer(
         gas_limit=1_000_000,
         to=signer,
         value=0,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=address,
                 nonce=0,
@@ -673,7 +681,7 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
         gas_limit=1_000_000,
         to=signer,
         value=0,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=address,
                 nonce=1 if i == 0 else 0,
@@ -723,7 +731,7 @@ def test_set_code_invalid_authorization_tuple(
         gas_limit=1_000_000,
         to=signer,
         value=0,
-        authorization_tuples=[
+        authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=1 if invalidity_reason == InvalidityReason.NONCE else 0,
