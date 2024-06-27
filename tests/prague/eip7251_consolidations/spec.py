@@ -1,7 +1,6 @@
 """
-Common procedures to test
-[EIP-7251: Increase the MAX_EFFECTIVE_BALANCE](https://eips.ethereum.org/EIPS/eip-7251)
-"""  # noqa: E501
+Defines EIP-7251 specification constants and functions.
+"""
 
 from dataclasses import dataclass
 
@@ -48,8 +47,6 @@ class Spec:
     MIN_CONSOLIDATION_REQUEST_FEE = 1
     CONSOLIDATION_REQUEST_FEE_UPDATE_FRACTION = 17
     EXCESS_INHIBITOR = 1181
-
-    MAX_AMOUNT = 2**64 - 1
 
     @staticmethod
     def fake_exponential(factor: int, numerator: int, denominator: int) -> int:

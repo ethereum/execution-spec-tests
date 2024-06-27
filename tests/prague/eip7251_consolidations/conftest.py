@@ -1,6 +1,7 @@
 """
 Fixtures for the EIP-7251 consolidations tests.
 """
+from itertools import zip_longest
 from typing import List
 
 import pytest
@@ -57,6 +58,14 @@ def included_requests(
             excess_consolidation_requests,
             len(current_block_requests),
         )
+
+    while carry_over_requests:
+        # Keep adding blocks until all consolidation requests are included
+        per_block_included_requests.append(
+            carry_over_requests[: Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK]
+        )
+        carry_over_requests = carry_over_requests[Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK :]
+
     return per_block_included_requests
 
 
@@ -69,10 +78,16 @@ def blocks(
     """
     Return the list of blocks that should be included in the test.
     """
-    return [
+    return [  # type: ignore
         Block(
             txs=sum((r.transactions() for r in block_requests), []),
-            header_verify=Header(requests_root=included_requests[i]),
+            header_verify=Header(requests_root=block_included_requests),
         )
-        for i, block_requests in enumerate(blocks_consolidation_requests)
-    ]
+        for block_requests, block_included_requests in zip_longest(
+            blocks_consolidation_requests,
+            included_requests,
+            fillvalue=[],
+        )
+    ] + [
+        Block(header_verify=Header(requests_root=[]))
+    ]  # Add an empty block at the end to verify that no more consolidation requests are included

@@ -78,7 +78,7 @@ class ConsolidationRequestInteractionBase:
     """
     requests: List[ConsolidationRequest]
     """
-    Withdrawal request to be included in the block.
+    Consolidation requests to be included in the block.
     """
 
     def transactions(self) -> List[Transaction]:

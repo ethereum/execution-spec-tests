@@ -274,13 +274,10 @@ def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
         contract_code += Op.SSTORE(
             storage.store_next(1),
             Op.CALL(
-                Op.GAS,
-                call_contract_address,
-                value,
-                0,
-                len(current_calldata),
-                0,
-                0,
+                address=call_contract_address,
+                value=value,
+                args_offset=0,
+                args_size=len(current_calldata),
             ),
         )
 
