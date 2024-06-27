@@ -12,7 +12,7 @@ from ethereum_test_tools.eof.v1.constants import MAX_INITCODE_SIZE
 from .. import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3540.md"
-REFERENCE_SPEC_VERSION = ""  # todo
+REFERENCE_SPEC_VERSION = "6b313505c75afa49a4f34de39c609ebebc7be87f"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
