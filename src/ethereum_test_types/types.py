@@ -464,7 +464,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
     chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
     address: Address
-    nonce: List[NumberBoundTypeVar] | NumberBoundTypeVar | None = None
+    nonce: List[NumberBoundTypeVar] = Field(default_factory=list)
 
     v: NumberBoundTypeVar = Field(0)  # type: ignore
     r: NumberBoundTypeVar = Field(0)  # type: ignore
@@ -472,23 +472,15 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
     magic: ClassVar[int] = 0x05
 
-    def model_post_init(self, __context: Any) -> None:
+    @model_validator(mode="before")
+    @classmethod
+    def convert_nonce_information(cls, data: Any) -> Any:
         """
         Automatically converts the nonce to a list if it is not already.
         """
-        super().model_post_init(__context)
-        if self.nonce is not None and not isinstance(self.nonce, list):
-            self.nonce = [self.nonce]
-
-    def nonce_list(self) -> List[Uint]:
-        """
-        Returns the nonce as a list.
-        """
-        if self.nonce is None:
-            return []
-        return (
-            [Uint(n) for n in self.nonce] if isinstance(self.nonce, list) else [Uint(self.nonce)]
-        )
+        if "nonce" in data and not isinstance(data["nonce"], list):
+            data["nonce"] = [data["nonce"]]
+        return data
 
     def to_list(self) -> List[Any]:
         """
@@ -497,7 +489,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
         return [
             Uint(self.chain_id),
             self.address,
-            self.nonce_list(),
+            [Uint(n) for n in self.nonce],
             Uint(self.v),
             Uint(self.r),
             Uint(self.s),
@@ -512,7 +504,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
             [
                 Uint(self.chain_id),
                 self.address,
-                self.nonce_list(),
+                [Uint(n) for n in self.nonce],
             ]
         )
 
