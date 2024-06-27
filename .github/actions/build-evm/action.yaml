@@ -46,3 +46,9 @@ runs:
       with:
         repo: ${{ steps.config-evm-reader.outputs.repo }}
         ref: ${{ steps.config-evm-reader.outputs.ref }}
+    - name: Build the EVM using Besu action
+      if: steps.config-evm-reader.outputs.impl == 'besu'
+      uses: ./.github/actions/build-besu-evm
+      with:
+        repo: ${{ steps.config-evm-reader.outputs.repo }}
+        ref: ${{ steps.config-evm-reader.outputs.ref }}
