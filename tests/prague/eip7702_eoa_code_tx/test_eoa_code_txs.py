@@ -71,7 +71,7 @@ def test_set_code_to_sstore(
     Test the executing a simple SSTORE in a set-code transaction.
     """
     storage = Storage()
-    signer = pre.fund_eoa(eoa_balance)
+    auth_signer = pre.fund_eoa(eoa_balance)
 
     set_code = (
         Op.SSTORE(storage.store_next(1), 1)
@@ -85,13 +85,13 @@ def test_set_code_to_sstore(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=0,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -103,7 +103,7 @@ def test_set_code_to_sstore(
         tx=tx,
         post={
             set_code_to_address: Account(storage={k: 0 for k in storage}),
-            signer: Account(nonce=0, code=b"", storage=storage if succeeds else {}),
+            auth_signer: Account(nonce=0, code=b"", storage=storage if succeeds else {}),
         },
     )
 
@@ -115,19 +115,19 @@ def test_set_code_to_self_destruct(
     """
     Test the executing self-destruct opcode in a set-code transaction.
     """
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
     set_code_to_address = pre.deploy_contract(Op.SELFDESTRUCT(Op.ADDRESS))
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=0,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -157,12 +157,12 @@ def test_set_code_to_contract_creator(
     Test the executing a contract-creating opcode in a set-code transaction.
     """
     storage = Storage()
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
     deployed_code = Op.STOP
     initcode = Initcode(deploy_code=deployed_code)
 
-    deployed_contract_address = compute_create_address(signer)
+    deployed_contract_address = compute_create_address(auth_signer)
 
     set_code = Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.SSTORE(
         storage.store_next(deployed_contract_address),
@@ -174,14 +174,14 @@ def test_set_code_to_contract_creator(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=0,
         data=initcode,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -193,7 +193,7 @@ def test_set_code_to_contract_creator(
         tx=tx,
         post={
             set_code_to_address: Account(storage={}),
-            signer: Account(nonce=1, code=b"", storage=storage),
+            auth_signer: Account(nonce=1, code=b"", storage=storage),
             deployed_contract_address: Account(
                 code=deployed_code,
                 storage={},
@@ -228,7 +228,7 @@ def test_set_code_to_self_caller(
     Test the executing a self-call in a set-code transaction.
     """
     storage = Storage()
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
     first_entry_slot = storage.store_next(True)
     re_entry_success_slot = storage.store_next(op != Op.STATICCALL)
@@ -236,7 +236,7 @@ def test_set_code_to_self_caller(
     set_code = Conditional(
         condition=Op.ISZERO(Op.SLOAD(first_entry_slot)),
         if_true=Op.SSTORE(first_entry_slot, 1)
-        + Op.SSTORE(re_entry_call_return_code_slot, op(address=signer, value=value))
+        + Op.SSTORE(re_entry_call_return_code_slot, op(address=auth_signer, value=value))
         + Op.STOP,
         if_false=Op.SSTORE(re_entry_success_slot, 1) + Op.STOP,
     )
@@ -244,13 +244,13 @@ def test_set_code_to_self_caller(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=value,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -262,7 +262,7 @@ def test_set_code_to_self_caller(
         tx=tx,
         post={
             set_code_to_address: Account(storage={}),
-            signer: Account(nonce=0, code=b"", storage=storage, balance=value),
+            auth_signer: Account(nonce=0, code=b"", storage=storage, balance=value),
         },
     )
 
@@ -292,18 +292,18 @@ def test_set_code_to_set_code_caller(
     """
     Test the calling a set-code account from another set-code account.
     """
-    signer_1 = pre.fund_eoa(0)
+    auth_signer_1 = pre.fund_eoa(0)
     storage_1 = Storage()
 
     set_code_1_call_result_slot = storage_1.store_next(op != Op.STATICCALL)
     set_code_1_success = storage_1.store_next(True)
 
-    signer_2 = pre.fund_eoa(0)
+    auth_signer_2 = pre.fund_eoa(0)
     storage_2 = Storage().with_start_slot(storage_1.next_slot())
     set_code_2_success = storage_2.store_next(op != Op.STATICCALL)
 
     set_code_1 = (
-        Op.SSTORE(set_code_1_call_result_slot, op(address=signer_2, value=value))
+        Op.SSTORE(set_code_1_call_result_slot, op(address=auth_signer_2, value=value))
         + Op.SSTORE(set_code_1_success, 1)
         + Op.STOP
     )
@@ -314,18 +314,18 @@ def test_set_code_to_set_code_caller(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer_1,
+        to=auth_signer_1,
         value=value,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address_1,
                 nonce=0,
-                signer=signer_1,
+                signer=auth_signer_1,
             ),
             AuthorizationTuple(
                 address=set_code_to_address_2,
                 nonce=0,
-                signer=signer_2,
+                signer=auth_signer_2,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -338,12 +338,12 @@ def test_set_code_to_set_code_caller(
         post={
             set_code_to_address_1: Account(storage={k: 0 for k in storage_1}),
             set_code_to_address_2: Account(storage={k: 0 for k in storage_2}),
-            signer_1: Account(
+            auth_signer_1: Account(
                 nonce=0,
                 storage=storage_1 if op != Op.DELEGATECALL else storage_1 + storage_2,
                 balance=0 if op == Op.CALL else value,
             ),
-            signer_2: Account(
+            auth_signer_2: Account(
                 nonce=0,
                 storage=storage_2 if op != Op.DELEGATECALL else {},
                 balance=value if op == Op.CALL else 0,
@@ -360,20 +360,20 @@ def test_address_from_set_code(
     Test the address opcode in a set-code transaction.
     """
     storage = Storage()
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
-    set_code = Op.SSTORE(storage.store_next(signer), Op.ADDRESS) + Op.STOP
+    set_code = Op.SSTORE(storage.store_next(auth_signer), Op.ADDRESS) + Op.STOP
     set_code_to_address = pre.deploy_contract(set_code)
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=0,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -385,7 +385,7 @@ def test_address_from_set_code(
         tx=tx,
         post={
             set_code_to_address: Account(storage={}),
-            signer: Account(nonce=0, code=b"", storage=storage),
+            auth_signer: Account(nonce=0, code=b"", storage=storage),
         },
     )
 
@@ -405,7 +405,7 @@ def test_ext_code_on_set_code(
     """
     Test different ext*code operations on a set-code address.
     """
-    signer = pre.fund_eoa(balance)
+    auth_signer = pre.fund_eoa(balance)
 
     slot = count(1)
     slot_call_success = next(slot)
@@ -427,10 +427,12 @@ def test_ext_code_on_set_code(
     callee_address = pre.deploy_contract(callee_code)
     callee_storage = Storage()
 
+    auth_signer_storage = Storage()
     set_code = Op.SSTORE(slot_call_success, Op.CALL(address=callee_address)) + Op.STOP
+    auth_signer_storage[slot_call_success] = True
     set_code_to_address = pre.deploy_contract(set_code)
 
-    callee_storage[slot_caller] = signer
+    callee_storage[slot_caller] = auth_signer
     callee_storage[slot_ext_code_size_result] = len(set_code)
     callee_storage[slot_ext_code_hash_result] = set_code.keccak256()
     callee_storage[slot_ext_code_copy_result] = bytes(set_code).ljust(32, b"\x00")[:32]
@@ -438,12 +440,12 @@ def test_ext_code_on_set_code(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -455,7 +457,7 @@ def test_ext_code_on_set_code(
         tx=tx,
         post={
             set_code_to_address: Account(storage={}),
-            signer: Account(nonce=0, code=b"", storage={}, balance=balance),
+            auth_signer: Account(nonce=0, code=b"", storage=auth_signer_storage, balance=balance),
             callee_address: Account(storage=callee_storage),
         },
     )
@@ -476,7 +478,7 @@ def test_self_code_on_set_code(
     """
     Test codesize and codecopy operations on a set-code address.
     """
-    signer = pre.fund_eoa(balance)
+    auth_signer = pre.fund_eoa(balance)
 
     slot = count(1)
     slot_code_size_result = next(slot)
@@ -499,12 +501,12 @@ def test_self_code_on_set_code(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -516,7 +518,7 @@ def test_self_code_on_set_code(
         tx=tx,
         post={
             set_code_to_address: Account(storage={}),
-            signer: Account(nonce=0, code=b"", storage={}, balance=balance),
+            auth_signer: Account(nonce=0, code=b"", storage=storage, balance=balance),
         },
     )
 
@@ -537,7 +539,7 @@ def test_set_code_to_account_deployed_in_same_tx(
     Test setting the code of an account to an address that is deployed in the same transaction,
     and test calling the set-code address and the deployed contract.
     """
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
     success_slot = 1
 
@@ -551,7 +553,7 @@ def test_set_code_to_account_deployed_in_same_tx(
     contract_creator_code = (
         Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         + Op.SSTORE(deployed_contract_address_slot, create_op(offset=0, size=Op.CALLDATASIZE))
-        + Op.SSTORE(signer_call_return_code_slot, Op.CALL(address=signer))
+        + Op.SSTORE(signer_call_return_code_slot, Op.CALL(address=auth_signer))
         + Op.SSTORE(
             deployed_contract_call_return_code_slot,
             Op.CALL(address=Op.SLOAD(deployed_contract_address_slot)),
@@ -581,7 +583,7 @@ def test_set_code_to_account_deployed_in_same_tx(
             AuthorizationTuple(
                 address=deployed_contract_address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             ),
         ],
         sender=pre.fund_eoa(10**18),
@@ -595,7 +597,7 @@ def test_set_code_to_account_deployed_in_same_tx(
             deployed_contract_address: Account(
                 storage={success_slot: 1},
             ),
-            signer: Account(
+            auth_signer: Account(
                 nonce=0,
                 code=b"",
                 storage={},
@@ -618,7 +620,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer(
     """
     Test setting the code of an account with multiple authorization tuples from the same signer.
     """
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
     success_slot = 1
 
@@ -630,13 +632,13 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=0,
         authorization_list=[
             AuthorizationTuple(
                 address=address,
                 nonce=0,
-                signer=signer,
+                signer=auth_signer,
             )
             for address in addresses
         ],
@@ -648,7 +650,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer(
         pre=pre,
         tx=tx,
         post={
-            signer: Account(
+            auth_signer: Account(
                 nonce=1,
                 code=b"",
                 storage={
@@ -667,7 +669,7 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
     Test setting the code of an account with multiple authorization tuples from the same signer
     but the first tuple is invalid.
     """
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
     success_slot = 1
 
@@ -679,13 +681,13 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=0,
         authorization_list=[
             AuthorizationTuple(
                 address=address,
                 nonce=1 if i == 0 else 0,
-                signer=signer,
+                signer=auth_signer,
             )
             for i, address in enumerate(addresses)
         ],
@@ -697,7 +699,7 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
         pre=pre,
         tx=tx,
         post={
-            signer: Account(
+            auth_signer: Account(
                 nonce=1,
                 code=b"",
                 storage={
@@ -720,7 +722,7 @@ def test_set_code_invalid_authorization_tuple(
     """
     Test attempting to set the code of an account with invalid authorization tuple.
     """
-    signer = pre.fund_eoa(0)
+    auth_signer = pre.fund_eoa(0)
 
     success_slot = 1
 
@@ -729,7 +731,7 @@ def test_set_code_invalid_authorization_tuple(
 
     tx = Transaction(
         gas_limit=1_000_000,
-        to=signer,
+        to=auth_signer,
         value=0,
         authorization_list=[
             AuthorizationTuple(
@@ -740,7 +742,7 @@ def test_set_code_invalid_authorization_tuple(
                 else [0, 1]
                 if invalidity_reason == InvalidityReason.MULTIPLE_NONCE
                 else 0,
-                signer=signer,
+                signer=auth_signer,
             )
         ],
         sender=pre.fund_eoa(10**18),
@@ -751,7 +753,7 @@ def test_set_code_invalid_authorization_tuple(
         pre=pre,
         tx=tx,
         post={
-            signer: Account(
+            auth_signer: Account(
                 nonce=1,
                 code=b"",
                 storage={
