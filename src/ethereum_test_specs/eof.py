@@ -18,9 +18,9 @@ from ethereum_test_fixtures import BaseFixture, FixtureFormats
 from ethereum_test_fixtures.eof import Fixture, Result, Vector
 from ethereum_test_forks import Fork
 from ethereum_test_types import Account, Alloc, Environment, Transaction
+from ethereum_test_types.eof.v1 import Container, ContainerKind
 from evm_transition_tool import TransitionTool
 
-from ...eof.v1 import Container, ContainerKind
 from .base import BaseTest
 from .state import StateTest
 

@@ -7,11 +7,10 @@ from typing import Any, ClassVar, Mapping
 
 from pydantic import Field
 
-from ethereum_test_base_types import Bytes, Number
+from ethereum_test_base_types import Bytes, CamelModel, Number
 from ethereum_test_exceptions import EOFException
-from ethereum_test_types import CamelModel
+from ethereum_test_types.eof.v1 import ContainerKind
 
-from ...eof.v1 import ContainerKind
 from .base import BaseFixture
 from .formats import FixtureFormats
 
