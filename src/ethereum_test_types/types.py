@@ -503,30 +503,25 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
             Uint(self.s),
         ]
 
-    def signing_hash(self) -> Hash:
+    @cached_property
+    def signing_bytes(self) -> bytes:
         """
         Returns the data to be signed.
         """
-        return Hash(
-            keccak256(
-                int.to_bytes(self.magic, length=1, byteorder="big")
-                + eth_rlp.encode(
-                    [
-                        Uint(self.chain_id),
-                        self.address,
-                        self.nonce_list(),
-                    ]
-                )
-            )
+        return int.to_bytes(self.magic, length=1, byteorder="big") + eth_rlp.encode(
+            [
+                Uint(self.chain_id),
+                self.address,
+                self.nonce_list(),
+            ]
         )
 
     def signature(self, private_key: Hash) -> Tuple[int, int, int]:
         """
         Returns the signature of the authorization tuple.
         """
-        signing_hash = self.signing_hash()
         signature_bytes = PrivateKey(secret=private_key).sign_recoverable(
-            signing_hash, hasher=None
+            self.signing_bytes, hasher=keccak256
         )
         return (
             signature_bytes[64],
@@ -656,7 +651,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
     to: Address | None = Field(Address(0xAA))
     data: Bytes = Field(Bytes(b""), alias="input")
 
-    authorization_tuples: List[AuthorizationTuple] | None = None
+    authorization_list: List[AuthorizationTuple] | None = None
 
     secret_key: Hash | None = None
     error: List[TransactionException] | TransactionException | None = Field(None, exclude=True)
@@ -705,7 +700,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         if "ty" not in self.model_fields_set:
             # Try to deduce transaction type from included fields
-            if self.authorization_tuples is not None:
+            if self.authorization_list is not None:
                 self.ty = 4
             elif self.max_fee_per_blob_gas is not None or self.blob_kzg_commitments is not None:
                 self.ty = 3
@@ -740,8 +735,8 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         if self.ty == 3 and self.max_fee_per_blob_gas is None:
             self.max_fee_per_blob_gas = 1
 
-        if self.ty == 4 and self.authorization_tuples is None:
-            self.authorization_tuples = []
+        if self.ty == 4 and self.authorization_list is None:
+            self.authorization_list = []
 
         if "nonce" not in self.model_fields_set and self.sender is not None:
             self.nonce = HexNumber(self.sender.get_nonce())
@@ -834,7 +829,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
                 raise ValueError(f"max_fee_per_gas must be set for type {self.ty} tx")
             if self.access_list is None:
                 raise ValueError(f"access_list must be set for type {self.ty} tx")
-            if self.authorization_tuples is None:
+            if self.authorization_list is None:
                 raise ValueError(f"authorization_tuples must be set for type {self.ty} tx")
             return [
                 Uint(self.chain_id),
@@ -846,7 +841,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
                 Uint(self.value),
                 self.data,
                 [a.to_list() for a in self.access_list],
-                [a.to_list() for a in self.authorization_tuples],
+                [a.to_list() for a in self.authorization_list],
             ]
         elif self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
