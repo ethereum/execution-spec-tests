@@ -16,6 +16,7 @@ from typing import (
     List,
     Sequence,
     SupportsBytes,
+    Tuple,
     Type,
     TypeAlias,
     TypeVar,
@@ -116,7 +117,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
     root: Dict[StorageKeyValueType, StorageKeyValueType] = Field(default_factory=dict)
 
-    _current_slot: Iterator[int] = count(0)
+    _next_slot: int = PrivateAttr(1)
 
     StorageDictType: ClassVar[TypeAlias] = Dict[
         str | int | bytes | SupportsBytes, str | int | bytes | SupportsBytes
@@ -253,6 +254,10 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         """Returns True if the storage is not empty"""
         return any(v for v in self.root.values())
 
+    def __add__(self, other: "Storage") -> "Storage":
+        """Returns a new storage with the sum of the keys and values of both storages"""
+        return Storage({**self.root, **other.root})
+
     def keys(self) -> set[StorageKeyValueType]:
         """Returns the keys of the storage"""
         return set(self.root.keys())
@@ -266,9 +271,23 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         Increments the key counter so the next time this function is called,
         the next key is used.
         """
-        slot = StorageKeyValueTypeAdapter.validate_python(next(self._current_slot))
+        slot = StorageKeyValueTypeAdapter.validate_python(self._next_slot)
+        self._next_slot += 1
         self[slot] = StorageKeyValueTypeAdapter.validate_python(value)
         return slot
+
+    def next_slot(self) -> int:
+        """
+        Returns the next slot that will be used by `store_next`.
+        """
+        return self._next_slot
+
+    def with_start_slot(self, start_slot: int) -> "Storage":
+        """
+        Returns a new storage with the start slot set to the provided value.
+        """
+        self._next_slot = start_slot
+        return self
 
     def contains(self, other: "Storage") -> bool:
         """
@@ -995,6 +1014,102 @@ class AccessList(CamelModel):
         return [self.address, self.storage_keys]
 
 
+class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
+    """
+    Authorization tuple for transactions.
+    """
+
+    chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
+    address: Address
+    nonce: List[NumberBoundTypeVar] = Field(default_factory=list)
+
+    v: NumberBoundTypeVar = Field(0)  # type: ignore
+    r: NumberBoundTypeVar = Field(0)  # type: ignore
+    s: NumberBoundTypeVar = Field(0)  # type: ignore
+
+    magic: ClassVar[int] = 0x05
+
+    @model_validator(mode="before")
+    @classmethod
+    def convert_nonce_information(cls, data: Any) -> Any:
+        """
+        Automatically converts the nonce to a list if it is not already.
+        """
+        if "nonce" in data and not isinstance(data["nonce"], list):
+            data["nonce"] = [data["nonce"]]
+        return data
+
+    def to_list(self) -> List[Any]:
+        """
+        Returns the authorization tuple as a list of serializable elements.
+        """
+        return [
+            Uint(self.chain_id),
+            self.address,
+            [Uint(n) for n in self.nonce],
+            Uint(self.v),
+            Uint(self.r),
+            Uint(self.s),
+        ]
+
+    @cached_property
+    def signing_bytes(self) -> bytes:
+        """
+        Returns the data to be signed.
+        """
+        return int.to_bytes(self.magic, length=1, byteorder="big") + eth_rlp.encode(
+            [
+                Uint(self.chain_id),
+                self.address,
+                [Uint(n) for n in self.nonce],
+            ]
+        )
+
+    def signature(self, private_key: Hash) -> Tuple[int, int, int]:
+        """
+        Returns the signature of the authorization tuple.
+        """
+        signature_bytes = PrivateKey(secret=private_key).sign_recoverable(
+            self.signing_bytes, hasher=keccak256
+        )
+        return (
+            signature_bytes[64],
+            int.from_bytes(signature_bytes[0:32], byteorder="big"),
+            int.from_bytes(signature_bytes[32:64], byteorder="big"),
+        )
+
+
+class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
+    """
+    Authorization tuple for transactions.
+    """
+
+    signer: EOA | None = None
+    secret_key: Hash | None = None
+
+    def model_post_init(self, __context: Any) -> None:
+        """
+        Automatically signs the authorization tuple if a secret key or sender are provided.
+        """
+        super().model_post_init(__context)
+
+        if self.secret_key is not None:
+            self.sign(self.secret_key)
+        elif self.signer is not None:
+            assert self.signer.key is not None, "signer must have a key"
+            self.sign(self.signer.key)
+
+    def sign(self, private_key: Hash) -> None:
+        """
+        Signs the authorization tuple with a private key.
+        """
+        signature = self.signature(private_key)
+
+        self.v = HexNumber(signature[0])
+        self.r = HexNumber(signature[1])
+        self.s = HexNumber(signature[2])
+
+
 class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     """
     Generic transaction type used as a parent for Transaction and FixtureTransaction (blockchain).
@@ -1085,6 +1200,8 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
     to: Address | None = Field(Address(0xAA))
     data: Bytes = Field(Bytes(b""), alias="input")
 
+    authorization_list: List[AuthorizationTuple] | None = None
+
     secret_key: Hash | None = None
     error: List[TransactionException] | TransactionException | None = Field(None, exclude=True)
 
@@ -1132,7 +1249,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         if "ty" not in self.model_fields_set:
             # Try to deduce transaction type from included fields
-            if self.max_fee_per_blob_gas is not None or self.blob_kzg_commitments is not None:
+            if self.authorization_list is not None:
+                self.ty = 4
+            elif self.max_fee_per_blob_gas is not None or self.blob_kzg_commitments is not None:
                 self.ty = 3
             elif self.max_fee_per_gas is not None or self.max_priority_fee_per_gas is not None:
                 self.ty = 2
@@ -1164,6 +1283,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         if self.ty == 3 and self.max_fee_per_blob_gas is None:
             self.max_fee_per_blob_gas = 1
+
+        if self.ty == 4 and self.authorization_list is None:
+            self.authorization_list = []
 
         if "nonce" not in self.model_fields_set and self.sender is not None:
             self.nonce = HexNumber(self.sender.get_nonce())
@@ -1248,18 +1370,40 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         Returns the list of values included in the envelope used for signing.
         """
         to = self.to if self.to else bytes()
-        if self.ty == 3:
+        if self.ty == 4:
+            # EIP-7702: https://eips.ethereum.org/EIPS/eip-7702
+            if self.max_priority_fee_per_gas is None:
+                raise ValueError(f"max_priority_fee_per_gas must be set for type {self.ty} tx")
+            if self.max_fee_per_gas is None:
+                raise ValueError(f"max_fee_per_gas must be set for type {self.ty} tx")
+            if self.access_list is None:
+                raise ValueError(f"access_list must be set for type {self.ty} tx")
+            if self.authorization_list is None:
+                raise ValueError(f"authorization_tuples must be set for type {self.ty} tx")
+            return [
+                Uint(self.chain_id),
+                Uint(self.nonce),
+                Uint(self.max_priority_fee_per_gas),
+                Uint(self.max_fee_per_gas),
+                Uint(self.gas_limit),
+                to,
+                Uint(self.value),
+                self.data,
+                [a.to_list() for a in self.access_list],
+                [a.to_list() for a in self.authorization_list],
+            ]
+        elif self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
             if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 3 tx")
+                raise ValueError(f"max_priority_fee_per_gas must be set for type {self.ty} tx")
             if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 3 tx")
+                raise ValueError(f"max_fee_per_gas must be set for type {self.ty} tx")
             if self.max_fee_per_blob_gas is None:
-                raise ValueError("max_fee_per_blob_gas must be set for type 3 tx")
+                raise ValueError(f"max_fee_per_blob_gas must be set for type {self.ty} tx")
             if self.blob_versioned_hashes is None:
-                raise ValueError("blob_versioned_hashes must be set for type 3 tx")
+                raise ValueError(f"blob_versioned_hashes must be set for type {self.ty} tx")
             if self.access_list is None:
-                raise ValueError("access_list must be set for type 3 tx")
+                raise ValueError(f"access_list must be set for type {self.ty} tx")
             return [
                 Uint(self.chain_id),
                 Uint(self.nonce),
@@ -1276,11 +1420,11 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         elif self.ty == 2:
             # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
             if self.max_priority_fee_per_gas is None:
-                raise ValueError("max_priority_fee_per_gas must be set for type 2 tx")
+                raise ValueError(f"max_priority_fee_per_gas must be set for type {self.ty} tx")
             if self.max_fee_per_gas is None:
-                raise ValueError("max_fee_per_gas must be set for type 2 tx")
+                raise ValueError(f"max_fee_per_gas must be set for type {self.ty} tx")
             if self.access_list is None:
-                raise ValueError("access_list must be set for type 2 tx")
+                raise ValueError(f"access_list must be set for type {self.ty} tx")
             return [
                 Uint(self.chain_id),
                 Uint(self.nonce),
@@ -1295,9 +1439,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         elif self.ty == 1:
             # EIP-2930: https://eips.ethereum.org/EIPS/eip-2930
             if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 1 tx")
+                raise ValueError(f"gas_price must be set for type {self.ty} tx")
             if self.access_list is None:
-                raise ValueError("access_list must be set for type 1 tx")
+                raise ValueError(f"access_list must be set for type {self.ty} tx")
 
             return [
                 Uint(self.chain_id),
@@ -1311,7 +1455,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             ]
         elif self.ty == 0:
             if self.gas_price is None:
-                raise ValueError("gas_price must be set for type 0 tx")
+                raise ValueError(f"gas_price must be set for type {self.ty} tx")
 
             if self.protected:
                 # EIP-155: https://eips.ethereum.org/EIPS/eip-155
@@ -1353,11 +1497,11 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         elif self.ty == 3 and self.wrapped_blob_transaction:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
             if self.blobs is None:
-                raise ValueError("blobs must be set for type 3 tx")
+                raise ValueError(f"blobs must be set for type {self.ty} tx")
             if self.blob_kzg_commitments is None:
-                raise ValueError("blob_kzg_commitments must be set for type 3 tx")
+                raise ValueError(f"blob_kzg_commitments must be set for type {self.ty} tx")
             if self.blob_kzg_proofs is None:
-                raise ValueError("blob_kzg_proofs must be set for type 3 tx")
+                raise ValueError(f"blob_kzg_proofs must be set for type {self.ty} tx")
             return [
                 signing_envelope + [Uint(self.v), Uint(self.r), Uint(self.s)],
                 list(self.blobs),

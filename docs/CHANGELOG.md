@@ -47,6 +47,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Enable loading of [ethereum/tests/BlockchainTests](https://github.com/ethereum/tests/tree/develop/BlockchainTests) ([#596](https://github.com/ethereum/execution-spec-tests/pull/596)).
 - 🔀 Refactor `gentest` to use `ethereum_test_tools.rpc.rpc` by adding to `get_transaction_by_hash`, `debug_trace_call` to `EthRPC` ([#568](https://github.com/ethereum/execution-spec-tests/pull/568)).
 - ✨ Write a properties file to the output directory and enable direct generation of a fixture tarball from `fill` via `--output=fixtures.tgz`([#627](https://github.com/ethereum/execution-spec-tests/pull/627)).
+- ✨ Some opcodes now support keyword arguments for their parameters ([#648](https://github.com/ethereum/execution-spec-tests/pull/648))
 
 ### 🔧 EVM Tools
 
@@ -67,6 +68,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - Cancun is now the latest deployed fork, and the development fork is now Prague ([#489](https://github.com/ethereum/execution-spec-tests/pull/489)).
 - Stable fixtures artifact `fixtures.tar.gz` has been renamed to `fixtures_stable.tar.gz` ([#573](https://github.com/ethereum/execution-spec-tests/pull/573))
+- EOF fixtures now contain an `containerKind` optional field that specifies whether the container should be interpreted as a runtime container (default when the field is missing) or initcode container, with string `RUNTIME` or `INITCODE` respectively ([#651](https://github.com/ethereum/execution-spec-tests/pull/651))
 
 ## 🔜 [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 

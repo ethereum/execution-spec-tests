@@ -19,9 +19,10 @@ from ..common import (
 from ..common.base_types import Address, Bloom, Bytes, Hash, HeaderNonce, ZeroPaddedHexNumber
 from ..common.constants import TestAddress, TestAddress2, TestPrivateKey
 from ..common.json import to_json
-from ..common.types import Alloc, DepositRequest, Requests
+from ..common.types import Alloc, AuthorizationTuple, DepositRequest, Requests
 from ..exceptions import BlockException, TransactionException
 from ..spec.blockchain.types import (
+    FixtureAuthorizationTuple,
     FixtureBlockBase,
     FixtureEngineNewPayload,
     FixtureExecutionPayload,
@@ -587,6 +588,34 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "ommers": [],
             },
             id="environment_2",
+        ),
+        pytest.param(
+            True,
+            AuthorizationTuple(address=0x1234, nonce=1, chain_id=0x9),
+            {
+                "chainId": "0x9",
+                "address": "0x0000000000000000000000000000000000001234",
+                "nonce": ["0x1"],
+                "v": "0x0",
+                "r": "0x0",
+                "s": "0x0",
+            },
+            id="authorization_tuple",
+        ),
+        pytest.param(
+            True,
+            FixtureAuthorizationTuple.from_authorization_tuple(
+                AuthorizationTuple(address=0x1234, nonce=1, chain_id=0x9)
+            ),
+            {
+                "chainId": "0x09",
+                "address": "0x0000000000000000000000000000000000001234",
+                "nonce": ["0x01"],
+                "v": "0x00",
+                "r": "0x00",
+                "s": "0x00",
+            },
+            id="authorization_tuple",
         ),
         pytest.param(
             True,
