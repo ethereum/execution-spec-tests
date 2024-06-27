@@ -57,7 +57,7 @@ VALID: List[Container] = [
         sections=[
             Section.Code(code=Op.STOP),
             # Hits the 49152 bytes limit for the entire container
-            Section.Data(data=(b"12345678" * 6 * 1024)[len(smallest_runtime_subcontainer) :]),
+            Section.Data(data=b"\x00" * (MAX_INITCODE_SIZE - len(smallest_runtime_subcontainer))),
         ],
     ),
     Container(
