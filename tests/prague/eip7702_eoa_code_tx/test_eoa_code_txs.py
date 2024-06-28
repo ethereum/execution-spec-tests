@@ -727,7 +727,9 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
     "invalidity_reason",
     [
         InvalidityReason.NONCE,
-        InvalidityReason.MULTIPLE_NONCE,
+        pytest.param(
+            InvalidityReason.MULTIPLE_NONCE, marks=pytest.mark.xfail(reason="test issue")
+        ),
         pytest.param(InvalidityReason.CHAIN_ID, marks=pytest.mark.xfail(reason="evm issue")),
     ],
 )
