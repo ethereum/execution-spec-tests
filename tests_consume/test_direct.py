@@ -9,7 +9,7 @@ from typing import Any, List, Optional
 
 import pytest
 
-from ethereum_test_tools.spec.consume.types import TestCaseIndexFile, TestCaseStream
+from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from evm_transition_tool import TransitionTool
 
 statetest_results: dict[Path, List[dict[str, Any]]] = {}

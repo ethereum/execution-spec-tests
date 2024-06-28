@@ -4,6 +4,7 @@ Test EVM Object Format Version 1
 
 from typing import List
 
+from ethereum_test_tools import EOFException
 from ethereum_test_tools.eof.v1 import VERSION_MAX_SECTION_KIND, AutoSection, Container, Section
 from ethereum_test_tools.eof.v1 import SectionKind as Kind
 from ethereum_test_tools.eof.v1.constants import (
@@ -12,7 +13,6 @@ from ethereum_test_tools.eof.v1.constants import (
     MAX_CODE_SECTIONS,
     MAX_OPERAND_STACK_HEIGHT,
 )
-from ethereum_test_tools.exceptions import EOFException
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 VALID: List[Container] = [

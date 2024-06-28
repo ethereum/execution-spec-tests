@@ -479,6 +479,7 @@ tmpdir
 tryfirst
 trylast
 usefixtures
+verifier
 writelines
 xfail
 ZeroPaddedHexNumber

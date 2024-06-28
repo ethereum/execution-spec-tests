@@ -6,10 +6,10 @@ from typing import List
 
 import pytest
 
-from ethereum_test_tools import Bytecode, EOFTestFiller, Opcode
+from ethereum_test_tools import Bytecode, EOFException, EOFTestFiller, Opcode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import UndefinedOpcodes
-from ethereum_test_tools.eof.v1 import Container, EOFException, Section
+from ethereum_test_tools.eof.v1 import Container, Section
 
 from .. import EOF_FORK_NAME
 
