@@ -13,7 +13,12 @@ from evm_transition_tool import FixtureFormats, TransitionTool
 from ...common import Alloc, EmptyTrieRoot, Environment, Hash, Requests, Transaction, Withdrawal
 from ...common.constants import EmptyOmmersRoot
 from ...common.json import to_json
-from ...common.types import DepositRequest, TransitionToolOutput, WithdrawalRequest
+from ...common.types import (
+    ConsolidationRequest,
+    DepositRequest,
+    TransitionToolOutput,
+    WithdrawalRequest,
+)
 from ..base.base_test import BaseFixture, BaseTest, verify_result, verify_transactions
 from ..debugging import print_traces
 from .types import (
@@ -22,6 +27,7 @@ from .types import (
     Fixture,
     FixtureBlock,
     FixtureBlockBase,
+    FixtureConsolidationRequest,
     FixtureDepositRequest,
     FixtureEngineNewPayload,
     FixtureHeader,
@@ -152,6 +158,7 @@ class BlockchainTest(BaseTest):
                 withdrawals=None if env.withdrawals is None else [],
                 deposit_requests=[] if fork.header_requests_required(0, 0) else None,
                 withdrawal_requests=[] if fork.header_requests_required(0, 0) else None,
+                consolidation_requests=[] if fork.header_requests_required(0, 0) else None,
             ).with_rlp(
                 txs=[], requests=Requests() if fork.header_requests_required(0, 0) else None
             ),
@@ -259,11 +266,13 @@ class BlockchainTest(BaseTest):
 
         requests = None
         if fork.header_requests_required(header.number, header.timestamp):
-            requests_list: List[DepositRequest | WithdrawalRequest] = []
+            requests_list: List[DepositRequest | WithdrawalRequest | ConsolidationRequest] = []
             if transition_tool_output.result.deposit_requests is not None:
                 requests_list += transition_tool_output.result.deposit_requests
             if transition_tool_output.result.withdrawal_requests is not None:
                 requests_list += transition_tool_output.result.withdrawal_requests
+            if transition_tool_output.result.consolidation_requests is not None:
+                requests_list += transition_tool_output.result.consolidation_requests
             requests = Requests(root=requests_list)
 
         if requests is not None and requests.trie_root != header.requests_root:
@@ -351,6 +360,12 @@ class BlockchainTest(BaseTest):
                     withdrawal_requests=[
                         FixtureWithdrawalRequest.from_withdrawal_request(w)
                         for w in requests.withdrawal_requests()
+                    ]
+                    if requests is not None
+                    else None,
+                    consolidation_requests=[
+                        FixtureConsolidationRequest.from_consolidation_request(c)
+                        for c in requests.consolidation_requests()
                     ]
                     if requests is not None
                     else None,
