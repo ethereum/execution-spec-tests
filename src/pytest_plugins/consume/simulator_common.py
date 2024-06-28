@@ -9,7 +9,7 @@ import pytest
 
 from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
-from ethereum_test_fixtures.file import BlockchainFixtures
+from ethereum_test_fixtures.file import BlockchainFixtures, BlockchainHiveFixtures
 from pytest_plugins.consume.consume import JsonSource
 
 TestCase = TestCaseIndexFile | TestCaseStream
@@ -35,7 +35,9 @@ def fixture(fixture_source: JsonSource, test_case: TestCase) -> BlockchainFixtur
         # TODO: Optimize, json files will be loaded multiple times. This pytest fixture
         # is executed per test case, and a fixture json will contain multiple test cases.
         # Use cache fixtures as for statetest in consume direct?
-        fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
+        # TODO: Fix and combine for both rlp and engine
+        # fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
+        fixtures = BlockchainHiveFixtures.from_file(Path(fixture_source) / test_case.json_path)
         fixture = fixtures[test_case.id]
     return fixture
 

@@ -2,10 +2,12 @@
 JSON-RPC methods and helper functions for EEST consume based hive simulators.
 """
 
+import time
 from abc import ABC
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import requests
+from jwt import encode
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_base_types import Address
@@ -65,11 +67,11 @@ class EthRPC(BaseRPC):
     hive simulators.
     """
 
-    def __init__(self, url: str, extra_headers: Optional[Dict] = None):
+    def __init__(self, ip: str, extra_headers: Optional[Dict] = None):
         """
         Initializes the EthRPC class with the http port 8545, which requires no authentication.
         """
-        super().__init__(url, extra_headers=extra_headers)
+        super().__init__(f"http://{ip}:8545", extra_headers=extra_headers)
 
     BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
@@ -132,3 +134,44 @@ class EthRPC(BaseRPC):
             {"tracer": "prestateTracer"},
         ]
         return self.post_request("debug_traceCall", params)
+
+
+class EngineRPC(BaseRPC):
+    """
+    Represents an Engine API RPC class for every Engine API method used within EEST based hive
+    simulators.
+    """
+
+    def __init__(self, ip: str, extra_headers: Optional[Dict] = None):
+        """
+        Initializes the EngineRPC class with the http port 8551, requires jwt authentication.
+        """
+        jwt_token = encode(
+            {"iat": int(time.time())},
+            b"secretsecretsecretsecretsecretse",  # the secret used within clients in hive
+            algorithm="HS256",
+        )
+        super().__init__(
+            f"http://{ip}:8551",
+            extra_headers={
+                "Authorization": f"Bearer {jwt_token}",
+            },
+        )
+
+    def new_payload(self, engine_new_payload: Any, version: int):
+        """
+        `engine_newPayloadVX`: Attempts to execute the given payload on an execution client.
+        """
+        return self.post_request(f"engine_newPayloadV{version}", engine_new_payload)
+
+    def forkchoice_updated(
+        self,
+        forkchoice_state: Dict,
+        payload_attributes: Dict | None,
+        version: int,
+    ):
+        """
+        `engine_forkchoiceUpdatedVX`: Updates the forkchoice state of the execution client.
+        """
+        payload_params = [forkchoice_state, payload_attributes]
+        return self.post_request(f"engine_forkchoiceUpdatedV{version}", payload_params)

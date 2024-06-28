@@ -161,27 +161,20 @@ def client(
     client_files: dict,
     environment: dict,
     client_type: ClientType,
-    t_test_start: float,
-    timing_data: TestCaseTimingData,
 ) -> Generator[Client, None, None]:
     """
     Initialize the client with the appropriate files and environment variables.
     """
-    timing_data.prepare_files = time.perf_counter() - t_test_start
-    t_start = time.perf_counter()
     client = hive_test.start_client(
         client_type=client_type, environment=environment, files=client_files
     )
-    timing_data.start_client = time.perf_counter() - t_start
     error_message = (
         f"Unable to connect to the client container ({client_type.name}) via Hive during test "
         "setup. Check the client or Hive server logs for more information."
     )
     assert client is not None, error_message
     yield client
-    t_start = time.perf_counter()
     client.stop()
-    timing_data.stop_client = time.perf_counter() - t_start
 
 
 @pytest.fixture(scope="function")
@@ -189,7 +182,7 @@ def eth_rpc(client: Client) -> EthRPC:
     """
     Initialize ethereum RPC client for the execution client under test.
     """
-    return EthRPC(url=f"http://{client.ip}:8545")
+    return EthRPC(ip=client.ip)
 
 
 def compare_models(expected: FixtureHeader, got: FixtureHeader) -> dict:

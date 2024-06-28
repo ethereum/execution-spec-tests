@@ -244,16 +244,7 @@ class FixtureEngineNewPayload(CamelModel):
     blob_versioned_hashes: List[Hash] | None = Field(None, alias="expectedBlobVersionedHashes")
     parent_beacon_block_root: Hash | None = Field(None, alias="parentBeaconBlockRoot")
     validation_error: ExceptionInstanceOrList | None = None
-    error_code: (
-        Annotated[
-            EngineAPIError,
-            PlainSerializer(
-                lambda x: str(x.value),
-                return_type=str,
-            ),
-        ]
-        | None
-    ) = None
+    error_code: EngineAPIError | None = None
 
     @classmethod
     def from_fixture_header(
