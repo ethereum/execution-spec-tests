@@ -51,6 +51,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🔧 EVM Tools
 
+- 🔀 `Environment` class passed to the transition tool (t8n) now contains field `isStateTest` which shall inhibit block-level processes, such as system-level operations, mining rewards, and withdrawals ([#652](https://github.com/ethereum/execution-spec-tests/pull/652)).
+
 ### 📋 Misc
 
 - 🐞 Fix CI by using Golang 1.21 in Github Actions to build geth ([#484](https://github.com/ethereum/execution-spec-tests/pull/484)).
