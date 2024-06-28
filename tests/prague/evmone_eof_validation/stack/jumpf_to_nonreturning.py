@@ -1,0 +1,248 @@
+"""
+EOF v1 validation code
+"""
+
+import pytest
+from ethereum_test_tools import EOFTestFiller
+from ethereum_test_tools.eof.v1 import Container, EOFException
+
+@pytest.mark.parametrize(
+    "eof_code,expected_hex_bytecode,exception",
+    [
+        pytest.param(
+            Container(
+                name="EOF1V00001",
+                raw_bytes=bytes(
+                     [
+                        0xef,
+                        0x00,
+                        0x01,
+                        0x01,
+                        0x00,
+                        0x08,
+                        0x02,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x03,
+                        0x00,
+                        0x01,
+                        0x04,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x00,
+                        0xe5,
+                        0x00,
+                        0x01,
+                        0x00,
+
+                     ]),
+            ),
+            "0xef000101000802000200030001040000000080000000800000e5000100",
+            None,
+            id="jumpf_to_nonreturning_0",
+        ),
+        pytest.param(
+            Container(
+                name="EOF1V00002",
+                raw_bytes=bytes(
+                     [
+                        0xef,
+                        0x00,
+                        0x01,
+                        0x01,
+                        0x00,
+                        0x08,
+                        0x02,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x05,
+                        0x00,
+                        0x01,
+                        0x04,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x00,
+                        0x5f,
+                        0x5f,
+                        0xe5,
+                        0x00,
+                        0x01,
+                        0x00,
+
+                     ]),
+            ),
+            "0xef0001010008020002000500010400000000800002008000005f5fe5000100",
+            None,
+            id="jumpf_to_nonreturning_1",
+        ),
+        pytest.param(
+            Container(
+                name="EOF1V00003",
+                raw_bytes=bytes(
+                     [
+                        0xef,
+                        0x00,
+                        0x01,
+                        0x01,
+                        0x00,
+                        0x08,
+                        0x02,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x06,
+                        0x00,
+                        0x01,
+                        0x04,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x03,
+                        0x03,
+                        0x80,
+                        0x00,
+                        0x03,
+                        0x5f,
+                        0x5f,
+                        0x5f,
+                        0xe5,
+                        0x00,
+                        0x01,
+                        0x00,
+
+                     ]),
+            ),
+            "0xef0001010008020002000600010400000000800003038000035f5f5fe5000100",
+            None,
+            id="jumpf_to_nonreturning_2",
+        ),
+        pytest.param(
+            Container(
+                name="EOF1V00004",
+                raw_bytes=bytes(
+                     [
+                        0xef,
+                        0x00,
+                        0x01,
+                        0x01,
+                        0x00,
+                        0x08,
+                        0x02,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x07,
+                        0x00,
+                        0x01,
+                        0x04,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x04,
+                        0x03,
+                        0x80,
+                        0x00,
+                        0x03,
+                        0x5f,
+                        0x5f,
+                        0x5f,
+                        0x5f,
+                        0xe5,
+                        0x00,
+                        0x01,
+                        0x00,
+
+                     ]),
+            ),
+            "0xef0001010008020002000700010400000000800004038000035f5f5f5fe5000100",
+            None,
+            id="jumpf_to_nonreturning_3",
+        ),
+        pytest.param(
+            Container(
+                name="EOF1V00005",
+                raw_bytes=bytes(
+                     [
+                        0xef,
+                        0x00,
+                        0x01,
+                        0x01,
+                        0x00,
+                        0x08,
+                        0x02,
+                        0x00,
+                        0x02,
+                        0x00,
+                        0x05,
+                        0x00,
+                        0x01,
+                        0x04,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x02,
+                        0x03,
+                        0x80,
+                        0x00,
+                        0x03,
+                        0x5f,
+                        0x5f,
+                        0xe5,
+                        0x00,
+                        0x01,
+                        0x00,
+
+                     ]),
+            ),
+            "0xef0001010008020002000500010400000000800002038000035f5fe5000100",
+            EOFException.STACK_UNDERFLOW,
+            id="jumpf_to_nonreturning_4",
+        ),
+        
+    ]
+)
+
+def test_example_valid_invalid(
+    eof_test: EOFTestFiller,
+    eof_code: Container,
+    expected_hex_bytecode: str,
+    exception: EOFException | None,
+):
+    """
+    Verify eof container construction and exception
+    """
+    if expected_hex_bytecode[0:2] == "0x":
+        expected_hex_bytecode = expected_hex_bytecode[2:]
+    assert bytes(eof_code) == bytes.fromhex(expected_hex_bytecode)
+
+    eof_test(
+        data=eof_code,
+        expect_exception=exception,
+    )

@@ -563,6 +563,18 @@ class EOFException(ExceptionBase):
     """
     EOF container's section has non-returning flag set incorrectly.
     """
+    CALLF_TO_NON_RETURNING_FUNCTION = auto()
+    """
+    EOF container's section has CALLF instruction to non-returning function.
+    """
+    TOO_MANY_CONTAINER_SECTIONS = auto()
+    """
+    EOF container has too many containers.
+    """
+    INVALID_STACK_HEIGHT = auto()
+    """
+    EOF container has stack height mismatch.
+    """
     INVALID_RJUMP_DESTINATION = auto()
     """
     Code has RJUMP instruction with invalid parameters.
@@ -639,6 +651,14 @@ class EOFException(ExceptionBase):
     """
     EOF container header has too many code sections.
     """
+    INVALID_CONTAINER_SECTION_INDEX = auto()
+    """
+    EOF container section index is invalid.
+    """
+    EOF_CREATE_WITH_TRUNCATED_CONTAINER = auto()
+    """
+    EOF Create has truncated container.
+    """
     MISSING_STOP_OPCODE = auto()
     """
     EOF container's code missing STOP bytecode at it's end.
@@ -658,6 +678,10 @@ class EOFException(ExceptionBase):
     STACK_UNDERFLOW = auto()
     """
     EOF container's code produces an stack underflow.
+    """
+    STACK_OVERFLOW = auto()
+    """
+    EOF container's code produces an stack overflow.
     """
     MAX_STACK_HEIGHT_ABOVE_LIMIT = auto()
     """

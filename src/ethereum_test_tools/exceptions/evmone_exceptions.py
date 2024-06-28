@@ -36,7 +36,13 @@ class EvmoneExceptionMapper:
         ExceptionMessage(
             EOFException.INVALID_NON_RETURNING_FLAG, "err: invalid_non_returning_flag"
         ),
+        ExceptionMessage(EOFException.CALLF_TO_NON_RETURNING_FUNCTION, "err: callf_to_non_returning_function"),
+        ExceptionMessage(EOFException.TOO_MANY_CONTAINER_SECTIONS, "err: too_many_container_sections"),
+        ExceptionMessage(EOFException.INVALID_CONTAINER_SECTION_INDEX, "err: invalid_container_section_index"),
+        ExceptionMessage(EOFException.INVALID_STACK_HEIGHT, "err: stack_height_mismatch"),
+        ExceptionMessage(EOFException.EOF_CREATE_WITH_TRUNCATED_CONTAINER, "err: eofcreate_with_truncated_container"),
         ExceptionMessage(EOFException.INVALID_MAGIC, "err: invalid_prefix"),
+        ExceptionMessage(EOFException.INVALID_CODE_SECTION, "err: invalid_code_section_index"),
         ExceptionMessage(
             EOFException.INVALID_FIRST_SECTION_TYPE, "err: invalid_first_section_type"
         ),
@@ -57,6 +63,7 @@ class EvmoneExceptionMapper:
         ExceptionMessage(EOFException.INVALID_RJUMP_DESTINATION, "err: invalid_rjump_destination"),
         ExceptionMessage(EOFException.UNREACHABLE_CODE_SECTIONS, "err: unreachable_code_sections"),
         ExceptionMessage(EOFException.STACK_UNDERFLOW, "err: stack_underflow"),
+        ExceptionMessage(EOFException.STACK_OVERFLOW, "err: stack_overflow"),
         ExceptionMessage(
             EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT, "err: max_stack_height_above_limit"
         ),
