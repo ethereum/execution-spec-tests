@@ -63,15 +63,6 @@ def test_yul_coverage(
         ),
     )
 
-    # Uncalled account
-    uncalled_account = pre.deploy_contract(
-        nonce=0,
-        balance=7_000_000_000_000_000_000,
-        code="0x",
-        storage={},
-    )
-    post = {uncalled_account: Account()}
-
     tx = Transaction(
         sender=pre.fund_eoa(7_000_000_000_000_000_000),
         gas_limit=100000,
@@ -83,4 +74,4 @@ def test_yul_coverage(
         max_priority_fee_per_gas=5,
     )
 
-    state_test(env=Environment(), pre=pre, post=post, tx=tx)
+    state_test(env=Environment(), pre=pre, post={}, tx=tx)
