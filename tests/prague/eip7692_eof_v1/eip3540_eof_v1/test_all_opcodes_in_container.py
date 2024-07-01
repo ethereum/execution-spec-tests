@@ -99,16 +99,7 @@ def sections(
                 max_stack_height=0,
             )
         )
-    sections += [
-        Section.Container(
-            container=Container(
-                sections=[
-                    Section.Code(code=Op.STOP),
-                ]
-            )
-        ),
-        Section.Data("1122334455667788" * 4),
-    ]
+    sections.append(Section.Data("1122334455667788" * 4))
     return sections
 
 
