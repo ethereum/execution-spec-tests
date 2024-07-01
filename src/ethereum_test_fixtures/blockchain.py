@@ -103,9 +103,9 @@ class FixtureHeader(CamelModel):
     extra_data: Bytes
     prev_randao: Hash = Field(Hash(0), alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
-    base_fee_per_gas: Annotated[
-        ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")
-    ] | None = Field(None)
+    base_fee_per_gas: Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")] | None = (
+        Field(None)
+    )
     withdrawals_root: Annotated[Hash, HeaderForkRequirement("withdrawals")] | None = Field(None)
     blob_gas_used: (
         Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("blob_gas_used")] | None
@@ -245,6 +245,23 @@ class FixtureEngineNewPayload(CamelModel):
     parent_beacon_block_root: Hash | None = Field(None, alias="parentBeaconBlockRoot")
     validation_error: ExceptionInstanceOrList | None = None
     error_code: EngineAPIError | None = None
+
+    def args(self) -> List[Any]:
+        """
+        Returns the arguments to be used when calling the Engine API.
+        """
+        args: List[Any] = [to_json(self.execution_payload)]
+        if self.blob_versioned_hashes is not None:
+            args.append([str(versioned_hash) for versioned_hash in self.blob_versioned_hashes])
+        if self.parent_beacon_block_root is not None:
+            args.append(str(self.parent_beacon_block_root))
+        return args
+
+    def valid(self) -> bool:
+        """
+        Returns whether the payload is valid.
+        """
+        return self.validation_error is None
 
     @classmethod
     def from_fixture_header(
@@ -411,6 +428,7 @@ class FixtureCommon(BaseFixture):
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
     post_state: Optional[Alloc] = Field(None)
+    last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
 
     def get_fork(self) -> str:
         """
@@ -426,7 +444,6 @@ class Fixture(FixtureCommon):
 
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
     blocks: List[FixtureBlock | InvalidFixtureBlock]
-    last_block_hash: Hash = Field(..., alias="lastblockhash")
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
     format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST
