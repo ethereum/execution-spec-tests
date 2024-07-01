@@ -13,3 +13,8 @@ eip7692:
   repo: ethereum/evmone
   ref: master
   evm-bin: evmone-t8n
+eip7692-prague:
+  impl: besu
+  repo: hyperledger/besu
+  ref: main
+  evm-bin: evmtool
