@@ -9,15 +9,17 @@ Implemented using the pytest framework as a pytest plugin.
 import io
 import json
 import pprint
-from typing import Generator, List, Mapping, Tuple, cast
+from typing import Generator, Mapping, cast
 
 import pytest
 from hive.client import Client, ClientType
 from hive.testing import HiveTest
 
-from ethereum_test_base_types import Account, to_json
+from ethereum_test_base_types import Account, Address
+from ethereum_test_base_types.json import to_json
 from ethereum_test_fixtures.blockchain import FixtureHeader, HiveFixture
 from ethereum_test_tools.rpc import EngineRPC, EthRPC
+from ethereum_test_tools.rpc.types import ForkchoiceState, PayloadStatusEnum
 from pytest_plugins.consume.hive_ruleset import ruleset
 
 
@@ -146,32 +148,10 @@ class GenesisBlockMismatchException(Exception):
         super().__init__(message)
 
 
-@pytest.fixture(scope="function")
-def engine_new_payloads(fixture: HiveFixture) -> List[Tuple[list, int, bool]]:
-    """
-    Engine new payloads extracted from the hive fixture.
-    """
-    engine_new_payloads: List[Tuple[list, int, bool]] = []
-    for payload in fixture.payloads:
-        payload_json = to_json(payload)
-        version = payload_json.pop("version")
-        execution_payload = payload_json["executionPayload"]
-        blob_hashes = payload_json["expectedBlobVersionedHashes"]
-        beacon_root = payload_json["parentBeaconBlockRoot"]
-        valid = True
-        if payload.validation_error is not None:
-            valid = False
-        engine_new_payloads.append(
-            ([execution_payload, blob_hashes, beacon_root], version, valid),
-        )
-    return engine_new_payloads
-
-
 def test_via_engine_api(
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
     fixture: HiveFixture,
-    engine_new_payloads: List[Tuple[list, int, bool]],
 ):
     """
     1) Checks that the genesis block hash of the client matches that of the fixture.
@@ -187,43 +167,47 @@ def test_via_engine_api(
             expected_header=fixture.genesis, got_header=FixtureHeader(**genesis_block)
         )
 
-    skip_fcu = False
-    for payload in engine_new_payloads:
+    for payload in fixture.payloads:
         payload_response = engine_rpc.new_payload(
-            engine_new_payload=payload[0],
-            version=payload[1],
+            *payload.args(),
+            version=payload.version,
         )
-        assert payload_response["status"] == (
-            "VALID" if payload[2] else "INVALID"
-        ), f"unexpected status: {payload_response} "
-        if not payload[2]:
-            skip_fcu = True
+        assert payload_response.status == (
+            PayloadStatusEnum.VALID
+        ), f"unexpected status: {payload_response}"
 
-    if not skip_fcu:
-        forkchoice_response = engine_rpc.forkchoice_updated(
-            forkchoice_state={"headBlockHash": engine_new_payloads[-1][0][0]["blockHash"]},
-            payload_attributes=None,
-            version=fixture.fcu_version,
-        )
-        assert forkchoice_response["payloadStatus"]["status"] == (
-            "VALID"
-        ), f"unexpected status: {forkchoice_response} "
+    forkchoice_response = engine_rpc.forkchoice_updated(
+        forkchoice_state=ForkchoiceState(head_block_hash=fixture.last_block_hash),
+        payload_attributes=None,
+        version=fixture.fcu_version,
+    )
+    assert (
+        forkchoice_response.payload_status.status == PayloadStatusEnum.VALID
+    ), f"unexpected status: {forkchoice_response}"
 
+    assert fixture.post_state is not None, "Post state is missing from the fixture."
     for address, account in fixture.post_state.root.items():
-        verify_account_state_and_storage(eth_rpc, address.hex(), account)
+        verify_account_state_and_storage(eth_rpc, address, account)
 
 
-def verify_account_state_and_storage(eth_rpc, address, account: Account):
+def verify_account_state_and_storage(eth_rpc: EthRPC, address: Address, account: Account | None):
     """
     Verify the account state and storage matches the expected account state and storage.
     """
     # Check final nonce matches expected in fixture
     nonce = eth_rpc.get_transaction_count(address)
-    assert account.nonce == int(nonce, 16), f"Nonce mismatch for account {address}."
+    balance = eth_rpc.get_balance(address)
+
+    if account is None:
+        assert nonce == 0, f"Nonce mismatch for account {address}, want=0, got={nonce}."
+        return
+
+    assert account.nonce == eth_rpc.get_transaction_count(
+        address
+    ), f"Nonce mismatch for account {address}, want={account.nonce}, got={nonce}."
 
     # Check final balance
-    balance = eth_rpc.get_balance(address)
-    assert account.balance == int(balance, 16), f"Balance mismatch for account {address}."
+    assert account.balance == balance, f"Balance mismatch for account {address}."
 
     # Check final storage
     # TODO: Fix this
