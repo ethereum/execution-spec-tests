@@ -628,3 +628,29 @@ class CancunEIP7692(  # noqa: SC200
         Returns the minimum version of solc that supports this fork.
         """
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+
+class PragueEIP7692(  # noqa: SC200
+    Prague,
+    transition_tool_name="Prague",  # Evmone enables (only) EOF at Prague
+    blockchain_test_network_name="Prague",  # Evmone enables (only) EOF at Prague
+    solc_name="cancun",
+):
+    """
+    Prague + EIP-7692 (EOF) fork
+    """
+
+    @classmethod
+    def is_deployed(cls) -> bool:
+        """
+        Flags that the fork has not been deployed to mainnet; it is under active
+        development.
+        """
+        return False
+
+    @classmethod
+    def solc_min_version(cls) -> Version:
+        """
+        Returns the minimum version of solc that supports this fork.
+        """
+        return Version.parse("1.0.0")  # set a high version; currently unknown
