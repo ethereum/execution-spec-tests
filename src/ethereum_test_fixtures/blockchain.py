@@ -3,7 +3,7 @@ BlockchainTest types
 """
 
 from functools import cached_property
-from typing import Annotated, Any, ClassVar, List, Literal, Optional, get_args, get_type_hints
+from typing import Annotated, Any, ClassVar, List, Literal, Tuple, get_args, get_type_hints
 
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
@@ -240,10 +240,8 @@ class FixtureEngineNewPayload(CamelModel):
     sent using the block information.
     """
 
-    execution_payload: FixtureExecutionPayload
+    params: Tuple[FixtureExecutionPayload] | Tuple[FixtureExecutionPayload, List[Hash], Hash]
     version: Number
-    blob_versioned_hashes: List[Hash] | None = Field(None, alias="expectedBlobVersionedHashes")
-    parent_beacon_block_root: Hash | None = Field(None, alias="parentBeaconBlockRoot")
     validation_error: ExceptionInstanceOrList | None = None
     error_code: (
         Annotated[
@@ -255,17 +253,6 @@ class FixtureEngineNewPayload(CamelModel):
         ]
         | None
     ) = None
-
-    def args(self) -> List[Any]:
-        """
-        Returns the arguments to be used when calling the Engine API.
-        """
-        args: List[Any] = [to_json(self.execution_payload)]
-        if self.blob_versioned_hashes is not None:
-            args.append([str(versioned_hash) for versioned_hash in self.blob_versioned_hashes])
-        if self.parent_beacon_block_root is not None:
-            args.append(str(self.parent_beacon_block_root))
-        return args
 
     def valid(self) -> bool:
         """
@@ -289,14 +276,25 @@ class FixtureEngineNewPayload(CamelModel):
         new_payload_version = fork.engine_new_payload_version(header.number, header.timestamp)
 
         assert new_payload_version is not None, "Invalid header for engine_newPayload"
+        execution_payload = FixtureExecutionPayload.from_fixture_header(
+            header=header,
+            transactions=transactions,
+            withdrawals=withdrawals,
+            requests=requests,
+        )
+        params: Tuple[FixtureExecutionPayload] | Tuple[FixtureExecutionPayload, List[Hash], Hash]
+        if fork.engine_new_payload_blob_hashes(header.number, header.timestamp):
+            assert header.parent_beacon_block_root is not None
+            params = (
+                execution_payload,
+                Transaction.list_blob_versioned_hashes(transactions),
+                header.parent_beacon_block_root,
+            )
+        else:
+            params = (execution_payload,)
 
         new_payload = cls(
-            execution_payload=FixtureExecutionPayload.from_fixture_header(
-                header=header,
-                transactions=transactions,
-                withdrawals=withdrawals,
-                requests=requests,
-            ),
+            params=params,
             version=new_payload_version,
             blob_versioned_hashes=(
                 Transaction.list_blob_versioned_hashes(transactions)
@@ -437,7 +435,7 @@ class FixtureCommon(BaseFixture):
     fork: str = Field(..., alias="network")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
-    post_state: Optional[Alloc] = Field(None)
+    post_state: Alloc | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
 
     def get_fork(self) -> str:

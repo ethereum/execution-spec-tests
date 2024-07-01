@@ -590,107 +590,111 @@ fixture_header_ones = FixtureHeader(
         pytest.param(
             True,
             FixtureEngineNewPayload(
-                execution_payload=FixtureExecutionPayload.from_fixture_header(
-                    header=FixtureHeader(
-                        parent_hash=Hash(0),
-                        ommers_hash=Hash(1),
-                        fee_recipient=Address(2),
-                        state_root=Hash(3),
-                        transactions_trie=Hash(4),
-                        receipts_root=Hash(5),
-                        logs_bloom=Bloom(6),
-                        difficulty=7,
-                        number=8,
-                        gas_limit=9,
-                        gas_used=10,
-                        timestamp=11,
-                        extra_data=Bytes([12]),
-                        prev_randao=Hash(13),
-                        nonce=HeaderNonce(14),
-                        base_fee_per_gas=15,
-                        withdrawals_root=Hash(16),
-                        blob_gas_used=17,
-                        excess_blob_gas=18,
-                        hash=Hash(19),
-                    ),
-                    transactions=[
-                        Transaction(
-                            to=0x1234,
-                            data=b"\x01\x00",
-                            access_list=[
-                                AccessList(
-                                    address=0x1234,
-                                    storage_keys=[0, 1],
-                                )
-                            ],
-                            max_priority_fee_per_gas=10,
-                            max_fee_per_gas=20,
-                            max_fee_per_blob_gas=30,
-                            blob_versioned_hashes=[0, 1],
-                        ).with_signature_and_sender(),
-                    ],
-                    withdrawals=[
-                        Withdrawal(
-                            index=0,
-                            validator_index=1,
-                            address=0x1234,
-                            amount=2,
-                        )
-                    ],
-                    requests=None,
-                ),
-                validation_error=TransactionException.INTRINSIC_GAS_TOO_LOW,
-                version=1,
-            ),
-            {
-                "executionPayload": {
-                    "parentHash": Hash(0).hex(),
-                    "feeRecipient": Address(2).hex(),
-                    "stateRoot": Hash(3).hex(),
-                    "receiptsRoot": Hash(5).hex(),
-                    "logsBloom": Bloom(6).hex(),
-                    "blockNumber": hex(8),
-                    "gasLimit": hex(9),
-                    "gasUsed": hex(10),
-                    "timestamp": hex(11),
-                    "extraData": Bytes([12]).hex(),
-                    "prevRandao": Hash(13).hex(),
-                    "baseFeePerGas": hex(15),
-                    "blobGasUsed": hex(17),
-                    "excessBlobGas": hex(18),
-                    "blockHash": (
-                        "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211"
-                    ),
-                    "transactions": [
-                        "0x"
-                        + Transaction(
-                            to=0x1234,
-                            data=b"\x01\x00",
-                            access_list=[
-                                AccessList(
-                                    address=0x1234,
-                                    storage_keys=[0, 1],
-                                )
-                            ],
-                            max_priority_fee_per_gas=10,
-                            max_fee_per_gas=20,
-                            max_fee_per_blob_gas=30,
-                            blob_versioned_hashes=[0, 1],
-                        )
-                        .with_signature_and_sender()
-                        .rlp.hex()
-                    ],
-                    "withdrawals": [
-                        to_json(
+                params=(
+                    FixtureExecutionPayload.from_fixture_header(
+                        header=FixtureHeader(
+                            parent_hash=Hash(0),
+                            ommers_hash=Hash(1),
+                            fee_recipient=Address(2),
+                            state_root=Hash(3),
+                            transactions_trie=Hash(4),
+                            receipts_root=Hash(5),
+                            logs_bloom=Bloom(6),
+                            difficulty=7,
+                            number=8,
+                            gas_limit=9,
+                            gas_used=10,
+                            timestamp=11,
+                            extra_data=Bytes([12]),
+                            prev_randao=Hash(13),
+                            nonce=HeaderNonce(14),
+                            base_fee_per_gas=15,
+                            withdrawals_root=Hash(16),
+                            blob_gas_used=17,
+                            excess_blob_gas=18,
+                            hash=Hash(19),
+                        ),
+                        transactions=[
+                            Transaction(
+                                to=0x1234,
+                                data=b"\x01\x00",
+                                access_list=[
+                                    AccessList(
+                                        address=0x1234,
+                                        storage_keys=[0, 1],
+                                    )
+                                ],
+                                max_priority_fee_per_gas=10,
+                                max_fee_per_gas=20,
+                                max_fee_per_blob_gas=30,
+                                blob_versioned_hashes=[0, 1],
+                            ).with_signature_and_sender(),
+                        ],
+                        withdrawals=[
                             Withdrawal(
                                 index=0,
                                 validator_index=1,
                                 address=0x1234,
                                 amount=2,
                             )
-                        )
-                    ],
-                },
+                        ],
+                        requests=None,
+                    ),
+                ),
+                validation_error=TransactionException.INTRINSIC_GAS_TOO_LOW,
+                version=1,
+            ),
+            {
+                "params": [
+                    {
+                        "parentHash": Hash(0).hex(),
+                        "feeRecipient": Address(2).hex(),
+                        "stateRoot": Hash(3).hex(),
+                        "receiptsRoot": Hash(5).hex(),
+                        "logsBloom": Bloom(6).hex(),
+                        "blockNumber": hex(8),
+                        "gasLimit": hex(9),
+                        "gasUsed": hex(10),
+                        "timestamp": hex(11),
+                        "extraData": Bytes([12]).hex(),
+                        "prevRandao": Hash(13).hex(),
+                        "baseFeePerGas": hex(15),
+                        "blobGasUsed": hex(17),
+                        "excessBlobGas": hex(18),
+                        "blockHash": (
+                            "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211"
+                        ),
+                        "transactions": [
+                            "0x"
+                            + Transaction(
+                                to=0x1234,
+                                data=b"\x01\x00",
+                                access_list=[
+                                    AccessList(
+                                        address=0x1234,
+                                        storage_keys=[0, 1],
+                                    )
+                                ],
+                                max_priority_fee_per_gas=10,
+                                max_fee_per_gas=20,
+                                max_fee_per_blob_gas=30,
+                                blob_versioned_hashes=[0, 1],
+                            )
+                            .with_signature_and_sender()
+                            .rlp.hex()
+                        ],
+                        "withdrawals": [
+                            to_json(
+                                Withdrawal(
+                                    index=0,
+                                    validator_index=1,
+                                    address=0x1234,
+                                    amount=2,
+                                )
+                            )
+                        ],
+                    }
+                ],
                 "validationError": "TransactionException.INTRINSIC_GAS_TOO_LOW",
                 "version": "1",
             },
@@ -699,111 +703,119 @@ fixture_header_ones = FixtureHeader(
         pytest.param(
             True,
             FixtureEngineNewPayload(
-                execution_payload=FixtureExecutionPayload.from_fixture_header(
-                    header=FixtureHeader(
-                        parent_hash=Hash(0),
-                        ommers_hash=Hash(1),
-                        fee_recipient=Address(2),
-                        state_root=Hash(3),
-                        transactions_trie=Hash(4),
-                        receipts_root=Hash(5),
-                        logs_bloom=Bloom(6),
-                        difficulty=7,
-                        number=8,
-                        gas_limit=9,
-                        gas_used=10,
-                        timestamp=11,
-                        extra_data=Bytes([12]),
-                        prev_randao=Hash(13),
-                        nonce=HeaderNonce(14),
-                        base_fee_per_gas=15,
-                        withdrawals_root=Hash(16),
-                        blob_gas_used=17,
-                        excess_blob_gas=18,
+                params=(
+                    FixtureExecutionPayload.from_fixture_header(
+                        header=FixtureHeader(
+                            parent_hash=Hash(0),
+                            ommers_hash=Hash(1),
+                            fee_recipient=Address(2),
+                            state_root=Hash(3),
+                            transactions_trie=Hash(4),
+                            receipts_root=Hash(5),
+                            logs_bloom=Bloom(6),
+                            difficulty=7,
+                            number=8,
+                            gas_limit=9,
+                            gas_used=10,
+                            timestamp=11,
+                            extra_data=Bytes([12]),
+                            prev_randao=Hash(13),
+                            nonce=HeaderNonce(14),
+                            base_fee_per_gas=15,
+                            withdrawals_root=Hash(16),
+                            blob_gas_used=17,
+                            excess_blob_gas=18,
+                        ),
+                        transactions=[
+                            Transaction(
+                                to=0x1234,
+                                data=b"\x01\x00",
+                                access_list=[
+                                    AccessList(
+                                        address=0x1234,
+                                        storage_keys=[0, 1],
+                                    )
+                                ],
+                                max_priority_fee_per_gas=10,
+                                max_fee_per_gas=20,
+                                max_fee_per_blob_gas=30,
+                                blob_versioned_hashes=[0, 1],
+                            ).with_signature_and_sender(),
+                        ],
+                        withdrawals=[
+                            Withdrawal(index=0, validator_index=1, address=0x1234, amount=2)
+                        ],
+                        requests=None,
                     ),
-                    transactions=[
-                        Transaction(
-                            to=0x1234,
-                            data=b"\x01\x00",
-                            access_list=[
-                                AccessList(
-                                    address=0x1234,
-                                    storage_keys=[0, 1],
-                                )
-                            ],
-                            max_priority_fee_per_gas=10,
-                            max_fee_per_gas=20,
-                            max_fee_per_blob_gas=30,
-                            blob_versioned_hashes=[0, 1],
-                        ).with_signature_and_sender(),
-                    ],
-                    withdrawals=[Withdrawal(index=0, validator_index=1, address=0x1234, amount=2)],
-                    requests=None,
+                    [bytes([0]), bytes([1])],
+                    Hash(0),
                 ),
-                version=1,
+                version=3,
                 validation_error=[
                     BlockException.INCORRECT_BLOCK_FORMAT,
                     TransactionException.INTRINSIC_GAS_TOO_LOW,
                 ],
-                blob_versioned_hashes=[bytes([0]), bytes([1])],
                 error_code=EngineAPIError.InvalidRequest,
             ),
             {
-                "executionPayload": {
-                    "parentHash": Hash(0).hex(),
-                    "feeRecipient": Address(2).hex(),
-                    "stateRoot": Hash(3).hex(),
-                    "receiptsRoot": Hash(5).hex(),
-                    "logsBloom": Bloom(6).hex(),
-                    "blockNumber": hex(8),
-                    "gasLimit": hex(9),
-                    "gasUsed": hex(10),
-                    "timestamp": hex(11),
-                    "extraData": Bytes([12]).hex(),
-                    "prevRandao": Hash(13).hex(),
-                    "baseFeePerGas": hex(15),
-                    "blobGasUsed": hex(17),
-                    "excessBlobGas": hex(18),
-                    "blockHash": (
-                        "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211"
-                    ),
-                    "transactions": [
-                        "0x"
-                        + Transaction(
-                            to=0x1234,
-                            data=b"\x01\x00",
-                            access_list=[
-                                AccessList(
-                                    address=0x1234,
-                                    storage_keys=[0, 1],
-                                )
-                            ],
-                            max_priority_fee_per_gas=10,
-                            max_fee_per_gas=20,
-                            max_fee_per_blob_gas=30,
-                            blob_versioned_hashes=[0, 1],
-                        )
-                        .with_signature_and_sender()
-                        .rlp.hex()
-                    ],
-                    "withdrawals": [
-                        to_json(
-                            Withdrawal(
-                                index=0,
-                                validator_index=1,
-                                address=0x1234,
-                                amount=2,
+                "params": [
+                    {
+                        "parentHash": Hash(0).hex(),
+                        "feeRecipient": Address(2).hex(),
+                        "stateRoot": Hash(3).hex(),
+                        "receiptsRoot": Hash(5).hex(),
+                        "logsBloom": Bloom(6).hex(),
+                        "blockNumber": hex(8),
+                        "gasLimit": hex(9),
+                        "gasUsed": hex(10),
+                        "timestamp": hex(11),
+                        "extraData": Bytes([12]).hex(),
+                        "prevRandao": Hash(13).hex(),
+                        "baseFeePerGas": hex(15),
+                        "blobGasUsed": hex(17),
+                        "excessBlobGas": hex(18),
+                        "blockHash": (
+                            "0xd90115b7fde329f64335763a446af150ab67e639281dccdb07a007d18bb80211"
+                        ),
+                        "transactions": [
+                            "0x"
+                            + Transaction(
+                                to=0x1234,
+                                data=b"\x01\x00",
+                                access_list=[
+                                    AccessList(
+                                        address=0x1234,
+                                        storage_keys=[0, 1],
+                                    )
+                                ],
+                                max_priority_fee_per_gas=10,
+                                max_fee_per_gas=20,
+                                max_fee_per_blob_gas=30,
+                                blob_versioned_hashes=[0, 1],
                             )
-                        )
+                            .with_signature_and_sender()
+                            .rlp.hex()
+                        ],
+                        "withdrawals": [
+                            to_json(
+                                Withdrawal(
+                                    index=0,
+                                    validator_index=1,
+                                    address=0x1234,
+                                    amount=2,
+                                )
+                            )
+                        ],
+                    },
+                    [
+                        "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "0x0000000000000000000000000000000000000000000000000000000000000001",
                     ],
-                },
-                "version": "1",
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                ],
+                "version": "3",
                 "validationError": "BlockException.INCORRECT_BLOCK_FORMAT"
                 "|TransactionException.INTRINSIC_GAS_TOO_LOW",
-                "expectedBlobVersionedHashes": [
-                    "0x0000000000000000000000000000000000000000000000000000000000000000",
-                    "0x0000000000000000000000000000000000000000000000000000000000000001",
-                ],
                 "errorCode": "-32600",
             },
             id="fixture_engine_new_payload_2",
