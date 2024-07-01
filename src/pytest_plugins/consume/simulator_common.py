@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from ethereum_test_tools.spec.blockchain.types import Fixture, HiveFixture
+from ethereum_test_tools.spec.blockchain.types import Fixture
 from ethereum_test_tools.spec.consume.types import TestCaseIndexFile, TestCaseStream
-from ethereum_test_tools.spec.file.types import BlockchainFixtures, BlockchainHiveFixtures
+from ethereum_test_tools.spec.file.types import BlockchainHiveFixtures
 from pytest_plugins.consume.consume import JsonSource
 
 TestCase = TestCaseIndexFile | TestCaseStream

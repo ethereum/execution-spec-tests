@@ -60,7 +60,7 @@ from typing import Dict, List, TextIO
 import click
 
 from ethereum_test_tools import Account, Address, Transaction, common
-from ethereum_test_tools.rpc.rpc import BlockNumberType, EthRPC
+from ethereum_test_tools.rpc.rpc import BlockNumberType, DebugRPC, EthRPC
 
 
 @click.command()
@@ -288,6 +288,7 @@ class RequestManager:
             "CF-Access-Client-Secret": node_config.secret,
         }
         self.rpc = EthRPC(node_config.node_url, extra_headers=headers)
+        self.debug_rpc = DebugRPC(node_config.node_url, extra_headers=headers)
 
     def eth_get_transaction_by_hash(self, transaction_hash: str) -> RemoteTransaction:
         """
@@ -336,7 +337,7 @@ class RequestManager:
         """
         Get pre-state required for transaction
         """
-        return self.rpc.debug_trace_call(
+        return self.debug_rpc.trace_call(
             {
                 "from": f"{str(tr.transaction.sender)}",
                 "to": f"{str(tr.transaction.to)}",
