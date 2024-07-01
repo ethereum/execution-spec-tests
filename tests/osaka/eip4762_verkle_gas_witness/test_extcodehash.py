@@ -101,16 +101,16 @@ def test_extcodehash_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     gas_limit: int,
-    witness_has_basic_data,
-    witness_has_codehash,
+    witness_assert_basic_data,
+    witness_assert_codehash,
 ):
     """
     Test EXTCODEHASH with insufficient gas.
     """
     witness = Witness()
-    if witness_has_basic_data:
+    if witness_assert_basic_data:
         witness.add_account_basic_data(ExampleAddress, ExampleAccount)
-    if witness_has_codehash:
+    if witness_assert_codehash:
         witness.add_account_codehash(ExampleAddress, Hash(keccak256(ExampleAccount.code)))
 
     _extcodehash(blockchain_test, fork, ExampleAddress, witness, gas_limit, fails=True)
