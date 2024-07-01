@@ -173,7 +173,7 @@ def test_via_engine_api(
             version=payload.version,
         )
         assert payload_response.status == (
-            PayloadStatusEnum.VALID
+            PayloadStatusEnum.VALID if payload.valid() else PayloadStatusEnum.INVALID
         ), f"unexpected status: {payload_response}"
 
     forkchoice_response = engine_rpc.forkchoice_updated(
