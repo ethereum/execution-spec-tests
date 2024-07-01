@@ -6,8 +6,7 @@ from enum import Enum
 
 from pydantic import Field
 
-from ..common import Hash, HexNumber
-from ..common.types import CamelModel
+from ethereum_test_base_types import CamelModel, Hash, HexNumber
 
 
 class ForkchoiceState(CamelModel):

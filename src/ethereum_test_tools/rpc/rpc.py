@@ -8,13 +8,11 @@ from typing import Any, ClassVar, Dict, List, Literal, Union
 
 import requests
 from jwt import encode
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ethereum_test_base_types import Address, Hash
 from ethereum_test_base_types.json import to_json
 from ethereum_test_tools.rpc.types import ForkchoiceState, ForkchoiceUpdateResponse, PayloadStatus
-
-# from tenacity import retry, stop_after_attempt, wait_exponential
-
 
 BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
@@ -43,7 +41,7 @@ class BaseRPC:
             namespace = namespace[:-3]
         cls.namespace = namespace.lower()
 
-    # @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, max=10))
+    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, max=10))
     def post_request(self, method: str, *params: Any, extra_headers: Dict = {}) -> Any:
         """
         Sends a JSON-RPC POST request to the client RPC server at port defined in the url.

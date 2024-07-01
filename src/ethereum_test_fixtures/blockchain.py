@@ -23,6 +23,7 @@ from ethereum_test_base_types import (
     Number,
     ZeroPaddedHexNumber,
 )
+from ethereum_test_base_types.json import to_json
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork
 from ethereum_test_types.types import (
@@ -244,7 +245,16 @@ class FixtureEngineNewPayload(CamelModel):
     blob_versioned_hashes: List[Hash] | None = Field(None, alias="expectedBlobVersionedHashes")
     parent_beacon_block_root: Hash | None = Field(None, alias="parentBeaconBlockRoot")
     validation_error: ExceptionInstanceOrList | None = None
-    error_code: EngineAPIError | None = None
+    error_code: (
+        Annotated[
+            EngineAPIError,
+            PlainSerializer(
+                lambda x: str(x.value),
+                return_type=str,
+            ),
+        ]
+        | None
+    ) = None
 
     def args(self) -> List[Any]:
         """

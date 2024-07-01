@@ -1,19 +1,11 @@
 """
-Test a fully instantiated client using RLP-encoded blocks from blockchain tests.
-
-The test fixtures should have the blockchain test format. The setup sends
-the genesis file and RLP-encoded blocks to the client container using hive.
-The client consumes these files upon start-up.
-
-Given a genesis state and a list of RLP-encoded blocks, the test verifies that:
-1. The client's genesis block hash matches that defined in the fixture.
-2. The client's last block hash matches that defined in the fixture.
+Pytest fixtures and classes for the `consume rlp` hive simulator.
 """
 
 import io
 import json
-import pprint
 import time
+from pathlib import Path
 from typing import Generator, List, Mapping, Optional, cast
 
 import pytest
@@ -23,9 +15,14 @@ from hive.testing import HiveTest
 from pydantic import BaseModel
 
 from ethereum_test_base_types import Bytes, to_json
-from ethereum_test_fixtures.blockchain import Fixture, FixtureHeader
+from ethereum_test_fixtures import BlockchainFixture
+from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
+from ethereum_test_fixtures.file import BlockchainFixtures
 from ethereum_test_tools.rpc import EthRPC
-from pytest_plugins.consume.hive_ruleset import ruleset
+from pytest_plugins.consume.common import JsonSource
+from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
+
+TestCase = TestCaseIndexFile | TestCaseStream
 
 
 class TestCaseTimingData(BaseModel):
@@ -58,6 +55,71 @@ class TestCaseTimingData(BaseModel):
         return TestCaseTimingData(**data)
 
 
+@pytest.fixture(scope="session")
+def test_suite_name() -> str:
+    """
+    The name of the hive test suite used in this simulator.
+    """
+    return "eest-rlp"
+
+
+@pytest.fixture(scope="session")
+def test_suite_description() -> str:
+    """
+    The description of the hive test suite used in this simulator.
+    """
+    return "Execute blockchain tests by providing RLP-encoded blocks to a client upon start-up."
+
+
+@pytest.fixture(scope="function")
+def eth_rpc(client: Client) -> EthRPC:
+    """
+    Initialize ethereum RPC client for the execution client under test.
+    """
+    return EthRPC(ip=client.ip)
+
+
+@pytest.fixture(scope="function")
+def blockchain_fixture(fixture_source: JsonSource, test_case: TestCase) -> BlockchainFixture:
+    """
+    Create the blockchain fixture pydantic model for the current test case.
+
+    The fixture is either already available within the test case (if consume
+    is taking input on stdin) or loaded from the fixture json file if taking
+    input from disk (fixture directory with index file).
+    """
+    if fixture_source == "stdin":
+        assert isinstance(test_case, TestCaseStream), "Expected a stream test case"
+        assert isinstance(
+            test_case.fixture, BlockchainFixture
+        ), "Expected a blockchain test fixture"
+        fixture = test_case.fixture
+    else:
+        assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
+        # TODO: Optimize, json files will be loaded multiple times. This pytest fixture
+        # is executed per test case, and a fixture json will contain multiple test cases.
+        fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
+        fixture = fixtures[test_case.id]
+    return fixture
+
+
+@pytest.fixture(scope="function")
+def fixture_description(
+    blockchain_fixture: BlockchainFixture, test_case: TestCaseIndexFile | TestCaseStream
+) -> str:
+    """
+    Create the description of the current blockchain fixture test case.
+    """
+    description = f"Test id: {test_case.id}"
+    if "url" in blockchain_fixture.info:
+        description += f"\n\nTest source: {blockchain_fixture.info['url']}"
+    if "description" not in blockchain_fixture.info:
+        description += "\n\nNo description field provided in the fixture's 'info' section."
+    else:
+        description += f"\n\n{blockchain_fixture.info['description']}"
+    return description
+
+
 @pytest.fixture(scope="function")
 def t_test_start() -> float:
     """
@@ -81,26 +143,26 @@ def timing_data(request, t_test_start) -> Generator[TestCaseTimingData, None, No
 
 @pytest.fixture(scope="function")
 @pytest.mark.usefixtures("timing_data")
-def client_genesis(fixture: Fixture) -> dict:
+def client_genesis(blockchain_fixture: BlockchainFixture) -> dict:
     """
     Convert the fixture's genesis block header and pre-state to a client genesis state.
     """
-    genesis = to_json(fixture.genesis)  # NOTE: to_json() excludes None values
-    alloc = to_json(fixture.pre)
+    genesis = to_json(blockchain_fixture.genesis)  # NOTE: to_json() excludes None values
+    alloc = to_json(blockchain_fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix
     genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
     return genesis
 
 
 @pytest.fixture(scope="function")
-def blocks_rlp(fixture: Fixture) -> List[Bytes]:
+def blocks_rlp(blockchain_fixture: BlockchainFixture) -> List[Bytes]:
     """
     A list of the fixture's blocks encoded as RLP.
     """
-    return [block.rlp for block in fixture.blocks]
+    return [block.rlp for block in blockchain_fixture.blocks]
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     """
     Create a buffered reader for the genesis block header of the current test
@@ -111,19 +173,19 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
 
 
-@pytest.fixture
-def buffered_blocks_rlp(blocks_rlp: List[bytes], start=1) -> List[io.BufferedReader]:
+@pytest.fixture(scope="function")
+def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> List[io.BufferedReader]:
     """
     Convert the RLP-encoded blocks of the current test fixture to buffered readers.
     """
     block_rlp_files = []
-    for i, block_rlp in enumerate(blocks_rlp):
+    for _, block_rlp in enumerate(blocks_rlp):
         block_rlp_stream = io.BytesIO(block_rlp)
         block_rlp_files.append(io.BufferedReader(cast(io.RawIOBase, block_rlp_stream)))
     return block_rlp_files
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def client_files(
     buffered_genesis: io.BufferedReader,
     buffered_blocks_rlp: list[io.BufferedReader],
@@ -140,18 +202,20 @@ def client_files(
     return files
 
 
-@pytest.fixture
-def environment(fixture: Fixture) -> dict:
+@pytest.fixture(scope="function")
+def environment(blockchain_fixture: BlockchainFixture) -> dict:
     """
     Define the environment that hive will start the client with using the fork
     rules specific for the simulator.
     """
-    assert fixture.fork in ruleset, f"fork '{fixture.fork}' missing in hive ruleset"
+    assert (
+        blockchain_fixture.fork in ruleset
+    ), f"fork '{blockchain_fixture.fork}' missing in hive ruleset"
     return {
         "HIVE_CHAIN_ID": "1",
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
-        **{k: f"{v:d}" for k, v in ruleset[fixture.fork].items()},
+        **{k: f"{v:d}" for k, v in ruleset[blockchain_fixture.fork].items()},
     }
 
 
@@ -175,76 +239,3 @@ def client(
     assert client is not None, error_message
     yield client
     client.stop()
-
-
-@pytest.fixture(scope="function")
-def eth_rpc(client: Client) -> EthRPC:
-    """
-    Initialize ethereum RPC client for the execution client under test.
-    """
-    return EthRPC(ip=client.ip)
-
-
-def compare_models(expected: FixtureHeader, got: FixtureHeader) -> dict:
-    """
-    Compare two FixtureHeader model instances and return their differences.
-    """
-    differences = {}
-    for (exp_name, exp_value), (_, got_value) in zip(expected, got):
-        if exp_value != got_value:
-            differences[exp_name] = {
-                "expected     ": str(exp_value),
-                "got (via rpc)": str(got_value),
-            }
-    return differences
-
-
-class GenesisBlockMismatchException(Exception):
-    """
-    Used when the client's genesis block hash does not match the fixture.
-    """
-
-    def __init__(self, *, expected_header: FixtureHeader, got_header: FixtureHeader):
-        message = (
-            "Genesis block hash mismatch.\n"
-            f"Expected: {expected_header.block_hash}\n"
-            f"     Got: {got_header.block_hash}."
-        )
-        differences = compare_models(expected_header, got_header)
-        if differences:
-            message += (
-                "\n\nAdditionally, there are differences between the expected and received "
-                "genesis block header fields:\n"
-                f"{pprint.pformat(differences, indent=4)}"
-            )
-        else:
-            message += (
-                "There were no differences in the expected and received genesis block headers."
-            )
-        super().__init__(message)
-
-
-def test_via_rlp(
-    eth_rpc: EthRPC,
-    fixture: Fixture,
-    timing_data: TestCaseTimingData,
-):
-    """
-    Verify that the client's state as calculated from the specified genesis state
-    and blocks matches those defined in the test fixture.
-
-    Test:
-
-    1. The client's genesis block hash matches `fixture.genesis.block_hash`.
-    2. The client's last block's hash matches `fixture.last_block_hash`.
-    """
-    t_start = time.perf_counter()
-    genesis_block = eth_rpc.get_block_by_number(0)
-    timing_data.get_genesis = time.perf_counter() - t_start
-    if genesis_block["hash"] != str(fixture.genesis.block_hash):
-        raise GenesisBlockMismatchException(
-            expected_header=fixture.genesis, got_header=FixtureHeader(**genesis_block)
-        )
-    block = eth_rpc.get_block_by_number("latest")
-    timing_data.get_last_block = time.perf_counter() - timing_data.get_genesis - t_start
-    assert block["hash"] == str(fixture.last_block_hash), "hash mismatch in last block"

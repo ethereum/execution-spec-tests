@@ -60,7 +60,7 @@ from typing import Dict, List, TextIO
 import click
 
 from ethereum_test_base_types import Account, Address, ZeroPaddedHexNumber
-from ethereum_test_tools.rpc.rpc import BlockNumberType, EthRPC
+from ethereum_test_tools.rpc import BlockNumberType, DebugRPC, EthRPC
 from ethereum_test_types import Transaction
 
 
