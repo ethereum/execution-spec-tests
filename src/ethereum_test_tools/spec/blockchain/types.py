@@ -18,14 +18,7 @@ from typing import (
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
-from pydantic import (
-    AliasChoices,
-    ConfigDict,
-    Field,
-    PlainSerializer,
-    computed_field,
-    field_validator,
-)
+from pydantic import AliasChoices, ConfigDict, Field, computed_field, field_validator
 
 from ethereum_test_forks import Fork
 from evm_transition_tool import FixtureFormats
@@ -41,6 +34,7 @@ from ...common.base_types import (
     ZeroPaddedHexNumber,
 )
 from ...common.constants import EmptyOmmersRoot, EngineAPIError
+from ...common.json import to_json
 from ...common.types import (
     Alloc,
     CamelModel,
@@ -473,6 +467,23 @@ class FixtureEngineNewPayload(CamelModel):
     validation_error: ExceptionInstanceOrList | None = None
     error_code: EngineAPIError | None = None
 
+    def args(self) -> List[Any]:
+        """
+        Returns the arguments to be used when calling the Engine API.
+        """
+        args: List[Any] = [to_json(self.execution_payload)]
+        if self.blob_versioned_hashes is not None:
+            args.append([str(versioned_hash) for versioned_hash in self.blob_versioned_hashes])
+        if self.parent_beacon_block_root is not None:
+            args.append(str(self.parent_beacon_block_root))
+        return args
+
+    def valid(self) -> bool:
+        """
+        Returns whether the payload is valid.
+        """
+        return self.validation_error is None
+
     @classmethod
     def from_fixture_header(
         cls,
@@ -638,6 +649,7 @@ class FixtureCommon(BaseFixture):
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
     post_state: Optional[Alloc] = Field(None)
+    last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
 
     def get_fork(self) -> str:
         """
@@ -653,7 +665,6 @@ class Fixture(FixtureCommon):
 
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
     blocks: List[FixtureBlock | InvalidFixtureBlock]
-    last_block_hash: Hash = Field(..., alias="lastblockhash")
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
     format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST
