@@ -169,6 +169,7 @@
             }
         ],
         "engineFcuVersion": "2",
+        "lastblockhash": "0xfc75f11c05ec814a890141bef919bb7c20dd29245e37e9bcea66008dfde98526",
         "pre": {
             "0x000000000000000000000000000000000000c0de": {
                 "nonce": "0x01",
