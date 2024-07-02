@@ -12214,7 +12214,7 @@
 
 
 <h1 id="test-subcontainer-validation">Test Subcontainer Validation<a class="headerlink" href="#test-subcontainer-validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/db112a800d0bb709c4419f9c796418bc459906f3/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4b93082d8334968146005cc5eda900cdbddacb08/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -12640,7 +12640,7 @@ For all forks up to and including Prague:
 
 
 <h2 id="tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_container_combos_invalid" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_container_combos_invalid</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">code_section</span><span class="p">,</span> <span class="n">first_sub_container</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_container_combos_invalid</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">code_section</span><span class="p">,</span> <span class="n">first_sub_container</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_container_combos_invalid" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -12685,29 +12685,22 @@ For all forks up to and including Prague:
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;code_section,first_sub_container,error&quot;</span><span class="p">,</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;code_section,first_sub_container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">stop_sub_container</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">UNDEFINED_EXCEPTION</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/STOP&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">return_sub_container</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">UNDEFINED_EXCEPTION</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/RETURN&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">returncontract_sub_container</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">UNDEFINED_EXCEPTION</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/RETURNCONTRACT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
@@ -12716,7 +12709,6 @@ For all forks up to and including Prague:
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">code_section</span><span class="p">:</span> <span class="n">Section</span><span class="p">,</span>
     <span class="n">first_sub_container</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span>
-    <span class="n">error</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test invalid subcontainer reference / opcode combos&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
@@ -12726,7 +12718,7 @@ For all forks up to and including Prague:
                 <span class="n">first_sub_container</span><span class="p">,</span>
             <span class="p">],</span>
         <span class="p">),</span>
-        <span class="n">expect_exception</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPATIBLE_CONTAINER_KIND</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -12754,7 +12746,11 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
@@ -12765,11 +12761,7 @@ For all forks up to and including Prague:
 <span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_both_kinds_same_sub</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_both_kinds_same_sub</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test subcontainer conflicts (both EOFCREATE and RETURNCONTRACT Reference)&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
@@ -12783,7 +12775,7 @@ For all forks up to and including Prague:
                 <span class="n">revert_sub_container</span><span class="p">,</span>
             <span class="p">],</span>
         <span class="p">),</span>
-        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">UNDEFINED_EXCEPTION</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPATIBLE_CONTAINER_KIND</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -12811,7 +12803,11 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">248</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
@@ -12823,11 +12819,7 @@ For all forks up to and including Prague:
 <span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_both_kinds_different_sub</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_both_kinds_different_sub</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test multiple kinds of subcontainer at the same level&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
