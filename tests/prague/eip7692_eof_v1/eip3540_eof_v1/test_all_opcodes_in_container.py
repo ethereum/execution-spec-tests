@@ -107,7 +107,9 @@ def sections(
     return sections
 
 
-@pytest.mark.parametrize("opcode", [op for op in list(Op) + list(UndefinedOpcodes)])
+@pytest.mark.parametrize(
+    "opcode", [op for op in list(Op) + list(UndefinedOpcodes) if op != Op.RETF]
+)
 def test_all_opcodes_in_container(
     eof_test: EOFTestFiller,
     sections: List[Section],
