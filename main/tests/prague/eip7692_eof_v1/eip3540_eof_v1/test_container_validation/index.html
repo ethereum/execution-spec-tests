@@ -12144,6 +12144,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_single_code_section" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_single_code_section
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_max_code_sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_max_code_sections
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -12160,7 +12178,7 @@
 
 
 <h1 id="test-container-validation">Test Container Validation<a class="headerlink" href="#test-container-validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7c48de989b61f2095c942d2efdddd9697e20dd16/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/db112a800d0bb709c4419f9c796418bc459906f3/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -12206,10 +12224,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
@@ -12222,7 +12237,10 @@ For all forks up to and including Prague:
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
-<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;magic_0&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0xEE</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0xF0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;magic_0&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0xEE</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0xF0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;magic_1&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_magic_validation</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
@@ -12265,10 +12283,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
@@ -12278,7 +12293,10 @@ For all forks up to and including Prague:
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_version_validation</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -12291,6 +12309,200 @@ For all forks up to and including Prague:
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">code</span><span class="p">),</span>
         <span class="n">expect_exception</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_VERSION</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_single_code_section" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_single_code_section</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">plus_data</span><span class="p">,</span> <span class="n">plus_container</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_single_code_section" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Verify EOF container maximum number of code sections</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_container&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_single_code_section</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">plus_data</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">plus_container</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify EOF container maximum number of code sections</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURNCONTRACT</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">plus_container</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">plus_container</span><span class="p">:</span>
+        <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span>
+                <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+                    <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span><span class="p">)</span>
+                    <span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">plus_data</span><span class="p">:</span>
+        <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;max_code_sections&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span> <span class="k">if</span> <span class="n">plus_container</span> <span class="k">else</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_max_code_sections" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_max_code_sections</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">plus_data</span><span class="p">,</span> <span class="n">plus_container</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_max_code_sections" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Verify EOF container maximum number of code sections</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_container&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_max_code_sections</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">plus_data</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">plus_container</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify EOF container maximum number of code sections</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">plus_container</span><span class="p">:</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNCONTRACT</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span>
+                <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+                    <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span><span class="p">)</span>
+                    <span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_CODE_SECTIONS</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="k">if</span> <span class="n">plus_data</span><span class="p">:</span>
+        <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;max_code_sections&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span> <span class="k">if</span> <span class="n">plus_container</span> <span class="k">else</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
