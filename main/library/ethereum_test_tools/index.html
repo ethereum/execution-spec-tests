@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
     
     
       
@@ -29776,7 +29776,7 @@ name and the values of the non-default optional fields.</p>
 
         <span class="c1"># Remove the secret key if requested</span>
         <span class="k">if</span> <span class="n">keep_secret_key</span><span class="p">:</span>
-            <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>
+            <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>  <span class="c1"># type: ignore</span>
         <span class="k">return</span> <span class="n">updated_tx</span>
 
     <span class="nd">@cached_property</span>
@@ -30509,7 +30509,7 @@ source account.</p>
 
     <span class="c1"># Remove the secret key if requested</span>
     <span class="k">if</span> <span class="n">keep_secret_key</span><span class="p">:</span>
-        <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>
+        <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>  <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="n">updated_tx</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -63990,7 +63990,7 @@ dynamic_gas = memory_expansion_cost</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
