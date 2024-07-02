@@ -1,0 +1,2 @@
+EOFTests/efValidation/EOF1_returncontract_invalid_.json
+EOFTests/efValidation/EOF1_returncontract_valid_.json
