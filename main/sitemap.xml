@@ -1211,6 +1211,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract/</loc>
+         <lastmod>2024-07-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract/index/test_cases/</loc>
+         <lastmod>2024-07-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation/</loc>
          <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>

@@ -3661,6 +3661,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.INVALID_CONTAINER_SECTION_INDEX" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_CONTAINER_SECTION_INDEX
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -11371,6 +11380,8 @@
       
         
       
+        
+      
     
     
       
@@ -11718,11 +11729,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation/" class="md-nav__link ">
+            <a href="../../tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    Test Subcontainer Validation
+    Test Returncontract
   </span>
   
 
@@ -11737,6 +11748,91 @@
         
         <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_10_2_7_9_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_2_7_9_6">
+            <span class="md-nav__icon md-icon"></span>
+            Test Returncontract
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract/index/test_cases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test Cases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2_7_9_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Test Subcontainer Validation
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10_2_7_9_7" id="__nav_10_2_7_9_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_10_2_7_9_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2_7_9_7">
             <span class="md-nav__icon md-icon"></span>
             Test Subcontainer Validation
           </label>
@@ -19246,6 +19342,15 @@
   <a href="#ethereum_test_tools.EOFException.CONTAINER_SIZE_ABOVE_LIMIT" class="md-nav__link">
     <span class="md-ellipsis">
       CONTAINER_SIZE_ABOVE_LIMIT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.INVALID_CONTAINER_SECTION_INDEX" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_CONTAINER_SECTION_INDEX
     </span>
   </a>
   
@@ -33555,7 +33660,11 @@ a fork that is not active yet.</p>
 <span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
-<span class="normal">698</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when an EOF container is invalid.</span>
@@ -33728,6 +33837,10 @@ a fork that is not active yet.</p>
     <span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container is above size limit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_CONTAINER_SECTION_INDEX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instruction references container section that does not exist.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -34842,6 +34955,33 @@ when returning</p>
     <div class="doc doc-contents ">
 
       <p>EOF container is above size limit</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.EOFException.INVALID_CONTAINER_SECTION_INDEX" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_CONTAINER_SECTION_INDEX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.EOFException.INVALID_CONTAINER_SECTION_INDEX" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Instruction references container section that does not exist.</p>
     </div>
 
 </div>
