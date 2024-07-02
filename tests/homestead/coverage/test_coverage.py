@@ -1,24 +1,29 @@
 """
-Ethereum Transient Storage EIP Tests
-https://eips.ethereum.org/EIPS/eip-1153
+Tests that address coverage gaps that result from updating `ethereum/tests` into EEST tests.
 """
 
 import pytest
 
-from ethereum_test_tools import Address, Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "N/A"
 REFERENCE_SPEC_VERSION = "N/A"
 
 
-@pytest.mark.valid_from("Cancun")
+@pytest.mark.valid_from("Homestead")
 def test_yul_coverage(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
     """
-    This test complete the coverage gaps by calling the codes, produced by yul compiler
+    This test covers gaps that result from transforming Yul code into
+    `ethereum_test_tools.vm.opcode.Opcodes` bytecode.
+
+    E.g. Yul tends to optimize stack items by using `SWAP1` and `DUP1` opcodes, which are not
+    regularly used in python code.
+
+    Modify this test to cover more Yul code if required in the future.
     """
     missed_coverage = pre.deploy_contract(
         balance=0,
@@ -50,9 +55,7 @@ def test_yul_coverage(
         to=address_to,
         data=b"",
         value=0,
-        access_list=[],
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=5,
+        protected=False,
     )
 
     state_test(env=Environment(), pre=pre, post={}, tx=tx)
