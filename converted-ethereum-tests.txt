@@ -1,0 +1,1 @@
+EOFTests/EIP3540/validInvalid.json
