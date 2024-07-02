@@ -34,7 +34,7 @@ runs:
       id: config-evm-impl-config-reader
       shell: bash
       run: |
-        awk "/^${{ steps.config-evm-reader.outputs.impl }}":/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./configs/evm-impl.yaml \
+        awk "/^${{ steps.config-evm-reader.outputs.impl }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./configs/evm-impl.yaml \
         | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
     - name: Print Variables for the selected EVM type
       shell: bash
