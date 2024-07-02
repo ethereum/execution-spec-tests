@@ -119,12 +119,20 @@ jobs:
           python3 -m venv ./venv/
           source ./venv/bin/activate
 
-          # Fetch the base branch and the head branch
-          git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
-          git fetch origin ${{ github.head_ref }}:refs/remotes/origin/${{ github.head_ref }}
+          if [ "${{ github.event.pull_request.head.repo.full_name }}" != "${{ github.repository }}" ]; then
+              # Fetch changes when PR comes from remote repo
+              git fetch origin +refs/heads/${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+              git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:refs/remotes/origin/PR-${{ github.event.pull_request.number }}
+              files=$(git diff --name-status origin/${{ github.base_ref }}...origin/PR-${{ github.event.pull_request.number }} -- tests/ | grep -E '^[AM]' | grep '\.py$')
+          else
+              # Fetch the base branch and the head branch
+              git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+              git fetch origin ${{ github.head_ref }}:refs/remotes/origin/${{ github.head_ref }}
 
-          # Perform the diff
-          files=$(git diff --name-status origin/${{ github.base_ref }}...origin/${{ github.head_ref }} -- tests/ | grep -E '^[AM]' | grep '\.py$')
+              # Perform the diff
+              files=$(git diff --name-status origin/${{ github.base_ref }}...origin/${{ github.head_ref }} -- tests/ | grep -E '^[AM]' | grep '\.py$')
+          fi
+
 
           echo "Modified or new .py files in tests folder:"
           echo "$files" | while read line; do
