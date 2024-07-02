@@ -47,12 +47,6 @@ halting_opcodes = {
     Op.INVALID,
 }
 
-skip_opcodes = {
-    Op.RETF,  # RETF not allowed in first section
-    Op.EOFCREATE,  # EOFCREATE not allowed unless the second container is an initcode
-    Op.RETURNCONTRACT,  # RETURNCONTRACT unless inside an initcode
-}
-
 
 @pytest.fixture
 def expect_exception(opcode: Opcode) -> EOFException | None:
@@ -113,9 +107,7 @@ def sections(
     return sections
 
 
-@pytest.mark.parametrize(
-    "opcode", [op for op in list(Op) + list(UndefinedOpcodes) if op not in skip_opcodes]
-)
+@pytest.mark.parametrize("opcode", [op for op in list(Op) + list(UndefinedOpcodes)])
 def test_all_opcodes_in_container(
     eof_test: EOFTestFiller,
     sections: List[Section],
