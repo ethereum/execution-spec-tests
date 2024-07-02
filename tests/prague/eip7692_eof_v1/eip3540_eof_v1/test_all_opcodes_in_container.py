@@ -8,7 +8,7 @@ import pytest
 from ethereum_test_tools import Bytecode, EOFTestFiller, Opcode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import UndefinedOpcodes
-from ethereum_test_tools.eof.v1 import Container, EOFException, Section
+from ethereum_test_tools.eof.v1 import Container, ContainerKind, EOFException, Section
 
 from .. import EOF_FORK_NAME
 
@@ -112,12 +112,16 @@ def test_all_opcodes_in_container(
     eof_test: EOFTestFiller,
     sections: List[Section],
     expect_exception: EOFException | None,
+    opcode: Opcode,
 ):
     """
     Test all opcodes inside valid container
     257 because 0x5B is duplicated
     """
-    eof_code = Container(sections=sections)
+    if opcode == Op.RETURNCONTRACT:
+        eof_code = Container(sections=sections, kind=ContainerKind.INITCODE)
+    else:
+        eof_code = Container(sections=sections)
 
     eof_test(
         data=eof_code,
