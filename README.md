@@ -106,7 +106,7 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
    cd execution-spec-tests
    python3 -m venv ./venv/
    source ./venv/bin/activate
-   pip install -e '.[docs,lint,test]'
+   pip install -e .[docs,lint,test]
    ```
 
 3. Verify the installation:
