@@ -14744,7 +14744,7 @@ Currently, ethereum-spec-evm provides no way to determine supported forks.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">default_binary</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;evm&quot;</span><span class="p">)</span>
-    <span class="n">detect_binary_pattern</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^evm version\b&quot;</span><span class="p">)</span>
+    <span class="n">detect_binary_pattern</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^evm(.exe)? version\b&quot;</span><span class="p">)</span>
     <span class="n">t8n_subcommand</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;t8n&quot;</span>
     <span class="n">statetest_subcommand</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;statetest&quot;</span>
     <span class="n">blocktest_subcommand</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blocktest&quot;</span>
