@@ -3581,6 +3581,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.STACK_HEIGHT_MISMATCH" class="md-nav__link">
+    <span class="md-ellipsis">
+      STACK_HEIGHT_MISMATCH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT" class="md-nav__link">
     <span class="md-ellipsis">
       MAX_STACK_HEIGHT_ABOVE_LIMIT
@@ -5138,15 +5147,6 @@
   <a href="#ethereum_test_tools.Opcode.__call__" class="md-nav__link">
     <span class="md-ellipsis">
       __call__
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Opcode.__len__" class="md-nav__link">
-    <span class="md-ellipsis">
-      __len__
     </span>
   </a>
   
@@ -19285,6 +19285,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.STACK_HEIGHT_MISMATCH" class="md-nav__link">
+    <span class="md-ellipsis">
+      STACK_HEIGHT_MISMATCH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT" class="md-nav__link">
     <span class="md-ellipsis">
       MAX_STACK_HEIGHT_ABOVE_LIMIT
@@ -20842,15 +20851,6 @@
   <a href="#ethereum_test_tools.Opcode.__call__" class="md-nav__link">
     <span class="md-ellipsis">
       __call__
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Opcode.__len__" class="md-nav__link">
-    <span class="md-ellipsis">
-      __len__
     </span>
   </a>
   
@@ -33704,7 +33704,11 @@ a fork that is not active yet.</p>
 <span class="normal">703</span>
 <span class="normal">704</span>
 <span class="normal">705</span>
-<span class="normal">706</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when an EOF container is invalid.</span>
@@ -33840,6 +33844,10 @@ a fork that is not active yet.</p>
     <span class="n">STACK_UNDERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container&#39;s code produces an stack underflow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">STACK_HEIGHT_MISMATCH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF container section stack height mismatch.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MAX_STACK_HEIGHT_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -34754,6 +34762,33 @@ a fork that is not active yet.</p>
     <div class="doc doc-contents ">
 
       <p>EOF container's code produces an stack underflow.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.EOFException.STACK_HEIGHT_MISMATCH" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">STACK_HEIGHT_MISMATCH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.EOFException.STACK_HEIGHT_MISMATCH" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>EOF container section stack height mismatch.</p>
     </div>
 
 </div>
@@ -45286,7 +45321,13 @@ respectively.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">499</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
 <span class="normal">500</span>
 <span class="normal">501</span>
 <span class="normal">502</span>
@@ -45299,13 +45340,7 @@ respectively.</p>
 <span class="normal">509</span>
 <span class="normal">510</span>
 <span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macro</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">512</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macro</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents opcode macro replacement, basically holds bytes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -45353,7 +45388,13 @@ respectively.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">504</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
 <span class="normal">505</span>
 <span class="normal">506</span>
 <span class="normal">507</span>
@@ -45361,13 +45402,7 @@ respectively.</p>
 <span class="normal">509</span>
 <span class="normal">510</span>
 <span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">512</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">macro_or_bytes</span><span class="p">:</span> <span class="s2">&quot;Bytecode | Macro&quot;</span><span class="p">,</span>
 <span class="p">):</span>
@@ -45422,7 +45457,13 @@ respectively.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5863</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5857</span>
+<span class="normal">5858</span>
+<span class="normal">5859</span>
+<span class="normal">5860</span>
+<span class="normal">5861</span>
+<span class="normal">5862</span>
+<span class="normal">5863</span>
 <span class="normal">5864</span>
 <span class="normal">5865</span>
 <span class="normal">5866</span>
@@ -45449,13 +45490,7 @@ respectively.</p>
 <span class="normal">5887</span>
 <span class="normal">5888</span>
 <span class="normal">5889</span>
-<span class="normal">5890</span>
-<span class="normal">5891</span>
-<span class="normal">5892</span>
-<span class="normal">5893</span>
-<span class="normal">5894</span>
-<span class="normal">5895</span>
-<span class="normal">5896</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macros</span><span class="p">(</span><span class="n">Macro</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">5890</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macros</span><span class="p">(</span><span class="n">Macro</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum containing all macros.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -45765,13 +45800,7 @@ tests.</p>
 <span class="normal">487</span>
 <span class="normal">488</span>
 <span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcode</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">490</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcode</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a single Opcode instruction in the EVM, with extra metadata useful to parametrize</span>
 <span class="sd">    tests.</span>
@@ -45948,12 +45977,6 @@ tests.</p>
                 <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">kw</span><span class="p">]</span> <span class="k">if</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_defaults</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kw</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">unchecked</span><span class="o">=</span><span class="n">unchecked</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the total bytecode length of the opcode, taking into account its data portion.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_portion_length</span> <span class="o">+</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">int</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -46382,41 +46405,6 @@ respectively.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_tools.Opcode.__len__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__len__</span><span class="p">()</span></code>
-
-<a href="#ethereum_test_tools.Opcode.__len__" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Returns the total bytecode length of the opcode, taking into account its data portion.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the total bytecode length of the opcode, taking into account its data portion.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_portion_length</span> <span class="o">+</span> <span class="mi">1</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
 <h3 id="ethereum_test_tools.Opcode.int" class="doc doc-heading">
             <code class="highlight language-python"><span class="nb">int</span><span class="p">()</span></code>
 
@@ -46429,11 +46417,11 @@ respectively.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">int</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">int</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the integer representation of the opcode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -46482,7 +46470,13 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 579</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 573</span>
+<span class="normal"> 574</span>
+<span class="normal"> 575</span>
+<span class="normal"> 576</span>
+<span class="normal"> 577</span>
+<span class="normal"> 578</span>
+<span class="normal"> 579</span>
 <span class="normal"> 580</span>
 <span class="normal"> 581</span>
 <span class="normal"> 582</span>
@@ -51721,13 +51715,7 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 <span class="normal">5815</span>
 <span class="normal">5816</span>
 <span class="normal">5817</span>
-<span class="normal">5818</span>
-<span class="normal">5819</span>
-<span class="normal">5820</span>
-<span class="normal">5821</span>
-<span class="normal">5822</span>
-<span class="normal">5823</span>
-<span class="normal">5824</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">5818</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum containing all known opcodes.</span>
 
@@ -64521,7 +64509,13 @@ dynamic_gas = memory_expansion_cost</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5899</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5893</span>
+<span class="normal">5894</span>
+<span class="normal">5895</span>
+<span class="normal">5896</span>
+<span class="normal">5897</span>
+<span class="normal">5898</span>
+<span class="normal">5899</span>
 <span class="normal">5900</span>
 <span class="normal">5901</span>
 <span class="normal">5902</span>
@@ -64607,13 +64601,7 @@ dynamic_gas = memory_expansion_cost</p>
 <span class="normal">5982</span>
 <span class="normal">5983</span>
 <span class="normal">5984</span>
-<span class="normal">5985</span>
-<span class="normal">5986</span>
-<span class="normal">5987</span>
-<span class="normal">5988</span>
-<span class="normal">5989</span>
-<span class="normal">5990</span>
-<span class="normal">5991</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UndefinedOpcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">5985</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UndefinedOpcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum containing all unknown opcodes (88 at the moment).</span>
 <span class="sd">    &quot;&quot;&quot;</span>

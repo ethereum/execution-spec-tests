@@ -12137,7 +12137,7 @@
 <h1 id="test-rjumpi-test-cases">Test Rjumpi - Test Cases<a class="headerlink" href="#test-rjumpi-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/891a6111370c89d4ce89bf91589c6d5ff6785158/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/12ceb2204e7eebdb8992fa1f8afe14ef90322bb1/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test-False]
 test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test-True]
 test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test_hive-False]
@@ -12176,14 +12176,20 @@ test_rjumpi_max_backward[fork_CancunEIP7692-eof_test]
 test_rjumpi_max_backward[fork_CancunEIP7692-state_test]
 test_rjumpi_max_backward[fork_CancunEIP7692-blockchain_test]
 test_rjumpi_max_backward[fork_CancunEIP7692-blockchain_test_hive]
-test_rjump_truncated[fork_CancunEIP7692-eof_test]
-test_rjump_truncated_2[fork_CancunEIP7692-eof_test]
+test_rjumpi_max_bytecode_size[fork_CancunEIP7692-eof_test]
+test_rjumpi_truncated[fork_CancunEIP7692-eof_test]
+test_rjumpi_truncated_2[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_header[fork_CancunEIP7692-eof_test]
 test_rjumpi_jump_before_header[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_data[fork_CancunEIP7692-eof_test]
 test_rjumpi_after_container[fork_CancunEIP7692-eof_test]
 test_rjumpi_to_code_end[fork_CancunEIP7692-eof_test]
+test_rjumpi_into_self_data_portion[fork_CancunEIP7692-eof_test-offset_1]
+test_rjumpi_into_self_data_portion[fork_CancunEIP7692-eof_test-offset_2]
 test_rjumpi_into_self[fork_CancunEIP7692-eof_test]
+test_rjumpi_into_stack_height_diff[fork_CancunEIP7692-eof_test]
+test_rjumpi_into_stack_underflow[fork_CancunEIP7692-eof_test]
+test_rjumpi_skips_stack_underflow[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_rjump[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_rjumpi[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_push_1[fork_CancunEIP7692-eof_test-jump_JumpDirection.FORWARD]
@@ -12320,9 +12326,10 @@ test_rjumpi_into_callf[fork_CancunEIP7692-eof_test-data_portion_end]
 test_rjumpi_into_callf[fork_CancunEIP7692-eof_test-data_portion_start]
 test_rjumpi_into_dupn[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_swapn[fork_CancunEIP7692-eof_test]
-test_rjump_into_exchange[fork_CancunEIP7692-eof_test]
+test_rjumpi_into_exchange[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_eofcreate[fork_CancunEIP7692-eof_test]
 test_rjumpi_into_returncontract[fork_CancunEIP7692-eof_test]
+test_rjumpi_backwards_reference_only[fork_CancunEIP7692-eof_test]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.test_filler.test_filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.test_help.test_help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</span>
