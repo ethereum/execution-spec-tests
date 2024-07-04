@@ -19,6 +19,13 @@ jobs:
       - name: Fetch target branch
         run: git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        with:
+          username: winsvega
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Install deps
         run: |
           echo $(pwd)
@@ -141,13 +148,27 @@ jobs:
           done
 
           # fill new tests
+          # using `|| true` here because if no tests found, pyspec fill returns error code
           mkdir -p fixtures/state_tests
           mkdir -p fixtures/eof_tests
           echo "$files" | while read line; do
             file=$(echo "$line" | cut -c 3-)
-            fill $file --until=Cancun --evm-bin evmone-t8n || true
-            fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true
+            fill $file --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+            (fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
           done
+
+          if grep -q "FAILURES" filloutput.log; then
+             echo "Error: failed to generate .py tests."
+              exit 1
+          fi
+          if [ "${{ matrix.driver }}" = "retesteth" ] && grep -q "passed" filloutputEOF.log; then
+              echo "Disabling retesteth coverage check as EOF tests detected!"
+              echo "retesteth_skip=true" >> $GITHUB_ENV
+              exit 0
+          else
+              echo "retesteth_skip=false" >> $GITHUB_ENV
+          fi
+
 
           filesState=$(find fixtures/state_tests -type f -name "*.json")
           filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
@@ -162,6 +183,7 @@ jobs:
           find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
       - name: Print tests that will be covered
+        if: ${{ env.retesteth_skip == 'false' || matrix.driver == 'native' }}
         run: |
           echo "Original BASE tests:"
           ls ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
@@ -171,6 +193,7 @@ jobs:
 
       - name: Run coverage of the BASE tests
         uses: addnab/docker-run-action@v3
+        if: ${{ env.retesteth_skip == 'false' || matrix.driver == 'native' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
@@ -178,6 +201,7 @@ jobs:
 
       - name: Run coverage of the PATCH tests
         uses: addnab/docker-run-action@v3
+        if: ${{ env.retesteth_skip == 'false' || matrix.driver == 'native' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
@@ -185,24 +209,28 @@ jobs:
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
         uses: addnab/docker-run-action@v3
+        if: ${{ env.retesteth_skip == 'false' || matrix.driver == 'native' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
           run: /entrypoint.sh --mode=diff --basefile=coverage_BASE.lcov --patchfile=coverage_PATCH.lcov
 
       - name: Chmod coverage results
+        if: ${{ env.retesteth_skip == 'false' || matrix.driver == 'native' }}
         run: |
           user=$(whoami)
           sudo chown -R $user:$user ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Upload coverage results
         uses: actions/upload-artifact@v3
+        if: ${{ env.retesteth_skip == 'false' || matrix.driver == 'native' }}
         with:
           name: coverage-diff
           path: ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Verify coverage results
         uses: addnab/docker-run-action@v3
+        if: ${{ env.retesteth_skip == 'false' || matrix.driver == 'native' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
