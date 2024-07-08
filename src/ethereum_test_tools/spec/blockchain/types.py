@@ -531,6 +531,8 @@ class FixtureAuthorizationTuple(AuthorizationTupleGeneric[ZeroPaddedHexNumber]):
     Authorization tuple for fixture transactions.
     """
 
+    signer: Address | None = None
+
     @classmethod
     def from_authorization_tuple(
         cls, auth_tuple: AuthorizationTupleGeneric
@@ -546,7 +548,7 @@ class FixtureTransaction(TransactionFixtureConverter, TransactionGeneric[ZeroPad
     Representation of an Ethereum transaction within a test Fixture.
     """
 
-    authorization_tuples: List[FixtureAuthorizationTuple] | None = None
+    authorization_list: List[FixtureAuthorizationTuple] | None = None
 
     @classmethod
     def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
