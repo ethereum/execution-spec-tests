@@ -1171,6 +1171,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7480_data_section/test_datacopy_memory_expansion/</loc>
+         <lastmod>2024-07-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7480_data_section/test_datacopy_memory_expansion/index/test_cases/</loc>
+         <lastmod>2024-07-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7620_eof_create/</loc>
          <lastmod>2024-07-08</lastmod>
          <changefreq>daily</changefreq>
