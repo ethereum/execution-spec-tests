@@ -11,6 +11,11 @@ from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Tr
 from ethereum_test_tools.vm.opcode import Bytecode
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .spec import ref_spec_1014
+
+REFERENCE_SPEC_GIT_PATH = ref_spec_1014.git_path
+REFERENCE_SPEC_VERSION = ref_spec_1014.version
+
 
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_return_size", [35, 32, 0])
