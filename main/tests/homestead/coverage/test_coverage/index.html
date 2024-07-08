@@ -12125,9 +12125,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tests.homestead.coverage.test_coverage.test_yul_coverage" class="md-nav__link">
+  <a href="#tests.homestead.coverage.test_coverage.test_coverage" class="md-nav__link">
     <span class="md-ellipsis">
-      test_yul_coverage
+      test_coverage
     </span>
   </a>
   
@@ -12149,7 +12149,7 @@
 
 
 <h1 id="test-coverage">Test Coverage<a class="headerlink" href="#test-coverage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/12ceb2204e7eebdb8992fa1f8afe14ef90322bb1/tests/homestead/coverage/test_coverage.py"><code>tests/homestead/coverage/test_coverage.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9c4ab213b26c46fa155c423d0683ff8c113dd6b5/tests/homestead/coverage/test_coverage.py"><code>tests/homestead/coverage/test_coverage.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/homestead/coverage/test_coverage.py</span>
@@ -12179,10 +12179,10 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="tests.homestead.coverage.test_coverage.test_yul_coverage" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_yul_coverage</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">)</span></code>
+<h2 id="tests.homestead.coverage.test_coverage.test_coverage" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_coverage</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
 
-<a href="#tests.homestead.coverage.test_coverage.test_yul_coverage" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#tests.homestead.coverage.test_coverage.test_coverage" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
@@ -12195,8 +12195,7 @@ regularly used in python code.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/homestead/coverage/test_coverage.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
-<span class="normal">15</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span>
@@ -12242,10 +12241,26 @@ regularly used in python code.</p>
 <span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Homestead&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_yul_coverage</span><span class="p">(</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Homestead&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_coverage</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This test covers gaps that result from transforming Yul code into</span>
@@ -12280,14 +12295,27 @@ regularly used in python code.</p>
         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">missed_coverage</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">7_000_000_000_000_000_000</span><span class="p">),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">fork</span> <span class="o">&gt;=</span> <span class="n">Cancun</span><span class="p">:</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">7_000_000_000_000_000_000</span><span class="p">),</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">access_list</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">7_000_000_000_000_000_000</span><span class="p">),</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="p">{},</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
