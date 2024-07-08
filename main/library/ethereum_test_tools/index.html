@@ -40442,7 +40442,8 @@ spec type as filler for the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">277</span>
+<span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
@@ -40540,12 +40541,7 @@ spec type as filler for the test.</p>
 <span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">):</span>
+<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests EOF containers and also generates a state/blockchain test.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -40597,25 +40593,23 @@ spec type as filler for the test.</p>
 <span class="sd">        Generate the StateTest filler.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;pre must be set to generate a StateTest.&quot;</span>
-        <span class="n">sender</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_sender_funding_amount</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deploy_tx</span><span class="p">:</span>
-            <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-                <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">gas_limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_gas_limit</span><span class="p">,</span>
-                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">,</span>
-                <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">container_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">container_address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-            <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-                <span class="n">to</span><span class="o">=</span><span class="n">container_address</span><span class="p">,</span>
-                <span class="n">gas_limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_gas_limit</span><span class="p">,</span>
-                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">,</span>
-                <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+            <span class="n">sender</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_sender_funding_amount</span><span class="p">),</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_gas_limit</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">post</span> <span class="o">=</span> <span class="n">Alloc</span><span class="p">()</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">container_address</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_post</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Invalid EOF</span>
+            <span class="n">tx</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Make EIP-7698 create transaction</span>
+            <span class="n">tx</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">)</span>  <span class="c1"># by concatenating container and tx data.</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Expect failure.</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">deploy_tx</span><span class="p">:</span>
+            <span class="n">tx</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Make EIP-7698 create transaction</span>
+            <span class="n">tx</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">)</span>  <span class="c1"># by concatenating container and tx data.</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_post</span>  <span class="c1"># Successful.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tx</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">tx</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">to</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_post</span>
         <span class="k">return</span> <span class="n">StateTest</span><span class="p">(</span>
             <span class="n">pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
@@ -40642,8 +40636,6 @@ spec type as filler for the test.</p>
             <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST</span><span class="p">,</span>
             <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST_HIVE</span><span class="p">,</span>
         <span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;State tests can&#39;t be generated for invalid EOF code yet.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">()</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
                 <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
             <span class="p">)</span>
@@ -40681,7 +40673,8 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">297</span>
+<span class="normal">298</span>
 <span class="normal">299</span>
 <span class="normal">300</span>
 <span class="normal">301</span>
@@ -40698,8 +40691,7 @@ spec type as filler for the test.</p>
 <span class="normal">312</span>
 <span class="normal">313</span>
 <span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+<span class="normal">315</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
 <span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">check_container_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -40748,12 +40740,12 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">318</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">317</span>
+<span class="normal">318</span>
 <span class="normal">319</span>
 <span class="normal">320</span>
 <span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">322</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Workaround for pytest parameter name.</span>
@@ -40785,7 +40777,8 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">325</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">324</span>
+<span class="normal">325</span>
 <span class="normal">326</span>
 <span class="normal">327</span>
 <span class="normal">328</span>
@@ -40811,33 +40804,28 @@ spec type as filler for the test.</p>
 <span class="normal">348</span>
 <span class="normal">349</span>
 <span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
+<span class="normal">351</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the StateTest filler.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;pre must be set to generate a StateTest.&quot;</span>
-    <span class="n">sender</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_sender_funding_amount</span><span class="p">)</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deploy_tx</span><span class="p">:</span>
-        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_gas_limit</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">,</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">container_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">container_address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">container_address</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_gas_limit</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">,</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_sender_funding_amount</span><span class="p">),</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx_gas_limit</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="n">Alloc</span><span class="p">()</span>
-    <span class="n">post</span><span class="p">[</span><span class="n">container_address</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_post</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Invalid EOF</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Make EIP-7698 create transaction</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">)</span>  <span class="c1"># by concatenating container and tx data.</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Expect failure.</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">deploy_tx</span><span class="p">:</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Make EIP-7698 create transaction</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span><span class="p">)</span>  <span class="c1"># by concatenating container and tx data.</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_post</span>  <span class="c1"># Successful.</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx_data</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">to</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_post</span>
     <span class="k">return</span> <span class="n">StateTest</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
@@ -40870,7 +40858,10 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">356</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
 <span class="normal">357</span>
 <span class="normal">358</span>
 <span class="normal">359</span>
@@ -40890,12 +40881,7 @@ spec type as filler for the test.</p>
 <span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -40914,8 +40900,6 @@ spec type as filler for the test.</p>
         <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST</span><span class="p">,</span>
         <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST_HIVE</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;State tests can&#39;t be generated for invalid EOF code yet.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">()</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
             <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
         <span class="p">)</span>
@@ -40961,7 +40945,8 @@ spec type as filler for the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
+<span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
@@ -41098,8 +41083,7 @@ spec type as filler for the test.</p>
 <span class="normal">267</span>
 <span class="normal">268</span>
 <span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests EOF containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -41270,7 +41254,8 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+<span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
@@ -41299,8 +41284,7 @@ spec type as filler for the test.</p>
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
 <span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">check_container_exception</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -41361,12 +41345,12 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
+<span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Workaround for pytest parameter name.</span>
@@ -41398,7 +41382,8 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+<span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
@@ -41435,8 +41420,7 @@ spec type as filler for the test.</p>
 <span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -41501,7 +41485,8 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
+<span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
@@ -41529,8 +41514,7 @@ spec type as filler for the test.</p>
 <span class="normal">250</span>
 <span class="normal">251</span>
 <span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
+<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks that the reported exception string matches the expected error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -41586,7 +41570,8 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/spec/eof/eof_test.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">255</span>
+<span class="normal">256</span>
 <span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
@@ -41600,8 +41585,7 @@ spec type as filler for the test.</p>
 <span class="normal">267</span>
 <span class="normal">268</span>
 <span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
