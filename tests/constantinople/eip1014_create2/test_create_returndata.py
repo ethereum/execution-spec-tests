@@ -7,14 +7,8 @@ Port call_then_create2_successful_then_returndatasizeFiller.json test
 import pytest
 from ethereum.crypto.hash import keccak256
 
-from ethereum_test_tools import (
-    Account,
-    Address,
-    Environment,
-    StateTestFiller,
-    TestAddress,
-    Transaction,
-)
+from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools.vm.opcode import Bytecode
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
@@ -24,6 +18,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 def test_create2_return_data(
     call_return_size: int,
     create_type: Op,
+    pre: Alloc,
     state_test: StateTestFiller,
 ):
     """
@@ -36,15 +31,11 @@ def test_create2_return_data(
     slot_return_data_hash_after_create = 3
     slot_code_worked = 4
 
-    # Pre-Existing Addresses
-    address_to = Address(0x0600)
-    address_call = Address(0x0601)
-
     # CREATE2 Initcode
     create2_salt = 1
     initcode = Op.MSTORE(0, 0x112233) + Op.RETURN(0, 32) + Op.STOP()
 
-    def make_create() -> bytes:
+    def make_create() -> Bytecode:
         if create_type == Op.CREATE2:
             return Op.CREATE2(0, 0x100, Op.CALLDATASIZE(), create2_salt)
         elif create_type == Op.CREATE:
@@ -59,42 +50,29 @@ def test_create2_return_data(
         call_return_size, b"\0"
     )[0:0]
 
-    pre = {
-        address_to: Account(
-            balance=100_000_000,
-            nonce=0,
-            code=Op.JUMPDEST()
-            + Op.MSTORE(0x100, Op.CALLDATALOAD(0))
-            + Op.CALL(0x0900000000, address_call, 0, 0, 0, 0, call_return_size)
-            + Op.SSTORE(slot_returndatasize_before_create, Op.RETURNDATASIZE())
-            + Op.SSTORE(slot_return_data_hash_before_create, Op.SHA3(0, call_return_size))
-            + make_create()
-            + Op.SSTORE(slot_returndatasize_after_create, Op.RETURNDATASIZE())
-            + Op.SSTORE(slot_return_data_hash_after_create, Op.SHA3(0, Op.RETURNDATASIZE()))
-            + Op.SSTORE(slot_code_worked, 1)
-            + Op.STOP(),
-            storage={
-                slot_returndatasize_before_create: 0xFF,
-                slot_returndatasize_after_create: 0xFF,
-                slot_return_data_hash_before_create: 0xFF,
-                slot_return_data_hash_after_create: 0xFF,
-            },
-        ),
-        address_call: Account(
-            balance=0,
-            nonce=0,
-            code=Op.JUMPDEST()
-            + Op.MSTORE(0, call_return_data_value)
-            + Op.RETURN(0, call_return_size),
-            storage={},
-        ),
-        TestAddress: Account(
-            balance=7_000_000_000_000_000_000,
-            nonce=0,
-            code="0x",
-            storage={},
-        ),
-    }
+    address_call = pre.deploy_contract(
+        code=Op.JUMPDEST() + Op.MSTORE(0, call_return_data_value) + Op.RETURN(0, call_return_size),
+        storage={},
+    )
+    address_to = pre.deploy_contract(
+        balance=100_000_000,
+        code=Op.JUMPDEST()
+        + Op.MSTORE(0x100, Op.CALLDATALOAD(0))
+        + Op.CALL(0x0900000000, address_call, 0, 0, 0, 0, call_return_size)
+        + Op.SSTORE(slot_returndatasize_before_create, Op.RETURNDATASIZE())
+        + Op.SSTORE(slot_return_data_hash_before_create, Op.SHA3(0, call_return_size))
+        + make_create()
+        + Op.SSTORE(slot_returndatasize_after_create, Op.RETURNDATASIZE())
+        + Op.SSTORE(slot_return_data_hash_after_create, Op.SHA3(0, Op.RETURNDATASIZE()))
+        + Op.SSTORE(slot_code_worked, 1)
+        + Op.STOP(),
+        storage={
+            slot_returndatasize_before_create: 0xFF,
+            slot_returndatasize_after_create: 0xFF,
+            slot_return_data_hash_before_create: 0xFF,
+            slot_return_data_hash_after_create: 0xFF,
+        },
+    )
 
     post = {
         address_to: Account(
@@ -111,7 +89,7 @@ def test_create2_return_data(
     tx = Transaction(
         ty=0x0,
         chain_id=0x0,
-        nonce=0,
+        sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
         gas_price=10,
         protected=False,
