@@ -12,6 +12,8 @@ from ethereum_test_tools import (
     Account,
     Alloc,
     AuthorizationTuple,
+    Block,
+    BlockchainTestFiller,
     Bytecode,
     Conditional,
     Environment,
@@ -107,6 +109,137 @@ def test_set_code_to_sstore(
         post={
             set_code_to_address: Account(storage={k: 0 for k in storage}),
             auth_signer: Account(nonce=0, code=b"", storage=storage if succeeds else {}),
+        },
+    )
+
+
+def test_set_code_to_sstore_then_sload(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+):
+    """
+    Test the executing a simple SSTORE then SLOAD in two separate set-code transactions.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+    sender = pre.fund_eoa()
+
+    storage_key_1 = 0x1
+    storage_key_2 = 0x2
+    storage_value = 0x1234
+
+    set_code_1 = Op.SSTORE(storage_key_1, storage_value) + Op.STOP
+    set_code_1_address = pre.deploy_contract(set_code_1)
+
+    set_code_2 = Op.SSTORE(storage_key_2, Op.ADD(Op.SLOAD(storage_key_1), 1)) + Op.STOP
+    set_code_2_address = pre.deploy_contract(set_code_2)
+
+    tx_1 = Transaction(
+        gas_limit=50_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_1_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=sender,
+    )
+
+    tx_2 = Transaction(
+        gas_limit=50_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_2_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=sender,
+    )
+
+    block = Block(
+        txs=[tx_1, tx_2],
+    )
+
+    blockchain_test(
+        pre=pre,
+        post={
+            auth_signer: Account(
+                nonce=0,
+                code=b"",
+                storage={
+                    storage_key_1: storage_value,
+                    storage_key_2: storage_value + 1,
+                },
+            ),
+        },
+        blocks=[block],
+    )
+
+
+@pytest.mark.parametrize(
+    "call_opcode",
+    [
+        Op.CALL,
+        Op.DELEGATECALL,
+        Op.STATICCALL,
+        Op.CALLCODE,
+    ],
+)
+@pytest.mark.parametrize(
+    "return_opcode",
+    [
+        Op.RETURN,
+        Op.REVERT,
+    ],
+)
+def test_set_code_to_tstore_reentry(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    call_opcode: Op,
+    return_opcode: Op,
+):
+    """
+    Test the executing a simple TSTORE in a set-code transaction, which also performs a
+    re-entry to TLOAD the value.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    tload_value = 0x1234
+    set_code = Conditional(
+        condition=Op.ISZERO(Op.TLOAD(1)),
+        if_true=Op.TSTORE(1, tload_value)
+        + call_opcode(address=Op.ADDRESS)
+        + Op.RETURNDATACOPY(0, 0, 32)
+        + Op.SSTORE(2, Op.MLOAD(0)),
+        if_false=Op.MSTORE(0, Op.TLOAD(1)) + return_opcode(size=32),
+    )
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_to_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(nonce=0, code=b"", storage={2: tload_value}),
         },
     )
 
