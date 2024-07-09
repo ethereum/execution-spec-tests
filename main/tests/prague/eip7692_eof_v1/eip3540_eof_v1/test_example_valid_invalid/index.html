@@ -12247,7 +12247,7 @@
 
 
 <h1 id="test-example-valid-invalid">Test Example Valid Invalid<a class="headerlink" href="#test-example-valid-invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/489cce6973fa5e3047cff25fc282aa06937fdfc7/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a301708bee56f58a24c6a0b4d0f9cef03bb8da3d/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -12535,20 +12535,7 @@ For all forks up to and including Prague:
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;eof_code,expected_hex_bytecode,exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -12616,19 +12603,6 @@ For all forks up to and including Prague:
             <span class="s2">&quot;ef0001010004020001000E04000400008000015FE10003E00003E00003E0FFFA000bad60A7&quot;</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;rjump_valid&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="c1"># Sections with unreachable code fail</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I0023&quot;</span><span class="p">,</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x0bad60A7&quot;</span><span class="p">),</span>
-                <span class="p">],</span>
-            <span class="p">),</span>
-            <span class="s2">&quot;ef000101000402000100050400040000800000E000015B000bad60A7&quot;</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_INSTRUCTIONS</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;unreachable_code&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Check that code that uses a new style conditional jump succeeds</span>
@@ -12830,7 +12804,20 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">277</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
@@ -12915,20 +12902,7 @@ For all forks up to and including Prague:
 <span class="normal">359</span>
 <span class="normal">360</span>
 <span class="normal">361</span>
-<span class="normal">362</span>
-<span class="normal">363</span>
-<span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">362</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;skip_header_listing, skip_body_listing, skip_types_body_listing, skip_types_header_listing,&quot;</span>
     <span class="s2">&quot;expected_code, expected_exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
