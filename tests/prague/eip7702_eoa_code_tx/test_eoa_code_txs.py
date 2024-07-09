@@ -97,7 +97,7 @@ def test_set_code_to_sstore(
                 signer=auth_signer,
             ),
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -133,7 +133,7 @@ def test_set_code_to_self_destruct(
                 signer=auth_signer,
             ),
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -192,7 +192,7 @@ def test_set_code_to_contract_creator(
                 signer=auth_signer,
             ),
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -389,7 +389,7 @@ def test_address_from_set_code(
                 signer=auth_signer,
             ),
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -461,7 +461,7 @@ def test_ext_code_on_set_code(
                 signer=auth_signer,
             ),
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -522,7 +522,7 @@ def test_self_code_on_set_code(
                 signer=auth_signer,
             ),
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -599,7 +599,7 @@ def test_set_code_to_account_deployed_in_same_tx(
                 signer=auth_signer,
             ),
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -655,7 +655,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer(
             )
             for address in addresses
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -704,7 +704,7 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
             )
             for i, address in enumerate(addresses)
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -764,7 +764,7 @@ def test_set_code_invalid_authorization_tuple(
                 signer=auth_signer,
             )
         ],
-        sender=pre.fund_eoa(10**18),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
