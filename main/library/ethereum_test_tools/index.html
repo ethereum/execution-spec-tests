@@ -30499,11 +30499,11 @@ name and the values of the non-default optional fields.</p>
 
         <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;secret_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="n">updated_tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_copy</span><span class="p">(</span><span class="n">update</span><span class="o">=</span><span class="n">updated_values</span><span class="p">)</span>
+        <span class="n">updated_tx</span><span class="p">:</span> <span class="s2">&quot;Transaction&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_copy</span><span class="p">(</span><span class="n">update</span><span class="o">=</span><span class="n">updated_values</span><span class="p">)</span>
 
         <span class="c1"># Remove the secret key if requested</span>
         <span class="k">if</span> <span class="n">keep_secret_key</span><span class="p">:</span>
-            <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>  <span class="c1"># type: ignore</span>
+            <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>
         <span class="k">return</span> <span class="n">updated_tx</span>
 
     <span class="nd">@cached_property</span>
@@ -31232,11 +31232,11 @@ source account.</p>
 
     <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;secret_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">updated_tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_copy</span><span class="p">(</span><span class="n">update</span><span class="o">=</span><span class="n">updated_values</span><span class="p">)</span>
+    <span class="n">updated_tx</span><span class="p">:</span> <span class="s2">&quot;Transaction&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_copy</span><span class="p">(</span><span class="n">update</span><span class="o">=</span><span class="n">updated_values</span><span class="p">)</span>
 
     <span class="c1"># Remove the secret key if requested</span>
     <span class="k">if</span> <span class="n">keep_secret_key</span><span class="p">:</span>
-        <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>  <span class="c1"># type: ignore</span>
+        <span class="n">updated_tx</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span>
     <span class="k">return</span> <span class="n">updated_tx</span>
 </code></pre></div></td></tr></table></div>
             </details>
