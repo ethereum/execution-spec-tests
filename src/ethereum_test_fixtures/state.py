@@ -34,6 +34,8 @@ class FixtureAuthorizationTuple(AuthorizationTupleGeneric[ZeroPaddedHexNumber]):
     Authorization tuple for fixture transactions.
     """
 
+    signer: Address | None = None
+
     @classmethod
     def from_authorization_tuple(
         cls, auth_tuple: AuthorizationTupleGeneric
@@ -58,7 +60,7 @@ class FixtureTransaction(TransactionFixtureConverter):
     value: List[ZeroPaddedHexNumber]
     data: List[Bytes]
     access_lists: List[List[AccessList]] | None = None
-    authorization_tuples: List[FixtureAuthorizationTuple] | None = None
+    authorization_list: List[FixtureAuthorizationTuple] | None = None
     max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
     blob_versioned_hashes: Sequence[Hash] | None = None
     sender: Address | None = None
