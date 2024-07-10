@@ -240,6 +240,63 @@ def test_container_combos_invalid(
     [
         pytest.param(
             eofcreate_revert_code_section,
+            returncontract_sub_container,
+            id="EOFCREATE/RETURNCONTRACT",
+        ),
+        pytest.param(
+            returncontract_code_section,
+            stop_sub_container,
+            id="RETURNCONTRACT/STOP",
+        ),
+        pytest.param(
+            returncontract_code_section,
+            return_sub_container,
+            id="RETURNCONTRACT/RETURN",
+        ),
+        pytest.param(
+            eofcreate_revert_code_section,
+            revert_sub_container,
+            id="EOFCREATE/REVERT",
+        ),
+        pytest.param(
+            returncontract_code_section,
+            revert_sub_container,
+            id="RETURNCONTRACT/REVERT",
+        ),
+    ],
+)
+def test_container_combos_deeply_nested_valid(
+    eof_test: EOFTestFiller,
+    code_section: Section,
+    first_sub_container: Container,
+):
+    """Test valid subcontainer reference / opcode combos on a deep container nesting level"""
+    valid_container = Container(
+        sections=[
+            code_section,
+            first_sub_container,
+        ],
+        kind=ContainerKind.INITCODE,
+    )
+
+    container = valid_container
+    while len(container) < MAX_BYTECODE_SIZE:
+        container = Container(
+            sections=[
+                eofcreate_revert_code_section,
+                Section.Container(container=container.copy()),
+            ],
+            kind=ContainerKind.INITCODE,
+        )
+
+    eof_test(data=container)
+
+
+@pytest.mark.parametrize(
+    "code_section,first_sub_container",
+    [
+        pytest.param(
+            eofcreate_revert_code_section,
             stop_sub_container,
             id="EOFCREATE/STOP",
         ),
