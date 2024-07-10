@@ -347,6 +347,57 @@ def test_container_combos_deeply_nested_invalid(
     [
         pytest.param(
             eofcreate_code_section,
+            returncontract_sub_container,
+            ContainerKind.RUNTIME,
+            id="EOFCREATE/RETURNCONTRACT",
+        ),
+        pytest.param(
+            returncontract_code_section,
+            stop_sub_container,
+            ContainerKind.INITCODE,
+            id="RETURNCONTRACT/STOP",
+        ),
+        pytest.param(
+            returncontract_code_section,
+            return_sub_container,
+            ContainerKind.INITCODE,
+            id="RETURNCONTRACT/RETURN",
+        ),
+        pytest.param(
+            eofcreate_code_section,
+            revert_sub_container,
+            ContainerKind.RUNTIME,
+            id="EOFCREATE/REVERT",
+        ),
+        pytest.param(
+            returncontract_code_section,
+            revert_sub_container,
+            ContainerKind.INITCODE,
+            id="RETURNCONTRACT/REVERT",
+        ),
+    ],
+)
+def test_container_combos_non_first_code_sections_valid(
+    eof_test: EOFTestFiller,
+    code_section: Section,
+    first_sub_container: Container,
+    container_kind: ContainerKind,
+):
+    """Test valid subcontainer reference / opcode combos in a non-first code section"""
+    eof_test(
+        data=Container(
+            sections=[Section.Code(Op.JUMPF[i]) for i in range(1, 1024)]
+            + [code_section, first_sub_container],
+            kind=container_kind,
+        ),
+    )
+
+
+@pytest.mark.parametrize(
+    "code_section,first_sub_container,container_kind",
+    [
+        pytest.param(
+            eofcreate_code_section,
             stop_sub_container,
             ContainerKind.RUNTIME,
             id="EOFCREATE/STOP",
