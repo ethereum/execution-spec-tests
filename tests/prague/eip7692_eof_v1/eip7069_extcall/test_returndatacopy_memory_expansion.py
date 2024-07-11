@@ -1,23 +1,15 @@
 """
 Memory expansion tests for RETURNDATACOPY executing in EOF code
 """
+
 from typing import Mapping, Tuple
 
 import pytest
 
-from ethereum_test_tools import (
-    Account,
-    Alloc,
-    Bytecode,
-    Environment,
-    StateTestFiller,
-    Storage,
-    Transaction,
-)
-from ethereum_test_tools.common.base_types import Address
-from ethereum_test_tools.common.helpers import cost_memory_bytes
+from ethereum_test_tools import Account, Address, Alloc, Bytecode, Environment
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTestFiller, Storage, Transaction, cost_memory_bytes
 from ethereum_test_tools.eof.v1 import Container
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 
