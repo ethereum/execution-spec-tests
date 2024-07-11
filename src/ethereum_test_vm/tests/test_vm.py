@@ -383,6 +383,23 @@ def test_macros():
         pytest.param(
             Op.POP(Op.CALL(1, 2, 3, 4, 5, 6, 7)), 0, 0, 7, 0, id="POP(CALL(1, 2, 3, 4, 5, 6, 7))"
         ),
+        pytest.param(Op.ADD + Op.RETF, 2, 1, 2, 2, id="Op.ADD + Op.RETF"),
+        pytest.param(
+            (Op.ADD + Op.RETF).with_min_stack_height(2),
+            2,
+            1,
+            2,
+            2,
+            id="(Op.ADD + Op.RETF).with_min_stack_height(2)",
+        ),
+        pytest.param(
+            (Op.ADD + Op.RETF).with_min_stack_height(3),
+            2,
+            1,
+            3,
+            3,
+            id="(Op.ADD + Op.RETF).with_min_stack_height(3)",
+        ),
     ],
 )
 def test_bytecode_properties(

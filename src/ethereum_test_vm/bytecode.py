@@ -137,15 +137,15 @@ class Bytecode:
             # Edge case for sum() function
             return self
         assert isinstance(other, Bytecode), "Can only concatenate Bytecode instances"
-        # Figure out the stack height after executing the two opcodes.
+        # Figure out the stack height after executing the two codes.
         a_pop, a_push = self.popped_stack_items, self.pushed_stack_items
         a_min, a_max = self.min_stack_height, self.max_stack_height
         b_pop, b_push = other.popped_stack_items, other.pushed_stack_items
         b_min, b_max = other.min_stack_height, other.max_stack_height
         a_out = a_min - a_pop + a_push
 
-        c_pop = max(0, a_pop + (b_pop - a_push))
-        c_push = max(0, a_push + b_push - b_pop)
+        c_pop = a_pop + (b_pop - a_push) if b_pop > a_push else a_pop
+        c_push = a_push + b_push - b_pop if a_push + b_push > b_pop else b_push
         c_min = a_min if a_out >= b_min else (b_min - a_out) + a_min
         c_max = max(a_max + max(0, b_min - a_out), b_max + max(0, a_out - b_min))
 
@@ -179,6 +179,23 @@ class Bytecode:
         for _ in range(other - 1):
             output += self
         return output
+
+    def with_min_stack_height(self, min_stack_height: int) -> "Bytecode":
+        """
+        Prepend a dummy bytecode object to constrain the minimum stack height of the resulting
+        bytecode object.
+        """
+        assert min_stack_height >= 0
+        return (
+            Bytecode(
+                b"",
+                popped_stack_items=0,
+                pushed_stack_items=0,
+                min_stack_height=min_stack_height,
+                max_stack_height=min_stack_height,
+            )
+            + self
+        )
 
     def hex(self) -> str:
         """
