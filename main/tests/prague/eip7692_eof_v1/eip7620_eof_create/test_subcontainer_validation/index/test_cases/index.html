@@ -12224,7 +12224,7 @@
 <h1 id="test-subcontainer-validation-test-cases">Test Subcontainer Validation - Test Cases<a class="headerlink" href="#test-subcontainer-validation-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/8bf86bd37f31056ecee81c0cd43fcd1e8446c521/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/a60adc22191f18fed9b6cf6dd81b9496ca216d1a/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_simple_create_from_deployed[fork_CancunEIP7692-eof_test]
 test_simple_create_from_deployed[fork_CancunEIP7692-state_test]
 test_simple_create_from_deployed[fork_CancunEIP7692-blockchain_test]
@@ -12270,6 +12270,22 @@ test_container_combos_valid[fork_CancunEIP7692-blockchain_test_hive-RETURNCONTRA
 test_container_combos_invalid[fork_CancunEIP7692-eof_test-EOFCREATE/STOP]
 test_container_combos_invalid[fork_CancunEIP7692-eof_test-EOFCREATE/RETURN]
 test_container_combos_invalid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/RETURNCONTRACT]
+test_container_combos_deeply_nested_valid[fork_CancunEIP7692-eof_test-EOFCREATE/RETURNCONTRACT]
+test_container_combos_deeply_nested_valid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/STOP]
+test_container_combos_deeply_nested_valid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/RETURN]
+test_container_combos_deeply_nested_valid[fork_CancunEIP7692-eof_test-EOFCREATE/REVERT]
+test_container_combos_deeply_nested_valid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/REVERT]
+test_container_combos_deeply_nested_invalid[fork_CancunEIP7692-eof_test-EOFCREATE/STOP]
+test_container_combos_deeply_nested_invalid[fork_CancunEIP7692-eof_test-EOFCREATE/RETURN]
+test_container_combos_deeply_nested_invalid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/RETURNCONTRACT]
+test_container_combos_non_first_code_sections_valid[fork_CancunEIP7692-eof_test-EOFCREATE/RETURNCONTRACT]
+test_container_combos_non_first_code_sections_valid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/STOP]
+test_container_combos_non_first_code_sections_valid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/RETURN]
+test_container_combos_non_first_code_sections_valid[fork_CancunEIP7692-eof_test-EOFCREATE/REVERT]
+test_container_combos_non_first_code_sections_valid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/REVERT]
+test_container_combos_non_first_code_sections_invalid[fork_CancunEIP7692-eof_test-EOFCREATE/STOP]
+test_container_combos_non_first_code_sections_invalid[fork_CancunEIP7692-eof_test-EOFCREATE/RETURN]
+test_container_combos_non_first_code_sections_invalid[fork_CancunEIP7692-eof_test-RETURNCONTRACT/RETURNCONTRACT]
 test_container_both_kinds_same_sub[fork_CancunEIP7692-eof_test]
 test_container_both_kinds_different_sub[fork_CancunEIP7692-eof_test]
 </code></pre></div>
