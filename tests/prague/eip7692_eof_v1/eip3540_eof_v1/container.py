@@ -4,7 +4,8 @@ Test EVM Object Format Version 1
 
 from typing import List
 
-from ethereum_test_tools import EOFException
+from ethereum_test_tools import Bytecode, EOFException
+from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools.eof.v1 import (
     VERSION_MAX_SECTION_KIND,
     AutoSection,
@@ -18,7 +19,6 @@ from ethereum_test_tools.eof.v1.constants import (
     MAX_CODE_SECTIONS,
     MAX_OPERAND_STACK_HEIGHT,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 INVALID: List[Container] = [
     Container(
@@ -198,7 +198,7 @@ INVALID: List[Container] = [
     Container(
         name="no_section_terminator_2",
         header_terminator=bytes(),
-        sections=[Section.Code(code="0x", custom_size=3)],
+        sections=[Section.Code(code=Bytecode(), custom_size=3)],
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
@@ -239,7 +239,7 @@ INVALID: List[Container] = [
     Container(
         name="no_section_terminator_nonzero_2",
         header_terminator=b"03",
-        sections=[Section.Code(code="0x", custom_size=3)],
+        sections=[Section.Code(code=Bytecode(), custom_size=3)],
         validity_error=EOFException.MISSING_TERMINATOR,
     ),
     Container(
@@ -256,7 +256,7 @@ INVALID: List[Container] = [
     ),
     Container(
         name="no_code_section_contents",
-        sections=[Section.Code(code="0x", custom_size=0x01)],
+        sections=[Section.Code(code=Bytecode(), custom_size=0x01)],
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),
     Container(
@@ -274,14 +274,14 @@ INVALID: List[Container] = [
     ),
     Container(
         name="empty_code_section",
-        sections=[Section.Code(code="0x")],
+        sections=[Section.Code(code=Bytecode())],
         # TODO the exception must be about code section EOFException.INVALID_CODE_SECTION,
         validity_error=EOFException.ZERO_SECTION_SIZE,
     ),
     Container(
         name="empty_code_section_with_non_empty_data",
         sections=[
-            Section.Code(code="0x"),
+            Section.Code(code=Bytecode()),
             Section.Data(data="0xDEADBEEF"),
         ],
         # TODO the exception must be about code section EOFException.INVALID_CODE_SECTION,
@@ -323,7 +323,7 @@ INVALID: List[Container] = [
     Container(
         name="no_section_terminator_3a",
         header_terminator=bytes(),
-        sections=[Section.Code(code="0x030004")],
+        sections=[Section.Code(code=Op.SUB + Op.STOP + Op.DIV)],
         # TODO the exception must be about terminator
         validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
     ),

@@ -84,7 +84,9 @@ def test_above_max_size_raw(
             Container(
                 sections=[
                     Section.Code(code=Op.STOP),
-                    Section.Container(container=Op.STOP, custom_size=MAX_INITCODE_SIZE),
+                    Section.Container(
+                        container=Container(raw_bytes=b"\0"), custom_size=MAX_INITCODE_SIZE
+                    ),
                 ]
             ),
             id="1st_container_section",
@@ -93,8 +95,10 @@ def test_above_max_size_raw(
             Container(
                 sections=[
                     Section.Code(code=Op.STOP),
-                    Section.Container(container=Op.STOP),
-                    Section.Container(container=Op.STOP, custom_size=MAX_INITCODE_SIZE),
+                    Section.Container(container=Container(raw_bytes=b"\0")),
+                    Section.Container(
+                        container=Container(raw_bytes=b"\0"), custom_size=MAX_INITCODE_SIZE
+                    ),
                 ]
             ),
             id="2nd_container_section",

@@ -359,8 +359,11 @@ def test_macros():
 
 
 @pytest.mark.parametrize(
-    "bytecode,expected_popped_items,expected_pushed_items,"
-    "expected_max_stack_height,expected_min_stack_height",
+    (
+        "bytecode,"
+        + "expected_popped_items,expected_pushed_items,"
+        + "expected_max_stack_height,expected_min_stack_height"
+    ),
     [
         pytest.param(Op.PUSH1 + Op.POP, 0, 0, 1, 0, id="PUSH1 + POP"),
         pytest.param(Op.PUSH1 + Op.PUSH1, 0, 2, 2, 0, id="PUSH1 + PUSH1"),
@@ -399,6 +402,14 @@ def test_macros():
             3,
             3,
             id="(Op.ADD + Op.RETF).with_min_stack_height(3)",
+        ),
+        pytest.param(
+            (Op.PUSH0 + Op.POP + Op.RETF).with_min_stack_height(3),
+            0,
+            0,
+            4,
+            3,
+            id="(Op.PUSH0 + Op.POP + Op.RETF).with_min_stack_height(3)",
         ),
     ],
 )

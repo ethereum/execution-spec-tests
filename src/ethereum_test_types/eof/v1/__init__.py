@@ -151,16 +151,6 @@ class Section(CopyValidateModel):
     """
     Maximum height data stack reaches during execution of code section.
     """
-    auto_max_stack_height: bool = False
-    """
-    Whether to automatically compute the best suggestion for the
-    max_stack_height value for this code section.
-    """
-    auto_code_inputs_outputs: bool = False
-    """
-    Whether to automatically compute the best suggestion for the code_inputs,
-    code_outputs values for this code section.
-    """
     skip_header_listing: bool = False
     """
     Skip section from listing in the header
@@ -203,19 +193,6 @@ class Section(CopyValidateModel):
             self.code_outputs,
             self.max_stack_height,
         )
-        if self.auto_max_stack_height or self.auto_code_inputs_outputs:
-            (
-                auto_code_inputs,
-                auto_code_outputs,
-                auto_max_height,
-            ) = compute_code_stack_values(self.data)
-            if self.auto_max_stack_height:
-                max_stack_height = auto_max_height
-            if self.auto_code_inputs_outputs:
-                code_inputs, code_outputs = (
-                    auto_code_inputs,
-                    auto_code_outputs,
-                )
 
         return (
             code_inputs.to_bytes(length=TYPES_INPUTS_BYTE_LENGTH, byteorder="big")
@@ -229,19 +206,6 @@ class Section(CopyValidateModel):
         specified value.
         """
         return self.copy(max_stack_height=max_stack_height)
-
-    def with_auto_max_stack_height(self) -> "Section":
-        """
-        Creates a copy of the section with `auto_max_stack_height` set to True.
-        """
-        return self.copy(auto_max_stack_height=True)
-
-    def with_auto_code_inputs_outputs(self) -> "Section":
-        """
-        Creates a copy of the section with `auto_code_inputs_outputs` set to
-        True.
-        """
-        return self.copy(auto_code_inputs_outputs=True)
 
     @staticmethod
     def list_header(sections: List["Section"]) -> bytes:
@@ -275,25 +239,43 @@ class Section(CopyValidateModel):
         return h
 
     @classmethod
-    def Code(  # noqa: N802
-        cls, code: BytesConvertible | Bytecode = Bytecode(), **kwargs
-    ) -> "Section":
+    def Code(cls, code: Bytecode = Bytecode(), **kwargs) -> "Section":  # noqa: N802
         """
         Creates a new code section with the specified code.
         """
-        kwargs.pop("kind", None)
-        if "max_stack_height" not in kwargs and isinstance(code, Bytecode):
+        assert "kind" not in kwargs, "Kind is automatically set to CODE for code sections."
+        if "max_stack_height" not in kwargs:
             kwargs["max_stack_height"] = code.max_stack_height
         return cls(kind=SectionKind.CODE, data=code, **kwargs)
 
     @classmethod
-    def Container(  # noqa: N802
-        cls, container: "Container" | BytesConvertible, **kwargs
-    ) -> "Section":
+    def Function(cls, code: Bytecode = Bytecode(), **kwargs) -> "Section":  # noqa: N802
+        """
+        Creates a new code section with the specified code aimed to be processed as a function.
+
+        Code inputs, outputs and stack height are automatically calculated.
+        """
+        assert "kind" not in kwargs, "Kind is automatically set to CODE for function sections."
+        if "code_inputs" not in kwargs:
+            kwargs["code_inputs"] = code.min_stack_height
+        else:
+            code = code.with_min_stack_height(kwargs["code_inputs"])
+        if "code_outputs" not in kwargs:
+            kwargs["code_outputs"] = max(
+                0, code.min_stack_height - code.popped_stack_items + code.pushed_stack_items
+            )
+        if "max_stack_height" not in kwargs:
+            kwargs["max_stack_height"] = code.max_stack_height
+        return cls(kind=SectionKind.CODE, data=code, **kwargs)
+
+    @classmethod
+    def Container(cls, container: "Container", **kwargs) -> "Section":  # noqa: N802
         """
         Creates a new container section with the specified container.
         """
-        kwargs.pop("kind", None)
+        assert (
+            "kind" not in kwargs
+        ), "Kind is automatically set to CONTAINER for container sections."
         return cls(kind=SectionKind.CONTAINER, data=container, **kwargs)
 
     @classmethod
@@ -446,7 +428,7 @@ class Container(CopyValidateModel):
         return c
 
     @classmethod
-    def Code(cls, code: BytesConvertible = Bytecode(), **kwargs) -> "Container":  # noqa: N802
+    def Code(cls, code: Bytecode = Bytecode(), **kwargs) -> "Container":  # noqa: N802
         """
         Creates simple container with a single code section.
         """
@@ -525,40 +507,3 @@ def count_sections(sections: List[Section], kind: SectionKind | int) -> int:
     Counts sections from a list that match a specific kind
     """
     return len([s for s in sections if s.kind == kind])
-
-
-OPCODE_MAP: Dict[int, Op] = {x.int(): x for x in Op}
-
-
-def compute_code_stack_values(code: bytes) -> Tuple[int, int, int]:
-    """
-    Computes the stack values for the given bytecode.
-
-    TODO: THIS DOES NOT WORK WHEN THE RJUMP* JUMPS BACKWARDS (and many other
-    things).
-    """
-    i = 0
-    stack_height = 0
-    min_stack_height = 0
-    max_stack_height = 0
-
-    # compute type annotation
-    while i < len(code):
-        op = OPCODE_MAP.get(code[i])
-        if op is None:
-            return (0, 0, 0)
-        elif op == Op.RJUMPV:
-            i += 1
-            if i < len(code):
-                count = code[i]
-                i += count * 2
-        else:
-            i += 1 + op.data_portion_length
-
-        stack_height -= op.popped_stack_items
-        min_stack_height = min(stack_height, min_stack_height)
-        stack_height += op.pushed_stack_items
-        max_stack_height = max(stack_height, max_stack_height)
-    if stack_height < 0:
-        stack_height = 0
-    return (abs(min_stack_height), stack_height, max_stack_height)
