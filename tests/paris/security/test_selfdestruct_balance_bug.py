@@ -15,8 +15,10 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Address,
+    Alloc,
     Block,
     BlockchainTestFiller,
+    Environment,
     Initcode,
     TestAddress,
     Transaction,
@@ -150,3 +152,53 @@ def test_tx_selfdestruct_balance_bug(blockchain_test: BlockchainTestFiller, yul:
     }
 
     blockchain_test(pre=pre, post=post, blocks=blocks)
+
+
+@pytest.mark.valid_from("Istanbul")
+def test_storage_change(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+):
+    """
+    1 block, 2 txs:
+    - 1st tx changes the storage slot value (from 1) to 2
+    - 2nd tx changes the storage slot value (from 2) to 1
+    """
+    # pre-deployed contract address which sets storage to passed value
+    # transaction 1: pass 2 to be set by contract
+    # transaction 2: pass 1 to be set by contract
+    # pre: deployed contract with storage set to 1
+    # post: deployed contract with storage set to 1
+    env = Environment()
+
+    contract_address = pre.deploy_contract(
+        Op.SSTORE(0, Op.CALLDATALOAD(0)) + Op.STOP,
+        storage={0: 1},
+    )
+    sender = pre.fund_eoa(5000000000)
+    transaction_1 = Transaction(
+        ty=0x0,
+        chain_id=0x01,
+        to=contract_address,
+        gas_limit=100000000,
+        gas_price=10,
+        data="0x02",
+        protected=False,
+        sender=sender,
+    )
+
+    transaction_2 = Transaction(
+        ty=0x0,
+        chain_id=0x01,
+        to=contract_address,
+        gas_limit=100000000,
+        gas_price=10,
+        data="0x01",
+        protected=False,
+        sender=sender,
+    )
+
+    blocks = [Block(txs=[transaction_1, transaction_2])]
+
+    post = {contract_address: Account(storage={0: 1})}
+    blockchain_test(genesis_environment=env, pre=pre, post=post, blocks=blocks)
