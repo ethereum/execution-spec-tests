@@ -1456,6 +1456,18 @@
         
       
         
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
           
         
       
@@ -1507,11 +1519,95 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../library/evm_transition_tool/" class="md-nav__link">
+      <a href="../../../../../library/ethereum_test_base_types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    EVM Transition Tool Package
+    Ethereum Test Base Types Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../library/ethereum_test_exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Exceptions Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../library/ethereum_test_fixtures/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Fixtures Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../library/ethereum_test_forks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Forks Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../library/ethereum_test_specs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Specs Package
   </span>
   
 
@@ -1549,11 +1645,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../library/ethereum_test_forks/" class="md-nav__link">
+      <a href="../../../../../library/ethereum_test_types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Ethereum Test Forks Package
+    Ethereum Test Types Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../library/ethereum_test_vm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test VM Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../library/evm_transition_tool/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EVM Transition Tool Package
   </span>
   
 
@@ -12343,7 +12481,7 @@
 
 
 <h1 id="test-eof-example">Test Eof Example<a class="headerlink" href="#test-eof-example" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc59e17caaba8642de35f937a56e77dabd50942/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be706d007bbaa3397793d81ac9cb8f0151d22fe7/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -12389,7 +12527,13 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
@@ -12433,13 +12577,7 @@ For all forks up to and including Prague:
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Example of python EOF classes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12516,7 +12654,13 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -12559,13 +12703,7 @@ For all forks up to and including Prague:
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example_custom_fields</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example_custom_fields</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Example of python EOF container class tuning</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -12641,7 +12779,13 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
@@ -12667,15 +12811,9 @@ For all forks up to and including Prague:
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;data_section_bytes&quot;</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;0x01&quot;</span><span class="p">,</span> <span class="s2">&quot;0xef&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x01</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xef</span><span class="s2">&quot;</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;code_section_code, exception&quot;</span><span class="p">,</span>
@@ -12683,8 +12821,8 @@ For all forks up to and including Prague:
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eof_example_parameters</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
-    <span class="n">data_section_bytes</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
-    <span class="n">code_section_code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
+    <span class="n">data_section_bytes</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="n">code_section_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
     <span class="n">exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

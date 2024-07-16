@@ -1528,6 +1528,18 @@
         
       
         
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
           
         
       
@@ -1579,11 +1591,95 @@
   
   
     <li class="md-nav__item">
-      <a href="../../library/evm_transition_tool/" class="md-nav__link">
+      <a href="../../library/ethereum_test_base_types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    EVM Transition Tool Package
+    Ethereum Test Base Types Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/ethereum_test_exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Exceptions Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/ethereum_test_fixtures/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Fixtures Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/ethereum_test_forks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Forks Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/ethereum_test_specs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test Specs Package
   </span>
   
 
@@ -1621,11 +1717,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../../library/ethereum_test_forks/" class="md-nav__link">
+      <a href="../../library/ethereum_test_types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Ethereum Test Forks Package
+    Ethereum Test Types Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/ethereum_test_vm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethereum Test VM Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/evm_transition_tool/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EVM Transition Tool Package
   </span>
   
 
@@ -12398,7 +12536,7 @@
 <h1 id="exception-tests">Exception Tests<a class="headerlink" href="#exception-tests" title="Permanent link">&para;</a></h1>
 <p>Exception tests are a special type of test which verify that an invalid transaction or an invalid block are correctly rejected with the expected error.</p>
 <h2 id="creating-an-exception-test">Creating an Exception Test<a class="headerlink" href="#creating-an-exception-test" title="Permanent link">&para;</a></h2>
-<p>To test for an exception, the test can use either of the following types from <code>ethereum_test_tools</code> library:</p>
+<p>To test for an exception, the test can use either of the following types from <code>ethereum_test_exceptions</code> library:</p>
 <ol>
 <li>
 <p><a href="../../consuming_tests/exceptions/#transactionexception"><code>TransactionException</code></a>: To be added to the <code>error</code> field of the <code>Transaction</code> object, and to the <code>exception</code> field of the <code>Block</code> object that includes the transaction; this exception type is used when a transaction is invalid, and therefore when included in a block, the block is expected to be invalid too. This is different from valid transactions where an exception during EVM execution is expected (e.g. a revert, or out-of-gas), which can be included in valid blocks.</p>
