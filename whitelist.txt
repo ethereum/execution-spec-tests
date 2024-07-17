@@ -198,6 +198,7 @@ incrementing
 ini
 init
 initcode
+inputdata
 instantiation
 io
 islice
@@ -642,6 +643,7 @@ return
 delegatecall
 eofcreate
 extcall
+extcalls
 extdelegatecall
 staticcall
 extstaticcall
