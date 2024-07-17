@@ -26,6 +26,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Convert a few eip1153 tests from ethereum/tests repo into .py ([#440](https://github.com/ethereum/execution-spec-tests/pull/440)).
 - ✨ Add tests for [EIP-7480: EOF - Data section access instructions](https://eips.ethereum.org/EIPS/eip-7480) ([#518](https://github.com/ethereum/execution-spec-tests/pull/518), [#664](https://github.com/ethereum/execution-spec-tests/pull/664)).
 - ✨ Add tests for subcontainer kind validation from [EIP-7620: EOF Contract Creation](https://eips.ethereum.org/EIPS/eip-7620) for the cases with deeply nested containers and non-first code sections ([#676](https://github.com/ethereum/execution-spec-tests/pull/676)).
+- ✨ Add tests for runtime stack overflow at CALLF instruction from [EIP-4750: EOF - Functions](https://eips.ethereum.org/EIPS/eip-4750) for the cases with deeply nested containers and non-first code sections ([#678](https://github.com/ethereum/execution-spec-tests/pull/678)).
 
 ### 🛠️ Framework
 
