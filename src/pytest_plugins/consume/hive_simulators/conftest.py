@@ -1,10 +1,11 @@
 """
 Common pytest fixtures for the RLP and Engine simulators.
 """
+
 import io
 import json
 import time
-from typing import Generator, List, Mapping, cast
+from typing import Generator, cast
 
 import pytest
 import rich
@@ -12,7 +13,7 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 from pydantic import BaseModel
 
-from ethereum_test_base_types import Bytes, to_json
+from ethereum_test_base_types import to_json
 from ethereum_test_fixtures import BlockchainFixtureCommon
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_tools.rpc import EthRPC
@@ -28,7 +29,7 @@ class TestCaseTimingData(BaseModel):
     prepare_files: float | None = None  # start of test until client start
     start_client: float | None = None
     get_genesis: float | None = None
-    get_last_block: float | None = None
+    test_case_execution: float | None = None
     stop_client: float | None = None
     total: float | None = None
 
@@ -77,7 +78,7 @@ def fixture_description(
 @pytest.fixture(scope="function")
 def t_test_start() -> float:
     """
-    The time the test started; used to time fixture+file preparation and total time.
+    Used to time fixture & file preparation and total time.
     """
     return time.perf_counter()
 
@@ -99,9 +100,9 @@ def timing_data(request, t_test_start) -> Generator[TestCaseTimingData, None, No
 @pytest.mark.usefixtures("timing_data")
 def client_genesis(blockchain_fixture: BlockchainFixtureCommon) -> dict:
     """
-    Convert the fixture's genesis block header and pre-state to a client genesis state.
+    Convert the fixture genesis block header and pre-state to a client genesis state.
     """
-    genesis = to_json(blockchain_fixture.genesis)  # NOTE: to_json() excludes None values
+    genesis = to_json(blockchain_fixture.genesis)
     alloc = to_json(blockchain_fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix
     genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
@@ -126,16 +127,6 @@ def environment(blockchain_fixture: BlockchainFixtureCommon) -> dict:
 
 
 @pytest.fixture(scope="function")
-def blocks_rlp() -> List[Bytes]:
-    """
-    A list of the fixture's blocks encoded as RLP.
-
-    By default, no blocks are placed into this fixture, but `rlp` consumer will override this.
-    """
-    return []
-
-
-@pytest.fixture(scope="function")
 def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     """
     Create a buffered reader for the genesis block header of the current test
@@ -147,47 +138,23 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
 
 
 @pytest.fixture(scope="function")
-def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> List[io.BufferedReader]:
-    """
-    Convert the RLP-encoded blocks of the current test fixture to buffered readers.
-    """
-    block_rlp_files = []
-    for _, block_rlp in enumerate(blocks_rlp):
-        block_rlp_stream = io.BytesIO(block_rlp)
-        block_rlp_files.append(io.BufferedReader(cast(io.RawIOBase, block_rlp_stream)))
-    return block_rlp_files
-
-
-@pytest.fixture(scope="function")
-def client_files(
-    buffered_genesis: io.BufferedReader,
-    buffered_blocks_rlp: list[io.BufferedReader],
-) -> Mapping[str, io.BufferedReader]:
-    """
-    Define the files that hive will start the client with.
-
-    The files are specified as a dictionary whose:
-    - Keys are the target file paths in the client's docker container, and,
-    - Values are in-memory buffered file objects.
-    """
-    files = {f"/blocks/{i + 1:04d}.rlp": rlp for i, rlp in enumerate(buffered_blocks_rlp)}
-    files["/genesis.json"] = buffered_genesis
-    return files
-
-
-@pytest.fixture(scope="function")
 def client(
     hive_test: HiveTest,
-    client_files: dict,
+    client_files: dict,  # configured within: rlp/conftest.py & engine/conftest.py
     environment: dict,
     client_type: ClientType,
+    timing_data: TestCaseTimingData,
+    t_test_start: float,
 ) -> Generator[Client, None, None]:
     """
     Initialize the client with the appropriate files and environment variables.
     """
+    timing_data.prepare_files = time.perf_counter() - t_test_start
+    t_start = time.perf_counter()
     client = hive_test.start_client(
         client_type=client_type, environment=environment, files=client_files
     )
+    timing_data.start_client = time.perf_counter() - t_start
     error_message = (
         f"Unable to connect to the client container ({client_type.name}) via Hive during test "
         "setup. Check the client or Hive server logs for more information."
@@ -195,3 +162,6 @@ def client(
     assert client is not None, error_message
     yield client
     client.stop()
+    t_start = time.perf_counter()
+    client.stop()
+    timing_data.stop_client = time.perf_counter() - t_start

@@ -1,13 +1,8 @@
 """
-Test a fully instantiated client using RLP-encoded blocks from blockchain tests.
+A hive based simulator that executes RLP-encoded blocks against clients. The simulator uses the
+`BlockchainFixtures` to test this against clients.
 
-The input test fixtures have the blockchain test format. The setup sends
-the genesis file and RLP-encoded blocks to the client container using hive.
-The client consumes these files upon start-up.
-
-Given a genesis state and a list of RLP-encoded blocks, the test verifies that:
-1. The client's genesis block hash matches that defined in the fixture.
-2. The client's last block hash matches that defined in the fixture.
+Clients consume the genesis and RLP-encoded blocks from input files upon start-up.
 """
 
 import time
@@ -24,21 +19,16 @@ def test_via_rlp(
     blockchain_fixture: BlockchainFixture,
 ):
     """
-    Verify that the client's state as calculated from the specified genesis state
-    and blocks matches those defined in the test fixture.
-
-    Test:
-
-    1. The client's genesis block hash matches `blockchain_fixture.genesis.block_hash`.
-    2. The client's last block's hash matches `blockchain_fixture.last_block_hash`.
+    1. Check the client genesis block hash matches `blockchain_fixture.genesis.block_hash`.
+    2. Check the client last block hash matches `blockchain_fixture.last_block_hash`.
     """
-    t_start = time.perf_counter()
+    t_rlp = time.perf_counter()
     genesis_block = eth_rpc.get_block_by_number(0)
-    timing_data.get_genesis = time.perf_counter() - t_start
+    timing_data.get_genesis = time.perf_counter() - t_rlp
     if genesis_block["hash"] != str(blockchain_fixture.genesis.block_hash):
         raise GenesisBlockMismatchException(
             expected_header=blockchain_fixture.genesis, got_header=FixtureHeader(**genesis_block)
         )
     block = eth_rpc.get_block_by_number("latest")
-    timing_data.get_last_block = time.perf_counter() - timing_data.get_genesis - t_start
+    timing_data.test_case_execution = time.perf_counter() - timing_data.get_genesis - t_rlp
     assert block["hash"] == str(blockchain_fixture.last_block_hash), "hash mismatch in last block"

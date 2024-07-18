@@ -4,7 +4,9 @@ Pytest fixtures for the `consume engine` simulator.
 Configures the hive back-end & EL clients for each individual test execution.
 """
 
+import io
 from pathlib import Path
+from typing import Mapping
 
 import pytest
 from hive.client import Client
@@ -64,3 +66,13 @@ def blockchain_fixture(fixture_source: JsonSource, test_case: TestCase) -> Block
         fixtures = BlockchainHiveFixtures.from_file(Path(fixture_source) / test_case.json_path)
         fixture = fixtures[test_case.id]
     return fixture
+
+
+@pytest.fixture(scope="function")
+def client_files(buffered_genesis: io.BufferedReader) -> Mapping[str, io.BufferedReader]:
+    """
+    Define the files that hive will start the client with.
+    """
+    files = {}
+    files["/genesis.json"] = buffered_genesis
+    return files
