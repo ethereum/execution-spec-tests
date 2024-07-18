@@ -3,3 +3,5 @@
 ::: pytest_plugins.test_filler
 
 ::: pytest_plugins.test_filler.test_filler
+
+::: pytest_plugins.test_filler.pre_alloc
