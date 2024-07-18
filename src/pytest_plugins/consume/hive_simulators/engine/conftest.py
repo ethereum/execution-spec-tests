@@ -15,7 +15,7 @@ from ethereum_test_fixtures import BlockchainHiveFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import BlockchainHiveFixtures
 from ethereum_test_tools.rpc import EngineRPC
-from pytest_plugins.consume.common import JsonSource
+from pytest_plugins.consume.consume import JsonSource
 
 TestCase = TestCaseIndexFile | TestCaseStream
 

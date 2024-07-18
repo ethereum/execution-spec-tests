@@ -12,7 +12,7 @@ from ethereum_test_base_types import Bytes
 from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import BlockchainFixtures
-from pytest_plugins.consume.common import JsonSource
+from pytest_plugins.consume.consume import JsonSource
 
 TestCase = TestCaseIndexFile | TestCaseStream
 
