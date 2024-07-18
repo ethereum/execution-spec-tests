@@ -52,6 +52,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🔀 Refactor `gentest` to use `ethereum_test_tools.rpc.rpc` by adding to `get_transaction_by_hash`, `debug_trace_call` to `EthRPC` ([#568](https://github.com/ethereum/execution-spec-tests/pull/568)).
 - ✨ Write a properties file to the output directory and enable direct generation of a fixture tarball from `fill` via `--output=fixtures.tgz`([#627](https://github.com/ethereum/execution-spec-tests/pull/627)).
 - 🔀 `ethereum_test_tools` library has been split into multiple libraries ([#645](https://github.com/ethereum/execution-spec-tests/pull/645)).
+- ✨ Add the consume engine simulator and refactor the consume simulator suite. ([#691](https://github.com/ethereum/execution-spec-tests/pull/691)).
 
 ### 🔧 EVM Tools
 
