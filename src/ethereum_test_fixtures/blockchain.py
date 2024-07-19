@@ -295,12 +295,6 @@ class FixtureEngineNewPayload(CamelModel):
         new_payload = cls(
             params=params,
             version=new_payload_version,
-            blob_versioned_hashes=(
-                Transaction.list_blob_versioned_hashes(transactions)
-                if fork.engine_new_payload_blob_hashes(header.number, header.timestamp)
-                else None
-            ),
-            parent_beacon_block_root=header.parent_beacon_block_root,
             **kwargs,
         )
 
