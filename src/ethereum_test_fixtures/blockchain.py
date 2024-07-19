@@ -3,7 +3,7 @@ BlockchainTest types
 """
 
 from functools import cached_property
-from typing import Annotated, Any, ClassVar, List, Literal, Tuple, get_args, get_type_hints
+from typing import Annotated, Any, ClassVar, List, Literal, Tuple, Union, get_args, get_type_hints
 
 from ethereum import rlp as eth_rlp
 from ethereum.base_types import Uint
@@ -238,7 +238,7 @@ EngineNewPayloadV3Parameters = Tuple[FixtureExecutionPayload, List[Hash], Hash]
 
 # Important: We check EngineNewPayloadV3Parameters first as it has more fields, and pydantic
 # has a weird behavior when the smaller tuple is checked first.
-EngineNewPayloadParameters = EngineNewPayloadV3Parameters | EngineNewPayloadV1Parameters
+EngineNewPayloadParameters = Union[EngineNewPayloadV3Parameters, EngineNewPayloadV1Parameters]
 
 
 class FixtureEngineNewPayload(CamelModel):
