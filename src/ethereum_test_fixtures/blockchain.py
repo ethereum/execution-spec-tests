@@ -233,13 +233,21 @@ class FixtureExecutionPayload(CamelModel):
         )
 
 
+EngineNewPayloadV1Parameters = Tuple[FixtureExecutionPayload]
+EngineNewPayloadV3Parameters = Tuple[FixtureExecutionPayload, List[Hash], Hash]
+
+# Important: We check EngineNewPayloadV3Parameters first as it has more fields, and pydantic
+# has a weird behavior when the smaller tuple is checked first.
+EngineNewPayloadParameters = EngineNewPayloadV3Parameters | EngineNewPayloadV1Parameters
+
+
 class FixtureEngineNewPayload(CamelModel):
     """
     Representation of the `engine_newPayloadVX` information to be
     sent using the block information.
     """
 
-    params: Tuple[FixtureExecutionPayload] | Tuple[FixtureExecutionPayload, List[Hash], Hash]
+    params: EngineNewPayloadParameters
     version: Number
     validation_error: ExceptionInstanceOrList | None = None
     error_code: (
@@ -283,11 +291,12 @@ class FixtureEngineNewPayload(CamelModel):
         )
         params: Tuple[FixtureExecutionPayload] | Tuple[FixtureExecutionPayload, List[Hash], Hash]
         if fork.engine_new_payload_blob_hashes(header.number, header.timestamp):
-            assert header.parent_beacon_block_root is not None
+            parent_beacon_block_root = header.parent_beacon_block_root
+            assert parent_beacon_block_root is not None
             params = (
                 execution_payload,
                 Transaction.list_blob_versioned_hashes(transactions),
-                header.parent_beacon_block_root,
+                parent_beacon_block_root,
             )
         else:
             params = (execution_payload,)
