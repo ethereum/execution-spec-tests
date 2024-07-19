@@ -187,7 +187,7 @@ class EngineRPC(BaseRPC):
         """
         `engine_newPayloadVX`: Attempts to execute the given payload on an execution client.
         """
-        return PayloadStatus(**self.post_request(f"newPayloadV{version}", *params))
+        return PayloadStatus(**self.post_request(f"newPayloadV{version}", to_json(*params)))
 
     def forkchoice_updated(
         self,

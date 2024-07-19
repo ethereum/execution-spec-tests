@@ -36,7 +36,7 @@ def test_via_engine(
 
     for payload in blockchain_fixture.payloads:
         payload_response = engine_rpc.new_payload(
-            *payload.args(),
+            *payload.params,
             version=payload.version,
         )
         assert payload_response.status == (

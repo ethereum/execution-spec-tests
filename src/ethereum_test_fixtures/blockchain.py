@@ -23,7 +23,6 @@ from ethereum_test_base_types import (
     Number,
     ZeroPaddedHexNumber,
 )
-from ethereum_test_base_types.json import to_json
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork
 from ethereum_test_types.types import (
