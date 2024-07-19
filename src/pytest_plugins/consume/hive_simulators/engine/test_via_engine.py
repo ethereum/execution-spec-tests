@@ -37,18 +37,21 @@ def test_via_engine(
     for payload in blockchain_fixture.payloads:
         payload_response = engine_rpc.new_payload(
             *payload.params,
-            version=payload.version,
+            version=payload.new_payload_version,
         )
         assert payload_response.status == (
             PayloadStatusEnum.VALID if payload.valid() else PayloadStatusEnum.INVALID
         ), f"unexpected status: {payload_response}"
-
-    forkchoice_response = engine_rpc.forkchoice_updated(
-        forkchoice_state=ForkchoiceState(head_block_hash=blockchain_fixture.last_block_hash),
-        payload_attributes=None,
-        version=blockchain_fixture.fcu_version,
-    )
+        if payload.valid():
+            # Send a forkchoice update to the engine
+            forkchoice_response = engine_rpc.forkchoice_updated(
+                forkchoice_state=ForkchoiceState(
+                    head_block_hash=payload.params[0].block_hash,
+                ),
+                payload_attributes=None,
+                version=payload.forkchoice_updated_version,
+            )
+            assert (
+                forkchoice_response.payload_status.status == PayloadStatusEnum.VALID
+            ), f"unexpected status: {forkchoice_response}"
     timing_data.test_case_execution = time.perf_counter() - timing_data.get_genesis - t_engine
-    assert (
-        forkchoice_response.payload_status.status == PayloadStatusEnum.VALID
-    ), f"unexpected status: {forkchoice_response}"

@@ -248,7 +248,8 @@ class FixtureEngineNewPayload(CamelModel):
     """
 
     params: EngineNewPayloadParameters
-    version: Number
+    new_payload_version: Number
+    forkchoice_updated_version: Number
     validation_error: ExceptionInstanceOrList | None = None
     error_code: (
         Annotated[
@@ -281,6 +282,9 @@ class FixtureEngineNewPayload(CamelModel):
         Creates a `FixtureEngineNewPayload` from a `FixtureHeader`.
         """
         new_payload_version = fork.engine_new_payload_version(header.number, header.timestamp)
+        forkchoice_updated_version = fork.engine_forkchoice_updated_version(
+            header.number, header.timestamp
+        )
 
         assert new_payload_version is not None, "Invalid header for engine_newPayload"
         execution_payload = FixtureExecutionPayload.from_fixture_header(
@@ -303,7 +307,8 @@ class FixtureEngineNewPayload(CamelModel):
 
         new_payload = cls(
             params=params,
-            version=new_payload_version,
+            new_payload_version=new_payload_version,
+            forkchoice_updated_version=forkchoice_updated_version,
             **kwargs,
         )
 
@@ -465,7 +470,6 @@ class EngineFixture(FixtureCommon):
     """
 
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
-    fcu_version: Number = Field(..., alias="engineFcuVersion")
     sync_payload: FixtureEngineNewPayload | None = None
 
     format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST_ENGINE
