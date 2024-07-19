@@ -318,7 +318,7 @@ class BlockchainTest(BaseTest):
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
         FixtureFormats.BLOCKCHAIN_TEST,
-        FixtureFormats.BLOCKCHAIN_TEST_HIVE,
+        FixtureFormats.BLOCKCHAIN_TEST_ENGINE,
     ]
 
     def make_genesis(
@@ -712,7 +712,7 @@ class BlockchainTest(BaseTest):
         Generate the BlockchainTest fixture.
         """
         t8n.reset_traces()
-        if fixture_format == FixtureFormats.BLOCKCHAIN_TEST_HIVE:
+        if fixture_format == FixtureFormats.BLOCKCHAIN_TEST_ENGINE:
             return self.make_hive_fixture(t8n, fork, eips)
         elif fixture_format == FixtureFormats.BLOCKCHAIN_TEST:
             return self.make_fixture(t8n, fork, eips)

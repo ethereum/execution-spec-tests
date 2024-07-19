@@ -7,7 +7,7 @@ Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID res
 
 import time
 
-from ethereum_test_fixtures import BlockchainHiveFixture
+from ethereum_test_fixtures import BlockchainEngineFixture
 from ethereum_test_fixtures.blockchain import FixtureHeader
 from ethereum_test_tools.rpc import EngineRPC, EthRPC
 from ethereum_test_tools.rpc.types import ForkchoiceState, PayloadStatusEnum
@@ -18,7 +18,7 @@ def test_via_engine(
     timing_data,
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
-    blockchain_fixture: BlockchainHiveFixture,
+    blockchain_fixture: BlockchainEngineFixture,
 ):
     """
     1. Check the client genesis block hash matches `blockchain_fixture.genesis.block_hash`.

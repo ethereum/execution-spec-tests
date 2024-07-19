@@ -465,4 +465,4 @@ class HiveFixture(FixtureCommon):
     fcu_version: Number = Field(..., alias="engineFcuVersion")
     sync_payload: FixtureEngineNewPayload | None = None
 
-    format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST_HIVE
+    format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST_ENGINE

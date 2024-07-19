@@ -11,7 +11,7 @@ The most relevant folders and files in the repo are:
 │   └── 📁 ...
 ├─╴📁 fixtures/                  # default fixture output dir
 │   ├── 📁 blockchain_tests/
-│   ├── 📁 blockchain_tests_hive/
+│   ├── 📁 blockchain_tests_engine/
 │   ├── 📁 state_tests/
 │   └── 📁 ...
 ├─╴📁 src/                       # library & framework packages

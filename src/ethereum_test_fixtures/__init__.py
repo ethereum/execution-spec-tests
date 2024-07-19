@@ -7,7 +7,7 @@ from typing import List, Type
 from .base import BaseFixture
 from .blockchain import Fixture as BlockchainFixture
 from .blockchain import FixtureCommon as BlockchainFixtureCommon
-from .blockchain import HiveFixture as BlockchainHiveFixture
+from .blockchain import HiveFixture as BlockchainEngineFixture
 from .collector import FixtureCollector, TestInfo
 from .eof import Fixture as EOFFixture
 from .formats import FixtureFormats
@@ -16,7 +16,7 @@ from .verify import FixtureVerifier
 
 FIXTURE_TYPES: List[Type[BaseFixture]] = [
     BlockchainFixture,
-    BlockchainHiveFixture,
+    BlockchainEngineFixture,
     EOFFixture,
     StateFixture,
 ]
@@ -25,7 +25,7 @@ __all__ = [
     "BaseFixture",
     "BlockchainFixture",
     "BlockchainFixtureCommon",
-    "BlockchainHiveFixture",
+    "BlockchainEngineFixture",
     "EOFFixture",
     "FixtureCollector",
     "FixtureFormats",
