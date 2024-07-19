@@ -831,7 +831,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
 
 def pytest_collection_modifyitems(config, items):
     """
-    Remove pre-Paris tests parametrized to generate hive type fixtures; these
+    Remove pre-Paris tests parametrized to generate engine type fixtures; these
     can't be used in the Hive Pyspec Simulator.
 
     This can't be handled in this plugins pytest_generate_tests() as the fork
@@ -844,7 +844,7 @@ def pytest_collection_modifyitems(config, items):
             items.remove(item)
             continue
         if item.callspec.params["fork"] < Paris:
-            # Even though the `state_test` test spec does not produce a hive STATE_TEST, it does
+            # Even though the `state_test` test spec does not produce an engine STATE_TEST, it does
             # produce a BLOCKCHAIN_TEST_ENGINE, so we need to remove it here.
             # TODO: Ideally, the logic could be contained in the `FixtureFormat` class, we create
             # a `fork_supported` method that returns True if the fork is supported.

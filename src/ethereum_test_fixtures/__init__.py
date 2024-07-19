@@ -5,9 +5,9 @@ Ethereum test fixture format definitions.
 from typing import List, Type
 
 from .base import BaseFixture
+from .blockchain import EngineFixture as BlockchainEngineFixture
 from .blockchain import Fixture as BlockchainFixture
 from .blockchain import FixtureCommon as BlockchainFixtureCommon
-from .blockchain import HiveFixture as BlockchainEngineFixture
 from .collector import FixtureCollector, TestInfo
 from .eof import Fixture as EOFFixture
 from .formats import FixtureFormats

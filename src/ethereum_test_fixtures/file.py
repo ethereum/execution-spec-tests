@@ -7,8 +7,8 @@ from typing import Any, Dict, Literal, Optional
 
 from pydantic import RootModel
 
+from .blockchain import EngineFixture as BlockchainEngineFixture
 from .blockchain import Fixture as BlockchainFixture
-from .blockchain import HiveFixture as BlockchainEngineFixture
 from .formats import FixtureFormats
 from .state import Fixture as StateFixture
 

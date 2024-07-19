@@ -456,9 +456,9 @@ class Fixture(FixtureCommon):
     format: ClassVar[FixtureFormats] = FixtureFormats.BLOCKCHAIN_TEST
 
 
-class HiveFixture(FixtureCommon):
+class EngineFixture(FixtureCommon):
     """
-    Hive specific test fixture information.
+    Engine specific test fixture information.
     """
 
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")

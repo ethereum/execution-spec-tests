@@ -130,7 +130,7 @@ class TestCases(RootModel):
         test_cases = []
         for fixture_name, fixture in fixtures.items():
             if fixture.format == FixtureFormats.BLOCKCHAIN_TEST_ENGINE:
-                print("Skipping hive fixture", fixture_name)
+                print("Skipping engine fixture", fixture_name)
             test_cases.append(
                 TestCaseStream(
                     id=fixture_name,

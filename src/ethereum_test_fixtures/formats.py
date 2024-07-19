@@ -50,7 +50,7 @@ class FixtureFormats(Enum):
         elif format == cls.BLOCKCHAIN_TEST:
             return "Tests that generate a blockchain test fixture."
         elif format == cls.BLOCKCHAIN_TEST_ENGINE:
-            return "Tests that generate a blockchain test fixture in hive format."
+            return "Tests that generate a blockchain test fixture in Engine API format."
         elif format == cls.EOF_TEST:
             return "Tests that generate an EOF test fixture."
         raise Exception(f"Unknown fixture format: {format}.")
