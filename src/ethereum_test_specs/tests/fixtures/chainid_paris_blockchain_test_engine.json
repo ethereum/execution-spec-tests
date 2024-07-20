@@ -1,7 +1,7 @@
 {
     "000/my_chain_id_test/Paris": {
         "_info": {
-            "hash": "0xd4cc33fb4c18c0a5e79d3b460076280a57dcd0b6acd27df2b2f8cb1bcbfbfe1d"
+            "hash": "0x1c6d2ca8e03c5074e8afadbad869c90b61d2f9752c5ef2d7908900aa000a3878"
         },
         "network": "Paris",
         "lastblockhash": "0xe92eedff2a0489bd861f528e248994b6791b0f5b845d90b34c68bc8cbc51c369",
@@ -46,10 +46,10 @@
                         ]
                     }
                 ],
-                "version": "1"
+                "newPayloadVersion": "1",
+                "forkchoiceUpdatedVersion": "1"
             }
         ],
-        "engineFcuVersion": "1",
         "lastblockhash": "0xe92eedff2a0489bd861f528e248994b6791b0f5b845d90b34c68bc8cbc51c369",
         "pre": {
             "0x1000000000000000000000000000000000000000": {

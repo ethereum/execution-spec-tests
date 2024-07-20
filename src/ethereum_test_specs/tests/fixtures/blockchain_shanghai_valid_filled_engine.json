@@ -1,7 +1,7 @@
 {
     "000/my_blockchain_test/Shanghai": {
         "_info": {
-            "hash": "0xa08dd6cd66fbeddb398c8ac302e4a63b33470496f99b59c094adfefd52713519"
+            "hash": "0x9a25679729dab0fa4d90f56a7458ca2c4b7428853e9ef1e1aea6dae203926368"
         },
         "lastblockhash": "0xfc75f11c05ec814a890141bef919bb7c20dd29245e37e9bcea66008dfde98526",
         "network": "Shanghai",
@@ -49,7 +49,8 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -75,7 +76,8 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -101,7 +103,8 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -127,10 +130,10 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             }
         ],
-        "engineFcuVersion": "2",
         "pre": {
             "0x000000000000000000000000000000000000c0de": {
                 "nonce": "0x01",

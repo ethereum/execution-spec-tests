@@ -736,7 +736,8 @@ fixture_header_ones = FixtureHeader(
                     ],
                     str(Hash(19)),
                 ],
-                "version": "4",
+                "forkchoiceUpdatedVersion": "3",
+                "newPayloadVersion": "4",
                 "validationError": "BlockException.INCORRECT_BLOCK_FORMAT"
                 "|TransactionException.INTRINSIC_GAS_TOO_LOW",
                 "errorCode": "-32600",
@@ -900,7 +901,8 @@ fixture_header_ones = FixtureHeader(
                     ],
                     str(Hash(19)),
                 ],
-                "version": "4",
+                "newPayloadVersion": "4",
+                "forkchoiceUpdatedVersion": "3",
                 "validationError": "BlockException.INCORRECT_BLOCK_FORMAT"
                 "|TransactionException.INTRINSIC_GAS_TOO_LOW",
             },

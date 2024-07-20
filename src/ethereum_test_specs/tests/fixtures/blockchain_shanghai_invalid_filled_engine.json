@@ -1,7 +1,7 @@
 {
     "000/my_blockchain_test/Shanghai": {
         "_info": {
-            "hash": "0x0e02606a66486db326d596d0685e258ed3574168d309ffea7e57789ec27f59cc"
+            "hash": "0x107426e7483fe00d8db263f7522d523a6efbed5c93fd98006e65593ce496a1c4"
         },
         "lastblockhash": "0xfc75f11c05ec814a890141bef919bb7c20dd29245e37e9bcea66008dfde98526",
         "network": "Shanghai",
@@ -48,7 +48,8 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -74,7 +75,8 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -100,7 +102,8 @@
                     }
                 ],
                 "validationError": "TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS",
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -126,7 +129,8 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -152,7 +156,8 @@
                     }
                 ],
                 "validationError": "TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS",
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             },
             {
                 "params": [
@@ -178,10 +183,10 @@
                         "withdrawals": []
                     }
                 ],
-                "version": "2"
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
             }
         ],
-        "engineFcuVersion": "2",
         "lastblockhash": "0xfc75f11c05ec814a890141bef919bb7c20dd29245e37e9bcea66008dfde98526",
         "pre": {
             "0x000000000000000000000000000000000000c0de": {
