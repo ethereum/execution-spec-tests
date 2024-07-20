@@ -1182,11 +1182,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../consuming_tests/blockchain_test_hive/" class="md-nav__link">
+      <a href="../../../consuming_tests/blockchain_test_engine/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Blockchain Hive Tests
+    Blockchain Engine Tests
   </span>
   
 
@@ -14811,7 +14811,7 @@ user_properties.</p>
             <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fixture_format</span> <span class="ow">in</span> <span class="p">[</span>
                 <span class="s2">&quot;state_test&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;blockchain_test&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;blockchain_test_hive&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;blockchain_test_engine&quot;</span><span class="p">,</span>
             <span class="p">]:</span>
                 <span class="n">report</span><span class="o">.</span><span class="n">user_properties</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;evm_dump_dir&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">evm_dump_dir</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
@@ -16241,7 +16241,7 @@ test spec supports.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Remove pre-Paris tests parametrized to generate hive type fixtures; these
+      <p>Remove pre-Paris tests parametrized to generate engine type fixtures; these
 can't be used in the Hive Pyspec Simulator.</p>
 <p>This can't be handled in this plugins pytest_generate_tests() as the fork
 parametrization occurs in the forks plugin.</p>
@@ -16278,7 +16278,7 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">859</span>
 <span class="normal">860</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Remove pre-Paris tests parametrized to generate hive type fixtures; these</span>
+<span class="sd">    Remove pre-Paris tests parametrized to generate engine type fixtures; these</span>
 <span class="sd">    can&#39;t be used in the Hive Pyspec Simulator.</span>
 
 <span class="sd">    This can&#39;t be handled in this plugins pytest_generate_tests() as the fork</span>
@@ -16291,17 +16291,17 @@ parametrization occurs in the forks plugin.</p>
             <span class="n">items</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;fork&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">Paris</span><span class="p">:</span>
-            <span class="c1"># Even though the `state_test` test spec does not produce a hive STATE_TEST, it does</span>
-            <span class="c1"># produce a BLOCKCHAIN_TEST_HIVE, so we need to remove it here.</span>
+            <span class="c1"># Even though the `state_test` test spec does not produce an engine STATE_TEST, it does</span>
+            <span class="c1"># produce a BLOCKCHAIN_TEST_ENGINE, so we need to remove it here.</span>
             <span class="c1"># TODO: Ideally, the logic could be contained in the `FixtureFormat` class, we create</span>
             <span class="c1"># a `fork_supported` method that returns True if the fork is supported.</span>
             <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;state_test&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span><span class="p">[</span>
                 <span class="s2">&quot;state_test&quot;</span>
-            <span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;HIVE&quot;</span><span class="p">):</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;ENGINE&quot;</span><span class="p">):</span>
                 <span class="n">items</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;blockchain_test&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">callspec</span><span class="o">.</span><span class="n">params</span><span class="p">[</span>
                 <span class="s2">&quot;blockchain_test&quot;</span>
-            <span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;HIVE&quot;</span><span class="p">):</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;ENGINE&quot;</span><span class="p">):</span>
                 <span class="n">items</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;yul&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">fixturenames</span><span class="p">:</span>
             <span class="n">item</span><span class="o">.</span><span class="n">add_marker</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">yul_test</span><span class="p">)</span>

@@ -1182,11 +1182,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../consuming_tests/blockchain_test_hive/" class="md-nav__link">
+      <a href="../../consuming_tests/blockchain_test_engine/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Blockchain Hive Tests
+    Blockchain Engine Tests
   </span>
   
 
@@ -18926,11 +18926,25 @@ zero values, to guarantee that the test overwrites the storage.</p>
 <span class="normal">11</span>
 <span class="normal">12</span>
 <span class="normal">13</span>
-<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RootModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RootModel</span> <span class="o">|</span> <span class="n">AnyStr</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RootModel</span> <span class="o">|</span> <span class="n">AnyStr</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a model to its json data representation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">input</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">to_json</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">RootModel</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">input</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

@@ -1182,11 +1182,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../consuming_tests/blockchain_test_hive/" class="md-nav__link">
+      <a href="../consuming_tests/blockchain_test_engine/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Blockchain Hive Tests
+    Blockchain Engine Tests
   </span>
   
 
@@ -13586,6 +13586,8 @@
 <ul>
 <li>Cancun is now the latest deployed fork, and the development fork is now Prague (<a href="https://github.com/ethereum/execution-spec-tests/pull/489">#489</a>).</li>
 <li>Stable fixtures artifact <code>fixtures.tar.gz</code> has been renamed to <code>fixtures_stable.tar.gz</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/573">#573</a>)</li>
+<li>The "Blockchain Test Hive" fixture format has been renamed to "Blockchain Test Engine" and updated to more closely resemble the <code>engine_newPayload</code> format in the <code>execution-apis</code> specification (<a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/prague.md#request">https://github.com/ethereum/execution-apis/blob/main/src/engine/prague.md#request</a>) and now contains a single <code>"params"</code> field instead of multiple fields for each parameter (<a href="https://github.com/ethereum/execution-spec-tests/pull/687">#687</a>).</li>
+<li>Output folder for fixtures has been renamed from "blockchain_tests_hive" to "blockchain_tests_engine" (<a href="https://github.com/ethereum/execution-spec-tests/pull/687">#687</a>).</li>
 </ul>
 <h2 id="v211-2024-03-09">🔜 <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1">v2.1.1</a> - 2024-03-09<a class="headerlink" href="#v211-2024-03-09" title="Permanent link">&para;</a></h2>
 <h3 id="test-cases_1">🧪 Test Cases<a class="headerlink" href="#test-cases_1" title="Permanent link">&para;</a></h3>

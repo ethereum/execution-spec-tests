@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/consuming_tests/blockchain_test_hive/">
+        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/consuming_tests/blockchain_test_engine/">
       
       
         <link rel="prev" href="../blockchain_test/">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Blockchain Hive Tests - Ethereum Execution Spec Tests</title>
+        <title>Blockchain Engine Tests - Ethereum Execution Spec Tests</title>
       
     
     
@@ -61,11 +61,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Blockchain Hive Tests - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="Blockchain Engine Tests - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/consuming_tests/blockchain_test_hive.png" >
+        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/consuming_tests/blockchain_test_engine.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -73,15 +73,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/consuming_tests/blockchain_test_hive/" >
+        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/consuming_tests/blockchain_test_engine/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Blockchain Hive Tests - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="Blockchain Engine Tests - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/consuming_tests/blockchain_test_hive.png" >
+        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/consuming_tests/blockchain_test_engine.png" >
       
     
     
@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#blockchain-hive-tests" class="md-skip">
+        <a href="#blockchain-engine-tests" class="md-skip">
           Skip to content
         </a>
       
@@ -150,7 +150,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Blockchain Hive Tests
+              Blockchain Engine Tests
             
           </span>
         </div>
@@ -1200,7 +1200,7 @@
           
   
   <span class="md-ellipsis">
-    Blockchain Hive Tests
+    Blockchain Engine Tests
   </span>
   
 
@@ -1211,7 +1211,7 @@
         
   
   <span class="md-ellipsis">
-    Blockchain Hive Tests
+    Blockchain Engine Tests
   </span>
   
 
@@ -13520,11 +13520,11 @@
   
 
 
-<h1 id="blockchain-hive-tests">Blockchain Hive Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") --><a class="headerlink" href="#blockchain-hive-tests" title="Permanent link">&para;</a></h1>
-<p>The Blockchain Hive Test fixture format tests are included in the fixtures subdirectory <code>blockchain_tests_hive</code>, and use Engine API directives instead of the usual BlockchainTest format.</p>
+<h1 id="blockchain-engine-tests">Blockchain Engine Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") --><a class="headerlink" href="#blockchain-engine-tests" title="Permanent link">&para;</a></h1>
+<p>The Blockchain Engine Test fixture format tests are included in the fixtures subdirectory <code>blockchain_tests_engine</code>, and use Engine API directives instead of the usual BlockchainTest format.</p>
 <p>These are produced by the <code>StateTest</code> and <code>BlockchainTest</code> test specs.</p>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
-<p>The Blockchain Hive Test fixture format is used to test block validation and the consensus rules of the Ethereum blockchain, when a block is delivered through the Engine API as a <code>engine_newPayloadVX</code> directive.</p>
+<p>The Blockchain Engine Test fixture format is used to test block validation and the consensus rules of the Ethereum blockchain, when a block is delivered through the Engine API as a <code>engine_newPayloadVX</code> directive.</p>
 <p>It does so by defining a pre-execution state, a series of blocks as <code>engine_newPayloadVX</code> directives, and a post-execution state, verifying that, after all the blocks have been processed, appended if valid or rejected if invalid, the result is the expected post-execution state.</p>
 <p>A single JSON fixture file is composed of a JSON object where each key-value pair is a different <a href="#hivefixture"><code>HiveFixture</code></a> test object, with the key string representing the test name.</p>
 <p>The JSON file path plus the test name are used as the unique test identifier.</p>
