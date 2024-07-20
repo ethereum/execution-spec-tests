@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | [State Tests](./state_test.md) | directly via a `statetest`-like command<br/> (e.g., [go-ethereum/cmd/evm/staterunner.go](https://github.com/ethereum/go-ethereum/blob/509a64ffb9405942396276ae111d06f9bded9221/cmd/evm/staterunner.go#L35)) | `./fixtures/state_tests/` |
 | [Blockchain Tests](./blockchain_test.md) | directly via a `blocktest`-like command<br/> (e.g., [go-ethereum/cmd/evm/blockrunner.go](https://github.com/ethereum/go-ethereum/blob/509a64ffb9405942396276ae111d06f9bded9221/cmd/evm/blockrunner.go#L39)) | `./fixtures/blockchain_tests/` |
-| [Blockchain Hive Tests](./blockchain_test_hive.md) | in the [Hive `pyspec` simulator](https://github.com/ethereum/hive/tree/master/simulators/ethereum/pyspec#readme) via the Engine API and other RPC endpoints  | `./fixtures/blockchain_tests_hive/` |
+| [Blockchain Engine Tests](./blockchain_test_engine.md) | in the [Hive `pyspec` simulator](https://github.com/ethereum/hive/tree/master/simulators/ethereum/pyspec#readme) via the Engine API and other RPC endpoints  | `./fixtures/blockchain_tests_engine/` |
 
 Here's a top-level comparison of the different methods of consuming tests:
 
