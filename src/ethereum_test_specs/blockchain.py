@@ -730,6 +730,21 @@ class BlockchainTest(BaseTest):
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
+    def get_post_alloc(self) -> Alloc:
+        """
+        Get the post allocation of this blockchain test.
+        """
+        return self.post
+
+    def get_transactions(self) -> List[Transaction]:
+        """
+        Get the transaction that must be executed for this state test.
+        """
+        txs: List[Transaction] = []
+        for block in self.blocks:
+            txs += block.txs
+        return txs
+
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]
 BlockchainTestFiller = Type[BlockchainTest]

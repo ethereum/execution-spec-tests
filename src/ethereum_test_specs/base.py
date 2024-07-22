@@ -11,7 +11,7 @@ from typing import Callable, ClassVar, Dict, Generator, Iterator, List, Optional
 
 from pydantic import BaseModel, Field
 
-from ethereum_test_base_types import to_hex
+from ethereum_test_base_types import Alloc, to_hex
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Transaction, Withdrawal
@@ -108,6 +108,24 @@ class BaseTest(BaseModel):
             self.t8n_dump_dir,
             str(next(self._t8n_call_counter)),
         )
+
+    def get_post_alloc(self) -> Alloc:
+        """
+        Get the post allocation of this test.
+
+        By default it returns None, meaning that there is no post allocation to be
+        checked.
+        """
+        return Alloc()
+
+    def get_transactions(self) -> List[Transaction]:
+        """
+        Get the transactions that must be executed for this test.
+
+        By default it returns an empty list, meaning that there are no transactions to be executed
+        in this test.
+        """
+        return []
 
 
 TestSpec = Callable[[Fork], Generator[BaseTest, None, None]]

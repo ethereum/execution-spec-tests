@@ -178,6 +178,18 @@ class StateTest(BaseTest):
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
+    def get_post_alloc(self) -> Alloc:
+        """
+        Get the post allocation of this state test.
+        """
+        return self.post
+
+    def get_transactions(self) -> List[Transaction]:
+        """
+        Get the transaction that must be executed for this state test.
+        """
+        return [self.tx]
+
 
 class StateTestOnly(StateTest):
     """
