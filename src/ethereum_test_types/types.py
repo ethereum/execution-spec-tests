@@ -179,6 +179,12 @@ class Alloc(BaseAlloc):
         """
         return iter(self.root)
 
+    def items(self):
+        """
+        Returns an iterator over the allocation items.
+        """
+        return self.root.items()
+
     def __getitem__(self, address: Address | FixedSizeBytesConvertible) -> Account | None:
         """
         Returns the account associated with an address.
