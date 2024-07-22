@@ -16309,9 +16309,7 @@ implementations.</p>
 <span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">(</span><span class="n">FixtureVerifier</span><span class="p">):</span>
+<span class="normal">547</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">(</span><span class="n">FixtureVerifier</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transition tool abstract base class which should be inherited by all transition tool</span>
 <span class="sd">    implementations.</span>
@@ -16675,10 +16673,8 @@ implementations.</p>
             <span class="n">dump_files_to_directory</span><span class="p">(</span>
                 <span class="n">debug_output_path</span><span class="p">,</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;output/alloc.json&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span><span class="p">),</span>
-                    <span class="s2">&quot;output/result.json&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
-                        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span>
-                    <span class="p">),</span>
+                    <span class="s2">&quot;output/alloc.json&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">alloc</span><span class="p">,</span>
+                    <span class="s2">&quot;output/result.json&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
                     <span class="s2">&quot;output/txs.rlp&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
                 <span class="p">},</span>
             <span class="p">)</span>
@@ -16746,8 +16742,8 @@ implementations.</p>
             <span class="n">debug_output_path</span><span class="p">,</span>
             <span class="p">{</span>
                 <span class="s2">&quot;args.py&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span>
-                <span class="s2">&quot;input/alloc.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span><span class="p">),</span>
-                <span class="s2">&quot;input/env.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span><span class="p">),</span>
+                <span class="s2">&quot;input/alloc.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">alloc</span><span class="p">,</span>
+                <span class="s2">&quot;input/env.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
                 <span class="s2">&quot;input/txs.json&quot;</span><span class="p">:</span> <span class="p">[</span>
                     <span class="n">tx</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span><span class="p">)</span> <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">stdin</span><span class="o">.</span><span class="n">txs</span>
                 <span class="p">],</span>
@@ -17649,7 +17645,9 @@ tool's binary path.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">422</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
 <span class="normal">423</span>
 <span class="normal">424</span>
 <span class="normal">425</span>
@@ -17672,9 +17670,7 @@ tool's binary path.</p>
 <span class="normal">442</span>
 <span class="normal">443</span>
 <span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">construct_args_stream</span><span class="p">(</span>
+<span class="normal">445</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">construct_args_stream</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">t8n_data</span><span class="p">:</span> <span class="n">TransitionToolData</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">:</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -17726,7 +17722,9 @@ tool's binary path.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">449</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
 <span class="normal">450</span>
 <span class="normal">451</span>
 <span class="normal">452</span>
@@ -17765,9 +17763,7 @@ tool's binary path.</p>
 <span class="normal">485</span>
 <span class="normal">486</span>
 <span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dump_debug_stream</span><span class="p">(</span>
+<span class="normal">488</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dump_debug_stream</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">debug_output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">temp_dir</span><span class="p">:</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">,</span>
@@ -17797,8 +17793,8 @@ tool's binary path.</p>
         <span class="n">debug_output_path</span><span class="p">,</span>
         <span class="p">{</span>
             <span class="s2">&quot;args.py&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span>
-            <span class="s2">&quot;input/alloc.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span><span class="p">),</span>
-            <span class="s2">&quot;input/env.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span><span class="p">),</span>
+            <span class="s2">&quot;input/alloc.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">alloc</span><span class="p">,</span>
+            <span class="s2">&quot;input/env.json&quot;</span><span class="p">:</span> <span class="n">stdin</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
             <span class="s2">&quot;input/txs.json&quot;</span><span class="p">:</span> <span class="p">[</span>
                 <span class="n">tx</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">model_dump_config</span><span class="p">)</span> <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">stdin</span><span class="o">.</span><span class="n">txs</span>
             <span class="p">],</span>
@@ -17837,7 +17833,9 @@ can be overridden.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">492</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
 <span class="normal">493</span>
 <span class="normal">494</span>
 <span class="normal">495</span>
@@ -17876,9 +17874,7 @@ can be overridden.</p>
 <span class="normal">528</span>
 <span class="normal">529</span>
 <span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">531</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -17947,7 +17943,9 @@ can be overridden.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">535</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
 <span class="normal">536</span>
 <span class="normal">537</span>
 <span class="normal">538</span>
@@ -17959,9 +17957,7 @@ can be overridden.</p>
 <span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
+<span class="normal">547</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
