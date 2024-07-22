@@ -23,7 +23,7 @@ from hive.testing import HiveTest, HiveTestResult, HiveTestSuite
 
 
 def pytest_configure(config):  # noqa: D103
-    hive_simulator_url = os.environ.get("HIVE_SIMULATOR")
+    hive_simulator_url = config.getoption("hive_simulator")
     if hive_simulator_url is None:
         pytest.exit(
             "The HIVE_SIMULATOR environment variable is not set.\n\n"
@@ -64,6 +64,13 @@ def pytest_addoption(parser: pytest.Parser):  # noqa: D103
         type=Path,
         default=TemporaryDirectory(),
         help=argparse.SUPPRESS,
+    )
+    pytest_hive_group.addoption(
+        "--hive-simulator",
+        action="store",
+        dest="hive_simulator",
+        default=os.environ.get("HIVE_SIMULATOR"),
+        help="Hive simulator endpoint",
     )
 
 
