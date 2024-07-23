@@ -445,7 +445,7 @@ def test_set_code_call_set_code(
     set_code_1_success = storage_1.store_next(True)
 
     auth_signer_2 = pre.fund_eoa(auth_account_start_balance)
-    storage_2 = Storage().with_start_slot(storage_1.next_slot())
+    storage_2 = Storage().set_next_slot(storage_1.peek_slot())
     set_code_2_success = storage_2.store_next(op != Op.STATICCALL)
 
     set_code_1 = (
