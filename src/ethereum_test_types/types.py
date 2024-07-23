@@ -123,6 +123,8 @@ class Alloc(BaseAlloc):
     Allocation of accounts in the state, pre and post test execution.
     """
 
+    eoa_fund_amount_default: ClassVar[int] = 10**16
+
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
         """
@@ -296,7 +298,7 @@ class Alloc(BaseAlloc):
 
     def fund_eoa(
         self,
-        amount: NumberConvertible = 10**21,
+        amount: NumberConvertible | None = None,
         label: str | None = None,
         storage: Storage | None = None,
         delegation: Address | Literal["Self"] | None = None,
