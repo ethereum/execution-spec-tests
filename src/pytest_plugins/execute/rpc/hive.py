@@ -36,7 +36,7 @@ from ethereum_test_tools.rpc.types import (
     TransactionByHashResponse,
 )
 from ethereum_test_types import Requests
-from pytest_plugins.consume.hive_simulators import ruleset
+from pytest_plugins.consume.hive_simulators.ruleset import ruleset
 
 
 def get_fork_option(request, option_name: str) -> Fork | None:
@@ -333,9 +333,9 @@ class EthRPC(BaseEthRPC):
         """
         Initialize the Ethereum RPC client for the hive simulator.
         """
-        super().__init__(ip=client.ip)
+        super().__init__(f"http://{client.ip}:8545")
         self.fork = fork
-        self.engine_rpc = EngineRPC(ip=client.ip)
+        self.engine_rpc = EngineRPC(f"http://{client.ip}:8551")
         self.parent_timestamp = genesis_header.timestamp
         self.parent_hash = genesis_header.block_hash
         self.transactions_per_block = transactions_per_block

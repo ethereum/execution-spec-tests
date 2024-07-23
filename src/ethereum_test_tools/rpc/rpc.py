@@ -87,12 +87,6 @@ class EthRPC(BaseRPC):
     hive simulators.
     """
 
-    def __init__(self, ip: str, *, port: int = 8545, extra_headers: Dict = {}):
-        """
-        Initializes the EthRPC class with the http port 8545, which requires no authentication.
-        """
-        super().__init__(f"http://{ip}:{port}", extra_headers=extra_headers)
-
     BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
     def get_block_by_number(self, block_number: BlockNumberType = "latest", full_txs: bool = True):
@@ -240,12 +234,6 @@ class EngineRPC(BaseRPC):
     Represents an Engine API RPC class for every Engine API method used within EEST based hive
     simulators.
     """
-
-    def __init__(self, ip: str, *, port: int = 8551, extra_headers: Dict = {}):
-        """
-        Initializes the EngineRPC class with the http port 8551.
-        """
-        super().__init__(f"http://{ip}:{port}", extra_headers=extra_headers)
 
     def post_request(self, method: str, *params: Any, extra_headers: Dict = {}) -> Any:
         """
