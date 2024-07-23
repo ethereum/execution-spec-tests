@@ -718,17 +718,27 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             self.gas_price = 10
         if self.ty >= 1 and self.access_list is None:
             self.access_list = []
+        if self.ty < 1:
+            assert self.access_list is None, "access_list must be None"
 
         if self.ty >= 2 and self.max_fee_per_gas is None:
             self.max_fee_per_gas = 7
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
             self.max_priority_fee_per_gas = 0
+        if self.ty < 2:
+            assert self.max_fee_per_gas is None, "max_fee_per_gas must be None"
+            assert self.max_priority_fee_per_gas is None, "max_priority_fee_per_gas must be None"
 
         if self.ty == 3 and self.max_fee_per_blob_gas is None:
             self.max_fee_per_blob_gas = 1
+        if self.ty != 3:
+            assert self.blob_versioned_hashes is None, "blob_versioned_hashes must be None"
+            assert self.max_fee_per_blob_gas is None, "max_fee_per_blob_gas must be None"
 
         if self.ty == 4 and self.authorization_list is None:
             self.authorization_list = []
+        if self.ty != 4:
+            assert self.authorization_list is None, "authorization_list must be None"
 
         if "nonce" not in self.model_fields_set and self.sender is not None:
             self.nonce = HexNumber(self.sender.get_nonce())
