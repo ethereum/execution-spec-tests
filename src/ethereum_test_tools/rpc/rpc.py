@@ -151,7 +151,7 @@ class EthRPC(BaseRPC):
 
     def send_transactions(self, transactions: List[Transaction]):
         """
-        `eth_sendRawTransaction`: Send a list of transactions to the client.
+        Uses `eth_sendRawTransaction` to send a list of transactions to the client.
         """
         for tx in transactions:
             self.send_transaction(tx)
@@ -187,7 +187,7 @@ class EthRPC(BaseRPC):
         self, transactions: List[Transaction], timeout: int = 60
     ) -> List[TransactionByHashResponse]:
         """
-        Uses `eth_getTransactionByHash` to wait for all transactions in list are included in a
+        Uses `eth_getTransactionByHash` to wait unitl all transactions in list are included in a
         block.
         """
         tx_hashes = [tx.hash for tx in transactions]
@@ -216,7 +216,7 @@ class EthRPC(BaseRPC):
 
     def send_wait_transactions(self, transactions: List[Transaction], timeout: int = 60):
         """
-        Sends a transaction and waits until it is included in a block.
+        Sends a list of transactions and waits until all of them are included in a block.
         """
         self.send_transactions(transactions)
         return self.wait_for_transactions(transactions, timeout)
