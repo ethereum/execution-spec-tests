@@ -561,17 +561,32 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/create2/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/</loc>
          <lastmod>2024-07-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/create2/test_recreate/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/spec/</loc>
          <lastmod>2024-07-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/create2/test_recreate/index/test_cases/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/test_create_returndata/</loc>
+         <lastmod>2024-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/test_create_returndata/index/test_cases/</loc>
+         <lastmod>2024-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/test_recreate/</loc>
+         <lastmod>2024-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/test_recreate/index/test_cases/</loc>
          <lastmod>2024-07-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
