@@ -115,7 +115,7 @@ jobs:
                 echo "Error: Failed to find the test file $file in test repo"
                 exit 1
               fi
-          done          
+          done
 
       # This command diffs the .py scripts introduced by a PR
       - name: Parse and fill introduced test sources
@@ -146,32 +146,15 @@ jobs:
 
           # fill new tests
           # using `|| true` here because if no tests found, pyspec fill returns error code
-          FOUND_TEST=false
           mkdir -p fixtures/state_tests
           mkdir -p fixtures/eof_tests
 
           # Use a while loop with a here-string to avoid subshell issues
           while IFS= read -r line; do
             file=$(echo "$line" | cut -c 3-)
-            if grep -q "def test_" "$file"; then
-              FOUND_TEST=true
-              fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-              (fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
-            fi
+            fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+            (fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
           done <<< "$files"
-
-          echo "Tests found: $FOUND_TEST"
-          if [[ "$FOUND_TEST" == "false" ]]; then
-              if [ "${{ env.converted_skip }}" == 'false' ]; then
-                  echo "Error converted-ethereum-tests.txt has new lines, but no test in .py files were found"
-                  exit 1
-              fi
-              echo "No test detected in changed .py files, exiting the script"
-              echo "coverage_skip=true" >> $GITHUB_ENV
-              exit 0
-          else
-              echo "coverage_skip=false" >> $GITHUB_ENV
-          fi
 
           if grep -q "FAILURES" filloutput.log; then
              echo "Error: failed to generate .py tests."
@@ -185,13 +168,8 @@ jobs:
               echo "retesteth_skip=false" >> $GITHUB_ENV
           fi
 
-
           filesState=$(find fixtures/state_tests -type f -name "*.json")
           filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
-          if [ -z "$filesState" ] && [ -z "$filesEOF" ]; then
-              echo "Error: No filled JSON fixtures found in fixtures."
-              exit 1
-          fi
 
           PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
           mkdir -p $PATCH_TEST_PATH
@@ -199,7 +177,7 @@ jobs:
           find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
       - name: Parse and fill introduced test sources from before the PR
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.converted_skip == 'true' && env.coverage_skip == 'false'}}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.converted_skip == 'true' }}
         run: |
             echo "--------------------"
             echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
@@ -229,22 +207,11 @@ jobs:
             mkdir -p fixtures/state_tests
             mkdir -p fixtures/eof_tests
 
-            FOUND_TEST=false
             while IFS= read -r line; do
               file=$(echo "$line" | cut -c 3-)
-              if grep -q "def test_" "$file"; then
-                 FOUND_TEST=true
-                 fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-                 (fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
-              fi
+              fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+              (fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
             done <<< "$files"
-
-            echo "Tests found: $FOUND_TEST"
-            if [[ "$FOUND_TEST" == "false" ]]; then
-                echo "No test detected in .py files from before the PR, exiting the script"
-                echo "coverage_skip=true" >> $GITHUB_ENV
-                exit 0
-            fi
 
             if grep -q "FAILURES" filloutput.log; then
              echo "Error: failed to generate .py tests from before the PR."
@@ -268,7 +235,7 @@ jobs:
 
 
       - name: Print tests that will be covered
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.coverage_skip == 'false' }}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
         run: |
           echo "Original BASE tests:"
           ls ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
@@ -278,7 +245,7 @@ jobs:
 
       - name: Run coverage of the BASE tests
         uses: addnab/docker-run-action@v3
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.coverage_skip == 'false' }}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
@@ -286,7 +253,7 @@ jobs:
 
       - name: Run coverage of the PATCH tests
         uses: addnab/docker-run-action@v3
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.coverage_skip == 'false' }}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
@@ -294,28 +261,28 @@ jobs:
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
         uses: addnab/docker-run-action@v3
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.coverage_skip == 'false' }}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
           run: /entrypoint.sh --mode=diff --basefile=coverage_BASE.lcov --patchfile=coverage_PATCH.lcov
 
       - name: Chmod coverage results
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.coverage_skip == 'false' }}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
         run: |
           user=$(whoami)
           sudo chown -R $user:$user ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Upload coverage results
         uses: actions/upload-artifact@v3
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.coverage_skip == 'false' }}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
         with:
           name: coverage-diff-${{ matrix.driver }}
           path: ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Verify coverage results
         uses: addnab/docker-run-action@v3
-        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.coverage_skip == 'false' }}
+        if: ${{ (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
