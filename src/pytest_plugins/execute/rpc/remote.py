@@ -4,9 +4,9 @@ Pytest plugin to run the execute in remote-rpc-mode.
 
 import pytest
 
-from ethereum_test_base_types import Number
-from ethereum_test_tools import EOA, Hash
+from ethereum_test_base_types import Hash, Number
 from ethereum_test_tools.rpc import EthRPC
+from ethereum_test_types import EOA, TransactionDefaults
 
 
 def pytest_addoption(parser):
@@ -32,6 +32,14 @@ def pytest_addoption(parser):
         ),
     )
     remote_rpc_group.addoption(
+        "--rpc-chain-id",
+        action="store",
+        dest="rpc_chain_id",
+        type=int,
+        default=None,
+        help="ID of the chain where the tests will be executed.",
+    )
+    remote_rpc_group.addoption(
         "--tx-wait-timeout",
         action="store",
         dest="tx_wait_timeout",
@@ -55,6 +63,9 @@ def eth_rpc(request, rpc_endpoint: str) -> EthRPC:
     Initialize ethereum RPC client for the execution client under test.
     """
     tx_wait_timeout = request.config.getoption("tx_wait_timeout")
+    chain_id = request.config.getoption("rpc_chain_id")
+    if chain_id is not None:
+        TransactionDefaults.chain_id = chain_id
     return EthRPC(rpc_endpoint, transaction_wait_timeout=tx_wait_timeout)
 
 
