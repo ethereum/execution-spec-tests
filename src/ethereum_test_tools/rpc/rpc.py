@@ -87,7 +87,16 @@ class EthRPC(BaseRPC):
     hive simulators.
     """
 
+    transaction_wait_timeout: int = 60
+
     BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+
+    def __init__(self, url: str, extra_headers: Dict = {}, *, transaction_wait_timeout: int = 60):
+        """
+        Initializes the EthRPC class with the given url and transaction wait timeout.
+        """
+        super().__init__(url, extra_headers)
+        self.transaction_wait_timeout = transaction_wait_timeout
 
     def get_block_by_number(self, block_number: BlockNumberType = "latest", full_txs: bool = True):
         """
@@ -163,22 +172,23 @@ class EthRPC(BaseRPC):
             results[key] = storage_value
         return results
 
-    def wait_for_transaction(
-        self, transaction: Transaction, timeout: int = 60
-    ) -> TransactionByHashResponse:
+    def wait_for_transaction(self, transaction: Transaction) -> TransactionByHashResponse:
         """
         Uses `eth_getTransactionByHash` to wait until a transaction is included in a block.
         """
         tx_hash = transaction.hash
-        for _ in range(timeout):
+        for _ in range(self.transaction_wait_timeout):
             tx = self.get_transaction_by_hash(tx_hash)
             if tx.block_number is not None:
                 return tx
             time.sleep(1)
-        raise Exception(f"Transaction {tx_hash} not included in a block after {timeout} seconds")
+        raise Exception(
+            f"Transaction {tx_hash} not included in a block after "
+            f"{self.transaction_wait_timeout} seconds"
+        )
 
     def wait_for_transactions(
-        self, transactions: List[Transaction], timeout: int = 60
+        self, transactions: List[Transaction]
     ) -> List[TransactionByHashResponse]:
         """
         Uses `eth_getTransactionByHash` to wait unitl all transactions in list are included in a
@@ -186,7 +196,7 @@ class EthRPC(BaseRPC):
         """
         tx_hashes = [tx.hash for tx in transactions]
         responses: List[TransactionByHashResponse] = []
-        for _ in range(timeout):
+        for _ in range(self.transaction_wait_timeout):
             i = 0
             while i < len(tx_hashes):
                 tx_hash = tx_hashes[i]
@@ -199,21 +209,24 @@ class EthRPC(BaseRPC):
             if not tx_hashes:
                 return responses
             time.sleep(1)
-        raise Exception(f"Transaction {tx_hash} not included in a block after {timeout} seconds")
+        raise Exception(
+            f"Transaction {tx_hash} not included in a block "
+            f"after {self.transaction_wait_timeout} seconds"
+        )
 
-    def send_wait_transaction(self, transaction: Transaction, timeout: int = 60):
+    def send_wait_transaction(self, transaction: Transaction):
         """
         Sends a transaction and waits until it is included in a block.
         """
         self.send_transaction(transaction)
-        return self.wait_for_transaction(transaction, timeout)
+        return self.wait_for_transaction(transaction)
 
-    def send_wait_transactions(self, transactions: List[Transaction], timeout: int = 60):
+    def send_wait_transactions(self, transactions: List[Transaction]):
         """
         Sends a list of transactions and waits until all of them are included in a block.
         """
         self.send_transactions(transactions)
-        return self.wait_for_transactions(transactions, timeout)
+        return self.wait_for_transactions(transactions)
 
 
 class DebugRPC(EthRPC):

@@ -31,6 +31,14 @@ def pytest_addoption(parser):
             "it's externally increased, the seed transactions might fail."
         ),
     )
+    remote_rpc_group.addoption(
+        "--tx-wait-timeout",
+        action="store",
+        dest="tx_wait_timeout",
+        type=int,
+        default=60,
+        help="Maximum time in seconds to wait for a transaction to be mined",
+    )
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -42,11 +50,12 @@ def rpc_endpoint(request) -> str:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def eth_rpc(rpc_endpoint: str) -> EthRPC:
+def eth_rpc(request, rpc_endpoint: str) -> EthRPC:
     """
     Initialize ethereum RPC client for the execution client under test.
     """
-    return EthRPC(rpc_endpoint)
+    tx_wait_timeout = request.config.getoption("tx_wait_timeout")
+    return EthRPC(rpc_endpoint, transaction_wait_timeout=tx_wait_timeout)
 
 
 @pytest.fixture(scope="session")
