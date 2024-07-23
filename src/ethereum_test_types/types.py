@@ -590,13 +590,23 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
         self.s = HexNumber(signature[2])
 
 
+@dataclass
+class TransactionDefaults:
+    """
+    Default values for transactions.
+    """
+    chain_id: int = 1
+
+
 class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     """
     Generic transaction type used as a parent for Transaction and FixtureTransaction (blockchain).
     """
 
     ty: NumberBoundTypeVar = Field(0, alias="type")  # type: ignore
-    chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
+    chain_id: NumberBoundTypeVar = Field(
+        default_factory=lambda: TransactionDefaults.chain_id
+    )  # type: ignore
     nonce: NumberBoundTypeVar = Field(0)  # type: ignore
     gas_price: NumberBoundTypeVar | None = None
     max_priority_fee_per_gas: NumberBoundTypeVar | None = None
