@@ -16921,13 +16921,13 @@ implementations.</p>
                 <span class="k">continue</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
                 <span class="n">output_contents</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-
+        <span class="n">output</span> <span class="o">=</span> <span class="n">TransitionToolOutput</span><span class="p">(</span><span class="o">**</span><span class="n">output_contents</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">collect_traces</span><span class="p">(</span><span class="n">output_contents</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;receipts&quot;</span><span class="p">],</span> <span class="n">temp_dir</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collect_traces</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">receipts</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="p">)</span>
 
         <span class="n">temp_dir</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">TransitionToolOutput</span><span class="p">(</span><span class="o">**</span><span class="n">output_contents</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
 
     <span class="k">def</span> <span class="nf">_evaluate_stream</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
