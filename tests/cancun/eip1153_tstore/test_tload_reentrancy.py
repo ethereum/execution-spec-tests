@@ -94,7 +94,6 @@ def test_tload_reentrancy(
                     action=Op.TSTORE(0, tload_value)
                     + Op.MSTORE(0, do_load)
                     + Op.MSTORE(32, 0xFF)
-                    + Op.ADD(10, 10)
                     + Op.SSTORE(slot_subcall_worked, make_call(call_type))
                     + Op.SSTORE(slot_tload_in_subcall_result, Op.MLOAD(32))
                     + Op.SSTORE(slot_tload_after_subcall_result, Op.TLOAD(0))
