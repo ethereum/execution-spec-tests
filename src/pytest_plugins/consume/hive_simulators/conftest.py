@@ -46,20 +46,19 @@ def fixture_description(
 
 
 @pytest.fixture(scope="function", autouse=True)
-def timing_data(request) -> Generator[TimingData, None, None]:
+def total_timing_data(request) -> Generator[TimingData, None, None]:
     """
     Helper to record timing data for various stages of executing test case.
     """
-    timing_data = TimingData()
-    yield timing_data
-    timing_data.finish()
-    rich.print(f"\nTimings (seconds): {timing_data.formatted()}")
+    with TimingData("Total") as total_timing_data:
+        yield total_timing_data
+    rich.print(f"\nTimings (seconds): \n{total_timing_data.formatted()}")
     if hasattr(request.node, "rep_call"):  # make available for test reports
-        request.node.rep_call.timings = timing_data
+        request.node.rep_call.timings = total_timing_data
 
 
 @pytest.fixture(scope="function")
-@pytest.mark.usefixtures("timing_data")
+@pytest.mark.usefixtures("total_timing_data")
 def client_genesis(blockchain_fixture: BlockchainFixtureCommon) -> dict:
     """
     Convert the fixture genesis block header and pre-state to a client genesis state.
@@ -105,22 +104,31 @@ def client(
     client_files: dict,  # configured within: rlp/conftest.py & engine/conftest.py
     environment: dict,
     client_type: ClientType,
-    timing_data: TimingData,
+    total_timing_data: TimingData,
 ) -> Generator[Client, None, None]:
     """
     Initialize the client with the appropriate files and environment variables.
     """
-    timing_data.record("prepare_files")
-    client = hive_test.start_client(
-        client_type=client_type, environment=environment, files=client_files
-    )
-    timing_data.record("start_client")
+    with total_timing_data.time("Start client"):
+        client = hive_test.start_client(
+            client_type=client_type, environment=environment, files=client_files
+        )
     error_message = (
         f"Unable to connect to the client container ({client_type.name}) via Hive during test "
         "setup. Check the client or Hive server logs for more information."
     )
     assert client is not None, error_message
     yield client
-    timing_data.record("test_case_execution")
-    client.stop()
-    timing_data.record("stop_client")
+    with total_timing_data.time("Stop client"):
+        client.stop()
+
+
+@pytest.fixture(scope="function", autouse=True)
+def timing_data(
+    total_timing_data: TimingData, client: Client
+) -> Generator[TimingData, None, None]:
+    """
+    Helper to record timing data for the main execution of the test case.
+    """
+    with total_timing_data.time("Test case execution") as timing_data:
+        yield timing_data

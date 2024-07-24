@@ -3,7 +3,7 @@ Test timing class used to time tests.
 """
 
 import time
-from typing import Dict
+from typing import List
 
 
 class TimingData:
@@ -11,15 +11,21 @@ class TimingData:
     The times taken to perform the various steps of a test case (seconds).
     """
 
-    start_time: float
-    last_time: float
-    timings: Dict[str, float] = {}
+    name: str
+    start_time: float | None
+    end_time: float | None
+    parent: "TimingData | None"
+    timings: "List[TimingData]"
 
-    def __init__(self):
+    def __init__(self, name: str, parent: "TimingData | None" = None):
         """
         Initialize the timing data.
         """
-        self.start_time = self.last_time = time.perf_counter()
+        self.name = name
+        self.start_time = None
+        self.end_time = None
+        self.parent = parent
+        self.timings = []
 
     @staticmethod
     def format_float(num: float | None, precision: int = 4) -> str | None:
@@ -30,25 +36,37 @@ class TimingData:
             return None
         return f"{num:.{precision}f}"
 
-    def record(self, name: str) -> None:
+    def __enter__(self):
+        """
+        Start timing the test case.
+        """
+        self.start_time = time.perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
         """
         Record the time taken since the last time recorded.
         """
-        current_time = time.perf_counter()
-        self.timings[name] = current_time - self.last_time
-        self.last_time = current_time
+        self.end_time = time.perf_counter()
 
-    def finish(self) -> None:
+    def time(self, sub_name: str) -> "TimingData":
         """
-        Record the time taken since the last time recorded.
+        Record the time taken in an execution section.
         """
-        self.timings["total"] = time.perf_counter() - self.start_time
+        new_timing = TimingData(sub_name, self)
+        self.timings.append(new_timing)
+        return new_timing
 
-    def formatted(self, precision: int = 4) -> Dict[str, str | None]:
+    def formatted(self, precision: int = 4, indent: int = 0) -> str:
         """
-        Return a new instance of the model with formatted float values.
+        Recursively format the timing data with correct indentation
         """
-        data = {
-            field: self.format_float(value, precision) for field, value in self.timings.items()
-        }
-        return data
+        assert self.start_time is not None
+        assert self.end_time is not None
+        formatted = (
+            f"{' ' * indent}{self.name}: "
+            f"{TimingData.format_float(self.end_time - self.start_time, precision)}\n"
+        )
+        for timing in self.timings:
+            formatted += timing.formatted(precision, indent + 2)
+        return formatted
