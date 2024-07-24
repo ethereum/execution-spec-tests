@@ -146,6 +146,9 @@ formatter
 fromhex
 frozenbidict
 func
+fuzz
+fuzzer
+fuzzable
 fp
 fp2
 g1

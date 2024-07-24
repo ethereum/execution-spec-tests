@@ -142,6 +142,23 @@ def fill(
     sys.exit(result)
 
 
+@click.command(context_settings=dict(ignore_unknown_options=True))
+@common_click_options
+def fuzz(
+    pytest_args: List[str],
+    help_flag: bool,
+    pytest_help_flag: bool,
+) -> None:
+    """
+    Entry point for the fuzz command.
+    """
+    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args += ["-c", "pytest-fuzz.ini"]
+    args = handle_stdout_flags(args)
+    result = pytest.main(args)
+    sys.exit(result)
+
+
 def get_hive_flags_from_env():
     """
     Read simulator flags from environment variables and convert them, as best as
