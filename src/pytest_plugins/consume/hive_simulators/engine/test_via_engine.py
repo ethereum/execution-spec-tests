@@ -30,6 +30,18 @@ def test_via_engine(
     3. For valid payloads a forkchoice update is performed to finalize the chain.
     """
     t_engine = time.perf_counter()
+    # Send a initial forkchoice update
+    forkchoice_response = engine_rpc.forkchoice_updated(
+        forkchoice_state=ForkchoiceState(
+            head_block_hash=blockchain_fixture.genesis.block_hash,
+        ),
+        payload_attributes=None,
+        version=blockchain_fixture.payloads[0].forkchoice_updated_version,
+    )
+    assert (
+        forkchoice_response.payload_status.status == PayloadStatusEnum.VALID
+    ), f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
+
     genesis_block = eth_rpc.get_block_by_number(0)
     timing_data.get_genesis = time.perf_counter() - t_engine
     if genesis_block["hash"] != str(blockchain_fixture.genesis.block_hash):
