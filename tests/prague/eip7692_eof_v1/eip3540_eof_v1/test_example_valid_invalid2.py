@@ -243,7 +243,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
     ],
 )
-def test_example_valid_invalid(
+def test_example_valid_invalid2(
     eof_test: EOFTestFiller,
     eof_code: Container,
     expected_hex_bytecode: str,
@@ -317,7 +317,7 @@ def test_example_valid_invalid(
         ),
     ],
 )
-def test_code_section_header_body_mismatch(
+def test_code_section_header_body_mismatch2(
     eof_test: EOFTestFiller,
     skip_header_listing: bool,
     skip_body_listing: bool,
