@@ -50,9 +50,10 @@ def total_timing_data(request) -> Generator[TimingData, None, None]:
     """
     Helper to record timing data for various stages of executing test case.
     """
-    with TimingData("Total") as total_timing_data:
+    with TimingData("Total (seconds)") as total_timing_data:
         yield total_timing_data
-    rich.print(f"\nTimings (seconds): \n{total_timing_data.formatted()}")
+    if request.config.getoption("timing_data"):
+        rich.print(f"\n{total_timing_data.formatted()}")
     if hasattr(request.node, "rep_call"):  # make available for test reports
         request.node.rep_call.timings = total_timing_data
 
