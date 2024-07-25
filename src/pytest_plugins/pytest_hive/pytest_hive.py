@@ -105,7 +105,7 @@ def session_temp_folder(request) -> Path:  # noqa: D103
     return request.config.option.hive_session_temp_folder
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def test_suite(
     simulator: Simulation,
     session_temp_folder: Path,
@@ -115,8 +115,9 @@ def test_suite(
     """
     Defines a Hive test suite and cleans up after all tests have run.
     """
-    suite_file = session_temp_folder / "test_suite"
-    lock_file = session_temp_folder / "test_suite.lock"
+    suite_file_name = f"test_suite_{test_suite_name}"
+    suite_file = session_temp_folder / suite_file_name
+    lock_file = session_temp_folder / f"{suite_file_name}.lock"
     with FileLock(lock_file):
         if suite_file.exists():
             with open(suite_file, "r") as f:
