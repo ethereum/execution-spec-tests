@@ -37,6 +37,7 @@ print(result.output)
 import os
 import sys
 import warnings
+from tempfile import TemporaryDirectory
 from typing import Any, Callable, List, Literal, get_args
 
 import click
@@ -219,7 +220,11 @@ def consume_direct(pytest_args, help_flag, pytest_help_flag):
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
     args = handle_timing_data_flag(args)
-    args += ["-c", "pytest-consume.ini", "--rootdir", "./", consume_test_paths("direct")]
+    args += [
+        "-c",
+        "pytest-consume.ini",
+        consume_test_paths("direct"),
+    ]
     if not input_provided(args) and not sys.stdin.isatty():  # command is receiving input on stdin
         args.extend(["-s", "--input=stdin"])
     pytest.main(args)
@@ -236,16 +241,20 @@ def consume_via_rlp(pytest_args, help_flag, pytest_help_flag):
     args += [
         "-c",
         "pytest-consume.ini",
-        "--rootdir",
-        "./",
-        consume_test_paths("rlp"),
         "-p",
         "pytest_plugins.pytest_hive.pytest_hive",
+        consume_test_paths("rlp"),
     ]
     args += get_hive_flags_from_env()
     if not input_provided(args) and not sys.stdin.isatty():  # command is receiving input on stdin
         args.extend(["-s", "--input=stdin"])
-    pytest.main(args)
+    if not any(arg.startswith("--hive-session-temp-folder") for arg in args):
+        # create temp directory for hive session
+        with TemporaryDirectory() as temp_dir:
+            args.extend(["--hive-session-temp-folder", temp_dir])
+            pytest.main(args)
+    else:
+        pytest.main(args)
 
 
 @click.command(context_settings=dict(ignore_unknown_options=True))
@@ -259,16 +268,20 @@ def consume_via_engine_api(pytest_args, help_flag, pytest_help_flag):
     args += [
         "-c",
         "pytest-consume.ini",
-        "--rootdir",
-        "./",
-        consume_test_paths("engine"),
         "-p",
         "pytest_plugins.pytest_hive.pytest_hive",
+        consume_test_paths("engine"),
     ]
     args += get_hive_flags_from_env()
     if not input_provided(args) and not sys.stdin.isatty():  # command is receiving input on stdin
         args.extend(["-s", "--input=stdin"])
-    pytest.main(args)
+    if not any(arg.startswith("--hive-session-temp-folder") for arg in args):
+        # create temp directory for hive session
+        with TemporaryDirectory() as temp_dir:
+            args.extend(["--hive-session-temp-folder", temp_dir])
+            pytest.main(args)
+    else:
+        pytest.main(args)
 
 
 @click.command(context_settings=dict(ignore_unknown_options=True))
@@ -282,15 +295,19 @@ def consume_all(pytest_args, help_flag, pytest_help_flag):
     args += [
         "-c",
         "pytest-consume.ini",
-        "--rootdir",
-        "./",
         "-p",
         "pytest_plugins.pytest_hive.pytest_hive",
     ] + all_consume_test_paths()
     args += get_hive_flags_from_env()
     if not sys.stdin.isatty():  # the command is receiving input on stdin
         args.extend(["-s", "--input=stdin"])
-    pytest.main(args)
+    if not any(arg.startswith("--hive-session-temp-folder") for arg in args):
+        # create temp directory for hive session
+        with TemporaryDirectory() as temp_dir:
+            args.extend(["--hive-session-temp-folder", temp_dir])
+            pytest.main(args)
+    else:
+        pytest.main(args)
 
 
 consume.add_command(consume_all, name="all")

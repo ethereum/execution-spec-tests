@@ -134,6 +134,7 @@ extcodecopy
 extcodehash
 extcodesize
 F00
+filelock
 filesystem
 fillvalue
 firstlineno
@@ -380,6 +381,7 @@ ubuntu
 ukiyo
 uncomment
 undersize
+unlink
 usr
 util
 utils
