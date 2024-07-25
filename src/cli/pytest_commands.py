@@ -37,8 +37,9 @@ print(result.output)
 import os
 import sys
 import warnings
+from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Callable, List, Literal, get_args
+from typing import Any, Callable, List
 
 import click
 import pytest
@@ -176,27 +177,6 @@ def get_hive_flags_from_env():
     return pytest_args
 
 
-ConsumeCommands = Literal["direct", "rlp", "engine"]
-
-
-def consume_test_paths(consume_command: ConsumeCommands) -> str:
-    """
-    Get the test path for the specified consume command.
-    """
-    consume_path = "src/pytest_plugins/consume"
-    if consume_command == "direct":
-        return f"{consume_path}/{consume_command}/test_{consume_command}.py"
-    else:  # rlp or engine
-        return f"{consume_path}/hive_simulators/{consume_command}/test_via_{consume_command}.py"
-
-
-def all_consume_test_paths() -> list:
-    """
-    Get all test paths within the consume suite.
-    """
-    return [consume_test_paths(command) for command in get_args(ConsumeCommands)]
-
-
 def input_provided(args) -> bool:
     """
     Returns true if `--input` is provided via the command line.
@@ -212,105 +192,109 @@ def consume():
     pass
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
-@common_click_options
-def consume_direct(pytest_args, help_flag, pytest_help_flag):
+def consume_test_path(command: str, hive: bool) -> Path:
+    """
+    Get the test path for the specified consume command.
+    """
+    consume_path = Path("src/pytest_plugins/consume")
+    if not hive:
+        return consume_path / command / f"test_{command}.py"
+    else:  # rlp or engine
+        return consume_path / "hive_simulators" / command / f"test_via_{command}.py"
+
+
+consume_paths: List[Path] = []
+consume_hive_paths: List[Path] = []
+
+
+def consume_command(hive: bool = False) -> Decorator:
+    """
+    Decorator to generate a consume sub-command.
+    """
+
+    def decorator(func: Callable[..., Any]) -> Decorator:
+        command_name = func.__name__
+        if command_name == "all":
+            command_paths = consume_paths
+        elif command_name == "hive":
+            command_paths = consume_hive_paths
+        else:
+            test_path = consume_test_path(command_name, hive)
+            consume_paths.append(test_path)
+            command_paths = [test_path]
+            if hive:
+                consume_hive_paths.append(test_path)
+
+        def command(pytest_args, help_flag, pytest_help_flag):
+            args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+            args = handle_timing_data_flag(args)
+            args += [
+                "-c",
+                "pytest-consume.ini",
+            ]
+            if hive:
+                args += ["-p", "pytest_plugins.pytest_hive.pytest_hive"]
+                args += get_hive_flags_from_env()
+
+            args += [str(p) for p in command_paths]
+
+            if not input_provided(args) and not sys.stdin.isatty():
+                # command is receiving input on stdin
+                args.extend(["-s", "--input=stdin"])
+
+            if hive and (not any(arg.startswith("--hive-session-temp-folder") for arg in args)):
+                # create temp directory for hive session
+                with TemporaryDirectory() as temp_dir:
+                    args.extend(["--hive-session-temp-folder", temp_dir])
+                    pytest.main(args)
+            else:
+                pytest.main(args)
+
+        command.__name__ = command_name
+        command.__doc__ = func.__doc__
+
+        return consume.command(context_settings=dict(ignore_unknown_options=True))(
+            common_click_options(command)
+        )
+
+    return decorator
+
+
+@consume_command()
+def direct():
     """
     Clients consume directly via the `blocktest` interface.
     """
-    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    args = handle_timing_data_flag(args)
-    args += [
-        "-c",
-        "pytest-consume.ini",
-        consume_test_paths("direct"),
-    ]
-    if not input_provided(args) and not sys.stdin.isatty():  # command is receiving input on stdin
-        args.extend(["-s", "--input=stdin"])
-    pytest.main(args)
+    pass
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
-@common_click_options
-def consume_via_rlp(pytest_args, help_flag, pytest_help_flag):
+@consume_command(hive=True)
+def rlp():
     """
     Clients consume RLP-encoded blocks on startup.
     """
-    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    args = handle_timing_data_flag(args)
-    args += [
-        "-c",
-        "pytest-consume.ini",
-        "-p",
-        "pytest_plugins.pytest_hive.pytest_hive",
-        consume_test_paths("rlp"),
-    ]
-    args += get_hive_flags_from_env()
-    if not input_provided(args) and not sys.stdin.isatty():  # command is receiving input on stdin
-        args.extend(["-s", "--input=stdin"])
-    if not any(arg.startswith("--hive-session-temp-folder") for arg in args):
-        # create temp directory for hive session
-        with TemporaryDirectory() as temp_dir:
-            args.extend(["--hive-session-temp-folder", temp_dir])
-            pytest.main(args)
-    else:
-        pytest.main(args)
+    pass
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
-@common_click_options
-def consume_via_engine_api(pytest_args, help_flag, pytest_help_flag):
+@consume_command(hive=True)
+def engine():
     """
     Clients consume via the Engine API.
     """
-    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    args = handle_timing_data_flag(args)
-    args += [
-        "-c",
-        "pytest-consume.ini",
-        "-p",
-        "pytest_plugins.pytest_hive.pytest_hive",
-        consume_test_paths("engine"),
-    ]
-    args += get_hive_flags_from_env()
-    if not input_provided(args) and not sys.stdin.isatty():  # command is receiving input on stdin
-        args.extend(["-s", "--input=stdin"])
-    if not any(arg.startswith("--hive-session-temp-folder") for arg in args):
-        # create temp directory for hive session
-        with TemporaryDirectory() as temp_dir:
-            args.extend(["--hive-session-temp-folder", temp_dir])
-            pytest.main(args)
-    else:
-        pytest.main(args)
+    pass
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
-@common_click_options
-def consume_all(pytest_args, help_flag, pytest_help_flag):
+@consume_command(hive=True)
+def hive():
+    """
+    Clients consume via all available hive methods (rlp, engine).
+    """
+    pass
+
+
+@consume_command(hive=True)
+def all():
     """
     Clients consume via all available methods (direct, rlp, engine).
     """
-    args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
-    args = handle_timing_data_flag(args)
-    args += [
-        "-c",
-        "pytest-consume.ini",
-        "-p",
-        "pytest_plugins.pytest_hive.pytest_hive",
-    ] + all_consume_test_paths()
-    args += get_hive_flags_from_env()
-    if not sys.stdin.isatty():  # the command is receiving input on stdin
-        args.extend(["-s", "--input=stdin"])
-    if not any(arg.startswith("--hive-session-temp-folder") for arg in args):
-        # create temp directory for hive session
-        with TemporaryDirectory() as temp_dir:
-            args.extend(["--hive-session-temp-folder", temp_dir])
-            pytest.main(args)
-    else:
-        pytest.main(args)
-
-
-consume.add_command(consume_all, name="all")
-consume.add_command(consume_direct, name="direct")
-consume.add_command(consume_via_rlp, name="rlp")
-consume.add_command(consume_via_engine_api, name="engine")
+    pass
