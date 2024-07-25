@@ -17,7 +17,6 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 📋 Misc
 
-
 ## [v3.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2024-07-22
 
 ### 🧪 Test Cases
