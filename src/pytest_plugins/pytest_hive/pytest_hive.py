@@ -117,8 +117,8 @@ def test_suite(
     """
     suite_file_name = f"test_suite_{test_suite_name}"
     suite_file = session_temp_folder / suite_file_name
-    lock_file = session_temp_folder / f"{suite_file_name}.lock"
-    with FileLock(lock_file):
+    suite_lock_file = session_temp_folder / f"{suite_file_name}.lock"
+    with FileLock(suite_lock_file):
         if suite_file.exists():
             with open(suite_file, "r") as f:
                 suite = HiveTestSuite(**json.load(f))
@@ -129,9 +129,11 @@ def test_suite(
             )
             with open(suite_file, "w") as f:
                 json.dump(asdict(suite), f)
-    users_lock_file = session_temp_folder / "test_suite_users.lock"
+
+    users_file_name = f"test_suite_{test_suite_name}_users"
+    users_file = session_temp_folder / users_file_name
+    users_lock_file = session_temp_folder / f"{users_file_name}.lock"
     with FileLock(users_lock_file):
-        users_file = session_temp_folder / "test_suite_users"
         if users_file.exists():
             with open(users_file, "r") as f:
                 users = json.load(f)
