@@ -3,11 +3,12 @@ Pytest plug-in that allows fuzzed parametrization.
 """
 
 import inspect
-import random
 from copy import copy
-from typing import Annotated, Any, List, get_args, get_origin
+from typing import Any, List
 
 import pytest
+
+from ethereum_test_fuzzing import type_fuzzer_generator
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -76,17 +77,12 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             fuzz_argument in parameters
         ), f"fuzz argument not found in function signature {fuzz_argument}"
         annotation = parameters[fuzz_argument].annotation
-        if get_origin(annotation) is Annotated:
-            # Parameter type should be annotated with a fuzz generator
-            args = get_args(annotation)[1:]
-            # TODO: Create a fuzz generator type and match each argument until found
-            fuzz_generators.append(args[0])
-        elif annotation == int:
-            fuzz_generators.append(lambda: random.randint(0, 2**256))
-        else:
+        fuzzer = type_fuzzer_generator(annotation)
+        if fuzzer is None:
             raise ValueError(
                 f"no fuzzer available for type {annotation} for parameter {fuzz_argument}"
             )
+        fuzz_generators.append(fuzzer)
 
     for _ in range(iterations):
         iteration_args = []
