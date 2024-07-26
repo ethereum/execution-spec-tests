@@ -8,14 +8,11 @@ import pytest
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_vm import Opcodes, Bytecode
+from ethereum_test_vm import Bytecode
 
 from .. import EOF_FORK_NAME
 from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
-from .helpers import (
-    slot_cold_gas,
-    slot_warm_gas,
-)
+from .helpers import slot_cold_gas, slot_warm_gas
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
@@ -32,6 +29,7 @@ def gas_test(
     cold_gas: int,
     warm_gas: int | None = None,
 ):
+    """Creates a State Test to check the gas cost of a sequence of EOF code."""
     if cold_gas <= 0:
         raise ValueError(f"Target gas allocations (warm_gas) must be > 0, got {cold_gas}")
     if warm_gas is None:
@@ -48,41 +46,42 @@ def gas_test(
         Container(sections=[Section.Code(code=setup_code + subject_code + tear_down_code)])
     )
     address_legacy_harness = pre.deploy_contract(
-        code=
-        # warm subject and baseline without executing
-        (Op.BALANCE(address_subject) + Op.POP + Op.BALANCE(address_baseline) + Op.POP)
-        # cold gas run
-        + (
-            Op.GAS
-            + Op.CALL(address=address_subject, gas=500_000)
-            + Op.POP
-            + Op.GAS
-            + Op.SWAP1
-            + Op.SUB
+        code=(
+            # warm subject and baseline without executing
+            (Op.BALANCE(address_subject) + Op.POP + Op.BALANCE(address_baseline) + Op.POP)
+            # cold gas run
+            + (
+                Op.GAS
+                + Op.CALL(address=address_subject, gas=500_000)
+                + Op.POP
+                + Op.GAS
+                + Op.SWAP1
+                + Op.SUB
+            )
+            # Baseline gas run
+            + (
+                Op.GAS
+                + Op.CALL(address=address_baseline, gas=500_000)
+                + Op.POP
+                + Op.GAS
+                + Op.SWAP1
+                + Op.SUB
+            )
+            # warm gas run
+            + (
+                Op.GAS
+                + Op.CALL(address=address_subject, gas=500_000)
+                + Op.POP
+                + Op.GAS
+                + Op.SWAP1
+                + Op.SUB
+            )
+            # Store warm gas
+            + (Op.DUP2 + Op.SWAP1 + Op.SUB + Op.PUSH2(slot_warm_gas) + Op.SSTORE)
+            # store cold gas
+            + (Op.SWAP1 + Op.SUB + Op.PUSH2(slot_cold_gas) + Op.SSTORE)
+            + Op.STOP
         )
-        # Baseline gas run
-        + (
-            Op.GAS
-            + Op.CALL(address=address_baseline, gas=500_000)
-            + Op.POP
-            + Op.GAS
-            + Op.SWAP1
-            + Op.SUB
-        )
-        # warm gas run
-        + (
-            Op.GAS
-            + Op.CALL(address=address_subject, gas=500_000)
-            + Op.POP
-            + Op.GAS
-            + Op.SWAP1
-            + Op.SUB
-        )
-        # Store warm gas
-        + (Op.DUP2 + Op.SWAP1 + Op.SUB + Op.PUSH2(slot_warm_gas) + Op.SSTORE)
-        # store cold gas
-        + (Op.SWAP1 + Op.SUB + Op.PUSH2(slot_cold_gas) + Op.SSTORE)
-        + Op.STOP
     )
 
     post = {
@@ -116,6 +115,7 @@ def test_ext_calls_gas(
     cold_gas: int,
     warm_gas: int | None,
 ):
+    """Tests 4 variations of EXT*CALL gas, both warm and cold"""
     address_target = pre.deploy_contract(Container(sections=[Section.Code(code=Op.STOP)]))
 
     gas_test(
