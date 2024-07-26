@@ -4,7 +4,7 @@ Common pytest fixtures for the RLP and Engine simulators.
 
 import io
 import json
-from typing import Generator, cast
+from typing import Generator, List, cast
 
 import pytest
 import rich
@@ -29,11 +29,52 @@ def eth_rpc(client: Client) -> EthRPC:
 
 
 @pytest.fixture(scope="function")
+def hive_consume_command(
+    test_suite_name: str,
+    client_type: ClientType,
+    test_case: TestCaseIndexFile | TestCaseStream,
+) -> str:
+    """
+    Command to run the test within hive.
+    """
+    return (
+        f"./hive --sim ethereum/{test_suite_name} "
+        f"--client-file configs/develop.yaml "
+        f"--client {client_type.name} "
+        f'--sim.limit "{test_case.id}" '
+        f"--docker.output "
+        f"--sim.loglevel 5"
+    )
+
+
+@pytest.fixture(scope="function")
+def eest_consume_commands(
+    client_type: ClientType,
+    test_case: TestCaseIndexFile | TestCaseStream,
+) -> List[str]:
+    """
+    Commands to run the test within EEST using a hive dev back-end.
+    """
+    consume = f'consume engine -k "{test_case.id}" -v'
+    hive_dev = (
+        f"./hive --dev --client-file config/develop.yaml "
+        f"--client {client_type.name} "
+        f"--docker.output "
+        f"--sim.loglevel 5"
+    )
+    return [consume, hive_dev]
+
+
+@pytest.fixture(scope="function")
 def fixture_description(
-    blockchain_fixture: BlockchainFixtureCommon, test_case: TestCaseIndexFile | TestCaseStream
+    blockchain_fixture: BlockchainFixtureCommon,
+    test_case: TestCaseIndexFile | TestCaseStream,
+    hive_consume_command: str,
+    eest_consume_commands: List[str],
 ) -> str:
     """
     Create the description of the current blockchain fixture test case.
+    Includes reproducible commands to re-run the test case against the target client.
     """
     description = f"Test id: {test_case.id}"
     if "url" in blockchain_fixture.info:
@@ -41,7 +82,16 @@ def fixture_description(
     if "description" not in blockchain_fixture.info:
         description += "\n\nNo description field provided in the fixture's 'info' section."
     else:
-        description += f"\n\n{blockchain_fixture.info['description']}"
+        description += f"\n{blockchain_fixture.info['description']}"
+    description += (
+        f"\n\nCommand to reproduce entirely in hive:" f"\n<code>{hive_consume_command}</code>"
+    )
+    description += (
+        f"\n\nCommands to reproduce within EEST using a hive dev back-end:"
+        f"\n1. <code>{eest_consume_commands[0]}</code>"
+        f"\n2. <code>{eest_consume_commands[1]}</code>"
+    )
+    description = description.replace("\n", "<br/>")
     return description
 
 
