@@ -27,6 +27,7 @@ from .types import (
     Requests,
     Storage,
     Transaction,
+    TransactionDefaults,
     Withdrawal,
     WithdrawalRequest,
 )
@@ -53,6 +54,7 @@ __all__ = (
     "TestPrivateKey",
     "TestPrivateKey2",
     "Transaction",
+    "TransactionDefaults",
     "Withdrawal",
     "WithdrawalRequest",
     "ZeroPaddedHexNumber",

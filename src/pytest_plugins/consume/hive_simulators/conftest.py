@@ -25,7 +25,7 @@ def eth_rpc(client: Client) -> EthRPC:
     """
     Initialize ethereum RPC client for the execution client under test.
     """
-    return EthRPC(ip=client.ip)
+    return EthRPC(f"http://{client.ip}:8545")
 
 
 @pytest.fixture(scope="function")

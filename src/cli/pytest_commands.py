@@ -37,7 +37,7 @@ print(result.output)
 import os
 import sys
 import warnings
-from typing import Any, Callable, List, Literal, get_args
+from typing import Any, Callable, List, Literal, Tuple, get_args
 
 import click
 import pytest
@@ -90,7 +90,7 @@ def common_click_options(func: Callable[..., Any]) -> Decorator:
 
 
 def handle_help_flags(
-    pytest_args: List[str], help_flag: bool, pytest_help_flag: bool
+    pytest_args: Tuple[str, ...], help_flag: bool, pytest_help_flag: bool
 ) -> List[str]:
     """
     Modifies the help arguments passed to the click CLI command before forwarding to
@@ -138,7 +138,7 @@ def handle_timing_data_flag(args: List[str]) -> List[str]:
 @click.command(context_settings=dict(ignore_unknown_options=True))
 @common_click_options
 def fill(
-    pytest_args: List[str],
+    pytest_args: Tuple[str, ...],
     help_flag: bool,
     pytest_help_flag: bool,
 ) -> None:
@@ -146,6 +146,33 @@ def fill(
     Entry point for the fill command.
     """
     args = handle_help_flags(pytest_args, help_flag, pytest_help_flag)
+    args = handle_stdout_flags(args)
+    result = pytest.main(args)
+    sys.exit(result)
+
+
+@click.option(
+    "--hive-mode",
+    "hive_mode_flag",
+    is_flag=True,
+    default=False,
+    expose_value=True,
+    help="Whether to run in hive mode, which spawns a devnet with the required genesis.",
+)
+@click.command(context_settings=dict(ignore_unknown_options=True))
+@common_click_options
+def execute(
+    pytest_args: Tuple[str, ...],
+    help_flag: bool,
+    hive_mode_flag: bool,
+    pytest_help_flag: bool,
+) -> None:
+    """
+    Entry point for the execute command.
+    """
+    ini_file = "pytest-execute-hive.ini" if hive_mode_flag else "pytest-execute.ini"
+    default_args = ("-c", ini_file)
+    args = handle_help_flags(pytest_args + default_args, help_flag, pytest_help_flag)
     args = handle_stdout_flags(args)
     result = pytest.main(args)
     sys.exit(result)

@@ -49,6 +49,16 @@ from ethereum_test_exceptions import TransactionException
 from ethereum_test_forks import Fork
 
 
+def int_to_bytes(value: int) -> bytes:
+    """
+    Converts an integer to its big-endian representation.
+    """
+    if value == 0:
+        return b""
+
+    return int_to_bytes(value // 256) + bytes([value % 256])
+
+
 # Sentinel classes
 class Removable:
     """
@@ -112,6 +122,8 @@ class Alloc(BaseAlloc):
     Allocation of accounts in the state, pre and post test execution.
     """
 
+    eoa_fund_amount_default: ClassVar[int] = 10**16
+
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
         """
@@ -167,6 +179,12 @@ class Alloc(BaseAlloc):
         Returns an iterator over the allocation.
         """
         return iter(self.root)
+
+    def items(self):
+        """
+        Returns an iterator over the allocation items.
+        """
+        return self.root.items()
 
     def __getitem__(self, address: Address | FixedSizeBytesConvertible) -> Account | None:
         """
@@ -276,7 +294,7 @@ class Alloc(BaseAlloc):
         """
         raise NotImplementedError("deploy_contract is not implemented in the base class")
 
-    def fund_eoa(self, amount: NumberConvertible = 10**21, label: str | None = None) -> EOA:
+    def fund_eoa(self, amount: NumberConvertible | None = None, label: str | None = None) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
@@ -553,13 +571,23 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
         self.s = HexNumber(signature[2])
 
 
+@dataclass
+class TransactionDefaults:
+    """
+    Default values for transactions.
+    """
+    chain_id: int = 1
+
+
 class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     """
     Generic transaction type used as a parent for Transaction and FixtureTransaction (blockchain).
     """
 
     ty: NumberBoundTypeVar = Field(0, alias="type")  # type: ignore
-    chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
+    chain_id: NumberBoundTypeVar = Field(
+        default_factory=lambda: TransactionDefaults.chain_id
+    )  # type: ignore
     nonce: NumberBoundTypeVar = Field(0)  # type: ignore
     gas_price: NumberBoundTypeVar | None = None
     max_priority_fee_per_gas: NumberBoundTypeVar | None = None
@@ -1050,10 +1078,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         """
         if self.to is not None:
             raise ValueError("transaction is not a contract creation")
-        nonce_bytes = (
-            bytes() if self.nonce == 0 else self.nonce.to_bytes(length=1, byteorder="big")
-        )
-        hash = keccak256(eth_rlp.encode([self.sender, nonce_bytes]))
+        hash = keccak256(eth_rlp.encode([self.sender, int_to_bytes(self.nonce)]))
         return Address(hash[-20:])
 
 

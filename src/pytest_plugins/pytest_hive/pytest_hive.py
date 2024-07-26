@@ -21,6 +21,20 @@ def simulator(request):  # noqa: D103
     return request.config.hive_simulator
 
 
+def pytest_addoption(parser):
+    """
+    Adds command-line options to pytest.
+    """
+    hive_group = parser.getgroup("hive", "Arguments defining hive configuration")
+    hive_group.addoption(
+        "--hive-simulator",
+        action="store",
+        dest="hive_simulator",
+        default=os.environ.get("HIVE_SIMULATOR"),
+        help="Hive simulator endpoint",
+    )
+
+
 @pytest.fixture(scope="session")
 def test_suite(request, simulator: Simulation):
     """
@@ -42,7 +56,7 @@ def test_suite(request, simulator: Simulation):
 
 
 def pytest_configure(config):  # noqa: D103
-    hive_simulator_url = os.environ.get("HIVE_SIMULATOR")
+    hive_simulator_url = config.getoption("hive_simulator")
     if hive_simulator_url is None:
         pytest.exit(
             "The HIVE_SIMULATOR environment variable is not set.\n\n"
