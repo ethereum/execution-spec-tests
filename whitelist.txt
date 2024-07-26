@@ -71,6 +71,7 @@ conftest
 contractAddr
 controlflow
 cp
+cmd
 CPUs
 crypto
 currentframe
