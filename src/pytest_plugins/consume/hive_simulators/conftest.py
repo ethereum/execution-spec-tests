@@ -56,18 +56,14 @@ def eest_consume_commands(
     """
     Commands to run the test within EEST using a hive dev back-end.
     """
-    consume = (
-        f'consume {test_suite_name.split("-")[-1]} -k "{test_case.id}" -v '
-        f"--input=https://github.com/ethereum/"
-        f"execution-spec-tests/releases/latest/download/fixtures_develop.tar.gz"
-    )
     hive_dev = (
         f"./hive --dev --client-file configs/develop.yaml "
         f"--client {client_type.name} "
         f"--docker.output "
         f"--sim.loglevel 5"
     )
-    return [consume, hive_dev]
+    consume = f'consume {test_suite_name.split("-")[-1]} -k "{test_case.id}" -v --input=latest'
+    return [hive_dev, consume]
 
 
 @pytest.fixture(scope="function")

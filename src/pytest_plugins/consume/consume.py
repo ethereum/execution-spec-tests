@@ -128,6 +128,12 @@ def pytest_configure(config):  # noqa: D103
         config.test_cases = TestCases.from_stream(sys.stdin)
         return
 
+    if input_source == "latest":  # TODO: align this with release tags
+        input_source = (
+            "https://github.com/ethereum/execution-spec-tests/releases/latest/download/"
+            "fixtures_develop.tar.gz"
+        )
+
     if is_url(input_source):
         cached_downloads_directory.mkdir(parents=True, exist_ok=True)
         input_source = download_and_extract(input_source, cached_downloads_directory)
