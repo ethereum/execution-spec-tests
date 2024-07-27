@@ -49,15 +49,20 @@ def hive_consume_command(
 
 @pytest.fixture(scope="function")
 def eest_consume_commands(
+    test_suite_name: str,
     client_type: ClientType,
     test_case: TestCaseIndexFile | TestCaseStream,
 ) -> List[str]:
     """
     Commands to run the test within EEST using a hive dev back-end.
     """
-    consume = f'consume engine -k "{test_case.id}" -v'
+    consume = (
+        f'consume {test_suite_name.split("-")[-1]} -k "{test_case.id}" -v '
+        f"--input=https://github.com/ethereum/"
+        f"execution-spec-tests/releases/latest/download/fixtures_develop.tar.gz"
+    )
     hive_dev = (
-        f"./hive --dev --client-file config/develop.yaml "
+        f"./hive --dev --client-file configs/develop.yaml "
         f"--client {client_type.name} "
         f"--docker.output "
         f"--sim.loglevel 5"
@@ -82,7 +87,7 @@ def fixture_description(
     if "description" not in blockchain_fixture.info:
         description += "\n\nNo description field provided in the fixture's 'info' section."
     else:
-        description += f"\n{blockchain_fixture.info['description']}"
+        description += f"\n\n{blockchain_fixture.info['description']}"
     description += (
         f"\n\nCommand to reproduce entirely in hive:" f"\n<code>{hive_consume_command}</code>"
     )
