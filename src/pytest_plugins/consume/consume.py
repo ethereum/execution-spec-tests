@@ -11,9 +11,7 @@ from urllib.parse import urlparse
 
 import pytest
 import requests
-import rich
 
-from cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures.consume import TestCases
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
@@ -143,10 +141,11 @@ def pytest_configure(config):  # noqa: D103
 
     index_file = input_source / "index.json"
     if not index_file.exists():
-        rich.print(f"Generating index file [bold cyan]{index_file}[/]...")
-    generate_fixtures_index(
-        Path(input_source), quiet_mode=False, force_flag=False, disable_infer_format=False
-    )
+        pytest.exit(
+            f"Index file not found within input source '{input_source}/'."
+            "\nPlease make sure the input source is the root of the fixture directory and"
+            "contains the `index.json` file."
+        )
     config.test_cases = TestCases.from_index_file(Path(input_source) / "index.json")
 
     if config.option.collectonly:

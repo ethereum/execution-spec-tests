@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Generator, List, Type
 
 import pytest
+import rich
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
@@ -618,6 +619,10 @@ def fixture_collector(
     fixture_collector.dump_fixtures()
     if do_fixture_verification:
         fixture_collector.verify_fixture_files(evm_fixture_verification)
+
+    index_file = output_dir / "index.json"
+    if not index_file.exists():
+        rich.print(f"\n\nGenerating fixture index file [bold cyan]{index_file}[/]...")
     generate_fixtures_index(
         output_dir, quiet_mode=False, force_flag=False, disable_infer_format=False
     )
