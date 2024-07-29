@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Generator, List, Type
 
 import pytest
+import rich
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
@@ -46,12 +47,12 @@ def default_output_directory() -> str:
     return "./fixtures"
 
 
-def default_html_report_filename() -> str:
+def default_html_report_file_path() -> str:
     """
-    The default file to store the generated HTML test report. Defined as a
+    The default file path to store the generated HTML test report. Defined as a
     function to allow for easier testing.
     """
-    return "report_fill.html"
+    return ".meta/report_fill.html"
 
 
 def strip_output_tarball_suffix(output: Path) -> Path:
@@ -235,7 +236,7 @@ def pytest_configure(config):
         # generate an html report by default, unless explicitly disabled
         config.option.htmlpath = (
             strip_output_tarball_suffix(config.getoption("output"))
-            / default_html_report_filename()
+            / default_html_report_file_path()
         )
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
@@ -492,8 +493,18 @@ def output_dir(request: pytest.FixtureRequest, is_output_tarball: bool) -> Path:
     return output
 
 
+@pytest.fixture(scope="session")
+def meta_dir(output_dir: Path) -> Path:
+    """
+    Returns the metadata directory to store fixtures meta files.
+    """
+    return output_dir / ".meta/"
+
+
 @pytest.fixture(scope="session", autouse=True)
-def create_properties_file(request: pytest.FixtureRequest, output_dir: Path) -> None:
+def create_properties_file(
+    request: pytest.FixtureRequest, output_dir: Path, meta_dir: Path
+) -> None:
     """
     Creates an ini file with fixture build properties in the fixture output
     directory.
@@ -502,6 +513,9 @@ def create_properties_file(request: pytest.FixtureRequest, output_dir: Path) -> 
         return
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
+    metadata_dir = output_dir / ".meta"
+    if not metadata_dir.exists():
+        metadata_dir.mkdir(parents=True)
 
     fixture_properties = {
         "timestamp": datetime.datetime.now().isoformat(),
@@ -530,7 +544,7 @@ def create_properties_file(request: pytest.FixtureRequest, output_dir: Path) -> 
             warnings.warn(f"Fixtures ini file: Skipping metadata key {key} with value {val}.")
     config["environment"] = environment_properties
 
-    ini_filename = output_dir / "fixtures.ini"
+    ini_filename = meta_dir / "fixtures.ini"
     with open(ini_filename, "w") as f:
         f.write("; This file describes fixture build properties\n\n")
         config.write(f)
@@ -618,6 +632,10 @@ def fixture_collector(
     fixture_collector.dump_fixtures()
     if do_fixture_verification:
         fixture_collector.verify_fixture_files(evm_fixture_verification)
+
+    index_file = output_dir / ".meta/index.json"
+    if not index_file.exists():
+        rich.print(f"\n\nGenerating fixture index file [bold cyan]{index_file}[/]...")
     generate_fixtures_index(
         output_dir, quiet_mode=False, force_flag=False, disable_infer_format=False
     )
