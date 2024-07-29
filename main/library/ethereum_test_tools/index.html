@@ -2784,6 +2784,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.TOO_MANY_CONTAINERS" class="md-nav__link">
+    <span class="md-ellipsis">
+      TOO_MANY_CONTAINERS
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -16832,6 +16841,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.EOFException.TOO_MANY_CONTAINERS" class="md-nav__link">
+    <span class="md-ellipsis">
+      TOO_MANY_CONTAINERS
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -22042,7 +22060,11 @@ a fork that is not active yet.</p>
 <span class="normal">707</span>
 <span class="normal">708</span>
 <span class="normal">709</span>
-<span class="normal">710</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when an EOF container is invalid.</span>
@@ -22227,6 +22249,10 @@ a fork that is not active yet.</p>
     <span class="n">INCOMPATIBLE_CONTAINER_KIND</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Incompatible instruction found in a container of a specific kind.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TOO_MANY_CONTAINERS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF container header has too many sub-containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -23422,6 +23448,33 @@ when returning</p>
     <div class="doc doc-contents ">
 
       <p>Incompatible instruction found in a container of a specific kind.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.EOFException.TOO_MANY_CONTAINERS" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">TOO_MANY_CONTAINERS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.EOFException.TOO_MANY_CONTAINERS" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>EOF container header has too many sub-containers.</p>
     </div>
 
 </div>
