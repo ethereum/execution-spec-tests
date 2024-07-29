@@ -179,6 +179,8 @@ globals
 go-ethereum's
 Golang
 gwei
+h1
+h2
 hacky
 hardfork
 hash32
