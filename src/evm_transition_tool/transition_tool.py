@@ -309,7 +309,7 @@ class TransitionTool(FixtureVerifier):
         ]
 
         # TODO: Verkle specific logic, update when Verkle fork is confirmed.
-        if t8n_data.fork_name == "Prague":
+        if t8n_data.fork_name == "Verkle":
             output_paths["vkt"] = os.path.join("output", "vkt.json")
             args.extend(["--output.vkt", output_paths["vkt"]])
             if t8n_data.vkt is not None:
@@ -448,7 +448,7 @@ class TransitionTool(FixtureVerifier):
         ]
 
         # TODO: Verkle specific logic, update when Verkle fork is confirmed.
-        if t8n_data.fork_name == "Prague":
+        if t8n_data.fork_name == "Verkle":
             args.append("--output.vkt=stdout")
             if t8n_data.vkt is not None:
                 args.append("--input.vkt=stdin")

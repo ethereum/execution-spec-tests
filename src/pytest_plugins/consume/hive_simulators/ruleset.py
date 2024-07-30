@@ -322,7 +322,7 @@ ruleset = {
         "HIVE_SHANGHAI_TIMESTAMP": 0,
         "HIVE_CANCUN_TIMESTAMP": 15000,
     },
-    "ShanghaiToPragueAtTime32": {  # TODO: Make this verkle specific
+    "ShanghaiToVerkleAtTime32": {
         "HIVE_FORK_HOMESTEAD": 0,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
@@ -335,7 +335,23 @@ ruleset = {
         "HIVE_FORK_MERGE": 0,
         "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
         "HIVE_SHANGHAI_TIMESTAMP": 0,
-        "HIVE_PRAGUE_TIMESTAMP": 32,
+        "HIVE_VERKLE_TIMESTAMP": 32,
+    },
+    "Verkle": {
+        "HIVE_FORK_HOMESTEAD": 0,
+        "HIVE_FORK_TANGERINE": 0,
+        "HIVE_FORK_SPURIOUS": 0,
+        "HIVE_FORK_BYZANTIUM": 0,
+        "HIVE_FORK_CONSTANTINOPLE": 0,
+        "HIVE_FORK_PETERSBURG": 0,
+        "HIVE_FORK_ISTANBUL": 0,
+        "HIVE_FORK_BERLIN": 0,
+        "HIVE_FORK_LONDON": 0,
+        "HIVE_FORK_MERGE": 0,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
+        "HIVE_SHANGHAI_TIMESTAMP": 0,
+        "HIVE_CANCUN_TIMESTAMP": 0,
+        "HIVE_VERKLE_TIMESTAMP": 0,
     },
     "Prague": {
         "HIVE_FORK_HOMESTEAD": 0,
