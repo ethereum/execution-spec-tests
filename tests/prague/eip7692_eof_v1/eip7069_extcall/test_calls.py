@@ -38,8 +38,8 @@ value_code_worked = 0x2015
 value_legacy_call_worked = 1
 value_legacy_call_failed = 0
 value_eof_call_worked = 0
-value_eof_call_failed = 1
-value_eof_call_reverted = 2
+value_eof_call_reverted = 1
+value_eof_call_failed = 2
 value_returndata_magic = b"\x42"
 
 
@@ -246,7 +246,7 @@ def test_eof_calls_eof_sstore(
     elif opcode == Op.EXTDELEGATECALL:
         calling_storage[slot_caller] = sender
     elif opcode == Op.EXTSTATICCALL:
-        calling_storage[slot_call_result] = value_eof_call_reverted
+        calling_storage[slot_call_result] = value_eof_call_failed
 
     post = {
         calling_contract_address: Account(storage=calling_storage),
@@ -382,10 +382,10 @@ def test_eof_calls_legacy_sstore(
     if opcode == Op.EXTCALL:
         destination_storage[slot_caller] = calling_contract_address
     elif opcode == Op.EXTDELEGATECALL:
-        # EOF delegate call to legacy is a failure by rule
-        calling_storage[slot_call_result] = value_eof_call_failed
-    elif opcode == Op.EXTSTATICCALL:
+        # EOF delegate call to legacy is a light failure by rule
         calling_storage[slot_call_result] = value_eof_call_reverted
+    elif opcode == Op.EXTSTATICCALL:
+        calling_storage[slot_call_result] = value_eof_call_failed
 
     post = {
         calling_contract_address: Account(storage=calling_storage),
@@ -454,8 +454,8 @@ def test_eof_calls_legacy_mstore(
     }
 
     if opcode == Op.EXTDELEGATECALL:
-        # EOF delegate call to legacy is a failure by rule
-        calling_storage[slot_call_result] = value_eof_call_failed
+        # EOF delegate call to legacy is a light failure by rule
+        calling_storage[slot_call_result] = value_eof_call_reverted
         calling_storage[slot_returndatasize] = 0
         calling_storage[slot_returndata] = 0
 
