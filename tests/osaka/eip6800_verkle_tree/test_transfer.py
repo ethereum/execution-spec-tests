@@ -37,7 +37,7 @@ precompile_address = Address("0x09")
 )
 @pytest.mark.parametrize(
     "value",
-    [0, 0.6],
+    [0, 6],
     ids=["zero", "non_zero"],
 )
 def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, value):
