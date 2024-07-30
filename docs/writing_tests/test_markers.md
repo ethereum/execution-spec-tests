@@ -118,6 +118,23 @@ def test_something_with_all_evm_code_types(pre: Alloc, evm_code_type: EVMCodeTyp
     ...
 ```
 
+### pytest.mark.with_all_call_opcodes
+
+This marker is used to automatically parameterize a test with all EVM call opcodes that are valid for the fork being tested.
+
+```python
+import pytest
+
+@pytest.mark.with_all_call_opcodes
+@pytest.mark.valid_from("Frontier")
+def test_something_with_all_call_opcodes(pre: Alloc, call_opcode: Op):
+    ...
+```
+
+In this example, the test will be parametrized for parameter `call_opcode` with values `[Op.CALL, Op.CALLCODE]` starting on fork Frontier, `[Op.CALL, Op.CALLCODE, Op.DELEGATECALL]` on fork Homestead, `[Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]` on fork Byzantium, and eventually it will be parametrized with with values `[Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL, Op.EXTCALL, Op.EXTSTATICCALL, Op.EXTDELEGATECALL]` on the EOF activation fork.
+
+Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
+
 ## Other Markers
 
 ### pytest.mark.slow
