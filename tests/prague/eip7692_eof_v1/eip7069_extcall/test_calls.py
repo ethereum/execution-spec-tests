@@ -31,6 +31,7 @@ slot_call_result = next(_slot)
 slot_returndata = next(_slot)
 slot_returndatasize = next(_slot)
 slot_caller = next(_slot)
+slot_returndatasize_before_clear = next(_slot)
 slot_last_slot = next(_slot)
 
 """Storage values for common testing fields"""
@@ -462,6 +463,217 @@ def test_eof_calls_legacy_mstore(
     post = {
         calling_contract_address: Account(storage=calling_storage),
         destination_contract_address: Account(storage={}),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    ["opcode", "suffix"],
+    [
+        [Op.EXTCALL, [0, 0, 0]],
+        [Op.EXTDELEGATECALL, [0, 0]],
+        [Op.EXTSTATICCALL, [0, 0]],
+    ],
+    ids=["extcall", "extdelegatecall", "extstaticall"],
+)
+@pytest.mark.parametrize(
+    "destination_opcode, destination_suffix",
+    [[Op.REVERT, [0, 0]], [Op.INVALID, []]],
+    ids=["revert", "invalid"],
+)
+@pytest.mark.parametrize("destination_is_eof", [True, False])
+def test_eof_calls_revert_abort(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+    suffix: list[int],
+    destination_opcode: Op,
+    destination_suffix: list[int],
+    destination_is_eof: bool,
+):
+    """Test EOF contracts calling contracts that revert or abort"""
+    env = Environment()
+
+    destination_contract_address = pre.deploy_contract(
+        Container.Code(destination_opcode(*destination_suffix))
+        if destination_is_eof
+        else destination_opcode(*destination_suffix)
+    )
+
+    caller_contract = Container.Code(
+        Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
+    )
+    calling_contract_address = pre.deploy_contract(caller_contract)
+
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=50000000,
+        gas_price=10,
+        protected=False,
+        data="",
+    )
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        slot_call_result: value_eof_call_reverted
+        if destination_opcode == Op.REVERT
+        or (opcode == Op.EXTDELEGATECALL and not destination_is_eof)
+        else value_eof_call_failed,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+        destination_contract_address: Account(storage={}),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    ["opcode", "suffix"],
+    [
+        [Op.EXTCALL, [0, 0, 0]],
+        [Op.EXTDELEGATECALL, [0, 0]],
+    ],
+    ids=["extcall", "extdelegatecall"],
+)
+@pytest.mark.parametrize("fail_opcode", [Op.REVERT(0, 0), Op.INVALID], ids=["revert", "invalid"])
+def test_eof_calls_eof_then_fails(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+    suffix: list[int],
+    fail_opcode: Op,
+):
+    """Test EOF contracts calling EOF contracts and failing after the call"""
+    env = Environment()
+    destination_contract_address = pre.deploy_contract(contract_eof_sstore)
+
+    caller_contract = Container.Code(
+        Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + fail_opcode,
+    )
+    calling_contract_address = pre.deploy_contract(caller_contract)
+
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=50000000,
+        gas_price=10,
+        protected=False,
+        data="",
+    )
+
+    post = {
+        calling_contract_address: Account(storage=Storage()),
+        destination_contract_address: Account(storage=Storage()),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    ["opcode", "suffix"],
+    [
+        [Op.EXTCALL, [0, 0, 0]],
+        [Op.EXTDELEGATECALL, [0, 0]],
+        [Op.EXTSTATICCALL, [0, 0]],
+    ],
+    ids=["extcall", "extdelegatecall", "extstaticall"],
+)
+@pytest.mark.parametrize(
+    "target_account_type",
+    (
+        "empty",
+        "EOA",
+        "LegacyContract",
+        "EOFContract",
+    ),
+    ids=lambda x: x,
+)
+def test_eof_calls_clear_return_buffer(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+    suffix: list[int],
+    target_account_type: str,
+):
+    """Test EOF contracts calling clears returndata buffer"""
+    env = Environment()
+    filling_contract_code = Container.Code(
+        Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big")) + Op.RETURN(0, 32),
+    )
+    filling_callee_address = pre.deploy_contract(filling_contract_code)
+
+    match target_account_type:
+        case "empty":
+            target_address = b"\x78" * 20
+        case "EOA":
+            target_address = pre.fund_eoa(10**18)
+        case "LegacyContract":
+            target_address = pre.deploy_contract(
+                code=Op.STOP,
+            )
+        case "EOFContract":
+            target_address = pre.deploy_contract(
+                code=Container.Code(Op.STOP),
+            )
+
+    caller_contract = Container.Code(
+        # First fill the return buffer and sanity check
+        Op.EXTCALL(filling_callee_address, 0, 0, 0)
+        + Op.SSTORE(slot_returndatasize_before_clear, Op.RETURNDATASIZE)
+        # Then call something that doesn't return and check returndata cleared
+        + opcode(target_address, *suffix)
+        + Op.SSTORE(slot_returndatasize, Op.RETURNDATASIZE)
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
+    )
+
+    calling_contract_address = pre.deploy_contract(caller_contract)
+
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=50000000,
+        gas_price=10,
+        protected=False,
+        data="",
+    )
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        # Sanity check
+        slot_returndatasize_before_clear: 0x20,
+        slot_returndatasize: 0,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+        filling_callee_address: Account(storage={}),
     }
 
     state_test(
