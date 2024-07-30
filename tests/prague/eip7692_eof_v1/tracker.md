@@ -145,20 +145,35 @@
 - [ ] Truncated CALLF immediate (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_callf_truncated_Copier.json src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
 - [ ] Unreachable code sections (ethereum/tests: src/EOFTestsFiller/efValidation/unreachable_code_sections_Copier.json)
 - [ ] Sections reachable from other sections, but not reachable from section 0 (ethereum/tests: src/EOFTestsFiller/efValidation/unreachable_code_sections_Copier.json)
+- [ ] RETF with maximum number of outputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 
 ## EIP-5450: EOF - Stack Validation
 
 ### Validation
 
-- [ ] Check all terminating opcodes (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
-- [ ] Code section not terminating (executing beyond section end) (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
+- [ ] Check all terminating opcodes (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Code section not terminating (executing beyond section end) (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Code section ending with NOP (not terminating) (src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 - [ ] Stack underflows (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
 - [ ] Stack underflow with enough items available in caller stack (ethereum/tests: src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
-- [ ] CALLF stack underflows (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
+- [ ] Valid CALLFs to functions with inputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] CALLF stack underflows (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 - [ ] CALLF validation time stack overflow (ethereum/tests: src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
-- [ ] RETF with extra items on stack (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
+- [ ] Valid RETF with correct number of items on stack (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Invalid RETF with extra items on stack (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
+- [ ] Extra items on stack allowed for terminating instructions other than RETF (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 - [ ] Wrong max_stack_height (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/efValidation/max_stack_height_Copier.json src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
-
+- [ ] RJUMPI forward with branches of equal stack height (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] RJUMPI forward with branches of different stack height (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] RJUMPV forward with branches of equal stack height (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Valid empty infinite loop with RJUMP (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Valid balanced infinite loop (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Valid infinite loop using RJUMPV (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Valid loop using RJUMPI (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Branching to CALLFs with the same number of outputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Function inputs are accessible and accounted for (no stack underflow if they are popped) (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] All opcodes correctly account for stack inputs/outputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [ ] Check that unreachable code is invalid after all terminating instructions (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 
 ## EIP-6206: EOF - JUMPF and non-returning functions
 
