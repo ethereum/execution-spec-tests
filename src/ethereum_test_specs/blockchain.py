@@ -36,7 +36,7 @@ from ethereum_test_fixtures.blockchain import (
     FixtureWithdrawalRequest,
     InvalidFixtureBlock,
 )
-from ethereum_test_forks import EIP6800Transition, Fork, ShanghaiEIP6800
+from ethereum_test_forks import EIP6800Transition, Fork, Verkle
 from ethereum_test_types import (
     Alloc,
     ConsolidationRequest,
@@ -517,7 +517,7 @@ class BlockchainTest(BaseTest):
             requests = Requests(root=block.requests)
             header.requests_root = requests.trie_root
 
-        if fork.fork_at(env.number, env.timestamp) == ShanghaiEIP6800:
+        if fork.fork_at(env.number, env.timestamp) == Verkle:
             env = Environment(
                 **(
                     env.model_dump(exclude_none=True)

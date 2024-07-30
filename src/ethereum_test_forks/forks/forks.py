@@ -942,14 +942,14 @@ class Prague(Cancun):
         return 3
 
 
-class ShanghaiEIP6800(
+class Verkle(
     Shanghai,
-    transition_tool_name="Prague",
-    blockchain_test_network_name="Prague",
+    transition_tool_name="Verkle",
+    blockchain_test_network_name="Verkle",
     solc_name="shanghai",
 ):
     """
-    Shanghai + EIP-6800 (Verkle) fork
+    Verkle fork. Built on top of Shanghai. To update when the exact fork is known.
     """
 
     @classmethod
@@ -987,11 +987,11 @@ class ShanghaiEIP6800(
         return new_allocation | super(Shanghai, cls).pre_allocation_blockchain()
 
 
-# TODO: move back to transition.py after filling and executing ShanghaiEIP6800 tests successfully
-@transition_fork(to_fork=ShanghaiEIP6800, at_timestamp=32)
+# TODO: move back to transition.py after filling and executing Verkle tests successfully
+@transition_fork(to_fork=Verkle, at_timestamp=32)
 class EIP6800Transition(
     Shanghai,
-    blockchain_test_network_name="ShanghaiToPragueAtTime32",
+    blockchain_test_network_name="ShanghaiToVerkleAtTime32",
 ):
     """
     Shanghai to Verkle transition at Timestamp 32.
