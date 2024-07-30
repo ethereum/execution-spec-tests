@@ -55,7 +55,7 @@ from .base import BaseTest, verify_result, verify_transactions
 from .debugging import print_traces
 
 
-def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
+def environment_from_parent_header(parent: FixtureHeader) -> Environment:
     """
     Instantiates a new environment with the provided header as parent.
     """
@@ -72,7 +72,7 @@ def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
     )
 
 
-def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> "Environment":
+def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> Environment:
     """
     Applies a header as parent to a copy of this environment.
     """
@@ -518,7 +518,12 @@ class BlockchainTest(BaseTest):
             header.requests_root = requests.trie_root
 
         if fork.fork_at(env.number, env.timestamp) == ShanghaiEIP6800:
-            env.update_from_result(transition_tool_output.result)
+            env = Environment(
+                **(
+                    env.model_dump(exclude_none=True)
+                    | transition_tool_output.result.model_dump(exclude_none=True)
+                )
+            )
             transition_tool_output.alloc = previous_alloc
 
         return (
