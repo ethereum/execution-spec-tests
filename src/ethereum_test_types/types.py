@@ -491,29 +491,6 @@ class Environment(EnvironmentGeneric[Number]):
         return self.copy(**updated_values)
 
     # TODO: move this function, importing the Result type creates a circular import.
-    def update_from_result(self, result: Any) -> "Environment":
-        """
-        Updates the environment with the result of a transition tool execution.
-        """
-        if result.verkle_conversion_address:
-            self.verkle_conversion_address = result.verkle_conversion_address
-        if result.verkle_conversion_slot_hash:
-            self.verkle_conversion_slot_hash = result.verkle_conversion_slot_hash
-        # Boolean fields required to check if not None so we actually update them even when False
-        if result.verkle_conversion_started is not None:
-            conversion_started = result.verkle_conversion_started
-            assert isinstance(conversion_started, bool)
-            self.verkle_conversion_started = result.verkle_conversion_started
-        if result.verkle_conversion_ended is not None:
-            conversion_ended = result.verkle_conversion_ended
-            assert isinstance(conversion_ended, bool)
-            self.verkle_conversion_ended = result.verkle_conversion_ended
-        if result.verkle_conversion_storage_processed is not None:
-            conversion_storage_processed = result.verkle_conversion_storage_processed
-            assert isinstance(conversion_storage_processed, bool)
-            self.verkle_conversion_storage_processed = conversion_storage_processed
-
-        return self
 
 
 class AccessList(CamelModel):
