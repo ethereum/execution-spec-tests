@@ -64,6 +64,7 @@ from ethereum_test_vm import (
     OpcodeCallArg,
     Opcodes,
     UndefinedOpcodes,
+    call_return_code,
 )
 
 from .code import (
@@ -135,6 +136,7 @@ __all__ = (
     "Yul",
     "YulCompiler",
     "add_kzg_version",
+    "call_return_code",
     "ceiling_division",
     "compute_create_address",
     "compute_create2_address",
