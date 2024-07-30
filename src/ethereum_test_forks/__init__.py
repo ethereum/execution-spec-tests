@@ -20,7 +20,7 @@ from .forks.forks import (
     Paris,
     Prague,
     Shanghai,
-    ShanghaiEIP6800,
+    Verkle,
 )
 from .forks.transition import (
     BerlinToLondonAt5,
@@ -66,7 +66,7 @@ __all__ = [
     "MuirGlacier",
     "Shanghai",
     "ShanghaiToCancunAtTime15k",
-    "ShanghaiEIP6800",
+    "Verkle",
     "EIP6800Transition",
     "Cancun",
     "Prague",
