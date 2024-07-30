@@ -3,8 +3,8 @@ GeneralStateTests/stCreate2/call_outsize_then_create2_successful_then_returndata
 GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.json
 
 ([#647](https://github.com/ethereum/execution-spec-tests/pull/647))
- EOFTests/efValidation/EOF1_returncontract_invalid_.json
- EOFTests/efValidation/EOF1_returncontract_valid_.json
+EOFTests/efValidation/EOF1_returncontract_invalid_.json
+EOFTests/efValidation/EOF1_returncontract_valid_.json
 
 ([#440](https://github.com/ethereum/execution-spec-tests/pull/440))
 GeneralStateTests/Cancun/stEIP1153-transientStorage/01_tloadBeginningTxn.json
