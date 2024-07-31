@@ -88,6 +88,15 @@ def pytest_addoption(parser):  # noqa: D103
         ),
     )
     consume_group.addoption(
+        "--latest",
+        action="store_true",
+        dest="latest_source",
+        default=False,
+        help=(
+            "The latest EEST development JSON test fixtures. Cannot be used alongside `--input`."
+        ),
+    )
+    consume_group.addoption(
         "--fork",
         action="store",
         dest="single_fork",
@@ -123,16 +132,21 @@ def pytest_configure(config):  # noqa: D103
     called before the pytest-html plugin's pytest_configure to ensure that
     it uses the modified `htmlpath` option.
     """
+    input_flag = any(arg.startswith("--input") for arg in config.invocation_params.args)
+    latest_flag = config.getoption("latest_source")
+
+    if input_flag and latest_flag:
+        pytest.exit("Cannot use both `--input` and `--latest`, please select one input flag.")
+
     input_source = config.getoption("fixture_source")
-    if input_source == "stdin":
+
+    if input_flag and input_source == "stdin":
         config.test_cases = TestCases.from_stream(sys.stdin)
         return
 
-    if input_source == "latest":  # TODO: align this with release tags
-        input_source = (
-            "https://github.com/ethereum/execution-spec-tests/releases/latest/download/"
-            "fixtures_develop.tar.gz"
-        )
+    if latest_flag:
+        release_base_url = "https://github.com/ethereum/execution-spec-tests/releases"
+        input_source = f"{release_base_url}/latest/download/fixtures_develop.tar.gz"
 
     if is_url(input_source):
         cached_downloads_directory.mkdir(parents=True, exist_ok=True)
