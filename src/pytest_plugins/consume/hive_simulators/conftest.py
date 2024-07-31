@@ -41,9 +41,7 @@ def hive_consume_command(
         f"./hive --sim ethereum/{test_suite_name} "
         f"--client-file configs/develop.yaml "
         f"--client {client_type.name} "
-        f'--sim.limit "{test_case.id}" '
-        f"--docker.output "
-        f"--sim.loglevel 5"
+        f'--sim.limit "{test_case.id}"'
     )
 
 
@@ -56,12 +54,7 @@ def eest_consume_commands(
     """
     Commands to run the test within EEST using a hive dev back-end.
     """
-    hive_dev = (
-        f"./hive --dev --client-file configs/develop.yaml "
-        f"--client {client_type.name} "
-        f"--docker.output "
-        f"--sim.loglevel 5"
-    )
+    hive_dev = f"./hive --dev --client-file configs/develop.yaml " f"--client {client_type.name}"
     consume = f'consume {test_suite_name.split("-")[-1]} -k "{test_case.id}" -v --input=latest'
     return [hive_dev, consume]
 
