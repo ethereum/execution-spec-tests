@@ -253,7 +253,7 @@ def post(
     expected_storage: Storage.StorageDictType = dict()
     # CALL operation return code
     expected_storage[key_call_return_code] = call_return_code(
-        call_opcode, success, revert=call_opcode != Op.EXTDELEGATECALL
+        call_opcode, success, revert=call_opcode == Op.EXTDELEGATECALL
     )
     if success:
         # Success return values
