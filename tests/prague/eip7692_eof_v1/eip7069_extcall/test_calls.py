@@ -90,8 +90,6 @@ def test_legacy_calls_eof_sstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -165,8 +163,6 @@ def test_legacy_calls_eof_mstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -223,8 +219,6 @@ def test_eof_calls_eof_sstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -299,8 +293,6 @@ def test_eof_calls_eof_mstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -359,8 +351,6 @@ def test_eof_calls_legacy_sstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -429,8 +419,6 @@ def test_eof_calls_legacy_mstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -502,8 +490,6 @@ def test_eof_calls_revert_abort(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -558,8 +544,6 @@ def test_eof_calls_eof_then_fails(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 
@@ -612,7 +596,7 @@ def test_eof_calls_clear_return_buffer(
         case "empty":
             target_address = b"\x78" * 20
         case "EOA":
-            target_address = pre.fund_eoa(10**18)
+            target_address = pre.fund_eoa()
         case "LegacyContract":
             target_address = pre.deploy_contract(
                 code=Op.STOP,
@@ -639,8 +623,6 @@ def test_eof_calls_clear_return_buffer(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 

@@ -209,8 +209,6 @@ def test_address_space_extension(
         sender=sender,
         to=address_entry_point,
         gas_limit=50_000_000,
-        gas_price=10,
-        protected=False,
         data="",
     )
 

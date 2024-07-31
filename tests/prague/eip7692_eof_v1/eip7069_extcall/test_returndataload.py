@@ -2,8 +2,6 @@
 abstract: Tests [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069)
     Tests for the RETURNDATALOAD instriction
 """  # noqa: E501
-from typing import List
-
 import pytest
 
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Storage, Transaction
@@ -94,7 +92,7 @@ def test_returndatacopy_handling(
 
     slot_result_start = 0x1000
 
-    sender = pre.fund_eoa(10**18)
+    sender = pre.fund_eoa()
 
     address_returner = pre.deploy_contract(
         Container(
@@ -222,7 +220,7 @@ def test_returndataload_handling(
 
     slot_result_start = 0x1000
 
-    sender = pre.fund_eoa(10**18)
+    sender = pre.fund_eoa()
     address_returner = pre.deploy_contract(
         Container(
             sections=[
@@ -288,7 +286,7 @@ def test_returndatacopy_oob(
     """
     env = Environment()
 
-    sender = pre.fund_eoa(10**18)
+    sender = pre.fund_eoa()
 
     # Both callee codes below make an OOB (out-of-bounds) RETURNDATACOPY of one byte,
     # which they then attempt to return (Legacy should exceptionally halt on RETURNDATACOPY).
