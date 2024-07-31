@@ -70,7 +70,7 @@ def download_and_extract(url: str, base_directory: Path) -> Path:
     with tarfile.open(archive_path, "r:gz") as tar:
         tar.extractall(path=extract_to)
 
-    return extract_to
+    return extract_to / "fixtures"
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -164,9 +164,9 @@ def pytest_configure(config):  # noqa: D103
     index_file = input_source / ".meta" / "index.json"
     if not index_file.exists():
         rich.print(f"Generating index file [bold cyan]{index_file}[/]...")
-    generate_fixtures_index(
-        input_source, quiet_mode=False, force_flag=False, disable_infer_format=False
-    )
+        generate_fixtures_index(
+            input_source, quiet_mode=False, force_flag=False, disable_infer_format=False
+        )
     config.test_cases = TestCases.from_index_file(index_file)
 
     if config.option.collectonly:

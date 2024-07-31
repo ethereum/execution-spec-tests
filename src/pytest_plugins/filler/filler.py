@@ -635,7 +635,7 @@ def fixture_collector(
     if do_fixture_verification:
         fixture_collector.verify_fixture_files(evm_fixture_verification)
     generate_fixtures_index(
-        output_dir, quiet_mode=True, force_flag=True, disable_infer_format=False
+        output_dir, quiet_mode=True, force_flag=False, disable_infer_format=False
     )
 
 
