@@ -188,6 +188,7 @@ hexary
 HexNumber
 hexsha
 hexbytes
+hiveview
 homebrew
 html
 htmlpath
