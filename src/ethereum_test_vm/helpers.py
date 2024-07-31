@@ -15,6 +15,6 @@ def call_return_code(opcode: Op, success: bool, *, revert: bool = False) -> int:
         if success:
             return 0
         if revert:
-            return 2
-        return 1
+            return 1
+        return 2
     raise ValueError(f"Not a call opcode: {opcode}")
