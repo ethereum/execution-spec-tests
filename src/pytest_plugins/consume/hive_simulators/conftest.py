@@ -80,10 +80,11 @@ def fixture_description(
     description += (
         f"\n\nCommand to reproduce entirely in hive:" f"\n<code>{hive_consume_command}</code>"
     )
+    eest_commands = "\n".join(
+        f"{i+1}. <code>{cmd}</code>" for i, cmd in enumerate(eest_consume_commands)
+    )
     description += (
-        f"\n\nCommands to reproduce within EEST using a hive dev back-end:"
-        f"\n1. <code>{eest_consume_commands[0]}</code>"
-        f"\n2. <code>{eest_consume_commands[1]}</code>"
+        "\n\nCommands to reproduce within EEST using a hive dev back-end:" f"\n{eest_commands}"
     )
     description = description.replace("\n", "<br/>")
     return description
