@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Generator, List, Type
 
 import pytest
-import rich
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
@@ -494,16 +493,16 @@ def output_dir(request: pytest.FixtureRequest, is_output_tarball: bool) -> Path:
 
 
 @pytest.fixture(scope="session")
-def meta_dir(output_dir: Path) -> Path:
+def output_metadata_dir(output_dir: Path) -> Path:
     """
-    Returns the metadata directory to store fixtures meta files.
+    Returns the metadata directory to store fixture meta files.
     """
-    return output_dir / ".meta/"
+    return output_dir / ".meta"
 
 
 @pytest.fixture(scope="session", autouse=True)
 def create_properties_file(
-    request: pytest.FixtureRequest, output_dir: Path, meta_dir: Path
+    request: pytest.FixtureRequest, output_dir: Path, output_metadata_dir: Path
 ) -> None:
     """
     Creates an ini file with fixture build properties in the fixture output
@@ -513,9 +512,8 @@ def create_properties_file(
         return
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
-    metadata_dir = output_dir / ".meta"
-    if not metadata_dir.exists():
-        metadata_dir.mkdir(parents=True)
+    if not output_metadata_dir.exists():
+        output_metadata_dir.mkdir(parents=True)
 
     fixture_properties = {
         "timestamp": datetime.datetime.now().isoformat(),
@@ -544,7 +542,7 @@ def create_properties_file(
             warnings.warn(f"Fixtures ini file: Skipping metadata key {key} with value {val}.")
     config["environment"] = environment_properties
 
-    ini_filename = meta_dir / "fixtures.ini"
+    ini_filename = output_metadata_dir / "fixtures.ini"
     with open(ini_filename, "w") as f:
         f.write("; This file describes fixture build properties\n\n")
         config.write(f)
@@ -632,12 +630,8 @@ def fixture_collector(
     fixture_collector.dump_fixtures()
     if do_fixture_verification:
         fixture_collector.verify_fixture_files(evm_fixture_verification)
-
-    index_file = output_dir / ".meta/index.json"
-    if not index_file.exists():
-        rich.print(f"\n\nGenerating fixture index file [bold cyan]{index_file}[/]...")
     generate_fixtures_index(
-        output_dir, quiet_mode=False, force_flag=False, disable_infer_format=False
+        output_dir, quiet_mode=True, force_flag=True, disable_infer_format=False
     )
 
 

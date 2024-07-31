@@ -141,13 +141,13 @@ def pytest_configure(config):  # noqa: D103
             f"Specified fixture directory '{input_source}' does not contain any JSON files."
         )
 
-    index_file = input_source / ".meta/index.json"
+    index_file = input_source / ".meta" / "index.json"
     if not index_file.exists():
         rich.print(f"Generating index file [bold cyan]{index_file}[/]...")
     generate_fixtures_index(
-        Path(input_source), quiet_mode=False, force_flag=False, disable_infer_format=False
+        input_source, quiet_mode=False, force_flag=False, disable_infer_format=False
     )
-    config.test_cases = TestCases.from_index_file(Path(input_source) / "index.json")
+    config.test_cases = TestCases.from_index_file(index_file)
 
     if config.option.collectonly:
         return
