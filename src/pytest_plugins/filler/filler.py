@@ -186,6 +186,13 @@ def pytest_addoption(parser: pytest.Parser):
         type=str,
         help="Specify a build name for the fixtures.ini file, e.g., 'stable'.",
     )
+    test_group.addoption(
+        "--index",
+        action="store_true",
+        dest="generate_index",
+        default=False,
+        help="Generate an index file for all produced fixtures.",
+    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -205,13 +212,6 @@ def pytest_addoption(parser: pytest.Parser):
         type=Path,
         default=None,
         help=argparse.SUPPRESS,
-    )
-    evm_group.addoption(
-        "--index",
-        action="store_true",
-        dest="generate_index",
-        default=False,
-        help="Generate an index file for all produced fixtures.",
     )
 
 
