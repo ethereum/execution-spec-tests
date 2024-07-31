@@ -33,7 +33,7 @@ EmptyAddress = Address("0xFFFFFFf6D732807Ef1319fB7B8bB8522d0BeacFF")
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target, bytecode",
     [
@@ -62,7 +62,7 @@ def test_extcodesize(blockchain_test: BlockchainTestFiller, fork: str, target, b
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
     """
     Test EXTCODESIZE with insufficient gas.
@@ -79,7 +79,7 @@ def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller, for
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 def test_extcodesize_warm(blockchain_test: BlockchainTestFiller, fork: str):
     """
     Test EXTCODESIZE with WARM cost.

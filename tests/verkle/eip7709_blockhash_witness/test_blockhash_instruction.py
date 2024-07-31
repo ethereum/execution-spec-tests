@@ -33,7 +33,7 @@ block_number = 1000
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "block_num_target",
     [
@@ -59,7 +59,7 @@ def test_blockhash(blockchain_test: BlockchainTestFiller, fork: str, block_num_t
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
     """
     Test BLOCKHASH with insufficient gas.

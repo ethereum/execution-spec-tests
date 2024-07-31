@@ -38,7 +38,7 @@ ExampleAccount = Account(code=Op.PUSH0 * 300)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target",
     [
@@ -73,7 +73,7 @@ def test_extcodehash(blockchain_test: BlockchainTestFiller, fork: str, target):
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 def test_extcodehash_warm(blockchain_test: BlockchainTestFiller, fork: str):
     """
     Test EXTCODEHASH with WARM cost.
@@ -85,7 +85,7 @@ def test_extcodehash_warm(blockchain_test: BlockchainTestFiller, fork: str):
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "gas_limit, witness_assert_basic_data, witness_assert_codehash",
     [

@@ -28,7 +28,7 @@ TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "storage_slot_accesses",
     [
@@ -60,7 +60,7 @@ def test_sload(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_ac
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
     """
     Test SLOAD with insufficient gas.

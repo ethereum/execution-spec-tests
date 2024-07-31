@@ -67,7 +67,7 @@
 
 
 # # TODO(verkle): update to Osaka when t8n supports the fork.
-# @pytest.mark.valid_from("Prague")
+# @pytest.mark.valid_from("Verkle")
 # @pytest.mark.parametrize(
 #     "bytecode, gas_limit, exp_code_chunk_ranges",
 #     [

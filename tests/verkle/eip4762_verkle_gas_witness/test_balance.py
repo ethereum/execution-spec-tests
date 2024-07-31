@@ -31,7 +31,7 @@ example_address = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target",
     [
@@ -49,7 +49,7 @@ def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target, warm)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize("target", [example_address, precompile_address])
 def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str, target):
     """

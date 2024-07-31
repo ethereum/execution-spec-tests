@@ -31,7 +31,7 @@ precompile_address = Address("0x09")
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "call_instruction, value",
     [
@@ -62,7 +62,7 @@ def test_calls(
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "call_instruction",
     [
@@ -80,7 +80,7 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "call_instruction, gas_limit",
     [
@@ -200,7 +200,7 @@ def _generic_call(
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "call_instruction, gas_limit, enough_gas_account_creation",
     [

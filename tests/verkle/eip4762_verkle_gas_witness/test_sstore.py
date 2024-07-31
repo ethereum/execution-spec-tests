@@ -28,7 +28,7 @@ TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "storage_slot_writes",
     [
@@ -64,7 +64,7 @@ def test_sstore(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_w
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "gas_limit, must_be_in_witness",
     [

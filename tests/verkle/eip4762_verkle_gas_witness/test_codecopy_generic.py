@@ -31,7 +31,7 @@ code_size = 200 * 31 + 60
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "instruction",
     [
@@ -88,7 +88,7 @@ def test_generic_codecopy(
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "instruction",
     [
@@ -113,7 +113,7 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, fork: str,
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "gas_limit, witness_code_chunks",
     [
@@ -144,7 +144,7 @@ def test_codecopy_insufficient_gas(
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "gas_limit, witness_target_basic_data, witness_code_chunks",
     [

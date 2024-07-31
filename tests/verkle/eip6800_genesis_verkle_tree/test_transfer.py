@@ -26,7 +26,7 @@ precompile_address = Address("0x09")
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
-@pytest.mark.valid_from("Prague")
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target",
     [
@@ -40,7 +40,7 @@ precompile_address = Address("0x09")
     [0, 6],
     ids=["zero", "non_zero"],
 )
-def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, value):
+def test_transfer_eth(blockchain_test: BlockchainTestFiller, fork: str, target, value):
     """
     Test that value transfer works as expected targeting accounts and precompiles.
     """
