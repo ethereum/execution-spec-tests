@@ -263,7 +263,11 @@ def pytest_configure(config):
         "t8n": t8n.version(),
         "solc": str(config.solc_version),
     }
-    command_line_args = "fill " + " ".join(config.invocation_params.args)
+    args = ["fill"] + [str(arg) for arg in config.invocation_params.args]
+    for i in range(len(args)):
+        if " " in args[i]:
+            args[i] = f'"{args[i]}"'
+    command_line_args = " ".join(args)
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
 
