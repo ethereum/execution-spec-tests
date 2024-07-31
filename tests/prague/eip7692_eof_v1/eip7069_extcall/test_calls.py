@@ -644,3 +644,61 @@ def test_eof_calls_clear_return_buffer(
         post=post,
         tx=tx,
     )
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.CALL,
+        Op.EXTCALL,
+    ],
+)
+def test_eof_calls_static_flag_with_value(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+):
+    """Test EOF contracts calls handle static flag and sending value correctly"""
+    env = Environment()
+
+    noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
+
+    failing_contract_code = opcode(address=noop_callee_address, value=1) + Op.STOP
+    failing_contract_address = pre.deploy_contract(
+        Container.Code(
+            failing_contract_code,
+        )
+        if opcode == Op.EXTCALL
+        else failing_contract_code
+    )
+
+    calling_contract_address = pre.deploy_contract(
+        Container.Code(
+            Op.SSTORE(slot_call_result, Op.EXTSTATICCALL(address=failing_contract_address))
+            + Op.SSTORE(slot_code_worked, value_code_worked)
+            + Op.STOP
+        )
+    )
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=50000000,
+        data="",
+    )
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        slot_call_result: value_eof_call_failed,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
