@@ -62,28 +62,26 @@ def sender(pre: Alloc) -> EOA:
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.CALL, [0, 0, 0, 0, 0]],
-        [Op.DELEGATECALL, [0, 0, 0, 0]],
-        [Op.CALLCODE, [0, 0, 0, 0, 0]],
-        [Op.STATICCALL, [0, 0, 0, 0]],
+        Op.CALL,
+        Op.DELEGATECALL,
+        Op.CALLCODE,
+        Op.STATICCALL,
     ],
-    ids=["call", "delegatecall", "callcode", "staticall"],
 )
 def test_legacy_calls_eof_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
 ):
     """Test legacy contracts calling EOF contracts that use SSTORE"""
     env = Environment()
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
 
     caller_contract = Op.SSTORE(
-        slot_call_result, opcode(Op.GAS, destination_contract_address, *suffix)
+        slot_call_result, opcode(address=destination_contract_address)
     ) + Op.SSTORE(slot_code_worked, value_code_worked)
 
     calling_contract_address = pre.deploy_contract(caller_contract)
@@ -128,21 +126,19 @@ def test_legacy_calls_eof_sstore(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.CALL, [0, 0, 0, 0, 0]],
-        [Op.DELEGATECALL, [0, 0, 0, 0]],
-        [Op.CALLCODE, [0, 0, 0, 0, 0]],
-        [Op.STATICCALL, [0, 0, 0, 0]],
+        Op.CALL,
+        Op.DELEGATECALL,
+        Op.CALLCODE,
+        Op.STATICCALL,
     ],
-    ids=["call", "delegatecall", "callcode", "staticall"],
 )
 def test_legacy_calls_eof_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
 ):
     """Test legacy contracts calling EOF contracts that only return data"""
     env = Environment()
@@ -157,7 +153,7 @@ def test_legacy_calls_eof_mstore(
     destination_contract_address = pre.deploy_contract(destination_contract_code)
 
     caller_contract = (
-        Op.SSTORE(slot_call_result, opcode(Op.GAS, destination_contract_address, *suffix))
+        Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
         + Op.SSTORE(slot_returndatasize, Op.RETURNDATASIZE)
         + Op.RETURNDATACOPY(31, 0, 1)
         + Op.SSTORE(slot_returndata, Op.MLOAD(0))
@@ -195,20 +191,18 @@ def test_legacy_calls_eof_mstore(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.EXTCALL, [0, 0, 0]],
-        [Op.EXTDELEGATECALL, [0, 0]],
-        [Op.EXTSTATICCALL, [0, 0]],
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=["extcall", "extdelegatecall", "extstaticall"],
 )
 def test_eof_calls_eof_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
 ):
     """Test EOF contracts calling EOF contracts that use SSTORE"""
     env = Environment()
@@ -217,7 +211,7 @@ def test_eof_calls_eof_sstore(
     caller_contract = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+                code=Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
             )
@@ -263,20 +257,18 @@ def test_eof_calls_eof_sstore(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.EXTCALL, [0, 0, 0]],
-        [Op.EXTDELEGATECALL, [0, 0]],
-        [Op.EXTSTATICCALL, [0, 0]],
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=["extcall", "extdelegatecall", "extstaticall"],
 )
 def test_eof_calls_eof_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
 ):
     """Test EOF contracts calling EOF contracts that return data"""
     env = Environment()
@@ -293,7 +285,7 @@ def test_eof_calls_eof_mstore(
     caller_contract = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+                code=Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
                 + Op.SSTORE(slot_returndatasize, Op.RETURNDATASIZE)
                 + Op.SSTORE(slot_returndata, Op.RETURNDATALOAD(0))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
@@ -334,20 +326,18 @@ def test_eof_calls_eof_mstore(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.EXTCALL, [0, 0, 0]],
-        [Op.EXTDELEGATECALL, [0, 0]],
-        [Op.EXTSTATICCALL, [0, 0]],
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=["extcall", "extdelegatecall", "extstaticall"],
 )
 def test_eof_calls_legacy_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
 ):
     """Test EOF contracts calling Legacy contracts that use SSTORE"""
     env = Environment()
@@ -357,7 +347,7 @@ def test_eof_calls_legacy_sstore(
     caller_contract = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+                code=Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
             )
@@ -402,20 +392,18 @@ def test_eof_calls_legacy_sstore(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.EXTCALL, [0, 0, 0]],
-        [Op.EXTDELEGATECALL, [0, 0]],
-        [Op.EXTSTATICCALL, [0, 0]],
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=["extcall", "extdelegatecall", "extstaticall"],
 )
 def test_eof_calls_legacy_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
 ):
     """Test EOF contracts calling Legacy contracts that return data"""
     env = Environment()
@@ -427,7 +415,7 @@ def test_eof_calls_legacy_mstore(
     caller_contract = Container(
         sections=[
             Section.Code(
-                code=Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+                code=Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
                 + Op.SSTORE(slot_returndatasize, Op.RETURNDATASIZE)
                 + Op.SSTORE(slot_returndata, Op.RETURNDATALOAD(0))
                 + Op.SSTORE(slot_code_worked, value_code_worked)
@@ -474,18 +462,16 @@ def test_eof_calls_legacy_mstore(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.EXTCALL, [0, 0, 0]],
-        [Op.EXTDELEGATECALL, [0, 0]],
-        [Op.EXTSTATICCALL, [0, 0]],
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=["extcall", "extdelegatecall", "extstaticall"],
 )
 @pytest.mark.parametrize(
-    "destination_opcode, destination_suffix",
-    [[Op.REVERT, [0, 0]], [Op.INVALID, []]],
-    ids=["revert", "invalid"],
+    "destination_opcode",
+    [Op.REVERT, Op.INVALID],
 )
 @pytest.mark.parametrize("destination_is_eof", [True, False])
 def test_eof_calls_revert_abort(
@@ -493,22 +479,20 @@ def test_eof_calls_revert_abort(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
     destination_opcode: Op,
-    destination_suffix: list[int],
     destination_is_eof: bool,
 ):
     """Test EOF contracts calling contracts that revert or abort"""
     env = Environment()
 
     destination_contract_address = pre.deploy_contract(
-        Container.Code(destination_opcode(*destination_suffix))
+        Container.Code(destination_opcode(offset=0, size=0))
         if destination_is_eof
-        else destination_opcode(*destination_suffix)
+        else destination_opcode(offset=0, size=0)
     )
 
     caller_contract = Container.Code(
-        Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+        Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP,
     )
@@ -545,20 +529,18 @@ def test_eof_calls_revert_abort(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.EXTCALL, [0, 0, 0]],
-        [Op.EXTDELEGATECALL, [0, 0]],
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
     ],
-    ids=["extcall", "extdelegatecall"],
 )
-@pytest.mark.parametrize("fail_opcode", [Op.REVERT(0, 0), Op.INVALID], ids=["revert", "invalid"])
+@pytest.mark.parametrize("fail_opcode", [Op.REVERT, Op.INVALID])
 def test_eof_calls_eof_then_fails(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
     fail_opcode: Op,
 ):
     """Test EOF contracts calling EOF contracts and failing after the call"""
@@ -566,9 +548,9 @@ def test_eof_calls_eof_then_fails(
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
 
     caller_contract = Container.Code(
-        Op.SSTORE(slot_call_result, opcode(destination_contract_address, *suffix))
+        Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
         + Op.SSTORE(slot_code_worked, value_code_worked)
-        + fail_opcode,
+        + fail_opcode(offset=0, size=0),
     )
     calling_contract_address = pre.deploy_contract(caller_contract)
 
@@ -595,13 +577,12 @@ def test_eof_calls_eof_then_fails(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "suffix"],
+    "opcode",
     [
-        [Op.EXTCALL, [0, 0, 0]],
-        [Op.EXTDELEGATECALL, [0, 0]],
-        [Op.EXTSTATICCALL, [0, 0]],
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=["extcall", "extdelegatecall", "extstaticall"],
 )
 @pytest.mark.parametrize(
     "target_account_type",
@@ -618,7 +599,6 @@ def test_eof_calls_clear_return_buffer(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    suffix: list[int],
     target_account_type: str,
 ):
     """Test EOF contracts calling clears returndata buffer"""
@@ -647,7 +627,7 @@ def test_eof_calls_clear_return_buffer(
         Op.EXTCALL(filling_callee_address, 0, 0, 0)
         + Op.SSTORE(slot_returndatasize_before_clear, Op.RETURNDATASIZE)
         # Then call something that doesn't return and check returndata cleared
-        + opcode(target_address, *suffix)
+        + opcode(address=target_address)
         + Op.SSTORE(slot_returndatasize, Op.RETURNDATASIZE)
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP,

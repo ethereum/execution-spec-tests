@@ -31,17 +31,16 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
 @pytest.mark.parametrize(
-    ["call_prefix", "opcode", "call_suffix"],
+    "opcode",
     [
-        pytest.param([500_000], Op.CALL, [0, 0, 0, 0, 0], id="CALL"),
-        pytest.param([500_000], Op.CALLCODE, [0, 0, 0, 0, 0], id="CALLCODE"),
-        pytest.param([500_000], Op.DELEGATECALL, [0, 0, 0, 0], id="DELEGATECALL"),
-        pytest.param([500_000], Op.STATICCALL, [0, 0, 0, 0], id="STATICCALL"),
-        pytest.param([], Op.EXTCALL, [0, 0, 0], id="EXTCALL"),
-        pytest.param([], Op.EXTDELEGATECALL, [0, 0], id="EXTDELEGATECALL"),
-        pytest.param([], Op.EXTSTATICCALL, [0, 0], id="EXTSTATICCALL"),
+        Op.CALL,
+        Op.CALLCODE,
+        Op.DELEGATECALL,
+        Op.STATICCALL,
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=lambda x: x,
 )
 @pytest.mark.parametrize(
     "return_data",
@@ -76,9 +75,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 def test_returndatacopy_handling(
     state_test: StateTestFiller,
     pre: Alloc,
-    call_prefix: List[int],
     opcode: Op,
-    call_suffix: List[int],
     return_data: bytes,
     offset: int,
     size: int,
@@ -117,7 +114,7 @@ def test_returndatacopy_handling(
         result[0:extent] = [return_data[0]] * extent
 
     code_under_test = (
-        opcode(*call_prefix, address_returner, *call_suffix)
+        opcode(address=address_returner)
         + Op.RETURNDATACOPY(0, offset, size)
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.RETURN(0, size)
@@ -182,13 +179,12 @@ def test_returndatacopy_handling(
 
 
 @pytest.mark.parametrize(
-    ["opcode", "call_suffix"],
+    "opcode",
     [
-        pytest.param(Op.EXTCALL, [0, 0, 0], id="EXTCALL"),
-        pytest.param(Op.EXTDELEGATECALL, [0, 0], id="EXTDELEGATECALL"),
-        pytest.param(Op.EXTSTATICCALL, [0, 0], id="EXTSTATICCALL"),
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
     ],
-    ids=lambda x: x,
 )
 @pytest.mark.parametrize(
     "return_data",
@@ -214,7 +210,6 @@ def test_returndataload_handling(
     state_test: StateTestFiller,
     pre: Alloc,
     opcode: Op,
-    call_suffix: List[int],
     return_data: bytes,
     offset: int,
 ):
@@ -242,7 +237,7 @@ def test_returndataload_handling(
         Container(
             sections=[
                 Section.Code(
-                    code=opcode(address_returner, *call_suffix)
+                    code=opcode(address=address_returner)
                     + Op.SSTORE(slot_result_start, Op.RETURNDATALOAD(offset))
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP,
@@ -275,19 +270,16 @@ def test_returndataload_handling(
 
 
 @pytest.mark.parametrize(
-    ["call_prefix", "opcode", "call_suffix"],
+    "opcode",
     [
-        pytest.param([500_000], Op.CALL, [0, 0, 0, 0, 0], id="CallerIsLegacy"),
-        pytest.param([], Op.EXTCALL, [0, 0, 0], id="CallerIsEOF"),
+        Op.CALL,
+        Op.EXTCALL,
     ],
-    ids=lambda x: x,
 )
 def test_returndatacopy_oob(
     state_test: StateTestFiller,
     pre: Alloc,
-    call_prefix: List[int],
     opcode: Op,
-    call_suffix: List[int],
 ):
     """
     Extends the RETURNDATACOPY test for correct out-of-bounds behavior, by checking if the
@@ -314,14 +306,12 @@ def test_returndatacopy_oob(
 
     # Caller code is selected to either be Legacy or EOF using params.
     code_entry_point = (
-        Op.SSTORE(
-            slot_eof_target_call_status, opcode(*call_prefix, address_callee_eof, *call_suffix)
-        )
+        Op.SSTORE(slot_eof_target_call_status, opcode(address=address_callee_eof))
         + Op.SSTORE(slot_eof_target_returndatasize, Op.RETURNDATASIZE)
         + Op.SSTORE(slot_eof_target_returndata, Op.RETURNDATACOPY(0, 0, 1) + Op.MLOAD(0))
         + Op.SSTORE(
             slot_legacy_target_call_status,
-            opcode(*call_prefix, address_callee_legacy, *call_suffix),
+            opcode(address=address_callee_legacy),
         )
         + Op.SSTORE(slot_legacy_target_returndatasize, Op.RETURNDATASIZE)
         + Op.STOP
