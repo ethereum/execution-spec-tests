@@ -173,7 +173,7 @@ fork_covariant_descriptors = [
     CovariantDescriptor(
         marker_name="with_all_evm_code_types",
         description="marks a test to be parametrized for all EVM code types at parameter named"
-        " evm_code_type of type EVMCodeType",
+        " `evm_code_type` of type `EVMCodeType`, such as `LEGACY` and `EOF_V1`",
         fork_attribute_name="evm_code_types",
         parameter_name="evm_code_type",
     ),
