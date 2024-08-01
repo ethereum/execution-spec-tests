@@ -193,6 +193,11 @@
 - [ ] All opcodes correctly account for stack inputs/outputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 - [ ] Check that unreachable code is invalid after all terminating instructions (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 
+### Execution
+
+- [ ] Max stack size (1024) in CALLF-ed function (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_CALLF_ExecutionFiller.yml)
+
+
 ## EIP-6206: EOF - JUMPF and non-returning functions
 
 ### Validation
