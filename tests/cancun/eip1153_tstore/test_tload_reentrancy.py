@@ -13,10 +13,12 @@ from ethereum_test_tools import (
     Alloc,
     Case,
     Environment,
+    EVMCodeType,
     Hash,
     StateTestFiller,
     Switch,
     Transaction,
+    call_return_code,
 )
 from ethereum_test_tools.vm.opcode import Bytecode
 from ethereum_test_tools.vm.opcode import Macros as Om
@@ -34,15 +36,16 @@ class CallDestType(Enum):
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL])
 @pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Om.OOG])
 @pytest.mark.parametrize("call_dest_type", [CallDestType.REENTRANCY, CallDestType.EXTERNAL_CALL])
+@pytest.mark.with_all_call_opcodes
 def test_tload_reentrancy(
     state_test: StateTestFiller,
     pre: Alloc,
-    call_type: Op,
+    call_opcode: Op,
     call_return: Op,
     call_dest_type: CallDestType,
+    evm_code_type: EVMCodeType,
 ):
     """
     Ported .json vectors:
@@ -65,43 +68,41 @@ def test_tload_reentrancy(
     call_dest_address: Bytecode | Address
     call_dest_address = Op.ADDRESS()
 
-    def make_call(call_type: Op) -> Bytecode:
-        if call_type == Op.DELEGATECALL or call_type == Op.STATICCALL:
-            return call_type(Op.GAS(), call_dest_address, 0, 32, 32, 32)
-        else:
-            return call_type(Op.GAS(), call_dest_address, 0, 0, 32, 32, 32)
-
     subcall_code = Op.MSTORE(0, Op.TLOAD(0)) + call_return(0, 32)
+    if call_return not in [Op.RETURN, Op.REVERT]:
+        subcall_code += Op.STOP
 
-    address_code = pre.deploy_contract(
-        balance=0,
-        code=subcall_code,
-        storage={},
-    )
+    address_code = pre.deploy_contract(code=subcall_code)
     if call_dest_type == CallDestType.EXTERNAL_CALL:
         call_dest_address = address_code
 
     address_to = pre.deploy_contract(
-        balance=1_000_000_000_000_000_000,
         code=Switch(
             cases=[
                 Case(
                     condition=Op.EQ(Op.CALLDATALOAD(0), do_load),
                     action=subcall_code,
+                    terminating=True,
                 ),
                 Case(
                     condition=Op.EQ(Op.CALLDATALOAD(0), do_reenter),
                     action=Op.TSTORE(0, tload_value)
                     + Op.MSTORE(0, do_load)
                     + Op.MSTORE(32, 0xFF)
-                    + Op.SSTORE(slot_subcall_worked, make_call(call_type))
+                    + Op.SSTORE(
+                        slot_subcall_worked,
+                        call_opcode(address=call_dest_address, args_size=32),
+                    )
+                    + Op.RETURNDATACOPY(32, 0, Op.RETURNDATASIZE)
                     + Op.SSTORE(slot_tload_in_subcall_result, Op.MLOAD(32))
                     + Op.SSTORE(slot_tload_after_subcall_result, Op.TLOAD(0))
                     + Op.SSTORE(slot_code_worked, 1),
                 ),
             ],
             default_action=None,
-        ),
+            evm_code_type=evm_code_type,
+        )
+        + Op.STOP,
         storage={
             slot_tload_in_subcall_result: 0xFF,
             slot_tload_after_subcall_result: 0xFF,
@@ -109,6 +110,8 @@ def test_tload_reentrancy(
             slot_code_worked: 0xFF,
         },
     )
+    success = call_return == Op.RETURN
+    revert = call_return == Op.REVERT
 
     if call_dest_type == CallDestType.REENTRANCY:
         post = {
@@ -118,9 +121,7 @@ def test_tload_reentrancy(
                     # if call OOG, we fail to obtain the result
                     slot_tload_in_subcall_result: 0xFF if call_return == Om.OOG else tload_value,
                     slot_tload_after_subcall_result: tload_value,
-                    slot_subcall_worked: (
-                        0 if call_return == Op.REVERT or call_return == Om.OOG else 1
-                    ),
+                    slot_subcall_worked: call_return_code(call_opcode, success, revert=revert),
                 }
             )
         }
@@ -135,26 +136,22 @@ def test_tload_reentrancy(
                         # else delegate and callcode are working in the same context so tload works
                         else (
                             tload_value
-                            if call_type == Op.DELEGATECALL or call_type == Op.CALLCODE
+                            if call_opcode in [Op.DELEGATECALL, Op.CALLCODE, Op.EXTDELEGATECALL]
                             else empty_value
                         )
                     ),
                     # no subcall errors can change the tload result
                     slot_tload_after_subcall_result: 44,
-                    slot_subcall_worked: (
-                        0 if call_return == Op.REVERT or call_return == Om.OOG else 1
-                    ),
+                    slot_subcall_worked: call_return_code(call_opcode, success, revert=revert),
                 }
             )
         }
 
     tx = Transaction(
-        sender=pre.fund_eoa(7_000_000_000_000_000_000),
+        sender=pre.fund_eoa(),
         to=address_to,
-        gas_price=10,
         data=Hash(do_reenter),
-        gas_limit=5000000,
-        value=0,
+        gas_limit=5_000_000,
     )
 
     state_test(env=Environment(), pre=pre, post=post, tx=tx)

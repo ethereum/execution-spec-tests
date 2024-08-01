@@ -6,7 +6,15 @@ from typing import SupportsBytes
 import pytest
 from ethereum.crypto.hash import keccak256
 
-from ethereum_test_tools import EOA, Address, Alloc, Bytecode, Storage, Transaction
+from ethereum_test_tools import (
+    EOA,
+    Address,
+    Alloc,
+    Bytecode,
+    Storage,
+    Transaction,
+    call_return_code,
+)
 from ethereum_test_tools.vm import Opcodes as Op
 
 from .spec import GAS_CALCULATION_FUNCTION_MAP
@@ -95,21 +103,14 @@ def call_contract_code(
     """
     expected_output = bytes(expected_output)
 
-    assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
-    value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
-
     code = (
         Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
         + Op.SSTORE(
-            call_contract_post_storage.store_next(call_succeeds),
+            call_contract_post_storage.store_next(call_return_code(call_opcode, call_succeeds)),
             call_opcode(
-                precompile_gas + precompile_gas_modifier,
-                precompile_address,
-                *value,  # Optional, only used for CALL and CALLCODE.
-                0,
-                Op.CALLDATASIZE(),
-                0,
-                0,
+                gas=precompile_gas + precompile_gas_modifier,
+                address=precompile_address,
+                args_size=Op.CALLDATASIZE(),
             ),
         )
         + Op.SSTORE(
@@ -124,7 +125,7 @@ def call_contract_code(
             Op.SHA3(0, Op.RETURNDATASIZE()),
         )
 
-    return code
+    return code + Op.STOP
 
 
 @pytest.fixture

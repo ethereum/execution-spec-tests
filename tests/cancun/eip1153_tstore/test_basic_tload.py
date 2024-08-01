@@ -34,7 +34,8 @@ def test_basic_tload_transaction_begin(
         code=Op.JUMPDEST()
         # 01 test
         + Op.SSTORE(slot_tload_at_transaction_begin_result, Op.TLOAD(0))
-        + Op.SSTORE(slot_code_worked, 1),
+        + Op.SSTORE(slot_code_worked, 1)
+        + Op.STOP,
         storage={
             slot_tload_at_transaction_begin_result: 0xFF,
         },
@@ -84,7 +85,8 @@ def test_basic_tload_works(
         + Op.TSTORE(2, tstore_value)
         + Op.SSTORE(slot_tload_after_tstore_result, Op.TLOAD(2))
         + Op.SSTORE(slot_tload_after_tstore_result_second_time, Op.TLOAD(2))
-        + Op.SSTORE(slot_code_worked, 1),
+        + Op.SSTORE(slot_code_worked, 1)
+        + Op.STOP,
         storage={
             slot_tload_after_tstore_result: 0xFF,
             slot_tload_after_tstore_result_second_time: 0xFF,
@@ -134,7 +136,8 @@ def test_basic_tload_other_after_tstore(
         # 03 test
         + Op.TSTORE(3, tstore_value)
         + Op.SSTORE(slot_tload_untouched_slot_after_tstore_result, Op.TLOAD(0))
-        + Op.SSTORE(slot_code_worked, 1),
+        + Op.SSTORE(slot_code_worked, 1)
+        + Op.STOP,
         storage={
             slot_tload_untouched_slot_after_tstore_result: 0xFF,
         },
@@ -210,7 +213,8 @@ def test_basic_tload_gasprice(
             slot_tload_zero_gas_price_result,
             Op.SUB(Op.SLOAD(slot_tload_zero_gas_price_result), extra_opcode_gas),
         )
-        + Op.SSTORE(slot_code_worked, 1),
+        + Op.SSTORE(slot_code_worked, 1)
+        + Op.STOP,
         storage={
             slot_tload_nonzero_gas_price_result: 0xFF,
             slot_tload_zero_gas_price_result: 0xFF,
@@ -258,7 +262,8 @@ def test_basic_tload_after_store(
         # 18 test
         + Op.SSTORE(slot_tload_from_sstore_result, 22)
         + Op.SSTORE(slot_tload_from_sstore_result, Op.TLOAD(slot_tload_from_sstore_result))
-        + Op.SSTORE(slot_code_worked, 1),
+        + Op.SSTORE(slot_code_worked, 1)
+        + Op.STOP,
         storage={
             slot_tload_from_sstore_result: 0xFF,
         },

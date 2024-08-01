@@ -202,23 +202,21 @@ def test_gas(
 
 
 @pytest.mark.parametrize(
-    "call_opcode",
-    [
-        Op.STATICCALL,
-        Op.DELEGATECALL,
-        Op.CALLCODE,
-    ],
-)
-@pytest.mark.parametrize(
     "input,expected_output",
     [
         pytest.param(
             Spec.INF_G1 + Spec.INF_G1,
             Spec.INF_G1,
-            id="inf_plus_inf",
+            id="valid",
+        ),
+        pytest.param(
+            PointG1(0, 1) + Spec.INF_G1,
+            Spec.INVALID,
+            id="invalid",
         ),
     ],
 )
+@pytest.mark.with_all_call_opcodes
 def test_call_types(
     state_test: StateTestFiller,
     pre: Alloc,

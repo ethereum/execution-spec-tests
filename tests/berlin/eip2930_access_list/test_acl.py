@@ -20,7 +20,7 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
     env = Environment()
 
     contract_address = pre.deploy_contract(
-        Op.PC + Op.SLOAD + Op.POP + Op.PC + Op.SLOAD,
+        Op.POP(Op.SLOAD(Op.SELFBALANCE)) + Op.SLOAD(Op.SELFBALANCE) + Op.STOP,
         balance=0x03,
     )
     sender = pre.fund_eoa(0x300000)
@@ -47,12 +47,10 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
 
     post = {
         contract_address: Account(
-            code="0x5854505854",
             balance=4,
             nonce=1,
         ),
         sender: Account(
-            balance=0x2CD931,
             nonce=1,
         ),
     }

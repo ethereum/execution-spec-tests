@@ -6,15 +6,17 @@ abstract: Test [EIP-198: MODEXP Precompile](https://eips.ethereum.org/EIPS/eip-1
 from dataclasses import dataclass
 
 import pytest
+from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
     Account,
     Alloc,
     Environment,
+    EVMCodeType,
     StateTestFiller,
     TestParameterGroup,
     Transaction,
-    compute_create_address,
+    call_return_code,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -46,7 +48,7 @@ class ModExpInput(TestParameterGroup):
         Generates input for the MODEXP precompile.
         """
         return (
-            "0x"
+            ""
             + f"{int(len(self.base)/2):x}".zfill(64)
             + f"{int(len(self.exponent)/2):x}".zfill(64)
             + f"{int(len(self.modulus)/2):x}".zfill(64)
@@ -78,13 +80,12 @@ class ExpectedOutput(TestParameterGroup):
     Expected test result.
 
     Attributes:
-        call_return_code (str): The return_code from CALL, 0 indicates unsuccessful call
-            (out-of-gas), 1 indicates call succeeded.
-        returned_data (str): The output returnData is the expected output of the call
+        call_return_success (str): The return_code from CALL.
+        returned_data (bytes): The output returnData is the expected output of the call
     """
 
-    call_return_code: str
-    returned_data: str
+    call_return_success: bool
+    returned_data: bytes
 
 
 @pytest.mark.valid_from("Byzantium")
@@ -93,47 +94,47 @@ class ExpectedOutput(TestParameterGroup):
     [
         (
             ModExpInput(base="", exponent="", modulus="02"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x01"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("01")),
         ),
         (
             ModExpInput(base="", exponent="", modulus="0002"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x0001"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("0001")),
         ),
         (
             ModExpInput(base="00", exponent="00", modulus="02"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x01"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("01")),
         ),
         (
             ModExpInput(base="", exponent="01", modulus="02"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x00"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("00")),
         ),
         (
             ModExpInput(base="01", exponent="01", modulus="02"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x01"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("01")),
         ),
         (
             ModExpInput(base="02", exponent="01", modulus="03"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x02"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("02")),
         ),
         (
             ModExpInput(base="02", exponent="02", modulus="05"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x04"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("04")),
         ),
         (
             ModExpInput(base="", exponent="", modulus=""),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x"),
+            ExpectedOutput(call_return_success=True, returned_data=b""),
         ),
         (
             ModExpInput(base="", exponent="", modulus="00"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x00"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("00")),
         ),
         (
             ModExpInput(base="", exponent="", modulus="01"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x00"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("00")),
         ),
         (
             ModExpInput(base="", exponent="", modulus="0001"),
-            ExpectedOutput(call_return_code="0x01", returned_data="0x0000"),
+            ExpectedOutput(call_return_success=True, returned_data=bytes.fromhex("0000")),
         ),
         # Test cases from EIP 198.
         pytest.param(
@@ -143,8 +144,10 @@ class ExpectedOutput(TestParameterGroup):
                 modulus="fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
             ),
             ExpectedOutput(
-                call_return_code="0x01",
-                returned_data="0000000000000000000000000000000000000000000000000000000000000001",
+                call_return_success=True,
+                returned_data=bytes.fromhex(
+                    "0000000000000000000000000000000000000000000000000000000000000001"
+                ),
             ),
             id="EIP-198-case1",
         ),
@@ -155,8 +158,10 @@ class ExpectedOutput(TestParameterGroup):
                 modulus="fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
             ),
             ExpectedOutput(
-                call_return_code="0x01",
-                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+                call_return_success=True,
+                returned_data=bytes.fromhex(
+                    "0000000000000000000000000000000000000000000000000000000000000000"
+                ),
             ),
             id="EIP-198-case2",
         ),
@@ -169,8 +174,10 @@ class ExpectedOutput(TestParameterGroup):
                 "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd"
             ),
             ExpectedOutput(
-                call_return_code="0x00",
-                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+                call_return_success=False,
+                returned_data=bytes.fromhex(
+                    "0000000000000000000000000000000000000000000000000000000000000000"
+                ),
             ),
             id="EIP-198-case3-raw-input-out-of-gas",
         ),
@@ -182,8 +189,10 @@ class ExpectedOutput(TestParameterGroup):
                 extra_data="07",
             ),
             ExpectedOutput(
-                call_return_code="0x01",
-                returned_data="0x3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab",
+                call_return_success=True,
+                returned_data=bytes.fromhex(
+                    "3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab"
+                ),
             ),
             id="EIP-198-case4-extra-data_07",
         ),
@@ -197,72 +206,68 @@ class ExpectedOutput(TestParameterGroup):
                 "80"
             ),
             ExpectedOutput(
-                call_return_code="0x01",
-                returned_data="0x3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab",
+                call_return_success=True,
+                returned_data=bytes.fromhex(
+                    "3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab"
+                ),
             ),
             id="EIP-198-case5-raw-input",
         ),
     ],
     ids=lambda param: param.__repr__(),  # only required to remove parameter names (input/output)
 )
+@pytest.mark.with_all_evm_code_types
 def test_modexp(
-    state_test: StateTestFiller, input: ModExpInput, output: ExpectedOutput, pre: Alloc
+    state_test: StateTestFiller,
+    input: ModExpInput,
+    output: ExpectedOutput,
+    pre: Alloc,
+    evm_code_type: EVMCodeType,
 ):
     """
     Test the MODEXP precompile
     """
     env = Environment()
     sender = pre.fund_eoa()
-
-    account = pre.deploy_contract(
+    call_opcode = Op.CALL if evm_code_type == EVMCodeType.LEGACY else Op.EXTCALL
+    account_code = (
         # Store all CALLDATA into memory (offset 0)
         Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
         # Store the returned CALL status (success = 1, fail = 0) into slot 0:
         + Op.SSTORE(
             0,
             # Setup stack to CALL into ModExp with the CALLDATA and CALL into it (+ pop value)
-            Op.CALL(Op.GAS(), 0x05, 0, 0, Op.CALLDATASIZE(), 0, 0),
+            call_opcode(address=0x05, args_size=Op.CALLDATASIZE()),
         )
-        # Store contract deployment code to deploy the returned data from ModExp as
-        # contract code (16 bytes)
-        + Op.MSTORE(
-            0,
-            (
-                (
-                    # Need to `ljust` this PUSH32 in order to ensure the code starts
-                    # in memory at offset 0 (memory right-aligns stack items which are not
-                    # 32 bytes)
-                    Op.PUSH32(
-                        bytes(
-                            Op.CODECOPY(0, 16, Op.SUB(Op.CODESIZE(), 16))
-                            + Op.RETURN(0, Op.SUB(Op.CODESIZE, 16))
-                        ).ljust(32, bytes(1))
-                    )
-                )
-            ),
-        )
-        # RETURNDATACOPY the returned data from ModExp into memory (offset 16 bytes)
-        + Op.RETURNDATACOPY(16, 0, Op.RETURNDATASIZE())
-        # CREATE contract with the deployment code + the returned data from ModExp
-        + Op.CREATE(0, 0, Op.ADD(16, Op.RETURNDATASIZE()))
-        # STOP (handy for tracing)
-        + Op.STOP(),
+        # RETURNDATACOPY the returned data from ModExp into memory
+        + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE())
+        + Op.SSTORE(1, Op.SHA3(0, Op.RETURNDATASIZE()))
+        + Op.STOP()
     )
+    account = pre.deploy_contract(account_code)
 
     tx = Transaction(
-        ty=0x0,
         to=account,
         data=input.create_modexp_tx_data(),
-        gas_limit=500000,
-        gas_price=10,
+        gas_limit=500_000,
         protected=True,
         sender=sender,
     )
 
     post = {}
-    if output.call_return_code != "0x00":
-        contract_address = compute_create_address(account, 1)
-        post[contract_address] = Account(code=output.returned_data)
-    post[account] = Account(storage={0: output.call_return_code})
+    if output.call_return_success:
+        post[account] = Account(
+            storage={
+                0: call_return_code(call_opcode, True),
+                1: keccak256(output.returned_data),
+            }
+        )
+    else:
+        post[account] = Account(
+            storage={
+                0: 0,
+                1: 0,
+            }
+        )
 
     state_test(env=env, pre=pre, post=post, tx=tx)
