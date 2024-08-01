@@ -13,7 +13,7 @@ IPA_PROOF_DEPTH = 8
 
 class Hash(PaddedFixedSizeBytes[32]):  # type: ignore
     """
-    Class that helps represent an un-padded Hash.
+    Class that helps represent an padded Hash.
     """
 
     pass
