@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import List, SupportsBytes
 
 from ethereum_test_types import ceiling_division
-from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Bytecode, EVMCodeType
 from ethereum_test_vm import Opcodes as Op
 
 GAS_PER_DEPLOYED_CODE_BYTE = 0xC8
@@ -248,6 +248,7 @@ class Case:
 
     condition: Bytecode | Op
     action: Bytecode | Op
+    terminating: bool = False
 
 
 @dataclass
@@ -267,6 +268,7 @@ class CalldataCase:
     value: int | str | bytes | SupportsBytes
     position: int = 0
     condition: Bytecode | Op = field(init=False)
+    terminating: bool = False
 
     def __post_init__(self):
         """
@@ -301,18 +303,22 @@ class Switch(Bytecode):
     evaluates to a non-zero value is the one that is executed.
     """
 
+    evm_code_type: EVMCodeType
+    """
+    The EVM code type to use for the switch-case bytecode.
+    """
+
     def __new__(
         cls,
         *,
         default_action: Bytecode | Op | None = None,
         cases: List[Case | CalldataCase],
+        evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
     ):
         """
         Assemble the bytecode by looping over the list of cases and adding
-        the necessary JUMPI and JUMPDEST opcodes in order to replicate
+        the necessary [R]JUMPI and JUMPDEST opcodes in order to replicate
         switch-case behavior.
-
-        In the future, PC usage should be replaced by using RJUMP and RJUMPI.
         """
         # The length required to jump over subsequent actions to the final JUMPDEST at the end
         # of the switch-case block:
@@ -320,13 +326,24 @@ class Switch(Bytecode):
         #   bytecode
         # - add 3 to the total to account for this action's JUMP; the PC within the call
         #   requires a "correction" of 3.
-        action_jump_length = sum(len(case.action) + 6 for case in cases) + 3
+
+        bytecode = Bytecode()
 
         # All conditions get pre-pended to this bytecode; if none are met, we reach the default
-        bytecode = default_action + Op.JUMP(Op.ADD(Op.PC, action_jump_length))
-
-        # The length required to jump over the default action and its JUMP bytecode
-        condition_jump_length = len(bytecode) + 3
+        if evm_code_type == EVMCodeType.LEGACY:
+            action_jump_length = sum(len(case.action) + 6 for case in cases) + 3
+            bytecode = default_action + Op.JUMP(Op.ADD(Op.PC, action_jump_length))
+            # The length required to jump over the default action and its JUMP bytecode
+            condition_jump_length = len(bytecode) + 3
+        elif evm_code_type == EVMCodeType.EOF_V1:
+            action_jump_length = sum(
+                len(case.action) + (len(Op.RJUMP[0]) if not case.terminating else 0)
+                for case in cases
+                # On not terminating cases, we need to add 3 bytes for the RJUMP
+            )
+            bytecode = default_action + Op.RJUMP[action_jump_length]
+            # The length required to jump over the default action and its JUMP bytecode
+            condition_jump_length = len(bytecode)
 
         # Reversed: first case in the list has priority; it will become the outer-most onion layer.
         # We build up layers around the default_action, after 1 iteration of the loop, a simplified
@@ -349,9 +366,18 @@ class Switch(Bytecode):
         #  + JUMPDEST + case[0].action + JUMP()
         #
         for case in reversed(cases):
-            action_jump_length -= len(case.action) + 6
-            action = Op.JUMPDEST + case.action + Op.JUMP(Op.ADD(Op.PC, action_jump_length))
-            condition = Op.JUMPI(Op.ADD(Op.PC, condition_jump_length), case.condition)
+            action = case.action
+            if evm_code_type == EVMCodeType.LEGACY:
+                action_jump_length -= len(action) + 6
+                action = Op.JUMPDEST + action + Op.JUMP(Op.ADD(Op.PC, action_jump_length))
+                condition = Op.JUMPI(Op.ADD(Op.PC, condition_jump_length), case.condition)
+            elif evm_code_type == EVMCodeType.EOF_V1:
+                action_jump_length -= len(action) + (
+                    len(Op.RJUMP[0]) if not case.terminating else 0
+                )
+                if not case.terminating:
+                    action += Op.RJUMP[action_jump_length]
+                condition = Op.RJUMPI[condition_jump_length](case.condition)
             # wrap the current case around the onion as its next layer
             bytecode = condition + bytecode + action
             condition_jump_length += len(condition) + len(action)
