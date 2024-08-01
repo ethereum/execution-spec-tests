@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     Environment,
     Initcode,
     TestAddress,
+    Bytecode,
     Transaction,
     compute_create_address,
 )
@@ -29,7 +30,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 @pytest.mark.parametrize(
     "bytecode",
     [
-        "",
+        Bytecode(),
         Op.STOP * (128 * 31 + 1000),
     ],
     ids=["empty", "non_empty"],
@@ -40,7 +41,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
     ids=["zero", "non_zero"],
 )
 def test_contract_creation(
-    blockchain_test: BlockchainTestFiller, fork: str, value: int, bytecode: str
+    blockchain_test: BlockchainTestFiller, fork: str, value: int, bytecode: Bytecode
 ):
     """
     Test that contract creation works as expected.
@@ -63,7 +64,7 @@ def test_contract_creation(
         gas_limit=100000000,
         gas_price=10,
         value=value,
-        data=Initcode(deploy_code=bytecode).bytecode,
+        data=Initcode(deploy_code=bytecode).deploy_code,
     )
     blocks = [Block(txs=[tx])]
 
