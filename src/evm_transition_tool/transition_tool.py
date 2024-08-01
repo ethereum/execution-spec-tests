@@ -17,7 +17,8 @@ from typing import Dict, List, Mapping, Optional, Type
 
 from ethereum_test_fixtures import FixtureFormats, FixtureVerifier
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction, VerkleTree
+from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types.verkle import VerkleTree
 
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput

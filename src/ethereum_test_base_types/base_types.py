@@ -276,6 +276,21 @@ class FixedSizeBytes(Bytes):
         return not self.__eq__(other)
 
 
+class PaddedFixedSizeBytes(FixedSizeBytes):
+    """
+    Class that represents fixed-size bytes with padded hex output.
+    """
+
+    def hex(self, *args, **kwargs) -> str:
+        """
+        Returns the hexadecimal representation of the bytes with padding.
+        """
+        hex_str = super().hex(*args, **kwargs)[2:]
+        if len(hex_str) % 2 != 0:
+            hex_str = "0" + hex_str
+        return "0x" + hex_str.zfill(self.byte_length * 2)
+
+
 class Address(FixedSizeBytes[20]):  # type: ignore
     """
     Class that helps represent Ethereum addresses in tests.

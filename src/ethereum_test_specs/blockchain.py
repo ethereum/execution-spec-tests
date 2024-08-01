@@ -44,10 +44,10 @@ from ethereum_test_types import (
     Removable,
     Requests,
     Transaction,
-    VerkleTree,
     Withdrawal,
     WithdrawalRequest,
 )
+from ethereum_test_types.verkle import VerkleTree
 from evm_transition_tool import TransitionTool
 
 from .base import BaseTest, verify_result, verify_transactions

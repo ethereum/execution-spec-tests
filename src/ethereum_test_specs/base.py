@@ -14,7 +14,8 @@ from pydantic import BaseModel, Field
 from ethereum_test_base_types import to_hex
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction, VerkleTree, Withdrawal
+from ethereum_test_types import Alloc, Environment, Transaction, Withdrawal
+from ethereum_test_types.verkle import VerkleTree
 from evm_transition_tool import Result, TransitionTool
 
 

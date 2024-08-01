@@ -13,9 +13,9 @@ from ethereum_test_types import (
     DepositRequest,
     Environment,
     Transaction,
-    VerkleTree,
     WithdrawalRequest,
 )
+from ethereum_test_types.verkle import VerkleTree
 
 
 class TransactionLog(CamelModel):

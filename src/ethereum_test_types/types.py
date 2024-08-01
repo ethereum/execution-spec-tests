@@ -1250,12 +1250,3 @@ class Requests(RootModel[List[DepositRequest | WithdrawalRequest | Consolidation
         Returns the list of consolidation requests.
         """
         return [c for c in self.root if isinstance(c, ConsolidationRequest)]
-
-
-# TODO: use a type like HashInt but that doesn't pad zero. DO NOT PAD THE ZEROS. KEEP ALL ZEROS.
-class VerkleTree(RootModel[Dict[str, str]]):
-    """
-    Definition of a verkle tree return from the geth t8n.
-    """
-
-    root: Dict[str, str] = Field(default_factory=dict)

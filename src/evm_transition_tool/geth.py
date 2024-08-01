@@ -15,7 +15,8 @@ from typing import Optional
 
 from ethereum_test_base_types import to_json
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, VerkleTree
+from ethereum_test_types import Alloc
+from ethereum_test_types.verkle import VerkleTree
 
 from .transition_tool import FixtureFormats, TransitionTool, dump_files_to_directory
 
