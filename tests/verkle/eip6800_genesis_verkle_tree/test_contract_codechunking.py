@@ -10,6 +10,7 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Block,
+    Bytecode,
     BlockchainTestFiller,
     Environment,
     Initcode,
@@ -29,7 +30,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 @pytest.mark.parametrize(
     "bytecode",
     [
-        "",
+        Bytecode(),
         Op.PUSH0 * 31,
         Op.PUSH0 * (31 + 1),
         Op.PUSH0 * (31 + 32),
@@ -51,7 +52,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
         "PUSH32_spanning_three_chunks",
     ],
 )
-def test_code_chunking(blockchain_test: BlockchainTestFiller, fork: str, bytecode: str):
+def test_code_chunking(blockchain_test: BlockchainTestFiller, fork: str, bytecode: Bytecode):
     """
     Test that code chunking works correctly.
     """
@@ -72,7 +73,7 @@ def test_code_chunking(blockchain_test: BlockchainTestFiller, fork: str, bytecod
         to=None,
         gas_limit=100000000,
         gas_price=10,
-        data=Initcode(deploy_code=bytecode).bytecode,
+        data=Initcode(deploy_code=bytecode).deploy_code,
     )
     blocks = [Block(txs=[tx])]
 
