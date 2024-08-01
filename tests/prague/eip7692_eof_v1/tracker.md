@@ -136,6 +136,18 @@
 - [ ] RJUMPV out of section bounds (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_rjumpv_invalid_destination_Copier.json)
 - [ ] RJUMPV into immediate (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_rjumpv_invalid_destination_Copier.json)
 
+### Execution
+
+- [ ] RJUMP forwards
+- [ ] RJUMP backwards (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [ ] RJUMP with 0 offset (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [ ] RJUMPI forwards with condition true/false (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [ ] RJUMPI backwards with condition true/false (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [ ] RJUMPI with 0 offset with condition true/false (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [ ] RJUMPV with different case values (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [ ] RJUMPV with case value out of table bounds (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [ ] RJUMPV with max cases number (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+
 ## EIP-4750: EOF - Functions
 
 ### Validation
