@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Any, Dict, List, Mapping, Optional, Type
+from typing import Dict, List, Mapping, Optional, Type
 
 from ethereum_test_fixtures import FixtureFormats, FixtureVerifier
 from ethereum_test_forks import Fork
@@ -248,9 +248,9 @@ class TransitionTool(FixtureVerifier):
         txs: List[Transaction]
         env: Environment
         fork_name: str
-        vkt: Any = None
         chain_id: int = field(default=1)
         reward: int = field(default=0)
+        vkt: Optional[VerkleTree] = None
 
         def to_input(self) -> TransitionToolInput:
             """
@@ -514,9 +514,9 @@ class TransitionTool(FixtureVerifier):
         txs: List[Transaction],
         env: Environment,
         fork: Fork,
-        vkt: Any = None,
         chain_id: int = 1,
         reward: int = 0,
+        vkt: Optional[VerkleTree] = None,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:

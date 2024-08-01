@@ -18,7 +18,6 @@ from ethereum_test_base_types import (
     HeaderNonce,
     HexNumber,
     Number,
-    to_json,
 )
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
@@ -436,7 +435,7 @@ class BlockchainTest(BaseTest):
             txs=txs,
             env=env,
             fork=fork,
-            vkt=to_json(previous_vkt) if previous_vkt is not None else None,
+            vkt=previous_vkt,
             chain_id=self.chain_id,
             reward=fork.get_reward(env.number, env.timestamp),
             eips=eips,
@@ -556,7 +555,7 @@ class BlockchainTest(BaseTest):
         Verifies the post state after all block/s or payload/s are generated.
         """
         try:
-            if env.verkle_conversion_started:
+            if env.verkle_conversion_started or env.verkle_conversion_ended:
                 if vkt is not None:
                     pass  # TODO: skip exact account verify checks
                     # verify_post_vkt(t8n=t8n, expected_post=self.post, got_vkt=vkt)
@@ -585,6 +584,13 @@ class BlockchainTest(BaseTest):
         env = environment_from_parent_header(genesis.header)
         head = genesis.header.block_hash
         vkt: Optional[VerkleTree] = None
+
+        # Filling for verkle genesis tests
+        if fork is Verkle:
+            env.verkle_conversion_ended = True
+            # convert alloc to vkt
+            vkt = t8n.from_mpt_to_vkt(alloc)
+            alloc = Alloc()
 
         # Hack for filling naive verkle transition tests
         if fork is EIP6800Transition:
