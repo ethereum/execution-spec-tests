@@ -58,6 +58,7 @@ from ethereum_test_types import (
 )
 from ethereum_test_vm import (
     Bytecode,
+    EVMCodeType,
     Macro,
     Macros,
     Opcode,
@@ -105,6 +106,7 @@ __all__ = (
     "EOFStateTestFiller",
     "EOFTest",
     "EOFTestFiller",
+    "EVMCodeType",
     "FixtureCollector",
     "Hash",
     "Header",
