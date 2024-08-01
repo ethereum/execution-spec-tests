@@ -2,7 +2,7 @@
 Code generating classes and functions.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, SupportsBytes
 
 from ethereum_test_types import ceiling_division
@@ -189,27 +189,13 @@ class Conditional(Bytecode):
     Helper class used to generate conditional bytecode.
     """
 
-    condition: Bytecode | Op
-    """
-    Condition bytecode which must return the true or false condition of the conditional statement.
-    """
-
-    if_true: Bytecode | Op | None
-    """
-    Bytecode to execute if the condition is true.
-    """
-
-    if_false: Bytecode | Op | None
-    """
-    Bytecode to execute if the condition is false.
-    """
-
     def __new__(
         cls,
         *,
         condition: Bytecode | Op,
-        if_true: Bytecode | Op | None,
-        if_false: Bytecode | Op | None,
+        if_true: Bytecode | Op = Bytecode(),
+        if_false: Bytecode | Op = Bytecode(),
+        evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
     ):
         """
         Assemble the conditional bytecode by generating the necessary jump and
@@ -218,28 +204,29 @@ class Conditional(Bytecode):
 
         In the future, PC usage should be replaced by using RJUMP and RJUMPI
         """
-        # First we append a jumpdest to the start of the true branch
-        if_true = Op.JUMPDEST + if_true
+        if evm_code_type == EVMCodeType.LEGACY:
+            # First we append a jumpdest to the start of the true branch
+            if_true = Op.JUMPDEST + if_true
 
-        # Then we append the unconditional jump to the end of the false branch, used to skip the
-        # true branch
-        if_false += Op.JUMP(Op.ADD(Op.PC, len(if_true) + 3))
+            # Then we append the unconditional jump to the end of the false branch, used to skip
+            # the true branch
+            if_false += Op.JUMP(Op.ADD(Op.PC, len(if_true) + 3))
 
-        # Then we need to do the conditional jump by skipping the false branch
-        condition = Op.JUMPI(Op.ADD(Op.PC, len(if_false) + 3), condition)
+            # Then we need to do the conditional jump by skipping the false branch
+            condition = Op.JUMPI(Op.ADD(Op.PC, len(if_false) + 3), condition)
+
+        elif evm_code_type == EVMCodeType.EOF_V1:
+            if_false += Op.RJUMP[len(if_true)]
+            condition = Op.RJUMPI[len(if_false)](condition)
 
         # Finally we append the true and false branches, and the condition, plus the jumpdest at
         # the very end
         bytecode = condition + if_false + if_true + Op.JUMPDEST
 
-        instance = super().__new__(cls, bytecode)
-        instance.condition = condition
-        instance.if_true = if_true
-        instance.if_false = if_false
-        return instance
+        return super().__new__(cls, bytecode)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Case:
     """
     Small helper class to represent a single, generic case in a `Switch` cases
@@ -251,8 +238,7 @@ class Case:
     terminating: bool = False
 
 
-@dataclass
-class CalldataCase:
+class CalldataCase(Case):
     """
     Small helper class to represent a single case whose condition depends
     on the value of the contract's calldata in a Switch case statement.
@@ -264,18 +250,12 @@ class CalldataCase:
     optionally `position`) and may not be set directly.
     """
 
-    action: Bytecode | Op
-    value: int | str | bytes | SupportsBytes
-    position: int = 0
-    condition: Bytecode | Op = field(init=False)
-    terminating: bool = False
-
-    def __post_init__(self):
+    def __init__(self, value: int | str | Bytecode, position: int = 0, **kwargs):
         """
         Generate the condition base on `value` and `position`.
         """
-        self.condition = Op.EQ(Op.CALLDATALOAD(self.position), self.value)
-        self.action = self.action
+        condition = Op.EQ(Op.CALLDATALOAD(position), value)
+        super().__init__(condition=condition, **kwargs)
 
 
 class Switch(Bytecode):
@@ -297,9 +277,9 @@ class Switch(Bytecode):
     executed.
     """
 
-    cases: List[Case | CalldataCase]
+    cases: List[Case]
     """
-    A list of Case or CalldataCase: The first element with a condition that
+    A list of Cases: The first element with a condition that
     evaluates to a non-zero value is the one that is executed.
     """
 
@@ -312,7 +292,7 @@ class Switch(Bytecode):
         cls,
         *,
         default_action: Bytecode | Op | None = None,
-        cases: List[Case | CalldataCase],
+        cases: List[Case],
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
     ):
         """
