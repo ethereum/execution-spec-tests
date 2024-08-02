@@ -143,6 +143,42 @@ class GethTransitionTool(TransitionTool):
             result_json = []  # there is no parseable format for blocktest output
         return result_json
 
+    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
+        """
+        Returns the VKT state root of from an input MPT.
+        """
+        # Write the MPT alloc to a temporary file: alloc.json
+        with tempfile.TemporaryDirectory() as temp_dir:
+            input_dir = os.path.join(temp_dir, "input")
+            os.mkdir(input_dir)
+            alloc_path = os.path.join(input_dir, "alloc.json")
+            with open(alloc_path, "w") as f:
+                json.dump(to_json(mpt_alloc), f)
+
+            # Check if the file was created
+            if not os.path.exists(alloc_path):
+                raise Exception(f"Failed to create alloc.json at {alloc_path}")
+
+            # Run the verkle subcommand with the alloc.json file as input
+            command = [
+                str(self.binary),
+                str(self.verkle_subcommand),
+                "state-root",
+                "--input.alloc",
+                alloc_path,
+            ]
+            result = subprocess.run(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            if result.returncode != 0:
+                raise Exception(
+                    f"Failed to run verkle subcommand: '{' '.join(command)}'. "
+                    f"Error: '{result.stderr.decode()}'"
+                )
+            return bytes(json.loads(result.stdout.decode()))
+
     def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
         """
         Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.

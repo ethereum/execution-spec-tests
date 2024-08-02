@@ -327,6 +327,7 @@ class BlockchainTest(BaseTest):
     def make_genesis(
         self,
         fork: Fork,
+        t8n: TransitionTool,
     ) -> Tuple[Alloc, FixtureBlock]:
         """
         Create a genesis block from the blockchain test definition.
@@ -345,7 +346,11 @@ class BlockchainTest(BaseTest):
         )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
-        state_root = pre_alloc.state_root()
+        state_root: bytes
+        if fork < Verkle:
+            state_root = pre_alloc.state_root()
+        else:  # TODO: refine, currently uses `evm verkle state-root` to get this.
+            state_root = t8n.get_verkle_state_root(mpt_alloc=pre_alloc)
         genesis = FixtureHeader(
             parent_hash=0,
             ommers_hash=EmptyOmmersRoot,
@@ -578,7 +583,7 @@ class BlockchainTest(BaseTest):
         """
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
-        pre, genesis = self.make_genesis(fork)
+        pre, genesis = self.make_genesis(fork, t8n)
 
         alloc = pre
         env = environment_from_parent_header(genesis.header)
@@ -705,7 +710,7 @@ class BlockchainTest(BaseTest):
         """
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
-        pre, genesis = self.make_genesis(fork)
+        pre, genesis = self.make_genesis(fork, t8n)
         alloc = pre
         env = environment_from_parent_header(genesis.header)
         head_hash = genesis.header.block_hash

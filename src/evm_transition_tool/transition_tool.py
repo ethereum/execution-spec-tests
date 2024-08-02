@@ -568,6 +568,17 @@ class TransitionTool(FixtureVerifier):
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
         )
 
+    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
+        """
+        Returns the VKT state root of from an input MPT.
+
+        Currently only implemented by geth's evm.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_state_root` function is not supported by this tool. Use geth's evm "
+            "tool."
+        )
+
     def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
         """
         Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.
