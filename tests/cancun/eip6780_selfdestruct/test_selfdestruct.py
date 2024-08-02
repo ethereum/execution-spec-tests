@@ -23,7 +23,6 @@ from ethereum_test_tools import (
     Storage,
     TestAddress,
     Transaction,
-    compute_create2_address,
     compute_create_address,
 )
 from ethereum_test_tools.code.generators import Conditional
@@ -156,7 +155,7 @@ def initcode_copy_from_address() -> Address:
 @pytest.fixture
 def entry_code_address() -> Address:
     """Address where the entry code will run."""
-    return compute_create_address(TestAddress, 0)
+    return compute_create_address(address=TestAddress, nonce=0)
 
 
 @pytest.fixture
@@ -166,13 +165,13 @@ def selfdestruct_contract_address(
     selfdestruct_contract_initcode: Bytecode,
 ) -> Address:
     """Returns the address of the self-destructing contract."""
-    if create_opcode == Op.CREATE:
-        return compute_create_address(entry_code_address, 1)
-
-    if create_opcode == Op.CREATE2:
-        return compute_create2_address(entry_code_address, 0, selfdestruct_contract_initcode)
-
-    raise Exception("Invalid opcode")
+    return compute_create_address(
+        address=entry_code_address,
+        nonce=1,
+        salt=0,
+        initcode=selfdestruct_contract_initcode,
+        opcode=create_opcode,
+    )
 
 
 @pytest.fixture
@@ -556,7 +555,9 @@ def test_self_destructing_initcode(
 
 @pytest.mark.parametrize("tx_value", [0, 100_000])
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 100_000])
-@pytest.mark.parametrize("selfdestruct_contract_address", [compute_create_address(TestAddress, 0)])
+@pytest.mark.parametrize(
+    "selfdestruct_contract_address", [compute_create_address(address=TestAddress, nonce=0)]
+)
 @pytest.mark.parametrize("self_destructing_initcode", [True], ids=[""])
 @pytest.mark.valid_from("Shanghai")
 def test_self_destructing_initcode_create_tx(
@@ -900,7 +901,12 @@ def test_selfdestruct_pre_existing(
 @pytest.mark.parametrize("call_times", [1, 10])
 @pytest.mark.parametrize(
     "selfdestruct_contract_address,entry_code_address",
-    [(compute_create_address(TestAddress, 0), compute_create_address(TestAddress, 1))],
+    [
+        (
+            compute_create_address(address=TestAddress, nonce=0),
+            compute_create_address(address=TestAddress, nonce=1),
+        )
+    ],
 )
 @pytest.mark.valid_from("Shanghai")
 def test_selfdestruct_created_same_block_different_tx(
@@ -1479,7 +1485,8 @@ def test_create_selfdestruct_same_tx_increased_nonce(
 
     # Check the new contracts created from the self-destructing contract were correctly created.
     for address in [
-        compute_create_address(selfdestruct_contract_address, i + 1) for i in range(call_times)
+        compute_create_address(address=selfdestruct_contract_address, nonce=i + 1)
+        for i in range(call_times)
     ]:
         post[address] = Account(
             code=b"\x00",

@@ -9,13 +9,7 @@ import pytest
 
 from ethereum_test_tools import Account, Address, Bytecode, Environment, Initcode
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import (
-    StateTestFiller,
-    TestAddress,
-    Transaction,
-    compute_create2_address,
-    compute_create_address,
-)
+from ethereum_test_tools import StateTestFiller, TestAddress, Transaction, compute_create_address
 
 from . import CreateOpcodeParams, PytestParameterEnum
 from .spec import ref_spec_1153
@@ -153,19 +147,13 @@ class TestTransientStorageInContractCreation:
         create2_salt: int,
         created_contract_address: Address,
     ) -> Bytecode:
-        if opcode == Op.CREATE:
-            create_call = Op.CREATE(0, 0, Op.CALLDATASIZE)
-        elif opcode == Op.CREATE2:
-            create_call = Op.CREATE2(0, 0, Op.CALLDATASIZE, create2_salt)
-        else:
-            raise Exception("Invalid opcode specified for test.")
-        contract_call = Op.SSTORE(4, Op.CALL(Op.GAS(), created_contract_address, 0, 0, 0, 0, 0))
+        contract_call = Op.SSTORE(4, Op.CALL(address=created_contract_address))
         return (
             Op.TSTORE(0, 0x0100)
             + Op.TSTORE(1, 0x0200)
             + Op.TSTORE(2, 0x0300)
             + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-            + create_call
+            + opcode(size=Op.CALLDATASIZE, salt=create2_salt)
             + contract_call
             # Save the state of transient storage following call to storage; the transient
             # storage should not have been overwritten
@@ -182,13 +170,13 @@ class TestTransientStorageInContractCreation:
     def created_contract_address(  # noqa: D102
         self, opcode: Op, create2_salt: int, initcode: Initcode
     ) -> Address:
-        if opcode == Op.CREATE:
-            return compute_create_address(address=creator_address, nonce=1)
-        if opcode == Op.CREATE2:
-            return compute_create2_address(
-                address=creator_address, salt=create2_salt, initcode=initcode
-            )
-        raise Exception("invalid opcode for generator")
+        return compute_create_address(
+            address=creator_address,
+            nonce=1,
+            salt=create2_salt,
+            initcode=initcode,
+            opcode=opcode,
+        )
 
     def test_contract_creation(
         self,

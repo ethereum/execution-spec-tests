@@ -72,7 +72,7 @@ def test_tx_selfdestruct_balance_bug(blockchain_test: BlockchainTestFiller, yul:
         ),
     )
 
-    aa_location = compute_create_address(0xCC, 1)
+    aa_location = compute_create_address(address=0xCC, nonce=1)
 
     cc_code = (
         Op.EXTCODECOPY(0xAA, 0, 0, Op.EXTCODESIZE(0xAA))
