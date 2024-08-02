@@ -2,6 +2,7 @@
 Go-ethereum Transition tool interface.
 """
 
+import binascii
 import json
 import os
 import shutil
@@ -177,7 +178,8 @@ class GethTransitionTool(TransitionTool):
                     f"Failed to run verkle subcommand: '{' '.join(command)}'. "
                     f"Error: '{result.stderr.decode()}'"
                 )
-            return bytes(json.loads(result.stdout.decode()))
+            hex_string = result.stdout.decode().strip()
+            return binascii.unhexlify(hex_string[2:])
 
     def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
         """
