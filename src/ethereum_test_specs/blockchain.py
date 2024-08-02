@@ -346,11 +346,14 @@ class BlockchainTest(BaseTest):
         )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
+
         state_root: bytes
-        if fork < Verkle:
+        # TODO: refine, currently uses `evm verkle state-root` to get this.
+        if fork < Verkle or fork is EIP6800Transition:
             state_root = pre_alloc.state_root()
-        else:  # TODO: refine, currently uses `evm verkle state-root` to get this.
+        else:
             state_root = t8n.get_verkle_state_root(mpt_alloc=pre_alloc)
+
         genesis = FixtureHeader(
             parent_hash=0,
             ommers_hash=EmptyOmmersRoot,
