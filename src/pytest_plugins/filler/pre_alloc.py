@@ -29,7 +29,7 @@ from ethereum_test_base_types.conversions import (
 from ethereum_test_types import EOA
 from ethereum_test_types import Alloc as BaseAlloc
 from ethereum_test_types.eof.v1 import Container
-from ethereum_test_vm import EVMCodeType
+from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 
 CONTRACT_START_ADDRESS_DEFAULT = 0x1000
 CONTRACT_ADDRESS_INCREMENTS_DEFAULT = 0x100
@@ -132,6 +132,8 @@ class Alloc(BaseAlloc):
             evm_code_type = self._evm_code_type
         if evm_code_type == EVMCodeType.EOF_V1:
             if not isinstance(code, Container):
+                if isinstance(code, Bytecode) and not code.terminating:
+                    return Container.Code(code + Opcodes.STOP)
                 return Container.Code(code)
         return code
 
