@@ -59,7 +59,7 @@ def test_dup(
     account_code += dup_opcode
 
     # Save each stack value into different keys in storage
-    account_code += sum(Op.PUSH1(i) + Op.SSTORE for i in range(0x11)) + Op.STOP
+    account_code += sum(Op.PUSH1(i) + Op.SSTORE for i in range(0x11))
 
     account = pre.deploy_contract(account_code)
 
