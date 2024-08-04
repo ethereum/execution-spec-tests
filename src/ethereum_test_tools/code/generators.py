@@ -235,7 +235,14 @@ class Case:
 
     condition: Bytecode | Op
     action: Bytecode | Op
-    terminating: bool = False
+    terminating: bool | None = None
+
+    @property
+    def is_terminating(self) -> bool:
+        """
+        Returns whether the case is terminating.
+        """
+        return self.terminating if self.terminating is not None else self.action.terminating
 
 
 class CalldataCase(Case):
@@ -317,7 +324,7 @@ class Switch(Bytecode):
             condition_jump_length = len(bytecode) + 3
         elif evm_code_type == EVMCodeType.EOF_V1:
             action_jump_length = sum(
-                len(case.action) + (len(Op.RJUMP[0]) if not case.terminating else 0)
+                len(case.action) + (len(Op.RJUMP[0]) if not case.is_terminating else 0)
                 for case in cases
                 # On not terminating cases, we need to add 3 bytes for the RJUMP
             )
@@ -353,9 +360,9 @@ class Switch(Bytecode):
                 condition = Op.JUMPI(Op.ADD(Op.PC, condition_jump_length), case.condition)
             elif evm_code_type == EVMCodeType.EOF_V1:
                 action_jump_length -= len(action) + (
-                    len(Op.RJUMP[0]) if not case.terminating else 0
+                    len(Op.RJUMP[0]) if not case.is_terminating else 0
                 )
-                if not case.terminating:
+                if not case.is_terminating:
                     action += Op.RJUMP[action_jump_length]
                 condition = Op.RJUMPI[condition_jump_length](case.condition)
             # wrap the current case around the onion as its next layer
