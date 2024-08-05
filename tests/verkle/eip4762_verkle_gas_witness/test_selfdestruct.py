@@ -53,7 +53,7 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
     "contract_balance",
     [0, 1],
 )
-def test_balance(
+def test_self_destruct(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     target,
@@ -91,7 +91,7 @@ def test_balance(
         "beneficiary_doesnt_exist_create_account_codehash",
     ],
 )
-def test_balance_insufficient_gas(
+def test_self_destruct_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     gas_limit,
