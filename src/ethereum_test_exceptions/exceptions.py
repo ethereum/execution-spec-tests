@@ -51,13 +51,14 @@ class ExceptionBase(Enum):
 
         if cls == ExceptionBase:
             # Exception base automatically resolves the class
-            exception_class = _exception_classes.get(class_name, None)
+            assert class_name in _exception_classes, f"No such exception class: {class_name}"
+            exception_class = _exception_classes[class_name]
         else:
             # Otherwise, use the class that the method is called on
+            assert (
+                cls.__name__ == class_name
+            ), f"Unexpected exception type: {class_name}, expected {cls.__name__}"
             exception_class = cls
-
-        if exception_class is None:
-            raise ValueError(f"No such exception class: {class_name}")
 
         exception = getattr(exception_class, enum_name, None)
         if exception is not None:
