@@ -141,6 +141,15 @@ Parameter `evm_code_type` will also be parametrized with the correct EVM code ty
 
 This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.
 
+### pytest.mark.pre_alloc_modify
+
+This marker is used to mark tests that modify the pre-alloc in a way that would be impractical to reproduce in a real-world scenario.
+
+Examples of this include:
+
+- Modifying the pre-alloc to have a balance of 2^256 - 1.
+- Address collisions that would require hash collisions.
+
 ### pytest.mark.skip("reason")
 
 This marker is used to skip a test with a reason.
