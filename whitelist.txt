@@ -95,6 +95,7 @@ datasize
 datastructures
 delitem
 Dencun
+designator
 deprecations
 deserialization
 deserialized
