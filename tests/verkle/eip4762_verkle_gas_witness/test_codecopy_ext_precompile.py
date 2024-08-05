@@ -25,7 +25,7 @@ from ..temp_verkle_helpers import Witness
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-precompile_address = Address("0x09")
+precompile_address = Address("0x04")
 system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 
 

@@ -25,7 +25,7 @@
 # REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 # REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-# precompile_address = Address("0x09")
+# precompile_address = Address("0x04")
 
 
 # class Jump:

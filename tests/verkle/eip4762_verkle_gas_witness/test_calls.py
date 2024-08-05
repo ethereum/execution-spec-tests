@@ -27,7 +27,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 caller_address = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
 system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
-precompile_address = Address("0x09")
+precompile_address = Address("0x04")
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
