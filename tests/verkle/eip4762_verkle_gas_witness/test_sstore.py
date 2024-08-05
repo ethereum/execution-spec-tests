@@ -11,6 +11,7 @@ from ethereum_test_tools import (
     Account,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     Environment,
     TestAddress,
     TestAddress2,
@@ -111,7 +112,7 @@ def _sstore(
         number=1,
         timestamp=1000,
     )
-    code = bytes()
+    code = Bytecode()
     for slot_write in storage_slot_writes:
         code += Op.SSTORE(slot_write[0], slot_write[1])
 

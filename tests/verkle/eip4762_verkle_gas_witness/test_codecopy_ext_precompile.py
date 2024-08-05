@@ -60,7 +60,7 @@ def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: str
         to=None,
         gas_limit=1_000_000,
         gas_price=10,
-        data=Initcode(deploy_code=Op.EXTCODECOPY(target, 0, 0, 100)).bytecode,
+        data=Initcode(deploy_code=Op.EXTCODECOPY(target, 0, 0, 100)),
     )
     blocks = [Block(txs=[tx])]
 

@@ -211,7 +211,7 @@ def _generic_codecopy(
     if instr == Op.EXTCODECOPY:
         to = None
         extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
-        data = Initcode(deploy_code=extcodecopy_code).bytecode
+        data = Initcode(deploy_code=extcodecopy_code)
 
     tx = Transaction(
         ty=0x0,

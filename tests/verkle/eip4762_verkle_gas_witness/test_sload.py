@@ -10,6 +10,7 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Block,
+    Bytecode,
     BlockchainTestFiller,
     Environment,
     TestAddress,
@@ -86,7 +87,7 @@ def _sload(
         number=1,
         timestamp=1000,
     )
-    code = bytes()
+    code = Bytecode()
     for slot in storage_slot_accesses:
         code += Op.SLOAD(slot)
 

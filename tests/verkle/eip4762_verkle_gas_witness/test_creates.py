@@ -12,6 +12,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
+    Bytecode,
     Initcode,
     TestAddress,
     TestAddress2,
@@ -277,7 +278,7 @@ def _create(
     }
 
     deploy_code = Initcode(
-        initcode_prefix=Op.STOP if initcode_stop_prefix else "", deploy_code=contract_code
+        initcode_prefix=Op.STOP if initcode_stop_prefix else Bytecode(), deploy_code=contract_code
     )
     if create_instruction == Op.CREATE:
         pre[TestAddress2] = Account(
@@ -285,7 +286,7 @@ def _create(
         )
         tx_target = TestAddress2
         tx_value = 0
-        tx_data = deploy_code.bytecode
+        tx_data = deploy_code
         if generate_collision:
             contract_address = compute_create_address(TestAddress, 0)
             pre[contract_address] = Account(nonce=1)
@@ -296,14 +297,14 @@ def _create(
         )
         tx_target = TestAddress2
         tx_value = 0
-        tx_data = deploy_code.bytecode
+        tx_data = deploy_code
         if generate_collision:
             contract_address = compute_create2_address(TestAddress, 0xDEADBEEF, deploy_code)
             pre[contract_address] = Account(nonce=1)
     else:
         tx_target = None
         tx_value = value
-        tx_data = deploy_code.bytecode
+        tx_data = deploy_code
         if generate_collision:
             contract_address = compute_create_address(TestAddress, 0)
             pre[contract_address] = Account(nonce=1)

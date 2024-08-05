@@ -13,6 +13,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
+    Bytecode,
     Initcode,
     TestAddress,
     TestAddress2,
@@ -95,7 +96,7 @@ def _extcodesize(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     target: Address,
-    bytecode: bytes,
+    bytecode: Bytecode,
     extra_witness: Witness,
     gas_limit=1_000_000,
     warm=False,
@@ -124,7 +125,7 @@ def _extcodesize(
         gas_price=10,
         data=Initcode(
             deploy_code=Op.EXTCODESIZE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE
-        ).bytecode,
+        ),
     )
     blocks = [Block(txs=[tx])]
 

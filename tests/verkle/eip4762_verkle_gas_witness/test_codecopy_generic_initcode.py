@@ -53,9 +53,9 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
     contract_address = compute_create_address(TestAddress, 0)
     if instruction == Op.EXTCODECOPY:
         deploy_code = Op.EXTCODECOPY(contract_address, 0, 0, 100) + Op.ORIGIN * 100
-        data = Initcode(deploy_code=deploy_code).bytecode
+        data = Initcode(deploy_code=deploy_code)
     else:
-        data = Initcode(deploy_code=Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100).bytecode
+        data = Initcode(deploy_code=Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100)
 
     tx = Transaction(
         ty=0x0,

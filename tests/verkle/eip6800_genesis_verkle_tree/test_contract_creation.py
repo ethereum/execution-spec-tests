@@ -64,7 +64,7 @@ def test_contract_creation(
         gas_limit=100000000,
         gas_price=10,
         value=value,
-        data=Initcode(deploy_code=bytecode).deploy_code,
+        data=Initcode(deploy_code=bytecode),
     )
     blocks = [Block(txs=[tx])]
 

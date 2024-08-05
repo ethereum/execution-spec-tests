@@ -73,7 +73,7 @@ def test_code_chunking(blockchain_test: BlockchainTestFiller, fork: str, bytecod
         to=None,
         gas_limit=100000000,
         gas_price=10,
-        data=Initcode(deploy_code=bytecode).deploy_code,
+        data=Initcode(deploy_code=bytecode),
     )
     blocks = [Block(txs=[tx])]
 
