@@ -32,6 +32,7 @@ slot_returndata = next(_slot)
 slot_returndatasize = next(_slot)
 slot_caller = next(_slot)
 slot_returndatasize_before_clear = next(_slot)
+slot_max_depth = next(_slot)
 slot_last_slot = next(_slot)
 
 """Storage values for common testing fields"""
@@ -690,6 +691,100 @@ def test_eof_calls_static_flag_with_value(
     calling_storage = {
         slot_code_worked: value_code_worked,
         slot_call_result: value_eof_call_failed,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.EXTCALL,
+        Op.EXTDELEGATECALL,
+        Op.EXTSTATICCALL,
+    ],
+)
+def test_eof_calls_msg_depth(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+):
+    """
+    Test EOF contracts calls handle msg depth limit correctly (1024).
+    NOTE: due to block gas limit and the 63/64th rule this limit is unlikely to be hit
+          on mainnet.
+    """
+    # Not a precise gas_limit formula, but enough to exclude risk of gas causing the failure.
+    gas_limit = int(200000 * (64 / 63) ** 1024)
+    env = Environment(gas_limit=gas_limit)
+
+    callee_address = Address(0x5000)
+
+    # Flow of the test:
+    # `callee_code` is recursively calling itself, passing msg depth as calldata
+    # (kept with the `MSTORE(0, ADD(...))`). When maximum msg depth is reached
+    # the call fails and starts returning. The deep-most frame returns:
+    #   - current reached msg depth (expected to be the maximum 1024), with the
+    #     `MSTORE(32, ADD(...))`
+    #   - the respective return code of the EXT*CALL (expected to be 1 - light failure), with the
+    #     `MSTORE(64, NOOP)`. Note the `NOOP` is just to appease the `Op.MSTORE` call, the return
+    #     code value is actually coming from the `Op.DUP1`
+    # When unwinding the msg call stack, the intermediate frames return whatever the deeper callee
+    # returned with the `RETURNDATACOPY` instruction.
+    returndatacopy_block = Op.RETURNDATACOPY(32, 0, 64) + Op.RETURN(32, 64)
+    deep_most_result_block = (
+        Op.MSTORE(32, Op.ADD(Op.CALLDATALOAD(0), 1)) + Op.MSTORE(64, Op.NOOP) + Op.RETURN(32, 64)
+    )
+    rjump_offset = len(returndatacopy_block)
+
+    callee_code = Container.Code(
+        # current stack depth in memory bytes 0-31
+        Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
+        # pass it along deeper as calldata
+        + opcode(address=callee_address, args_size=32)
+        # duplicate return code for the `returndatacopy_block` below
+        + Op.DUP1
+        # if return code was:
+        #  - 1, we're in the deep-most frame, `deep_most_result_block` returns the actual result
+        #  - 0, we're in an intermediate frame, `returndatacopy_block` only passes on the result
+        + Op.RJUMPI[rjump_offset]
+        + returndatacopy_block
+        + deep_most_result_block
+    )
+
+    pre.deploy_contract(callee_code, address=callee_address)
+
+    calling_contract_address = pre.deploy_contract(
+        Container.Code(
+            Op.MSTORE(0, Op.CALLDATALOAD(0))
+            + opcode(address=callee_address, args_size=32)
+            + Op.SSTORE(slot_max_depth, Op.RETURNDATALOAD(0))
+            + Op.SSTORE(slot_call_result, Op.RETURNDATALOAD(32))
+            + Op.SSTORE(slot_code_worked, value_code_worked)
+            + Op.STOP
+        )
+    )
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=gas_limit,
+        data="",
+    )
+
+    calling_storage = {
+        slot_max_depth: 1024,
+        slot_code_worked: value_code_worked,
+        slot_call_result: value_eof_call_reverted,
     }
 
     post = {
