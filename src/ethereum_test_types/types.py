@@ -469,9 +469,9 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     Authorization tuple for transactions.
     """
 
-    chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
+    chain_id: NumberBoundTypeVar = Field(0)  # type: ignore
     address: Address
-    nonce: List[NumberBoundTypeVar] = Field(default_factory=list)
+    nonce: NumberBoundTypeVar = Field(0)  # type: ignore
 
     v: NumberBoundTypeVar = Field(0)  # type: ignore
     r: NumberBoundTypeVar = Field(0)  # type: ignore
@@ -496,7 +496,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
         return [
             Uint(self.chain_id),
             self.address,
-            [Uint(n) for n in self.nonce],
+            Uint(self.nonce),
             Uint(self.v),
             Uint(self.r),
             Uint(self.s),
@@ -511,7 +511,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
             [
                 Uint(self.chain_id),
                 self.address,
-                [Uint(n) for n in self.nonce],
+                Uint(self.nonce),
             ]
         )
 
