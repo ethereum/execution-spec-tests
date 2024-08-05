@@ -89,6 +89,7 @@ delitem
 deserialized
 deserialization
 Dencun
+designator
 deprecations
 dev
 devnet
