@@ -598,7 +598,6 @@ class BlockchainTest(BaseTest):
             env.verkle_conversion_ended = True
             # convert alloc to vkt
             vkt = t8n.from_mpt_to_vkt(alloc)
-            alloc = Alloc()
 
         # Hack for filling naive verkle transition tests
         if fork is EIP6800Transition:
