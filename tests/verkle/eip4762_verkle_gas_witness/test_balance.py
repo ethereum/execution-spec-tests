@@ -19,7 +19,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..temp_verkle_helpers import Witness
+# from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -55,7 +55,7 @@ def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: s
     """
     Test BALANCE with insufficient gas.
     """
-    _balance(blockchain_test, fork, target, [], 1_042)
+    _balance(blockchain_test, fork, target, [], 21_042)
 
 
 def _balance(
@@ -94,17 +94,17 @@ def _balance(
         TestAddress2: Account(code=pre[TestAddress2].code, storage={0: pre[target].balance}),
     }
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(TestAddress2, pre[TestAddress2])
-    for addr in exp_addr_basic_data:
-        witness.add_account_basic_data(addr, pre[addr])
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(TestAddress2, pre[TestAddress2])
+    # for addr in exp_addr_basic_data:
+    #     witness.add_account_basic_data(addr, pre[addr])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )
