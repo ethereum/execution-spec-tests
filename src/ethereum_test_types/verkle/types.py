@@ -2,9 +2,10 @@
 Useful Verkle types for generating Ethereum tests.
 """
 
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from pydantic import Field, RootModel, field_validator
+from pydantic.functional_serializers import model_serializer
 
 from ethereum_test_base_types import CamelModel, HexNumber, PaddedFixedSizeBytes
 
@@ -74,8 +75,20 @@ class SuffixStateDiff(CamelModel):
     """
 
     suffix: int
-    current_value: Hash | None = Field(default_factory=None)
-    new_value: Hash | None = Field(default_factory=None)
+    current_value: Hash | None
+    new_value: Hash | None
+
+    @model_serializer(mode="wrap")
+    def custom_serializer(self, handler) -> Dict[str, Any]:
+        """
+        Custom serializer to include None (null) values for current/new value.
+        """
+        output = handler(self)
+        if self.current_value is None:
+            output["currentValue"] = None
+        if self.new_value is None:
+            output["newValue"] = None
+        return output
 
 
 class StemStateDiff(CamelModel):
@@ -86,7 +99,7 @@ class StemStateDiff(CamelModel):
     Includes a list of differences for its suffixes.
     """
 
-    stem: Hash
+    stem: Stem
     suffix_diffs: List[SuffixStateDiff]
 
 

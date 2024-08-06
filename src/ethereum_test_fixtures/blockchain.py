@@ -423,7 +423,7 @@ class FixtureWitness(Witness):
         """
         Returns a FixtureWitness from a Witness.
         """
-        return cls(**w.model_dump(exclude_none=False))
+        return cls(**w.model_dump())
 
 
 class FixtureBlockBase(CamelModel):

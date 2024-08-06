@@ -320,7 +320,6 @@ class TransitionTool(FixtureVerifier):
             args.extend(
                 ["--output.vkt", output_paths["vkt"], "--output.witness", output_paths["witness"]]
             )
-            print(output_paths)
             if t8n_data.vkt is not None:
                 args.extend(["--input.vkt", input_paths["vkt"]])
 
@@ -379,7 +378,6 @@ class TransitionTool(FixtureVerifier):
             with open(file_path, "r+") as file:
                 output_contents[key] = json.load(file)
         output = TransitionToolOutput(**output_contents)
-        print(output)
         if self.trace:
             self.collect_traces(output.result.receipts, temp_dir, debug_output_path)
 
