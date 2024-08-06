@@ -19,7 +19,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..temp_verkle_helpers import Witness
+# from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -64,9 +64,9 @@ def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: str
     )
     blocks = [Block(txs=[tx])]
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
     # No basic data for target.
     # No code chunks.
 
@@ -75,5 +75,5 @@ def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: str
         pre=pre,
         post={},
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )

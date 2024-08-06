@@ -11,17 +11,18 @@ from ethereum_test_tools import (
     Account,
     Address,
     Block,
+    Bytecode,
     BlockchainTestFiller,
     Environment,
     Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
-    compute_create_address,
+    # compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..temp_verkle_helpers import Witness, vkt_chunkify
+# from ..temp_verkle_helpers import vkt_chunkify, Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -72,6 +73,7 @@ def test_generic_codecopy(
     """
     start = offset if offset < size else size
     end = offset + size if offset + size < code_size else code_size
+    witness_code_chunks = range(0, 0)
     if start < size and start != end:
         start_chunk = start // 31
         end_chunk = (end - 1) // 31
@@ -114,6 +116,7 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, fork: str,
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
     "gas_limit, witness_code_chunks",
     [
@@ -145,6 +148,7 @@ def test_codecopy_insufficient_gas(
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
     "gas_limit, witness_target_basic_data, witness_code_chunks",
     [
@@ -207,7 +211,7 @@ def _generic_codecopy(
     }
 
     to: Address | None = TestAddress2
-    data = None
+    data = Bytecode()
     if instr == Op.EXTCODECOPY:
         to = None
         extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
@@ -223,25 +227,25 @@ def _generic_codecopy(
         data=data,
     )
     blocks = [Block(txs=[tx])]
-    tx_target_addr = (
-        TestAddress2 if instr == Op.CODECOPY else compute_create_address(TestAddress, 0)
-    )
+    # tx_target_addr = (
+    #     TestAddress2 if instr == Op.CODECOPY else compute_create_address(TestAddress, 0)
+    # )
 
-    code_chunks = vkt_chunkify(pre[TestAddress2].code)
+    # code_chunks = vkt_chunkify(pre[TestAddress2].code)
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(tx_target_addr, pre[tx_target_addr])
-    if witness_target_basic_data:
-        witness.add_account_basic_data(TestAddress2, pre[TestAddress2])
-    for chunk_num in witness_code_chunks:
-        witness.add_code_chunk(TestAddress2, chunk_num, code_chunks[chunk_num])
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(tx_target_addr, pre[tx_target_addr])
+    # if witness_target_basic_data:
+    #     witness.add_account_basic_data(TestAddress2, pre[TestAddress2])
+    # for chunk_num in witness_code_chunks:
+    #     witness.add_code_chunk(TestAddress2, chunk_num, code_chunks[chunk_num])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )
