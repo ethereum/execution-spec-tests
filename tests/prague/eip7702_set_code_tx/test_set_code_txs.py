@@ -5,11 +5,13 @@ abstract: Tests use of set-code transactions from [EIP-7702: Set EOA account cod
 
 from enum import Enum
 from itertools import count
+from typing import List
 
 import pytest
 from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
+    AccessList,
     Account,
     Alloc,
     AuthorizationTuple,
@@ -18,8 +20,10 @@ from ethereum_test_tools import (
     Bytecode,
     Conditional,
     Environment,
+    Hash,
     Initcode,
 )
+from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
     StateTestFiller,
@@ -27,9 +31,10 @@ from ethereum_test_tools import (
     Transaction,
     compute_create2_address,
     compute_create_address,
+    eip_2028_transaction_data_cost,
 )
 
-from .spec import ref_spec_7702
+from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7702.version
@@ -61,6 +66,7 @@ class InvalidityReason(Enum):
         pytest.param(Op.RETURN(0, 0), True, id="return"),
         pytest.param(Op.REVERT, False, id="revert"),
         pytest.param(Op.INVALID, False, id="invalid"),
+        pytest.param(Om.OOG, False, id="out-of-gas"),
     ],
 )
 def test_self_sponsored_set_code(
@@ -134,6 +140,7 @@ def test_self_sponsored_set_code(
         pytest.param(Op.RETURN(0, 0), True, id="return"),
         pytest.param(Op.REVERT, False, id="revert"),
         pytest.param(Op.INVALID, False, id="invalid"),
+        pytest.param(Om.OOG, False, id="out-of-gas"),
     ],
 )
 def test_set_code_to_sstore(
@@ -1418,3 +1425,444 @@ def test_set_code_invalid_authorization_tuple(
             ),
         },
     )
+
+
+@pytest.mark.parametrize(
+    "log_opcode",
+    [
+        Op.LOG0,
+        Op.LOG1,
+        Op.LOG2,
+        Op.LOG3,
+        Op.LOG4,
+    ],
+)
+def test_set_code_to_log(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    log_opcode: Op,
+):
+    """
+    Test setting the code of an account to a contract that performs the log operation.
+    """
+    sender = pre.fund_eoa()
+
+    set_to_code = (
+        Op.MSTORE(0, 0x1234)
+        + log_opcode(size=32, topic_1=1, topic_2=2, topic_3=3, topic_4=4)
+        + Op.STOP
+    )
+    set_to_address = pre.deploy_contract(set_to_code)
+
+    tx = Transaction(
+        gas_limit=10_000_000,
+        to=sender,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_to_address,
+                nonce=1,
+                signer=sender,
+            ),
+        ],
+        sender=sender,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={},
+    )
+
+
+@pytest.mark.parametrize(
+    "call_opcode",
+    [
+        Op.CALL,
+    ],
+)
+@pytest.mark.with_all_precompiles
+def test_set_code_to_pre_compile(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    precompile: int,
+    call_opcode: Op,
+):
+    """
+    Test setting the code of an account to a pre-compile address.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    # TODO: update to use `Op.EXTCALL` when it is implemented
+    caller_code_storage = Storage()
+    caller_code = (
+        Op.SSTORE(caller_code_storage.store_next(True), call_opcode(address=auth_signer))
+        + Op.SSTORE(caller_code_storage.store_next(0), Op.RETURNDATASIZE)
+        + Op.STOP
+    )
+    caller_code_address = pre.deploy_contract(caller_code)
+
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        gas_limit=500_000,
+        to=caller_code_address,
+        authorization_list=[
+            AuthorizationTuple(
+                address=Address(precompile),
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=1,
+                code=b"",
+            ),
+            caller_code_address: Account(
+                storage=caller_code_storage,
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "call_opcode",
+    [
+        Op.CALL,
+    ],
+)
+@pytest.mark.with_all_system_contracts
+def test_set_code_to_system_contract(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    system_contract: int,
+    call_opcode: Op,
+):
+    """
+    Test setting the code of an account to a pre-compile address.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    # TODO: update to use `Op.EXTCALL` when it is implemented
+    caller_code_storage = Storage()
+    call_return_code_slot = caller_code_storage.store_next(True)
+    call_return_data_size_slot = caller_code_storage.store_next(0)
+    caller_code = (
+        Op.SSTORE(call_return_code_slot, call_opcode(address=auth_signer))
+        + Op.SSTORE(call_return_data_size_slot, Op.RETURNDATASIZE)
+        + Op.STOP
+    )
+    txs: List[Transaction] = []
+    match system_contract:
+        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
+            caller_payload = Hash(0)
+            caller_code_storage[call_return_data_size_slot] = 0
+        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
+            caller_payload = Hash(0)
+            caller_code_storage[call_return_data_size_slot] = 0
+        case Address(0x00A3CA265EBCB825B45F985A16CEFB49958CE017):  # EIP-7002
+            caller_payload = Hash(0)
+            caller_code_storage[call_return_data_size_slot] = 0
+        case Address(0x00B42DBF2194E931E80326D950320F7D9DBEAC02):  # EIP-7251
+            caller_payload = Hash(0)
+            caller_code_storage[call_return_data_size_slot] = 0
+        case Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E):  # EIP-2935
+            caller_payload = Hash(0)
+            caller_code_storage[call_return_data_size_slot] = 0
+        case _:
+            raise ValueError(f"Unsupported system contract: {system_contract}")
+
+    caller_code_address = pre.deploy_contract(caller_code)
+
+    txs += [
+        Transaction(
+            sender=pre.fund_eoa(),
+            gas_limit=500_000,
+            to=caller_code_address,
+            data=caller_payload,
+            authorization_list=[
+                AuthorizationTuple(
+                    address=Address(system_contract),
+                    nonce=0,
+                    signer=auth_signer,
+                ),
+            ],
+        )
+    ]
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=txs)],
+        post={
+            auth_signer: Account(
+                nonce=1,
+                code=b"",
+            ),
+            caller_code_address: Account(
+                storage=caller_code_storage,
+            ),
+        },
+    )
+
+
+class AuthorizationListCases(Enum):
+    """
+    Different cases of authorization lists for testing gas cost of set-code transactions.
+    """
+
+    SINGLE_AUTHORIZATION = "single_authorization"
+    MULTIPLE_AUTHORIZATIONS_SAME_SIGNER = "multiple_authorizations_same_signer"
+    MULTIPLE_AUTHORIZATIONS_DIFFERENT_SIGNERS = "multiple_authorizations_different_signers"
+    MULTIPLE_AUTHORIZATIONS_DUPLICATES = "multiple_authorizations_duplicates"
+
+
+class AuthorizationAddressCases(Enum):
+    """
+    Different cases of address to which the authority authorizes to set the code to.
+    """
+
+    EMPTY_ACCOUNT = "set_to_empty_account"
+    EOA = "set_to_eoa"
+    CONTRACT = "set_to_contract"
+
+
+class AuthorityTypes(Enum):
+    """
+    Different cases of authority. Contract requires the authority address collision so cannot be
+    reproduced in live networks.
+    """
+
+    EMPTY_ACCOUNT = "empty_account"
+    EOA = "eoa"
+    CONTRACT = "contract"
+
+
+class AccessListCases(Enum):
+    """
+    Different cases of access lists for testing gas cost of set-code transactions.
+    """
+
+    EMPTY_ACCESS_LIST = "empty_access_list"
+    AUTHORITY = "authority_in_access_list"
+    SET_CODE_ADDRESS = "set_code_address_in_access_list"
+    AUTHORITY_AND_SET_CODE_ADDRESS = "authority_and_set_code_address_in_access_list"
+
+
+@pytest.mark.parametrize(
+    "authorization_list_case",
+    list(AuthorizationListCases),
+    ids=lambda case: case.value,
+)
+@pytest.mark.parametrize(
+    "authorization_address_case",
+    list(AuthorizationAddressCases),
+    ids=lambda case: case.value,
+)
+@pytest.mark.parametrize(
+    "access_list_case",
+    list(AccessListCases),
+    ids=lambda case: case.value,
+)
+@pytest.mark.parametrize(
+    "data",
+    [
+        pytest.param(b"", id="empty_data"),
+        pytest.param(b"\x01", id="non_zero_data"),
+        pytest.param(b"\x00", id="zero_data"),
+    ],
+)
+@pytest.mark.parametrize(
+    "self_sponsored,authority_type",
+    [
+        pytest.param(False, AuthorityTypes.EMPTY_ACCOUNT, id="empty_account_authority"),
+        pytest.param(False, AuthorityTypes.EOA, id="eoa_authority"),
+        pytest.param(True, AuthorityTypes.EOA, id="eoa_self_sponsored_authority"),
+        pytest.param(
+            False,
+            AuthorityTypes.CONTRACT,
+            marks=pytest.mark.pre_alloc_modify,
+            id="contract_authority",
+        ),
+    ],
+)
+def test_gas_cost(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    authorization_list_case: AuthorizationListCases,
+    authorization_address_case: AuthorizationAddressCases,
+    authority_type: AuthorityTypes,
+    data: bytes,
+    access_list_case: AccessListCases,
+    self_sponsored: bool,
+):
+    """
+    Test gas cost of a set-code transaction in different scenarios:
+
+    - Set code to an account with a single authorization tuple.
+    - Set code to an account with multiple authorization tuples.
+    """
+    authority_in_trie = authority_type != AuthorityTypes.EMPTY_ACCOUNT
+    authorization_list: List[AuthorizationTuple] = []
+
+    authorize_to_address: Address | None = None
+
+    match authorization_address_case:
+        case AuthorizationAddressCases.EMPTY_ACCOUNT:
+            authorize_to_address = pre.fund_eoa(0)
+        case AuthorizationAddressCases.EOA:
+            authorize_to_address = pre.fund_eoa(1)
+        case AuthorizationAddressCases.CONTRACT:
+            authorize_to_address = pre.deploy_contract(Op.STOP)
+        case _:
+            raise ValueError(
+                f"Unsupported authorization address case: {authorization_address_case}"
+            )
+
+    match authority_type:
+        case AuthorityTypes.EMPTY_ACCOUNT:
+
+            def authority_generator():
+                for _ in count():
+                    authority = pre.fund_eoa(0)
+                    yield authority
+
+        case AuthorityTypes.EOA:
+
+            def authority_generator():
+                for _ in count():
+                    authority = pre.fund_eoa()
+                    yield authority
+
+        case AuthorityTypes.CONTRACT:
+
+            def authority_generator():
+                for _ in count():
+                    authority = pre.fund_eoa()
+                    pre[authority].code = Op.STOP
+                    yield authority
+
+        case _:
+            raise ValueError(f"Unsupported authority type: {authority_type}")
+
+    authority_iterator = authority_generator()
+
+    match authorization_list_case:
+        case AuthorizationListCases.SINGLE_AUTHORIZATION:
+            authorization_list.append(
+                AuthorizationTuple(
+                    address=authorize_to_address,
+                    nonce=1 if self_sponsored else 0,
+                    signer=next(authority_iterator),
+                )
+            )
+        case AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_SAME_SIGNER:
+            signer = next(authority_iterator)
+            for i in range(10):
+                authorization_list.append(
+                    AuthorizationTuple(
+                        address=authorize_to_address,
+                        nonce=i + (1 if self_sponsored else 0),
+                        signer=signer,
+                    )
+                )
+        case AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_DIFFERENT_SIGNERS:
+            for i in range(10):
+                authorization_list.append(
+                    AuthorizationTuple(
+                        address=authorize_to_address,
+                        nonce=1 if i == 0 and self_sponsored else 0,
+                        signer=next(authority_iterator),
+                    )
+                )
+        case AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_DUPLICATES:
+            signer = next(authority_iterator)
+            for i in range(10):
+                authorization_list.append(
+                    AuthorizationTuple(
+                        address=authorize_to_address,
+                        nonce=1 if self_sponsored else 0,
+                        signer=signer,
+                    )
+                )
+
+    if self_sponsored:
+        sender = authorization_list[0].signer
+    else:
+        sender = pre.fund_eoa()
+
+    access_list: List[AccessList] = []
+
+    match access_list_case:
+        case AccessListCases.EMPTY_ACCESS_LIST:
+            pass
+        case AccessListCases.AUTHORITY, AccessListCases.AUTHORITY_AND_SET_CODE_ADDRESS:
+            access_list.append(AccessList(authorization_list[0].signer, keys=[0]))
+        case AccessListCases.SET_CODE_ADDRESS, AccessListCases.AUTHORITY_AND_SET_CODE_ADDRESS:
+            access_list.append(AccessList(authorization_list[0].address, keys=[0]))
+
+    start_gas = 10_000_000
+    intrinsic_gas = (
+        21_000
+        + eip_2028_transaction_data_cost(data)
+        + 1900 * sum(len(al.storage_keys) for al in access_list)
+        + 2400 * len(access_list) * len(authorization_list)
+        + 2  # Op.GAS cost
+    )
+    # Calculate the intrinsic gas cost of the authorizations
+    intrinsic_gas += (
+        Spec.PER_AUTH_BASE_COST if authority_in_trie else Spec.PER_EMPTY_ACCOUNT_COST
+    ) * len(authorization_list)
+    if authorization_list_case == AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_DUPLICATES:
+        intrinsic_gas -= (Spec.PER_EMPTY_ACCOUNT_COST - Spec.PER_AUTH_BASE_COST) * (
+            len(authorization_list) - 1
+        )
+    test_code_storage = Storage()
+    test_code = (
+        Op.SSTORE(test_code_storage.store_next(start_gas - intrinsic_gas), Op.GAS) + Op.STOP
+    )
+    test_code_address = pre.deploy_contract(test_code)
+
+    tx = Transaction(
+        gas_limit=start_gas,
+        to=test_code_address,
+        value=0,
+        data=data,
+        authorization_list=authorization_list,
+        access_list=access_list,
+        sender=sender,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            test_code_address: Account(storage=test_code_storage),
+        },
+    )
+
+
+def test_intrinsic_gas_cost(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    authorization_list_case: AuthorizationListCases,
+    data: bytes,
+    access_list_case: AccessListCases,
+    mid_tx_value_transfer_amount: int,
+    authority_in_trie: bool,
+    valid: bool,
+):
+    """
+    Test sending a transaction with the exact intrinsic gas required and also insufficient
+    gas.
+
+    TODO
+    """
+    pass
