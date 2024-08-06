@@ -135,6 +135,21 @@ In this example, the test will be parametrized for parameter `call_opcode` with 
 
 Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
 
+### pytest.mark.with_all_system_contracts
+
+This marker is used to automatically parameterize a test with all system contracts that are valid for the fork being tested.
+
+```python
+import pytest
+
+@pytest.mark.with_all_system_contracts
+@pytest.mark.valid_from("Cancun")
+def test_something_with_all_system_contracts(system_contract):
+    pass
+```
+
+In this example, the test will be parameterized for parameter `system_contract` with value `[0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02]` for fork Cancun.
+
 ## Other Markers
 
 ### pytest.mark.slow

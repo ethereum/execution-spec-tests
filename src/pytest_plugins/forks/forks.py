@@ -184,6 +184,13 @@ fork_covariant_descriptors = [
         fork_attribute_name="call_opcodes",
         parameter_name="call_opcode,evm_code_type",
     ),
+    CovariantDescriptor(
+        marker_name="with_all_system_contracts",
+        description="marks a test to be parametrized for all system contracts at parameter named"
+        " system_contract of type int",
+        fork_attribute_name="system_contracts",
+        parameter_name="system_contract",
+    ),
 ]
 
 
