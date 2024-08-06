@@ -2,11 +2,13 @@
 Ethereum Verkle Test Types.
 """
 
-from .types import StateDiff, VerkleProof, VerkleTree, Witness
+from .types import IpaProof, StateDiff, SuffixStateDiff, VerkleProof, VerkleTree, Witness
 
 __all__ = (
-    "VerkleTree",
-    "VerkleProof",
+    "IpaProof",
     "StateDiff",
+    "SuffixStateDiff",
+    "VerkleProof",
+    "VerkleTree",
     "Witness",
 )
