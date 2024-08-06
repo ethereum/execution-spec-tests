@@ -37,8 +37,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7702.version
 
 pytestmark = pytest.mark.valid_from("Prague")
 
-# FIXME: Temporary workaround, should be zero
-auth_account_start_balance = 1
+auth_account_start_balance = 0
 
 
 class InvalidityReason(Enum):
@@ -123,10 +122,7 @@ def test_self_sponsored_set_code(
 
 @pytest.mark.parametrize(
     "eoa_balance",
-    [
-        pytest.param(0, marks=pytest.mark.xfail(reason="evm fails on zero balance")),
-        pytest.param(1),
-    ],
+    [0, 1],
 )
 @pytest.mark.parametrize(
     "tx_value",
@@ -794,10 +790,7 @@ def test_call_into_chain_delegating_set_code(
 
 @pytest.mark.parametrize(
     "balance",
-    [
-        pytest.param(0, marks=pytest.mark.xfail(reason="evm fails on zero balance")),
-        pytest.param(10**18),
-    ],
+    [0, 10**18],
 )
 def test_ext_code_on_set_code(
     state_test: StateTestFiller,
@@ -867,10 +860,7 @@ def test_ext_code_on_set_code(
 
 @pytest.mark.parametrize(
     "balance",
-    [
-        pytest.param(0, marks=pytest.mark.xfail(reason="evm fails on zero balance")),
-        pytest.param(10**18),
-    ],
+    [0, 10**18],
 )
 def test_ext_code_on_self_delegating_set_code(
     state_test: StateTestFiller,
@@ -931,10 +921,7 @@ def test_ext_code_on_self_delegating_set_code(
 
 @pytest.mark.parametrize(
     "balance",
-    [
-        pytest.param(0, marks=pytest.mark.xfail(reason="evm fails on zero balance")),
-        pytest.param(10**18),
-    ],
+    [0, 10**18],
 )
 def test_ext_code_on_chain_delegating_set_code(
     state_test: StateTestFiller,
@@ -1003,10 +990,7 @@ def test_ext_code_on_chain_delegating_set_code(
 
 @pytest.mark.parametrize(
     "balance",
-    [
-        pytest.param(0, marks=pytest.mark.xfail(reason="evm fails on zero balance")),
-        pytest.param(10**18),
-    ],
+    [0, 10**18],
 )
 def test_self_code_on_set_code(
     state_test: StateTestFiller,
@@ -1389,7 +1373,7 @@ def test_set_code_all_invalid_authorization_tuples(
         pytest.param(
             InvalidityReason.MULTIPLE_NONCE, marks=pytest.mark.xfail(reason="test issue")
         ),
-        pytest.param(InvalidityReason.CHAIN_ID, marks=pytest.mark.xfail(reason="evm issue")),
+        pytest.param(InvalidityReason.CHAIN_ID),
     ],
 )
 def test_set_code_invalid_authorization_tuple(
