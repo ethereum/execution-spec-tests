@@ -479,16 +479,6 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
     magic: ClassVar[int] = 0x05
 
-    @model_validator(mode="before")
-    @classmethod
-    def convert_nonce_information(cls, data: Any) -> Any:
-        """
-        Automatically converts the nonce to a list if it is not already.
-        """
-        if "nonce" in data and not isinstance(data["nonce"], list):
-            data["nonce"] = [data["nonce"]]
-        return data
-
     def to_list(self) -> List[Any]:
         """
         Returns the authorization tuple as a list of serializable elements.
