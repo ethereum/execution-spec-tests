@@ -705,6 +705,85 @@ def test_eof_calls_static_flag_with_value(
     )
 
 
+# `no_oog_gas` is minimum amount of gas_limit which makes the transaction not go oog.
+no_oog_gas = 45728
+min_retained_gas = 2300
+min_callee_gas = 5000
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.EXTCALL,
+        Op.EXTSTATICCALL,
+        Op.EXTDELEGATECALL,
+    ],
+)
+@pytest.mark.parametrize(
+    ["gas_limit", "reverts"],
+    [
+        [no_oog_gas, False],
+        [no_oog_gas + min_retained_gas, False],
+        [no_oog_gas + min_callee_gas, False],
+        [no_oog_gas + min_retained_gas + min_callee_gas, True],
+    ],
+    ids=["no_allowances", "only_retained", "only_callee", "both_allowances"],
+)
+def test_eof_calls_min_callee_gas(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+    gas_limit: int,
+    reverts: bool,
+):
+    """
+    Test EOF contracts calls do light failure when retained/callee gas is not enough.
+
+    Premise of the test is that there exists a range of `gas_limit` values, which are enough
+    for all instructions to execute, but call's returned value is 1, meaning not enough for gas
+    allowances (MIN_RETAINED_GAS and MIN_CALLEE_GAS) - ones marked with `reverts==False`.
+
+    Once we provide both allowances, the RJUMPI condition is no longer met and `reverts==True`.
+    """
+    env = Environment()
+
+    noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
+
+    revert_block = Op.REVERT(0, 0)
+    calling_contract_address = pre.deploy_contract(
+        Container.Code(
+            Op.SSTORE(slot_code_worked, value_code_worked)
+            + Op.EQ(opcode(address=noop_callee_address), 1)
+            # If the return code isn't 1, it means gas was enough to cover the allowances.
+            + Op.RJUMPI[len(revert_block)]
+            + revert_block
+            + Op.STOP
+        )
+    )
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=gas_limit,
+        data="",
+    )
+
+    calling_storage = {
+        slot_code_worked: 0 if reverts else value_code_worked,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
 def test_eof_calls_no_balance(
     state_test: StateTestFiller,
     pre: Alloc,
