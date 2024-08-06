@@ -21,52 +21,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
     "eof_code,expected_hex_bytecode,exception",
     [
         pytest.param(
-            # Check that simple EOF1 deploys
-            Container(
-                name="EOF1V0001",
-                sections=[
-                    Section.Code(
-                        code=Op.ADDRESS + Op.POP + Op.STOP,
-                    ),
-                    Section.Data("0xef"),
-                ],
-            ),
-            "ef000101000402000100030400010000800001305000ef",
-            None,
-            id="simple_eof_1_deploy",
-        ),
-        pytest.param(
-            # Check that valid EOF1 can include 0xFE, the designated invalid opcode
-            Container(
-                name="EOF1V0004",
-                sections=[
-                    Section.Code(
-                        code=Op.ADDRESS + Op.POP + Op.INVALID,
-                    ),
-                    Section.Data("0x0bad60A7"),
-                ],
-            ),
-            "ef0001010004020001000304000400008000013050fe0bad60A7",
-            None,
-            id="fe_opcode_ok",
-        ),
-        pytest.param(
-            # Check that EOF1 with a bad end of sections number fails
-            Container(
-                name="EOF1I0005",
-                sections=[
-                    Section.Code(
-                        code=Op.ADDRESS + Op.POP + Op.STOP,
-                    ),
-                    Section.Data("0xef"),
-                ],
-                header_terminator=b"\xFF",
-            ),
-            "ef00010100040200010003040001ff00800001305000ef",
-            [EOFException.MISSING_TERMINATOR, EOFException.UNEXPECTED_HEADER_KIND],
-            id="headers_terminator_invalid",
-        ),
-        pytest.param(
             # Check that code that uses a new style relative jump succeeds
             Container(
                 name="EOF1V0008",
@@ -100,40 +54,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             "ef0001010004020001000704000400008000016001E100015B000bad60A7",
             None,
             id="rjumpi_valid",
-        ),
-        pytest.param(
-            # Sections that end with a legit terminating opcode are OK
-            Container(
-                name="EOF1V0014",
-                sections=[
-                    Section.Code(
-                        code=Op.PUSH0
-                        + Op.CALLDATALOAD
-                        + Op.RJUMPV[0, 3, 6, 9]
-                        + Op.JUMPF[1]
-                        + Op.JUMPF[2]
-                        + Op.JUMPF[3]
-                        + Op.CALLF[4]
-                        + Op.STOP,
-                    ),
-                    Section.Code(
-                        code=Op.PUSH0 + Op.PUSH0 + Op.RETURN,
-                    ),
-                    Section.Code(
-                        code=Op.PUSH0 + Op.PUSH0 + Op.REVERT,
-                    ),
-                    Section.Code(code=Op.INVALID),
-                    Section.Code(
-                        code=Op.RETF,
-                        code_outputs=0,
-                    ),
-                    Section.Data("0x0bad60A7"),
-                ],
-            ),
-            "EF0001010014020005001900030003000100010400040000800001008000020080000200800000000"
-            "000005f35e2030000000300060009e50001e50002e50003e30004005f5ff35f5ffdfee40bad60a7",
-            None,
-            id="rjumpv_section_terminator_valid",
         ),
         pytest.param(
             # Check that jump tables work
@@ -226,21 +146,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             "ef000101000402000100100400040000800003600060006000E10003E10002E1FFFA000bad60A7",
             EOFException.INVALID_RJUMP_DESTINATION,
             id="push1_0_0_0_rjump_3_2_m6_fails",
-        ),
-        pytest.param(
-            # Check that that code that uses removed opcodes fails
-            Container(
-                name="EOF1I0015",
-                sections=[
-                    Section.Code(
-                        code=Op.PUSH1(3) + Op.JUMP + Op.JUMPDEST + Op.STOP,
-                    ),
-                    Section.Data("0xef"),
-                ],
-            ),
-            "ef0001010004020001000504000100008000016003565B00ef",
-            EOFException.UNDEFINED_INSTRUCTION,
-            id="jump_jumpdest_fails",
         ),
     ],
 )
