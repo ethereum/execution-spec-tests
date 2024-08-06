@@ -7,6 +7,8 @@ from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Type
 
 from semver import Version
 
+from ethereum_test_base_types import Address
+
 from .base_decorators import prefer_transition_to_method
 
 
@@ -191,9 +193,17 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         Returns a list pre-compiles supported by the fork
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """
+        Returns a list system-contracts supported by the fork
         """
         pass
 
