@@ -705,6 +705,47 @@ def test_eof_calls_static_flag_with_value(
     )
 
 
+def test_eof_calls_no_balance(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+):
+    """Test EOF contracts calls handle value calls with not enough balance"""
+    env = Environment()
+
+    noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
+
+    calling_contract_address = pre.deploy_contract(
+        Container.Code(
+            Op.SSTORE(slot_call_result, Op.EXTCALL(address=noop_callee_address, value=1))
+            + Op.SSTORE(slot_code_worked, value_code_worked)
+            + Op.STOP
+        )
+    )
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=50000000,
+        data="",
+    )
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        slot_call_result: value_eof_call_reverted,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
 @pytest.mark.parametrize(
     "opcode",
     [
