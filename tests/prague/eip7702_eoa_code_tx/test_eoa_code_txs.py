@@ -11,6 +11,7 @@ from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Alloc,
     AuthorizationTuple,
     Block,
@@ -378,7 +379,7 @@ def test_set_code_to_contract_creator(
     initcode = Initcode(deploy_code=deployed_code)
 
     if op == Op.CREATE:
-        deployed_contract_address = compute_create_address(auth_signer)
+        deployed_contract_address = compute_create_address(Address(auth_signer), nonce=1)
     elif op == Op.CREATE2:
         deployed_contract_address = compute_create2_address(
             address=auth_signer,
