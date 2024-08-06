@@ -1,5 +1,5 @@
 """
-EOF Classes example use
+EOF Jumpcode tests
 """
 
 import pytest
@@ -148,7 +148,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
     ],
 )
-def test_example_valid_invalid(
+def test_jump_opcodes(
     eof_test: EOFTestFiller,
     eof_code: Container,
     expected_hex_bytecode: str,

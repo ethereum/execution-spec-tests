@@ -15,6 +15,7 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
+
 @pytest.mark.parametrize(
     "skip_header_listing, skip_body_listing, skip_types_body_listing, skip_types_header_listing,"
     "expected_code, expected_exception",
