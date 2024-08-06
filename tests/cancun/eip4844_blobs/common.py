@@ -81,7 +81,6 @@ random_blob_hashes = add_kzg_version(
 )
 
 
-
 class BlobhashContext:
     """
     A utility class for mapping common EVM opcodes in different contexts
