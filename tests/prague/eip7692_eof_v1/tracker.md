@@ -138,15 +138,15 @@
 
 ### Execution
 
-- [ ] RJUMP forwards
-- [ ] RJUMP backwards (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
-- [ ] RJUMP with 0 offset (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
-- [ ] RJUMPI forwards with condition true/false (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
-- [ ] RJUMPI backwards with condition true/false (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
-- [ ] RJUMPI with 0 offset with condition true/false (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
-- [ ] RJUMPV with different case values (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
-- [ ] RJUMPV with case value out of table bounds (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
-- [ ] RJUMPV with max cases number (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP4200/EOF1_RJUMP_RJUMPI_RJUMPV_ExecutionFiller.yml)
+- [x] RJUMP forwards (eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_positive_negative)
+- [x] RJUMP backwards (eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_positive_negative)
+- [x] RJUMP with 0 offset (eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_zero)
+- [x] RJUMPI forwards with condition true/false (eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_forwards)
+- [x] RJUMPI backwards with condition true/false (eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_backwards)
+- [x] RJUMPI with 0 offset with condition true/false (eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_zero)
+- [x] RJUMPV with different case values (eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition)
+- [x] RJUMPV with case value out of table bounds (eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition)
+- [x] RJUMPV with max cases number (eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_full_table*)
 
 ## EIP-4750: EOF - Functions
 
