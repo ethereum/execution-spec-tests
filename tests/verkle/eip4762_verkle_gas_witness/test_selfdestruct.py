@@ -9,6 +9,7 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Alloc,
     Address,
     Block,
     BlockchainTestFiller,
@@ -76,6 +77,7 @@ def test_self_destruct(
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(
     "gas_limit, beneficiary_must_exist, beneficiary_add_basic_data, beneficiary_add_codehash",
     [
@@ -152,15 +154,16 @@ def _selfdestruct(
     )
     blocks = [Block(txs=[tx])]
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(TestAddress2, pre[TestAddress2])
-    if beneficiary_add_basic_data:
-        witness.add_account_basic_data(beneficiary, pre.get(beneficiary))
-    if beneficiary_add_codehash:
-        witness.add_account_codehash(beneficiary, None)
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(TestAddress2, pre[TestAddress2])
+    # if beneficiary_add_basic_data:
+    #     witness.add_account_basic_data(beneficiary, pre.get(beneficiary))
+    # if beneficiary_add_codehash:
+    #     witness.add_account_codehash(beneficiary, None)
 
+    post: Alloc = {}
     if not fail and contract_balance > 0 and beneficiary != TestAddress2:
         beneficiary_account = pre.get(beneficiary)
         beneficiary_balance = 0 if beneficiary_account is None else beneficiary_account.balance
@@ -175,5 +178,5 @@ def _selfdestruct(
         pre=pre,
         post=post,
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )

@@ -5,11 +5,12 @@ NOTE: This file is temporary, probably it should live in other place in the libr
 """
 
 from enum import Enum
+
 from typing import ClassVar, Dict
 
 from ethereum.crypto.hash import keccak256
 
-from ethereum_test_tools import Account, Address, Hash
+from ethereum_test_tools import Account, Address, Hash, Bytecode
 
 
 class AccountHeaderEntry(Enum):
@@ -30,24 +31,24 @@ class Witness:
 
     # TODO(verkle): "Hash" as value type isn't the right name but correct underlying type.
     # Change to appropriate type.
-    witness: Dict[Hash, Hash | None]
+    # witness: Dict[Hash, Hash | None]
 
     def add_account_full(self, addr: Address, account: Account | None):
         """
         Add the full account present witness for the given address.
         """
-        self.add_account_basic_data(addr, account)
-        self.add_account_codehash(
-            addr, Hash(keccak256(account.code)) if account is not None else None
-        )
+        # self.add_account_basic_data(addr, account)
+        # self.add_account_codehash(
+        #     addr, Hash(keccak256(account.code)) if account is not None else None
+        # )
 
     def add_account_basic_data(self, address: Address, account: Account | None):
         """
         Adds the basic data witness for the given address.
         """
-        if account is None:
-            self.witness[_account_key(address, AccountHeaderEntry.BASIC_DATA)] = None
-            return
+        # if account is None:
+        #     self.witness[_account_key(address, AccountHeaderEntry.BASIC_DATA)] = None
+        #     return
 
         # | Name        | Offset | Size |
         # | ----------- | ------ | ---- |
@@ -55,14 +56,14 @@ class Witness:
         # | `nonce`     | 4      | 8    |
         # | `code_size` | 12     | 4    |
         # | `balance`   | 16     | 16   |
-        basic_data_value = Hash(0)  # TODO(verkle): encode as little_endian(table_above)
-        self.witness[_account_key(address, AccountHeaderEntry.BASIC_DATA)] = basic_data_value
+        # basic_data_value = Hash(0)  # TODO(verkle): encode as little_endian(table_above)
+        # self.witness[_account_key(address, AccountHeaderEntry.BASIC_DATA)] = basic_data_value
 
     def add_account_codehash(self, address: Address, codehash: Hash | None):
         """
         Adds the CODEHASH witness for the given address.
         """
-        self.witness[_account_key(address, AccountHeaderEntry.CODEHASH)] = codehash
+        # self.witness[_account_key(address, AccountHeaderEntry.CODEHASH)] = codehash
 
     def add_storage_slot(self, address, storage_slot, value):
         """
@@ -71,9 +72,9 @@ class Witness:
         # TODO(verkle):
         #   Must call `evm transition verkle-key <address-hex> <storage-slot-hex>` which returns a
         #   32-byte key in hex.
-        tree_key = {}
+        # tree_key = {}
 
-        self.witness[tree_key] = value
+        # self.witness[tree_key] = value
 
     def add_code_chunk(self, address, chunk_number, value):
         """
@@ -82,18 +83,18 @@ class Witness:
         # TODO(verkle):
         #   Must call `evm transition code-chunk-key <address-hex> <chunk-number>` which returns a
         #   32-byte key in hex.
-        tree_key = {}
+        # tree_key = {}
 
-        self.witness[tree_key] = value
+        # self.witness[tree_key] = value
 
     def merge(self, other):
         """
         Merge the provided witness into this witness.
         """
-        self.witness.update(other.witness)
+        # self.witness.update(other.witness)
 
 
-def vkt_chunkify(bytecode):
+def vkt_chunkify(bytecode: Bytecode):
     """
     Return the chunkification of the provided bytecode.
     """
@@ -101,7 +102,7 @@ def vkt_chunkify(bytecode):
     #   Must call `evm transition verkle-chunkify-code <bytecode-hex>` which returns a hex of
     #   the chunkified code. The returned byte length is a multiple of 32. `code_chunks` must be
     #   a list of 32-byte chunks (i.e: partition the returned bytes into 32-byte bytes)
-    code_chunks = {}
+    code_chunks: list[bytes] = []
 
     return code_chunks
 

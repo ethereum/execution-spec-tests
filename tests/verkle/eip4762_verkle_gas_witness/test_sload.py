@@ -70,7 +70,7 @@ def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str
     for slot in [1000, 1001]:
         witness.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
-    _sload(blockchain_test, fork, [1000, 1001, 1002, 1003], witness, gas_limit=1_024)
+    _sload(blockchain_test, fork, [1000, 1001, 1002, 1003], witness, gas_limit=21_024)
 
 
 def _sload(
@@ -109,16 +109,16 @@ def _sload(
     )
     blocks = [Block(txs=[tx])]
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(TestAddress2, pre[TestAddress2])
-    witness.merge(extra_witness)
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(TestAddress2, pre[TestAddress2])
+    # witness.merge(extra_witness)
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )

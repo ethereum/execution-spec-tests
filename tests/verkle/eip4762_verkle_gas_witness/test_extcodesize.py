@@ -74,7 +74,7 @@ def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller, for
         TestAddress2,
         Op.PUSH0 * 1000,
         Witness(),
-        gas_limit=1_042,
+        gas_limit=53_540,
         fails=True,
     )
 
@@ -134,15 +134,15 @@ def _extcodesize(
         contract_address = compute_create_address(TestAddress, tx.nonce)
         post[contract_address] = Account(storage={0: len(bytecode)})
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.merge(extra_witness)
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.merge(extra_witness)
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )

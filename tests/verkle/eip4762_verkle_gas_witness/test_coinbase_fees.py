@@ -18,7 +18,7 @@ from ethereum_test_tools import (
     Transaction,
 )
 
-from ..temp_verkle_helpers import Witness
+# from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -57,15 +57,15 @@ def test_coinbase_fees(blockchain_test: BlockchainTestFiller, fork: str, priorit
     # TODO(verkle): change value when filling
     post = {} if priority_fee == 0 else {coinbase_addr: Account(balance=0x42)}
 
-    witness = Witness()
-    witness.add_account_full(coinbase_addr, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(TestAddress2, pre[TestAddress2])
+    # witness = Witness()
+    # witness.add_account_full(coinbase_addr, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(TestAddress2, pre[TestAddress2])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )

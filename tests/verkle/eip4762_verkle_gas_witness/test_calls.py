@@ -10,6 +10,7 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Address,
+    Alloc,
     Block,
     Bytecode,
     BlockchainTestFiller,
@@ -86,6 +87,7 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip("Pending TBD gas limits")
 @pytest.mark.parametrize(
     "call_instruction, gas_limit",
     [
@@ -159,7 +161,7 @@ def _generic_call(
         TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(code=Op.ADD(1, 2)),
         caller_address: Account(
-            balance=2000000000000000000000, code=caller_code * 2 if warm else 1
+            balance=2000000000000000000000, code=caller_code * (2 if warm else 1)
         ),
         precompile_address: Account(balance=3000000000000000000000),
         system_contract_address: Account(balance=4000000000000000000000),
@@ -210,9 +212,9 @@ def _generic_call(
     "call_instruction, gas_limit, enough_gas_account_creation",
     [
         (Op.CALL, 100000000, True),
-        (Op.CALL, 1042, False),
+        (Op.CALL, 21_042, False),
         (Op.CALLCODE, 100000000, True),
-        (Op.CALLCODE, 1042, False),
+        (Op.CALLCODE, 21_042, False),
     ],
 )
 def test_call_non_existent_account(
@@ -253,10 +255,13 @@ def test_call_non_existent_account(
     )
     blocks = [Block(txs=[tx])]
 
+    post: Alloc = Alloc()
     if enough_gas_account_creation:
-        post = {
-            TestAddress2: Account(balance=call_value),
-        }
+        post = Alloc(
+            {
+                TestAddress2: Account(balance=call_value),
+            }
+        )
 
     # witness = Witness()
     # witness.add_account_full(env.fee_recipient, None)

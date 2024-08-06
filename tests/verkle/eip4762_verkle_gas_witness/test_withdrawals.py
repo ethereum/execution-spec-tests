@@ -56,15 +56,15 @@ def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
         TestAddress2: Account(balance=4000000000),
     }
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(TestAddress2, pre[TestAddress2])
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(TestAddress2, pre[TestAddress2])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )

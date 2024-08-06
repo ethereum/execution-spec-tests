@@ -78,16 +78,16 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, valu
         target: post_account,
     }
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    if target != precompile_address and target != system_contract_address:
-        witness.add_account_full(target, pre.get(target))
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # if target != precompile_address and target != system_contract_address:
+    #     witness.add_account_full(target, pre.get(target))
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )

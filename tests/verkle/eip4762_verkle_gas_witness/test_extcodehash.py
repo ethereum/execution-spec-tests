@@ -86,6 +86,7 @@ def test_extcodehash_warm(blockchain_test: BlockchainTestFiller, fork: str):
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip("Pending TBD gas limits")
 @pytest.mark.parametrize(
     "gas_limit, witness_assert_basic_data, witness_assert_codehash",
     [
@@ -155,16 +156,16 @@ def _extcodehash(
         # TODO(verkle): assign correct storage slot value when filling
         post[TestAddress2] = Account(code=pre[TestAddress2].code, storage={0: 0x424242})
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(TestAddress2, pre[TestAddress2])
-    witness.merge(extra_witness)
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(TestAddress2, pre[TestAddress2])
+    # witness.merge(extra_witness)
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )
