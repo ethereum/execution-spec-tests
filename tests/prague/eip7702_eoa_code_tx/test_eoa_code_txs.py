@@ -1285,6 +1285,49 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
     )
 
 
+def test_set_code_all_invalid_authorization_tuples(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test setting the code of an account with multiple authorization tuples from the same signer
+    but the first tuple is invalid.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    tuple_count = 10
+
+    addresses = [pre.deploy_contract(Op.SSTORE(i, 1) + Op.STOP) for i in range(tuple_count)]
+
+    tx = Transaction(
+        gas_limit=10_000_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=address,
+                nonce=1,
+                signer=auth_signer,
+            )
+            for _, address in enumerate(addresses)
+        ],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=0,
+                code=b"",
+                storage={},
+            ),
+        },
+    )
+
+
 @pytest.mark.parametrize(
     "invalidity_reason",
     [
