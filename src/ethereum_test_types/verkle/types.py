@@ -74,8 +74,8 @@ class SuffixStateDiff(CamelModel):
     """
 
     suffix: int
-    current_value: Hash | None = Field(None)
-    new_value: Hash | None = Field(None)
+    current_value: Hash | None = Field(default_factory=None)
+    new_value: Hash | None = Field(default_factory=None)
 
 
 class StemStateDiff(CamelModel):
@@ -119,9 +119,9 @@ class Witness(CamelModel):
     hash of the state tree before the current block execution.
     """
 
-    state_diff: StateDiff = Field(..., alias="Diff")
-    verkle_proof: VerkleProof | None = Field(None, alias="Proof")
-    parent_state_root: Hash
+    state_diff: StateDiff
+    verkle_proof: VerkleProof
+    # parent_state_root: Hash
 
 
 class VerkleTree(RootModel[Dict[Hash, Hash]]):

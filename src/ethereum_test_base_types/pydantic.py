@@ -1,6 +1,7 @@
 """
 Base pydantic classes used to define the models for Ethereum tests.
 """
+
 from typing import TypeVar
 
 from pydantic import BaseModel, ConfigDict

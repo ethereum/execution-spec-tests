@@ -33,6 +33,7 @@ from ethereum_test_fixtures.blockchain import (
     FixtureTransaction,
     FixtureWithdrawal,
     FixtureWithdrawalRequest,
+    FixtureWitness,
     InvalidFixtureBlock,
 )
 from ethereum_test_forks import EIP6800Transition, Fork, Verkle
@@ -47,7 +48,7 @@ from ethereum_test_types import (
     Withdrawal,
     WithdrawalRequest,
 )
-from ethereum_test_types.verkle import VerkleTree
+from ethereum_test_types.verkle import VerkleTree, Witness
 from evm_transition_tool import TransitionTool
 
 from .base import BaseTest, verify_result, verify_transactions
@@ -411,6 +412,7 @@ class BlockchainTest(BaseTest):
         Alloc,
         Optional[Requests],
         Optional[VerkleTree],
+        Optional[Witness],
     ]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
@@ -453,6 +455,8 @@ class BlockchainTest(BaseTest):
         try:
             rejected_txs = verify_transactions(txs, transition_tool_output.result)
             verify_result(transition_tool_output.result, env)
+            # TODO: add verify witness (against vkt)
+            # verify_witness(transition_tool_output.witness, transition_tool_output.vkt)
         except Exception as e:
             print_traces(t8n.get_traces())
             pprint(transition_tool_output.result)
@@ -460,6 +464,8 @@ class BlockchainTest(BaseTest):
             pprint(transition_tool_output.alloc)
             if transition_tool_output.vkt is not None:
                 pprint(transition_tool_output.vkt)
+            if transition_tool_output.witness is not None:
+                pprint(transition_tool_output.witness)
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -532,6 +538,11 @@ class BlockchainTest(BaseTest):
                 )
             )
             transition_tool_output.alloc = previous_alloc
+            # TODO: hack for now
+            transition_tool_output.witness = Witness(
+                verkle_proof=transition_tool_output.result.verkle_proof,
+                state_diff=transition_tool_output.result.state_diff,
+            )
 
         return (
             env,
@@ -540,6 +551,7 @@ class BlockchainTest(BaseTest):
             transition_tool_output.alloc,
             requests,
             transition_tool_output.vkt,
+            transition_tool_output.witness,
         )
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
@@ -616,14 +628,16 @@ class BlockchainTest(BaseTest):
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                new_env, header, txs, new_alloc, requests, new_vkt = self.generate_block_data(
-                    t8n=t8n,
-                    fork=fork,
-                    block=block,
-                    previous_env=env,
-                    previous_alloc=alloc,
-                    previous_vkt=vkt,
-                    eips=eips,
+                new_env, header, txs, new_alloc, requests, new_vkt, witness = (
+                    self.generate_block_data(
+                        t8n=t8n,
+                        fork=fork,
+                        block=block,
+                        previous_env=env,
+                        previous_alloc=alloc,
+                        previous_vkt=vkt,
+                        eips=eips,
+                    )
                 )
                 fixture_block = FixtureBlockBase(
                     header=header,
@@ -658,6 +672,7 @@ class BlockchainTest(BaseTest):
                         if requests is not None
                         else None
                     ),
+                    witness=FixtureWitness.from_witness(witness) if witness is not None else None,
                 ).with_rlp(txs=txs, requests=requests)
                 if block.exception is None:
                     fixture_blocks.append(fixture_block)
@@ -731,7 +746,8 @@ class BlockchainTest(BaseTest):
             self.blocks.append(Block())
 
         for block in self.blocks:
-            new_env, header, txs, new_alloc, requests, new_vkt = self.generate_block_data(
+            # TODO: fix witness for hive fixture? Do we need it?
+            new_env, header, txs, new_alloc, requests, new_vkt, _ = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=block,
@@ -775,7 +791,7 @@ class BlockchainTest(BaseTest):
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the
             # sync process.
-            _, sync_header, _, _, requests, _ = self.generate_block_data(
+            _, sync_header, _, _, requests, _, _ = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=Block(),
