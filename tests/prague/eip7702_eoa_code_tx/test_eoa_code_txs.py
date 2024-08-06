@@ -1228,7 +1228,55 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_non
         tx=tx,
         post={
             auth_signer: Account(
-                nonce=1,
+                nonce=10,
+                code=b"",
+                storage={
+                    success_slot: 1,
+                },
+            ),
+        },
+    )
+
+
+def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test setting the code of an account with multiple authorization tuples from the same signer
+    and each authorization tuple has an increasing nonce, therefore the last tuple is executed,
+    and the transaction is self-sponsored.
+    """
+    auth_signer = pre.fund_eoa()
+
+    tuple_count = 10
+
+    success_slot = tuple_count - 1
+
+    addresses = [pre.deploy_contract(Op.SSTORE(i, 1) + Op.STOP) for i in range(tuple_count)]
+
+    tx = Transaction(
+        gas_limit=10_000_000,  # TODO: Reduce gas limit of all tests
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=address,
+                nonce=i + 1,
+                signer=auth_signer,
+            )
+            for i, address in enumerate(addresses)
+        ],
+        sender=auth_signer,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=11,
                 code=b"",
                 storage={
                     success_slot: 1,
