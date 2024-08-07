@@ -37,6 +37,12 @@ def test_coverage(
         + Op.PUSH1(0x0D)
         + Op.PUSH1(0x0E)
         + Op.SWAP1()
+        + Op.DUP1()
+        + Op.DUP2()
+        + Op.PUSH0()
+        + Op.PUSH2(0x0102)
+        + Op.PUSH3(0x010203)
+        + Op.PUSH4(0x01020304)
         + Op.POP(0x01)
         # lllc tests insert codecopy when using lll(seq())
         + Op.CODECOPY(0, 16, 4),

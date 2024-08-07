@@ -37,7 +37,7 @@ class CallDestType(Enum):
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL])
 @pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Om.OOG])
 @pytest.mark.parametrize("call_dest_type", [CallDestType.REENTRANCY, CallDestType.EXTERNAL_CALL])
-def test_tstore_reentrancy(
+def test_tstore_reentrancy_rename(
     state_test: StateTestFiller,
     pre: Alloc,
     call_type: Op,
