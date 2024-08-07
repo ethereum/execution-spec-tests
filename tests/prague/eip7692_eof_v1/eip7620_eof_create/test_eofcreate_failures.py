@@ -18,6 +18,8 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from .helpers import (
+    aborting_code,
+    slot_call_result,
     slot_code_should_fail,
     slot_code_worked,
     slot_create_address,
@@ -28,6 +30,8 @@ from .helpers import (
     value_canary_should_not_change,
     value_code_worked,
     value_create_failed,
+    value_eof_call_result_failed,
+    value_legacy_call_result_failed,
 )
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7620.md"
@@ -114,15 +118,7 @@ def test_initcode_aborts(
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP,
                 ),
-                Section.Container(
-                    container=Container(
-                        sections=[
-                            Section.Code(
-                                code=Op.INVALID,
-                            )
-                        ]
-                    )
-                ),
+                Section.Container(container=aborting_code),
             ]
         )
     )
@@ -580,6 +576,70 @@ def test_insufficient_returncontract_auxdata_gas(
         to=contract_address,
         gas_limit=gas_limit,
         gas_price=10,
+        protected=False,
+        sender=sender,
+    )
+
+    state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.STATICCALL,
+        Op.EXTSTATICCALL,
+    ],
+)
+@pytest.mark.parametrize("endowment", [0, 1])  # included to verify static flag check comes first
+@pytest.mark.parametrize(
+    "initcode",
+    [smallest_initcode_subcontainer, aborting_code],
+    ids=["working_initcode", "aborting_code"],
+)
+def test_static_flag_eofcreate(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    opcode: Op,
+    endowment: int,
+    initcode: Container,
+):
+    """
+    Verifies correct handling of the static call flag with EOFCREATE
+    """
+    env = Environment()
+    sender = pre.fund_eoa()
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    code=Op.EOFCREATE[0](endowment, 0, 0, 0) + Op.STOP,
+                ),
+                Section.Container(container=initcode),
+            ]
+        )
+    )
+    calling_code = (
+        Op.SSTORE(slot_call_result, opcode(address=contract_address))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP
+    )
+    calling_address = pre.deploy_contract(
+        Container.Code(calling_code) if opcode == Op.EXTSTATICCALL else calling_code
+    )
+
+    post = {
+        calling_address: Account(
+            storage={
+                slot_call_result: value_eof_call_result_failed
+                if opcode == Op.EXTSTATICCALL
+                else value_legacy_call_result_failed,
+                slot_code_worked: value_code_worked,
+            }
+        )
+    }
+    tx = Transaction(
+        to=calling_address,
+        gas_limit=10_000_000,
         protected=False,
         sender=sender,
     )
