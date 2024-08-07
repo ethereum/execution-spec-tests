@@ -1708,11 +1708,8 @@ def test_gas_cost(
     - Set code to an account with a single authorization tuple.
     - Set code to an account with multiple authorization tuples.
     """
-    authority_in_trie = authority_type != AuthorityTypes.EMPTY_ACCOUNT
     authorization_list: List[AuthorizationTuple] = []
-
-    authorize_to_address: Address | None = None
-
+    authorize_to_address: Address
     match authorization_address_case:
         case AuthorizationAddressCases.EMPTY_ACCOUNT:
             authorize_to_address = pre.fund_eoa(0)
@@ -1752,19 +1749,18 @@ def test_gas_cost(
             raise ValueError(f"Unsupported authority type: {authority_type}")
 
     authority_iterator = authority_generator()
+    authorizations_count = (
+        1 if authorization_list_case == AuthorizationListCases.SINGLE_AUTHORIZATION else 2
+    )
 
     match authorization_list_case:
-        case AuthorizationListCases.SINGLE_AUTHORIZATION:
-            authorization_list.append(
-                AuthorizationTuple(
-                    address=authorize_to_address,
-                    nonce=1 if self_sponsored else 0,
-                    signer=next(authority_iterator),
-                )
-            )
-        case AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_SAME_SIGNER:
+        case (
+            AuthorizationListCases.SINGLE_AUTHORIZATION
+            | AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_SAME_SIGNER
+        ):
+            valid_authorizations = authorizations_count
             signer = next(authority_iterator)
-            for i in range(10):
+            for i in range(authorizations_count):
                 authorization_list.append(
                     AuthorizationTuple(
                         address=authorize_to_address,
@@ -1773,7 +1769,8 @@ def test_gas_cost(
                     )
                 )
         case AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_DIFFERENT_SIGNERS:
-            for i in range(10):
+            valid_authorizations = authorizations_count
+            for i in range(authorizations_count):
                 authorization_list.append(
                     AuthorizationTuple(
                         address=authorize_to_address,
@@ -1782,8 +1779,9 @@ def test_gas_cost(
                     )
                 )
         case AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_DUPLICATES:
+            valid_authorizations = 1
             signer = next(authority_iterator)
-            for i in range(10):
+            for i in range(authorizations_count):
                 authorization_list.append(
                     AuthorizationTuple(
                         address=authorize_to_address,
@@ -1815,14 +1813,30 @@ def test_gas_cost(
         + 2400 * len(access_list) * len(authorization_list)
         + 2  # Op.GAS cost
     )
-    # Calculate the intrinsic gas cost of the authorizations
-    intrinsic_gas += (
-        Spec.PER_AUTH_BASE_COST if authority_in_trie else Spec.PER_EMPTY_ACCOUNT_COST
-    ) * len(authorization_list)
-    if authorization_list_case == AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_DUPLICATES:
-        intrinsic_gas -= (Spec.PER_EMPTY_ACCOUNT_COST - Spec.PER_AUTH_BASE_COST) * (
-            len(authorization_list) - 1
-        )
+    # Calculate the intrinsic gas cost of the authorizations, by default the
+    # full empty account cost is charged for each authorization.
+    intrinsic_gas += Spec.PER_EMPTY_ACCOUNT_COST * len(authorization_list)
+
+    # Determine the amount of authorizations that have a discount
+    if authority_type == AuthorityTypes.CONTRACT:
+        # No authorization is valid (code not empty), hence no discount
+        discounted_authorizations = 0
+    elif authority_type == AuthorityTypes.EOA:
+        # all valid authorizations (correct nonce) have a discount
+        discounted_authorizations = valid_authorizations
+    elif authorization_list_case in [
+        AuthorizationListCases.MULTIPLE_AUTHORIZATIONS_SAME_SIGNER,
+    ]:
+        # all but the first valid authorization have a discount (on the first one, the account
+        # is empty, but then the nonce is incremented)
+        discounted_authorizations = valid_authorizations - 1
+    else:
+        discounted_authorizations = 0
+
+    intrinsic_gas -= (
+        Spec.PER_EMPTY_ACCOUNT_COST - Spec.PER_AUTH_BASE_COST
+    ) * discounted_authorizations
+
     test_code_storage = Storage()
     test_code = (
         Op.SSTORE(test_code_storage.store_next(start_gas - intrinsic_gas), Op.GAS) + Op.STOP
@@ -1862,7 +1876,6 @@ def test_intrinsic_gas_cost(
     """
     Test sending a transaction with the exact intrinsic gas required and also insufficient
     gas.
-
-    TODO
     """
+    # TODO: Implement
     pass
