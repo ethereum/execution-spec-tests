@@ -80,11 +80,35 @@ def test_something_with_all_precompiles(precompile):
 
 In this example, the test will be parameterized for parameter `precompile` with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]` for fork Shanghai, but with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` for fork Cancun (because of EIP-4844).
 
+### pytest.mark.with_all_system_contracts
+
+This marker is used to automatically parameterize a test with all system contracts that are valid for the fork being tested.
+
+```python
+import pytest
+
+@pytest.mark.with_all_system_contracts
+@pytest.mark.valid_from("Cancun")
+def test_something_with_all_system_contracts(system_contract):
+    pass
+```
+
+In this example, the test will be parameterized for parameter `system_contract` with value `[0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02]` for fork Cancun.
+
 ## Other Markers
 
 ### pytest.mark.slow
 
 This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.
+
+### pytest.mark.pre_alloc_modify
+
+This marker is used to mark tests that modify the pre-alloc in a way that would be impractical to reproduce in a real-world scenario.
+
+Examples of this include:
+
+- Modifying the pre-alloc to have a balance of 2^256 - 1.
+- Address collisions that would require hash collisions.
 
 ### pytest.mark.skip("reason")
 

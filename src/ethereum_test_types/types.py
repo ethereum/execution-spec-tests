@@ -462,25 +462,15 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     Authorization tuple for transactions.
     """
 
-    chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
+    chain_id: NumberBoundTypeVar = Field(0)  # type: ignore
     address: Address
-    nonce: List[NumberBoundTypeVar] = Field(default_factory=list)
+    nonce: NumberBoundTypeVar = Field(0)  # type: ignore
 
     v: NumberBoundTypeVar = Field(0)  # type: ignore
     r: NumberBoundTypeVar = Field(0)  # type: ignore
     s: NumberBoundTypeVar = Field(0)  # type: ignore
 
     magic: ClassVar[int] = 0x05
-
-    @model_validator(mode="before")
-    @classmethod
-    def convert_nonce_information(cls, data: Any) -> Any:
-        """
-        Automatically converts the nonce to a list if it is not already.
-        """
-        if "nonce" in data and not isinstance(data["nonce"], list):
-            data["nonce"] = [data["nonce"]]
-        return data
 
     def to_list(self) -> List[Any]:
         """
@@ -489,7 +479,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
         return [
             Uint(self.chain_id),
             self.address,
-            [Uint(n) for n in self.nonce],
+            Uint(self.nonce),
             Uint(self.v),
             Uint(self.r),
             Uint(self.s),
@@ -504,7 +494,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
             [
                 Uint(self.chain_id),
                 self.address,
-                [Uint(n) for n in self.nonce],
+                Uint(self.nonce),
             ]
         )
 
