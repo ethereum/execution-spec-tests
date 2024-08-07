@@ -135,7 +135,7 @@ def _sstore(
     )
     blocks = [Block(txs=[tx])]
 
-    postStorage = TestAddress2Storage
+    postStorage = TestAddress2Storage.copy()
     successful_writes = (
         len(storage_slot_writes)
         if post_state_mutated_slot_count is None
