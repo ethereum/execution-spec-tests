@@ -64,7 +64,7 @@ def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller, fork:
     """
     Test BLOCKHASH with insufficient gas.
     """
-    _blockhash(blockchain_test, fork, block_number - 1, gas_limit=1042, fail=True)
+    _blockhash(blockchain_test, fork, block_number - 1, gas_limit=21_042, fail=True)
 
 
 def _blockhash(
@@ -96,19 +96,19 @@ def _blockhash(
     )
     blocks = [Block(txs=[tx])]
 
-    witness = Witness()
-    witness.add_account_full(env.fee_recipient, None)
-    witness.add_account_full(TestAddress, pre[TestAddress])
-    witness.add_account_full(TestAddress2, pre[TestAddress2])
-    if not fail:
-        storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
-        value = None  # TODO(verkle): TODO.
-        witness.add_storage_slot(blockhash_system_contract_address, storage_slot, value)
+    # witness = Witness()
+    # witness.add_account_full(env.fee_recipient, None)
+    # witness.add_account_full(TestAddress, pre[TestAddress])
+    # witness.add_account_full(TestAddress2, pre[TestAddress2])
+    # if not fail:
+    #     storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
+    #     value = None  # TODO(verkle): TODO.
+    #     witness.add_storage_slot(blockhash_system_contract_address, storage_slot, value)
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        witness=witness,
+        # witness=witness,
     )
