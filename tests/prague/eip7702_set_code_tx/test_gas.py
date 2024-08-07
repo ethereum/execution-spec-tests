@@ -1,6 +1,8 @@
 """
 abstract: Tests related to gas of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702)
     Tests related to gas of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
+
+TODO: Reduce the parametrization count (Currently produces 7920 test cases).
 """  # noqa: E501
 
 from enum import Enum
@@ -25,6 +27,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Storage,
     Transaction,
+    TransactionException,
     eip_2028_transaction_data_cost,
 )
 
@@ -502,19 +505,112 @@ def test_account_warming(
     )
 
 
+@pytest.mark.parametrize(
+    "authorization_list_case,authorizations_count",
+    [
+        pytest.param(AuthorizationListCases.VALID_SAME_SIGNER, 1, id="valid_single_authorization"),
+        pytest.param(
+            AuthorizationListCases.VALID_SAME_SIGNER, 2, id="valid_multiple_authorizations"
+        ),
+        pytest.param(
+            AuthorizationListCases.INVALID_SAME_SIGNER, 1, id="invalid_single_authorization"
+        ),
+        pytest.param(
+            AuthorizationListCases.INVALID_SAME_SIGNER, 2, id="invalid_multiple_authorizations"
+        ),
+        pytest.param(
+            AuthorizationListCases.VALID_DIFFERENT_SIGNERS,
+            2,
+            id="valid_different_signer_authorizations",
+        ),
+        pytest.param(
+            AuthorizationListCases.FIRST_VALID_THEN_DUPLICATES,
+            2,
+            id="first_valid_then_duplicates_authorizations",
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    "authorize_to_address",
+    list(AuthorizationAddressCases),
+    ids=lambda case: case.value,
+    indirect=True,
+)
+@pytest.mark.parametrize(
+    "access_list_case",
+    list(AccessListCases),
+    ids=lambda case: case.value,
+)
+@pytest.mark.parametrize(
+    "data",
+    [
+        pytest.param(b"", id="empty_data"),
+        pytest.param(b"\x01", id="non_zero_data"),
+        pytest.param(b"\x00", id="zero_data"),
+    ],
+)
+@pytest.mark.parametrize(
+    "self_sponsored,authority_type",
+    [
+        pytest.param(False, AuthorityTypes.EMPTY_ACCOUNT, id="empty_account_authority"),
+        pytest.param(False, AuthorityTypes.EOA, id="eoa_authority"),
+        pytest.param(True, AuthorityTypes.EOA, id="self_sponsored_eoa_authority"),
+        pytest.param(
+            False,
+            AuthorityTypes.CONTRACT,
+            marks=pytest.mark.pre_alloc_modify,
+            id="contract_authority",
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    "valid",
+    [True, False],
+)
 def test_intrinsic_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
-    authorization_list_case: AuthorizationListCases,
+    authorization_list: List[AuthorizationTuple],
     data: bytes,
-    access_list_case: AccessListCases,
-    mid_tx_value_transfer_amount: int,
-    authority_in_trie: bool,
+    access_list: List[AccessList],
+    sender: EOA,
     valid: bool,
 ):
     """
     Test sending a transaction with the exact intrinsic gas required and also insufficient
     gas.
     """
-    # TODO: Implement
-    pass
+    intrinsic_gas = (
+        21_000
+        + eip_2028_transaction_data_cost(data)
+        + 1900 * sum(len(al.storage_keys) for al in access_list)
+        + 2400 * len(access_list)
+    )
+    # Calculate the intrinsic gas cost of the authorizations, by default the
+    # full empty account cost is charged for each authorization.
+    intrinsic_gas += Spec.PER_EMPTY_ACCOUNT_COST * len(authorization_list)
+
+    tx_gas = intrinsic_gas
+    if not valid:
+        tx_gas -= 1
+
+    test_code = Op.STOP
+    test_code_address = pre.deploy_contract(test_code)
+
+    tx = Transaction(
+        gas_limit=tx_gas,
+        to=test_code_address,
+        value=0,
+        data=data,
+        authorization_list=authorization_list,
+        access_list=access_list,
+        sender=sender,
+        error=TransactionException.INTRINSIC_GAS_TOO_LOW if not valid else None,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={},
+    )
