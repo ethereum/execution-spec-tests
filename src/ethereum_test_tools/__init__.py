@@ -6,6 +6,7 @@ tests.
 from ethereum_test_base_types import (
     Account,
     Address,
+    Bytes,
     Hash,
     TestAddress,
     TestAddress2,
@@ -91,6 +92,7 @@ __all__ = (
     "BlockchainTestFiller",
     "BlockException",
     "Bytecode",
+    "Bytes",
     "CalldataCase",
     "Case",
     "CodeGasMeasure",
