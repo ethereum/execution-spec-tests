@@ -900,7 +900,7 @@ def test_selfdestruct_created_same_block_different_tx(
 @pytest.mark.parametrize("call_opcode", [Op.DELEGATECALL, Op.CALLCODE])
 @pytest.mark.parametrize("create_opcode", [Op.CREATE])
 @pytest.mark.valid_from("Shanghai")
-def test_delegatecall_from_new_contract_to_pre_existing_contract(
+def test_calling_from_new_contract_to_pre_existing_contract(
     state_test: StateTestFiller,
     env: Environment,
     pre: Alloc,
