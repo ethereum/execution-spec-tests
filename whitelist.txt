@@ -114,6 +114,7 @@ eip7002
 eip7251
 el
 endianness
+endian
 EngineAPI
 enum
 env
@@ -547,6 +548,7 @@ returndatasize
 returndatacopy
 returndataload
 extcodehash
+codehash
 blockhash
 coinbase
 timestamp
@@ -605,6 +607,8 @@ push29
 push30
 push31
 push32
+pushn
+pushns
 dup1
 dup2
 dup3
@@ -654,6 +658,7 @@ create
 create2
 create3
 create4
+authcall
 call
 callcode
 return
@@ -679,6 +684,10 @@ modexp
 0x00
 0x01
 0x10
+verkle
+vkt
+chunkify
+chunkified
 
 fi
 url

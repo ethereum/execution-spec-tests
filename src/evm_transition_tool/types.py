@@ -13,9 +13,9 @@ from ethereum_test_types import (
     DepositRequest,
     Environment,
     Transaction,
-    VerkleTree,
     WithdrawalRequest,
 )
+from ethereum_test_types.verkle import StateDiff, VerkleProof, VerkleTree, Witness
 
 
 class TransactionLog(CamelModel):
@@ -99,6 +99,9 @@ class Result(CamelModel):
         alias="currentConversionStorageProcessed",
     )
 
+    verkle_proof: VerkleProof | None = None
+    state_diff: StateDiff | None = None
+
 
 class TransitionToolInput(CamelModel):
     """
@@ -120,3 +123,4 @@ class TransitionToolOutput(CamelModel):
     result: Result
     body: Bytes | None = None
     vkt: VerkleTree | None = None
+    witness: Witness | None = None

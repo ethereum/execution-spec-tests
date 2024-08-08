@@ -13,3 +13,8 @@ eip7692:
   repo: ethereum/evmone
   ref: master
   evm-bin: evmone-t8n
+verkle:
+  impl: geth
+  repo: gballet/go-ethereum
+  ref: jsign-t8n-verkle-genesis-rebased
+  evm-bin: evm

@@ -13,11 +13,12 @@ from dataclasses import dataclass, field
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Any, Dict, List, Mapping, Optional, Type
+from typing import Dict, List, Mapping, Optional, Type
 
 from ethereum_test_fixtures import FixtureFormats, FixtureVerifier
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction, VerkleTree
+from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types.verkle import VerkleTree
 
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput
@@ -248,9 +249,9 @@ class TransitionTool(FixtureVerifier):
         txs: List[Transaction]
         env: Environment
         fork_name: str
-        vkt: Any = None
         chain_id: int = field(default=1)
         reward: int = field(default=0)
+        vkt: Optional[VerkleTree] = None
 
         def to_input(self) -> TransitionToolInput:
             """
@@ -310,8 +311,15 @@ class TransitionTool(FixtureVerifier):
 
         # TODO: Verkle specific logic, update when Verkle fork is confirmed.
         if t8n_data.fork_name == "Verkle":
-            output_paths["vkt"] = os.path.join("output", "vkt.json")
-            args.extend(["--output.vkt", output_paths["vkt"]])
+            output_paths.update(
+                {
+                    "vkt": os.path.join("output", "vkt.json"),
+                    "witness": os.path.join("output", "witness.json"),
+                }
+            )
+            args.extend(
+                ["--output.vkt", output_paths["vkt"], "--output.witness", output_paths["witness"]]
+            )
             if t8n_data.vkt is not None:
                 args.extend(["--input.vkt", input_paths["vkt"]])
 
@@ -514,9 +522,9 @@ class TransitionTool(FixtureVerifier):
         txs: List[Transaction],
         env: Environment,
         fork: Fork,
-        vkt: Any = None,
         chain_id: int = 1,
         reward: int = 0,
+        vkt: Optional[VerkleTree] = None,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:
@@ -566,6 +574,17 @@ class TransitionTool(FixtureVerifier):
         """
         raise NotImplementedError(
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
+        )
+
+    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
+        """
+        Returns the VKT state root of from an input MPT.
+
+        Currently only implemented by geth's evm.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_state_root` function is not supported by this tool. Use geth's evm "
+            "tool."
         )
 
     def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
