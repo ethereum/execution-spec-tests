@@ -1042,6 +1042,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pytestmarkwith_all_evm_code_types" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest.mark.with_all_evm_code_types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytestmarkwith_all_call_opcodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest.mark.with_all_call_opcodes
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -13491,6 +13509,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pytestmarkwith_all_evm_code_types" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest.mark.with_all_evm_code_types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytestmarkwith_all_call_opcodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest.mark.with_all_call_opcodes
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -13589,7 +13625,7 @@
 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_something_with_all_tx_types</span><span class="p">(</span><span class="n">tx_type</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">test_something_with_all_tx_types</span><span class="p">(</span><span class="n">tx_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="k">pass</span>
 </code></pre></div>
 <p>In this example, the test will be parameterized for parameter <code>tx_type</code> with values <code>[0, 1]</code> for fork Berlin, but with values <code>[0, 1, 2]</code> for fork London (because of EIP-1559).</p>
@@ -13602,10 +13638,50 @@
 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_precompiles</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_something_with_all_precompiles</span><span class="p">(</span><span class="n">precompile</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">test_something_with_all_precompiles</span><span class="p">(</span><span class="n">precompile</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="k">pass</span>
 </code></pre></div>
 <p>In this example, the test will be parameterized for parameter <code>precompile</code> with values <code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code> for fork Shanghai, but with values <code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</code> for fork Cancun (because of EIP-4844).</p>
+<h3 id="pytestmarkwith_all_evm_code_types">pytest.mark.with_all_evm_code_types<a class="headerlink" href="#pytestmarkwith_all_evm_code_types" title="Permanent link">&para;</a></h3>
+<p>This marker is used to automatically parameterize a test with all EVM code types that are valid for the fork being tested.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_something_with_all_evm_code_types</span><span class="p">(</span><span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<p>In this example, the test will be parameterized for parameter <code>evm_code_type</code> only with value <code>[EVMCodeType.LEGACY]</code> starting on fork Frontier, and eventually it will be parametrized with with values <code>[EVMCodeType.LEGACY, EVMCodeType.EOF_V1]</code> on the EOF activation fork.</p>
+<p>In all calls to <code>pre.deploy_contract</code>, if the code parameter is <code>Bytecode</code> type, and <code>evm_code_type==EVMCodeType.EOF_V1</code>, the bytecode will be automatically wrapped in an EOF V1 container.</p>
+<p>Code wrapping might fail in the following circumstances:</p>
+<ul>
+<li>The code contains invalid EOF V1 opcodes.</li>
+<li>The code does not end with a valid EOF V1 terminating opcode (such as <code>Op.STOP</code> or <code>Op.REVERT</code> or <code>Op.RETURN</code>).</li>
+</ul>
+<p>In the case where the code wrapping fails, <code>evm_code_type</code> can be added as a parameter to the test and the bytecode can be dynamically modified to be compatible with the EOF V1 container.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_something_with_all_evm_code_types</span><span class="p">(</span><span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">):</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+        <span class="c1"># Modify the bytecode to be compatible with EOF V1 container</span>
+        <span class="n">code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+    <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="o">...</span>
+</code></pre></div>
+<h3 id="pytestmarkwith_all_call_opcodes">pytest.mark.with_all_call_opcodes<a class="headerlink" href="#pytestmarkwith_all_call_opcodes" title="Permanent link">&para;</a></h3>
+<p>This marker is used to automatically parameterize a test with all EVM call opcodes that are valid for the fork being tested.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_something_with_all_call_opcodes</span><span class="p">(</span><span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">):</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>In this example, the test will be parametrized for parameter <code>call_opcode</code> with values <code>[Op.CALL, Op.CALLCODE]</code> starting on fork Frontier, <code>[Op.CALL, Op.CALLCODE, Op.DELEGATECALL]</code> on fork Homestead, <code>[Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]</code> on fork Byzantium, and eventually it will be parametrized with with values <code>[Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL, Op.EXTCALL, Op.EXTSTATICCALL, Op.EXTDELEGATECALL]</code> on the EOF activation fork.</p>
+<p>Parameter <code>evm_code_type</code> will also be parametrized with the correct EVM code type for the opcode under test.</p>
 <h2 id="other-markers">Other Markers<a class="headerlink" href="#other-markers" title="Permanent link">&para;</a></h2>
 <h3 id="pytestmarkslow">pytest.mark.slow<a class="headerlink" href="#pytestmarkslow" title="Permanent link">&para;</a></h3>
 <p>This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.</p>

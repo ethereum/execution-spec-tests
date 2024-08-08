@@ -13286,7 +13286,7 @@
 
 
 <h1 id="test-dup">Test DUP<a class="headerlink" href="#test-dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dc27aed362dff905fc5ea69c0aef9fbd1382f2a2/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16ea5062f35a05beab916b74adb000ca5b107456/tests/frontier/opcodes/test_dup.py"><code>tests/frontier/opcodes/test_dup.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_dup.py</span>
@@ -13427,7 +13427,8 @@ by Ori Pomerantz.
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;dup_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">,</span>
@@ -13449,6 +13450,7 @@ by Ori Pomerantz.
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">op</span><span class="p">),</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="k">def</span> <span class="nf">test_dup</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>

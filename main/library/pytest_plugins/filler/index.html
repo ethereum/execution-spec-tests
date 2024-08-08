@@ -2206,6 +2206,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pytest_plugins.filler.pre_alloc.Alloc.code_pre_processor" class="md-nav__link">
+    <span class="md-ellipsis">
+      code_pre_processor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="md-nav__link">
     <span class="md-ellipsis">
       deploy_contract
@@ -2286,6 +2295,15 @@
   <a href="#pytest_plugins.filler.pre_alloc.eoa_iterator" class="md-nav__link">
     <span class="md-ellipsis">
       eoa_iterator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.filler.pre_alloc.evm_code_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      evm_code_type
     </span>
   </a>
   
@@ -14230,6 +14248,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pytest_plugins.filler.pre_alloc.Alloc.code_pre_processor" class="md-nav__link">
+    <span class="md-ellipsis">
+      code_pre_processor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="md-nav__link">
     <span class="md-ellipsis">
       deploy_contract
@@ -14310,6 +14337,15 @@
   <a href="#pytest_plugins.filler.pre_alloc.eoa_iterator" class="md-nav__link">
     <span class="md-ellipsis">
       eoa_iterator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.filler.pre_alloc.evm_code_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      evm_code_type
     </span>
   </a>
   
@@ -17207,6 +17243,22 @@ more readable test ids for the generated tests.</p>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="doc doc-object doc-function">
 
 
@@ -17222,9 +17274,7 @@ more readable test ids for the generated tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
@@ -17252,7 +17302,18 @@ more readable test ids for the generated tests.</p>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">):</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds command-line options to pytest.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -17282,6 +17343,15 @@ more readable test ids for the generated tests.</p>
         <span class="n">default</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CONTRACT_ADDRESS_INCREMENTS_DEFAULT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The address increment value to each deployed contract by a test.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pre_alloc_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+        <span class="s2">&quot;--evm-code-type&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;evm_code_type&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">EVMCodeType</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">EVMCodeType</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Type of EVM code to deploy in each test by default.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -17314,13 +17384,13 @@ more readable test ids for the generated tests.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AllocMode</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AllocMode</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allocation mode for the state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -17369,18 +17439,7 @@ more readable test ids for the generated tests.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
@@ -17483,7 +17542,37 @@ more readable test ids for the generated tests.</p>
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
-<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">BaseAlloc</span><span class="p">):</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">BaseAlloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allocation of accounts in the state, pre and post test execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -17491,6 +17580,7 @@ more readable test ids for the generated tests.</p>
     <span class="n">_alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="n">_contract_address_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="n">_eoa_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">]</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">_evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -17498,6 +17588,7 @@ more readable test ids for the generated tests.</p>
         <span class="n">alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span><span class="p">,</span>
         <span class="n">contract_address_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
         <span class="n">eoa_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">],</span>
+        <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -17507,6 +17598,7 @@ more readable test ids for the generated tests.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">=</span> <span class="n">alloc_mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_contract_address_iterator</span> <span class="o">=</span> <span class="n">contract_address_iterator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eoa_iterator</span> <span class="o">=</span> <span class="n">eoa_iterator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_evm_code_type</span> <span class="o">=</span> <span class="n">evm_code_type</span>
 
     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -17516,6 +17608,21 @@ more readable test ids for the generated tests.</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot set items in strict mode&quot;</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">account</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">code_pre_processor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BytesConvertible</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pre-processes the code before setting it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">evm_code_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">evm_code_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evm_code_type</span>
+        <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">Container</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">code</span><span class="o">.</span><span class="n">terminating</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span> <span class="o">+</span> <span class="n">Opcodes</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">code</span>
+
     <span class="k">def</span> <span class="nf">deploy_contract</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
@@ -17524,6 +17631,7 @@ more readable test ids for the generated tests.</p>
         <span class="n">balance</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">nonce</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -17547,7 +17655,7 @@ more readable test ids for the generated tests.</p>
             <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="n">nonce</span><span class="p">,</span>
                 <span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+                <span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">code_pre_processor</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="n">evm_code_type</span><span class="p">),</span>
                 <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
@@ -17615,7 +17723,7 @@ more readable test ids for the generated tests.</p>
 
 
 <h3 id="pytest_plugins.filler.pre_alloc.Alloc.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">alloc_mode</span><span class="p">,</span> <span class="n">contract_address_iterator</span><span class="p">,</span> <span class="n">eoa_iterator</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">alloc_mode</span><span class="p">,</span> <span class="n">contract_address_iterator</span><span class="p">,</span> <span class="n">eoa_iterator</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.filler.pre_alloc.Alloc.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -17626,26 +17734,29 @@ more readable test ids for the generated tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
 <span class="normal">100</span>
-<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="n">args</span><span class="p">,</span>
     <span class="n">alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span><span class="p">,</span>
     <span class="n">contract_address_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
     <span class="n">eoa_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">],</span>
+    <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -17655,6 +17766,7 @@ more readable test ids for the generated tests.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">=</span> <span class="n">alloc_mode</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_contract_address_iterator</span> <span class="o">=</span> <span class="n">contract_address_iterator</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_eoa_iterator</span> <span class="o">=</span> <span class="n">eoa_iterator</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_evm_code_type</span> <span class="o">=</span> <span class="n">evm_code_type</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -17681,13 +17793,13 @@ more readable test ids for the generated tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sets the account associated with an address.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -17708,35 +17820,19 @@ more readable test ids for the generated tests.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{},</span> <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h3 id="pytest_plugins.filler.pre_alloc.Alloc.code_pre_processor" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">code_pre_processor</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">)</span></code>
 
-<a href="#pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#pytest_plugins.filler.pre_alloc.Alloc.code_pre_processor" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Deploy a contract to the allocation.</p>
-<p>Warning: <code>address</code> parameter is a temporary solution to allow tests to hard-code the
-contract address. Do NOT use in new tests as it will be removed in the future!</p>
+      <p>Pre-processes the code before setting it.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
@@ -17749,9 +17845,49 @@ contract address. Do NOT use in new tests as it will be removed in the future!</
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
+<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">code_pre_processor</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BytesConvertible</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pre-processes the code before setting it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">evm_code_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">evm_code_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evm_code_type</span>
+    <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">Container</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">code</span><span class="o">.</span><span class="n">terminating</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span> <span class="o">+</span> <span class="n">Opcodes</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">code</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{},</span> <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Deploy a contract to the allocation.</p>
+<p>Warning: <code>address</code> parameter is a temporary solution to allow tests to hard-code the
+contract address. Do NOT use in new tests as it will be removed in the future!</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
@@ -17770,7 +17906,37 @@ contract address. Do NOT use in new tests as it will be removed in the future!</
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deploy_contract</span><span class="p">(</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deploy_contract</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -17778,6 +17944,7 @@ contract address. Do NOT use in new tests as it will be removed in the future!</
     <span class="n">balance</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">nonce</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -17801,7 +17968,7 @@ contract address. Do NOT use in new tests as it will be removed in the future!</
         <span class="n">Account</span><span class="p">(</span>
             <span class="n">nonce</span><span class="o">=</span><span class="n">nonce</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+            <span class="n">code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">code_pre_processor</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="n">evm_code_type</span><span class="p">),</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
@@ -17847,23 +18014,23 @@ returned.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_eoa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">21</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOA</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_eoa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">21</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.</span>
 
@@ -17908,20 +18075,20 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fund an address with a given amount.</span>
 
@@ -17970,14 +18137,14 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">alloc_mode</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AllocMode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the allocation mode for the tests.</span>
@@ -18011,12 +18178,12 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">contract_start_address</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the starting address for contract deployment.</span>
@@ -18048,12 +18215,12 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">contract_address_increments</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the address increment for contract deployment.</span>
@@ -18085,17 +18252,17 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">contract_address_iterator</span><span class="p">(</span>
     <span class="n">contract_start_address</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">contract_address_increments</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -18136,12 +18303,12 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>
 <span class="k">def</span> <span class="nf">eoa_by_index</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns an EOA by index.</span>
@@ -18173,12 +18340,12 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">eoa_iterator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns an iterator over EOAs copies.</span>
@@ -18198,8 +18365,53 @@ added to its existing balance.</p>
 <div class="doc doc-object doc-function">
 
 
+<h2 id="pytest_plugins.filler.pre_alloc.evm_code_type" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">evm_code_type</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.filler.pre_alloc.evm_code_type" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Returns the default EVM code type for all tests (LEGACY).</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">evm_code_type</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EVMCodeType</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the default EVM code type for all tests (LEGACY).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parameter_evm_code_type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;evm_code_type&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parameter_evm_code_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">parameter_evm_code_type</span><span class="p">)</span> <span class="ow">is</span> <span class="n">EVMCodeType</span><span class="p">,</span> <span class="s2">&quot;Invalid EVM code type&quot;</span>
+        <span class="k">return</span> <span class="n">parameter_evm_code_type</span>
+    <span class="k">return</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
 <h2 id="pytest_plugins.filler.pre_alloc.pre" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">pre</span><span class="p">(</span><span class="n">alloc_mode</span><span class="p">,</span> <span class="n">contract_address_iterator</span><span class="p">,</span> <span class="n">eoa_iterator</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">pre</span><span class="p">(</span><span class="n">alloc_mode</span><span class="p">,</span> <span class="n">contract_address_iterator</span><span class="p">,</span> <span class="n">eoa_iterator</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.filler.pre_alloc.pre" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -18210,24 +18422,27 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pre</span><span class="p">(</span>
     <span class="n">alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span><span class="p">,</span>
     <span class="n">contract_address_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
     <span class="n">eoa_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">],</span>
+    <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Alloc</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the default pre allocation for all tests (Empty alloc).</span>
@@ -18236,6 +18451,7 @@ added to its existing balance.</p>
         <span class="n">alloc_mode</span><span class="o">=</span><span class="n">alloc_mode</span><span class="p">,</span>
         <span class="n">contract_address_iterator</span><span class="o">=</span><span class="n">contract_address_iterator</span><span class="p">,</span>
         <span class="n">eoa_iterator</span><span class="o">=</span><span class="n">eoa_iterator</span><span class="p">,</span>
+        <span class="n">evm_code_type</span><span class="o">=</span><span class="n">evm_code_type</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

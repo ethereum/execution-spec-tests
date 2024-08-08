@@ -14168,6 +14168,10 @@
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.</p>
 <h2 id="unreleased-2024-xx-xx">🔜 <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/UNRELEASED">Unreleased</a> - 2024-XX-XX<a class="headerlink" href="#unreleased-2024-xx-xx" title="Permanent link">&para;</a></h2>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✨ EIP-4844 test <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code> includes an EOF test case (<a href="https://github.com/ethereum/execution-spec-tests/pull/610">#610</a>).</li>
+<li>✨ Example test <code>tests/frontier/opcodes/test_dup.py</code> now includes EOF parametrization (<a href="https://github.com/ethereum/execution-spec-tests/pull/610">#610</a>).</li>
+</ul>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🐞 Fixed consume hive commands from spawning different hive test suites during the same test execution when using xdist (<a href="https://github.com/ethereum/execution-spec-tests/pull/712">#712</a>).</li>
@@ -14175,6 +14179,9 @@
 <li>✨ Generated fixtures now contain the test index <code>index.json</code> by default (<a href="https://github.com/ethereum/execution-spec-tests/pull/716">#716</a>).</li>
 <li>✨ A metadata folder <code>.meta/</code> now stores all fixture metadata files by default (<a href="https://github.com/ethereum/execution-spec-tests/pull/721">#721</a>).</li>
 <li>🐞 Fixed <code>fill</code> command index generation issue due to concurrency (<a href="https://github.com/ethereum/execution-spec-tests/pull/725">#725</a>).</li>
+<li>✨ Added <code>with_all_evm_code_types</code> and <code>with_all_call_opcodes</code> markers, which allow automatic parametrization of tests to EOF (<a href="https://github.com/ethereum/execution-spec-tests/pull/610">#610</a>).</li>
+<li>✨ Code generators <code>Conditional</code> and <code>Switch</code> now support EOF by adding parameter <code>evm_code_type</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/610">#610</a>).</li>
+<li>✨ <code>fill</code> command now supports parameter <code>--evm-code-type</code> that can be (currently) set to <code>legacy</code> or <code>eof_v1</code> to force all test smart contracts to deployed in normal or in EOF containers (<a href="https://github.com/ethereum/execution-spec-tests/pull/610">#610</a>).</li>
 <li>🐞 Fixed fixture index generation on EOF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/728">#728</a>).</li>
 <li>🐞 Fixes consume genesis mismatch exception for hive based simulators (<a href="https://github.com/ethereum/execution-spec-tests/pull/734">#734</a>).</li>
 </ul>

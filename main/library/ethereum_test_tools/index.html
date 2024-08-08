@@ -3973,9 +3973,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_tools.CalldataCase.__post_init__" class="md-nav__link">
+  <a href="#ethereum_test_tools.CalldataCase.__init__" class="md-nav__link">
     <span class="md-ellipsis">
-      __post_init__
+      __init__
     </span>
   </a>
   
@@ -3992,6 +3992,21 @@
       Case
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Case">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Case.is_terminating" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_terminating
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4064,33 +4079,6 @@
   
     <nav class="md-nav" aria-label="Conditional">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Conditional.condition" class="md-nav__link">
-    <span class="md-ellipsis">
-      condition
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Conditional.if_true" class="md-nav__link">
-    <span class="md-ellipsis">
-      if_true
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Conditional.if_false" class="md-nav__link">
-    <span class="md-ellipsis">
-      if_false
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#ethereum_test_tools.Conditional.__new__" class="md-nav__link">
@@ -4180,6 +4168,15 @@
   <a href="#ethereum_test_tools.Switch.cases" class="md-nav__link">
     <span class="md-ellipsis">
       cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Switch.evm_code_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      evm_code_type
     </span>
   </a>
   
@@ -18130,9 +18127,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_tools.CalldataCase.__post_init__" class="md-nav__link">
+  <a href="#ethereum_test_tools.CalldataCase.__init__" class="md-nav__link">
     <span class="md-ellipsis">
-      __post_init__
+      __init__
     </span>
   </a>
   
@@ -18149,6 +18146,21 @@
       Case
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Case">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Case.is_terminating" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_terminating
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -18221,33 +18233,6 @@
   
     <nav class="md-nav" aria-label="Conditional">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Conditional.condition" class="md-nav__link">
-    <span class="md-ellipsis">
-      condition
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Conditional.if_true" class="md-nav__link">
-    <span class="md-ellipsis">
-      if_true
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.Conditional.if_false" class="md-nav__link">
-    <span class="md-ellipsis">
-      if_false
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#ethereum_test_tools.Conditional.__new__" class="md-nav__link">
@@ -18337,6 +18322,15 @@
   <a href="#ethereum_test_tools.Switch.cases" class="md-nav__link">
     <span class="md-ellipsis">
       cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.Switch.evm_code_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      evm_code_type
     </span>
   </a>
   
@@ -31977,14 +31971,12 @@ block = Block(
             <code>CalldataCase</code>
 
 
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span>
-
 <a href="#ethereum_test_tools.CalldataCase" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.code.generators.Case" href="#ethereum_test_tools.Case">Case</a></code></p>
 
 
       <p>Small helper class to represent a single case whose condition depends
@@ -31996,7 +31988,12 @@ optionally <code>position</code>) and may not be set directly.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">253</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
@@ -32008,19 +32005,7 @@ optionally <code>position</code>) and may not be set directly.</p>
 <span class="normal">262</span>
 <span class="normal">263</span>
 <span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">CalldataCase</span><span class="p">:</span>
+<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CalldataCase</span><span class="p">(</span><span class="n">Case</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Small helper class to represent a single case whose condition depends</span>
 <span class="sd">    on the value of the contract&#39;s calldata in a Switch case statement.</span>
@@ -32032,17 +32017,12 @@ optionally <code>position</code>) and may not be set directly.</p>
 <span class="sd">    optionally `position`) and may not be set directly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">action</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span>
-    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span>
-    <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate the condition base on `value` and `position`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="n">position</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -32059,10 +32039,10 @@ optionally <code>position</code>) and may not be set directly.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_tools.CalldataCase.__post_init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">__post_init__</span><span class="p">()</span></code>
+<h3 id="ethereum_test_tools.CalldataCase.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
-<a href="#ethereum_test_tools.CalldataCase.__post_init__" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#ethereum_test_tools.CalldataCase.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
@@ -32071,17 +32051,17 @@ optionally <code>position</code>) and may not be set directly.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the condition base on `value` and `position`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="n">position</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -32125,15 +32105,23 @@ list.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">242</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
 <span class="normal">243</span>
 <span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Case</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Small helper class to represent a single, generic case in a `Switch` cases</span>
@@ -32142,6 +32130,14 @@ list.</p>
 
     <span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span>
     <span class="n">action</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span>
+    <span class="n">terminating</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_terminating</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns whether the case is terminating.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminating</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminating</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">terminating</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -32149,6 +32145,32 @@ list.</p>
 
   <div class="doc doc-children">
 
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.Case.is_terminating" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">is_terminating</span><span class="p">:</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Case.is_terminating" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Returns whether the case is terminating.</p>
+    </div>
+
+</div>
 
 
 
@@ -32580,45 +32602,18 @@ and to be popped at the end of the execution.</p>
 <span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Conditional</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Conditional</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate conditional bytecode.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Condition bytecode which must return the true or false condition of the conditional statement.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">if_true</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Bytecode to execute if the condition is true.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">if_false</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Bytecode to execute if the condition is false.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span><span class="p">,</span>
-        <span class="n">if_true</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">if_false</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">if_true</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">(),</span>
+        <span class="n">if_false</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">(),</span>
+        <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">=</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assemble the conditional bytecode by generating the necessary jump and</span>
@@ -32627,25 +32622,26 @@ and to be popped at the end of the execution.</p>
 
 <span class="sd">        In the future, PC usage should be replaced by using RJUMP and RJUMPI</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># First we append a jumpdest to the start of the true branch</span>
-        <span class="n">if_true</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">if_true</span>
+        <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">:</span>
+            <span class="c1"># First we append a jumpdest to the start of the true branch</span>
+            <span class="n">if_true</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">if_true</span>
 
-        <span class="c1"># Then we append the unconditional jump to the end of the false branch, used to skip the</span>
-        <span class="c1"># true branch</span>
-        <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="c1"># Then we append the unconditional jump to the end of the false branch, used to skip</span>
+            <span class="c1"># the true branch</span>
+            <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
 
-        <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
-        <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition</span><span class="p">)</span>
+            <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
+            <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+            <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)]</span>
+            <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)](</span><span class="n">condition</span><span class="p">)</span>
 
         <span class="c1"># Finally we append the true and false branches, and the condition, plus the jumpdest at</span>
         <span class="c1"># the very end</span>
         <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
 
-        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bytecode</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">if_true</span> <span class="o">=</span> <span class="n">if_true</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">if_false</span> <span class="o">=</span> <span class="n">if_false</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bytecode</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -32659,89 +32655,11 @@ and to be popped at the end of the execution.</p>
 
 
 
-<div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="ethereum_test_tools.Conditional.condition" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
-  </span>
-
-<a href="#ethereum_test_tools.Conditional.condition" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Condition bytecode which must return the true or false condition of the conditional statement.</p>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="ethereum_test_tools.Conditional.if_true" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">if_true</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
-  </span>
-
-<a href="#ethereum_test_tools.Conditional.if_true" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Bytecode to execute if the condition is true.</p>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="ethereum_test_tools.Conditional.if_false" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">if_false</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
-  </span>
-
-<a href="#ethereum_test_tools.Conditional.if_false" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Bytecode to execute if the condition is false.</p>
-    </div>
-
-</div>
-
-
-
-
-
-
 <div class="doc doc-object doc-function">
 
 
 <h3 id="ethereum_test_tools.Conditional.__new__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">if_true</span><span class="p">,</span> <span class="n">if_false</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">if_true</span><span class="o">=</span><span class="n">Bytecode</span><span class="p">(),</span> <span class="n">if_false</span><span class="o">=</span><span class="n">Bytecode</span><span class="p">(),</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_tools.Conditional.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -32755,7 +32673,22 @@ paths.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
 <span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
@@ -32774,25 +32707,13 @@ paths.</p>
 <span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span><span class="p">,</span>
-    <span class="n">if_true</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">if_false</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">if_true</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">(),</span>
+    <span class="n">if_false</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">(),</span>
+    <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">=</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assemble the conditional bytecode by generating the necessary jump and</span>
@@ -32801,25 +32722,26 @@ paths.</p>
 
 <span class="sd">    In the future, PC usage should be replaced by using RJUMP and RJUMPI</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># First we append a jumpdest to the start of the true branch</span>
-    <span class="n">if_true</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">if_true</span>
+    <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">:</span>
+        <span class="c1"># First we append a jumpdest to the start of the true branch</span>
+        <span class="n">if_true</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">if_true</span>
 
-    <span class="c1"># Then we append the unconditional jump to the end of the false branch, used to skip the</span>
-    <span class="c1"># true branch</span>
-    <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="c1"># Then we append the unconditional jump to the end of the false branch, used to skip</span>
+        <span class="c1"># the true branch</span>
+        <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
 
-    <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
-    <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition</span><span class="p">)</span>
+        <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+        <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)]</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)](</span><span class="n">condition</span><span class="p">)</span>
 
     <span class="c1"># Finally we append the true and false branches, and the condition, plus the jumpdest at</span>
     <span class="c1"># the very end</span>
     <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
 
-    <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bytecode</span><span class="p">)</span>
-    <span class="n">instance</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
-    <span class="n">instance</span><span class="o">.</span><span class="n">if_true</span> <span class="o">=</span> <span class="n">if_true</span>
-    <span class="n">instance</span><span class="o">.</span><span class="n">if_false</span> <span class="o">=</span> <span class="n">if_false</span>
-    <span class="k">return</span> <span class="n">instance</span>
+    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bytecode</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -33403,7 +33325,18 @@ The initcode can be padded to a specified length for testing purposes.</p>
 </details>
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">279</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
 <span class="normal">282</span>
@@ -33488,7 +33421,20 @@ The initcode can be padded to a specified length for testing purposes.</p>
 <span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
-<span class="normal">364</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Switch</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Switch</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate switch-case expressions in EVM bytecode.</span>
 
@@ -33507,24 +33453,28 @@ The initcode can be padded to a specified length for testing purposes.</p>
 <span class="sd">    executed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span> <span class="o">|</span> <span class="n">CalldataCase</span><span class="p">]</span>
+    <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A list of Case or CalldataCase: The first element with a condition that</span>
+<span class="sd">    A list of Cases: The first element with a condition that</span>
 <span class="sd">    evaluates to a non-zero value is the one that is executed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The EVM code type to use for the switch-case bytecode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">default_action</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span> <span class="o">|</span> <span class="n">CalldataCase</span><span class="p">],</span>
+        <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span><span class="p">],</span>
+        <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">=</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assemble the bytecode by looping over the list of cases and adding</span>
-<span class="sd">        the necessary JUMPI and JUMPDEST opcodes in order to replicate</span>
+<span class="sd">        the necessary [R]JUMPI and JUMPDEST opcodes in order to replicate</span>
 <span class="sd">        switch-case behavior.</span>
-
-<span class="sd">        In the future, PC usage should be replaced by using RJUMP and RJUMPI.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># The length required to jump over subsequent actions to the final JUMPDEST at the end</span>
         <span class="c1"># of the switch-case block:</span>
@@ -33532,13 +33482,24 @@ The initcode can be padded to a specified length for testing purposes.</p>
         <span class="c1">#   bytecode</span>
         <span class="c1"># - add 3 to the total to account for this action&#39;s JUMP; the PC within the call</span>
         <span class="c1">#   requires a &quot;correction&quot; of 3.</span>
-        <span class="n">action_jump_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">cases</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+
+        <span class="n">bytecode</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
 
         <span class="c1"># All conditions get pre-pended to this bytecode; if none are met, we reach the default</span>
-        <span class="n">bytecode</span> <span class="o">=</span> <span class="n">default_action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
-
-        <span class="c1"># The length required to jump over the default action and its JUMP bytecode</span>
-        <span class="n">condition_jump_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bytecode</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">:</span>
+            <span class="n">action_jump_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">cases</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+            <span class="n">bytecode</span> <span class="o">=</span> <span class="n">default_action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
+            <span class="c1"># The length required to jump over the default action and its JUMP bytecode</span>
+            <span class="n">condition_jump_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bytecode</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+            <span class="n">action_jump_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">case</span><span class="o">.</span><span class="n">is_terminating</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">cases</span>
+                <span class="c1"># On not terminating cases, we need to add 3 bytes for the RJUMP</span>
+            <span class="p">)</span>
+            <span class="n">bytecode</span> <span class="o">=</span> <span class="n">default_action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">action_jump_length</span><span class="p">]</span>
+            <span class="c1"># The length required to jump over the default action and its JUMP bytecode</span>
+            <span class="n">condition_jump_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bytecode</span><span class="p">)</span>
 
         <span class="c1"># Reversed: first case in the list has priority; it will become the outer-most onion layer.</span>
         <span class="c1"># We build up layers around the default_action, after 1 iteration of the loop, a simplified</span>
@@ -33561,9 +33522,18 @@ The initcode can be padded to a specified length for testing purposes.</p>
         <span class="c1">#  + JUMPDEST + case[0].action + JUMP()</span>
         <span class="c1">#</span>
         <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">cases</span><span class="p">):</span>
-            <span class="n">action_jump_length</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span>
-            <span class="n">action</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">case</span><span class="o">.</span><span class="n">action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
-            <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">condition_jump_length</span><span class="p">),</span> <span class="n">case</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">case</span><span class="o">.</span><span class="n">action</span>
+            <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">:</span>
+                <span class="n">action_jump_length</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span>
+                <span class="n">action</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
+                <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">condition_jump_length</span><span class="p">),</span> <span class="n">case</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+                <span class="n">action_jump_length</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">case</span><span class="o">.</span><span class="n">is_terminating</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">case</span><span class="o">.</span><span class="n">is_terminating</span><span class="p">:</span>
+                    <span class="n">action</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">action_jump_length</span><span class="p">]</span>
+                <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="n">condition_jump_length</span><span class="p">](</span><span class="n">case</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
             <span class="c1"># wrap the current case around the onion as its next layer</span>
             <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">bytecode</span> <span class="o">+</span> <span class="n">action</span>
             <span class="n">condition_jump_length</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
@@ -33619,7 +33589,7 @@ executed.</p>
 
 
 <h3 id="ethereum_test_tools.Switch.cases" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span> <span class="o">|</span> <span class="n">CalldataCase</span><span class="p">]</span></code>
+            <code class="highlight language-python"><span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
@@ -33630,8 +33600,34 @@ executed.</p>
 
     <div class="doc doc-contents ">
 
-      <p>A list of Case or CalldataCase: The first element with a condition that
+      <p>A list of Cases: The first element with a condition that
 evaluates to a non-zero value is the one that is executed.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.Switch.evm_code_type" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.Switch.evm_code_type" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>The EVM code type to use for the switch-case bytecode.</p>
     </div>
 
 </div>
@@ -33645,7 +33641,7 @@ evaluates to a non-zero value is the one that is executed.</p>
 
 
 <h3 id="ethereum_test_tools.Switch.__new__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">default_action</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cases</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">default_action</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cases</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_tools.Switch.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -33653,13 +33649,18 @@ evaluates to a non-zero value is the one that is executed.</p>
     <div class="doc doc-contents ">
 
       <p>Assemble the bytecode by looping over the list of cases and adding
-the necessary JUMPI and JUMPDEST opcodes in order to replicate
+the necessary [R]JUMPI and JUMPDEST opcodes in order to replicate
 switch-case behavior.</p>
-<p>In the future, PC usage should be replaced by using RJUMP and RJUMPI.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">304</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
@@ -33719,18 +33720,30 @@ switch-case behavior.</p>
 <span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
-<span class="normal">364</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">default_action</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span> <span class="o">|</span> <span class="n">CalldataCase</span><span class="p">],</span>
+    <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Case</span><span class="p">],</span>
+    <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">=</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assemble the bytecode by looping over the list of cases and adding</span>
-<span class="sd">    the necessary JUMPI and JUMPDEST opcodes in order to replicate</span>
+<span class="sd">    the necessary [R]JUMPI and JUMPDEST opcodes in order to replicate</span>
 <span class="sd">    switch-case behavior.</span>
-
-<span class="sd">    In the future, PC usage should be replaced by using RJUMP and RJUMPI.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># The length required to jump over subsequent actions to the final JUMPDEST at the end</span>
     <span class="c1"># of the switch-case block:</span>
@@ -33738,13 +33751,24 @@ switch-case behavior.</p>
     <span class="c1">#   bytecode</span>
     <span class="c1"># - add 3 to the total to account for this action&#39;s JUMP; the PC within the call</span>
     <span class="c1">#   requires a &quot;correction&quot; of 3.</span>
-    <span class="n">action_jump_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">cases</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+
+    <span class="n">bytecode</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
 
     <span class="c1"># All conditions get pre-pended to this bytecode; if none are met, we reach the default</span>
-    <span class="n">bytecode</span> <span class="o">=</span> <span class="n">default_action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
-
-    <span class="c1"># The length required to jump over the default action and its JUMP bytecode</span>
-    <span class="n">condition_jump_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bytecode</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+    <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">:</span>
+        <span class="n">action_jump_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">cases</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="n">bytecode</span> <span class="o">=</span> <span class="n">default_action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
+        <span class="c1"># The length required to jump over the default action and its JUMP bytecode</span>
+        <span class="n">condition_jump_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bytecode</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+    <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+        <span class="n">action_jump_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">case</span><span class="o">.</span><span class="n">is_terminating</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">cases</span>
+            <span class="c1"># On not terminating cases, we need to add 3 bytes for the RJUMP</span>
+        <span class="p">)</span>
+        <span class="n">bytecode</span> <span class="o">=</span> <span class="n">default_action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">action_jump_length</span><span class="p">]</span>
+        <span class="c1"># The length required to jump over the default action and its JUMP bytecode</span>
+        <span class="n">condition_jump_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bytecode</span><span class="p">)</span>
 
     <span class="c1"># Reversed: first case in the list has priority; it will become the outer-most onion layer.</span>
     <span class="c1"># We build up layers around the default_action, after 1 iteration of the loop, a simplified</span>
@@ -33767,9 +33791,18 @@ switch-case behavior.</p>
     <span class="c1">#  + JUMPDEST + case[0].action + JUMP()</span>
     <span class="c1">#</span>
     <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">cases</span><span class="p">):</span>
-        <span class="n">action_jump_length</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span>
-        <span class="n">action</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">case</span><span class="o">.</span><span class="n">action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
-        <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">condition_jump_length</span><span class="p">),</span> <span class="n">case</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">case</span><span class="o">.</span><span class="n">action</span>
+        <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">LEGACY</span><span class="p">:</span>
+            <span class="n">action_jump_length</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">action</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">action_jump_length</span><span class="p">))</span>
+            <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="n">condition_jump_length</span><span class="p">),</span> <span class="n">case</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
+            <span class="n">action_jump_length</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">case</span><span class="o">.</span><span class="n">is_terminating</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">case</span><span class="o">.</span><span class="n">is_terminating</span><span class="p">:</span>
+                <span class="n">action</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">action_jump_length</span><span class="p">]</span>
+            <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="n">condition_jump_length</span><span class="p">](</span><span class="n">case</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
         <span class="c1"># wrap the current case around the onion as its next layer</span>
         <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">bytecode</span> <span class="o">+</span> <span class="n">action</span>
         <span class="n">condition_jump_length</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
