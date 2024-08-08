@@ -12,6 +12,7 @@ from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Alloc,
     AuthorizationTuple,
     Block,
