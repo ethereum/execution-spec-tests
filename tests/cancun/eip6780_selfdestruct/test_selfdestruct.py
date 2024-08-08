@@ -1033,7 +1033,7 @@ def test_calling_from_new_contract_to_pre_existing_contract(
 @pytest.mark.parametrize("selfdestruct_contract_initial_balance", [0, 1])
 @pytest.mark.parametrize("pre_existing_contract_initial_balance", [0, 1])
 @pytest.mark.valid_from("Shanghai")
-def test_delegatecall_from_pre_existing_contract_to_new_contract(
+def test_calling_from_pre_existing_contract_to_new_contract(
     state_test: StateTestFiller,
     eip_enabled: bool,
     env: Environment,
