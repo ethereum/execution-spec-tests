@@ -16,6 +16,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ A metadata folder `.meta/` now stores all fixture metadata files by default ([#721](https://github.com/ethereum/execution-spec-tests/pull/721)).
 - 🐞 Fixed `fill` command index generation issue due to concurrency ([#725](https://github.com/ethereum/execution-spec-tests/pull/725)).
 - 🐞 Fixed fixture index generation on EOF tests ([#728](https://github.com/ethereum/execution-spec-tests/pull/728)).
+- 🐞 Fixes consume genesis mismatch exception for hive based simulators ([#734](https://github.com/ethereum/execution-spec-tests/pull/734)).
 
 ### 🔧 EVM Tools
 
