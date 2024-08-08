@@ -8,6 +8,9 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- ✨ EIP-4844 test `tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py` includes an EOF test case ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
+- ✨ Example test `tests/frontier/opcodes/test_dup.py` now includes EOF parametrization ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
+
 ### 🛠️ Framework
 
 - 🐞 Fixed consume hive commands from spawning different hive test suites during the same test execution when using xdist ([#712](https://github.com/ethereum/execution-spec-tests/pull/712)).
@@ -15,6 +18,9 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Generated fixtures now contain the test index `index.json` by default ([#716](https://github.com/ethereum/execution-spec-tests/pull/716)).
 - ✨ A metadata folder `.meta/` now stores all fixture metadata files by default ([#721](https://github.com/ethereum/execution-spec-tests/pull/721)).
 - 🐞 Fixed `fill` command index generation issue due to concurrency ([#725](https://github.com/ethereum/execution-spec-tests/pull/725)).
+- ✨ Added `with_all_evm_code_types` and `with_all_call_opcodes` markers, which allow automatic parametrization of tests to EOF ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
+- ✨ Code generators `Conditional` and `Switch` now support EOF by adding parameter `evm_code_type` ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
+- ✨ `fill` command now supports parameter `--evm-code-type` that can be (currently) set to `legacy` or `eof_v1` to force all test smart contracts to deployed in normal or in EOF containers ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
 - 🐞 Fixed fixture index generation on EOF tests ([#728](https://github.com/ethereum/execution-spec-tests/pull/728)).
 - 🐞 Fixes consume genesis mismatch exception for hive based simulators ([#734](https://github.com/ethereum/execution-spec-tests/pull/734)).
 
