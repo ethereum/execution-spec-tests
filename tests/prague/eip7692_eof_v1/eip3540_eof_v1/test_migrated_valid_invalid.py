@@ -5,9 +5,9 @@ ethereum/tests/src/EOFTestsFiller/EIP3540/validInvalidFiller.yml
 
 import pytest
 
-from ethereum_test_tools import EOFTestFiller
+from ethereum_test_tools import EOFException, EOFTestFiller
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools.eof.v1 import Container, EOFException, Section
+from ethereum_test_tools.eof.v1 import Container, Section
 
 from .. import EOF_FORK_NAME
 
@@ -25,7 +25,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             Container(
                 name="EOF1V3540_0001",
                 sections=[
-                    Section.Code(code=Op.PUSH1[0] + Op.POP + Op.STOP, max_stack_height=1),
+                    Section.Code(code=Op.PUSH1[0] + Op.POP + Op.STOP),
                 ],
             ),
             None,
@@ -36,7 +36,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             Container(
                 name="EOF1V3540_0002",
                 sections=[
-                    Section.Code(code=Op.PUSH1[0] + Op.POP + Op.STOP, max_stack_height=1),
+                    Section.Code(code=Op.PUSH1[0] + Op.POP + Op.STOP),
                     Section.Data("aabbccdd"),
                 ],
             ),
@@ -44,7 +44,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="EOF1V3540_0002",
         ),
         pytest.param(
-            # No data section contents (valid according to relaxed validation)
+            # No data section contents
             Container(
                 name="EOF1V3540_0003",
                 sections=[
@@ -52,11 +52,11 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                     Section.Data(custom_size=2),
                 ],
             ),
-            None,
+            EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
             id="EOF1V3540_0003",
         ),
         pytest.param(
-            # Data section contents incomplete (valid according to relaxed validation)
+            # Data section contents incomplete
             Container(
                 name="EOF1V3540_0004",
                 sections=[
@@ -64,7 +64,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                     Section.Data("aa", custom_size=2),
                 ],
             ),
-            None,
+            EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
             id="EOF1V3540_0004",
         ),
         pytest.param(
@@ -141,7 +141,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
         pytest.param(
             # Trailing bytes after code section
-            bytes.fromhex("ef000101000402000100010400000000000000feaabbcc"),
+            bytes.fromhex("ef0001 010004 0200010001 040000 00 00800000 fe aabbcc"),
             EOFException.INVALID_SECTION_BODIES_SIZE,
             id="EOF1I3540_0027",
         ),
@@ -183,7 +183,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
         pytest.param(
             # Trailing bytes after data section
-            bytes.fromhex("ef000101000402000100010400020000000000feaabbccdd"),
+            bytes.fromhex("ef0001 010004 0200010001 040002 00 00800000 fe aabbccdd"),
             EOFException.INVALID_SECTION_BODIES_SIZE,
             id="EOF1I3540_0035",
         ),
