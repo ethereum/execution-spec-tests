@@ -13313,7 +13313,7 @@
 
 
 <h1 id="test-blobgasfee-opcode">Test Blobgasfee Opcode<a class="headerlink" href="#test-blobgasfee-opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16ea5062f35a05beab916b74adb000ca5b107456/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c1cafe53e5103f3355b4d331d8ab91ec666a6fd/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</span>
@@ -13348,7 +13348,7 @@
 
 
 <h2 id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_stack_overflow" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blobbasefee_stack_overflow</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">call_fails</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_blobbasefee_stack_overflow</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">caller_address</span><span class="p">,</span> <span class="n">callee_address</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">call_fails</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_stack_overflow" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -13359,7 +13359,12 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
@@ -13386,10 +13391,7 @@
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_code,call_fails&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BLOBBASEFEE</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_stack_overflow&quot;</span><span class="p">),</span>
@@ -13400,6 +13402,8 @@
 <span class="k">def</span> <span class="nf">test_blobbasefee_stack_overflow</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">caller_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">callee_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">call_fails</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
@@ -13407,10 +13411,10 @@
 <span class="sd">    Tests that the BLOBBASEFEE opcode produces a stack overflow by using it repeatedly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">code_caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">call_fails</span> <span class="k">else</span> <span class="mi">1</span><span class="p">},</span>
         <span class="p">),</span>
-        <span class="n">code_callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -13435,7 +13439,7 @@
 
 
 <h2 id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_out_of_gas" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blobbasefee_out_of_gas</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">call_fails</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_blobbasefee_out_of_gas</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">caller_address</span><span class="p">,</span> <span class="n">callee_address</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">call_fails</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_out_of_gas" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -13446,7 +13450,10 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
@@ -13475,8 +13482,7 @@
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas,call_fails&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">BLOBBASEFEE_GAS</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;enough_gas&quot;</span><span class="p">),</span>
@@ -13487,6 +13493,8 @@
 <span class="k">def</span> <span class="nf">test_blobbasefee_out_of_gas</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">caller_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">callee_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">call_fails</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
@@ -13494,10 +13502,10 @@
 <span class="sd">    Tests that the BLOBBASEFEE opcode fails with insufficient gas.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">code_caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">call_fails</span> <span class="k">else</span> <span class="mi">1</span><span class="p">},</span>
         <span class="p">),</span>
-        <span class="n">code_callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -13522,7 +13530,7 @@
 
 
 <h2 id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_before_fork" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blobbasefee_before_fork</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_blobbasefee_before_fork</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">caller_address</span><span class="p">,</span> <span class="n">callee_address</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_before_fork" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -13533,7 +13541,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
+<span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
@@ -13561,13 +13570,13 @@
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;caller_pre_storage&quot;</span><span class="p">,</span> <span class="p">[{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blobbasefee_before_fork</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">caller_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">callee_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -13575,16 +13584,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Fork happens at timestamp 15_000</span>
     <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">7_500</span>
-    <span class="n">code_caller_account</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">]</span>
-    <span class="k">assert</span> <span class="n">code_caller_account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">code_caller_account</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
-        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">code_caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
         <span class="p">),</span>
-        <span class="n">code_callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
@@ -13611,7 +13615,7 @@
 
 
 <h2 id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_during_fork" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blobbasefee_during_fork</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_blobbasefee_during_fork</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">caller_address</span><span class="p">,</span> <span class="n">callee_address</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_during_fork" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -13669,24 +13673,26 @@ succeeds when called after the fork.</p>
 <span class="normal">241</span>
 <span class="normal">242</span>
 <span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">244</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;caller_pre_storage&quot;</span><span class="p">,</span>
+    <span class="p">[{</span><span class="n">block_number</span><span class="p">:</span> <span class="mh">0xFF</span> <span class="k">for</span> <span class="n">block_number</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)}],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blobbasefee_during_fork</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">caller_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">callee_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests that the BLOBBASEFEE opcode results on exception when called before the fork and</span>
 <span class="sd">    succeeds when called after the fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">code_caller_pre_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
     <span class="n">code_caller_post_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 
     <span class="n">nonce</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="n">timestamps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7_500</span><span class="p">,</span> <span class="mi">14_999</span><span class="p">,</span> <span class="mi">15_000</span><span class="p">]</span>
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -13698,19 +13704,13 @@ succeeds when called after the fork.</p>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="c1"># pre-set storage just to make sure we detect the change</span>
-        <span class="n">code_caller_pre_storage</span><span class="p">[</span><span class="n">block_number</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0xFF</span>
         <span class="n">code_caller_post_storage</span><span class="p">[</span><span class="n">block_number</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">timestamp</span> <span class="o">&lt;</span> <span class="mi">15_000</span> <span class="k">else</span> <span class="mi">1</span>
 
-    <span class="n">code_caller_account</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">]</span>
-    <span class="k">assert</span> <span class="n">code_caller_account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">pre</span><span class="p">[</span><span class="n">code_caller_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">code_caller_account</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
-        <span class="n">storage</span><span class="o">=</span><span class="n">code_caller_pre_storage</span><span class="p">,</span>
-    <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">code_caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">code_caller_post_storage</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">code_callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+        <span class="n">callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>

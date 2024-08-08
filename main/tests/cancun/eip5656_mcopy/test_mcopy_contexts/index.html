@@ -13270,6 +13270,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip5656_mcopy.test_mcopy_contexts.test_no_memory_corruption_on_upper_create_stack_levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_no_memory_corruption_on_upper_create_stack_levels
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -13286,7 +13295,7 @@
 
 
 <h1 id="test-mcopy-contexts">Test Mcopy Contexts<a class="headerlink" href="#test-mcopy-contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16ea5062f35a05beab916b74adb000ca5b107456/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c1cafe53e5103f3355b4d331d8ab91ec666a6fd/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</span>
@@ -13333,20 +13342,105 @@ and verify that the caller's memory is unaffected:
   - <code>CALL</code>
   - <code>CALLCODE</code>
   - <code>DELEGATECALL</code>
-  - <code>STATICCALL</code>
-  - <code>CREATE</code>
-  - <code>CREATE2</code></p>
+  - <code>STATICCALL</code></p>
+<p>TODO: [EOF] Add EOF EXT*CALL opcodes</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
+<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_no_memory_corruption_on_upper_call_stack_levels</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform a subcall with any of the following opcodes, which uses MCOPY during its execution,</span>
+<span class="sd">    and verify that the caller&#39;s memory is unaffected:</span>
+<span class="sd">      - `CALL`</span>
+<span class="sd">      - `CALLCODE`</span>
+<span class="sd">      - `DELEGATECALL`</span>
+<span class="sd">      - `STATICCALL`</span>
+
+<span class="sd">    TODO: [EOF] Add EOF EXT*CALL opcodes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.cancun.eip5656_mcopy.test_mcopy_contexts.test_no_memory_corruption_on_upper_create_stack_levels" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_no_memory_corruption_on_upper_create_stack_levels</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
+
+<a href="#tests.cancun.eip5656_mcopy.test_mcopy_contexts.test_no_memory_corruption_on_upper_create_stack_levels" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Perform a subcall with any of the following opcodes, which uses MCOPY during its execution,
+and verify that the caller's memory is unaffected:
+  - <code>CREATE</code>
+  - <code>CREATE2</code></p>
+<p>TODO: [EOF] Add EOFCREATE opcode</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
@@ -13372,33 +13466,28 @@ and verify that the caller's memory is unaffected:
 <span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
-<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">217</span>
+<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_no_memory_corruption_on_upper_call_stack_levels</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_no_memory_corruption_on_upper_create_stack_levels</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform a subcall with any of the following opcodes, which uses MCOPY during its execution,</span>
 <span class="sd">    and verify that the caller&#39;s memory is unaffected:</span>
-<span class="sd">      - `CALL`</span>
-<span class="sd">      - `CALLCODE`</span>
-<span class="sd">      - `DELEGATECALL`</span>
-<span class="sd">      - `STATICCALL`</span>
 <span class="sd">      - `CREATE`</span>
 <span class="sd">      - `CREATE2`</span>
+
+<span class="sd">    TODO: [EOF] Add EOFCREATE opcode</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>

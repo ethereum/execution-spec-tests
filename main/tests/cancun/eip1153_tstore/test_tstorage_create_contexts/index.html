@@ -13301,7 +13301,7 @@
 
 
 <h1 id="test-tstorage-create-contexts">Test Tstorage Create Contexts<a class="headerlink" href="#test-tstorage-create-contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16ea5062f35a05beab916b74adb000ca5b107456/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c1cafe53e5103f3355b4d331d8ab91ec666a6fd/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</span>
@@ -13356,7 +13356,16 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
@@ -13451,27 +13460,7 @@
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="nd">@InitcodeTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">class</span> <span class="nc">TestTransientStorageInContractCreation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -13493,30 +13482,20 @@
         <span class="n">deploy_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
         <span class="n">constructor_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Initcode</span><span class="p">:</span>
-        <span class="n">initcode</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">deploy_code</span><span class="p">,</span> <span class="n">initcode_prefix</span><span class="o">=</span><span class="n">constructor_code</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">initcode</span>
+        <span class="k">return</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">deploy_code</span><span class="p">,</span> <span class="n">initcode_prefix</span><span class="o">=</span><span class="n">constructor_code</span><span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">creator_contract_code</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
         <span class="n">create2_salt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
-            <span class="n">create_call</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
-            <span class="n">create_call</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">create2_salt</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid opcode specified for test.&quot;</span><span class="p">)</span>
-        <span class="n">contract_call</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">(),</span> <span class="n">created_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x0100</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mh">0x0200</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mh">0x0300</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
-            <span class="o">+</span> <span class="n">create_call</span>
-            <span class="o">+</span> <span class="n">contract_call</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">)))</span>
             <span class="c1"># Save the state of transient storage following call to storage; the transient</span>
             <span class="c1"># storage should not have been overwritten</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -13525,25 +13504,31 @@
         <span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">creator_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">creator_contract_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The address that creates the contract with create/create2&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">creator_contract_code</span><span class="p">)</span>
+
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">expected_creator_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
         <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mh">0x0100</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mh">0x0200</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mh">0x0300</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mh">0x0001</span><span class="p">}</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">created_contract_address</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">create2_salt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">creator_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">create2_salt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">creator_address</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">compute_create2_address</span><span class="p">(</span>
-                <span class="n">address</span><span class="o">=</span><span class="n">creator_address</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">,</span> <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span>
-            <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;invalid opcode for generator&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">compute_create_address</span><span class="p">(</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">creator_address</span><span class="p">,</span>
+            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">,</span>
+            <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
+            <span class="n">opcode</span><span class="o">=</span><span class="n">opcode</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-        <span class="n">creator_contract_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
+        <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+        <span class="n">creator_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
         <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
         <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span>
         <span class="n">deploy_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
@@ -13553,20 +13538,13 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test transient storage in contract creation contexts.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">100_000_000_000_000</span><span class="p">),</span>
-            <span class="n">creator_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">creator_contract_code</span><span class="p">,</span>
-                <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="p">),</span>
-        <span class="p">}</span>
+        <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
         <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">to</span><span class="o">=</span><span class="n">creator_address</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000_000_000</span><span class="p">,</span>
-            <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
@@ -13604,7 +13582,7 @@
 
 
 <h3 id="tests.cancun.eip1153_tstore.test_tstorage_create_contexts.TestTransientStorageInContractCreation.test_contract_creation" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_contract_creation</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">creator_contract_code</span><span class="p">,</span> <span class="n">created_contract_address</span><span class="p">,</span> <span class="n">initcode</span><span class="p">,</span> <span class="n">deploy_code</span><span class="p">,</span> <span class="n">expected_creator_storage</span><span class="p">,</span> <span class="n">expected_storage</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_contract_creation</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">creator_address</span><span class="p">,</span> <span class="n">created_contract_address</span><span class="p">,</span> <span class="n">initcode</span><span class="p">,</span> <span class="n">deploy_code</span><span class="p">,</span> <span class="n">expected_creator_storage</span><span class="p">,</span> <span class="n">expected_storage</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip1153_tstore.test_tstorage_create_contexts.TestTransientStorageInContractCreation.test_contract_creation" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -13615,7 +13593,21 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
@@ -13641,30 +13633,11 @@
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
+<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">creator_contract_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">creator_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span>
     <span class="n">deploy_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
@@ -13674,20 +13647,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test transient storage in contract creation contexts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">100_000_000_000_000</span><span class="p">),</span>
-        <span class="n">creator_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">creator_contract_code</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">creator_address</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000_000_000</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>

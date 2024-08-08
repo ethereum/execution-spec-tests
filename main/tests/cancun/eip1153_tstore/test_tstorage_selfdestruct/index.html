@@ -13286,7 +13286,7 @@
 
 
 <h1 id="test-tstorage-selfdestruct">Test Tstorage Selfdestruct<a class="headerlink" href="#test-tstorage-selfdestruct" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16ea5062f35a05beab916b74adb000ca5b107456/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c1cafe53e5103f3355b4d331d8ab91ec666a6fd/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</span>
@@ -13322,7 +13322,7 @@ account the changes in EIP-6780.</p>
 
 
 <h2 id="tests.cancun.eip1153_tstore.test_tstorage_selfdestruct.test_reentrant_selfdestructing_call" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_reentrant_selfdestructing_call</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre_existing_contract</span><span class="p">,</span> <span class="n">caller_bytecode</span><span class="p">,</span> <span class="n">callee_bytecode</span><span class="p">,</span> <span class="n">expected_storage</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_reentrant_selfdestructing_call</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">pre_existing_contract</span><span class="p">,</span> <span class="n">caller_bytecode</span><span class="p">,</span> <span class="n">callee_bytecode</span><span class="p">,</span> <span class="n">expected_storage</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip1153_tstore.test_tstorage_selfdestruct.test_reentrant_selfdestructing_call" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -13333,8 +13333,7 @@ account the changes in EIP-6780.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
@@ -13367,32 +13366,45 @@ account the changes in EIP-6780.</p>
 <span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
-<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@SelfDestructCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@SelfDestructCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_reentrant_selfdestructing_call</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre_existing_contract</span><span class="p">,</span>
-    <span class="n">caller_bytecode</span><span class="p">,</span>
-    <span class="n">callee_bytecode</span><span class="p">,</span>
-    <span class="n">expected_storage</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">pre_existing_contract</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">caller_bytecode</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
+    <span class="n">callee_bytecode</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
+    <span class="n">expected_storage</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test transient storage in different reentrancy contexts after selfdestructing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">40</span><span class="p">),</span>
-        <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">caller_bytecode</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-        <span class="n">copy_from_initcode_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">callee_bytecode</span><span class="p">)),</span>
-    <span class="p">}</span>
+    <span class="n">caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">caller_bytecode</span><span class="p">)</span>
 
+    <span class="n">data</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">|</span> <span class="n">Bytecode</span>
     <span class="k">if</span> <span class="n">pre_existing_contract</span><span class="p">:</span>
-        <span class="n">pre</span><span class="p">[</span><span class="n">callee_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">callee_bytecode</span><span class="p">)</span>
+        <span class="n">callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">callee_bytecode</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">callee_address</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">callee_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">caller_address</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">callee_bytecode</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
         <span class="n">to</span><span class="o">=</span><span class="n">caller_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
     <span class="p">)</span>
+
+    <span class="n">expected_storage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">callee_address</span>
 
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">expected_storage</span><span class="p">)}</span>
 

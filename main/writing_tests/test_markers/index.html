@@ -1085,6 +1085,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pytestmarkpre_alloc_modify" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest.mark.pre_alloc_modify
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pytestmarkskipreason" class="md-nav__link">
     <span class="md-ellipsis">
       pytest.mark.skip("reason")
@@ -13552,6 +13561,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pytestmarkpre_alloc_modify" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest.mark.pre_alloc_modify
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pytestmarkskipreason" class="md-nav__link">
     <span class="md-ellipsis">
       pytest.mark.skip("reason")
@@ -13685,6 +13703,13 @@
 <h2 id="other-markers">Other Markers<a class="headerlink" href="#other-markers" title="Permanent link">&para;</a></h2>
 <h3 id="pytestmarkslow">pytest.mark.slow<a class="headerlink" href="#pytestmarkslow" title="Permanent link">&para;</a></h3>
 <p>This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.</p>
+<h3 id="pytestmarkpre_alloc_modify">pytest.mark.pre_alloc_modify<a class="headerlink" href="#pytestmarkpre_alloc_modify" title="Permanent link">&para;</a></h3>
+<p>This marker is used to mark tests that modify the pre-alloc in a way that would be impractical to reproduce in a real-world scenario.</p>
+<p>Examples of this include:</p>
+<ul>
+<li>Modifying the pre-alloc to have a balance of 2^256 - 1.</li>
+<li>Address collisions that would require hash collisions.</li>
+</ul>
 <h3 id="pytestmarkskipreason">pytest.mark.skip("reason")<a class="headerlink" href="#pytestmarkskipreason" title="Permanent link">&para;</a></h3>
 <p>This marker is used to skip a test with a reason.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>

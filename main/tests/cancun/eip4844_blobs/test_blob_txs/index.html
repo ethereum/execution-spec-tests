@@ -13448,7 +13448,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16ea5062f35a05beab916b74adb000ca5b107456/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1c1cafe53e5103f3355b4d331d8ab91ec666a6fd/tests/cancun/eip4844_blobs/test_blob_txs.py"><code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases  with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py</span>
@@ -13520,18 +13520,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">582</span>
 <span class="normal">583</span>
 <span class="normal">584</span>
 <span class="normal">585</span>
@@ -13547,14 +13536,25 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">595</span>
 <span class="normal">596</span>
 <span class="normal">597</span>
-<span class="normal">598</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">all_valid_blob_combinations</span><span class="p">(),</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_valid_blob_tx_combinations</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
 <span class="p">):</span>
@@ -13605,18 +13605,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">612</span>
 <span class="normal">613</span>
 <span class="normal">614</span>
 <span class="normal">615</span>
@@ -13653,7 +13642,18 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">646</span>
 <span class="normal">647</span>
 <span class="normal">648</span>
-<span class="normal">649</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># tx max_blob_gas_cost of the transaction is not enough</span>
@@ -13681,7 +13681,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_tx_max_fee_per_blob_gas</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
     <span class="n">non_zero_blob_gas_used_genesis_block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
@@ -13692,10 +13692,10 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="sd">    - tx max_fee_per_blob_gas is barely not enough</span>
 <span class="sd">    - tx max_fee_per_blob_gas is zero</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">non_zero_blob_gas_used_genesis_block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">pre</span><span class="p">[</span><span class="n">TestAddress2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
         <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">non_zero_blob_gas_used_genesis_block</span><span class="p">,</span> <span class="n">block</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block</span><span class="p">]</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -13732,18 +13732,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">663</span>
 <span class="normal">664</span>
 <span class="normal">665</span>
 <span class="normal">666</span>
@@ -13772,7 +13761,18 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">689</span>
 <span class="normal">690</span>
 <span class="normal">691</span>
-<span class="normal">692</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span>
+<span class="normal">703</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># tx max_blob_gas_cost of the transaction is not enough</span>
@@ -13797,7 +13797,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="k">def</span> <span class="nf">test_invalid_tx_max_fee_per_blob_gas_state</span><span class="p">(</span>
     <span class="n">state_test_only</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -13842,18 +13842,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
-<span class="normal">706</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">706</span>
 <span class="normal">707</span>
 <span class="normal">708</span>
 <span class="normal">709</span>
@@ -13875,7 +13864,18 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">725</span>
 <span class="normal">726</span>
 <span class="normal">727</span>
-<span class="normal">728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_max_fee_per_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># max blob gas is ok, but max fee per gas is less than base fee per gas</span>
@@ -13890,7 +13890,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="k">def</span> <span class="nf">test_invalid_normal_gas</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
     <span class="n">rlp_modifier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
@@ -13939,18 +13939,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span>
-<span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">742</span>
 <span class="normal">743</span>
 <span class="normal">744</span>
 <span class="normal">745</span>
@@ -13966,7 +13955,18 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">755</span>
 <span class="normal">756</span>
 <span class="normal">757</span>
-<span class="normal">758</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">invalid_blob_combinations</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -13976,7 +13976,7 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_block_blob_count</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
 <span class="p">):</span>
@@ -14028,18 +14028,7 @@ max_fee_per_gas would be enough for current block), including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">761</span>
-<span class="normal">762</span>
-<span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span>
-<span class="normal">772</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">772</span>
 <span class="normal">773</span>
 <span class="normal">774</span>
 <span class="normal">775</span>
@@ -14067,7 +14056,18 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="normal">797</span>
 <span class="normal">798</span>
 <span class="normal">799</span>
-<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_access_list&quot;</span><span class="p">,</span>
     <span class="p">[[],</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_access_list&quot;</span><span class="p">,</span> <span class="s2">&quot;access_list&quot;</span><span class="p">],</span>
@@ -14087,7 +14087,7 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="k">def</span> <span class="nf">test_insufficient_balance_blob_tx</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -14141,18 +14141,7 @@ max_fee_per_gas would be enough for current block), including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">803</span>
-<span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span>
-<span class="normal">808</span>
-<span class="normal">809</span>
-<span class="normal">810</span>
-<span class="normal">811</span>
-<span class="normal">812</span>
-<span class="normal">813</span>
-<span class="normal">814</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">814</span>
 <span class="normal">815</span>
 <span class="normal">816</span>
 <span class="normal">817</span>
@@ -14178,7 +14167,18 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="normal">837</span>
 <span class="normal">838</span>
 <span class="normal">839</span>
-<span class="normal">840</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span>
+<span class="normal">846</span>
+<span class="normal">847</span>
+<span class="normal">848</span>
+<span class="normal">849</span>
+<span class="normal">850</span>
+<span class="normal">851</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_access_list&quot;</span><span class="p">,</span>
     <span class="p">[[],</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_access_list&quot;</span><span class="p">,</span> <span class="s2">&quot;access_list&quot;</span><span class="p">],</span>
@@ -14196,7 +14196,7 @@ max_fee_per_gas would be enough for current block), including:</p>
 <span class="k">def</span> <span class="nf">test_sufficient_balance_blob_tx</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -14231,7 +14231,7 @@ max_fee_per_gas would be enough for current block), including:</p>
 
 
 <h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_sufficient_balance_blob_tx_pre_fund_tx" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_sufficient_balance_blob_tx_pre_fund_tx</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">total_account_minimum_balance</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">header_verify</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_sufficient_balance_blob_tx_pre_fund_tx</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">total_account_minimum_balance</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">header_verify</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_sufficient_balance_blob_tx_pre_fund_tx" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -14251,18 +14251,7 @@ prepended in the same block, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">843</span>
-<span class="normal">844</span>
-<span class="normal">845</span>
-<span class="normal">846</span>
-<span class="normal">847</span>
-<span class="normal">848</span>
-<span class="normal">849</span>
-<span class="normal">850</span>
-<span class="normal">851</span>
-<span class="normal">852</span>
-<span class="normal">853</span>
-<span class="normal">854</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">854</span>
 <span class="normal">855</span>
 <span class="normal">856</span>
 <span class="normal">857</span>
@@ -14311,7 +14300,13 @@ prepended in the same block, including:</p>
 <span class="normal">900</span>
 <span class="normal">901</span>
 <span class="normal">902</span>
-<span class="normal">903</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">903</span>
+<span class="normal">904</span>
+<span class="normal">905</span>
+<span class="normal">906</span>
+<span class="normal">907</span>
+<span class="normal">908</span>
+<span class="normal">909</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_access_list&quot;</span><span class="p">,</span>
     <span class="p">[[],</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_access_list&quot;</span><span class="p">,</span> <span class="s2">&quot;access_list&quot;</span><span class="p">],</span>
@@ -14325,12 +14320,14 @@ prepended in the same block, including:</p>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_calldata&quot;</span><span class="p">,</span> <span class="s2">&quot;single_zero_calldata&quot;</span><span class="p">,</span> <span class="s2">&quot;single_one_calldata&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10000</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;sender_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_sufficient_balance_blob_tx_pre_fund_tx</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">total_account_minimum_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
 <span class="p">):</span>
@@ -14345,20 +14342,13 @@ prepended in the same block, including:</p>
 <span class="sd">    - Transactions with and without calldata</span>
 <span class="sd">    - Transactions with max fee per blob gas lower or higher than the priority fee</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pre</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">TestPreFundingAddress</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="p">(</span><span class="mi">21_000</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">total_account_minimum_balance</span><span class="p">),</span>
-    <span class="p">}</span>
+    <span class="n">pre_funding_sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="p">(</span><span class="mi">21_000</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">total_account_minimum_balance</span><span class="p">)</span>
     <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">ty</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">TestAddress</span><span class="p">,</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">pre_funding_sender</span><span class="p">,</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">value</span><span class="o">=</span><span class="n">total_account_minimum_balance</span><span class="p">,</span>
             <span class="n">gas_limit</span><span class="o">=</span><span class="mi">21_000</span><span class="p">,</span>
-            <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-            <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">access_list</span><span class="o">=</span><span class="p">[],</span>
-            <span class="n">secret_key</span><span class="o">=</span><span class="n">TestPreFundingKey</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">]</span> <span class="o">+</span> <span class="n">txs</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
@@ -14387,7 +14377,7 @@ prepended in the same block, including:</p>
 
 
 <h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_gas_subtraction_tx" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blob_gas_subtraction_tx</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">state_env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">destination_account</span><span class="p">,</span> <span class="n">mid_tx_send_amount</span><span class="p">,</span> <span class="n">total_account_transactions_fee</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_blob_gas_subtraction_tx</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">state_env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender_initial_balance</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">destination_account</span><span class="p">,</span> <span class="n">destination_account_balance</span><span class="p">,</span> <span class="n">total_account_transactions_fee</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_gas_subtraction_tx" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -14406,13 +14396,7 @@ transaction is executed, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">906</span>
-<span class="normal">907</span>
-<span class="normal">908</span>
-<span class="normal">909</span>
-<span class="normal">910</span>
-<span class="normal">911</span>
-<span class="normal">912</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">912</span>
 <span class="normal">913</span>
 <span class="normal">914</span>
 <span class="normal">915</span>
@@ -14466,7 +14450,19 @@ transaction is executed, including:</p>
 <span class="normal">963</span>
 <span class="normal">964</span>
 <span class="normal">965</span>
-<span class="normal">966</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">966</span>
+<span class="normal">967</span>
+<span class="normal">968</span>
+<span class="normal">969</span>
+<span class="normal">970</span>
+<span class="normal">971</span>
+<span class="normal">972</span>
+<span class="normal">973</span>
+<span class="normal">974</span>
+<span class="normal">975</span>
+<span class="normal">976</span>
+<span class="normal">977</span>
+<span class="normal">978</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_access_list&quot;</span><span class="p">,</span>
     <span class="p">[[],</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_access_list&quot;</span><span class="p">,</span> <span class="s2">&quot;access_list&quot;</span><span class="p">],</span>
@@ -14484,16 +14480,26 @@ transaction is executed, including:</p>
     <span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">)</span>  <span class="c1"># Increase gas to account for contract code</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;mid_tx_send_amount&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+    <span class="s2">&quot;destination_account_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;100_wei_mid_execution&quot;</span><span class="p">]</span>
+<span class="p">)</span>  <span class="c1"># Amount sent by the contract to the sender mid execution</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;destination_account_code&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SELFBALANCE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">))</span>
+    <span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
 <span class="p">)</span>  <span class="c1"># Amount sent by the contract to the sender mid execution</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blob_gas_subtraction_tx</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender_initial_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">destination_account</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
-    <span class="n">mid_tx_send_amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">destination_account_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">total_account_transactions_fee</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -14507,17 +14513,13 @@ transaction is executed, including:</p>
 <span class="sd">    - Transactions where an externally owned account sends funds to the sender mid execution</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="n">pre</span><span class="p">[</span><span class="n">destination_account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
-        <span class="n">balance</span><span class="o">=</span><span class="n">mid_tx_send_amount</span><span class="p">,</span>
-        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">mid_tx_send_amount</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">)),</span>
-    <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">destination_account</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                <span class="mi">0</span><span class="p">:</span> <span class="n">pre</span><span class="p">[</span><span class="n">TestAddress</span><span class="p">]</span><span class="o">.</span><span class="n">balance</span> <span class="o">-</span> <span class="n">total_account_transactions_fee</span><span class="p">,</span>
-                <span class="mi">1</span><span class="p">:</span> <span class="n">pre</span><span class="p">[</span><span class="n">TestAddress</span><span class="p">]</span><span class="o">.</span><span class="n">balance</span> <span class="o">-</span> <span class="n">total_account_transactions_fee</span> <span class="o">+</span> <span class="n">mid_tx_send_amount</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">:</span> <span class="n">sender_initial_balance</span> <span class="o">-</span> <span class="n">total_account_transactions_fee</span><span class="p">,</span>
+                <span class="mi">1</span><span class="p">:</span> <span class="n">sender_initial_balance</span>
+                <span class="o">-</span> <span class="n">total_account_transactions_fee</span>
+                <span class="o">+</span> <span class="n">destination_account_balance</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
     <span class="p">}</span>
@@ -14557,31 +14559,31 @@ transaction is executed, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">969</span>
-<span class="normal">970</span>
-<span class="normal">971</span>
-<span class="normal">972</span>
-<span class="normal">973</span>
-<span class="normal">974</span>
-<span class="normal">975</span>
-<span class="normal">976</span>
-<span class="normal">977</span>
-<span class="normal">978</span>
-<span class="normal">979</span>
-<span class="normal">980</span>
-<span class="normal">981</span>
-<span class="normal">982</span>
-<span class="normal">983</span>
-<span class="normal">984</span>
-<span class="normal">985</span>
-<span class="normal">986</span>
-<span class="normal">987</span>
-<span class="normal">988</span>
-<span class="normal">989</span>
-<span class="normal">990</span>
-<span class="normal">991</span>
-<span class="normal">992</span>
-<span class="normal">993</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 981</span>
+<span class="normal"> 982</span>
+<span class="normal"> 983</span>
+<span class="normal"> 984</span>
+<span class="normal"> 985</span>
+<span class="normal"> 986</span>
+<span class="normal"> 987</span>
+<span class="normal"> 988</span>
+<span class="normal"> 989</span>
+<span class="normal"> 990</span>
+<span class="normal"> 991</span>
+<span class="normal"> 992</span>
+<span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
+<span class="normal"> 998</span>
+<span class="normal"> 999</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span>
+<span class="normal">1004</span>
+<span class="normal">1005</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">all_valid_blob_combinations</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -14590,7 +14592,7 @@ transaction is executed, including:</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_insufficient_balance_blob_tx_combinations</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
 <span class="p">):</span>
@@ -14636,19 +14638,7 @@ transaction is executed, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 996</span>
-<span class="normal"> 997</span>
-<span class="normal"> 998</span>
-<span class="normal"> 999</span>
-<span class="normal">1000</span>
-<span class="normal">1001</span>
-<span class="normal">1002</span>
-<span class="normal">1003</span>
-<span class="normal">1004</span>
-<span class="normal">1005</span>
-<span class="normal">1006</span>
-<span class="normal">1007</span>
-<span class="normal">1008</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1008</span>
 <span class="normal">1009</span>
 <span class="normal">1010</span>
 <span class="normal">1011</span>
@@ -14670,7 +14660,19 @@ transaction is executed, including:</p>
 <span class="normal">1027</span>
 <span class="normal">1028</span>
 <span class="normal">1029</span>
-<span class="normal">1030</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1030</span>
+<span class="normal">1031</span>
+<span class="normal">1032</span>
+<span class="normal">1033</span>
+<span class="normal">1034</span>
+<span class="normal">1035</span>
+<span class="normal">1036</span>
+<span class="normal">1037</span>
+<span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span>
+<span class="normal">1041</span>
+<span class="normal">1042</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">),</span>
@@ -14685,7 +14687,7 @@ transaction is executed, including:</p>
 <span class="k">def</span> <span class="nf">test_invalid_tx_blob_count</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
     <span class="n">rlp_modifier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
@@ -14736,19 +14738,7 @@ transaction is executed, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1033</span>
-<span class="normal">1034</span>
-<span class="normal">1035</span>
-<span class="normal">1036</span>
-<span class="normal">1037</span>
-<span class="normal">1038</span>
-<span class="normal">1039</span>
-<span class="normal">1040</span>
-<span class="normal">1041</span>
-<span class="normal">1042</span>
-<span class="normal">1043</span>
-<span class="normal">1044</span>
-<span class="normal">1045</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1045</span>
 <span class="normal">1046</span>
 <span class="normal">1047</span>
 <span class="normal">1048</span>
@@ -14778,7 +14768,19 @@ transaction is executed, including:</p>
 <span class="normal">1072</span>
 <span class="normal">1073</span>
 <span class="normal">1074</span>
-<span class="normal">1075</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1075</span>
+<span class="normal">1076</span>
+<span class="normal">1077</span>
+<span class="normal">1078</span>
+<span class="normal">1079</span>
+<span class="normal">1080</span>
+<span class="normal">1081</span>
+<span class="normal">1082</span>
+<span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blob_hashes_per_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">[[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)]],</span>
@@ -14800,7 +14802,7 @@ transaction is executed, including:</p>
 <span class="k">def</span> <span class="nf">test_invalid_blob_hash_versioning_single_tx</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
     <span class="n">rlp_modifier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
@@ -14853,19 +14855,7 @@ version, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1078</span>
-<span class="normal">1079</span>
-<span class="normal">1080</span>
-<span class="normal">1081</span>
-<span class="normal">1082</span>
-<span class="normal">1083</span>
-<span class="normal">1084</span>
-<span class="normal">1085</span>
-<span class="normal">1086</span>
-<span class="normal">1087</span>
-<span class="normal">1088</span>
-<span class="normal">1089</span>
-<span class="normal">1090</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1090</span>
 <span class="normal">1091</span>
 <span class="normal">1092</span>
 <span class="normal">1093</span>
@@ -14904,7 +14894,19 @@ version, including:</p>
 <span class="normal">1126</span>
 <span class="normal">1127</span>
 <span class="normal">1128</span>
-<span class="normal">1129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1129</span>
+<span class="normal">1130</span>
+<span class="normal">1131</span>
+<span class="normal">1132</span>
+<span class="normal">1133</span>
+<span class="normal">1134</span>
+<span class="normal">1135</span>
+<span class="normal">1136</span>
+<span class="normal">1137</span>
+<span class="normal">1138</span>
+<span class="normal">1139</span>
+<span class="normal">1140</span>
+<span class="normal">1141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blob_hashes_per_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">[</span>
@@ -14938,7 +14940,7 @@ version, including:</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_blob_hash_versioning_multiple_txs</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
 <span class="p">):</span>
@@ -14982,19 +14984,7 @@ version, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1132</span>
-<span class="normal">1133</span>
-<span class="normal">1134</span>
-<span class="normal">1135</span>
-<span class="normal">1136</span>
-<span class="normal">1137</span>
-<span class="normal">1138</span>
-<span class="normal">1139</span>
-<span class="normal">1140</span>
-<span class="normal">1141</span>
-<span class="normal">1142</span>
-<span class="normal">1143</span>
-<span class="normal">1144</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1144</span>
 <span class="normal">1145</span>
 <span class="normal">1146</span>
 <span class="normal">1147</span>
@@ -15015,13 +15005,25 @@ version, including:</p>
 <span class="normal">1162</span>
 <span class="normal">1163</span>
 <span class="normal">1164</span>
-<span class="normal">1165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1165</span>
+<span class="normal">1166</span>
+<span class="normal">1167</span>
+<span class="normal">1168</span>
+<span class="normal">1169</span>
+<span class="normal">1170</span>
+<span class="normal">1171</span>
+<span class="normal">1172</span>
+<span class="normal">1173</span>
+<span class="normal">1174</span>
+<span class="normal">1175</span>
+<span class="normal">1176</span>
+<span class="normal">1177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">)</span>  <span class="c1"># Increase gas to account for contract creation</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_blob_tx_contract_creation</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
@@ -15064,7 +15066,7 @@ version, including:</p>
 
 
 <h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_opcodes" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_opcodes</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">destination_account</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_opcodes</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">tx_value</span><span class="p">,</span> <span class="n">tx_gas</span><span class="p">,</span> <span class="n">tx_calldata</span><span class="p">,</span> <span class="n">tx_max_fee_per_gas</span><span class="p">,</span> <span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span> <span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span> <span class="n">tx_access_list</span><span class="p">,</span> <span class="n">blob_hashes_per_tx</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">)</span></code>
 
 <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_opcodes" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -15079,20 +15081,7 @@ version, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1227</span>
-<span class="normal">1228</span>
-<span class="normal">1229</span>
-<span class="normal">1230</span>
-<span class="normal">1231</span>
-<span class="normal">1232</span>
-<span class="normal">1233</span>
-<span class="normal">1234</span>
-<span class="normal">1235</span>
-<span class="normal">1236</span>
-<span class="normal">1237</span>
-<span class="normal">1238</span>
-<span class="normal">1239</span>
-<span class="normal">1240</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1240</span>
 <span class="normal">1241</span>
 <span class="normal">1242</span>
 <span class="normal">1243</span>
@@ -15113,68 +15102,10 @@ version, including:</p>
 <span class="normal">1258</span>
 <span class="normal">1259</span>
 <span class="normal">1260</span>
-<span class="normal">1261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">],</span>
-    <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">],</span>
-<span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_blob_tx_attribute_opcodes</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-    <span class="n">opcode</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytecode</span><span class="p">,</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span><span class="p">],</span>
-    <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
-    <span class="n">destination_account</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test opcodes that read transaction attributes work properly for blob type transactions:</span>
-
-<span class="sd">    - ORIGIN</span>
-<span class="sd">    - CALLER</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="n">code</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">opcode</span>
-    <span class="n">pre</span><span class="p">[</span><span class="n">destination_account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">destination_account</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">}</span>
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">state_env</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_value_opcode" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_value_opcode</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">tx_value</span><span class="p">,</span> <span class="n">destination_account</span><span class="p">)</span></code>
-
-<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_value_opcode" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Test the VALUE opcode with different blob type transaction value amounts.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1264</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span>
+<span class="normal">1264</span>
 <span class="normal">1265</span>
 <span class="normal">1266</span>
 <span class="normal">1267</span>
@@ -15203,36 +15134,58 @@ version, including:</p>
 <span class="normal">1290</span>
 <span class="normal">1291</span>
 <span class="normal">1292</span>
-<span class="normal">1293</span>
-<span class="normal">1294</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e18</span><span class="p">)])</span>
+<span class="normal">1293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">],</span>
+    <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">],</span>
+<span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_blob_tx_attribute_value_opcode</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_blob_tx_attribute_opcodes</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">tx_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_calldata</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_priority_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_access_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessList</span><span class="p">],</span>
+    <span class="n">blob_hashes_per_tx</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]],</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytecode</span><span class="p">,</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span><span class="p">],</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
-    <span class="n">tx_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">destination_account</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test the VALUE opcode with different blob type transaction value amounts.</span>
+<span class="sd">    Test opcodes that read transaction attributes work properly for blob type transactions:</span>
+
+<span class="sd">    - ORIGIN</span>
+<span class="sd">    - CALLER</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">code</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">opcode</span>
-    <span class="n">pre</span><span class="p">[</span><span class="n">destination_account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">destination_account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">ty</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BLOB_TX_TYPE</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">destination_account</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">tx_value</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">tx_calldata</span><span class="p">,</span>
+        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span>
+        <span class="n">access_list</span><span class="o">=</span><span class="n">tx_access_list</span><span class="p">,</span>
+        <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">blob_hashes_per_tx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">destination_account</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
-            <span class="n">balance</span><span class="o">=</span><span class="n">tx_value</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">}</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">env</span><span class="o">=</span><span class="n">state_env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -15249,24 +15202,20 @@ version, including:</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_calldata_opcodes" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_calldata_opcodes</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">destination_account</span><span class="p">)</span></code>
+<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_value_opcode" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_value_opcode</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">tx_value</span><span class="p">,</span> <span class="n">tx_gas</span><span class="p">,</span> <span class="n">tx_calldata</span><span class="p">,</span> <span class="n">tx_max_fee_per_gas</span><span class="p">,</span> <span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span> <span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span> <span class="n">tx_access_list</span><span class="p">,</span> <span class="n">blob_hashes_per_tx</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">)</span></code>
 
-<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_calldata_opcodes" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_value_opcode" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
 
-      <p>Test calldata related opcodes to verify their behavior is not affected by blobs:</p>
-<ul>
-<li>CALLDATALOAD</li>
-<li>CALLDATASIZE</li>
-<li>CALLDATACOPY</li>
-</ul>
+      <p>Test the VALUE opcode with different blob type transaction value amounts.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1297</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1296</span>
+<span class="normal">1297</span>
 <span class="normal">1298</span>
 <span class="normal">1299</span>
 <span class="normal">1300</span>
@@ -15313,54 +15262,53 @@ version, including:</p>
 <span class="normal">1341</span>
 <span class="normal">1342</span>
 <span class="normal">1343</span>
-<span class="normal">1344</span>
-<span class="normal">1345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">,</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;tx_calldata&quot;</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x01</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00\x01</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">16</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span> <span class="s2">&quot;single_byte&quot;</span><span class="p">,</span> <span class="s2">&quot;word&quot;</span><span class="p">],</span>
-<span class="p">)</span>
+<span class="normal">1344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e18</span><span class="p">)])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_blob_tx_attribute_calldata_opcodes</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_blob_tx_attribute_value_opcode</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">tx_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_calldata</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_priority_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_access_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessList</span><span class="p">],</span>
+    <span class="n">blob_hashes_per_tx</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]],</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytecode</span><span class="p">,</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span><span class="p">],</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
-    <span class="n">destination_account</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test calldata related opcodes to verify their behavior is not affected by blobs:</span>
-
-<span class="sd">    - CALLDATALOAD</span>
-<span class="sd">    - CALLDATASIZE</span>
-<span class="sd">    - CALLDATACOPY</span>
+<span class="sd">    Test the VALUE opcode with different blob type transaction value amounts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">code</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">opcode</span>
-    <span class="n">pre</span><span class="p">[</span><span class="n">destination_account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">destination_account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">ty</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BLOB_TX_TYPE</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">destination_account</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">tx_value</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">tx_calldata</span><span class="p">,</span>
+        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span>
+        <span class="n">access_list</span><span class="o">=</span><span class="n">tx_access_list</span><span class="p">,</span>
+        <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">blob_hashes_per_tx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">destination_account</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+            <span class="n">balance</span><span class="o">=</span><span class="n">tx_value</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">}</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">env</span><span class="o">=</span><span class="n">state_env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -15377,25 +15325,25 @@ version, including:</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_gasprice_opcode" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_gasprice_opcode</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">destination_account</span><span class="p">)</span></code>
+<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_calldata_opcodes" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_calldata_opcodes</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">tx_value</span><span class="p">,</span> <span class="n">tx_gas</span><span class="p">,</span> <span class="n">tx_calldata</span><span class="p">,</span> <span class="n">tx_max_fee_per_gas</span><span class="p">,</span> <span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span> <span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span> <span class="n">tx_access_list</span><span class="p">,</span> <span class="n">blob_hashes_per_tx</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">)</span></code>
 
-<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_gasprice_opcode" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_calldata_opcodes" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
 
-      <p>Test GASPRICE opcode to sanity check that the blob gas fee does not affect
-its calculation:</p>
+      <p>Test calldata related opcodes to verify their behavior is not affected by blobs:</p>
 <ul>
-<li>No priority fee</li>
-<li>Priority fee below data fee</li>
-<li>Priority fee above data fee</li>
+<li>CALLDATALOAD</li>
+<li>CALLDATASIZE</li>
+<li>CALLDATACOPY</li>
 </ul>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1348</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1347</span>
+<span class="normal">1348</span>
 <span class="normal">1349</span>
 <span class="normal">1350</span>
 <span class="normal">1351</span>
@@ -15430,7 +15378,192 @@ its calculation:</p>
 <span class="normal">1380</span>
 <span class="normal">1381</span>
 <span class="normal">1382</span>
-<span class="normal">1383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># always below data fee</span>
+<span class="normal">1383</span>
+<span class="normal">1384</span>
+<span class="normal">1385</span>
+<span class="normal">1386</span>
+<span class="normal">1387</span>
+<span class="normal">1388</span>
+<span class="normal">1389</span>
+<span class="normal">1390</span>
+<span class="normal">1391</span>
+<span class="normal">1392</span>
+<span class="normal">1393</span>
+<span class="normal">1394</span>
+<span class="normal">1395</span>
+<span class="normal">1396</span>
+<span class="normal">1397</span>
+<span class="normal">1398</span>
+<span class="normal">1399</span>
+<span class="normal">1400</span>
+<span class="normal">1401</span>
+<span class="normal">1402</span>
+<span class="normal">1403</span>
+<span class="normal">1404</span>
+<span class="normal">1405</span>
+<span class="normal">1406</span>
+<span class="normal">1407</span>
+<span class="normal">1408</span>
+<span class="normal">1409</span>
+<span class="normal">1410</span>
+<span class="normal">1411</span>
+<span class="normal">1412</span>
+<span class="normal">1413</span>
+<span class="normal">1414</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;tx_calldata&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x01</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00\x01</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span> <span class="s2">&quot;single_byte&quot;</span><span class="p">,</span> <span class="s2">&quot;word&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_blob_tx_attribute_calldata_opcodes</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">tx_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_calldata</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_priority_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_access_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessList</span><span class="p">],</span>
+    <span class="n">blob_hashes_per_tx</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]],</span>
+    <span class="n">opcode</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytecode</span><span class="p">,</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span><span class="p">],</span>
+    <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test calldata related opcodes to verify their behavior is not affected by blobs:</span>
+
+<span class="sd">    - CALLDATALOAD</span>
+<span class="sd">    - CALLDATASIZE</span>
+<span class="sd">    - CALLDATACOPY</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">opcode</span>
+    <span class="n">destination_account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">ty</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BLOB_TX_TYPE</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">destination_account</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">tx_value</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">tx_calldata</span><span class="p">,</span>
+        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span>
+        <span class="n">access_list</span><span class="o">=</span><span class="n">tx_access_list</span><span class="p">,</span>
+        <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">blob_hashes_per_tx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">destination_account</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">state_env</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_gasprice_opcode" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_blob_tx_attribute_gasprice_opcode</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">tx_value</span><span class="p">,</span> <span class="n">tx_gas</span><span class="p">,</span> <span class="n">tx_calldata</span><span class="p">,</span> <span class="n">tx_max_fee_per_gas</span><span class="p">,</span> <span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span> <span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span> <span class="n">tx_access_list</span><span class="p">,</span> <span class="n">blob_hashes_per_tx</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">state_env</span><span class="p">)</span></code>
+
+<a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_gasprice_opcode" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Test GASPRICE opcode to sanity check that the blob gas fee does not affect
+its calculation:</p>
+<ul>
+<li>No priority fee</li>
+<li>Priority fee below data fee</li>
+<li>Priority fee above data fee</li>
+</ul>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1417</span>
+<span class="normal">1418</span>
+<span class="normal">1419</span>
+<span class="normal">1420</span>
+<span class="normal">1421</span>
+<span class="normal">1422</span>
+<span class="normal">1423</span>
+<span class="normal">1424</span>
+<span class="normal">1425</span>
+<span class="normal">1426</span>
+<span class="normal">1427</span>
+<span class="normal">1428</span>
+<span class="normal">1429</span>
+<span class="normal">1430</span>
+<span class="normal">1431</span>
+<span class="normal">1432</span>
+<span class="normal">1433</span>
+<span class="normal">1434</span>
+<span class="normal">1435</span>
+<span class="normal">1436</span>
+<span class="normal">1437</span>
+<span class="normal">1438</span>
+<span class="normal">1439</span>
+<span class="normal">1440</span>
+<span class="normal">1441</span>
+<span class="normal">1442</span>
+<span class="normal">1443</span>
+<span class="normal">1444</span>
+<span class="normal">1445</span>
+<span class="normal">1446</span>
+<span class="normal">1447</span>
+<span class="normal">1448</span>
+<span class="normal">1449</span>
+<span class="normal">1450</span>
+<span class="normal">1451</span>
+<span class="normal">1452</span>
+<span class="normal">1453</span>
+<span class="normal">1454</span>
+<span class="normal">1455</span>
+<span class="normal">1456</span>
+<span class="normal">1457</span>
+<span class="normal">1458</span>
+<span class="normal">1459</span>
+<span class="normal">1460</span>
+<span class="normal">1461</span>
+<span class="normal">1462</span>
+<span class="normal">1463</span>
+<span class="normal">1464</span>
+<span class="normal">1465</span>
+<span class="normal">1466</span>
+<span class="normal">1467</span>
+<span class="normal">1468</span>
+<span class="normal">1469</span>
+<span class="normal">1470</span>
+<span class="normal">1471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_priority_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># always below data fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># normal and above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_max_fee_per_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">100</span><span class="p">])</span>  <span class="c1"># always above priority fee</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">GASPRICE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -15438,11 +15571,18 @@ its calculation:</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blob_tx_attribute_gasprice_opcode</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">tx_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_calldata</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_fee_per_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_max_priority_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_access_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessList</span><span class="p">],</span>
+    <span class="n">blob_hashes_per_tx</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]],</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytecode</span><span class="p">,</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span><span class="p">],</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
-    <span class="n">destination_account</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test GASPRICE opcode to sanity check that the blob gas fee does not affect</span>
@@ -15452,9 +15592,21 @@ its calculation:</p>
 <span class="sd">    - Priority fee below data fee</span>
 <span class="sd">    - Priority fee above data fee</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">code</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">opcode</span>
-    <span class="n">pre</span><span class="p">[</span><span class="n">destination_account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">destination_account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">ty</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BLOB_TX_TYPE</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">destination_account</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">tx_value</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">tx_calldata</span><span class="p">,</span>
+        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="n">tx_max_priority_fee_per_gas</span><span class="p">,</span>
+        <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="n">tx_max_fee_per_blob_gas</span><span class="p">,</span>
+        <span class="n">access_list</span><span class="o">=</span><span class="n">tx_access_list</span><span class="p">,</span>
+        <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">blob_hashes_per_tx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">destination_account</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
@@ -15463,7 +15615,7 @@ its calculation:</p>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">env</span><span class="o">=</span><span class="n">state_env</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -15494,43 +15646,43 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1386</span>
-<span class="normal">1387</span>
-<span class="normal">1388</span>
-<span class="normal">1389</span>
-<span class="normal">1390</span>
-<span class="normal">1391</span>
-<span class="normal">1392</span>
-<span class="normal">1393</span>
-<span class="normal">1394</span>
-<span class="normal">1395</span>
-<span class="normal">1396</span>
-<span class="normal">1397</span>
-<span class="normal">1398</span>
-<span class="normal">1399</span>
-<span class="normal">1400</span>
-<span class="normal">1401</span>
-<span class="normal">1402</span>
-<span class="normal">1403</span>
-<span class="normal">1404</span>
-<span class="normal">1405</span>
-<span class="normal">1406</span>
-<span class="normal">1407</span>
-<span class="normal">1408</span>
-<span class="normal">1409</span>
-<span class="normal">1410</span>
-<span class="normal">1411</span>
-<span class="normal">1412</span>
-<span class="normal">1413</span>
-<span class="normal">1414</span>
-<span class="normal">1415</span>
-<span class="normal">1416</span>
-<span class="normal">1417</span>
-<span class="normal">1418</span>
-<span class="normal">1419</span>
-<span class="normal">1420</span>
-<span class="normal">1421</span>
-<span class="normal">1422</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1474</span>
+<span class="normal">1475</span>
+<span class="normal">1476</span>
+<span class="normal">1477</span>
+<span class="normal">1478</span>
+<span class="normal">1479</span>
+<span class="normal">1480</span>
+<span class="normal">1481</span>
+<span class="normal">1482</span>
+<span class="normal">1483</span>
+<span class="normal">1484</span>
+<span class="normal">1485</span>
+<span class="normal">1486</span>
+<span class="normal">1487</span>
+<span class="normal">1488</span>
+<span class="normal">1489</span>
+<span class="normal">1490</span>
+<span class="normal">1491</span>
+<span class="normal">1492</span>
+<span class="normal">1493</span>
+<span class="normal">1494</span>
+<span class="normal">1495</span>
+<span class="normal">1496</span>
+<span class="normal">1497</span>
+<span class="normal">1498</span>
+<span class="normal">1499</span>
+<span class="normal">1500</span>
+<span class="normal">1501</span>
+<span class="normal">1502</span>
+<span class="normal">1503</span>
+<span class="normal">1504</span>
+<span class="normal">1505</span>
+<span class="normal">1506</span>
+<span class="normal">1507</span>
+<span class="normal">1508</span>
+<span class="normal">1509</span>
+<span class="normal">1510</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
@@ -15551,7 +15703,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blob_type_tx_pre_fork</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
