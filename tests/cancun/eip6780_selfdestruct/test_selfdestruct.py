@@ -929,7 +929,7 @@ def test_delegatecall_from_new_contract_to_pre_existing_contract(
 
     pre.fund_address(selfdestruct_contract_address, selfdestruct_contract_initial_balance)
 
-    # self-destructing delegate call
+    # self-destructing call
     selfdestruct_code = call_opcode(address=pre_existing_selfdestruct_address)
     selfdestruct_contract_initcode = Initcode(deploy_code=selfdestruct_code)
     initcode_copy_from_address = pre.deploy_contract(selfdestruct_contract_initcode)
