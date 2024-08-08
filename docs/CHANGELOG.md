@@ -21,6 +21,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Added `with_all_evm_code_types` and `with_all_call_opcodes` markers, which allow automatic parametrization of tests to EOF ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
 - ✨ Code generators `Conditional` and `Switch` now support EOF by adding parameter `evm_code_type` ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
 - ✨ `fill` command now supports parameter `--evm-code-type` that can be (currently) set to `legacy` or `eof_v1` to force all test smart contracts to deployed in normal or in EOF containers ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
+- 🐞 Fixed fixture index generation on EOF tests ([#728](https://github.com/ethereum/execution-spec-tests/pull/728)).
 
 ### 🔧 EVM Tools
 
