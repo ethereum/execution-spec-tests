@@ -1066,11 +1066,11 @@ def test_calling_from_pre_existing_contract_to_new_contract(
     )
 
     # Add the contract that delegate calls to the newly created contract
-    delegate_caller_code = Op.SSTORE(1, Op.ADD(Op.SLOAD(1), 1)) + call_opcode(
+    caller_code = Op.SSTORE(1, Op.ADD(Op.SLOAD(1), 1)) + call_opcode(
         address=selfdestruct_contract_address
     )
-    delegate_caller_address = pre.deploy_contract(
-        delegate_caller_code,
+    caller_address = pre.deploy_contract(
+        caller_code,
         balance=pre_existing_contract_initial_balance,
     )
 
@@ -1099,13 +1099,13 @@ def test_calling_from_pre_existing_contract_to_new_contract(
 
     # Store the EXTCODE* properties of the pre-existing address
     entry_code += Op.SSTORE(
-        entry_code_storage.store_next(len(delegate_caller_code)),
-        Op.EXTCODESIZE(delegate_caller_address),
+        entry_code_storage.store_next(len(caller_code)),
+        Op.EXTCODESIZE(caller_address),
     )
 
     entry_code += Op.SSTORE(
-        entry_code_storage.store_next(delegate_caller_code.keccak256()),
-        Op.EXTCODEHASH(delegate_caller_address),
+        entry_code_storage.store_next(caller_code.keccak256()),
+        Op.EXTCODEHASH(caller_address),
     )
 
     # Now instead of calling the newly created contract directly, we delegate call to it
@@ -1116,7 +1116,7 @@ def test_calling_from_pre_existing_contract_to_new_contract(
             entry_code_storage.store_next(1),
             Op.CALL(
                 Op.GASLIMIT,  # Gas
-                delegate_caller_address,  # Address
+                caller_address,  # Address
                 i,  # Value
                 0,
                 0,
@@ -1129,18 +1129,18 @@ def test_calling_from_pre_existing_contract_to_new_contract(
 
         entry_code += Op.SSTORE(
             entry_code_storage.store_next(0),
-            Op.BALANCE(delegate_caller_address),
+            Op.BALANCE(caller_address),
         )
 
     # Check the EXTCODE* properties of the pre-existing address again
     entry_code += Op.SSTORE(
-        entry_code_storage.store_next(len(delegate_caller_code)),
-        Op.EXTCODESIZE(delegate_caller_address),
+        entry_code_storage.store_next(len(caller_code)),
+        Op.EXTCODESIZE(caller_address),
     )
 
     entry_code += Op.SSTORE(
-        entry_code_storage.store_next(delegate_caller_code.keccak256()),
-        Op.EXTCODEHASH(delegate_caller_address),
+        entry_code_storage.store_next(caller_code.keccak256()),
+        Op.EXTCODEHASH(caller_address),
     )
 
     # Lastly return zero so the entry point contract is created and we can retain the stored
@@ -1165,7 +1165,7 @@ def test_calling_from_pre_existing_contract_to_new_contract(
     }
 
     if eip_enabled:
-        post[delegate_caller_address] = Account(
+        post[caller_address] = Account(
             storage={
                 0: call_times,
                 1: call_times,
@@ -1173,7 +1173,7 @@ def test_calling_from_pre_existing_contract_to_new_contract(
             balance=0,
         )
     else:
-        post[delegate_caller_address] = Account.NONEXISTENT  # type: ignore
+        post[caller_address] = Account.NONEXISTENT  # type: ignore
 
     state_test(env=env, pre=pre, post=post, tx=tx)
 
