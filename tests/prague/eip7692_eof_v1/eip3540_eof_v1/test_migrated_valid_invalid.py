@@ -146,6 +146,12 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="EOF1I3540_0027",
         ),
         pytest.param(
+            # Trailing bytes after code section with wrong first section type
+            bytes.fromhex("ef0001 010004 0200010001 040000 00 00000000 fe aabbcc"),
+            EOFException.INVALID_FIRST_SECTION_TYPE,
+            id="EOF1I3540_0027_orig",
+        ),
+        pytest.param(
             # Empty code section
             bytes.fromhex("ef000101000402000100000400000000000000"),
             EOFException.ZERO_SECTION_SIZE,
@@ -186,6 +192,12 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             bytes.fromhex("ef0001 010004 0200010001 040002 00 00800000 fe aabbccdd"),
             EOFException.INVALID_SECTION_BODIES_SIZE,
             id="EOF1I3540_0035",
+        ),
+        pytest.param(
+            # Trailing bytes after data section with wrong first section type
+            bytes.fromhex("ef0001 010004 0200010001 040002 00 00000000 fe aabbccdd"),
+            EOFException.INVALID_FIRST_SECTION_TYPE,
+            id="EOF1I3540_0035_orig",
         ),
         pytest.param(
             # Multiple data sections
