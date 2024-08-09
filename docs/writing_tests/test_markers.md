@@ -167,6 +167,21 @@ def test_something_with_all_system_contracts(system_contract):
 
 In this example, the test will be parameterized for parameter `system_contract` with value `[0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02]` for fork Cancun.
 
+### Covariant Marker Filter
+
+All fork covariant markers accept a lambda function as an argument that can be used to filter the values that are valid for the fork being tested.
+
+```python
+import pytest
+
+@pytest.mark.with_all_tx_types(lambda tx_type: tx_type != 2)
+@pytest.mark.valid_from("London")
+def test_something_with_all_tx_types(tx_type: int):
+    pass
+```
+
+Ideally, the lambda function should be used to explicitly filter out values that are not compatible with the test (exclusive filter), rather than explicitly selecting values (inclusive filter), as the parametrized values might change with future forks.
+
 ## Other Markers
 
 ### pytest.mark.slow

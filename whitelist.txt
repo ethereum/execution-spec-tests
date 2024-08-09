@@ -10,6 +10,7 @@ alloc
 api
 apis
 arcname
+argcount
 at5
 AutoSection
 auxdata

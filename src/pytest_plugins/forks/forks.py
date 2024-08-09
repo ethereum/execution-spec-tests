@@ -125,12 +125,47 @@ class CovariantDescriptor:
     fork_attribute_name: str
     parameter_name: str
 
+    def get_marker(self, metafunc: Metafunc) -> pytest.Mark | None:
+        """
+        Get the marker for the given test function.
+        """
+        m = metafunc.definition.iter_markers(self.marker_name)
+        if m is None:
+            return None
+        marker_list = list(m)
+        assert len(marker_list) <= 1, f"Multiple markers {self.marker_name} found"
+        if len(marker_list) == 0:
+            return None
+        return marker_list[0]
+
     def check_enabled(self, metafunc: Metafunc) -> bool:
         """
         Check if the marker is enabled for the given test function.
         """
-        m = metafunc.definition.iter_markers(self.marker_name)
-        return m is not None and len(list(m)) > 0
+        return self.get_marker(metafunc) is not None
+
+    def filter_values(self, metafunc: Metafunc, values: List[Any]) -> List[Any]:
+        """
+        Filter the values for the covariant parameter.
+
+        I.e. if the marker has an argument, the argument is interpreted as a lambda function
+        that filters the values.
+        """
+        marker = self.get_marker(metafunc)
+        assert marker is not None
+        if len(marker.args) == 0:
+            return values
+        assert len(marker.args) == 1, f"Invalid number of arguments for marker {self.marker_name}"
+        filter_func = marker.args[0]
+        filtered_values = []
+        for value in values:
+            if isinstance(value, tuple) or isinstance(value, list):
+                if filter_func(*value[: filter_func.__code__.co_argcount]):
+                    filtered_values.append(value)
+            else:
+                if filter_func(value):
+                    filtered_values.append(value)
+        return filtered_values
 
     def add_values(self, metafunc: Metafunc, fork_parametrizer: ForkParametrizer) -> None:
         """
@@ -143,6 +178,7 @@ class CovariantDescriptor:
         values = get_fork_covariant_values(block_number=0, timestamp=0)
         assert isinstance(values, list)
         assert len(values) > 0
+        values = self.filter_values(metafunc, values)
         fork_parametrizer.fork_covariant_parameters.append(
             ForkCovariantParameter(name=self.parameter_name, values=values)
         )
