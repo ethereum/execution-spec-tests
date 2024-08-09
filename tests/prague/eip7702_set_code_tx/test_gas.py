@@ -215,9 +215,9 @@ def authorization_list_with_validity(
             return authorization_list
 
         case SignerType.MULTIPLE_SIGNERS:
-            assert (
-                authorization_invalidity_type != AuthorizationInvalidityType.REPEATED_NONCE
-            ), "Cannot repeat nonce with multiple signers"
+            if authorization_invalidity_type == AuthorizationInvalidityType.REPEATED_NONCE:
+                # Reuse the first two authorities for the repeated nonce case
+                authority_iterator = cycle([next(authority_iterator), next(authority_iterator)])
 
             authorization_list = []
             for i in range(authorizations_count):
@@ -232,6 +232,13 @@ def authorization_list_with_validity(
                         nonce = 1
                     else:
                         nonce = 0
+                if authorization_invalidity_type == AuthorizationInvalidityType.NONE or (
+                    authorization_invalidity_type == AuthorizationInvalidityType.REPEATED_NONCE
+                    and i <= 1
+                ):
+                    valid = valid_authority
+                else:
+                    valid = False
                 authorization_list.append(
                     (
                         AuthorizationTuple(
@@ -240,9 +247,7 @@ def authorization_list_with_validity(
                             nonce=nonce,
                             signer=signer,
                         ),
-                        valid_authority
-                        if authorization_invalidity_type == AuthorizationInvalidityType.NONE
-                        else False,
+                        valid,
                         empty,
                     )
                 )
@@ -380,6 +385,12 @@ def gas_test_parametrize(*, include_many: bool = True, include_data: bool = True
             id="multiple_invalid_nonce_authorizations_single_signer",
         ),
         gas_test_param(
+            signer_type=SignerType.MULTIPLE_SIGNERS,
+            authorization_invalidity_type=AuthorizationInvalidityType.INVALID_NONCE,
+            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            id="multiple_invalid_nonce_authorizations_multiple_signers",
+        ),
+        gas_test_param(
             signer_type=SignerType.SINGLE_SIGNER,
             authorization_invalidity_type=AuthorizationInvalidityType.INVALID_CHAIN_ID,
             authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
@@ -395,6 +406,12 @@ def gas_test_parametrize(*, include_many: bool = True, include_data: bool = True
             authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
             authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             id="first_valid_then_single_repeated_nonce_authorization",
+        ),
+        gas_test_param(
+            signer_type=SignerType.MULTIPLE_SIGNERS,
+            authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
+            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT * 2,
+            id="first_valid_then_single_repeated_nonce_authorizations_multiple_signers",
         ),
         gas_test_param(
             authorize_to_address=AddressType.EOA,
