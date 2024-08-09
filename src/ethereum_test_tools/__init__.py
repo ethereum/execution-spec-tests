@@ -79,6 +79,7 @@ from .code import (
     Yul,
     YulCompiler,
 )
+from .utility.pytest import named_pytest_param
 
 __all__ = (
     "SPEC_TYPES",
@@ -149,5 +150,6 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
+    "named_pytest_param",
     "vm",
 )
