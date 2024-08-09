@@ -83,6 +83,20 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             id="EOF1I3540_0012",
         ),
         pytest.param(
+            Container(
+                name="EOF1I3540_0014 (Invalid) Total of code sections incomplete",
+                raw_bytes="ef00010100040200",
+            ),
+            EOFException.INCOMPLETE_SECTION_NUMBER,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0016 (Invalid) Code section size incomplete",
+                raw_bytes="0xef000101000402000100",
+            ),
+            EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        pytest.param(
             # No data section after code section size
             bytes.fromhex("ef00010100040200010001"),
             EOFException.MISSING_HEADERS_TERMINATOR,
