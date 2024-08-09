@@ -135,6 +135,23 @@ In this example, the test will be parametrized for parameter `call_opcode` with 
 
 Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
 
+### pytest.mark.with_all_create_opcodes
+
+This marker is used to automatically parameterize a test with all EVM create opcodes that are valid for the fork being tested.
+
+```python
+import pytest
+
+@pytest.mark.with_all_create_opcodes
+@pytest.mark.valid_from("Frontier")
+def test_something_with_all_create_opcodes(pre: Alloc, create_opcode: Op):
+    ...
+```
+
+In this example, the test will be parametrized for parameter `create_opcode` with values `[Op.CREATE]` starting on fork Frontier, `[Op.CREATE, Op.CREATE2]` starting on fork Constantinople, and eventually it will be parametrized with with values `[Op.CREATE, Op.CREATE2, Op.EOFCREATE]` on the EOF activation fork.
+
+Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
+
 ### pytest.mark.with_all_system_contracts
 
 This marker is used to automatically parameterize a test with all system contracts that are valid for the fork being tested.
