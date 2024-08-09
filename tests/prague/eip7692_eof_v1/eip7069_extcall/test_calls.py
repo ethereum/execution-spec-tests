@@ -684,7 +684,7 @@ def test_eof_calls_static_flag_with_value(
     tx = Transaction(
         sender=sender,
         to=Address(calling_contract_address),
-        gas_limit=50000000,
+        gas_limit=5_000_000,
         data="",
     )
 
@@ -705,8 +705,6 @@ def test_eof_calls_static_flag_with_value(
     )
 
 
-# `no_oog_gas` is minimum amount of gas_limit which makes the transaction not go oog.
-no_oog_gas = 45728
 min_retained_gas = 2300
 min_callee_gas = 5000
 
@@ -720,12 +718,12 @@ min_callee_gas = 5000
     ],
 )
 @pytest.mark.parametrize(
-    ["gas_limit", "reverts"],
+    ["extra_gas_limit", "reverts"],
     [
-        [no_oog_gas, False],
-        [no_oog_gas + min_retained_gas, False],
-        [no_oog_gas + min_callee_gas, False],
-        [no_oog_gas + min_retained_gas + min_callee_gas, True],
+        [0, False],
+        [min_retained_gas, False],
+        [min_callee_gas, False],
+        [min_retained_gas + min_callee_gas, True],
     ],
     ids=["no_allowances", "only_retained", "only_callee", "both_allowances"],
 )
@@ -734,7 +732,7 @@ def test_eof_calls_min_callee_gas(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    gas_limit: int,
+    extra_gas_limit: int,
     reverts: bool,
 ):
     """
@@ -754,17 +752,31 @@ def test_eof_calls_min_callee_gas(
     calling_contract_address = pre.deploy_contract(
         Container.Code(
             Op.SSTORE(slot_code_worked, value_code_worked)
-            + Op.EQ(opcode(address=noop_callee_address), 1)
+            + Op.EQ(opcode(address=noop_callee_address), value_eof_call_reverted)
             # If the return code isn't 1, it means gas was enough to cover the allowances.
             + Op.RJUMPI[len(revert_block)]
             + revert_block
             + Op.STOP
         )
     )
+
+    # `no_oog_gas` is minimum amount of gas_limit which makes the transaction not go oog.
+    push_operations = 3 + len(opcode.kwargs)  # type: ignore
+    no_oog_gas = (
+        21_000
+        + 20_000  # SSTORE
+        + 2_100  # SSTORE COLD_SLOAD_COST
+        + push_operations * 3  # PUSH operations
+        + 100  # WARM_STORAGE_READ_COST
+        + 2500  # COLD_ACCOUNT_ACCESS - WARM_STORAGE_READ_COST
+        + 4  # RJUMPI
+        + 3  # EQ
+    )
+
     tx = Transaction(
         sender=sender,
         to=Address(calling_contract_address),
-        gas_limit=gas_limit,
+        gas_limit=no_oog_gas + extra_gas_limit,
         data="",
     )
 
@@ -848,8 +860,6 @@ def test_eof_calls_msg_depth(
     gas_limit = int(200000 * (64 / 63) ** 1024)
     env = Environment(gas_limit=gas_limit)
 
-    callee_address = Address(0x5000)
-
     # Flow of the test:
     # `callee_code` is recursively calling itself, passing msg depth as calldata
     # (kept with the `MSTORE(0, ADD(...))`). When maximum msg depth is reached
@@ -871,7 +881,7 @@ def test_eof_calls_msg_depth(
         # current stack depth in memory bytes 0-31
         Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
         # pass it along deeper as calldata
-        + opcode(address=callee_address, args_size=32)
+        + opcode(address=Op.ADDRESS, args_size=32)
         # duplicate return code for the `returndatacopy_block` below
         + Op.DUP1
         # if return code was:
@@ -882,12 +892,12 @@ def test_eof_calls_msg_depth(
         + deep_most_result_block
     )
 
-    pre.deploy_contract(callee_code, address=callee_address)
+    callee_address = pre.deploy_contract(callee_code)
 
     calling_contract_address = pre.deploy_contract(
         Container.Code(
             Op.MSTORE(0, Op.CALLDATALOAD(0))
-            + opcode(address=callee_address, args_size=32)
+            + Op.EXTCALL(address=callee_address, args_size=32)
             + Op.SSTORE(slot_max_depth, Op.RETURNDATALOAD(0))
             + Op.SSTORE(slot_call_result, Op.RETURNDATALOAD(32))
             + Op.SSTORE(slot_code_worked, value_code_worked)
