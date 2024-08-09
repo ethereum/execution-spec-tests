@@ -19,7 +19,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from .helpers import (
-    aborting_code,
+    aborting_container,
     slot_call_or_create,
     slot_call_result,
     slot_code_should_fail,
@@ -122,7 +122,7 @@ def test_initcode_aborts(
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP,
                 ),
-                Section.Container(container=aborting_code),
+                Section.Container(container=aborting_container),
             ]
         )
     )
@@ -597,7 +597,7 @@ def test_insufficient_returncontract_auxdata_gas(
 @pytest.mark.parametrize("endowment", [0, 1])  # included to verify static flag check comes first
 @pytest.mark.parametrize(
     "initcode",
-    [smallest_initcode_subcontainer, aborting_code],
+    [smallest_initcode_subcontainer, aborting_container],
     ids=["working_initcode", "aborting_code"],
 )
 def test_static_flag_eofcreate(
@@ -616,7 +616,7 @@ def test_static_flag_eofcreate(
         code=Container(
             sections=[
                 Section.Code(
-                    code=Op.EOFCREATE[0](endowment, 0, 0, 0) + Op.STOP,
+                    code=Op.EOFCREATE[0](value=endowment) + Op.STOP,
                 ),
                 Section.Container(container=initcode),
             ]
@@ -700,7 +700,7 @@ def test_eof_eofcreate_msg_depth(
             Section.Code(
                 Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
                 + Op.MSTORE(128, magic_value_create)
-                + Op.EOFCREATE[0](0, Op.CALLDATALOAD(0), 0, 64)
+                + Op.EOFCREATE[0](salt=Op.CALLDATALOAD(0), input_size=64)
                 + Op.RETURNDATASIZE
                 + Op.ISZERO
                 + Op.RJUMPI[rjump_offset]

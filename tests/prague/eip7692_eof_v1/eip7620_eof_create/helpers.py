@@ -45,4 +45,4 @@ smallest_initcode_subcontainer = Container(
     ],
 )
 
-aborting_code = Container.Code(Op.INVALID)
+aborting_container = Container.Code(Op.INVALID)
