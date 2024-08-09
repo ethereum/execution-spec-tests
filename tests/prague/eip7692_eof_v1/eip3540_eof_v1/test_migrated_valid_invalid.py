@@ -189,7 +189,14 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
         pytest.param(
             # Trailing bytes after data section
-            bytes.fromhex("ef0001 010004 0200010001 040002 00 00800000 fe aabbccdd"),
+            Container(
+                sections=[
+                    Section.Code(Op.INVALID),
+                    Section.Data("aabb"),
+                ],
+                extra="ccdd",
+                expected_bytecode="ef0001 010004 0200010001 040002 00 00800000 fe aabbccdd",
+            ),
             EOFException.INVALID_SECTION_BODIES_SIZE,
             id="EOF1I3540_0035",
         ),
