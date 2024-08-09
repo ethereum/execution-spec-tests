@@ -200,6 +200,17 @@ class Frontier(BaseFork, solc_name="homestead"):
         ]
 
     @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        At Genesis, only `CREATE` opcode is supported.
+        """
+        return [
+            (Opcodes.CREATE, EVMCodeType.LEGACY),
+        ]
+
+    @classmethod
     def pre_allocation(cls) -> Mapping:
         """
         Returns whether the fork expects pre-allocation of accounts
@@ -292,6 +303,17 @@ class Constantinople(Byzantium):
         2_000_000_000_000_000_000 wei
         """
         return 2_000_000_000_000_000_000
+
+    @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        At Constantinople, `CREATE2` opcode is added.
+        """
+        return [(Opcodes.CREATE2, EVMCodeType.LEGACY),] + super(
+            Constantinople, cls
+        ).create_opcodes(block_number, timestamp)
 
 
 class ConstantinopleFix(Constantinople, solc_name="constantinople"):
@@ -727,6 +749,17 @@ class CancunEIP7692(  # noqa: SC200
         ).call_opcodes(
             block_number, timestamp
         )
+
+    @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        EOF V1 introduces `EOFCREATE`.
+        """
+        return [(Opcodes.EOFCREATE, EVMCodeType.EOF_V1),] + super(
+            CancunEIP7692, cls  # noqa: SC200
+        ).create_opcodes(block_number, timestamp)
 
     @classmethod
     def is_deployed(cls) -> bool:

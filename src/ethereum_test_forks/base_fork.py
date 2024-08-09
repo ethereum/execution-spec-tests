@@ -289,6 +289,16 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """
         pass
 
+    @classmethod
+    @abstractmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        Returns the list of tuples with the create opcodes and its corresponding EVM code type.
+        """
+        pass
+
     # Meta information about the fork
     @classmethod
     def name(cls) -> str:
