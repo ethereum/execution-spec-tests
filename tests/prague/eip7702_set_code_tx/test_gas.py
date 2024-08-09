@@ -7,7 +7,7 @@ TODO: Reduce the parametrization count (Currently produces 7920 test cases).
 
 from enum import Enum
 from itertools import count
-from typing import Generator, Iterator, List
+from typing import Any, Dict, Generator, Iterator, List
 
 import pytest
 
@@ -265,63 +265,108 @@ def sender(pre: Alloc) -> EOA:
     return pre.fund_eoa()
 
 
+argument_names = [
+    "authorization_list_case",
+    "authorizations_count",
+    "authorize_to_address",
+    "access_list_case",
+    "data",
+    "self_sponsored",
+    "authority_type",
+]
+
+argument_valid_values: Dict[str, Any] = {
+    "authorization_list_case": AuthorizationListCases.VALID_SAME_SIGNER,
+    "authorizations_count": 1,
+    "authorize_to_address": AuthorizationAddressCases.EMPTY_ACCOUNT,
+    "access_list_case": AccessListCases.EMPTY_ACCESS_LIST,
+    "data": b"",
+    "self_sponsored": False,
+    "authority_type": AuthorityTypes.EMPTY_ACCOUNT,
+}
+
+
+def param(*, id: str, marks=(), **kwargs: Any):
+    """
+    Pytest parameter generator for gas tests.
+    """
+    args_list = [kwargs.get(name, argument_valid_values[name]) for name in argument_names]
+    return pytest.param(*args_list, id=id, marks=marks)
+
+
 @pytest.mark.parametrize(
-    "authorization_list_case,authorizations_count",
+    argument_names,
     [
-        pytest.param(AuthorizationListCases.VALID_SAME_SIGNER, 1, id="valid_single_authorization"),
-        pytest.param(
-            AuthorizationListCases.VALID_SAME_SIGNER, 2, id="valid_multiple_authorizations"
+        param(id="valid_single_authorization"),
+        param(
+            authorization_list_case=AuthorizationListCases.VALID_SAME_SIGNER,
+            authorizations_count=2,
+            id="valid_multiple_authorizations",
         ),
-        pytest.param(
-            AuthorizationListCases.INVALID_SAME_SIGNER, 1, id="invalid_single_authorization"
+        param(
+            authorization_list_case=AuthorizationListCases.INVALID_SAME_SIGNER,
+            authorizations_count=1,
+            id="invalid_single_authorization",
         ),
-        pytest.param(
-            AuthorizationListCases.INVALID_SAME_SIGNER, 2, id="invalid_multiple_authorizations"
+        param(
+            authorization_list_case=AuthorizationListCases.INVALID_SAME_SIGNER,
+            authorizations_count=2,
+            id="invalid_multiple_authorizations",
         ),
-        pytest.param(
-            AuthorizationListCases.VALID_DIFFERENT_SIGNERS,
-            2,
+        param(
+            authorization_list_case=AuthorizationListCases.VALID_DIFFERENT_SIGNERS,
+            authorizations_count=2,
             id="valid_different_signer_authorizations",
         ),
-        pytest.param(
-            AuthorizationListCases.FIRST_VALID_THEN_DUPLICATES,
-            2,
+        param(
+            authorization_list_case=AuthorizationListCases.FIRST_VALID_THEN_DUPLICATES,
+            authorizations_count=2,
             id="first_valid_then_duplicates_authorizations",
         ),
-    ],
-)
-@pytest.mark.parametrize(
-    "authorize_to_address",
-    list(AuthorizationAddressCases),
-    ids=lambda case: case.value,
-    indirect=True,
-)
-@pytest.mark.parametrize(
-    "access_list_case",
-    list(AccessListCases),
-    ids=lambda case: case.value,
-)
-@pytest.mark.parametrize(
-    "data",
-    [
-        pytest.param(b"", id="empty_data"),
-        pytest.param(b"\x01", id="non_zero_data"),
-        pytest.param(b"\x00", id="zero_data"),
-    ],
-)
-@pytest.mark.parametrize(
-    "self_sponsored,authority_type",
-    [
-        pytest.param(False, AuthorityTypes.EMPTY_ACCOUNT, id="empty_account_authority"),
-        pytest.param(False, AuthorityTypes.EOA, id="eoa_authority"),
-        pytest.param(True, AuthorityTypes.EOA, id="self_sponsored_eoa_authority"),
-        pytest.param(
-            False,
-            AuthorityTypes.CONTRACT,
+        param(
+            authorize_to_address=AuthorizationAddressCases.EOA,
+            id="valid_single_authorization_to_eoa",
+        ),
+        param(
+            authorize_to_address=AuthorizationAddressCases.CONTRACT,
+            id="valid_single_authorization_to_contract",
+        ),
+        param(
+            access_list_case=AccessListCases.AUTHORITY,
+            id="valid_single_authorization_with_authority_in_access_list",
+        ),
+        param(
+            access_list_case=AccessListCases.SET_CODE_ADDRESS,
+            id="valid_single_authorization_with_set_code_address_in_access_list",
+        ),
+        param(
+            access_list_case=AccessListCases.AUTHORITY_AND_SET_CODE_ADDRESS,
+            id="valid_single_authorization_with_authority_and_set_code_address_in_access_list",
+        ),
+        param(
+            data=b"\x01",
+            id="valid_single_authorization_with_single_non_zero_byte_data",
+        ),
+        param(
+            data=b"\x00",
+            id="valid_single_authorization_with_single_zero_byte_data",
+        ),
+        param(
+            authority_type=AuthorityTypes.EOA,
+            id="valid_single_authorization_eoa_authority",
+        ),
+        param(
+            self_sponsored=True,
+            authority_type=AuthorityTypes.EOA,
+            id="valid_single_authorization_eoa_self_sponsored_authority",
+        ),
+        param(
+            authority_type=AuthorityTypes.CONTRACT,
             marks=pytest.mark.pre_alloc_modify,
-            id="contract_authority",
+            id="valid_single_authorization_contract_authority",
         ),
     ],
+    indirect=["authorize_to_address"],
 )
 def test_gas_cost(
     state_test: StateTestFiller,
@@ -335,10 +380,7 @@ def test_gas_cost(
     sender: EOA,
 ):
     """
-    Test gas cost of a set-code transaction in different scenarios:
-
-    - Set code to an account with a single authorization tuple.
-    - Set code to an account with multiple authorization tuples.
+    Test gas at the execution start of a set-code transaction in different scenarios.
     """
     start_gas = 10_000_000
     intrinsic_gas = (
