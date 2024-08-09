@@ -75,7 +75,10 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
         pytest.param(
             # Empty code section with non-empty data section
-            bytes.fromhex("ef000101000402000100000400020000000000aabb"),
+            Container(
+                sections=[Section.Code(code_outputs=0), Section.Data("aabb")],
+                expected_bytecode="ef000101000402000100000400020000000000aabb",
+            ),
             EOFException.ZERO_SECTION_SIZE,
             id="EOF1I3540_0012",
         ),
