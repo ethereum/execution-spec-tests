@@ -293,6 +293,64 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             EOFException.MISSING_TERMINATOR,
             id="EOF1I3540_0049",
         ),
+        # TODO: Duplicated tests
+        # The following test cases are duplicates but added to confirm test coverage is retained.
+        pytest.param(
+            Container(
+                name="EOF1I3540_0001 (Invalid) No magic",
+                raw_bytes="ef",
+            ),
+            EOFException.INVALID_MAGIC,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0002 (Invalid) Invalid magic",
+                raw_bytes="ef010101000402000100010400000000000000fe",
+            ),
+            EOFException.INVALID_MAGIC,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0003",
+                raw_bytes="ef020101000402000100010400000000000000fe",
+            ),
+            EOFException.INVALID_MAGIC,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0004",
+                raw_bytes="efff0101000402000100010400000000000000fe",
+            ),
+            EOFException.INVALID_MAGIC,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0005 (Invalid) No version",
+                raw_bytes="ef00",
+            ),
+            EOFException.INVALID_VERSION,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0006 (Invalid) Invalid version",
+                raw_bytes="ef000001000402000100010400000000000000fe",
+            ),
+            EOFException.INVALID_VERSION,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0007",
+                raw_bytes="ef000201000402000100010400000000000000fe",
+            ),
+            EOFException.INVALID_VERSION,
+        ),
+        pytest.param(
+            Container(
+                name="EOF1I3540_0008",
+                raw_bytes="ef00ff01000402000100010400000000000000fe",
+            ),
+            EOFException.INVALID_VERSION,
+        ),
     ],
 )
 def test_migrated_valid_invalid(
