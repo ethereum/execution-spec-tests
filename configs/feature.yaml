@@ -16,5 +16,5 @@ verkle-genesis:
   solc: 0.8.24
 verkle-conversion-stride-0:
   evm-type: verkle
-  fill-params: --fork=EIP6800Transition -m blockchain_test
+  fill-params: --from=Shanghai --until=EIP6800Transition -m blockchain_test
   solc: 0.8.24
