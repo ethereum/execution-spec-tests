@@ -9,14 +9,20 @@ import time
 from pathlib import Path
 from re import compile
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, List, Optional, Tuple
+from typing import List, Optional
 
 from requests_unixsocket import Session  # type: ignore
 
+<<<<<<< HEAD
 from ethereum_test_forks import Constantinople, ConstantinopleFix, Fork
+=======
+from ethereum_test_forks import Fork
+from ethereum_test_types import Alloc, Environment, Transaction
+>>>>>>> 69630bbff (feat(fw): eels daemon rebase.)
 
 from .geth import GethTransitionTool
-from .transition_tool import FixtureFormats
+from .transition_tool import FixtureFormats, model_dump_config
+from .types import TransitionToolInput, TransitionToolOutput
 
 <<<<<<< HEAD
 UNSUPPORTED_FORKS = (
@@ -175,29 +181,37 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
 
     def evaluate(
         self,
-        alloc: Any,
-        txs: Any,
-        env: Any,
-        fork_name: str,
+        *,
+        alloc: Alloc,
+        txs: List[Transaction],
+        env: Environment,
+        fork: Fork,
         chain_id: int = 1,
         reward: int = 0,
         eips: Optional[List[int]] = None,
         debug_output_path: str = "",
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> TransitionToolOutput:
         """
         Executes `evm t8n` with the specified arguments.
         """
         if not self.process:
             self.start_server()
 
+        fork_name = fork.transition_tool_name(
+            block_number=env.number,
+            timestamp=env.timestamp,
+        )
         if eips is not None:
             fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
+        if env.number == 0:
+            reward = -1
 
-        input_json = {
-            "alloc": alloc,
-            "txs": txs,
-            "env": env,
-        }
+        input_json = TransitionToolInput(
+            alloc=alloc,
+            txs=txs,
+            env=env,
+        ).model_dump(mode="json", **model_dump_config)
+
         state_json = {
             "fork": fork_name,
             "chainid": chain_id,
@@ -207,17 +221,12 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
         post_data = {"state": state_json, "input": input_json}
         response = Session().post(self.server_url, json=post_data, timeout=10)
         response.raise_for_status()  # exception visible in pytest failure output
-        output = response.json()
+        output: TransitionToolOutput = TransitionToolOutput.model_validate(response.json())
 
         if response.status_code != 200:
             raise Exception(
                 f"t8n-server returned status code {response.status_code}, "
                 f"response: {response.text}"
             )
-        if not all([x in output for x in ["alloc", "result", "body"]]):
-            raise Exception(
-                "Malformed t8n output: missing 'alloc', 'result' or 'body', server response: "
-                f"{response.text}"
-            )
 
-        return output["alloc"], output["result"]
+        return output
