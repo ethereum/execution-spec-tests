@@ -827,3 +827,18 @@ def test_rjumpi_backwards_reference_only(
         data=container,
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS,
     )
+
+
+def test_rjumpi_stack_validation(
+    eof_test: EOFTestFiller,
+):
+    """
+    Check that you can get to the same opcode with two different stack heights
+    Spec now allows this:
+    4.b in https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation
+    """
+    container = Container.Code(code=Op.RJUMPI[1](1) + Op.ADDRESS + Op.NOOP + Op.STOP)
+    eof_test(
+        data=container,
+        expect_exception=None,
+    )
