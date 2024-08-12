@@ -9,32 +9,16 @@ import time
 from pathlib import Path
 from re import compile
 from tempfile import TemporaryDirectory
-from typing import List, Optional
+from typing import Optional
 
-from requests_unixsocket import Session  # type: ignore
-
-<<<<<<< HEAD
-from ethereum_test_forks import Constantinople, ConstantinopleFix, Fork
-=======
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
->>>>>>> 69630bbff (feat(fw): eels daemon rebase.)
 
-from .geth import GethTransitionTool
-from .transition_tool import FixtureFormats, model_dump_config
-from .types import TransitionToolInput, TransitionToolOutput
+from .transition_tool import TransitionTool
 
-<<<<<<< HEAD
-UNSUPPORTED_FORKS = (
-    Constantinople,
-    ConstantinopleFix,
-)
-=======
 DAEMON_STARTUP_TIMEOUT_SECONDS = 5
->>>>>>> 9df200c2d (feat(transition_tool): Use execution-specs daemon)
 
 
-class ExecutionSpecsTransitionTool(GethTransitionTool):
+class ExecutionSpecsTransitionTool(TransitionTool):
     """
     Ethereum Specs `ethereum-spec-evm` Transition tool interface wrapper class.
 
@@ -106,51 +90,33 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
 
     default_binary = Path("ethereum-spec-evm")
     detect_binary_pattern = compile(r"^ethereum-spec-evm\b")
-    statetest_subcommand: Optional[str] = None
-    blocktest_subcommand: Optional[str] = None
-    process: Optional[subprocess.Popen] = None
-    server_url: str
-    temp_dir: Optional[TemporaryDirectory] = None
+    t8n_use_server: bool = True
+    server_dir: Optional[TemporaryDirectory] = None
 
-    def is_fork_supported(self, fork: Fork) -> bool:
-        """
-        Returns True if the fork is supported by the tool.
-        Currently, ethereum-spec-evm provides no way to determine supported forks.
-        """
-        return fork not in UNSUPPORTED_FORKS
-
-    def get_blocktest_help(self) -> str:
-        """
-        Return the help string for the blocktest subcommand.
-        """
-        raise NotImplementedError(
-            "The `blocktest` command is not supported by the ethereum-spec-evm. "
-            "Use geth's evm tool."
-        )
-
-    def verify_fixture(
+    def __init__(
         self,
-        fixture_format: FixtureFormats,
-        fixture_path: Path,
-        fixture_name: Optional[str] = None,
-        debug_output_path: Optional[Path] = None,
+        *,
+        binary: Optional[Path] = None,
+        trace: bool = False,
     ):
-        """
-        Executes `evm [state|block]test` to verify the fixture at `fixture_path`.
-
-        Currently only implemented by geth's evm.
-        """
-        raise NotImplementedError(
-            "The `verify_fixture()` function is not supported by the ethereum-spec-evm. "
-            "Use geth's evm tool."
-        )
+        super().__init__(binary=binary, trace=trace)
+        args = [str(self.binary), "--help"]
+        try:
+            result = subprocess.run(args, capture_output=True, text=True)
+        except subprocess.CalledProcessError as e:
+            raise Exception(
+                "ethereum-spec-evm process unexpectedly returned a non-zero status code: " f"{e}."
+            )
+        except Exception as e:
+            raise Exception(f"Unexpected exception calling ethereum-spec-evm: {e}.")
+        self.help_string = result.stdout
 
     def start_server(self):
         """
         Starts the t8n-server process, extracts the port, and leaves it running for future re-use.
         """
-        self.temp_dir = TemporaryDirectory()
-        self.server_file_path = Path(self.temp_dir.name) / "t8n.sock"
+        self.server_dir = TemporaryDirectory()
+        self.server_file_path = Path(self.server_dir.name) / "t8n.sock"
         replaced_str = str(self.server_file_path).replace("/", "%2F")
         self.server_url = f"http+unix://{replaced_str}/"
         self.process = subprocess.Popen(
@@ -171,62 +137,20 @@ class ExecutionSpecsTransitionTool(GethTransitionTool):
 
     def shutdown(self):
         """
-        Stops the t8n-server process if it was started
+        Stops the t8n-server process if it was started.
         """
         if self.process:
             self.process.kill()
-        if self.temp_dir:
-            self.temp_dir.cleanup()
-            self.temp_dir = None
+        if self.server_dir:
+            self.server_dir.cleanup()
+            self.server_dir = None
 
-    def evaluate(
-        self,
-        *,
-        alloc: Alloc,
-        txs: List[Transaction],
-        env: Environment,
-        fork: Fork,
-        chain_id: int = 1,
-        reward: int = 0,
-        eips: Optional[List[int]] = None,
-        debug_output_path: str = "",
-    ) -> TransitionToolOutput:
+    def is_fork_supported(self, fork: Fork) -> bool:
         """
-        Executes `evm t8n` with the specified arguments.
+        Returns True if the fork is supported by the tool.
+
+        If the fork is a transition fork, we want to check the fork it transitions to.
+
+        `ethereum-spec-evm` appends newlines to forks in the help string.
         """
-        if not self.process:
-            self.start_server()
-
-        fork_name = fork.transition_tool_name(
-            block_number=env.number,
-            timestamp=env.timestamp,
-        )
-        if eips is not None:
-            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
-        if env.number == 0:
-            reward = -1
-
-        input_json = TransitionToolInput(
-            alloc=alloc,
-            txs=txs,
-            env=env,
-        ).model_dump(mode="json", **model_dump_config)
-
-        state_json = {
-            "fork": fork_name,
-            "chainid": chain_id,
-            "reward": reward,
-        }
-
-        post_data = {"state": state_json, "input": input_json}
-        response = Session().post(self.server_url, json=post_data, timeout=10)
-        response.raise_for_status()  # exception visible in pytest failure output
-        output: TransitionToolOutput = TransitionToolOutput.model_validate(response.json())
-
-        if response.status_code != 200:
-            raise Exception(
-                f"t8n-server returned status code {response.status_code}, "
-                f"response: {response.text}"
-            )
-
-        return output
+        return (fork.transition_tool_name() + "\n") in self.help_string
