@@ -29,7 +29,7 @@ from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Storage, Transaction, compute_create_address
 from ethereum_test_tools.eof.v1 import Container, Section
 
-from .spec import ref_spec_7702
+from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7702.version
@@ -936,27 +936,46 @@ def test_ext_code_on_chain_delegating_set_code(
     auth_signer_2 = pre.fund_eoa(balance)
 
     slot = count(1)
-    slot_ext_code_size_result = next(slot)
-    slot_ext_code_hash_result = next(slot)
-    slot_ext_code_copy_result = next(slot)
-    slot_ext_balance_result = next(slot)
+
+    slot_ext_code_size_result_1 = next(slot)
+    slot_ext_code_hash_result_1 = next(slot)
+    slot_ext_code_copy_result_1 = next(slot)
+    slot_ext_balance_result_1 = next(slot)
+
+    slot_ext_code_size_result_2 = next(slot)
+    slot_ext_code_hash_result_2 = next(slot)
+    slot_ext_code_copy_result_2 = next(slot)
+    slot_ext_balance_result_2 = next(slot)
 
     callee_code = (
-        Op.SSTORE(slot_ext_code_size_result, Op.EXTCODESIZE(auth_signer_1))
-        + Op.SSTORE(slot_ext_code_hash_result, Op.EXTCODEHASH(auth_signer_1))
+        # Address 1
+        Op.SSTORE(slot_ext_code_size_result_1, Op.EXTCODESIZE(auth_signer_1))
+        + Op.SSTORE(slot_ext_code_hash_result_1, Op.EXTCODEHASH(auth_signer_1))
         + Op.EXTCODECOPY(auth_signer_1, 0, 0, Op.EXTCODESIZE(auth_signer_1))
-        + Op.SSTORE(slot_ext_code_copy_result, Op.MLOAD(0))
-        + Op.SSTORE(slot_ext_balance_result, Op.BALANCE(auth_signer_1))
+        + Op.SSTORE(slot_ext_code_copy_result_1, Op.MLOAD(0))
+        + Op.SSTORE(slot_ext_balance_result_1, Op.BALANCE(auth_signer_1))
+        # Address 2
+        + Op.SSTORE(slot_ext_code_size_result_2, Op.EXTCODESIZE(auth_signer_2))
+        + Op.SSTORE(slot_ext_code_hash_result_2, Op.EXTCODEHASH(auth_signer_2))
+        + Op.EXTCODECOPY(auth_signer_2, 0, 0, Op.EXTCODESIZE(auth_signer_2))
+        + Op.SSTORE(slot_ext_code_copy_result_2, Op.MLOAD(0))
+        + Op.SSTORE(slot_ext_balance_result_2, Op.BALANCE(auth_signer_2))
         + Op.STOP
     )
     callee_address = pre.deploy_contract(callee_code)
     callee_storage = Storage()
 
-    set_code = b"\xef\x01\x00" + bytes(auth_signer_2)
-    callee_storage[slot_ext_code_size_result] = len(set_code)
-    callee_storage[slot_ext_code_hash_result] = keccak256(set_code)
-    callee_storage[slot_ext_code_copy_result] = bytes(set_code).ljust(32, b"\x00")[:32]
-    callee_storage[slot_ext_balance_result] = balance
+    set_code_1 = Spec.DELEGATION_DESIGNATION + bytes(auth_signer_2)
+    callee_storage[slot_ext_code_size_result_1] = len(set_code_1)
+    callee_storage[slot_ext_code_hash_result_1] = keccak256(set_code_1)
+    callee_storage[slot_ext_code_copy_result_1] = bytes(set_code_1).ljust(32, b"\x00")[:32]
+    callee_storage[slot_ext_balance_result_1] = balance
+
+    set_code_2 = Spec.DELEGATION_DESIGNATION + bytes(auth_signer_1)
+    callee_storage[slot_ext_code_size_result_2] = len(set_code_2)
+    callee_storage[slot_ext_code_hash_result_2] = keccak256(set_code_2)
+    callee_storage[slot_ext_code_copy_result_2] = bytes(set_code_2).ljust(32, b"\x00")[:32]
+    callee_storage[slot_ext_balance_result_2] = balance
 
     tx = Transaction(
         gas_limit=10_000_000,
