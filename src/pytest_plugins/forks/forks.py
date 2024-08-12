@@ -276,6 +276,8 @@ def pytest_configure(config: pytest.Config):
 
     forks = set([fork for fork in get_forks() if not fork.ignore()])
     config.forks = forks  # type: ignore
+    config.fork_names = set([fork.name() for fork in sorted(list(forks))])  # type: ignore
+    config.forks_by_name = {fork.name(): fork for fork in forks}  # type: ignore
 
     available_forks_help = textwrap.dedent(
         f"""\
@@ -452,18 +454,18 @@ def get_validity_marker_args(
     fork_names_string = validity_markers[0].args[0]
     fork_names = fork_names_string.split(",")
     resulting_set: Set[Fork] = set()
-    for fork in metafunc.config.forks:  # type: ignore
-        if fork.name() in fork_names:
-            resulting_set.add(fork)
+    for fork_name in fork_names:  # type: ignore
+        if fork_name not in metafunc.config.fork_names:  # type: ignore
+            pytest.fail(
+                f"'{test_name}' specifies an invalid fork '{fork_names_string}' to the "
+                f"'{validity_marker_name}'. "
+                "List of valid forks: "
+                ", ".join(name for name in metafunc.config.fork_names)  # type: ignore
+            )
 
-    if resulting_set:
-        return resulting_set
+        resulting_set.add(metafunc.config.forks_by_name[fork_name])  # type: ignore
 
-    pytest.fail(
-        f"'{test_name}' specifies an invalid fork '{fork_names_string}' to the "
-        f"'{validity_marker_name}'. "
-        f"List of valid forks: {', '.join(metafunc.config.fork_names)}"  # type: ignore
-    )
+    return resulting_set
 
 
 def pytest_generate_tests(metafunc: pytest.Metafunc):
@@ -502,7 +504,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             valid_from = get_forks_with_no_parents(forks)
 
         if not valid_until:
-            valid_until = get_last_descendants(fork_set, valid_from)
+            valid_until = get_last_descendants(forks, valid_from)
 
         test_fork_set = get_from_until_fork_set(forks, valid_from, valid_until)
 
