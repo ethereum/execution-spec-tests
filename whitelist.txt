@@ -128,6 +128,7 @@ EthereumJS
 ethereum's
 evaluatable
 evm
+EVMCodeType
 evmone
 Evmone
 executables
