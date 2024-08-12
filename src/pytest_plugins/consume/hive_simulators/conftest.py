@@ -54,7 +54,7 @@ def eest_consume_commands(
     """
     Commands to run the test within EEST using a hive dev back-end.
     """
-    hive_dev = f"./hive --dev --client-file configs/develop.yaml " f"--client {client_type.name}"
+    hive_dev = f"./hive --dev --client-file configs/develop.yaml --client {client_type.name}"
     consume = f'consume {test_suite_name.split("-")[-1]} -v --latest -k "{test_case.id}"'
     return [hive_dev, consume]
 
