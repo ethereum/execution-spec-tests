@@ -394,7 +394,6 @@ class TransitionTool(FixtureVerifier):
         """
         Executes the transition tool sending inputs and outputs via a server.
         """
-        self.start_server()
         post_data = {
             "state": {
                 "fork": t8n_data.fork_name,
@@ -411,15 +410,6 @@ class TransitionTool(FixtureVerifier):
                 f"response: {response.text}"
             )
         output: TransitionToolOutput = TransitionToolOutput.model_validate(response.json())
-        if debug_output_path:
-            dump_files_to_directory(
-                debug_output_path,
-                {
-                    "output/alloc.json": output.alloc,
-                    "output/result.json": output.result,
-                    "output/txs.rlp": str(output.body),
-                },
-            )
         return output
 
     def _evaluate_stream(
@@ -554,6 +544,9 @@ class TransitionTool(FixtureVerifier):
         If a client's `t8n` tool varies from the default behavior, this method
         can be overridden.
         """
+        if not self.process:
+            self.start_server()
+
         fork_name = fork.transition_tool_name(
             block_number=env.number,
             timestamp=env.timestamp,
