@@ -14,3 +14,9 @@ eip7692-prague:
   impl: besu
   repo: hyperledger/besu
   ref: main
+  evm-bin: evmone-t8n
+verkle:
+  impl: geth
+  repo: gballet/go-ethereum
+  ref: jsign-t8n-verkle-genesis-rebased
+  evm-bin: evm

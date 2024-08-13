@@ -15,6 +15,7 @@ from .base_types import (
     HexNumber,
     Number,
     NumberBoundTypeVar,
+    PaddedFixedSizeBytes,
     ZeroPaddedHexNumber,
 )
 from .composite_types import Account, Alloc, Storage, StorageRootType
@@ -53,6 +54,7 @@ __all__ = (
     "HexNumber",
     "Number",
     "NumberBoundTypeVar",
+    "PaddedFixedSizeBytes",
     "ReferenceSpec",
     "Storage",
     "StorageRootType",

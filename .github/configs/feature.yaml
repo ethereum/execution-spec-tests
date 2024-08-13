@@ -14,3 +14,11 @@ eip7692-prague:
   evm-type: eip7692-prague
   fill-params: --fork=PragueEIP7692 ./tests/prague -k "not slow"
   solc: 0.8.21
+verkle-genesis:
+  evm-type: verkle
+  fill-params: --fork=Verkle -m blockchain_test
+  solc: 0.8.24
+verkle-conversion-stride-0:
+  evm-type: verkle
+  fill-params: --fork=EIP6800Transition -m blockchain_test
+  solc: 0.8.24
