@@ -18,3 +18,9 @@ pectra-devnet-3:
   impl: ethjs
   repo: ethereumjs/ethereumjs-monorepo
   ref: t8ntool
+  evm-bin: evmone-t8n
+verkle:
+  impl: geth
+  repo: gballet/go-ethereum
+  ref: jsign-t8n-verkle-genesis-rebased
+  evm-bin: evm

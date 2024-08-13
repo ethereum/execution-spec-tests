@@ -15,6 +15,7 @@ from .base_types import (
     HexNumber,
     Number,
     NumberBoundTypeVar,
+    PaddedFixedSizeBytes,
     Wei,
     ZeroPaddedHexNumber,
 )
@@ -54,6 +55,7 @@ __all__ = (
     "HexNumber",
     "Number",
     "NumberBoundTypeVar",
+    "PaddedFixedSizeBytes",
     "ReferenceSpec",
     "Storage",
     "StorageRootType",

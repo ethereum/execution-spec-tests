@@ -22,3 +22,11 @@ pectra-devnet-3:
   evm-type: pectra-devnet-3
   fill-params: --fork=Prague -m "not slow and not 2537" ./tests/prague/
   solc: 0.8.21
+verkle-genesis:
+  evm-type: verkle
+  fill-params: --fork=Verkle -m blockchain_test
+  solc: 0.8.24
+verkle-conversion-stride-0:
+  evm-type: verkle
+  fill-params: --fork=EIP6800Transition -m blockchain_test
+  solc: 0.8.24
