@@ -65,7 +65,7 @@ def test_create(
     """
     contract_code = Op.PUSH0 * code_size
     if create_instruction is None or create_instruction == Op.CREATE:
-        contract_address = compute_create_address(TestAddress, 0)
+        contract_address = compute_create_address(address=TestAddress, nonce=0)
     else:
         contract_address = compute_create2_address(
             TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
@@ -129,7 +129,7 @@ def test_create_insufficient_gas(
     """
     contract_code = Op.PUSH0 * (129 * 31 + 42)
     if create_instruction is None or create_instruction == Op.CREATE:
-        contract_address = compute_create_address(TestAddress, 0)
+        contract_address = compute_create_address(address=TestAddress, nonce=0)
     else:
         contract_address = compute_create2_address(
             TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
@@ -237,7 +237,7 @@ def test_big_calldata(
     """
     contract_code = Op.PUSH0 * (1000 * 31 + 42)
     if create_instruction is None or create_instruction == Op.CREATE:
-        contract_address = compute_create_address(TestAddress, 0)
+        contract_address = compute_create_address(address=TestAddress, nonce=0)
     else:
         contract_address = compute_create2_address(
             TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
@@ -291,7 +291,7 @@ def _create(
         tx_value = 0
         tx_data = deploy_code
         if generate_collision:
-            contract_address = compute_create_address(TestAddress, 0)
+            contract_address = compute_create_address(address=TestAddress, nonce=0)
             pre[contract_address] = Account(nonce=1)
     elif create_instruction is not None and create_instruction.int() == Op.CREATE2.int():
         pre[TestAddress2] = Account(
@@ -309,7 +309,7 @@ def _create(
         tx_value = value
         tx_data = deploy_code
         if generate_collision:
-            contract_address = compute_create_address(TestAddress, 0)
+            contract_address = compute_create_address(address=TestAddress, nonce=0)
             pre[contract_address] = Account(nonce=1)
 
     tx = Transaction(

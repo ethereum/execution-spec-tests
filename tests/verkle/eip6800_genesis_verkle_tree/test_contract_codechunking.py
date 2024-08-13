@@ -77,7 +77,7 @@ def test_code_chunking(blockchain_test: BlockchainTestFiller, fork: str, bytecod
     )
     blocks = [Block(txs=[tx])]
 
-    contract_address = compute_create_address(TestAddress, tx.nonce)
+    contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
 
     post = {
         contract_address: Account(
