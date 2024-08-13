@@ -131,7 +131,7 @@ def _extcodesize(
 
     post = {}
     if not fails:
-        contract_address = compute_create_address(TestAddress, tx.nonce)
+        contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
         post[contract_address] = Account(storage={0: len(bytecode)})
 
     # witness = Witness()

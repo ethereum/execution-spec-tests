@@ -72,7 +72,7 @@ def test_storage_slot_write(blockchain_test: BlockchainTestFiller, fork: str, sl
     )
     blocks = [Block(txs=[tx])]
 
-    contract_address = compute_create_address(TestAddress, tx.nonce)
+    contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
 
     post = {
         contract_address: Account(
