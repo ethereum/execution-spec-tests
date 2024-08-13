@@ -467,4 +467,20 @@
 
 ### Execution
 
+- [ ] Creation transaction success with empty deploy container data (evmone-tests: state_tests/state_transition/eof_create/creation_tx.json)
+- [ ] Creation transaction success with data in deploy container without aux data (evmone-tests: state_tests/state_transition/eof_create/creation_tx_deploy_data.json)
+- [ ] Creation transaction success with data in deploy container with aux data length equal to declared (evmone-tests: state_tests/state_transition/eof_create/creation_tx_static_auxdata_in_calldata.json)
+- [ ] Creation transaction success with data in deploy container with aux data longer than declared (evmone-tests: state_tests/state_transition/eof_create/creation_tx_dynamic_auxdata_in_calldata.json)
+- [ ] Creation transaction success deploying DATALOADN referring to aux data portion of deploy container data (evmone-tests: state_tests/state_transition/eof_create/creation_tx_dataloadn_referring_to_auxdata.json)
+- [ ] Exceptional abort in creation transaction initcode (evmone-tests: state_tests/state_transition/eof_create/creation_tx_initcontainer_aborts.json)
+- [ ] RETURN in creation transaction initcode fails (evmone-tests: state_tests/state_transition/eof_create/creation_tx_initcontainer_return.json)
+- [ ] STOP in creation transaction initcode fails (evmone-tests: state_tests/state_transition/eof_create/creation_tx_initcontainer_stop.json)
+- [ ] Creation transaction with initcode of max allowed size 0xc000 (evmone-tests: state_tests/state_transition/eof_create/creation_tx_initcontainer_max_size.json)
+- [ ] Creation transaction with initcode size above limit (evmone-tests: state_tests/state_transition/eof_create/creation_tx_initcontainer_too_large.json)
+- [ ] Creation transaction deploys container of max allowed size 0x6000 (evmone-tests: state_tests/state_transition/eof_create/creation_tx_deploy_container_max_size.json)
+- [ ] Creation transaction deploying container of size above limit fails (evmone-tests: state_tests/state_transition/eof_create/creation_tx_deploy_container_too_large.json)
+- [ ] EOFCREATE success nested in creation transaction initcode (evmone-tests: state_tests/state_transition/eof_create/creation_tx_nested_eofcreate.json)
+- [ ] Creation transaction with invalid initcontainer (invalid header) (evmone-tests: state_tests/state_transition/eof_create/creation_tx_invalid_initcode_header.json)
+- [ ] Creation transaction with invalid initcontainer (invalid max stack height) (evmone-tests: state_tests/state_transition/eof_create/creation_tx_invalid_initcode.json)
+- [ ] Creation transaction fails if initcontainer has truncated data section (declared size > present data size ) (evmone-tests: state_tests/state_transition/eof_create/creation_tx_truncated_data_initcode.json)
 - [ ] Create transaction with legacy initcode and EOF deploy code fails (evmone-tests: state_tests/state_transition/eof_create/creation_tx_deploying_eof.json)
