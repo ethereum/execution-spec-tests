@@ -327,6 +327,7 @@ ruleset
 runtime
 sandboxed
 secp256k1
+secp256k1n
 selfbalance
 ser
 servable
