@@ -18,7 +18,6 @@ from ethereum_test_base_types import (
     HeaderNonce,
     HexNumber,
     Number,
-    to_json,
 )
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
@@ -34,6 +33,7 @@ from ethereum_test_fixtures.blockchain import (
     FixtureTransaction,
     FixtureWithdrawal,
     FixtureWithdrawalRequest,
+    FixtureWitness,
     InvalidFixtureBlock,
 )
 from ethereum_test_forks import EIP6800Transition, Fork, Verkle
@@ -45,10 +45,10 @@ from ethereum_test_types import (
     Removable,
     Requests,
     Transaction,
-    VerkleTree,
     Withdrawal,
     WithdrawalRequest,
 )
+from ethereum_test_types.verkle import VerkleTree, Witness
 from evm_transition_tool import TransitionTool
 
 from .base import BaseTest, verify_result, verify_transactions
@@ -328,6 +328,7 @@ class BlockchainTest(BaseTest):
     def make_genesis(
         self,
         fork: Fork,
+        t8n: TransitionTool,
     ) -> Tuple[Alloc, FixtureBlock]:
         """
         Create a genesis block from the blockchain test definition.
@@ -346,7 +347,14 @@ class BlockchainTest(BaseTest):
         )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
-        state_root = pre_alloc.state_root()
+
+        state_root: bytes
+        # TODO: refine, currently uses `evm verkle state-root` to get this.
+        if fork < Verkle or fork is EIP6800Transition:
+            state_root = pre_alloc.state_root()
+        else:
+            state_root = t8n.get_verkle_state_root(mpt_alloc=pre_alloc)
+
         genesis = FixtureHeader(
             parent_hash=0,
             ommers_hash=EmptyOmmersRoot,
@@ -404,6 +412,7 @@ class BlockchainTest(BaseTest):
         Alloc,
         Optional[Requests],
         Optional[VerkleTree],
+        Optional[Witness],
     ]:
         """
         Generate common block data for both make_fixture and make_hive_fixture.
@@ -436,7 +445,7 @@ class BlockchainTest(BaseTest):
             txs=txs,
             env=env,
             fork=fork,
-            vkt=to_json(previous_vkt) if previous_vkt is not None else None,
+            vkt=previous_vkt,
             chain_id=self.chain_id,
             reward=fork.get_reward(env.number, env.timestamp),
             eips=eips,
@@ -446,6 +455,8 @@ class BlockchainTest(BaseTest):
         try:
             rejected_txs = verify_transactions(txs, transition_tool_output.result)
             verify_result(transition_tool_output.result, env)
+            # TODO: add verify witness (against vkt)
+            # verify_witness(transition_tool_output.witness, transition_tool_output.vkt)
         except Exception as e:
             print_traces(t8n.get_traces())
             pprint(transition_tool_output.result)
@@ -453,6 +464,8 @@ class BlockchainTest(BaseTest):
             pprint(transition_tool_output.alloc)
             if transition_tool_output.vkt is not None:
                 pprint(transition_tool_output.vkt)
+            if transition_tool_output.witness is not None:
+                pprint(transition_tool_output.witness)
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -525,6 +538,11 @@ class BlockchainTest(BaseTest):
                 )
             )
             transition_tool_output.alloc = previous_alloc
+            # TODO: hack for now
+            transition_tool_output.witness = Witness(
+                verkle_proof=transition_tool_output.result.verkle_proof,
+                state_diff=transition_tool_output.result.state_diff,
+            )
 
         return (
             env,
@@ -533,6 +551,7 @@ class BlockchainTest(BaseTest):
             transition_tool_output.alloc,
             requests,
             transition_tool_output.vkt,
+            transition_tool_output.witness,
         )
 
     def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
@@ -556,7 +575,7 @@ class BlockchainTest(BaseTest):
         Verifies the post state after all block/s or payload/s are generated.
         """
         try:
-            if env.verkle_conversion_started:
+            if env.verkle_conversion_started or env.verkle_conversion_ended:
                 if vkt is not None:
                     pass  # TODO: skip exact account verify checks
                     # verify_post_vkt(t8n=t8n, expected_post=self.post, got_vkt=vkt)
@@ -579,12 +598,18 @@ class BlockchainTest(BaseTest):
         """
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
-        pre, genesis = self.make_genesis(fork)
+        pre, genesis = self.make_genesis(fork, t8n)
 
         alloc = pre
         env = environment_from_parent_header(genesis.header)
         head = genesis.header.block_hash
         vkt: Optional[VerkleTree] = None
+
+        # Filling for verkle genesis tests
+        if fork is Verkle:
+            env.verkle_conversion_ended = True
+            # convert alloc to vkt
+            vkt = t8n.from_mpt_to_vkt(alloc)
 
         # Hack for filling naive verkle transition tests
         if fork is EIP6800Transition:
@@ -603,14 +628,16 @@ class BlockchainTest(BaseTest):
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                new_env, header, txs, new_alloc, requests, new_vkt = self.generate_block_data(
-                    t8n=t8n,
-                    fork=fork,
-                    block=block,
-                    previous_env=env,
-                    previous_alloc=alloc,
-                    previous_vkt=vkt,
-                    eips=eips,
+                new_env, header, txs, new_alloc, requests, new_vkt, witness = (
+                    self.generate_block_data(
+                        t8n=t8n,
+                        fork=fork,
+                        block=block,
+                        previous_env=env,
+                        previous_alloc=alloc,
+                        previous_vkt=vkt,
+                        eips=eips,
+                    )
                 )
                 fixture_block = FixtureBlockBase(
                     header=header,
@@ -645,6 +672,7 @@ class BlockchainTest(BaseTest):
                         if requests is not None
                         else None
                     ),
+                    witness=FixtureWitness.from_witness(witness) if witness is not None else None,
                 ).with_rlp(txs=txs, requests=requests)
                 if block.exception is None:
                     fixture_blocks.append(fixture_block)
@@ -699,7 +727,7 @@ class BlockchainTest(BaseTest):
         """
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
-        pre, genesis = self.make_genesis(fork)
+        pre, genesis = self.make_genesis(fork, t8n)
         alloc = pre
         env = environment_from_parent_header(genesis.header)
         head_hash = genesis.header.block_hash
@@ -718,7 +746,8 @@ class BlockchainTest(BaseTest):
             self.blocks.append(Block())
 
         for block in self.blocks:
-            new_env, header, txs, new_alloc, requests, new_vkt = self.generate_block_data(
+            # TODO: fix witness for hive fixture? Do we need it?
+            new_env, header, txs, new_alloc, requests, new_vkt, _ = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=block,
@@ -762,7 +791,7 @@ class BlockchainTest(BaseTest):
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the
             # sync process.
-            _, sync_header, _, _, requests, _ = self.generate_block_data(
+            _, sync_header, _, _, requests, _, _ = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=Block(),

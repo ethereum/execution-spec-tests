@@ -40,6 +40,7 @@ from ethereum_test_types.types import (
     WithdrawalRequest,
     WithdrawalRequestGeneric,
 )
+from ethereum_test_types.verkle import Witness
 
 from .base import BaseFixture
 from .formats import FixtureFormats
@@ -412,6 +413,19 @@ class FixtureConsolidationRequest(ConsolidationRequestGeneric[ZeroPaddedHexNumbe
         return cls(**d.model_dump())
 
 
+class FixtureWitness(Witness):
+    """
+    Structure to represent a single verkle block witness.
+    """
+
+    @classmethod
+    def from_witness(cls, w: Witness) -> "FixtureWitness":
+        """
+        Returns a FixtureWitness from a Witness.
+        """
+        return cls(**w.model_dump())
+
+
 class FixtureBlockBase(CamelModel):
     """Representation of an Ethereum block within a test Fixture without RLP bytes."""
 
@@ -422,6 +436,8 @@ class FixtureBlockBase(CamelModel):
     deposit_requests: List[FixtureDepositRequest] | None = None
     withdrawal_requests: List[FixtureWithdrawalRequest] | None = None
     consolidation_requests: List[FixtureConsolidationRequest] | None = None
+
+    witness: FixtureWitness | None = None
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
