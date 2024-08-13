@@ -50,7 +50,7 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
         TestAddress: Account(balance=1000000000000000000000),
     }
 
-    contract_address = compute_create_address(TestAddress, 0)
+    contract_address = compute_create_address(address=TestAddress, nonce=0)
     if instruction == Op.EXTCODECOPY:
         deploy_code = Op.EXTCODECOPY(contract_address, 0, 0, 100) + Op.ORIGIN * 100
         data = Initcode(deploy_code=deploy_code)
