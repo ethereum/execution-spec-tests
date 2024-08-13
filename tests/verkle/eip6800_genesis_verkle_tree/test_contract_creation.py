@@ -68,7 +68,7 @@ def test_contract_creation(
     )
     blocks = [Block(txs=[tx])]
 
-    contract_address = compute_create_address(TestAddress, tx.nonce)
+    contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
 
     post = {
         contract_address: Account(
