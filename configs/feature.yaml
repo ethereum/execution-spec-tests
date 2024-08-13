@@ -10,3 +10,7 @@ eip7692:
   evm-type: eip7692
   fill-params: --fork=CancunEIP7692 ./tests/prague
   solc: 0.8.21
+eip7692-prague:
+  evm-type: eip7692-prague
+  fill-params: --fork=PragueEIP7692 ./tests/prague -k "not slow"
+  solc: 0.8.21
