@@ -560,25 +560,51 @@ def test_gas_cost(
         Spec.PER_EMPTY_ACCOUNT_COST - Spec.PER_AUTH_BASE_COST
     ) * discounted_authorizations
 
-    # We need a minimum amount of gas to execute the transaction, and the discount gas
-    # can actually be used to pay for this, but it's not always enough.
+    # We calculate the exact gas required to execute the test code.
+    # We add SSTORE opcodes in order to make sure that the refund is less than one fifth (EIP-3529)
+    # of the total gas used, so we can see the full discount being reflected in most of the tests.
     gas_opcode_cost = 2
-    push_opcode_cost = 3
-    sstore_opcode_cost = 20_000
-    cold_storage_cost = 2_100
+    sstore_opcode_count = 10
+    push_opcode_count = (2 * (sstore_opcode_count)) - 1
+    push_opcode_cost = 3 * push_opcode_count
+    sstore_opcode_cost = 20_000 * sstore_opcode_count
+    cold_storage_cost = 2_100 * sstore_opcode_count
 
-    min_execute_gas = gas_opcode_cost + push_opcode_cost + sstore_opcode_cost + cold_storage_cost
-    extra_gas = max(0, min_execute_gas - discount_gas)
+    execution_gas = gas_opcode_cost + push_opcode_cost + sstore_opcode_cost + cold_storage_cost
 
-    expected_gas_measure = discount_gas + extra_gas - gas_opcode_cost
+    # The first opcode that executes in the code is the GAS opcode, which costs 2 gas, so we
+    # subtract that from the expected gas measure.
+    expected_gas_measure = execution_gas - gas_opcode_cost
 
     test_code_storage = Storage()
-    test_code = Op.SSTORE(test_code_storage.store_next(expected_gas_measure), Op.GAS) + Op.STOP
+    test_code = (
+        Op.SSTORE(test_code_storage.store_next(expected_gas_measure), Op.GAS)
+        + sum(
+            Op.SSTORE(test_code_storage.store_next(1), 1) for _ in range(sstore_opcode_count - 1)
+        )
+        + Op.STOP
+    )
     test_code_address = pre.deploy_contract(test_code)
 
-    tx_gas_limit = intrinsic_gas + extra_gas
+    tx_gas_limit = intrinsic_gas + execution_gas
+    tx_max_fee_per_gas = 7
+    tx_exact_cost = tx_gas_limit * tx_max_fee_per_gas
+
+    # EIP-3529
+    max_discount = tx_gas_limit // 5
+
+    if discount_gas > max_discount:
+        # Only one test hits this condition, but it's ok to also test this case.
+        discount_gas = max_discount
+
+    discount_cost = discount_gas * tx_max_fee_per_gas
+
+    sender_account = pre[sender]
+    assert sender_account is not None
+
     tx = Transaction(
         gas_limit=tx_gas_limit,
+        max_fee_per_gas=tx_max_fee_per_gas,
         to=test_code_address,
         value=0,
         data=data,
@@ -593,6 +619,7 @@ def test_gas_cost(
         tx=tx,
         post={
             test_code_address: Account(storage=test_code_storage),
+            sender: Account(balance=sender_account.balance - tx_exact_cost + discount_cost),
         },
     )
 
