@@ -431,4 +431,40 @@
 - [x] RETURNCONTRACT immediate referring to non-existing container (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_returncontract_invalid_Copier.json)
 - [x] Unreachable code after RETURNCONTRACT, check that RETURNCONTRACT is terminating (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_returncontract_invalid_Copier.json)
 
+### Execution
+
+- [ ] CREATE with EOF initcode fails in Prague (evmone-tests: state_tests/state_transition/eof_create/create_with_eof_initcode.json)
+- [ ] CREATE with EOF initcode fails in Cancun (evmone-tests: state_tests/state_transition/eof_create/create_with_eof_initcode_cancun.json)
+- [ ] CREATE2 with EOF initcode fails in Prague (evmone-tests: state_tests/state_transition/eof_create/create2_with_eof_initcode.json)
+- [ ] CREATE2 with EOF initcode fails in Cancun (evmone-tests: state_tests/state_transition/eof_create/create2_with_eof_initcode_cancun.json)
+- [ ] CREATE with legacy initcode and EOF deploy code fails (evmone-tests: state_tests/state_transition/eof_create/create_deploying_eof.json)
+- [ ] CREATE2 with legacy initcode and EOF deploy code fails (evmone-tests: state_tests/state_transition/eof_create/create2_deploying_eof.json)
+- [ ] EOFCREATE success with empty aux data (evmone-tests: state_tests/state_transition/eof_create/eofcreate_empty_auxdata.json)
+- [ ] EOFCREATE success with aux data length equal to declared in deploy container (evmone-tests: state_tests/state_transition/eof_create/eofcreate_auxdata_equal_to_declared.json)
+- [ ] EOFCREATE success with aux data longer than size declared in deploy container (evmone-tests: state_tests/state_transition/eof_create/eofcreate_auxdata_longer_than_declared.json)
+- [ ] EOFCREATE with aux data shorter than size declared in deploy container fails (evmone-tests: state_tests/state_transition/eof_create/eofcreate_auxdata_shorter_than_declared.json)
+- [ ] EOFCREATE success deploying DATALOADN referring to aux data portion of deploy container data (evmone-tests: state_tests/state_transition/eof_create/eofcreate_dataloadn_referring_to_auxdata.json)
+- [ ] EOFCREATE success with deploy container having aux data and subcontainer (evmone-tests: state_tests/state_transition/eof_create/eofcreate_with_auxdata_and_subcontainer.json)
+- [ ] REVERT in initcontainer (evmone-tests: state_tests/state_transition/eof_create/eofcreate_revert_empty_returndata.json)
+- [ ] REVERT with return data in initcontainer (evmone-tests: state_tests/state_transition/eof_create/eofcreate_revert_non_empty_returndata.json)
+- [ ] Exceptional abort in initcontainer (evmone-tests: state_tests/state_transition/eof_create/eofcreate_initcontainer_aborts.json)
+- [ ] EOFCREATE with deploy container of max size 0x6000 (evmone-tests: state_tests/state_transition/eof_create/eofcreate_deploy_container_max_size.json)
+- [ ] EOFCREATE with deploy container size above limit (evmone-tests: state_tests/state_transition/eof_create/eofcreate_deploy_container_too_large.json)
+- [ ] EOFCREATE with deploy container data size above 64K after appending aux data (evmone-tests: state_tests/state_transition/eof_create/eofcreate_appended_data_size_larger_than_64K.json)
+- [ ] EOFCREATE with deploy container size above limit after appending aux data (evmone-tests: state_tests/state_transition/eof_create/eofcreate_deploy_container_with_aux_data_too_large.json)
+- [ ] EOFCREATE success nested in EOFCREATE initcode (evmone-tests: state_tests/state_transition/eof_create/eofcreate_nested_eofcreate.json)
+- [ ] EOFCREATE success nested in EOFCREATE initcode that reverts (evmone-tests: state_tests/state_transition/eof_create/eofcreate_nested_eofcreate_revert.json)
+- [ ] EOFCREATE with value success
+- [ ] EOFCREATE with value - not enough caller balance (evmone-tests: state_tests/state_transition/eof_create/eofcreate_caller_balance_too_low.json)
+- [ ] EOFCREATE not enough gas for initcode (EIP-3860) charge (evmone-tests: state_tests/state_transition/eof_create/eofcreate_not_enough_gas_for_initcode_charge.json)
+- [ ] EOFCREATE not enough gas for input memory expansion (evmone-tests: state_tests/state_transition/eof_create/eofcreate_not_enough_gas_for_mem_expansion.json)
+- [ ] RETURNCONTRACT not enough gas for aux data memory expansion (evmone-tests: state_tests/state_transition/eof_create/returncontract_not_enough_gas_for_mem_expansion.json)
+- [ ] Successful EOFCREATE clears returndata  (evmone-tests: state_tests/state_transition/eof_create/eofcreate_clears_returndata.json)
+- [ ] Second EOFCREATE with the same container and salt fails (evmone-tests: state_tests/state_transition/eof_create/eofcreate_failure_after_eofcreate_success.json)
+- [ ] Call created contract after EOFCREATE (evmone-tests: state_tests/state_transition/eof_create/eofcreate_call_created_contract.json)
+
 ## EIP-7698: EOF - Creation transaction
+
+### Execution
+
+- [ ] Create transaction with legacy initcode and EOF deploy code fails (evmone-tests: state_tests/state_transition/eof_create/creation_tx_deploying_eof.json)
