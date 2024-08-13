@@ -18,6 +18,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Bytecode,
+    CodeGasMeasure,
     Conditional,
     Environment,
     EVMCodeType,
@@ -26,7 +27,13 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Storage, Transaction, compute_create_address
+from ethereum_test_tools import (
+    StateTestFiller,
+    Storage,
+    Transaction,
+    TransactionException,
+    compute_create_address,
+)
 from ethereum_test_tools.eof.v1 import Container, Section
 
 from .spec import Spec, ref_spec_7702
@@ -858,6 +865,92 @@ def test_ext_code_on_set_code(
     )
 
 
+@pytest.mark.with_all_call_opcodes(
+    lambda opcode: opcode
+    not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+)
+@pytest.mark.parametrize(
+    "set_code_address_first",
+    [
+        pytest.param(True, id="call_set_code_address_first_then_authority"),
+        pytest.param(False, id="call_authority_first_then_set_code_address"),
+    ],
+)
+def test_set_code_address_and_authority_warm_state(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    call_opcode: Op,
+    set_code_address_first: bool,
+):
+    """
+    Test set to code address and authority warm status after a call to
+    authority address, or viceversa.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    slot = count(1)
+    slot_call_success = next(slot)
+    slot_set_code_to_warm_state = next(slot)
+    slot_authority_warm_state = next(slot)
+
+    set_code = Op.STOP
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    overhead_cost = 3 * len(call_opcode.kwargs)  # type: ignore
+    if call_opcode == Op.CALL:
+        overhead_cost -= 1  # GAS opcode is less expensive than a PUSH
+
+    code_gas_measure_set_code = CodeGasMeasure(
+        code=call_opcode(address=set_code_to_address),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+        sstore_key=slot_set_code_to_warm_state,
+        stop=False,
+    )
+    code_gas_measure_authority = CodeGasMeasure(
+        code=call_opcode(address=auth_signer),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+        sstore_key=slot_authority_warm_state,
+        stop=False,
+    )
+
+    callee_code = Bytecode()
+    if set_code_address_first:
+        callee_code += code_gas_measure_set_code + code_gas_measure_authority
+    else:
+        callee_code += code_gas_measure_authority + code_gas_measure_set_code
+    callee_code += Op.SSTORE(slot_call_success, 1) + Op.STOP
+
+    callee_address = pre.deploy_contract(callee_code)
+    callee_storage = Storage()
+    callee_storage[slot_call_success] = 1
+    callee_storage[slot_set_code_to_warm_state] = 2_600
+    callee_storage[slot_authority_warm_state] = 100
+
+    tx = Transaction(
+        gas_limit=1_000_000,
+        to=callee_address,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_to_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            callee_address: Account(storage=callee_storage),
+        },
+    )
+
+
 @pytest.mark.parametrize(
     "balance",
     [0, 1],
@@ -1519,29 +1612,43 @@ def test_set_code_all_invalid_authorization_tuples(
 
 class InvalidityReason(Enum):
     """
-    Reasons for invalidity.
+    Reasons for invalidity of a set-code transaction.
     """
 
     NONCE = "nonce"
     MULTIPLE_NONCE = "multiple_nonce"
     CHAIN_ID = "chain_id"
-    ZERO_LENGTH_AUTHORIZATION_LIST = "zero_length_authorization_list"  # TODO: Implement test
+    ZERO_LENGTH_AUTHORIZATION_LIST = "zero_length_authorization_list"
+    INVALID_SIGNATURE_S_VALUE = "invalid_signature_s_value"  # TODO: Implement
 
 
 @pytest.mark.parametrize(
-    "invalidity_reason",
+    "invalidity_reason,transaction_exception",
     [
-        InvalidityReason.NONCE,
         pytest.param(
-            InvalidityReason.MULTIPLE_NONCE, marks=pytest.mark.xfail(reason="test issue")
+            InvalidityReason.NONCE,
+            None,
         ),
-        pytest.param(InvalidityReason.CHAIN_ID),
+        pytest.param(
+            InvalidityReason.MULTIPLE_NONCE,
+            None,
+            marks=pytest.mark.xfail(reason="test issue"),
+        ),
+        pytest.param(
+            InvalidityReason.CHAIN_ID,
+            None,
+        ),
+        pytest.param(
+            InvalidityReason.CHAIN_ID,
+            TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST,
+        ),
     ],
 )
 def test_set_code_invalid_authorization_tuple(
     state_test: StateTestFiller,
     pre: Alloc,
     invalidity_reason: InvalidityReason,
+    transaction_exception: TransactionException | None,
 ):
     """
     Test attempting to set the code of an account with invalid authorization tuple.
@@ -1553,11 +1660,10 @@ def test_set_code_invalid_authorization_tuple(
     set_code = Op.SSTORE(success_slot, 1) + Op.STOP
     set_code_to_address = pre.deploy_contract(set_code)
 
-    tx = Transaction(
-        gas_limit=10_000_000,
-        to=auth_signer,
-        value=0,
-        authorization_list=[
+    authorization_list: List[AuthorizationTuple] = []
+
+    if invalidity_reason != InvalidityReason.ZERO_LENGTH_AUTHORIZATION_LIST:
+        authorization_list = [
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=1
@@ -1566,6 +1672,52 @@ def test_set_code_invalid_authorization_tuple(
                 if invalidity_reason == InvalidityReason.MULTIPLE_NONCE
                 else 0,
                 chain_id=2 if invalidity_reason == InvalidityReason.CHAIN_ID else 0,
+                signer=auth_signer,
+            )
+        ]
+
+    tx = Transaction(
+        gas_limit=10_000_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=authorization_list,
+        error=transaction_exception,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account.NONEXISTENT,
+        },
+    )
+
+
+def test_set_code_using_chain_specific_id(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test sending a transaction to set the code of an account using a chain-specific ID.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    success_slot = 1
+
+    set_code = Op.SSTORE(success_slot, 1) + Op.STOP
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_to_address,
+                nonce=0,
+                chain_id=1,
                 signer=auth_signer,
             )
         ],
@@ -1578,11 +1730,188 @@ def test_set_code_invalid_authorization_tuple(
         tx=tx,
         post={
             auth_signer: Account(
-                nonce=1,
-                code=b"",
-                storage={
-                    success_slot: 0,
-                },
+                storage={success_slot: 1},
+            ),
+        },
+    )
+
+
+SECP256K1N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
+SECP256K1N_OVER_2 = SECP256K1N // 2
+
+
+@pytest.mark.parametrize(
+    "v,r,s",
+    [
+        pytest.param(0, 1, 1, id="v=0,r=1,s=1"),
+        pytest.param(1, 1, 1, id="v=1,r=1,s=1"),
+        pytest.param(
+            2, 1, 1, id="v=2,r=1,s=1", marks=pytest.mark.xfail(reason="invalid signature")
+        ),
+        pytest.param(
+            1, 0, 1, id="v=1,r=0,s=1", marks=pytest.mark.xfail(reason="invalid signature")
+        ),
+        pytest.param(
+            1, 1, 0, id="v=1,r=1,s=0", marks=pytest.mark.xfail(reason="invalid signature")
+        ),
+        pytest.param(
+            0,
+            SECP256K1N - 0,
+            1,
+            id="v=0,r=SECP256K1N,s=1",
+            marks=pytest.mark.xfail(reason="invalid signature"),
+        ),
+        pytest.param(
+            0,
+            SECP256K1N - 1,
+            1,
+            id="v=0,r=SECP256K1N-1,s=1",
+            marks=pytest.mark.xfail(reason="invalid signature"),
+        ),
+        pytest.param(0, SECP256K1N - 2, 1, id="v=0,r=SECP256K1N-2,s=1"),
+        pytest.param(1, SECP256K1N - 2, 1, id="v=1,r=SECP256K1N-2,s=1"),
+        pytest.param(0, 1, SECP256K1N_OVER_2, id="v=0,r=1,s=SECP256K1N_OVER_2"),
+        pytest.param(1, 1, SECP256K1N_OVER_2, id="v=1,r=1,s=SECP256K1N_OVER_2"),
+        pytest.param(
+            0,
+            1,
+            SECP256K1N_OVER_2 + 1,
+            id="v=0,r=1,s=SECP256K1N_OVER_2+1",
+            marks=pytest.mark.xfail(reason="invalid signature"),
+        ),
+    ],
+)
+def test_set_code_using_valid_synthetic_signatures(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    v: int,
+    r: int,
+    s: int,
+):
+    """
+    Test sending a transaction to set the code of an account using synthetic signatures.
+    """
+    success_slot = 1
+
+    set_code = Op.SSTORE(success_slot, 1) + Op.STOP
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    authorization_tuple = AuthorizationTuple(
+        address=set_code_to_address,
+        nonce=0,
+        chain_id=1,
+        v=v,
+        r=r,
+        s=s,
+    )
+
+    auth_signer = authorization_tuple.signer
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[authorization_tuple],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                storage={success_slot: 1},
+            ),
+        },
+    )
+
+
+# TODO: invalid RLP in the rest of the authority tuple fields
+@pytest.mark.parametrize(
+    "v,r,s",
+    [
+        pytest.param(2, 1, 1, id="v=2,r=1,s=1"),
+        pytest.param(1, 0, 1, id="v=1,r=0,s=1"),
+        pytest.param(1, 1, 0, id="v=1,r=1,s=0"),
+        pytest.param(
+            0,
+            SECP256K1N,
+            1,
+            id="v=0,r=SECP256K1N,s=1",
+        ),
+        pytest.param(
+            0,
+            SECP256K1N - 1,
+            1,
+            id="v=0,r=SECP256K1N-1,s=1",
+        ),
+        pytest.param(
+            0,
+            1,
+            SECP256K1N_OVER_2 + 1,
+            id="v=0,r=1,s=SECP256K1N_OVER_2+1",
+        ),
+        pytest.param(
+            2**256 - 1,
+            1,
+            1,
+            id="v=2**256-1,r=1,s=1",
+        ),
+        pytest.param(
+            0,
+            1,
+            2**256 - 1,
+            id="v=0,r=1,s=2**256-1",
+        ),
+        pytest.param(
+            1,
+            2**256 - 1,
+            1,
+            id="v=1,r=2**256-1,s=1",
+        ),
+    ],
+)
+def test_set_code_using_invalid_signatures(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    v: int,
+    r: int,
+    s: int,
+):
+    """
+    Test sending a transaction to set the code of an account using synthetic signatures.
+    """
+    success_slot = 1
+
+    callee_code = Op.SSTORE(success_slot, 1) + Op.STOP
+    callee_address = pre.deploy_contract(callee_code)
+
+    authorization_tuple = AuthorizationTuple(
+        address=0,
+        nonce=0,
+        chain_id=1,
+        v=v,
+        r=r,
+        s=s,
+    )
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=callee_address,
+        value=0,
+        authorization_list=[authorization_tuple],
+        error=TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            callee_address: Account(
+                storage={success_slot: 0},
             ),
         },
     )
