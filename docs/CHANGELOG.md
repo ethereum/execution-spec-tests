@@ -26,7 +26,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Fixes consume genesis mismatch exception for hive based simulators ([#734](https://github.com/ethereum/execution-spec-tests/pull/734)).
 - ✨ Adds reproducible consume commands to hiveview ([#717](https://github.com/ethereum/execution-spec-tests/pull/717)).
 - ✨ Added optional parameter to all `with_all_*` markers to specify a lambda function that filters the parametrized values ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
-- ✨ Added `named_pytest_param` helper function, which used as a replacement to `pytest.param` to limit test combinations ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
+- ✨ Added [`named_pytest_param` helper function](https://ethereum.github.io/execution-spec-tests/main/writing_tests/writing_a_new_test/#named_pytest_param-helper-function), which used as a replacement to `pytest.param` to limit test combinations ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
 - ✨ Added `Container.Init` to `ethereum_test_types.EOF.V1` package, which allows generation of an EOF init container more easily ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
 
 ### 🔧 EVM Tools
