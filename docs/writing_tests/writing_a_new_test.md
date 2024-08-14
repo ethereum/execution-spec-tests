@@ -255,8 +255,8 @@ import pytest
 @pytest.mark.parametrize(
     "tx_value,expected_balance",
     [
-        (100, 100),
-        (200, 200),
+        pytest.param(0, 0, id="zero-value"),
+        pytest.param(100, 100, id="non-zero-value"),
     ],
 )
 def test_contract_creating_tx(
@@ -264,8 +264,8 @@ def test_contract_creating_tx(
 ):
 ```
 
-This will run the test twice, once with `tx_value` set to `100` and `expected_balance`
-set to `100`, and once with `tx_value` set to `200` and `expected_balance` set to `200`.
+This will run the test twice, once with `tx_value` set to `0` and `expected_balance`
+set to `0`, and once with `tx_value` set to `100` and `expected_balance` set to `100`.
 
 The `fork` fixture is automatically provided by the framework and contains the
 current fork under test, and does not need to be parametrized.
@@ -274,9 +274,11 @@ Tests can also be automatically parametrized with appropriate fork covariant
 values using the `with_all_*` markers listed in the
 [Test Markers](./test_markers.md#fork-covariant-markers) page.
 
-## `named_pytest_param` helper function
+### `named_pytest_param` helper function
 
 This helper function receives keyword arguments with a default value specified for each, and returns a replacement to the pytest.param where not all parameters have to be specified and the missing parameters will be automatically parametrized with the default value.
+
+Example:
 
 ```python
 gas_test_argument_names, gas_test_param = named_pytest_param(
@@ -297,5 +299,20 @@ gas_test_argument_names, gas_test_param = named_pytest_param(
     gas_test_param(authorizations_count=2),
     ...
   ],
-...
+)
+def test_gas(
+    blockchain_test: BlockchainTestFiller,
+    signer_type: SignerType,
+    authorization_invalidity_type: AuthorizationInvalidityType,
+    authorizations_count: int,
+    chain_id_type: ChainIDType,
+    authorize_to_address: AddressType,
+    access_list_case: AccessListType,
+    self_sponsored: bool,
+    authority_type: AddressType,
+    data: bytes,
+):
+    ... 
 ```
+
+This will run the test with the default values for all parameters except for `authorizations_count` which will be set to `2`.
