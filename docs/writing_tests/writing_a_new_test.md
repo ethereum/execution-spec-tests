@@ -276,12 +276,15 @@ values using the `with_all_*` markers listed in the
 
 ### `named_pytest_param` helper function
 
-This helper function receives keyword arguments with a default value specified for each, and returns a replacement to the pytest.param where not all parameters have to be specified and the missing parameters will be automatically parametrized with the default value.
+This helper function receives keyword arguments with a default value specified for each,
+and returns a replacement to the pytest.param where not all parameters have to be
+specified and the missing parameters will be automatically parametrized with the
+default value.
 
 Example:
 
 ```python
-gas_test_argument_names, gas_test_param = named_pytest_param(
+argument_names, named_param = named_pytest_param(
         signer_type=SignerType.SINGLE_SIGNER,
         authorization_invalidity_type=AuthorizationInvalidityType.NONE,
         authorizations_count=1,
@@ -294,11 +297,11 @@ gas_test_argument_names, gas_test_param = named_pytest_param(
     )
 
 @pytest.mark.parametrize(
-  gas_test_argument_names,
-  [
-    gas_test_param(authorizations_count=2),
-    ...
-  ],
+    argument_names,
+    [
+        named_param(authorizations_count=2),
+        ...
+    ],
 )
 def test_gas(
     blockchain_test: BlockchainTestFiller,
@@ -315,4 +318,5 @@ def test_gas(
     ... 
 ```
 
-This will run the test with the default values for all parameters except for `authorizations_count` which will be set to `2`.
+This will run the test with the default values for all parameters except for
+`authorizations_count` which will be set to `2`.
