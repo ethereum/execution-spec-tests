@@ -2,37 +2,27 @@
 Pytest utility functions used to write Ethereum tests.
 """
 
-from typing import Any
+from typing import Any, Dict, List
 
 import pytest
 
+PARAMETRIZE_KWARG_NAMES = ["indirect", "ids", "scope"]
+PARAM_KWARG_NAMES = ["id", "marks"]
 
-def named_pytest_param(**argument_defaults: Any):
+
+def named_parametrize(*, cases: List[Dict[str, Any]], **argument_defaults: Any):
     """
-    Returns a tuple of argument names and a parametrize function that generates
-    `pytest.param` objects with the given argument names and default values.
-
-    The default values can be overridden by passing them as keyword arguments to the
-    `param` function.
-
-    Arguments to this function are the default values for the parameters.
-
-    The return value is a tuple of two elements:
-    - A list of argument names.
-    - The `pytest.param` generator function.
+    `pytest.mark.parametrize` replacement that allows to specify parameter names with default
+    values for each parameter.
 
     Example usage:
     ```
-    argument_names, param = named_pytest_param(
-        parameter_1=0,
-        parameter_2='default',
-    )
-
-    @pytest.mark.parametrize(
-        argument_names,
-        [
-            param(parameter_1=1, id='test_1'),
-            param(parameter_2='custom', id='test_2'),
+    @named_parametrize(
+        parameter_1=0,  # Default value for parameter_1 is zero
+        parameter_2='default',  # Default value for parameter_2 is 'default' string
+        cases=[
+            dict(parameter_1=1, id='test_1'),
+            dict(parameter_2='custom', id='test_2'),
         ],
     )
     def test(parameter_1, parameter_2):
@@ -43,12 +33,15 @@ def named_pytest_param(**argument_defaults: Any):
     - `parameter_1=1, parameter_2='default'`
     - `parameter_1=0, parameter_2='custom'`
     """
+    parametrize_kwargs = {
+        k: argument_defaults.pop(k) for k in PARAMETRIZE_KWARG_NAMES if k in argument_defaults
+    }
+    param_cases: List[Any] = []
+    for args in cases:
+        # Remove keyword arguments that are part of the `pytest.param` signature
+        param_kwargs = {k: args.pop(k) for k in PARAM_KWARG_NAMES if k in args}
+        # Merge default arguments with the test case arguments
+        args = {**argument_defaults, **args}
+        param_cases.append(pytest.param(*args.values(), **param_kwargs))
 
-    def param(*, id: str, marks=(), **kwargs: Any):
-        """
-        Pytest parameter generator for gas tests.
-        """
-        args_list = [kwargs.get(name, argument_defaults[name]) for name in argument_defaults]
-        return pytest.param(*args_list, id=id, marks=marks)
-
-    return list(argument_defaults.keys()), param
+    return pytest.mark.parametrize(list(argument_defaults), param_cases, **parametrize_kwargs)
