@@ -4,21 +4,22 @@ Pre-allocation fixtures using for test filling.
 
 from itertools import count
 from random import randint
-from typing import Dict, Iterator, List, Tuple
+from typing import Iterator, List, Tuple
 
 import pytest
 from pydantic import PrivateAttr
 
-from ethereum_test_base_types import Number, ZeroPaddedHexNumber
-from ethereum_test_base_types.composite_types import StorageKeyValueTypeConvertible
+from ethereum_test_base_types import Number, StorageRootType, ZeroPaddedHexNumber
 from ethereum_test_base_types.conversions import BytesConvertible, NumberConvertible
 from ethereum_test_tools import EOA, Account, Address
 from ethereum_test_tools import Alloc as BaseAlloc
-from ethereum_test_tools import Bytecode, Initcode
+from ethereum_test_tools import Initcode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Storage, Transaction
 from ethereum_test_tools.rpc import EthRPC
 from ethereum_test_tools.rpc.types import TransactionByHashResponse
+from ethereum_test_types.eof.v1 import Container
+from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 
 from .senders import Senders
 
@@ -27,14 +28,23 @@ def pytest_addoption(parser):
     """
     Adds command-line options to pytest.
     """
-    alloc_group = parser.getgroup("alloc", "Arguments defining allocation characteristics")
-    alloc_group.addoption(
+    pre_alloc_group = parser.getgroup("pre_alloc", "Arguments defining pre-allocation behavior.")
+    pre_alloc_group.addoption(
         "--eoa-start",
         action="store",
         dest="eoa_iterator_start",
         default=randint(0, 2**256),
         type=int,
         help="The start private key from which tests will deploy EOAs.",
+    )
+    pre_alloc_group.addoption(
+        "--evm-code-type",
+        action="store",
+        dest="evm_code_type",
+        default=None,
+        type=EVMCodeType,
+        choices=list(EVMCodeType),
+        help="Type of EVM code to deploy in each test by default.",
     )
 
 
@@ -69,46 +79,73 @@ class Alloc(BaseAlloc):
     _eth_rpc: EthRPC = PrivateAttr(...)
     _txs: List[Transaction] = PrivateAttr(default_factory=list)
     _funded_eoa: List[Tuple[EOA, Address]] = PrivateAttr(default_factory=list)
+    _evm_code_type: EVMCodeType | None = PrivateAttr(None)
 
     def __init__(
-        self, senders: Senders, eth_rpc: EthRPC, eoa_iterator: Iterator[EOA], *args, **kwargs
+        self,
+        *args,
+        senders: Senders,
+        eth_rpc: EthRPC,
+        eoa_iterator: Iterator[EOA],
+        evm_code_type: EVMCodeType | None = None,
+        **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self._senders = senders
         self._eth_rpc = eth_rpc
         self._eoa_iterator = eoa_iterator
+        self._evm_code_type = evm_code_type
+
+    def code_pre_processor(
+        self, code: Bytecode | Container, *, evm_code_type: EVMCodeType | None
+    ) -> Bytecode | Container:
+        """
+        Pre-processes the code before setting it.
+        """
+        if evm_code_type is None:
+            evm_code_type = self._evm_code_type
+        if evm_code_type == EVMCodeType.EOF_V1:
+            if not isinstance(code, Container):
+                if isinstance(code, Bytecode) and not code.terminating:
+                    return Container.Code(code + Opcodes.STOP)
+                return Container.Code(code)
+        return code
 
     def deploy_contract(
         self,
         code: BytesConvertible,
         *,
-        storage: Storage
-        | Dict[StorageKeyValueTypeConvertible, StorageKeyValueTypeConvertible] = {},
+        storage: Storage | StorageRootType = {},
         balance: NumberConvertible = 0,
         nonce: NumberConvertible = 1,
         address: Address | None = None,
+        evm_code_type: EVMCodeType | None = None,
         label: str | None = None,
     ) -> Address:
         """
         Deploy a contract to the allocation.
-
-        Warning: `address` parameter is a temporary solution to allow tests to hard-code the
-        contract address. Do NOT use in new tests as it will be removed in the future!
         """
         assert address is None, "address parameter is not supported"
 
-        assert isinstance(code, Bytecode), "code must be a Bytecode instance"
+        if not isinstance(storage, Storage):
+            storage = Storage(storage)  # type: ignore
 
         initcode_prefix = Bytecode()
-        if isinstance(storage, Storage):
-            if len(storage.root) > 0:
-                for key, value in storage.root.items():
-                    initcode_prefix += Op.SSTORE(int(key), int(value))
+        if len(storage.root) > 0:
+            initcode_prefix += sum(Op.SSTORE(key, value) for key, value in storage.root.items())
+
+        assert isinstance(code, Bytecode) or isinstance(
+            code, Container
+        ), f"incompatible code type: {type(code)}"
+        code = self.code_pre_processor(code, evm_code_type=evm_code_type)
+
+        initcode: Bytecode | Container
+
+        if evm_code_type == EVMCodeType.EOF_V1:
+            assert isinstance(code, Container)
+            initcode = Container.Init(deploy_container=code, initcode_prefix=initcode_prefix)
         else:
-            if len(storage) > 0:
-                for key, value in storage.items():  # type: ignore
-                    initcode_prefix += Op.SSTORE(key, value)
-        initcode = Initcode(deploy_code=code, initcode_prefix=initcode_prefix)
+            initcode = Initcode(deploy_code=code, initcode_prefix=initcode_prefix)
 
         with self._senders.get_sender() as sender:
             deploy_tx = Transaction(
@@ -190,14 +227,31 @@ class Alloc(BaseAlloc):
         return self._eth_rpc.wait_for_transactions(self._txs)
 
 
+@pytest.fixture(autouse=True)
+def evm_code_type(request: pytest.FixtureRequest) -> EVMCodeType:
+    """
+    Returns the default EVM code type for all tests (LEGACY).
+    """
+    parameter_evm_code_type = request.config.getoption("evm_code_type")
+    if parameter_evm_code_type is not None:
+        assert type(parameter_evm_code_type) is EVMCodeType, "Invalid EVM code type"
+        return parameter_evm_code_type
+    return EVMCodeType.LEGACY
+
+
 @pytest.fixture(autouse=True, scope="function")
 def pre(
-    # request,
     sender_keys: Senders,
     eoa_iterator: Iterator[EOA],
     eth_rpc: EthRPC,
+    evm_code_type: EVMCodeType,
 ) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
     """
-    return Alloc(sender_keys, eth_rpc, eoa_iterator)
+    return Alloc(
+        senders=sender_keys,
+        eth_rpc=eth_rpc,
+        eoa_iterator=eoa_iterator,
+        evm_code_type=evm_code_type,
+    )
