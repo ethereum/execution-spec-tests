@@ -68,6 +68,10 @@ def pytest_addoption(parser):
     )
 
 
+def pytest_configure(config):  # noqa: D103
+    config.test_suite_scope = "session"
+
+
 @pytest.fixture(scope="session")
 def base_fork(request) -> Fork:
     """
