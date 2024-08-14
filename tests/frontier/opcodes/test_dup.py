@@ -65,7 +65,6 @@ def test_dup(
 
     tx = Transaction(
         ty=0x0,
-        nonce=0,
         to=account,
         gas_limit=500000,
         gas_price=10,
