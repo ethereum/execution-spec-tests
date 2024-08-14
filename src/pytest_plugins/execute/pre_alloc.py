@@ -11,13 +11,13 @@ from pydantic import PrivateAttr
 
 from ethereum_test_base_types import Number, StorageRootType, ZeroPaddedHexNumber
 from ethereum_test_base_types.conversions import BytesConvertible, NumberConvertible
+from ethereum_test_rpc import EthRPC
+from ethereum_test_rpc.types import TransactionByHashResponse
 from ethereum_test_tools import EOA, Account, Address
 from ethereum_test_tools import Alloc as BaseAlloc
 from ethereum_test_tools import Initcode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Storage, Transaction
-from ethereum_test_tools.rpc import EthRPC
-from ethereum_test_tools.rpc.types import TransactionByHashResponse
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 

@@ -5,7 +5,7 @@ Pytest plugin to run the execute in remote-rpc-mode.
 import pytest
 
 from ethereum_test_base_types import Hash, Number
-from ethereum_test_tools.rpc import EthRPC
+from ethereum_test_rpc import EthRPC
 from ethereum_test_types import EOA, TransactionDefaults
 
 

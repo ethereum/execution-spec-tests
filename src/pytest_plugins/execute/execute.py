@@ -9,12 +9,12 @@ writes the generated fixtures to file.
 import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Optional, Tuple, Type
+from typing import Any, Dict, Generator, List, Optional, Type
 
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
-from ethereum_test_fixtures import FixtureFormats
+from ethereum_test_execution import BaseExecute, ExecuteFormats
 from ethereum_test_forks import (
     Fork,
     Frontier,
@@ -22,9 +22,9 @@ from ethereum_test_forks import (
     get_closest_fork_with_solc_support,
     get_forks_with_solc_support,
 )
-from ethereum_test_tools import SPEC_TYPES, BaseTest, Hash, TestInfo, Transaction, Yul
+from ethereum_test_rpc import EthRPC
+from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo, Transaction, Yul
 from ethereum_test_tools.code import Solc
-from ethereum_test_tools.rpc import EthRPC
 from evm_transition_tool import TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -45,13 +45,6 @@ def default_html_report_filename() -> str:
     function to allow for easier testing.
     """
     return "report_execute.html"
-
-
-def is_output_stdout(output: Path) -> bool:
-    """
-    Returns True if the fixture output is configured to be stdout.
-    """
-    return output == "stdout"
 
 
 def pytest_addoption(parser):
@@ -178,13 +171,10 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    for fixture_format in FixtureFormats:
+    for execute_format in ExecuteFormats:
         config.addinivalue_line(
             "markers",
-            (
-                f"{fixture_format.name.lower()}: "
-                f"{FixtureFormats.get_format_description(fixture_format)}"
-            ),
+            (f"{execute_format.name.lower()}: {execute_format.description()}"),
         )
     config.addinivalue_line(
         "markers",
@@ -237,20 +227,6 @@ def pytest_report_header(config, start_path):
     t8n_version = config.stash[metadata_key]["Tools"]["t8n"]
     solc_version = config.stash[metadata_key]["Tools"]["solc"]
     return [(f"{t8n_version}, {solc_version}")]
-
-
-def pytest_report_teststatus(report, config):
-    """
-    Disable test session progress report if we're writing the JSON fixtures to
-    stdout to be read by a consume command on stdin. I.e., don't write this
-    type of output to the console:
-
-    ```text
-    ...x...
-    ```
-    """
-    if is_output_stdout(config.getoption("output")):
-        return report.outcome, "", report.outcome.upper()
 
 
 def pytest_metadata(metadata):
@@ -324,8 +300,8 @@ def pytest_runtest_makereport(item, call):
             report.user_properties.append(
                 ("fixture_path_relative", item.config.fixture_path_relative)
             )
-        if hasattr(item.config, "evm_dump_dir") and hasattr(item.config, "fixture_format"):
-            if item.config.fixture_format in [
+        if hasattr(item.config, "evm_dump_dir") and hasattr(item.config, "execute_format"):
+            if item.config.execute_format in [
                 "state_test",
                 "blockchain_test",
                 "blockchain_test_hive",
@@ -421,13 +397,13 @@ class Collector:
     """
 
     eth_rpc: EthRPC
-    collected_tests: Dict[str, Tuple[List[Transaction], Alloc]] = field(default_factory=dict)
+    collected_tests: Dict[str, BaseExecute] = field(default_factory=dict)
 
-    def collect(self, test_name: str, transactions: List[Transaction], post_alloc: Alloc):
+    def collect(self, test_name: str, execute_format: BaseExecute):
         """
         Collects the transactions and post-allocations for the test case.
         """
-        self.collected_tests[test_name] = (transactions, post_alloc)
+        self.collected_tests[test_name] = execute_format
 
 
 @pytest.fixture(scope="session")
@@ -551,7 +527,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     )
     def base_test_parametrizer_func(
         request: Any,
+        fork: Fork,
         pre: Alloc,
+        eips: List[int],
         eth_rpc: EthRPC,
         dump_dir_parameter_level,
         collector: Collector,
@@ -566,8 +544,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
         When parametrize, indirect must be used along with the fixture format as value.
         """
-        fixture_format = request.param
-        assert isinstance(fixture_format, FixtureFormats)
+        execute_format = request.param
+        assert isinstance(execute_format, ExecuteFormats)
 
         class BaseTestWrapper(cls):  # type: ignore
             def __init__(self, *args, **kwargs):
@@ -579,40 +557,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 # wait for pre-requisite transactions to be included in blocks
                 pre.wait_for_transactions()
 
-                txs = self.get_transactions()
-                post = self.get_post_alloc()
-                collector.collect(request.node.nodeid, txs, post)
-
-                eth_rpc.send_wait_transactions([tx.with_signature_and_sender() for tx in txs])
-
-                for address, account in post.items():
-                    balance = eth_rpc.get_balance(address)
-                    code = eth_rpc.get_code(address)
-                    nonce = eth_rpc.get_transaction_count(address)
-                    if account is None:
-                        assert balance == 0, f"Balance of {address} is {balance}, expected 0."
-                        assert code == b"", f"Code of {address} is {code}, expected 0x."
-                        assert nonce == 0, f"Nonce of {address} is {nonce}, expected 0."
-                    else:
-                        if "balance" in account.model_fields_set:
-                            assert (
-                                balance == account.balance
-                            ), f"Balance of {address} is {balance}, expected {account.balance}."
-                        if "code" in account.model_fields_set:
-                            assert (
-                                code == account.code
-                            ), f"Code of {address} is {code}, expected {account.code}."
-                        if "nonce" in account.model_fields_set:
-                            assert (
-                                nonce == account.nonce
-                            ), f"Nonce of {address} is {nonce}, expected {account.nonce}."
-                        if "storage" in account.model_fields_set:
-                            for key, value in account.storage.items():
-                                storage_value = eth_rpc.get_storage_at(address, Hash(key))
-                                assert storage_value == value, (
-                                    f"Storage value at {key} of {address} is {storage_value},"
-                                    f"expected {value}."
-                                )
+                execute = self.execute(fork=fork, execute_format=execute_format, eips=eips)
+                execute.execute(eth_rpc)
+                collector.collect(request.node.nodeid, execute)
 
                 # Refund all EOAs
                 refund_txs = []
@@ -656,11 +603,11 @@ def pytest_generate_tests(metafunc):
                 [test_type.pytest_parameter_name()],
                 [
                     pytest.param(
-                        fixture_format,
-                        id=fixture_format.name.lower(),
-                        marks=[getattr(pytest.mark, fixture_format.name.lower())],
+                        execute_format,
+                        id=execute_format.name.lower(),
+                        marks=[getattr(pytest.mark, execute_format.name.lower())],
                     )
-                    for fixture_format in test_type.supported_fixture_formats
+                    for execute_format in test_type.supported_execute_formats
                 ],
                 scope="function",
                 indirect=True,

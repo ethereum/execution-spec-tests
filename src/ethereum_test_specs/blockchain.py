@@ -20,6 +20,7 @@ from ethereum_test_base_types import (
     Number,
 )
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
+from ethereum_test_execution import BaseExecute, ExecuteFormats, TransactionPost
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
 from ethereum_test_fixtures.blockchain import (
     EngineFixture,
@@ -730,20 +731,25 @@ class BlockchainTest(BaseTest):
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
-    def get_post_alloc(self) -> Alloc:
+    def execute(
+        self,
+        *,
+        fork: Fork,
+        execute_format: ExecuteFormats,
+        eips: Optional[List[int]] = None,
+    ) -> BaseExecute:
         """
-        Get the post allocation of this blockchain test.
+        Generate the list of test fixtures.
         """
-        return self.post
-
-    def get_transactions(self) -> List[Transaction]:
-        """
-        Get the transaction that must be executed for this state test.
-        """
-        txs: List[Transaction] = []
-        for block in self.blocks:
-            txs += block.txs
-        return txs
+        if execute_format == ExecuteFormats.TRANSACTION_POST:
+            txs: List[Transaction] = []
+            for block in self.blocks:
+                txs += block.txs
+            return TransactionPost(
+                transactions=txs,
+                post=self.post,
+            )
+        raise Exception(f"Unsupported execute format: {execute_format}")
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]

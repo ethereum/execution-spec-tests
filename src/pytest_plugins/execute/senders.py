@@ -8,8 +8,8 @@ from typing import Generator, Iterator, List
 
 import pytest
 
+from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import EOA, Transaction
-from ethereum_test_tools.rpc import EthRPC
 
 
 class SenderLock:

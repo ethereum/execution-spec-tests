@@ -5,6 +5,7 @@ Ethereum state test spec definition and filler.
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Type
 
 from ethereum_test_exceptions import EngineAPIError
+from ethereum_test_execution import BaseExecute, ExecuteFormats, TransactionPost
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
 from ethereum_test_fixtures.state import (
     Fixture,
@@ -41,6 +42,9 @@ class StateTest(BaseTest):
         FixtureFormats.BLOCKCHAIN_TEST,
         FixtureFormats.BLOCKCHAIN_TEST_ENGINE,
         FixtureFormats.STATE_TEST,
+    ]
+    supported_execute_formats: ClassVar[List[ExecuteFormats]] = [
+        ExecuteFormats.TRANSACTION_POST,
     ]
 
     def _generate_blockchain_genesis_environment(self) -> Environment:
@@ -178,17 +182,22 @@ class StateTest(BaseTest):
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
-    def get_post_alloc(self) -> Alloc:
+    def execute(
+        self,
+        *,
+        fork: Fork,
+        execute_format: ExecuteFormats,
+        eips: Optional[List[int]] = None,
+    ) -> BaseExecute:
         """
-        Get the post allocation of this state test.
+        Generate the list of test fixtures.
         """
-        return self.post
-
-    def get_transactions(self) -> List[Transaction]:
-        """
-        Get the transaction that must be executed for this state test.
-        """
-        return [self.tx]
+        if execute_format == ExecuteFormats.TRANSACTION_POST:
+            return TransactionPost(
+                transactions=[self.tx],
+                post=self.post,
+            )
+        raise Exception(f"Unsupported execute format: {execute_format}")
 
 
 class StateTestOnly(StateTest):

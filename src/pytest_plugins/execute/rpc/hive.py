@@ -17,6 +17,14 @@ from hive.testing import HiveTest, HiveTestResult, HiveTestSuite
 from ethereum_test_base_types import EmptyOmmersRoot, EmptyTrieRoot, to_json
 from ethereum_test_fixtures.blockchain import FixtureHeader
 from ethereum_test_forks import Fork, get_forks
+from ethereum_test_rpc import EngineRPC
+from ethereum_test_rpc import EthRPC as BaseEthRPC
+from ethereum_test_rpc.types import (
+    ForkchoiceState,
+    PayloadAttributes,
+    PayloadStatusEnum,
+    TransactionByHashResponse,
+)
 from ethereum_test_tools import (
     EOA,
     Account,
@@ -26,14 +34,6 @@ from ethereum_test_tools import (
     Hash,
     Transaction,
     Withdrawal,
-)
-from ethereum_test_tools.rpc import EngineRPC
-from ethereum_test_tools.rpc import EthRPC as BaseEthRPC
-from ethereum_test_tools.rpc.types import (
-    ForkchoiceState,
-    PayloadAttributes,
-    PayloadStatusEnum,
-    TransactionByHashResponse,
 )
 from ethereum_test_types import Requests
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset
