@@ -40,7 +40,6 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
                 ],
             )
         ],
-        secret_key="0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
         protected=True,
         sender=sender,
     )
