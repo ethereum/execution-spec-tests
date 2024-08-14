@@ -26,7 +26,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             True,  # second section is not in container's body (it's code bytes)
             False,  # but it's code input bytes still listed in container's body
             False,  # but it's code input bytes size still added to types section size
-            "ef000101000802000100030400040000800001000000003050000bad60A7",
+            "ef000101000802000100030400040000800001008000013050000bad60A7",
             EOFException.INVALID_TYPE_SECTION_SIZE,
         ),
         (
@@ -34,7 +34,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             False,  # second section code is in container's body (3050000)
             False,  # but it's code input bytes still listed in container's body
             False,  # but it's code input bytes size still added to types section size
-            "ef000101000802000100030400040000800001000000003050003050000bad60A7",
+            "ef000101000802000100030400040000800001008000013050003050000bad60A7",
             EOFException.INVALID_TYPE_SECTION_SIZE,
         ),
         (
@@ -42,7 +42,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             True,  # second section is not in container's body (it's code bytes)
             False,  # but it's code input bytes still listed in container's body
             False,  # but it's code input bytes size still added to types section size
-            "ef0001010008020002000300030400040000800001000000003050000bad60A7",
+            "ef0001010008020002000300030400040000800001008000013050000bad60A7",
             EOFException.UNREACHABLE_CODE_SECTIONS,
         ),
         (
@@ -50,7 +50,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
             False,  # second section code is in container's body (3050000)
             False,  # but it's code input bytes still listed in container's body
             False,  # but it's code input bytes size still added to types section size
-            "ef0001010008020002000300030400040000800001000000003050003050000bad60A7",
+            "ef0001010008020002000300030400040000800001008000013050003050000bad60A7",
             EOFException.UNREACHABLE_CODE_SECTIONS,
         ),
         (
@@ -92,9 +92,6 @@ def test_code_section_header_body_mismatch(
             ),
             Section.Code(
                 code=Op.ADDRESS + Op.POP + Op.STOP,
-                code_inputs=0,
-                code_outputs=0,
-                max_stack_height=0,
                 # weather to not mention it in code section header list
                 skip_header_listing=skip_header_listing,
                 # weather to not print it's code in containers body
