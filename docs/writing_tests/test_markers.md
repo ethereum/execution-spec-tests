@@ -6,7 +6,7 @@ Test markers are used to categorize tests and to run specific subsets of tests. 
 
 These markers are used to specify the forks for which a test is valid.
 
-### pytest.mark.valid_from("FORK_NAME")
+### `@pytest.mark.valid_from("FORK_NAME")`
 
 This marker is used to specify the fork from which the test is valid. The test will not be filled for forks before the specified fork.
 
@@ -20,7 +20,7 @@ def test_something_only_valid_after_london():
 
 In this example, the test will only be filled for the London fork and after, e.g. London, Paris, Shanghai, Cancun, etc.
 
-### pytest.mark.valid_until("FORK_NAME")
+### `@pytest.mark.valid_until("FORK_NAME")`
 
 This marker is used to specify the fork until which the test is valid. The test will not be filled for forks after the specified fork.
 
@@ -34,7 +34,7 @@ def test_something_only_valid_until_london():
 
 In this example, the test will only be filled for the London fork and before, e.g. London, Berlin, Istanbul, etc.
 
-### pytest.mark.valid_at_transition_to("FORK_NAME")
+### `@pytest.mark.valid_at_transition_to("FORK_NAME")`
 
 This marker is used to specify that a test is only meant to be filled at the transition to the specified fork.
 
@@ -44,7 +44,7 @@ The test usually starts at the fork prior to the specified fork at genesis and a
 
 These markers are used in conjunction with the fork markers to automatically parameterize tests with values that are valid for the fork being tested.
 
-### pytest.mark.with_all_tx_types
+### `@pytest.mark.with_all_tx_types`
 
 This marker is used to automatically parameterize a test with all transaction types that are valid for the fork being tested.
 
@@ -59,13 +59,13 @@ def test_something_with_all_tx_types(tx_type: int):
 
 In this example, the test will be parameterized for parameter `tx_type` with values `[0, 1]` for fork Berlin, but with values `[0, 1, 2]` for fork London (because of EIP-1559).
 
-### pytest.mark.with_all_contract_creating_tx_types
+### `@pytest.mark.with_all_contract_creating_tx_types`
 
 This marker is used to automatically parameterize a test with all contract creating transaction types that are valid for the fork being tested.
 
 This marker only differs from `pytest.mark.with_all_tx_types` in that it does not include transaction type 3 (Blob Transaction type) on fork Cancun and after.
 
-### pytest.mark.with_all_precompiles
+### `@pytest.mark.with_all_precompiles`
 
 This marker is used to automatically parameterize a test with all precompiles that are valid for the fork being tested.
 
@@ -80,7 +80,7 @@ def test_something_with_all_precompiles(precompile: int):
 
 In this example, the test will be parameterized for parameter `precompile` with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]` for fork Shanghai, but with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` for fork Cancun (because of EIP-4844).
 
-### pytest.mark.with_all_evm_code_types
+### `@pytest.mark.with_all_evm_code_types`
 
 This marker is used to automatically parameterize a test with all EVM code types that are valid for the fork being tested.
 
@@ -118,7 +118,7 @@ def test_something_with_all_evm_code_types(pre: Alloc, evm_code_type: EVMCodeTyp
     ...
 ```
 
-### pytest.mark.with_all_call_opcodes
+### `@pytest.mark.with_all_call_opcodes`
 
 This marker is used to automatically parameterize a test with all EVM call opcodes that are valid for the fork being tested.
 
@@ -135,7 +135,7 @@ In this example, the test will be parametrized for parameter `call_opcode` with 
 
 Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
 
-### pytest.mark.with_all_create_opcodes
+### `@pytest.mark.with_all_create_opcodes`
 
 This marker is used to automatically parameterize a test with all EVM create opcodes that are valid for the fork being tested.
 
@@ -152,7 +152,7 @@ In this example, the test will be parametrized for parameter `create_opcode` wit
 
 Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
 
-### pytest.mark.with_all_system_contracts
+### `@pytest.mark.with_all_system_contracts`
 
 This marker is used to automatically parameterize a test with all system contracts that are valid for the fork being tested.
 
@@ -184,11 +184,11 @@ Ideally, the lambda function should be used to explicitly filter out values that
 
 ## Other Markers
 
-### pytest.mark.slow
+### `@pytest.mark.slow`
 
 This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.
 
-### pytest.mark.pre_alloc_modify
+### `@pytest.mark.pre_alloc_modify`
 
 This marker is used to mark tests that modify the pre-alloc in a way that would be impractical to reproduce in a real-world scenario.
 
@@ -197,7 +197,7 @@ Examples of this include:
 - Modifying the pre-alloc to have a balance of 2^256 - 1.
 - Address collisions that would require hash collisions.
 
-### pytest.mark.skip("reason")
+### `@pytest.mark.skip("reason")`
 
 This marker is used to skip a test with a reason.
 
@@ -209,7 +209,7 @@ def test_something():
     pass
 ```
 
-### pytest.mark.xfail("reason")
+### `@pytest.mark.xfail("reason")`
 
 This marker is used to mark a test as expected to fail.
 

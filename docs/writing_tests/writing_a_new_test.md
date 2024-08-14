@@ -242,3 +242,60 @@ An intrinsically valid transaction can still revert during its execution.
 Blocks in a BlockchainTest can contain intrinsically invalid transactions but
 in this case the block is expected to be completely rejected, along with all
 transactions in it, including other valid transactions.
+
+## Parametrizing tests
+
+Tests can be parametrized by using the `@pytest.mark.parametrize` decorator.
+
+Example:
+
+```python
+import pytest
+
+@pytest.mark.parametrize(
+    "tx_value,expected_balance",
+    [
+        (100, 100),
+        (200, 200),
+    ],
+)
+def test_contract_creating_tx(
+    blockchain_test: BlockchainTestFiller, fork: Fork, tx_value: int, expected_balance: int
+):
+```
+
+This will run the test twice, once with `tx_value` set to `100` and `expected_balance`
+set to `100`, and once with `tx_value` set to `200` and `expected_balance` set to `200`.
+
+The `fork` fixture is automatically provided by the framework and contains the
+current fork under test, and does not need to be parametrized.
+
+Tests can also be automatically parametrized with appropriate fork covariant
+values using the `with_all_*` markers listed in the
+[Test Markers](./test_markers.md#fork-covariant-markers) page.
+
+## `named_pytest_param` helper function
+
+This helper function receives keyword arguments with a default value specified for each, and returns a replacement to the pytest.param where not all parameters have to be specified and the missing parameters will be automatically parametrized with the default value.
+
+```python
+gas_test_argument_names, gas_test_param = named_pytest_param(
+        signer_type=SignerType.SINGLE_SIGNER,
+        authorization_invalidity_type=AuthorizationInvalidityType.NONE,
+        authorizations_count=1,
+        chain_id_type=ChainIDType.GENERIC,
+        authorize_to_address=AddressType.EMPTY_ACCOUNT,
+        access_list_case=AccessListType.EMPTY,
+        self_sponsored=False,
+        authority_type=AddressType.EMPTY_ACCOUNT,
+        data=b"",
+    )
+
+@pytest.mark.parametrize(
+  gas_test_argument_names,
+  [
+    gas_test_param(authorizations_count=2),
+    ...
+  ],
+...
+```
