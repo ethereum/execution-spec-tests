@@ -161,7 +161,7 @@ import pytest
 
 @pytest.mark.with_all_system_contracts
 @pytest.mark.valid_from("Cancun")
-def test_something_with_all_system_contracts(system_contract):
+def test_something_with_all_system_contracts(system_contract: Address):
     pass
 ```
 
