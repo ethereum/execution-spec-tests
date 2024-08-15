@@ -15,7 +15,6 @@ from ethereum_test_base_types import to_json
 
 from .base import BaseFixture
 from .file import Fixtures
-from .formats import FixtureFormats
 from .verify import FixtureVerifier
 
 
@@ -173,7 +172,7 @@ class FixtureCollector:
         """
         for fixture_path, name_fixture_dict in self.all_fixtures.items():
             for fixture_name, fixture in name_fixture_dict.items():
-                if FixtureFormats.is_verifiable(fixture.format):
+                if fixture.format.is_verifiable():
                     info = self.json_path_to_test_item[fixture_path]
                     verify_fixtures_dump_dir = self._get_verify_fixtures_dump_dir(info)
                     evm_fixture_verification.verify_fixture(
