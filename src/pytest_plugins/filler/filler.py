@@ -13,7 +13,7 @@ import os
 import tarfile
 import warnings
 from pathlib import Path
-from typing import Generator, List, Type
+from typing import Any, Dict, Generator, List, Type
 
 import pytest
 from filelock import FileLock
@@ -24,7 +24,6 @@ from ethereum_test_base_types import Alloc, ReferenceSpec
 from ethereum_test_fixtures import FixtureCollector, FixtureFormats, TestInfo
 from ethereum_test_forks import (
     Fork,
-    Paris,
     get_closest_fork_with_solc_support,
     get_forks_with_solc_support,
 )
@@ -221,10 +220,7 @@ def pytest_configure(config):
     for fixture_format in FixtureFormats:
         config.addinivalue_line(
             "markers",
-            (
-                f"{fixture_format.name.lower()}: "
-                f"{FixtureFormats.get_format_description(fixture_format)}"
-            ),
+            (f"{fixture_format.name.lower()}: {fixture_format.description()}"),
         )
     config.addinivalue_line(
         "markers",
@@ -233,6 +229,10 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers",
         "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "skip_execute: Skip the execute mode for this test.",
     )
     if config.option.collectonly:
         return
@@ -880,9 +880,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
-def pytest_collection_modifyitems(config, items):
+def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """
-    Remove pre-Paris tests parametrized to generate engine type fixtures; these
+    Remove pre-Paris tests parametrized to generate hive type fixtures; these
     can't be used in the Hive Pyspec Simulator.
 
     This can't be handled in this plugins pytest_generate_tests() as the fork
@@ -891,23 +891,17 @@ def pytest_collection_modifyitems(config, items):
     for item in items[:]:  # use a copy of the list, as we'll be modifying it
         if isinstance(item, EIPSpecTestItem):
             continue
-        if "fork" not in item.callspec.params or item.callspec.params["fork"] is None:
+        params: Dict[str, Any] = item.callspec.params  # type: ignore
+        if "fork" not in params or params["fork"] is None:
             items.remove(item)
             continue
-        if item.callspec.params["fork"] < Paris:
-            # Even though the `state_test` test spec does not produce an engine STATE_TEST, it does
-            # produce a BLOCKCHAIN_TEST_ENGINE, so we need to remove it here.
-            # TODO: Ideally, the logic could be contained in the `FixtureFormat` class, we create
-            # a `fork_supported` method that returns True if the fork is supported.
-            if ("state_test" in item.callspec.params) and item.callspec.params[
-                "state_test"
-            ].name.endswith("ENGINE"):
-                items.remove(item)
-            if ("blockchain_test" in item.callspec.params) and item.callspec.params[
-                "blockchain_test"
-            ].name.endswith("ENGINE"):
-                items.remove(item)
-        if "yul" in item.fixturenames:
+        fork: Fork = params["fork"]
+        if fork.engine_new_payload_version(0, 0) is None:
+            for spec_name in [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]:
+                if spec_name in params and params[spec_name].is_hive_format():
+                    items.remove(item)
+                    break
+        if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
 
 
