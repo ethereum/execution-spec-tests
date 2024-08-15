@@ -18,7 +18,6 @@ from ethereum_test_execution import BaseExecute, ExecuteFormats
 from ethereum_test_forks import (
     Fork,
     Frontier,
-    Paris,
     get_closest_fork_with_solc_support,
     get_forks_with_solc_support,
 )
@@ -183,6 +182,10 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers",
         "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "skip_execute: Skip the execute mode for this test.",
     )
     if config.option.collectonly:
         return
@@ -596,7 +599,7 @@ for cls in SPEC_TYPES:
     globals()[cls.pytest_parameter_name()] = base_test_parametrizer(cls)
 
 
-def pytest_generate_tests(metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     Pytest hook used to dynamically generate test cases for each fixture format a given
     test spec supports.
@@ -618,7 +621,7 @@ def pytest_generate_tests(metafunc):
             )
 
 
-def pytest_collection_modifyitems(config, items):
+def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
     can't be used in the Hive Pyspec Simulator.
@@ -629,23 +632,13 @@ def pytest_collection_modifyitems(config, items):
     for item in items[:]:  # use a copy of the list, as we'll be modifying it
         if isinstance(item, EIPSpecTestItem):
             continue
-        if "fork" not in item.callspec.params or item.callspec.params["fork"] is None:
-            items.remove(item)
-            continue
-        if item.callspec.params["fork"] < Paris:
-            # Even though the `state_test` test spec does not produce a hive STATE_TEST, it does
-            # produce a BLOCKCHAIN_TEST_HIVE, so we need to remove it here.
-            # TODO: Ideally, the logic could be contained in the `FixtureFormat` class, we create
-            # a `fork_supported` method that returns True if the fork is supported.
-            if ("state_test" in item.callspec.params) and item.callspec.params[
-                "state_test"
-            ].name.endswith("HIVE"):
-                items.remove(item)
-            if ("blockchain_test" in item.callspec.params) and item.callspec.params[
-                "blockchain_test"
-            ].name.endswith("HIVE"):
-                items.remove(item)
-        if "yul" in item.fixturenames:
+        for marker in item.iter_markers():
+            if marker.name == "skip_execute":
+                item.add_marker(
+                    pytest.mark.skip(reason="execute mode not supported for this test.")
+                )
+                break
+        if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
 
 
