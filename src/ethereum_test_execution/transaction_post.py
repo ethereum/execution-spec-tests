@@ -23,9 +23,24 @@ class TransactionPost(BaseExecute):
         """
         Execute the format.
         """
-        eth_rpc.send_wait_transactions(
-            [tx.with_signature_and_sender() for tx in self.transactions]
-        )
+        if any(tx.error is not None for tx in self.transactions):
+            for transaction in self.transactions:
+                if transaction.error is None:
+                    eth_rpc.send_wait_transaction(transaction.with_signature_and_sender())
+                else:
+                    try:
+                        eth_rpc.send_transaction(transaction.with_signature_and_sender())
+                        raise AssertionError(
+                            f"Expected error {transaction.error} for transaction {transaction}."
+                        )
+                    except AssertionError as e:
+                        raise e
+                    except Exception:
+                        pass
+        else:
+            eth_rpc.send_wait_transactions(
+                [tx.with_signature_and_sender() for tx in self.transactions]
+            )
 
         for address, account in self.post.root.items():
             balance = eth_rpc.get_balance(address)
