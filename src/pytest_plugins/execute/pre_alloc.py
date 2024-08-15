@@ -10,7 +10,11 @@ import pytest
 from pydantic import PrivateAttr
 
 from ethereum_test_base_types import Number, StorageRootType, ZeroPaddedHexNumber
-from ethereum_test_base_types.conversions import BytesConvertible, NumberConvertible
+from ethereum_test_base_types.conversions import (
+    BytesConvertible,
+    FixedSizeBytesConvertible,
+    NumberConvertible,
+)
 from ethereum_test_rpc import EthRPC
 from ethereum_test_rpc.types import TransactionByHashResponse
 from ethereum_test_tools import EOA, Account, Address
@@ -96,6 +100,12 @@ class Alloc(BaseAlloc):
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
 
+    def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
+        """
+        Sets the account associated with an address.
+        """
+        raise ValueError("Tests are not allowed to set pre-alloc items in execute mode")
+
     def code_pre_processor(
         self, code: Bytecode | Container, *, evm_code_type: EVMCodeType | None
     ) -> Bytecode | Container:
@@ -162,11 +172,14 @@ class Alloc(BaseAlloc):
 
         assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 
-        self[contract_address] = Account(
-            nonce=nonce,
-            balance=balance,
-            code=code,
-            storage=storage,
+        super().__setitem__(
+            contract_address,
+            Account(
+                nonce=nonce,
+                balance=balance,
+                code=code,
+                storage=storage,
+            ),
         )
 
         contract_address.label = label
@@ -189,9 +202,12 @@ class Alloc(BaseAlloc):
             ).with_signature_and_sender()
         self._eth_rpc.send_transaction(fund_tx)
         self._txs.append(fund_tx)
-        self[eoa] = Account(
-            nonce=0,
-            balance=amount,
+        super().__setitem__(
+            eoa,
+            Account(
+                nonce=0,
+                balance=amount,
+            ),
         )
         self._funded_eoa.append((eoa, sender_address))
         return eoa
@@ -218,7 +234,7 @@ class Alloc(BaseAlloc):
                 account.balance = ZeroPaddedHexNumber(current_balance + Number(amount))
                 return
 
-        self[address] = Account(balance=amount)
+        super().__setitem__(address, Account(balance=amount))
 
     def wait_for_transactions(self) -> List[TransactionByHashResponse]:
         """

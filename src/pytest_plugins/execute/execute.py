@@ -552,6 +552,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
                 if "pre" not in kwargs:
                     kwargs["pre"] = pre
+                elif kwargs["pre"] != pre:
+                    raise ValueError("The pre-alloc object was modified by the test.")
+
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
 
                 # wait for pre-requisite transactions to be included in blocks
