@@ -323,6 +323,9 @@ class BlockchainTest(BaseTest):
         FixtureFormats.BLOCKCHAIN_TEST,
         FixtureFormats.BLOCKCHAIN_TEST_ENGINE,
     ]
+    supported_execute_formats: ClassVar[List[ExecuteFormats]] = [
+        ExecuteFormats.TRANSACTION_POST,
+    ]
 
     def make_genesis(
         self,
