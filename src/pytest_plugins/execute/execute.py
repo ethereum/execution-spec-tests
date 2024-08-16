@@ -569,7 +569,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 # Refund all EOAs
                 refund_txs = []
-                for eoa, seed_address in pre._funded_eoa:
+                for eoa in pre._funded_eoa:
                     remaining_balance = eth_rpc.get_balance(eoa)
                     eoa.nonce = eth_rpc.get_transaction_count(eoa)
                     refund_gas_limit = 21_000
@@ -580,7 +580,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     refund_txs.append(
                         Transaction(
                             sender=eoa,
-                            to=seed_address,
+                            to=pre._sender,
                             gas_limit=21_000,
                             gas_price=10**9,
                             value=remaining_balance - tx_cost,

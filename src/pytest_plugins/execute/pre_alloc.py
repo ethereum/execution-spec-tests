@@ -4,7 +4,7 @@ Pre-allocation fixtures using for test filling.
 
 from itertools import count
 from random import randint
-from typing import Iterator, List, Tuple
+from typing import Iterator, List
 
 import pytest
 from pydantic import PrivateAttr
@@ -24,8 +24,6 @@ from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Storage, Transaction
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
-
-from .senders import Senders
 
 
 def pytest_addoption(parser):
@@ -79,23 +77,23 @@ class Alloc(BaseAlloc):
     A custom class that inherits from the original Alloc class.
     """
 
-    _senders: Senders = PrivateAttr(...)
+    _sender: EOA = PrivateAttr(...)
     _eth_rpc: EthRPC = PrivateAttr(...)
     _txs: List[Transaction] = PrivateAttr(default_factory=list)
-    _funded_eoa: List[Tuple[EOA, Address]] = PrivateAttr(default_factory=list)
+    _funded_eoa: List[EOA] = PrivateAttr(default_factory=list)
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
 
     def __init__(
         self,
         *args,
-        senders: Senders,
+        sender: EOA,
         eth_rpc: EthRPC,
         eoa_iterator: Iterator[EOA],
         evm_code_type: EVMCodeType | None = None,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
-        self._senders = senders
+        self._sender = sender
         self._eth_rpc = eth_rpc
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
@@ -157,14 +155,13 @@ class Alloc(BaseAlloc):
         else:
             initcode = Initcode(deploy_code=code, initcode_prefix=initcode_prefix)
 
-        with self._senders.get_sender() as sender:
-            deploy_tx = Transaction(
-                sender=sender,
-                to=None,
-                data=initcode,
-                value=balance,
-                gas_limit=1_000_000,  # TODO: we need to better estimate the gas limit
-            ).with_signature_and_sender()
+        deploy_tx = Transaction(
+            sender=self._sender,
+            to=None,
+            data=initcode,
+            value=balance,
+            gas_limit=1_000_000,  # TODO: we need to better estimate the gas limit
+        ).with_signature_and_sender()
         self._eth_rpc.send_transaction(deploy_tx)
         self._txs.append(deploy_tx)
 
@@ -193,13 +190,13 @@ class Alloc(BaseAlloc):
         # Send a transaction to fund the EOA
         if amount is None:
             amount = self.eoa_fund_amount_default
-        with self._senders.get_sender() as sender:
-            sender_address = Address(sender)
-            fund_tx = Transaction(
-                sender=sender,
-                to=eoa,
-                value=amount,
-            ).with_signature_and_sender()
+
+        fund_tx = Transaction(
+            sender=self._sender,
+            to=eoa,
+            value=amount,
+        ).with_signature_and_sender()
+
         self._eth_rpc.send_transaction(fund_tx)
         self._txs.append(fund_tx)
         super().__setitem__(
@@ -209,7 +206,7 @@ class Alloc(BaseAlloc):
                 balance=amount,
             ),
         )
-        self._funded_eoa.append((eoa, sender_address))
+        self._funded_eoa.append(eoa)
         return eoa
 
     def fund_address(self, address: Address, amount: NumberConvertible):
@@ -219,12 +216,11 @@ class Alloc(BaseAlloc):
         If the address is already present in the pre-alloc the amount will be
         added to its existing balance.
         """
-        with self._senders.get_sender() as sender:
-            fund_tx = Transaction(
-                sender=sender,
-                to=address,
-                value=amount,
-            ).with_signature_and_sender()
+        fund_tx = Transaction(
+            sender=self._sender,
+            to=address,
+            value=amount,
+        ).with_signature_and_sender()
         self._eth_rpc.send_transaction(fund_tx)
         self._txs.append(fund_tx)
         if address in self:
@@ -257,7 +253,7 @@ def evm_code_type(request: pytest.FixtureRequest) -> EVMCodeType:
 
 @pytest.fixture(autouse=True, scope="function")
 def pre(
-    sender_keys: Senders,
+    sender_key: EOA,
     eoa_iterator: Iterator[EOA],
     eth_rpc: EthRPC,
     evm_code_type: EVMCodeType,
@@ -266,7 +262,7 @@ def pre(
     Returns the default pre allocation for all tests (Empty alloc).
     """
     return Alloc(
-        senders=sender_keys,
+        sender=sender_key,
         eth_rpc=eth_rpc,
         eoa_iterator=eoa_iterator,
         evm_code_type=evm_code_type,

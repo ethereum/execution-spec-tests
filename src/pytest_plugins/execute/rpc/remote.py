@@ -26,7 +26,7 @@ def pytest_addoption(parser):
         dest="rpc_seed_key",
         help=(
             "Seed key used to fund all sender keys. This account must have a balance of at least "
-            "`sender_key_initial_balance` * `sender_key_count` + gas fees. It should also be "
+            "`sender_key_initial_balance` * `workers` + gas fees. It should also be "
             "exclusively used by this command because the nonce is only checked once and if "
             "it's externally increased, the seed transactions might fail."
         ),

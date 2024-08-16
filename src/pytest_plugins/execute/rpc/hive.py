@@ -166,12 +166,12 @@ def seed_sender(session_temp_folder: Path) -> EOA:
 
     with FileLock(base_lock_file):
         if base_file.exists():
-            with open(base_file, "r") as f:
+            with base_file.open("r") as f:
                 seed_sender_key = Hash(f.read())
             seed_sender = EOA(key=seed_sender_key)
         else:
             seed_sender = EOA(key=randint(0, 2**256))
-            with open(base_file, "w") as f:
+            with base_file.open("w") as f:
                 f.write(str(seed_sender.key))
     return seed_sender
 
@@ -181,14 +181,9 @@ def base_pre(request, seed_sender: EOA, worker_count: int) -> Alloc:
     """
     Base pre-allocation for the client's genesis.
     """
-    sender_key_count = request.config.getoption("sender_key_count")
     sender_key_initial_balance = request.config.getoption("sender_key_initial_balance")
     return Alloc(
-        {
-            seed_sender: Account(
-                balance=(worker_count * sender_key_count * sender_key_initial_balance) + 10**18
-            )
-        }
+        {seed_sender: Account(balance=(worker_count * sender_key_initial_balance) + 10**18)}
     )
 
 
