@@ -24,17 +24,17 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Get the selected EVM version from the configs/evm.yaml
+    - name: Get the selected EVM version from the .github/configs/evm.yaml
       id: config-evm-reader
       shell: bash
       run: |
-        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./configs/evm.yaml \
+        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./.github/configs/evm.yaml \
         | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
-    - name: Get the EVM implementation configuration from configs/evm-impl-config.yaml
+    - name: Get the EVM implementation configuration from .github/configs/evm-impl-config.yaml
       id: config-evm-impl-config-reader
       shell: bash
       run: |
-        awk "/^${{ steps.config-evm-reader.outputs.impl }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./configs/evm-impl.yaml \
+        awk "/^${{ steps.config-evm-reader.outputs.impl }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./.github/configs/evm-impl.yaml \
         | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
     - name: Print Variables for the selected EVM type
       shell: bash
