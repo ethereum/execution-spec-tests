@@ -21,7 +21,12 @@ from ethereum_test_tools import EOA, Account, Address
 from ethereum_test_tools import Alloc as BaseAlloc
 from ethereum_test_tools import Initcode
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import Storage, Transaction
+from ethereum_test_tools import (
+    Storage,
+    Transaction,
+    cost_memory_bytes,
+    eip_2028_transaction_data_cost,
+)
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 
@@ -140,13 +145,19 @@ class Alloc(BaseAlloc):
             storage = Storage(storage)  # type: ignore
 
         initcode_prefix = Bytecode()
+
+        deploy_gas_limit = 21_000 + 32_000
+
         if len(storage.root) > 0:
             initcode_prefix += sum(Op.SSTORE(key, value) for key, value in storage.root.items())
+            deploy_gas_limit += len(storage.root) * 22_600
 
         assert isinstance(code, Bytecode) or isinstance(
             code, Container
         ), f"incompatible code type: {type(code)}"
         code = self.code_pre_processor(code, evm_code_type=evm_code_type)
+
+        deploy_gas_limit += len(bytes(code)) * 200
 
         initcode: Bytecode | Container
 
@@ -155,13 +166,20 @@ class Alloc(BaseAlloc):
             initcode = Container.Init(deploy_container=code, initcode_prefix=initcode_prefix)
         else:
             initcode = Initcode(deploy_code=code, initcode_prefix=initcode_prefix)
+            deploy_gas_limit += cost_memory_bytes(len(bytes(initcode)), 0)
+
+        deploy_gas_limit += eip_2028_transaction_data_cost(bytes(initcode))
+
+        # Limit the gas limit
+        deploy_gas_limit = min(deploy_gas_limit * 2, 30_000_000)
+        print(f"Deploying contract with gas limit: {deploy_gas_limit}")
 
         deploy_tx = Transaction(
             sender=self._sender,
             to=None,
             data=initcode,
             value=balance,
-            gas_limit=1_000_000,  # TODO: we need to better estimate the gas limit
+            gas_limit=deploy_gas_limit,
         ).with_signature_and_sender()
         self._eth_rpc.send_transaction(deploy_tx)
         self._txs.append(deploy_tx)
