@@ -562,6 +562,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 # wait for pre-requisite transactions to be included in blocks
                 pre.wait_for_transactions()
+                for deployed_contract, deployed_code in pre._deployed_contracts:
+                    assert eth_rpc.get_code(deployed_contract) == deployed_code, (
+                        f"Deployed test contract didn't match expected code at address "
+                        f"{deployed_contract} (not enough gas_limit?)."
+                    )
 
                 execute = self.execute(fork=fork, execute_format=execute_format, eips=eips)
                 execute.execute(eth_rpc)

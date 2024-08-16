@@ -4,7 +4,7 @@ Pre-allocation fixtures using for test filling.
 
 from itertools import count
 from random import randint
-from typing import Iterator, List
+from typing import Iterator, List, Tuple
 
 import pytest
 from pydantic import PrivateAttr
@@ -80,6 +80,7 @@ class Alloc(BaseAlloc):
     _sender: EOA = PrivateAttr(...)
     _eth_rpc: EthRPC = PrivateAttr(...)
     _txs: List[Transaction] = PrivateAttr(default_factory=list)
+    _deployed_contracts: List[Tuple[Address, bytes]] = PrivateAttr(default_factory=list)
     _funded_eoa: List[EOA] = PrivateAttr(default_factory=list)
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
 
@@ -166,6 +167,7 @@ class Alloc(BaseAlloc):
         self._txs.append(deploy_tx)
 
         contract_address = deploy_tx.created_contract
+        self._deployed_contracts.append((contract_address, bytes(code)))
 
         assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 
