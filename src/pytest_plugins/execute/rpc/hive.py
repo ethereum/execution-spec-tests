@@ -177,17 +177,6 @@ def seed_sender(session_temp_folder: Path) -> EOA:
 
 
 @pytest.fixture(scope="session")
-def worker_count(request) -> int:
-    """
-    Get the number of workers for the test.
-    """
-    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
-    if not worker_count_env:
-        return 1
-    return max(int(worker_count_env), 1)
-
-
-@pytest.fixture(scope="session")
 def base_pre(request, seed_sender: EOA, worker_count: int) -> Alloc:
     """
     Base pre-allocation for the client's genesis.

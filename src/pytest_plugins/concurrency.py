@@ -3,6 +3,7 @@ Pytest plugin to create a temporary folder for the session where multi-process t
 that is shared between processes.
 """
 
+import os
 import shutil
 from pathlib import Path
 from tempfile import gettempdir as get_temp_dir  # noqa: SC200
@@ -42,3 +43,14 @@ def session_temp_folder(testrun_uid: str) -> Generator[Path, None, None]:  # noq
         else:
             with folder_users_file.open("w") as f:
                 f.write(str(folder_users))
+
+
+@pytest.fixture(scope="session")
+def worker_count() -> int:
+    """
+    Get the number of workers for the test.
+    """
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
+    if not worker_count_env:
+        return 1
+    return max(int(worker_count_env), 1)
