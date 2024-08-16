@@ -8,12 +8,10 @@ Simulators using this plugin must define two pytest fixtures:
 
 These fixtures are used when creating the hive test suite.
 """
-import argparse
 import json
 import os
 from dataclasses import asdict
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
 import pytest
 from filelock import FileLock
@@ -58,14 +56,6 @@ def pytest_configure(config):  # noqa: D103
 def pytest_addoption(parser: pytest.Parser):  # noqa: D103
     pytest_hive_group = parser.getgroup("pytest_hive", "Arguments related to pytest hive")
     pytest_hive_group.addoption(
-        "--hive-session-temp-folder",
-        action="store",
-        dest="hive_session_temp_folder",
-        type=Path,
-        default=TemporaryDirectory(),
-        help=argparse.SUPPRESS,
-    )
-    pytest_hive_group.addoption(
         "--hive-simulator",
         action="store",
         dest="hive_simulator",
@@ -105,11 +95,6 @@ def pytest_runtest_makereport(item, call):
 @pytest.fixture(scope="session")
 def simulator(request):  # noqa: D103
     return request.config.hive_simulator
-
-
-@pytest.fixture(scope="session")
-def session_temp_folder(request) -> Path:  # noqa: D103
-    return request.config.option.hive_session_temp_folder
 
 
 def get_test_suite_scope(fixture_name, config: pytest.Config):

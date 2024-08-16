@@ -6,11 +6,9 @@ import io
 import json
 import os
 import time
-from argparse import SUPPRESS
 from dataclasses import asdict, replace
 from pathlib import Path
 from random import randint
-from tempfile import TemporaryDirectory
 from typing import Any, Generator, List, Mapping, Tuple, cast
 
 import pytest
@@ -123,7 +121,7 @@ def pytest_addoption(parser):
     Adds command-line options to pytest.
     """
     hive_rpc_group = parser.getgroup(
-        "senders", "Arguments defining sender keys used to fund tests."
+        "hive_rpc", "Arguments defining the hive RPC client properties for the test."
     )
     hive_rpc_group.addoption(
         "--transactions-per-block",
@@ -141,35 +139,10 @@ def pytest_addoption(parser):
         default=0.3,
         help=("Time to wait after sending a forkchoice_updated before getting the payload."),
     )
-    hive_rpc_group.addoption(
-        "--hive-rpc-session-temp-folder",
-        action="store",
-        dest="hive_rpc_session_temp_folder",
-        type=Path,
-        default=TemporaryDirectory(),
-        help=SUPPRESS,
-    )
-
-
-@pytest.hookimpl(trylast=True)
-def pytest_report_header(config):
-    """A pytest hook called to obtain the report header."""
-    bold = "\033[1m"
-    reset = "\033[39;49m"
-    session_temp_folder = config.getoption("hive_rpc_session_temp_folder")
-    header = [
-        (bold + f"Hive RPC session temp folder: {session_temp_folder} " + reset),
-    ]
-    return header
 
 
 def pytest_configure(config):  # noqa: D103
     config.test_suite_scope = "session"
-
-
-@pytest.fixture(scope="session")
-def session_temp_folder(request) -> Path:  # noqa: D103
-    return request.config.option.hive_rpc_session_temp_folder
 
 
 @pytest.fixture(scope="session")

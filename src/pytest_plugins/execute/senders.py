@@ -2,10 +2,8 @@
 Sender mutex class that allows sending transactions one at a time.
 """
 import time
-from argparse import SUPPRESS
 from contextlib import contextmanager
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from threading import Lock
 from typing import Generator, Iterator, List
 
@@ -89,19 +87,6 @@ def pytest_addoption(parser):
         default=10**26,
         help=("Initial balance of each sender key."),
     )
-    senders_group.addoption(
-        "--senders-session-temp-folder",
-        action="store",
-        dest="senders_session_temp_folder",
-        type=Path,
-        default=TemporaryDirectory(),
-        help=SUPPRESS,
-    )
-
-
-@pytest.fixture(scope="session")
-def session_temp_folder(request) -> Path:  # noqa: D103
-    return request.config.option.senders_session_temp_folder
 
 
 @pytest.fixture(scope="session")
