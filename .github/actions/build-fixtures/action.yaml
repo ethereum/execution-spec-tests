@@ -18,8 +18,8 @@ runs:
       id: properties
       shell: bash
       run: |
-        yq -r --arg feature "${{ inputs.name }}" '.[$feature] | to_entries | map("\(.key)=\(.value)")[]' ./configs/feature.yaml >> "$GITHUB_OUTPUT"
-    - uses: ./.github/actions/build-evm
+        yq -r --arg feature "${{ inputs.name }}" '.[$feature] | to_entries | map("\(.key)=\(.value)")[]' ./.github/configs/feature.yaml >> "$GITHUB_OUTPUT"
+    - uses: ./.github/actions/build-evm-base
       id: evm-builder
       with:
         type: ${{ steps.properties.outputs.evm-type }}

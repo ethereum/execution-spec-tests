@@ -19,7 +19,7 @@ jobs:
         id: feature-name
         shell: bash
         run: |
-          names=$(grep -Po "^${GITHUB_REF_NAME//@*/}[^:]*" configs/feature.yaml | jq  --raw-input .  | jq -c --slurp .)
+          names=$(grep -Po "^${GITHUB_REF_NAME//@*/}[^:]*" .github/configs/feature.yaml | jq  --raw-input .  | jq -c --slurp .)
           echo names=${names}
           echo names=${names} >> "$GITHUB_OUTPUT"
   build:
