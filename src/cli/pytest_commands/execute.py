@@ -3,7 +3,6 @@ CLI entry point for the `execute` pytest-based command.
 """
 
 import sys
-from tempfile import TemporaryDirectory
 from typing import Tuple
 
 import click
@@ -31,13 +30,8 @@ def execute(
     """
     Entry point for the execute command.
     """
-    with TemporaryDirectory() as temp_dir:
-        ini_file = "pytest-execute-hive.ini" if hive_mode_flag else "pytest-execute.ini"
-        default_args = (
-            "-c",
-            ini_file,
-            f"--session-temp-folder={temp_dir}",
-        )
-        args = handle_help_flags(list(pytest_args + default_args), help_flag, pytest_help_flag)
-        result = pytest.main(args)
+    ini_file = "pytest-execute-hive.ini" if hive_mode_flag else "pytest-execute.ini"
+    default_args = ("-c", ini_file)
+    args = handle_help_flags(list(pytest_args + default_args), help_flag, pytest_help_flag)
+    result = pytest.main(args)
     sys.exit(result)
