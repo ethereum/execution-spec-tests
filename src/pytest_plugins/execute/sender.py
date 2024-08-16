@@ -16,29 +16,79 @@ def pytest_addoption(parser):
     """
     Adds command-line options to pytest.
     """
-    senders_group = parser.getgroup(
-        "senders", "Arguments defining sender keys used to fund tests."
+    sender_group = parser.getgroup(
+        "sender",
+        "Arguments for the sender key fixtures.",
     )
-    senders_group.addoption(
-        "--sender-key-initial-balance",
+
+    sender_group.addoption(
+        "--sender-funding-txs-gas-price",
         action="store",
-        dest="sender_key_initial_balance",
+        dest="sender_funding_transactions_gas_price",
         type=int,
-        default=10**26,
-        help=(
-            "Initial balance of each sender key. There is one sender key per worker process "
-            "(`-n` option)."
-        ),
+        default=10**9,
+        help=("Gas price set for the funding transactions of each worker's sender key."),
     )
 
 
 @pytest.fixture(scope="session")
-def sender_key(
-    request,
+def sender_funding_transactions_gas_price(request: pytest.FixtureRequest) -> int:
+    """
+    Get the gas price for the funding transactions.
+    """
+    return request.config.option.sender_funding_transactions_gas_price
+
+
+@pytest.fixture(scope="session")
+def sender_key_initial_balance(
     seed_sender: EOA,
+    eth_rpc: EthRPC,
+    session_temp_folder: Path,
+    worker_count: int,
+    sender_funding_transactions_gas_price: int,
+) -> int:
+    """
+    Calculate the initial balance of each sender key.
+
+    The way to do this is to fetch the seed sender balance and divide it by the number of
+    workers. This way we can ensure that each sender key has the same initial balance.
+
+    We also only do this once per session, because if we try to fetch the balance again, it
+    could be that another worker has already sent a transaction and the balance is different.
+
+    It's not really possible to calculate the transaction costs of each test that each worker
+    is going to run, so we can't really calculate the initial balance of each sender key
+    based on that.
+    """
+    base_name = "sender_key_initial_balance"
+    base_file = session_temp_folder / base_name
+    base_lock_file = session_temp_folder / f"{base_name}.lock"
+
+    with FileLock(base_lock_file):
+        if base_file.exists():
+            with base_file.open("r") as f:
+                sender_key_initial_balance = int(f.read())
+        else:
+            seed_sender_balance_per_worker = eth_rpc.get_balance(seed_sender) // worker_count
+            assert seed_sender_balance_per_worker > 100, "Seed sender balance too low"
+            # Subtract the cost of the transaction that is going to be sent to the seed sender
+            sender_key_initial_balance = seed_sender_balance_per_worker - (
+                21_000 * sender_funding_transactions_gas_price
+            )
+
+            with base_file.open("w") as f:
+                f.write(str(sender_key_initial_balance))
+    return sender_key_initial_balance
+
+
+@pytest.fixture(scope="session")
+def sender_key(
+    seed_sender: EOA,
+    sender_key_initial_balance: int,
     eoa_iterator: Iterator[EOA],
     eth_rpc: EthRPC,
     session_temp_folder: Path,
+    sender_funding_transactions_gas_price: int,
 ) -> Generator[EOA, None, None]:
     """
     Get the sender keys for all tests.
@@ -54,9 +104,8 @@ def sender_key(
     seed_sender_lock_file = session_temp_folder / seed_sender_lock_file_name
 
     sender = next(eoa_iterator)
-    # fund all sender keys
-    sender_key_initial_balance = request.config.getoption("sender_key_initial_balance")
 
+    # prepare funding transaction
     with FileLock(seed_sender_lock_file):
         if seed_sender_nonce_file.exists():
             with seed_sender_nonce_file.open("r") as f:
@@ -65,7 +114,7 @@ def sender_key(
             sender=seed_sender,
             to=sender,
             gas_limit=21_000,
-            gas_price=10**9,
+            gas_price=sender_funding_transactions_gas_price,
             value=sender_key_initial_balance,
         ).with_signature_and_sender()
         eth_rpc.send_transaction(fund_tx)
@@ -75,10 +124,10 @@ def sender_key(
 
     yield sender
 
-    # refund all sender keys
+    # refund seed sender
     remaining_balance = eth_rpc.get_balance(sender)
     refund_gas_limit = 21_000
-    refund_gas_price = 10**9
+    refund_gas_price = sender_funding_transactions_gas_price
     tx_cost = refund_gas_limit * refund_gas_price
 
     if remaining_balance < tx_cost:
@@ -88,7 +137,7 @@ def sender_key(
         sender=sender,
         to=seed_sender,
         gas_limit=21_000,
-        gas_price=10**9,
+        gas_price=sender_funding_transactions_gas_price,
         value=remaining_balance - tx_cost,
     ).with_signature_and_sender()
 

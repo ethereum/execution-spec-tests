@@ -139,6 +139,17 @@ def pytest_addoption(parser):
         default=0.3,
         help=("Time to wait after sending a forkchoice_updated before getting the payload."),
     )
+    hive_rpc_group.addoption(
+        "--sender-key-initial-balance",
+        action="store",
+        dest="sender_key_initial_balance",
+        type=int,
+        default=10**26,
+        help=(
+            "Initial balance of each sender key. There is one sender key per worker process "
+            "(`-n` option)."
+        ),
+    )
 
 
 def pytest_configure(config):  # noqa: D103
