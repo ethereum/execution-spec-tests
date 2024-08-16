@@ -2,12 +2,17 @@
 Sender mutex class that allows sending transactions one at a time.
 """
 import time
+from argparse import SUPPRESS
 from contextlib import contextmanager
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from threading import Lock
 from typing import Generator, Iterator, List
 
 import pytest
+from filelock import FileLock
 
+from ethereum_test_base_types import Number
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import EOA, Transaction
 
@@ -84,6 +89,19 @@ def pytest_addoption(parser):
         default=10**26,
         help=("Initial balance of each sender key."),
     )
+    senders_group.addoption(
+        "--senders-session-temp-folder",
+        action="store",
+        dest="senders_session_temp_folder",
+        type=Path,
+        default=TemporaryDirectory(),
+        help=SUPPRESS,
+    )
+
+
+@pytest.fixture(scope="session")
+def session_temp_folder(request) -> Path:  # noqa: D103
+    return request.config.option.senders_session_temp_folder
 
 
 @pytest.fixture(scope="session")
@@ -92,25 +110,44 @@ def sender_keys(
     seed_sender: EOA,
     eoa_iterator: Iterator[EOA],
     eth_rpc: EthRPC,
+    session_temp_folder: Path,
 ) -> Generator[Senders, None, None]:
     """
     Get the sender keys for all tests.
+
+    The seed sender is going to be shared among different processes, so we need to lock it
+    before we produce each funding transaction.
     """
+    # For the seed sender we do need to keep track of the nonce because it is shared among
+    # different processes, and there might not be a new block produced between the transactions.
+    seed_sender_nonce_file_name = "seed_sender_nonce"
+    seed_sender_lock_file_name = f"{seed_sender_nonce_file_name}.lock"
+    seed_sender_nonce_file = session_temp_folder / seed_sender_nonce_file_name
+    seed_sender_lock_file = session_temp_folder / seed_sender_lock_file_name
+
     sender_key_count = request.config.getoption("sender_key_count")
     senders = Senders([next(eoa_iterator) for _ in range(sender_key_count)])
     # fund all sender keys
     sender_key_initial_balance = request.config.getoption("sender_key_initial_balance")
-    fund_txs = [
-        Transaction(
-            sender=seed_sender,
-            to=sender.sender,
-            gas_limit=21_000,
-            gas_price=10**9,
-            value=sender_key_initial_balance,
-        ).with_signature_and_sender()
-        for sender in senders
-    ]
-    eth_rpc.send_wait_transactions(fund_txs)
+
+    with FileLock(seed_sender_lock_file):
+        if seed_sender_nonce_file.exists():
+            with seed_sender_nonce_file.open("r") as f:
+                seed_sender.nonce = Number(f.read())
+        fund_txs = [
+            Transaction(
+                sender=seed_sender,
+                to=sender.sender,
+                gas_limit=21_000,
+                gas_price=10**9,
+                value=sender_key_initial_balance,
+            ).with_signature_and_sender()
+            for sender in senders
+        ]
+        eth_rpc.send_transactions(fund_txs)
+        with seed_sender_nonce_file.open("w") as f:
+            f.write(str(seed_sender.nonce))
+    eth_rpc.wait_for_transactions(fund_txs)
     yield senders
     # refund all sender keys
     refund_txs: List[Transaction] = []

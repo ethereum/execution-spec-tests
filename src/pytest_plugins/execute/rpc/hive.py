@@ -4,17 +4,24 @@ Pytest plugin to run the test-execute in hive-mode.
 
 import io
 import json
+import os
 import time
-from threading import Lock
-from typing import Any, Generator, Iterator, List, Mapping, Tuple, cast
+from argparse import SUPPRESS
+from dataclasses import asdict, replace
+from pathlib import Path
+from random import randint
+from tempfile import TemporaryDirectory
+from typing import Any, Generator, List, Mapping, Tuple, cast
 
 import pytest
 from ethereum.crypto.hash import keccak256
+from filelock import FileLock
 from hive.client import Client, ClientType
 from hive.simulation import Simulation
 from hive.testing import HiveTest, HiveTestResult, HiveTestSuite
+from pydantic import RootModel
 
-from ethereum_test_base_types import EmptyOmmersRoot, EmptyTrieRoot, to_json
+from ethereum_test_base_types import EmptyOmmersRoot, EmptyTrieRoot, HexNumber, to_json
 from ethereum_test_fixtures.blockchain import FixtureHeader
 from ethereum_test_forks import Fork, get_forks
 from ethereum_test_rpc import EngineRPC
@@ -37,6 +44,66 @@ from ethereum_test_tools import (
 )
 from ethereum_test_types import Requests
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset
+
+
+class HashList(RootModel[List[Hash]]):
+    """Hash list class"""
+
+    root: List[Hash]
+
+    def append(self, item: Hash):
+        """Append an item to the list"""
+        self.root.append(item)
+
+    def clear(self):
+        """Clear the list"""
+        self.root.clear()
+
+    def remove(self, item: Hash):
+        """Remove an item from the list"""
+        self.root.remove(item)
+
+    def __contains__(self, item: Hash):
+        """Check if an item is in the list"""
+        return item in self.root
+
+    def __len__(self):
+        """Get the length of the list"""
+        return len(self.root)
+
+    def __iter__(self):
+        """Iterate over the list"""
+        return iter(self.root)
+
+
+class AddressList(RootModel[List[Address]]):
+    """Address list class"""
+
+    root: List[Address]
+
+    def append(self, item: Address):
+        """Append an item to the list"""
+        self.root.append(item)
+
+    def clear(self):
+        """Clear the list"""
+        self.root.clear()
+
+    def remove(self, item: Address):
+        """Remove an item from the list"""
+        self.root.remove(item)
+
+    def __contains__(self, item: Address):
+        """Check if an item is in the list"""
+        return item in self.root
+
+    def __len__(self):
+        """Get the length of the list"""
+        return len(self.root)
+
+    def __iter__(self):
+        """Iterate over the list"""
+        return iter(self.root)
 
 
 def get_fork_option(request, option_name: str) -> Fork | None:
@@ -63,13 +130,46 @@ def pytest_addoption(parser):
         action="store",
         dest="transactions_per_block",
         type=int,
-        default=1,
+        default=None,
         help=("Number of transactions to send before producing the next block."),
     )
+    hive_rpc_group.addoption(
+        "--get-payload-wait-time",
+        action="store",
+        dest="get_payload_wait_time",
+        type=float,
+        default=0.3,
+        help=("Time to wait after sending a forkchoice_updated before getting the payload."),
+    )
+    hive_rpc_group.addoption(
+        "--hive-rpc-session-temp-folder",
+        action="store",
+        dest="hive_rpc_session_temp_folder",
+        type=Path,
+        default=TemporaryDirectory(),
+        help=SUPPRESS,
+    )
+
+
+@pytest.hookimpl(trylast=True)
+def pytest_report_header(config):
+    """A pytest hook called to obtain the report header."""
+    bold = "\033[1m"
+    reset = "\033[39;49m"
+    session_temp_folder = config.getoption("hive_rpc_session_temp_folder")
+    header = [
+        (bold + f"Hive RPC session temp folder: {session_temp_folder} " + reset),
+    ]
+    return header
 
 
 def pytest_configure(config):  # noqa: D103
     config.test_suite_scope = "session"
+
+
+@pytest.fixture(scope="session")
+def session_temp_folder(request) -> Path:  # noqa: D103
+    return request.config.option.hive_rpc_session_temp_folder
 
 
 @pytest.fixture(scope="session")
@@ -83,22 +183,50 @@ def base_fork(request) -> Fork:
 
 
 @pytest.fixture(scope="session")
-def seed_sender(request, eoa_iterator: Iterator[EOA]) -> EOA:
+def seed_sender(session_temp_folder: Path) -> EOA:
     """
-    Setup the seed sender account by checking its balance and nonce.
+    Determine the seed sender account for the client's genesis.
     """
-    return next(eoa_iterator)
+    base_name = "seed_sender"
+    base_file = session_temp_folder / base_name
+    base_lock_file = session_temp_folder / f"{base_name}.lock"
+
+    with FileLock(base_lock_file):
+        if base_file.exists():
+            with open(base_file, "r") as f:
+                seed_sender_key = Hash(f.read())
+            seed_sender = EOA(key=seed_sender_key)
+        else:
+            seed_sender = EOA(key=randint(0, 2**256))
+            with open(base_file, "w") as f:
+                f.write(str(seed_sender.key))
+    return seed_sender
 
 
 @pytest.fixture(scope="session")
-def base_pre(request, seed_sender: EOA) -> Alloc:
+def worker_count(request) -> int:
+    """
+    Get the number of workers for the test.
+    """
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
+    if not worker_count_env:
+        return 1
+    return max(int(worker_count_env), 1)
+
+
+@pytest.fixture(scope="session")
+def base_pre(request, seed_sender: EOA, worker_count: int) -> Alloc:
     """
     Base pre-allocation for the client's genesis.
     """
     sender_key_count = request.config.getoption("sender_key_count")
     sender_key_initial_balance = request.config.getoption("sender_key_initial_balance")
     return Alloc(
-        {seed_sender: Account(balance=sender_key_count * sender_key_initial_balance + 10**18)}
+        {
+            seed_sender: Account(
+                balance=(worker_count * sender_key_count * sender_key_initial_balance) + 10**18
+            )
+        }
     )
 
 
@@ -233,22 +361,60 @@ def test_suite_description() -> str:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def base_hive_test(test_suite: HiveTestSuite):
+def base_hive_test(
+    test_suite: HiveTestSuite, session_temp_folder: Path
+) -> Generator[HiveTest, None, None]:
     """
     Base test used to deploy the main client to be used throughout all tests.
     """
-    test: HiveTest = test_suite.start_test(
-        name="base_test",
-        description="Base test to deploy the main client to be used throughout all tests.",
-    )
+    base_name = "base_hive_test"
+    base_file = session_temp_folder / base_name
+    base_lock_file = session_temp_folder / f"{base_name}.lock"
+    with FileLock(base_lock_file):
+        if base_file.exists():
+            with open(base_file, "r") as f:
+                test = HiveTest(**json.load(f))
+        else:
+            test = test_suite.start_test(
+                name="Base Hive Test",
+                description=(
+                    "Base test used to deploy the main client to be used throughout all tests."
+                ),
+            )
+            with open(base_file, "w") as f:
+                json.dump(asdict(test), f)
+
+    users_file_name = f"{base_name}_users"
+    users_file = session_temp_folder / users_file_name
+    users_lock_file = session_temp_folder / f"{users_file_name}.lock"
+    with FileLock(users_lock_file):
+        if users_file.exists():
+            with open(users_file, "r") as f:
+                users = json.load(f)
+        else:
+            users = 0
+        users += 1
+        with open(users_file, "w") as f:
+            json.dump(users, f)
+
     yield test
-    test.end(result=HiveTestResult(test_pass=True, details="All tests have completed"))
+
+    with FileLock(users_lock_file):
+        with open(users_file, "r") as f:
+            users = json.load(f)
+        users -= 1
+        with open(users_file, "w") as f:
+            json.dump(users, f)
+        if users == 0:
+            test.end(result=HiveTestResult(test_pass=True, details="All tests have completed"))
+            base_file.unlink()
+            users_file.unlink()
 
 
 @pytest.fixture(autouse=True, scope="function")
 def hive_test(request, test_suite: HiveTestSuite):
     """
-    Base test used to deploy the main client to be used throughout all tests.
+    Hive test instance for the current test.
     """
     test: HiveTest = test_suite.start_test(
         name=request.node.nodeid,
@@ -294,20 +460,155 @@ def client(
     client_files: dict,
     environment: dict,
     client_type: ClientType,
+    session_temp_folder: Path,
 ) -> Generator[Client, None, None]:
     """
     Initialize the client with the appropriate files and environment variables.
     """
-    client = base_hive_test.start_client(
-        client_type=client_type, environment=environment, files=client_files
-    )
+    base_name = "hive_client"
+    base_file = session_temp_folder / base_name
+    base_lock_file = session_temp_folder / f"{base_name}.lock"
+    client: Client | None = None
+    with FileLock(base_lock_file):
+        if base_file.exists():
+            with open(base_file, "r") as f:
+                client = Client(**json.load(f))
+        else:
+            client = base_hive_test.start_client(
+                client_type=client_type, environment=environment, files=client_files
+            )
+            if client is not None:
+                with open(base_file, "w") as f:
+                    json.dump(
+                        asdict(replace(client, config=None)),  # type: ignore
+                        f,
+                    )
+
     error_message = (
         f"Unable to connect to the client container ({client_type.name}) via Hive during test "
         "setup. Check the client or Hive server logs for more information."
     )
     assert client is not None, error_message
+
+    users_file_name = f"{base_name}_users"
+    users_file = session_temp_folder / users_file_name
+    users_lock_file = session_temp_folder / f"{users_file_name}.lock"
+    with FileLock(users_lock_file):
+        if users_file.exists():
+            with open(users_file, "r") as f:
+                users = json.load(f)
+        else:
+            users = 0
+        users += 1
+        with open(users_file, "w") as f:
+            json.dump(users, f)
+
     yield client
-    client.stop()
+
+    with FileLock(users_lock_file):
+        with open(users_file, "r") as f:
+            users = json.load(f)
+        users -= 1
+        with open(users_file, "w") as f:
+            json.dump(users, f)
+        if users == 0:
+            client.stop()
+            base_file.unlink()
+            users_file.unlink()
+
+
+class PendingTxHashes:
+    """
+    A class to manage the pending transaction hashes in a multi-process environment.
+
+    It uses a lock file to ensure that only one process can access the pending hashes file at a
+    time.
+    """
+
+    pending_hashes_file: Path
+    pending_hashes_lock: Path
+    pending_tx_hashes: HashList | None
+    lock: FileLock | None
+
+    def __init__(self, temp_folder: Path):
+        self.pending_hashes_file = temp_folder / "pending_tx_hashes"
+        self.pending_hashes_lock = temp_folder / "pending_tx_hashes.lock"
+        self.pending_tx_hashes = None
+        self.lock = None
+
+    def __enter__(self):
+        """
+        Lock the pending hashes file and load it.
+        """
+        assert self.lock is None, "Lock already acquired"
+        self.lock = FileLock(self.pending_hashes_lock, timeout=-1)
+        self.lock.acquire()
+        assert self.pending_tx_hashes is None, "Pending transaction hashes already loaded"
+        if self.pending_hashes_file.exists():
+            with open(self.pending_hashes_file, "r") as f:
+                self.pending_tx_hashes = HashList.model_validate_json(f.read())
+        else:
+            self.pending_tx_hashes = HashList([])
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """
+        Flush the pending hashes to the file and release the lock.
+        """
+        assert self.lock is not None, "Lock not acquired"
+        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
+        with open(self.pending_hashes_file, "w") as f:
+            f.write(self.pending_tx_hashes.model_dump_json())
+        self.lock.release()
+        self.lock = None
+        self.pending_tx_hashes = None
+
+    def append(self, tx_hash: Hash):
+        """
+        Add a transaction hash to the pending list.
+        """
+        assert self.lock is not None, "Lock not acquired"
+        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
+        self.pending_tx_hashes.append(tx_hash)
+
+    def clear(self):
+        """
+        Remove a transaction hash from the pending list.
+        """
+        assert self.lock is not None, "Lock not acquired"
+        self.pending_tx_hashes.clear()
+
+    def remove(self, tx_hash: Hash):
+        """
+        Remove a transaction hash from the pending list.
+        """
+        assert self.lock is not None, "Lock not acquired"
+        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
+        self.pending_tx_hashes.remove(tx_hash)
+
+    def __contains__(self, tx_hash: Hash):
+        """
+        Check if a transaction hash is in the pending list.
+        """
+        assert self.lock is not None, "Lock not acquired"
+        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
+        return tx_hash in self.pending_tx_hashes
+
+    def __len__(self):
+        """
+        Get the number of pending transaction hashes.
+        """
+        assert self.lock is not None, "Lock not acquired"
+        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
+        return len(self.pending_tx_hashes)
+
+    def __iter__(self):
+        """
+        Iterate over the pending transaction hashes.
+        """
+        assert self.lock is not None, "Lock not acquired"
+        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
+        return iter(self.pending_tx_hashes)
 
 
 class EthRPC(BaseEthRPC):
@@ -319,20 +620,18 @@ class EthRPC(BaseEthRPC):
     fork: Fork
     engine_rpc: EngineRPC
     transactions_per_block: int
-    pending_tx_hashes: List[Hash] = []
-    included_tx_hashes: List[Hash] = []
-    parent_timestamp: int = 0
-    parent_hash: Hash = Hash(0)
-    get_payload_wait_time: int = 1
-    _pending_hashes_lock: Lock = Lock()
+    get_payload_wait_time: float
+    pending_tx_hashes: PendingTxHashes
 
     def __init__(
         self,
         *,
         client: Client,
         fork: Fork,
-        genesis_header: FixtureHeader,
-        transactions_per_block: int = 1,
+        base_genesis_header: FixtureHeader,
+        transactions_per_block: int,
+        session_temp_folder: Path,
+        get_payload_wait_time: float,
     ):
         """
         Initialize the Ethereum RPC client for the hive simulator.
@@ -340,35 +639,49 @@ class EthRPC(BaseEthRPC):
         super().__init__(f"http://{client.ip}:8545")
         self.fork = fork
         self.engine_rpc = EngineRPC(f"http://{client.ip}:8551")
-        self.parent_timestamp = genesis_header.timestamp
-        self.parent_hash = genesis_header.block_hash
         self.transactions_per_block = transactions_per_block
+        self.pending_tx_hashes = PendingTxHashes(session_temp_folder)
+        self.get_payload_wait_time = get_payload_wait_time
 
-        # Send initial forkchoice updated
-        forkchoice_state = ForkchoiceState(
-            head_block_hash=self.parent_hash,
-        )
-        forkchoice_version = self.fork.engine_forkchoice_updated_version()
-        assert forkchoice_version is not None, "Fork does not support engine forkchoice_updated"
-        response = self.engine_rpc.forkchoice_updated(
-            forkchoice_state,
-            None,
-            version=forkchoice_version,
-        )
-        assert (
-            response.payload_status.status == PayloadStatusEnum.VALID
-        ), "Initial forkchoice_updated was invalid"
+        # Send initial forkchoice updated only if we are the first worker
+        base_name = "eth_rpc_forkchoice_updated"
+        base_file = session_temp_folder / base_name
+        base_lock_file = session_temp_folder / f"{base_name}.lock"
+
+        with FileLock(base_lock_file):
+            if not base_file.exists():
+                # Send initial forkchoice updated
+                forkchoice_state = ForkchoiceState(
+                    head_block_hash=base_genesis_header.block_hash,
+                )
+                forkchoice_version = self.fork.engine_forkchoice_updated_version()
+                assert (
+                    forkchoice_version is not None
+                ), "Fork does not support engine forkchoice_updated"
+                response = self.engine_rpc.forkchoice_updated(
+                    forkchoice_state,
+                    None,
+                    version=forkchoice_version,
+                )
+                assert (
+                    response.payload_status.status == PayloadStatusEnum.VALID
+                ), "Initial forkchoice_updated was invalid"
+                with open(base_file, "w") as f:
+                    f.write("")
 
     def generate_block(self: "EthRPC"):
         """
         Generate a block using the Engine API.
         """
+        # Get the head block hash
+        head_block = self.get_block_by_number("latest")
+
         forkchoice_state = ForkchoiceState(
-            head_block_hash=self.parent_hash,
+            head_block_hash=head_block["hash"],
         )
         parent_beacon_block_root = Hash(0) if self.fork.header_beacon_root_required(0, 0) else None
         payload_attributes = PayloadAttributes(
-            timestamp=self.parent_timestamp + 1,
+            timestamp=HexNumber(head_block["timestamp"]) + 1,
             prev_randao=Hash(0),
             suggested_fee_recipient=Address(0),
             withdrawals=[] if self.fork.header_withdrawals_required() else None,
@@ -415,41 +728,50 @@ class EthRPC(BaseEthRPC):
         assert response.payload_status.status == PayloadStatusEnum.VALID, "Payload was invalid"
         for tx in new_payload.execution_payload.transactions:
             tx_hash = Hash(keccak256(tx))
-            self.included_tx_hashes.append(tx_hash)
             if tx_hash in self.pending_tx_hashes:
                 self.pending_tx_hashes.remove(tx_hash)
-        self.parent_timestamp = new_payload.execution_payload.timestamp
-        self.parent_hash = new_payload.execution_payload.block_hash
 
     def send_transaction(self, transaction: Transaction):
         """
         `eth_sendRawTransaction`: Send a transaction to the client.
         """
         super().send_transaction(transaction)
-        with self._pending_hashes_lock:
+        with self.pending_tx_hashes:
             self.pending_tx_hashes.append(transaction.hash)
             if len(self.pending_tx_hashes) >= self.transactions_per_block:
                 self.generate_block()
 
     def wait_for_transaction(
-        self, transaction: Transaction, timeout: int = 60
+        self, transaction: Transaction, timeout: int = 600
     ) -> TransactionByHashResponse:
         """
         Uses `eth_getTransactionByHash` to wait until a transaction is included in a block.
         """
         tx_hash = transaction.hash
-        for _ in range(timeout):
+        last_pending_tx_hashes_count: int | None = None
+        for i in range(timeout):
             tx = self.get_transaction_by_hash(tx_hash)
             if tx.block_number is not None:
                 return tx
-            time.sleep(0.1)
-            with self._pending_hashes_lock:
-                if len(self.pending_tx_hashes) >= 0:
+            with self.pending_tx_hashes:
+                if len(self.pending_tx_hashes) >= self.transactions_per_block:
                     self.generate_block()
+                else:
+                    if (
+                        last_pending_tx_hashes_count is not None
+                        and len(self.pending_tx_hashes) == last_pending_tx_hashes_count
+                        and i % 10 == 0
+                    ):
+                        # If no new transactions have been added to the pending list,
+                        # produce the block to avoid a deadlock.
+                        self.generate_block()
+
+                    last_pending_tx_hashes_count = len(self.pending_tx_hashes)
+            time.sleep(0.1)
         raise Exception(f"Transaction {tx_hash} not included in a block after {timeout} seconds")
 
     def wait_for_transactions(
-        self, transactions: List[Transaction], timeout: int = 60
+        self, transactions: List[Transaction], timeout: int = 600
     ) -> List[TransactionByHashResponse]:
         """
         Uses `eth_getTransactionByHash` to wait for all transactions in list are included in a
@@ -457,36 +779,67 @@ class EthRPC(BaseEthRPC):
         """
         tx_hashes = [tx.hash for tx in transactions]
         responses: List[TransactionByHashResponse] = []
-        for _ in range(timeout):
-            i = 0
-            while i < len(tx_hashes):
-                tx_hash = tx_hashes[i]
+        last_pending_tx_hashes_count: int | None = None
+        for i in range(timeout):
+            tx_id = 0
+            while tx_id < len(tx_hashes):
+                tx_hash = tx_hashes[tx_id]
                 tx = self.get_transaction_by_hash(tx_hash)
                 if tx.block_number is not None:
                     responses.append(tx)
-                    tx_hashes.pop(i)
+                    tx_hashes.pop(tx_id)
                 else:
-                    i += 1
+                    tx_id += 1
             if not tx_hashes:
                 return responses
-            time.sleep(0.1)
-            with self._pending_hashes_lock:
-                if len(self.pending_tx_hashes) >= 0:
+            with self.pending_tx_hashes:
+                if len(self.pending_tx_hashes) >= self.transactions_per_block:
                     self.generate_block()
+                else:
+                    if (
+                        last_pending_tx_hashes_count is not None
+                        and len(self.pending_tx_hashes) == last_pending_tx_hashes_count
+                        and i % 10 == 0
+                    ):
+                        # If no new transactions have been added to the pending list,
+                        # produce the block to avoid a deadlock.
+                        self.generate_block()
+
+                    last_pending_tx_hashes_count = len(self.pending_tx_hashes)
+            time.sleep(0.1)
         raise Exception(f"Transaction {tx_hash} not included in a block after {timeout} seconds")
+
+
+@pytest.fixture(scope="session")
+def transactions_per_block(request) -> int:  # noqa: D103
+    if transactions_per_block := request.config.getoption("transactions_per_block"):
+        return transactions_per_block
+
+    # Get the number of workers for the test
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
+    if not worker_count_env:
+        return 1
+    return max(int(worker_count_env), 1)
 
 
 @pytest.fixture(autouse=True, scope="session")
 def eth_rpc(
-    request, client: Client, base_genesis_header: FixtureHeader, base_fork: Fork
+    request,
+    client: Client,
+    base_genesis_header: FixtureHeader,
+    base_fork: Fork,
+    transactions_per_block: int,
+    session_temp_folder: Path,
 ) -> EthRPC:
     """
     Initialize ethereum RPC client for the execution client under test.
     """
-    transactions_per_block = request.config.getoption("transactions_per_block")
+    get_payload_wait_time = request.config.getoption("get_payload_wait_time")
     return EthRPC(
         client=client,
         fork=base_fork,
-        genesis_header=base_genesis_header,
+        base_genesis_header=base_genesis_header,
         transactions_per_block=transactions_per_block,
+        session_temp_folder=session_temp_folder,
+        get_payload_wait_time=get_payload_wait_time,
     )
