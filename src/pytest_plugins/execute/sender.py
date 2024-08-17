@@ -6,6 +6,7 @@ from typing import Generator, Iterator
 
 import pytest
 from filelock import FileLock
+from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_base_types import Number
 from ethereum_test_rpc import EthRPC
@@ -83,6 +84,7 @@ def sender_key_initial_balance(
 
 @pytest.fixture(scope="session")
 def sender_key(
+    request: pytest.FixtureRequest,
     seed_sender: EOA,
     sender_key_initial_balance: int,
     eoa_iterator: Iterator[EOA],
@@ -126,6 +128,10 @@ def sender_key(
 
     # refund seed sender
     remaining_balance = eth_rpc.get_balance(sender)
+    request.config.stash[metadata_key]["Senders"][
+        str(sender)
+    ] = f"Used balance={(sender_key_initial_balance - remaining_balance) / 10**18:.18f} Ξ"
+
     refund_gas_limit = 21_000
     refund_gas_price = sender_funding_transactions_gas_price
     tx_cost = refund_gas_limit * refund_gas_price
@@ -142,3 +148,10 @@ def sender_key(
     ).with_signature_and_sender()
 
     eth_rpc.send_wait_transaction(refund_tx)
+
+
+def pytest_sessionstart(session):  # noqa: SC200
+    """
+    Reset the sender info before the session starts.
+    """
+    session.config.stash[metadata_key]["Senders"] = {}

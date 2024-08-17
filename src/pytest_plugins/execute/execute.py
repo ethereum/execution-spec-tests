@@ -125,6 +125,17 @@ def pytest_addoption(parser):
         ),
     )
     test_group.addoption(
+        "--report-filename",
+        action="store",
+        dest="report_filename",
+        type=str,
+        default=default_html_report_filename(),
+        help=(
+            "File name of the html report generated. "
+            f"Default: '{default_html_report_filename()}'."
+        ),
+    )
+    test_group.addoption(
         "--no-html",
         action="store_true",
         dest="disable_html",
@@ -191,7 +202,7 @@ def pytest_configure(config):
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
-        config.option.htmlpath = config.getoption("output") / default_html_report_filename()
+        config.option.htmlpath = config.getoption("output") / config.getoption("report_filename")
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
     t8n = TransitionTool.from_binary_path(
@@ -243,8 +254,11 @@ def pytest_html_results_table_header(cells):
     """
     Customize the table headers of the HTML report table.
     """
-    cells.insert(3, '<th class="sortable" data-column-type="fixturePath">JSON Fixture File</th>')
-    cells.insert(4, '<th class="sortable" data-column-type="evmDumpDir">EVM Dump Dir</th>')
+    cells.insert(3, '<th class="sortable" data-column-type="sender">Sender</th>')
+    cells.insert(4, '<th class="sortable" data-column-type="fundedAccounts">Funded Accounts</th>')
+    cells.insert(
+        5, '<th class="sortable" data-column-type="fundedAccounts">Deployed Contracts</th>'
+    )
     del cells[-1]  # Remove the "Links" column
 
 
@@ -254,31 +268,18 @@ def pytest_html_results_table_row(report, cells):
     """
     if hasattr(report, "user_properties"):
         user_props = dict(report.user_properties)
-        if (
-            report.passed
-            and "fixture_path_absolute" in user_props
-            and "fixture_path_relative" in user_props
-        ):
-            fixture_path_absolute = user_props["fixture_path_absolute"]
-            fixture_path_relative = user_props["fixture_path_relative"]
-            fixture_path_link = (
-                f'<a href="{fixture_path_absolute}" target="_blank">{fixture_path_relative}</a>'
-            )
-            cells.insert(3, f"<td>{fixture_path_link}</td>")
-        elif report.failed:
-            cells.insert(3, "<td>Fixture unavailable</td>")
-        if "evm_dump_dir" in user_props:
-            if user_props["evm_dump_dir"] is None:
-                cells.insert(
-                    4, "<td>For t8n debug info use <code>--evm-dump-dir=path --traces</code></td>"
-                )
-            else:
-                evm_dump_dir = user_props.get("evm_dump_dir")
-                if evm_dump_dir == "N/A":
-                    evm_dump_entry = "N/A"
-                else:
-                    evm_dump_entry = f'<a href="{evm_dump_dir}" target="_blank">{evm_dump_dir}</a>'
-                cells.insert(4, f"<td>{evm_dump_entry}</td>")
+        if "sender_address" in user_props and user_props["sender_address"] is not None:
+            sender_address = user_props["sender_address"]
+            cells.insert(3, f"<td>{sender_address}</td>")
+        else:
+            cells.insert(3, "<td>Not available</td>")
+
+        if "funded_accounts" in user_props and user_props["funded_accounts"] is not None:
+            funded_accounts = user_props["funded_accounts"]
+            cells.insert(4, f"<td>{funded_accounts}</td>")
+        else:
+            cells.insert(4, "<td>Not available</td>")
+
     del cells[-1]  # Remove the "Links" column
 
 
@@ -294,31 +295,16 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
 
     if call.when == "call":
-        if hasattr(item.config, "fixture_path_absolute") and hasattr(
-            item.config, "fixture_path_relative"
-        ):
-            report.user_properties.append(
-                ("fixture_path_absolute", item.config.fixture_path_absolute)
-            )
-            report.user_properties.append(
-                ("fixture_path_relative", item.config.fixture_path_relative)
-            )
-        if hasattr(item.config, "evm_dump_dir") and hasattr(item.config, "execute_format"):
-            if item.config.execute_format in [
-                "state_test",
-                "blockchain_test",
-                "blockchain_test_hive",
-            ]:
-                report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
-            else:
-                report.user_properties.append(("evm_dump_dir", "N/A"))  # not yet for EOF
+        for property_name in ["sender_address", "funded_accounts"]:
+            if hasattr(item.config, property_name):
+                report.user_properties.append((property_name, getattr(item.config, property_name)))
 
 
 def pytest_html_report_title(report):
     """
     Set the HTML report title (pytest-html plugin).
     """
-    report.title = "Fill Test Report"
+    report.title = "Execute Test Report"
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -558,15 +544,21 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 elif kwargs["pre"] != pre:
                     raise ValueError("The pre-alloc object was modified by the test.")
 
+                request.node.config.sender_address = str(pre._sender)
+
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
 
                 # wait for pre-requisite transactions to be included in blocks
                 pre.wait_for_transactions()
                 for deployed_contract, deployed_code in pre._deployed_contracts:
-                    assert eth_rpc.get_code(deployed_contract) == deployed_code, (
-                        f"Deployed test contract didn't match expected code at address "
-                        f"{deployed_contract} (not enough gas_limit?)."
-                    )
+
+                    if eth_rpc.get_code(deployed_contract) == deployed_code:
+                        pass
+                    else:
+                        raise Exception(
+                            f"Deployed test contract didn't match expected code at address "
+                            f"{deployed_contract} (not enough gas_limit?)."
+                        )
 
                 execute = self.execute(fork=fork, execute_format=execute_format, eips=eips)
                 execute.execute(eth_rpc)
@@ -574,6 +566,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 # Refund all EOAs
                 refund_txs = []
+                request.node.config.funded_accounts = ", ".join(
+                    [str(eoa) for eoa in pre._funded_eoa]
+                )
                 for eoa in pre._funded_eoa:
                     remaining_balance = eth_rpc.get_balance(eoa)
                     eoa.nonce = eth_rpc.get_transaction_count(eoa)
