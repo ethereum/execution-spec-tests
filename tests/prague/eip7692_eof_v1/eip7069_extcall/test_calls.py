@@ -576,15 +576,19 @@ def test_eof_calls_eof_then_fails(
         "EOA",
         "LegacyContract",
         "EOFContract",
+        "LegacyContractInvalid",
+        "EOFContractInvalid",
     ),
     ids=lambda x: x,
 )
+@pytest.mark.parametrize("value", [0, 1])
 def test_eof_calls_clear_return_buffer(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
     target_account_type: str,
+    value: int,
 ):
     """Test EOF contracts calling clears returndata buffer"""
     env = Environment()
@@ -606,13 +610,21 @@ def test_eof_calls_clear_return_buffer(
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.STOP),
             )
+        case "LegacyContractInvalid":
+            target_address = pre.deploy_contract(
+                code=Op.INVALID,
+            )
+        case "EOFContractInvalid":
+            target_address = pre.deploy_contract(
+                code=Container.Code(Op.INVALID),
+            )
 
     caller_contract = Container.Code(
         # First fill the return buffer and sanity check
         Op.EXTCALL(filling_callee_address, 0, 0, 0)
         + Op.SSTORE(slot_returndatasize_before_clear, Op.RETURNDATASIZE)
         # Then call something that doesn't return and check returndata cleared
-        + opcode(address=target_address)
+        + opcode(address=target_address, value=value)
         + Op.SSTORE(slot_returndatasize, Op.RETURNDATASIZE)
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP,
