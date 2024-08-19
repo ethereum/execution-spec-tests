@@ -822,28 +822,22 @@ def test_ext_code_on_set_code(
     auth_signer = pre.fund_eoa(balance)
 
     slot = count(1)
-    slot_call_success = next(slot)
-    slot_caller = next(slot)
     slot_ext_code_size_result = next(slot)
     slot_ext_code_hash_result = next(slot)
     slot_ext_code_copy_result = next(slot)
     slot_ext_balance_result = next(slot)
 
     callee_code = (
-        Op.SSTORE(slot_caller, Op.CALLER)
-        + Op.SSTORE(slot_ext_code_size_result, Op.EXTCODESIZE(Op.CALLER))
-        + Op.SSTORE(slot_ext_code_hash_result, Op.EXTCODEHASH(Op.CALLER))
-        + Op.EXTCODECOPY(Op.CALLER, 0, 0, Op.EXTCODESIZE(Op.CALLER))
+        Op.SSTORE(slot_ext_code_size_result, Op.EXTCODESIZE(auth_signer))
+        + Op.SSTORE(slot_ext_code_hash_result, Op.EXTCODEHASH(auth_signer))
+        + Op.EXTCODECOPY(auth_signer, 0, 0, Op.EXTCODESIZE(auth_signer))
         + Op.SSTORE(slot_ext_code_copy_result, Op.MLOAD(0))
-        + Op.SSTORE(slot_ext_balance_result, Op.BALANCE(Op.CALLER))
+        + Op.SSTORE(slot_ext_balance_result, Op.BALANCE(auth_signer))
         + Op.STOP
     )
     callee_address = pre.deploy_contract(callee_code)
-    callee_storage = Storage()
 
-    auth_signer_storage = Storage()
     set_code_to_address: Address
-
     match set_code_type:
         case AddressType.EMPTY_ACCOUNT:
             set_code = Bytecode()
@@ -852,21 +846,22 @@ def test_ext_code_on_set_code(
             set_code = Bytecode()
             set_code_to_address = pre.fund_eoa(1)
         case AddressType.CONTRACT:
-            set_code = Op.SSTORE(slot_call_success, Op.CALL(address=callee_address)) + Op.STOP
-            auth_signer_storage[slot_call_success] = True
+            set_code = Op.STOP
             set_code_to_address = pre.deploy_contract(set_code)
         case _:
             raise ValueError(f"Unsupported set code type: {set_code_type}")
 
-    callee_storage[slot_caller] = auth_signer
+    callee_storage = Storage()
     callee_storage[slot_ext_code_size_result] = len(set_code)
-    callee_storage[slot_ext_code_hash_result] = set_code.keccak256()
+    callee_storage[slot_ext_code_hash_result] = (
+        set_code.keccak256() if set_code_type != AddressType.EMPTY_ACCOUNT else 0
+    )
     callee_storage[slot_ext_code_copy_result] = bytes(set_code).ljust(32, b"\x00")[:32]
     callee_storage[slot_ext_balance_result] = balance
 
     tx = Transaction(
         gas_limit=10_000_000,
-        to=auth_signer,
+        to=callee_address,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
@@ -885,7 +880,7 @@ def test_ext_code_on_set_code(
             set_code_to_address: Account.NONEXISTENT
             if set_code_type == AddressType.EMPTY_ACCOUNT
             else Account(storage={}),
-            auth_signer: Account(nonce=1, code=b"", storage=auth_signer_storage, balance=balance),
+            auth_signer: Account(nonce=1, code=b"", balance=balance),
             callee_address: Account(storage=callee_storage),
         },
     )
