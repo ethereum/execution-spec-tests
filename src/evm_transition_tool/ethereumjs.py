@@ -15,8 +15,7 @@ class EthereumJSTransitionTool(TransitionTool):
     EthereumJS Transition tool interface wrapper class.
     """
 
-    # Note: EthereumJS currently does not export evm binaries
-    default_binary = Path("ethereumjs")
+    default_binary = Path("ethereumjs-t8ntool.sh")
     detect_binary_pattern = compile(r"^ethereumjs t8n\b")
     version_flag: str = "--version"
     t8n_use_stream = False
