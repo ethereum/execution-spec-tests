@@ -1613,7 +1613,7 @@ class InvalidityReason(Enum):
     NONCE = "nonce"
     MULTIPLE_NONCE = "multiple_nonce"
     CHAIN_ID = "chain_id"
-    ZERO_LENGTH_AUTHORIZATION_LIST = "zero_length_authorization_list"
+    EMPTY_AUTHORIZATION_LIST = "empty_authorization_list"
     INVALID_SIGNATURE_S_VALUE = "invalid_signature_s_value"  # TODO: Implement
 
 
@@ -1622,7 +1622,7 @@ class InvalidityReason(Enum):
     [
         pytest.param(
             InvalidityReason.NONCE,
-            None,
+            None,  # Transaction is valid and accepted, but no authorization tuple is processed
         ),
         pytest.param(
             InvalidityReason.MULTIPLE_NONCE,
@@ -1631,10 +1631,10 @@ class InvalidityReason(Enum):
         ),
         pytest.param(
             InvalidityReason.CHAIN_ID,
-            None,
+            None,  # Transaction is valid and accepted, but no authorization tuple is processed
         ),
         pytest.param(
-            InvalidityReason.CHAIN_ID,
+            InvalidityReason.EMPTY_AUTHORIZATION_LIST,
             TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST,
         ),
     ],
@@ -1657,7 +1657,7 @@ def test_set_code_invalid_authorization_tuple(
 
     authorization_list: List[AuthorizationTuple] = []
 
-    if invalidity_reason != InvalidityReason.ZERO_LENGTH_AUTHORIZATION_LIST:
+    if invalidity_reason != InvalidityReason.EMPTY_AUTHORIZATION_LIST:
         authorization_list = [
             AuthorizationTuple(
                 address=set_code_to_address,
