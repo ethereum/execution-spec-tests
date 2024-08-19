@@ -41,6 +41,7 @@ from ethereum_test_tools.eof.v1 import Container, Section
 from ..eip6110_deposits.helpers import DepositRequest
 from ..eip7002_el_triggerable_withdrawals.helpers import WithdrawalRequest
 from ..eip7251_consolidations.helpers import ConsolidationRequest
+from .helpers import AddressType
 from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
@@ -804,10 +805,16 @@ def test_call_into_chain_delegating_set_code(
     "balance",
     [0, 1],
 )
+@pytest.mark.parametrize(
+    "set_code_type",
+    list(AddressType),
+    ids=lambda address_type: address_type.name,
+)
 def test_ext_code_on_set_code(
     state_test: StateTestFiller,
     pre: Alloc,
     balance: int,
+    set_code_type: AddressType,
 ):
     """
     Test different ext*code operations on a set-code address.
@@ -835,9 +842,21 @@ def test_ext_code_on_set_code(
     callee_storage = Storage()
 
     auth_signer_storage = Storage()
-    set_code = Op.SSTORE(slot_call_success, Op.CALL(address=callee_address)) + Op.STOP
-    auth_signer_storage[slot_call_success] = True
-    set_code_to_address = pre.deploy_contract(set_code)
+    set_code_to_address: Address
+
+    match set_code_type:
+        case AddressType.EMPTY_ACCOUNT:
+            set_code = Bytecode()
+            set_code_to_address = pre.fund_eoa(0)
+        case AddressType.EOA:
+            set_code = Bytecode()
+            set_code_to_address = pre.fund_eoa(1)
+        case AddressType.CONTRACT:
+            set_code = Op.SSTORE(slot_call_success, Op.CALL(address=callee_address)) + Op.STOP
+            auth_signer_storage[slot_call_success] = True
+            set_code_to_address = pre.deploy_contract(set_code)
+        case _:
+            raise ValueError(f"Unsupported set code type: {set_code_type}")
 
     callee_storage[slot_caller] = auth_signer
     callee_storage[slot_ext_code_size_result] = len(set_code)
@@ -863,7 +882,9 @@ def test_ext_code_on_set_code(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address: Account(storage={}),
+            set_code_to_address: Account.NONEXISTENT
+            if set_code_type == AddressType.EMPTY_ACCOUNT
+            else Account(storage={}),
             auth_signer: Account(nonce=1, code=b"", storage=auth_signer_storage, balance=balance),
             callee_address: Account(storage=callee_storage),
         },
