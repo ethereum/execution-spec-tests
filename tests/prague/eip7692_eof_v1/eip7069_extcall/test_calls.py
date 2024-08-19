@@ -796,10 +796,12 @@ def test_eof_calls_min_callee_gas(
     )
 
 
+@pytest.mark.parametrize("balance", [0, 1])
 def test_eof_calls_no_balance(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
+    balance: int,
 ):
     """Test EOF contracts calls handle value calls with not enough balance"""
     env = Environment()
@@ -811,7 +813,8 @@ def test_eof_calls_no_balance(
             Op.SSTORE(slot_call_result, Op.EXTCALL(address=noop_callee_address, value=1))
             + Op.SSTORE(slot_code_worked, value_code_worked)
             + Op.STOP
-        )
+        ),
+        balance=balance,
     )
     tx = Transaction(
         sender=sender,
@@ -822,7 +825,7 @@ def test_eof_calls_no_balance(
 
     calling_storage = {
         slot_code_worked: value_code_worked,
-        slot_call_result: value_eof_call_reverted,
+        slot_call_result: value_eof_call_reverted if balance == 0 else value_eof_call_worked,
     }
 
     post = {
