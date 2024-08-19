@@ -1572,7 +1572,7 @@ def test_set_code_all_invalid_authorization_tuples(
 ):
     """
     Test setting the code of an account with multiple authorization tuples from the same signer
-    but the first tuple is invalid.
+    and all of them are invalid.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -1600,11 +1600,7 @@ def test_set_code_all_invalid_authorization_tuples(
         pre=pre,
         tx=tx,
         post={
-            auth_signer: Account(
-                nonce=0,
-                code=b"",
-                storage={},
-            ),
+            auth_signer: Account.NONEXISTENT,
         },
     )
 
