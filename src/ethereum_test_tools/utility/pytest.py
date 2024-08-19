@@ -10,14 +10,14 @@ PARAMETRIZE_KWARG_NAMES = ["indirect", "ids", "scope"]
 PARAM_KWARG_NAMES = ["id", "marks"]
 
 
-def named_parametrize(*, cases: List[Dict[str, Any]], **argument_defaults: Any):
+def parametrize_with_defaults(*, cases: List[Dict[str, Any]], **argument_defaults: Any):
     """
     `pytest.mark.parametrize` replacement that allows to specify parameter names with default
     values for each parameter.
 
     Example usage:
     ```
-    @named_parametrize(
+    @parametrize_with_defaults(
         parameter_1=0,  # Default value for parameter_1 is zero
         parameter_2='default',  # Default value for parameter_2 is 'default' string
         cases=[
