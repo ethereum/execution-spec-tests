@@ -3,9 +3,10 @@ abstract: Tests related to gas of set-code transactions from [EIP-7702: Set EOA 
     Tests related to gas of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
 """  # noqa: E501
 
+from dataclasses import dataclass
 from enum import Enum, auto
 from itertools import cycle
-from typing import Dict, Generator, Iterator, List, Tuple
+from typing import Dict, Generator, Iterator, List
 
 import pytest
 
@@ -55,10 +56,10 @@ class AuthorizationInvalidityType(Enum):
     Different types of invalidity for the authorization list.
     """
 
-    NONE = auto()
     INVALID_NONCE = auto()
     REPEATED_NONCE = auto()
     INVALID_CHAIN_ID = auto()
+    AUTHORITY_IS_CONTRACT = auto()
 
 
 class AddressType(Enum):
@@ -114,13 +115,24 @@ class AccessListType(Enum):
 # Fixtures used to parametrize the tests
 
 
+@dataclass(kw_only=True)
+class AuthorityWithProperties:
+    """
+    Dataclass to hold the properties of the authority address.
+    """
+
+    authority: EOA
+    invalidity_type: AuthorizationInvalidityType | None
+    empty: bool
+
+
 @pytest.fixture()
 def authority_iterator(
     pre: Alloc,
     sender: EOA,
     authority_type: AddressType | List[AddressType],
     self_sponsored: bool,
-) -> Iterator[Tuple[Address, bool, bool]]:
+) -> Iterator[AuthorityWithProperties]:
     """
     Fixture to return the generator for the authority addresses.
     """
@@ -132,19 +144,31 @@ def authority_iterator(
 
     def generator(
         authority_type_iterator: Iterator[AddressType],
-    ) -> Generator[Tuple[Address, bool, bool], None, None]:
+    ) -> Generator[AuthorityWithProperties, None, None]:
         for i, current_authority_type in enumerate(authority_type_iterator):
             match current_authority_type:
                 case AddressType.EMPTY_ACCOUNT:
                     assert (
                         not self_sponsored
                     ), "Self-sponsored empty-account authority is not supported"
-                    yield pre.fund_eoa(0), True, True
+                    yield AuthorityWithProperties(
+                        authority=pre.fund_eoa(0),
+                        invalidity_type=None,
+                        empty=True,
+                    )
                 case AddressType.EOA:
                     if i == 0 and self_sponsored:
-                        yield sender, True, False
+                        yield AuthorityWithProperties(
+                            authority=sender,
+                            invalidity_type=None,
+                            empty=False,
+                        )
                     else:
-                        yield pre.fund_eoa(), True, False
+                        yield AuthorityWithProperties(
+                            authority=pre.fund_eoa(),
+                            invalidity_type=None,
+                            empty=False,
+                        )
                 case AddressType.CONTRACT:
                     assert (
                         not self_sponsored or i > 0
@@ -153,25 +177,40 @@ def authority_iterator(
                     authority_account = pre[authority]
                     assert authority_account is not None
                     authority_account.code = Bytes(Op.STOP)
-                    yield authority, False, False
+                    yield AuthorityWithProperties(
+                        authority=authority,
+                        invalidity_type=AuthorizationInvalidityType.AUTHORITY_IS_CONTRACT,
+                        empty=False,
+                    )
                 case _:
                     raise ValueError(f"Unsupported authority type: {current_authority_type}")
 
     return generator(authority_type_iterator)
 
 
+@dataclass(kw_only=True)
+class AuthorizationWithProperties:
+    """
+    Dataclass to hold the properties of the authorization list.
+    """
+
+    tuple: AuthorizationTuple
+    invalidity_type: AuthorizationInvalidityType | None
+    empty: bool
+
+
 @pytest.fixture
-def authorization_list_with_validity(
+def authorization_list_with_properties(
     signer_type: SignerType,
-    authorization_invalidity_type: AuthorizationInvalidityType,
+    authorization_invalidity_type: AuthorizationInvalidityType | None,
     authorizations_count: int,
     chain_id_type: ChainIDType,
-    authority_iterator: Iterator[Tuple[Address, bool, bool]],
+    authority_iterator: Iterator[AuthorityWithProperties],
     authorize_to_address: Address,
     self_sponsored: bool,
-) -> List[Tuple[AuthorizationTuple, bool, bool]]:
+) -> List[AuthorizationWithProperties]:
     """
-    Fixture to return the authorization list for the given case.
+    Fixture to return the authorization-list-with-properties for the given case.
     """
     chain_id = 0 if chain_id_type == ChainIDType.GENERIC else 1
     if authorization_invalidity_type == AuthorizationInvalidityType.INVALID_CHAIN_ID:
@@ -179,10 +218,10 @@ def authorization_list_with_validity(
 
     match signer_type:
         case SignerType.SINGLE_SIGNER:
-            signer, valid_authority, empty = next(authority_iterator)
-            authorization_list = []
+            authority_with_properties = next(authority_iterator)
+            authorization_list: List[AuthorizationWithProperties] = []
             for i in range(authorizations_count):
-                # Get the nonce of the authorization
+                # Get the nonce of this authorization
                 match authorization_invalidity_type:
                     case AuthorizationInvalidityType.INVALID_NONCE:
                         nonce = 0 if self_sponsored else 1
@@ -191,25 +230,26 @@ def authorization_list_with_validity(
                     case _:
                         nonce = i if not self_sponsored else i + 1
 
-                # Get the validity of the authorization
-                match authorization_invalidity_type:
-                    case AuthorizationInvalidityType.NONE:
-                        valid = valid_authority
-                    case AuthorizationInvalidityType.REPEATED_NONCE:
-                        valid = i == 0
-                    case _:
-                        valid = False
+                # Get the validity of this authorization
+                invalidity_type: AuthorizationInvalidityType | None
+                if authorization_invalidity_type is None or (
+                    authorization_invalidity_type == AuthorizationInvalidityType.REPEATED_NONCE
+                    and i == 0
+                ):
+                    invalidity_type = authority_with_properties.invalidity_type
+                else:
+                    invalidity_type = authorization_invalidity_type
 
                 authorization_list.append(
-                    (
-                        AuthorizationTuple(
+                    AuthorizationWithProperties(
+                        tuple=AuthorizationTuple(
                             chain_id=chain_id,
                             address=authorize_to_address,
                             nonce=nonce,
-                            signer=signer,
+                            signer=authority_with_properties.authority,
                         ),
-                        valid,
-                        empty,
+                        invalidity_type=invalidity_type,
+                        empty=authority_with_properties.empty,
                     )
                 )
             return authorization_list
@@ -219,9 +259,10 @@ def authorization_list_with_validity(
                 # Reuse the first two authorities for the repeated nonce case
                 authority_iterator = cycle([next(authority_iterator), next(authority_iterator)])
 
-            authorization_list = []
+            authorization_list: List[AuthorizationWithProperties] = []
             for i in range(authorizations_count):
-                signer, valid_authority, empty = next(authority_iterator)
+                # Get the nonce of this authorization
+                authority_with_properties = next(authority_iterator)
                 if self_sponsored and i == 0:
                     if authorization_invalidity_type == AuthorizationInvalidityType.INVALID_NONCE:
                         nonce = 0
@@ -232,23 +273,26 @@ def authorization_list_with_validity(
                         nonce = 1
                     else:
                         nonce = 0
-                if authorization_invalidity_type == AuthorizationInvalidityType.NONE or (
+
+                # Get the validity of this authorization
+                if authorization_invalidity_type is None or (
                     authorization_invalidity_type == AuthorizationInvalidityType.REPEATED_NONCE
                     and i <= 1
                 ):
-                    valid = valid_authority
+                    invalidity_type = authority_with_properties.invalidity_type
                 else:
-                    valid = False
+                    invalidity_type = authorization_invalidity_type
+
                 authorization_list.append(
-                    (
-                        AuthorizationTuple(
+                    AuthorizationWithProperties(
+                        tuple=AuthorizationTuple(
                             chain_id=chain_id,
                             address=authorize_to_address,
                             nonce=nonce,
-                            signer=signer,
+                            signer=authority_with_properties.authority,
                         ),
-                        valid,
-                        empty,
+                        invalidity_type=invalidity_type,
+                        empty=authority_with_properties.empty,
                     )
                 )
             return authorization_list
@@ -258,12 +302,14 @@ def authorization_list_with_validity(
 
 @pytest.fixture
 def authorization_list(
-    authorization_list_with_validity: List[Tuple[AuthorizationTuple, bool, bool]],
+    authorization_list_with_properties: List[AuthorizationWithProperties],
 ) -> List[AuthorizationTuple]:
     """
     Fixture to return the authorization list for the given case.
     """
-    return [authorization_tuple for authorization_tuple, _, _ in authorization_list_with_validity]
+    return [
+        authorization_tuple.tuple for authorization_tuple in authorization_list_with_properties
+    ]
 
 
 @pytest.fixture()
@@ -284,7 +330,7 @@ def authorize_to_address(request: pytest.FixtureRequest, pre: Alloc) -> Address:
 @pytest.fixture()
 def access_list(
     access_list_case: AccessListType,
-    authorization_list_with_validity: List[Tuple[AuthorizationTuple, bool, bool]],
+    authorization_list: List[AuthorizationTuple],
 ) -> List[AccessList]:
     """
     Fixture to return the access list for the given case.
@@ -292,28 +338,16 @@ def access_list(
     access_list: List[AccessList] = []
     if access_list_case == AccessListType.EMPTY:
         return access_list
+
     if access_list_case.contains_authority():
-        for authorization_tuple, _, _ in authorization_list_with_validity:
-            already_added = False
-            for al in access_list:
-                if al.address == authorization_tuple.signer:
-                    already_added = True
-                    break
-            if not already_added:
-                access_list.append(
-                    AccessList(address=authorization_tuple.signer, storage_keys=[0])
-                )
+        authority_set = set(a.signer for a in authorization_list)
+        access_list.extend(
+            AccessList(address=authority, storage_keys=[0]) for authority in authority_set
+        )
+
     if access_list_case.contains_set_code_address():
-        for authorization_tuple, _, _ in authorization_list_with_validity:
-            already_added = False
-            for al in access_list:
-                if al.address == authorization_tuple.address:
-                    already_added = True
-                    break
-            if not already_added:
-                access_list.append(
-                    AccessList(address=authorization_tuple.address, storage_keys=[0])
-                )
+        set_to_set = set(a.address for a in authorization_list)
+        access_list.extend(AccessList(address=address, storage_keys=[0]) for address in set_to_set)
 
     return access_list
 
@@ -502,7 +536,7 @@ def parametrize_gas_test(*, include_many: bool = True, include_data: bool = True
         ]
     return named_parametrize(
         signer_type=SignerType.SINGLE_SIGNER,
-        authorization_invalidity_type=AuthorizationInvalidityType.NONE,
+        authorization_invalidity_type=None,
         authorizations_count=1,
         chain_id_type=ChainIDType.GENERIC,
         authorize_to_address=AddressType.EMPTY_ACCOUNT,
@@ -522,7 +556,7 @@ def parametrize_gas_test(*, include_many: bool = True, include_data: bool = True
 def test_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
-    authorization_list_with_validity: List[Tuple[AuthorizationTuple, bool, bool]],
+    authorization_list_with_properties: List[AuthorizationWithProperties],
     authorization_list: List[AuthorizationTuple],
     data: bytes,
     access_list: List[AccessList],
@@ -539,18 +573,19 @@ def test_gas_cost(
     )
     # Calculate the intrinsic gas cost of the authorizations, by default the
     # full empty account cost is charged for each authorization.
-    intrinsic_gas += Spec.PER_EMPTY_ACCOUNT_COST * len(authorization_list_with_validity)
+    intrinsic_gas += Spec.PER_EMPTY_ACCOUNT_COST * len(authorization_list_with_properties)
 
     discounted_authorizations = 0
     seen_authority = set()
-    for authorization_tuple, valid, empty in authorization_list_with_validity:
-        if valid:
-            if not empty:
-                seen_authority.add(authorization_tuple.signer)
-            if authorization_tuple.signer in seen_authority:
+    for authorization_with_properties in authorization_list_with_properties:
+        if authorization_with_properties.invalidity_type is None:
+            authority = authorization_with_properties.tuple.signer
+            if not authorization_with_properties.empty:
+                seen_authority.add(authority)
+            if authority in seen_authority:
                 discounted_authorizations += 1
             else:
-                seen_authority.add(authorization_tuple.signer)
+                seen_authority.add(authority)
 
     discount_gas = (
         Spec.PER_EMPTY_ACCOUNT_COST - Spec.PER_AUTH_BASE_COST
@@ -627,7 +662,7 @@ def test_gas_cost(
 def test_account_warming(
     state_test: StateTestFiller,
     pre: Alloc,
-    authorization_list_with_validity: List[Tuple[AuthorizationTuple, bool, bool]],
+    authorization_list_with_properties: List[AuthorizationWithProperties],
     authorization_list: List[AuthorizationTuple],
     access_list_case: AccessListType,
     access_list: List[AccessList],
@@ -640,13 +675,25 @@ def test_account_warming(
     """
     overhead_cost = 3
 
+    # Dictionary to keep track of the addresses to check for warming, with a boolean value to
+    # indicate whether the address should already be warm or not.
     addresses_to_check: Dict[Address, bool] = {}
 
-    for authorization_tuple, valid, _ in authorization_list_with_validity:
-        authority = authorization_tuple.signer
+    for authorization_with_properties in authorization_list_with_properties:
+        authority = authorization_with_properties.tuple.signer
         assert authority is not None, "authority address is not set"
         if authority not in addresses_to_check:
-            addresses_to_check[authority] = valid or access_list_case.contains_authority()
+            warm = False
+            if (
+                authorization_with_properties.invalidity_type is None
+                or (
+                    authorization_with_properties.invalidity_type
+                    != AuthorizationInvalidityType.INVALID_CHAIN_ID
+                )
+                or access_list_case.contains_authority()
+            ):
+                warm = True
+            addresses_to_check[authority] = warm
 
     if authorize_to_address not in addresses_to_check:
         addresses_to_check[authorize_to_address] = access_list_case.contains_set_code_address()
