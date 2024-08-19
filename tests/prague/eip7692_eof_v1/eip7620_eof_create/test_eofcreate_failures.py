@@ -667,6 +667,7 @@ magic_value_create = 0xCC12EA7E
     [magic_value_call, magic_value_create],
     ids=["call_fails", "create_fails"],
 )
+@pytest.mark.pre_alloc_modify
 def test_eof_eofcreate_msg_depth(
     state_test: StateTestFiller,
     pre: Alloc,
