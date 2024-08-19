@@ -62,3 +62,9 @@ runs:
       with:
         repo: ${{ steps.config-evm-reader.outputs.repo }}
         ref: ${{ steps.config-evm-reader.outputs.ref }}
+    - name: Build the EVM using EthJS action
+      if: steps.config-evm-reader.outputs.impl == 'ethjs'
+      uses: ./.github/actions/build-evm-client/ethjs
+      with:
+        repo: ${{ steps.config-evm-reader.outputs.repo }}
+        ref: ${{ steps.config-evm-reader.outputs.ref }}
