@@ -4,6 +4,7 @@ abstract: Tests use of set-code transactions from [EIP-7702: Set EOA account cod
 """  # noqa: E501
 
 from enum import Enum
+from hashlib import sha256
 from itertools import count
 from typing import List
 
@@ -32,10 +33,14 @@ from ethereum_test_tools import (
     Storage,
     Transaction,
     TransactionException,
+    call_return_code,
     compute_create_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 
+from ..eip6110_deposits.helpers import DepositRequest
+from ..eip7002_el_triggerable_withdrawals.helpers import WithdrawalRequest
+from ..eip7251_consolidations.helpers import ConsolidationRequest
 from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
@@ -2015,6 +2020,19 @@ def test_set_code_to_precompile(
     )
 
 
+def deposit_contract_initial_storage() -> Storage:
+    """
+    Return the initial storage of the deposit contract.
+    """
+    storage = Storage()
+    DEPOSIT_CONTRACT_TREE_DEPTH = 32
+    next_hash = sha256(b"\x00" * 64).digest()
+    for i in range(DEPOSIT_CONTRACT_TREE_DEPTH + 2, DEPOSIT_CONTRACT_TREE_DEPTH * 2 + 1):
+        storage[i] = next_hash
+        next_hash = sha256(next_hash + next_hash).digest()
+    return storage
+
+
 @pytest.mark.with_all_call_opcodes(
     lambda opcode: opcode
     not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
@@ -2029,48 +2047,94 @@ def test_set_code_to_system_contract(
     """
     Test setting the code of an account to a pre-compile address.
     """
-    auth_signer = pre.fund_eoa(auth_account_start_balance)
-
     caller_code_storage = Storage()
-    call_return_code_slot = caller_code_storage.store_next(True)
+    call_return_code_slot = caller_code_storage.store_next(
+        call_return_code(
+            call_opcode,
+            True,
+        )
+    )
     call_return_data_size_slot = caller_code_storage.store_next(0)
+
+    call_value = 0
+
+    # Setup the initial storage of the account to mimic the system contract if required
+    match system_contract:
+        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
+            # Deposit contract needs specific storage values, so we set them on the account
+            auth_signer = pre.fund_eoa(
+                auth_account_start_balance, storage=deposit_contract_initial_storage()
+            )
+        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
+            auth_signer = pre.fund_eoa(auth_account_start_balance, storage=Storage({1: 1}))
+        case _:
+            # Pre-fund without storage
+            auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    # Fabricate the payload for the system contract
+    match system_contract:
+        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
+            caller_payload = Hash(1)
+            caller_code_storage[call_return_data_size_slot] = 32
+        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
+            # Fabricate a valid deposit request to the set-code account
+            deposit_request = DepositRequest(
+                pubkey=0x01,
+                withdrawal_credentials=0x02,
+                amount=1_000_000_000,
+                signature=0x03,
+                index=0x0,
+            )
+            caller_payload = deposit_request.calldata
+            call_value = deposit_request.value
+        case Address(0x00A3CA265EBCB825B45F985A16CEFB49958CE017):  # EIP-7002
+            # Fabricate a valid withdrawal request to the set-code account
+            withdrawal_request = WithdrawalRequest(
+                source_address=0x01,
+                validator_pubkey=0x02,
+                amount=0x03,
+                fee=0x01,
+            )
+            caller_payload = withdrawal_request.calldata
+            call_value = withdrawal_request.value
+        case Address(0x00B42DBF2194E931E80326D950320F7D9DBEAC02):  # EIP-7251
+            # Fabricate a valid consolidation request to the set-code account
+            consolidation_request = ConsolidationRequest(
+                source_address=0x01,
+                source_pubkey=0x02,
+                target_pubkey=0x03,
+                fee=0x01,
+            )
+            caller_payload = consolidation_request.calldata
+            call_value = consolidation_request.value
+        case Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E):  # EIP-2935
+            caller_payload = Hash(0)
+            caller_code_storage[call_return_data_size_slot] = 32
+        case _:
+            raise ValueError(f"Not implemented system contract: {system_contract}")
+
     caller_code = (
-        Op.SSTORE(call_return_code_slot, call_opcode(address=auth_signer))
+        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
+        + Op.SSTORE(
+            call_return_code_slot,
+            call_opcode(address=auth_signer, value=call_value, args_size=Op.CALLDATASIZE),
+        )
         + Op.SSTORE(call_return_data_size_slot, Op.RETURNDATASIZE)
         + Op.STOP
     )
-    txs: List[Transaction] = []
-    match system_contract:
-        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
-            caller_payload = Hash(0)
-            caller_code_storage[call_return_data_size_slot] = 0
-        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
-            caller_payload = Hash(0)
-            caller_code_storage[call_return_data_size_slot] = 0
-        case Address(0x00A3CA265EBCB825B45F985A16CEFB49958CE017):  # EIP-7002
-            caller_payload = Hash(0)
-            caller_code_storage[call_return_data_size_slot] = 0
-        case Address(0x00B42DBF2194E931E80326D950320F7D9DBEAC02):  # EIP-7251
-            caller_payload = Hash(0)
-            caller_code_storage[call_return_data_size_slot] = 0
-        case Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E):  # EIP-2935
-            caller_payload = Hash(0)
-            caller_code_storage[call_return_data_size_slot] = 0
-        case _:
-            raise ValueError(f"Unsupported system contract: {system_contract}")
-
     caller_code_address = pre.deploy_contract(caller_code)
 
-    txs += [
+    txs = [
         Transaction(
             sender=pre.fund_eoa(),
             gas_limit=500_000,
             to=caller_code_address,
+            value=call_value,
             data=caller_payload,
             authorization_list=[
                 AuthorizationTuple(
                     address=Address(system_contract),
-                    nonce=0,
+                    nonce=auth_signer.nonce,
                     signer=auth_signer,
                 ),
             ],
@@ -2079,10 +2143,15 @@ def test_set_code_to_system_contract(
 
     blockchain_test(
         pre=pre,
-        blocks=[Block(txs=txs)],
+        blocks=[
+            Block(
+                txs=txs,
+                requests_root=[],  # Verify nothing slipped into the requests trie
+            )
+        ],
         post={
             auth_signer: Account(
-                nonce=1,
+                nonce=auth_signer.nonce + 1,
                 code=b"",
             ),
             caller_code_address: Account(
