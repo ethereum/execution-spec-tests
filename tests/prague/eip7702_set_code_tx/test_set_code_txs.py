@@ -1012,21 +1012,19 @@ def test_ext_code_on_self_delegating_set_code(
     )
 
 
-@pytest.mark.parametrize(
-    "balance",
-    [0, 1],
-)
 def test_ext_code_on_chain_delegating_set_code(
     state_test: StateTestFiller,
     pre: Alloc,
-    balance: int,
 ):
     """
     Test different ext*code operations on a set-code address that references another delegated
     address.
     """
-    auth_signer_1 = pre.fund_eoa(balance)
-    auth_signer_2 = pre.fund_eoa(balance)
+    auth_signer_1_balance = 1
+    auth_signer_2_balance = 0
+
+    auth_signer_1 = pre.fund_eoa(auth_signer_1_balance)
+    auth_signer_2 = pre.fund_eoa(auth_signer_2_balance)
 
     slot = count(1)
 
@@ -1059,16 +1057,17 @@ def test_ext_code_on_chain_delegating_set_code(
     callee_storage = Storage()
 
     set_code_1 = Spec.DELEGATION_DESIGNATION + bytes(auth_signer_2)
-    callee_storage[slot_ext_code_size_result_1] = len(set_code_1)
-    callee_storage[slot_ext_code_hash_result_1] = keccak256(set_code_1)
-    callee_storage[slot_ext_code_copy_result_1] = bytes(set_code_1).ljust(32, b"\x00")[:32]
-    callee_storage[slot_ext_balance_result_1] = balance
-
     set_code_2 = Spec.DELEGATION_DESIGNATION + bytes(auth_signer_1)
-    callee_storage[slot_ext_code_size_result_2] = len(set_code_2)
-    callee_storage[slot_ext_code_hash_result_2] = keccak256(set_code_2)
-    callee_storage[slot_ext_code_copy_result_2] = bytes(set_code_2).ljust(32, b"\x00")[:32]
-    callee_storage[slot_ext_balance_result_2] = balance
+
+    callee_storage[slot_ext_code_size_result_1] = len(set_code_2)
+    callee_storage[slot_ext_code_hash_result_1] = keccak256(set_code_2)
+    callee_storage[slot_ext_code_copy_result_1] = bytes(set_code_2).ljust(32, b"\x00")[:32]
+    callee_storage[slot_ext_balance_result_1] = auth_signer_1_balance
+
+    callee_storage[slot_ext_code_size_result_2] = len(set_code_1)
+    callee_storage[slot_ext_code_hash_result_2] = keccak256(set_code_1)
+    callee_storage[slot_ext_code_copy_result_2] = bytes(set_code_1).ljust(32, b"\x00")[:32]
+    callee_storage[slot_ext_balance_result_2] = auth_signer_2_balance
 
     tx = Transaction(
         gas_limit=10_000_000,
@@ -1093,8 +1092,8 @@ def test_ext_code_on_chain_delegating_set_code(
         pre=pre,
         tx=tx,
         post={
-            auth_signer_1: Account(nonce=1, code=b"", balance=balance),
-            auth_signer_2: Account(nonce=1, code=b"", balance=balance),
+            auth_signer_1: Account(nonce=1, code=b"", balance=auth_signer_1_balance),
+            auth_signer_2: Account(nonce=1, code=b"", balance=auth_signer_2_balance),
             callee_address: Account(storage=callee_storage),
         },
     )
