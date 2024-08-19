@@ -274,7 +274,7 @@ Tests can also be automatically parametrized with appropriate fork covariant
 values using the `with_all_*` markers listed in the
 [Test Markers](./test_markers.md#fork-covariant-markers) page.
 
-### `named_parametrize` decorator
+### `parametrize_with_defaults` decorator
 
 This decorator can be used as a replacement to `@pytest.mark.parametrize` that
 allows to provide default values for the parameters and to specify each case
@@ -284,7 +284,7 @@ therefore lower the amount of redundant test cases.
 Example:
 
 ```python
-@named_parametrize(
+@parametrize_with_defaults(
     signer_type=SignerType.SINGLE_SIGNER,
     authorization_invalidity_type=AuthorizationInvalidityType.NONE,
     authorizations_count=1,
