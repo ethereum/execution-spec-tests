@@ -689,9 +689,14 @@ def test_eof_eofcreate_msg_depth(
 
     callee_address = Address(0x5000)
 
-    returndatacopy_block = Op.RETURNDATACOPY(64, 0, 96) + Op.REVERT(64, 96)
+    # Memory offsets layout:
+    # - 0  - input - msg depth
+    # - 32 - output - msg depth
+    # - 64 - output - call result
+    # - 96 - output - magic value: create or call
+    returndatacopy_block = Op.RETURNDATACOPY(32, 0, 96) + Op.REVERT(32, 96)
     deep_most_result_block = (
-        Op.MSTORE(64, Op.ADD(Op.CALLDATALOAD(0), 1)) + Op.MSTORE(96, Op.NOOP) + Op.REVERT(64, 96)
+        Op.MSTORE(32, Op.ADD(Op.CALLDATALOAD(0), 1)) + Op.MSTORE(64, Op.NOOP) + Op.REVERT(32, 96)
     )
     rjump_offset = len(returndatacopy_block)
 
@@ -699,8 +704,8 @@ def test_eof_eofcreate_msg_depth(
         sections=[
             Section.Code(
                 Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
-                + Op.MSTORE(128, magic_value_create)
-                + Op.EOFCREATE[0](salt=Op.CALLDATALOAD(0), input_size=64)
+                + Op.MSTORE(96, magic_value_create)
+                + Op.EOFCREATE[0](salt=Op.CALLDATALOAD(0), input_size=32)
                 + Op.RETURNDATASIZE
                 + Op.ISZERO
                 + Op.RJUMPI[rjump_offset]
@@ -710,8 +715,8 @@ def test_eof_eofcreate_msg_depth(
             Section.Container(
                 Container.Code(
                     Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
-                    + Op.MSTORE(128, magic_value_call)
-                    + opcode(address=callee_address, args_size=64)
+                    + Op.MSTORE(96, magic_value_call)
+                    + opcode(address=callee_address, args_size=32)
                     + Op.RETURNDATASIZE
                     + Op.ISZERO
                     + Op.RJUMPI[rjump_offset]
@@ -727,8 +732,7 @@ def test_eof_eofcreate_msg_depth(
     calling_contract_address = pre.deploy_contract(
         Container.Code(
             Op.MSTORE(0, Op.CALLDATALOAD(0))
-            + Op.MSTORE(32, magic_value_create)
-            + opcode(address=callee_address, args_size=64)
+            + opcode(address=callee_address, args_size=32)
             + Op.SSTORE(slot_max_depth, Op.RETURNDATALOAD(0))
             + Op.SSTORE(slot_call_result, Op.RETURNDATALOAD(32))
             + Op.SSTORE(slot_call_or_create, Op.RETURNDATALOAD(64))
