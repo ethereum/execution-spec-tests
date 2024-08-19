@@ -29,7 +29,7 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
     eip_2028_transaction_data_cost,
-    named_parametrize,
+    parametrize_with_defaults,
 )
 
 from .spec import Spec, ref_spec_7702
@@ -533,7 +533,7 @@ def parametrize_gas_test(*, include_many: bool = True, include_data: bool = True
                 id="first_valid_then_many_duplicate_authorizations",
             ),
         ]
-    return named_parametrize(
+    return parametrize_with_defaults(
         signer_type=SignerType.SINGLE_SIGNER,
         authorization_invalidity_type=None,
         authorizations_count=1,
