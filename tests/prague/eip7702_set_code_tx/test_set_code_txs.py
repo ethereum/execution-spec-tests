@@ -205,7 +205,7 @@ def test_set_code_to_sstore_then_sload(
     set_code_2_address = pre.deploy_contract(set_code_2)
 
     tx_1 = Transaction(
-        gas_limit=50_000,
+        gas_limit=100_000,
         to=auth_signer,
         value=0,
         authorization_list=[
@@ -219,13 +219,13 @@ def test_set_code_to_sstore_then_sload(
     )
 
     tx_2 = Transaction(
-        gas_limit=50_000,
+        gas_limit=100_000,
         to=auth_signer,
         value=0,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_2_address,
-                nonce=0,
+                nonce=1,
                 signer=auth_signer,
             ),
         ],
@@ -240,7 +240,7 @@ def test_set_code_to_sstore_then_sload(
         pre=pre,
         post={
             auth_signer: Account(
-                nonce=1,
+                nonce=2,
                 code=b"",
                 storage={
                     storage_key_1: storage_value,
