@@ -16,6 +16,7 @@ from ethereum_test_forks import (
     ForkAttribute,
     get_deployed_forks,
     get_forks,
+    get_fork_registry,
     get_transition_forks,
     transition_fork_to,
 )
@@ -274,7 +275,9 @@ def pytest_configure(config: pytest.Config):
     for d in fork_covariant_descriptors:
         config.addinivalue_line("markers", f"{d.marker_name}: {d.description}")
 
-    forks = set([fork for fork in get_forks() if not fork.ignore()])
+    chain = config.getoption("chain")
+    assert chain in get_fork_registry(), f"No forks found for chain: {chain}"
+    forks = set([fork for fork in get_fork_registry()[chain].values() if not fork.ignore()])
     config.forks = forks  # type: ignore
     config.fork_names = set([fork.name() for fork in sorted(list(forks))])  # type: ignore
     config.forks_by_name = {fork.name(): fork for fork in forks}  # type: ignore
@@ -305,7 +308,7 @@ def pytest_configure(config: pytest.Config):
 
         resulting_forks = set()
 
-        for fork in get_forks():
+        for fork in get_fork_registry()[chain].values():
             if fork.name() in forks_str:
                 resulting_forks.add(fork)
 
