@@ -32,6 +32,7 @@ from ethereum_test_tools import (
     parametrize_with_defaults,
 )
 
+from .helpers import AddressType, ChainIDType
 from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
@@ -60,26 +61,6 @@ class AuthorizationInvalidityType(Enum):
     REPEATED_NONCE = auto()
     INVALID_CHAIN_ID = auto()
     AUTHORITY_IS_CONTRACT = auto()
-
-
-class AddressType(Enum):
-    """
-    Different types of addresses used to specify the type of authority that signs an authorization,
-    and the type of address to which the authority authorizes to set the code to.
-    """
-
-    EMPTY_ACCOUNT = auto()
-    EOA = auto()
-    CONTRACT = auto()
-
-
-class ChainIDType(Enum):
-    """
-    Different types of chain IDs used in the authorization list.
-    """
-
-    GENERIC = auto()
-    CHAIN_SPECIFIC = auto()
 
 
 class AccessListType(Enum):
