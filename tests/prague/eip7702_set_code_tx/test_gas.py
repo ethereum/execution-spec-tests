@@ -216,10 +216,10 @@ def authorization_list_with_properties(
     if authorization_invalidity_type == AuthorizationInvalidityType.INVALID_CHAIN_ID:
         chain_id = 2
 
+    authorization_list: List[AuthorizationWithProperties] = []
     match signer_type:
         case SignerType.SINGLE_SIGNER:
             authority_with_properties = next(authority_iterator)
-            authorization_list: List[AuthorizationWithProperties] = []
             for i in range(authorizations_count):
                 # Get the nonce of this authorization
                 match authorization_invalidity_type:
@@ -259,7 +259,6 @@ def authorization_list_with_properties(
                 # Reuse the first two authorities for the repeated nonce case
                 authority_iterator = cycle([next(authority_iterator), next(authority_iterator)])
 
-            authorization_list: List[AuthorizationWithProperties] = []
             for i in range(authorizations_count):
                 # Get the nonce of this authorization
                 authority_with_properties = next(authority_iterator)
