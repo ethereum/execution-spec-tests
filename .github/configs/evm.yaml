@@ -14,3 +14,7 @@ eip7692-prague:
   impl: besu
   repo: hyperledger/besu
   ref: main
+pectra-devnet-3:
+  impl: ethjs
+  repo: ethereumjs/ethereumjs-monorepo
+  ref: t8ntool
