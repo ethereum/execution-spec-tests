@@ -110,7 +110,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
     return decorator
 
 
-@click.group()
+@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
 def consume() -> None:
     """
     Consume command to aid client consumption of test fixtures.
