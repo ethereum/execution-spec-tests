@@ -117,7 +117,11 @@ def test_self_sponsored_set_code(
         tx=tx,
         post={
             set_code_to_address: Account(storage={k: 0 for k in storage}),
-            sender: Account(nonce=2, code=b"", storage=storage if succeeds else {}),
+            sender: Account(
+                nonce=2,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage=storage if succeeds else {},
+            ),
         },
     )
 
@@ -198,7 +202,7 @@ def test_set_code_to_sstore(
             ),
             auth_signer: Account(
                 nonce=2 if self_sponsored else 1,
-                code=b"",
+                code=Spec.delegation_designation(set_code_to_address),
                 storage=storage if succeeds else {},
             ),
         },
@@ -262,7 +266,7 @@ def test_set_code_to_sstore_then_sload(
         post={
             auth_signer: Account(
                 nonce=2,
-                code=b"",
+                code=Spec.delegation_designation(set_code_2_address),
                 storage={
                     storage_key_1: storage_value,
                     storage_key_2: storage_value + 1,
@@ -325,7 +329,11 @@ def test_set_code_to_tstore_reentry(
         pre=pre,
         tx=tx,
         post={
-            auth_signer: Account(nonce=1, code=b"", storage={2: tload_value}),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage={2: tload_value},
+            ),
         },
     )
 
@@ -372,7 +380,7 @@ def test_set_code_to_self_destruct(
     post = {
         auth_signer: Account(
             nonce=1,
-            code=b"",
+            code=Spec.delegation_designation(set_code_to_address),
             storage={1: 1},
             balance=balance if not external_sendall_recipient else 0,
         ),
@@ -466,7 +474,11 @@ def test_set_code_to_contract_creator(
         tx=tx,
         post={
             creator_code_address: Account(storage={}),
-            auth_signer: Account(nonce=2, code=b"", storage=storage),
+            auth_signer: Account(
+                nonce=2,
+                code=Spec.delegation_designation(creator_code_address),
+                storage=storage,
+            ),
             deployed_contract_address: Account(
                 code=deployed_code,
                 storage={},
@@ -530,7 +542,7 @@ def test_set_code_to_self_caller(
             set_code_to_address: Account(storage={}),
             auth_signer: Account(
                 nonce=1,
-                code=b"",
+                code=Spec.delegation_designation(set_code_to_address),
                 storage=storage,
                 balance=auth_account_start_balance + value,
             ),
@@ -602,6 +614,7 @@ def test_set_code_call_set_code(
             set_code_to_address_2: Account(storage={k: 0 for k in storage_2}),
             auth_signer_1: Account(
                 nonce=1,
+                code=Spec.delegation_designation(set_code_to_address_1),
                 storage=storage_1
                 if call_opcode in [Op.CALL, Op.STATICCALL, Op.EXTCALL, Op.EXTSTATICCALL]
                 else storage_1 + storage_2,
@@ -610,6 +623,7 @@ def test_set_code_call_set_code(
             ),
             auth_signer_2: Account(
                 nonce=1,
+                code=Spec.delegation_designation(set_code_to_address_2),
                 storage=storage_2 if call_opcode in [Op.CALL, Op.EXTCALL] else {},
                 balance=(value if call_opcode in [Op.CALL, Op.EXTCALL] else 0)
                 + auth_account_start_balance,
@@ -651,7 +665,11 @@ def test_address_from_set_code(
         tx=tx,
         post={
             set_code_to_address: Account(storage={}),
-            auth_signer: Account(nonce=1, code=b"", storage=storage),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage=storage,
+            ),
         },
     )
 
@@ -684,7 +702,10 @@ def test_tx_into_self_delegating_set_code(
         pre=pre,
         tx=tx,
         post={
-            auth_signer: Account(nonce=1, code=b""),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(auth_signer),
+            ),
         },
     )
 
@@ -723,8 +744,8 @@ def test_tx_into_chain_delegating_set_code(
         pre=pre,
         tx=tx,
         post={
-            auth_signer_1: Account(nonce=1, code=b""),
-            auth_signer_2: Account(nonce=1, code=b""),
+            auth_signer_1: Account(nonce=1, code=Spec.delegation_designation(auth_signer_2)),
+            auth_signer_2: Account(nonce=1, code=Spec.delegation_designation(auth_signer_1)),
         },
     )
 
@@ -764,7 +785,7 @@ def test_call_into_self_delegating_set_code(
         tx=tx,
         post={
             entry_address: Account(storage=storage),
-            auth_signer: Account(nonce=1, code=b""),
+            auth_signer: Account(nonce=1, code=Spec.delegation_designation(auth_signer)),
         },
     )
 
@@ -810,8 +831,8 @@ def test_call_into_chain_delegating_set_code(
         tx=tx,
         post={
             entry_address: Account(storage=storage),
-            auth_signer_1: Account(nonce=1, code=b""),
-            auth_signer_2: Account(nonce=1, code=b""),
+            auth_signer_1: Account(nonce=1, code=Spec.delegation_designation(auth_signer_2)),
+            auth_signer_2: Account(nonce=1, code=Spec.delegation_designation(auth_signer_1)),
         },
     )
 
@@ -895,7 +916,11 @@ def test_ext_code_on_set_code(
             set_code_to_address: Account.NONEXISTENT
             if set_code_type == AddressType.EMPTY_ACCOUNT
             else Account(storage={}),
-            auth_signer: Account(nonce=1, code=b"", balance=balance),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                balance=balance,
+            ),
             callee_address: Account(storage=callee_storage),
         },
     )
@@ -983,6 +1008,11 @@ def test_set_code_address_and_authority_warm_state(
         tx=tx,
         post={
             callee_address: Account(storage=callee_storage),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                balance=auth_account_start_balance,
+            ),
         },
     )
 
@@ -1092,8 +1122,8 @@ def test_ext_code_on_chain_delegating_set_code(
     callee_address = pre.deploy_contract(callee_code)
     callee_storage = Storage()
 
-    set_code_1 = Spec.DELEGATION_DESIGNATION + bytes(auth_signer_2)
-    set_code_2 = Spec.DELEGATION_DESIGNATION + bytes(auth_signer_1)
+    set_code_1 = Spec.delegation_designation(auth_signer_2)
+    set_code_2 = Spec.delegation_designation(auth_signer_1)
 
     callee_storage[slot_ext_code_size_result_1] = len(set_code_2)
     callee_storage[slot_ext_code_hash_result_1] = keccak256(set_code_2)
@@ -1128,8 +1158,16 @@ def test_ext_code_on_chain_delegating_set_code(
         pre=pre,
         tx=tx,
         post={
-            auth_signer_1: Account(nonce=1, code=b"", balance=auth_signer_1_balance),
-            auth_signer_2: Account(nonce=1, code=b"", balance=auth_signer_2_balance),
+            auth_signer_1: Account(
+                nonce=1,
+                code=Spec.delegation_designation(auth_signer_2),
+                balance=auth_signer_1_balance,
+            ),
+            auth_signer_2: Account(
+                nonce=1,
+                code=Spec.delegation_designation(auth_signer_1),
+                balance=auth_signer_2_balance,
+            ),
             callee_address: Account(storage=callee_storage),
         },
     )
@@ -1187,7 +1225,12 @@ def test_self_code_on_set_code(
         tx=tx,
         post={
             set_code_to_address: Account(storage={}),
-            auth_signer: Account(nonce=1, code=b"", storage=storage, balance=balance),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage=storage,
+                balance=balance,
+            ),
         },
     )
 
@@ -1285,7 +1328,7 @@ def test_set_code_to_account_deployed_in_same_tx(
             ),
             auth_signer: Account(
                 nonce=1,
-                code=b"",
+                code=Spec.delegation_designation(deployed_contract_address),
                 storage={success_slot: 1},
             ),
             contract_creator_address: Account(
@@ -1390,7 +1433,7 @@ def test_set_code_to_self_destructing_account_deployed_in_same_tx(
         deployed_contract_address: Account.NONEXISTENT,
         auth_signer: Account(
             nonce=1,
-            code=b"",
+            code=Spec.delegation_designation(deployed_contract_address),
             storage={success_slot: 1},
             balance=balance if not external_sendall_recipient else 0,
         ),
@@ -1414,7 +1457,7 @@ def test_set_code_to_self_destructing_account_deployed_in_same_tx(
     )
 
 
-def test_set_code_multiple_valid_authorization_tuples_same_signer(
+def test_set_code_multiple_first_valid_authorization_tuples_same_signer(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
@@ -1451,7 +1494,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer(
         post={
             auth_signer: Account(
                 nonce=1,
-                code=b"",
+                code=Spec.delegation_designation(addresses[0]),
                 storage={
                     success_slot: 1,
                 },
@@ -1498,7 +1541,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_non
         post={
             auth_signer: Account(
                 nonce=10,
-                code=b"",
+                code=Spec.delegation_designation(addresses[success_slot]),
                 storage={
                     success_slot: 1,
                 },
@@ -1546,7 +1589,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_non
         post={
             auth_signer: Account(
                 nonce=11,
-                code=b"",
+                code=Spec.delegation_designation(addresses[success_slot]),
                 storage={
                     success_slot: 1,
                 },
@@ -1593,7 +1636,7 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
         post={
             auth_signer: Account(
                 nonce=1,
-                code=b"",
+                code=Spec.delegation_designation(addresses[1]),
                 storage={
                     success_slot: 1,
                 },
@@ -1761,7 +1804,11 @@ def test_set_code_using_chain_specific_id(
         tx=tx,
         post={
             auth_signer: Account(
-                storage={success_slot: 1},
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage={
+                    success_slot: 1,
+                },
             ),
         },
     )
@@ -1852,7 +1899,11 @@ def test_set_code_using_valid_synthetic_signatures(
         tx=tx,
         post={
             auth_signer: Account(
-                storage={success_slot: 1},
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage={
+                    success_slot: 1,
+                },
             ),
         },
     )
@@ -1994,7 +2045,12 @@ def test_set_code_to_log(
         env=Environment(),
         pre=pre,
         tx=tx,
-        post={},
+        post={
+            sender: Account(
+                nonce=2,
+                code=Spec.delegation_designation(set_to_address),
+            ),
+        },
     )
 
 
@@ -2042,7 +2098,7 @@ def test_set_code_to_precompile(
         post={
             auth_signer: Account(
                 nonce=1,
-                code=b"",
+                code=Spec.delegation_designation(Address(precompile)),
             ),
             caller_code_address: Account(
                 storage=caller_code_storage,
@@ -2183,7 +2239,7 @@ def test_set_code_to_system_contract(
         post={
             auth_signer: Account(
                 nonce=auth_signer.nonce + 1,
-                code=b"",
+                code=Spec.delegation_designation(Address(system_contract)),
             ),
             caller_code_address: Account(
                 storage=caller_code_storage,
