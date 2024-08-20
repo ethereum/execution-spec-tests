@@ -408,6 +408,7 @@
 - [x] EXTDELEGATECALL with input (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_input.json)
 - [x] EXTSTATICCALL with input (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_input.json)
 - [x] EXTCALL with just enough gas for MIN_RETAINED_GAS and MIN_CALLEE_GAS (evmone-tests: state_tests/state_transition/eof_calls/extcall_with_value_enough_gas.json)
+- [x] EXTCALL with not enough gas for MIN_CALLEE_GAS (evmone-tests: state_tests/state_transition/eof_calls/extcall_with_value_low_gas.json)
 - [ ] ADDRESS and CALLER inside EXTCALL (evmone-tests: state_tests/state_transition/eof_calls/extcall_recipient_and_code_address.json)
 - [ ] ADDRESS and CALLER inside EXTDELEGATECALL (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_recipient_and_code_address.json)
 - [ ] ADDRESS and CALLER inside EXTSTATICCALL (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_recipient_and_code_address.json)

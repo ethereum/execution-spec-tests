@@ -722,12 +722,14 @@ min_callee_gas = 5000
 
 
 @pytest.mark.parametrize(
-    "opcode",
+    ["opcode", "extra_gas_value_transfer", "value"],
     [
-        Op.EXTCALL,
-        Op.EXTSTATICCALL,
-        Op.EXTDELEGATECALL,
+        [Op.EXTCALL, 0, 0],
+        [Op.EXTCALL, 9_000, 1],
+        [Op.EXTSTATICCALL, 0, 0],
+        [Op.EXTDELEGATECALL, 0, 0],
     ],
+    ids=["extcall_without_value", "extcall_with_value", "extstaticcall", "extdelegatecall"],
 )
 @pytest.mark.parametrize(
     ["extra_gas_limit", "reverts"],
@@ -744,6 +746,8 @@ def test_eof_calls_min_callee_gas(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
+    extra_gas_value_transfer: int,
+    value: int,
     extra_gas_limit: int,
     reverts: bool,
 ):
@@ -764,12 +768,13 @@ def test_eof_calls_min_callee_gas(
     calling_contract_address = pre.deploy_contract(
         Container.Code(
             Op.SSTORE(slot_code_worked, value_code_worked)
-            + Op.EQ(opcode(address=noop_callee_address), value_eof_call_reverted)
+            + Op.EQ(opcode(address=noop_callee_address, value=value), value_eof_call_reverted)
             # If the return code isn't 1, it means gas was enough to cover the allowances.
             + Op.RJUMPI[len(revert_block)]
             + revert_block
             + Op.STOP
-        )
+        ),
+        balance=value,
     )
 
     # `no_oog_gas` is minimum amount of gas_limit which makes the transaction not go oog.
@@ -781,6 +786,7 @@ def test_eof_calls_min_callee_gas(
         + push_operations * 3  # PUSH operations
         + 100  # WARM_STORAGE_READ_COST
         + 2500  # COLD_ACCOUNT_ACCESS - WARM_STORAGE_READ_COST
+        + extra_gas_value_transfer
         + 4  # RJUMPI
         + 3  # EQ
     )
