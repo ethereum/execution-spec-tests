@@ -123,8 +123,12 @@ def test_self_sponsored_set_code(
 
 
 @pytest.mark.parametrize(
-    "eoa_balance",
-    [0, 1],
+    "eoa_balance,self_sponsored",
+    [
+        pytest.param(0, False, id="zero_balance_authority"),
+        pytest.param(1, False, id="one_wei_balance_authority"),
+        pytest.param(None, True, id="self_sponsored_tx"),
+    ],
 )
 @pytest.mark.parametrize(
     "tx_value",
@@ -135,9 +139,9 @@ def test_self_sponsored_set_code(
     [
         pytest.param(Op.STOP, True, id="stop"),
         pytest.param(Op.RETURN(0, 0), True, id="return"),
-        pytest.param(Op.REVERT, False, id="revert"),
+        pytest.param(Op.REVERT(0, 0), False, id="revert"),
         pytest.param(Op.INVALID, False, id="invalid"),
-        pytest.param(Om.OOG, False, id="out-of-gas"),
+        pytest.param(Om.OOG + Op.STOP, False, id="out-of-gas"),
     ],
 )
 def test_set_code_to_sstore(
@@ -147,13 +151,18 @@ def test_set_code_to_sstore(
     succeeds: bool,
     tx_value: int,
     eoa_balance: int,
+    self_sponsored: bool,
 ):
     """
     Test the executing a simple SSTORE in a set-code transaction.
     """
     storage = Storage()
-    auth_signer = pre.fund_eoa(eoa_balance)
-    sender = pre.fund_eoa()
+    if self_sponsored:
+        sender = pre.fund_eoa()
+        auth_signer = sender
+    else:
+        auth_signer = pre.fund_eoa(eoa_balance)
+        sender = pre.fund_eoa()
 
     set_code = (
         Op.SSTORE(storage.store_next(sender), Op.ORIGIN)
@@ -166,13 +175,13 @@ def test_set_code_to_sstore(
     )
 
     tx = Transaction(
-        gas_limit=10_000_000,
+        gas_limit=500_000,
         to=auth_signer,
         value=tx_value,
         authorization_list=[
             AuthorizationTuple(
                 address=set_code_to_address,
-                nonce=0,
+                nonce=1 if self_sponsored else 0,
                 signer=auth_signer,
             ),
         ],
@@ -184,8 +193,14 @@ def test_set_code_to_sstore(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address: Account(storage={k: 0 for k in storage}),
-            auth_signer: Account(nonce=1, code=b"", storage=storage if succeeds else {}),
+            set_code_to_address: Account(
+                storage={k: 0 for k in storage},
+            ),
+            auth_signer: Account(
+                nonce=2 if self_sponsored else 1,
+                code=b"",
+                storage=storage if succeeds else {},
+            ),
         },
     )
 
