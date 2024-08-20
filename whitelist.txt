@@ -111,6 +111,7 @@ dup
 EEST
 eip
 eip3540
+eip4844
 eip6110
 eip7002
 eip7251
@@ -338,6 +339,7 @@ sharding
 SignerType
 solc
 soliditylang
+Spec4844
 spencer
 spencertaylorbrown
 spencertb

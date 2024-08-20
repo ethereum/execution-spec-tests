@@ -12,6 +12,7 @@ import pytest
 from ethereum.crypto.hash import keccak256
 
 from ethereum_test_tools import (
+    AccessList,
     Account,
     Address,
     Alloc,
@@ -33,11 +34,13 @@ from ethereum_test_tools import (
     Storage,
     Transaction,
     TransactionException,
+    add_kzg_version,
     call_return_code,
     compute_create_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 
+from ...cancun.eip4844_blobs.spec import Spec as Spec4844
 from ..eip6110_deposits.helpers import DepositRequest
 from ..eip7002_el_triggerable_withdrawals.helpers import WithdrawalRequest
 from ..eip7251_consolidations.helpers import ConsolidationRequest
@@ -204,6 +207,42 @@ def test_set_code_to_sstore(
                 nonce=2 if self_sponsored else 1,
                 code=Spec.delegation_designation(set_code_to_address),
                 storage=storage if succeeds else {},
+            ),
+        },
+    )
+
+
+def test_set_code_to_zero_address(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test the executing a simple SSTORE in a set-code transaction.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    tx = Transaction(
+        gas_limit=500_000,
+        to=auth_signer,
+        authorization_list=[
+            AuthorizationTuple(
+                address=Address(0),
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(Address(0)),
+                storage={},
             ),
         },
     )
@@ -2247,6 +2286,197 @@ def test_set_code_to_system_contract(
             ),
             caller_code_address: Account(
                 storage=caller_code_storage,
+            ),
+        },
+    )
+
+
+@pytest.mark.with_all_evm_code_types
+@pytest.mark.with_all_tx_types(lambda tx_type: tx_type != 4)
+def test_eoa_tx_after_set_code(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    tx_type: int,
+    evm_code_type: EVMCodeType,
+):
+    """
+    Test sending a transaction from an EOA after code has been set to the account.
+    """
+    auth_signer = pre.fund_eoa()
+
+    set_code = Op.SSTORE(1, Op.ADD(Op.SLOAD(1), 1)) + Op.STOP
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    txs = [
+        Transaction(
+            sender=pre.fund_eoa(),
+            gas_limit=500_000,
+            to=auth_signer,
+            value=0,
+            authorization_list=[
+                AuthorizationTuple(
+                    address=set_code_to_address,
+                    nonce=0,
+                    signer=auth_signer,
+                ),
+            ],
+        )
+    ]
+    auth_signer.nonce += 1  # type: ignore
+
+    match tx_type:
+        case 0:
+            txs.append(
+                Transaction(
+                    type=tx_type,
+                    sender=auth_signer,
+                    gas_limit=500_000,
+                    to=auth_signer,
+                    value=0,
+                    protected=True,
+                ),
+            )
+            txs.append(
+                Transaction(
+                    type=tx_type,
+                    sender=auth_signer,
+                    gas_limit=500_000,
+                    to=auth_signer,
+                    value=0,
+                    protected=False,
+                ),
+            )
+        case 1:
+            txs.append(
+                Transaction(
+                    type=tx_type,
+                    sender=auth_signer,
+                    gas_limit=500_000,
+                    to=auth_signer,
+                    value=0,
+                    access_list=[
+                        AccessList(
+                            address=auth_signer,
+                            storage_keys=[1],
+                        )
+                    ],
+                ),
+            )
+        case 2:
+            txs.append(
+                Transaction(
+                    type=tx_type,
+                    sender=auth_signer,
+                    gas_limit=500_000,
+                    to=auth_signer,
+                    value=0,
+                    max_fee_per_gas=1_000,
+                    max_priority_fee_per_gas=1_000,
+                ),
+            )
+        case 3:
+            txs.append(
+                Transaction(
+                    type=tx_type,
+                    sender=auth_signer,
+                    gas_limit=500_000,
+                    to=auth_signer,
+                    value=0,
+                    max_fee_per_gas=1_000,
+                    max_priority_fee_per_gas=1_000,
+                    max_fee_per_blob_gas=1_000,
+                    blob_versioned_hashes=add_kzg_version(
+                        [Hash(1)],
+                        Spec4844.BLOB_COMMITMENT_VERSION_KZG,
+                    ),
+                ),
+            )
+        case _:
+            raise ValueError(f"Unsupported tx type: {tx_type}, test needs update")
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=txs)],
+        post={
+            auth_signer: Account(
+                nonce=3 if tx_type == 0 else 2,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage={1: 3 if tx_type == 0 else 2},
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "self_sponsored",
+    [
+        pytest.param(False, id="not_self_sponsored"),
+        pytest.param(True, id="self_sponsored"),
+    ],
+)
+def test_reset_code(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    self_sponsored: bool,
+):
+    """
+    Test sending type-4 tx to reset the code of an account after code has been set to the account.
+    """
+    auth_signer = pre.fund_eoa()
+
+    set_code_1 = Op.SSTORE(1, Op.ADD(Op.SLOAD(1), 1)) + Op.STOP
+    set_code_1_address = pre.deploy_contract(set_code_1)
+
+    set_code_2 = Op.SSTORE(2, Op.ADD(Op.SLOAD(2), 1)) + Op.STOP
+    set_code_2_address = pre.deploy_contract(set_code_2)
+
+    sender = pre.fund_eoa()
+
+    txs = [
+        Transaction(
+            sender=sender,
+            gas_limit=500_000,
+            to=auth_signer,
+            value=0,
+            authorization_list=[
+                AuthorizationTuple(
+                    address=set_code_1_address,
+                    nonce=0,
+                    signer=auth_signer,
+                ),
+            ],
+        )
+    ]
+
+    auth_signer.nonce += 1  # type: ignore
+
+    if self_sponsored:
+        sender = auth_signer
+
+    txs.append(
+        Transaction(
+            sender=sender,
+            gas_limit=500_000,
+            to=auth_signer,
+            value=0,
+            authorization_list=[
+                AuthorizationTuple(
+                    address=set_code_2_address,
+                    nonce=auth_signer.nonce + 1 if self_sponsored else auth_signer.nonce,
+                    signer=auth_signer,
+                ),
+            ],
+        ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=txs)],
+        post={
+            auth_signer: Account(
+                nonce=3 if self_sponsored else 2,
+                code=Spec.delegation_designation(set_code_2_address),
+                storage={1: 1, 2: 1},
             ),
         },
     )
