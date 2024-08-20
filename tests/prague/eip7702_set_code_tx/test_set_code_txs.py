@@ -1072,7 +1072,11 @@ def test_ext_code_on_self_delegating_set_code(
         pre=pre,
         tx=tx,
         post={
-            auth_signer: Account(nonce=1, code=b"", balance=balance),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(auth_signer),
+                balance=balance,
+            ),
             callee_address: Account(storage=callee_storage),
         },
     )
