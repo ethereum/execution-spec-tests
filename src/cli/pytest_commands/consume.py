@@ -72,13 +72,21 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
     """
 
     def create_command(
-        func: Callable[..., Any], command_name: str, command_paths: List[Path], is_hive: bool
+        func: Callable[..., Any],
+        command_name: str,
+        command_help: str | None,
+        command_paths: List[Path],
+        is_hive: bool,
     ) -> click.Command:
         """
         Create the command function to be decorated.
         """
 
-        @consume.command(name=command_name, context_settings=dict(ignore_unknown_options=True))
+        @consume.command(
+            name=command_name,
+            help=command_help,
+            context_settings=dict(ignore_unknown_options=True),
+        )
         @common_click_options
         def command(pytest_args: List[str], **kwargs) -> None:
             args = handle_consume_command_flags(pytest_args, is_hive)
@@ -91,13 +99,13 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
                 result = pytest.main(args)
             sys.exit(result)
 
-        command.__doc__ = func.__doc__
         return command
 
     def decorator(func: Callable[..., Any]) -> click.Command:
         command_name = func.__name__
+        command_help = func.__doc__
         command_paths = get_command_paths(command_name, is_hive)
-        return create_command(func, command_name, command_paths, is_hive)
+        return create_command(func, command_name, command_help, command_paths, is_hive)
 
     return decorator
 
