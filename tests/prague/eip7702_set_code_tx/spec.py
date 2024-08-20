@@ -3,6 +3,8 @@ Defines EIP-7702 specification constants and functions.
 """
 from dataclasses import dataclass
 
+from ethereum_test_base_types import Address
+
 
 @dataclass(frozen=True)
 class ReferenceSpec:
@@ -29,3 +31,10 @@ class Spec:
     PER_AUTH_BASE_COST = 2_500
     PER_EMPTY_ACCOUNT_COST = 25_000
     DELEGATION_DESIGNATION = b"\xef\x01\x00"
+
+    @staticmethod
+    def delegation_designation(address: Address) -> bytes:
+        """
+        Returns the delegation designation for the given address.
+        """
+        return Spec.DELEGATION_DESIGNATION + bytes(address)
