@@ -25,6 +25,7 @@ runs:
         node-version: 18
 
     - name: Build monorepo
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE/ethereumjs
         npm ci
