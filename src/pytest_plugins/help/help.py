@@ -61,12 +61,14 @@ def pytest_configure(config):
             config,
             "pytest.ini",
             [
+                "execution-spec-tests",
                 "evm",
                 "solc",
                 "fork range",
                 "filler location",
                 "defining debug",
                 "pre-allocation behavior during test filling",
+                "testing of features",
             ],
         )
     elif config.getoption("show_consume_help"):
@@ -74,7 +76,9 @@ def pytest_configure(config):
             config,
             "pytest-consume.ini",
             [
+                "execution-spec-tests",
                 "consuming",
+                "defining debug",
             ],
         )
     elif config.getoption("show_execute_help"):

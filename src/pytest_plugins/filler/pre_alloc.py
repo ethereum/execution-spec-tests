@@ -50,6 +50,7 @@ def pytest_addoption(parser: pytest.Parser):
         default=False,
         help=("[DEBUG ONLY] Disallows deploying a contract in a predefined address."),
     )
+
     pre_alloc_group.addoption(
         "--ca-start",
         "--contract-address-start",
@@ -69,13 +70,11 @@ def pytest_addoption(parser: pytest.Parser):
         help="The address increment value to each deployed contract by a test.",
     )
     pre_alloc_group.addoption(
-        "--evm-code-type",
-        action="store",
-        dest="evm_code_type",
-        default=None,
-        type=EVMCodeType,
-        choices=list(EVMCodeType),
-        help="Type of EVM code to deploy in each test by default.",
+        "--strict-alloc",
+        action="store_true",
+        dest="strict_alloc",
+        default=False,
+        help=("[DEBUG ONLY] Disallows deploying a contract in a predefined address."),
     )
 
 
@@ -100,6 +99,7 @@ class Alloc(BaseAlloc):
     _contract_address_iterator: Iterator[Address] = PrivateAttr(...)
     _eoa_iterator: Iterator[EOA] = PrivateAttr(...)
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
+    _eip_7702_mode: bool = PrivateAttr(False)
 
     def __init__(
         self,
@@ -108,6 +108,7 @@ class Alloc(BaseAlloc):
         contract_address_iterator: Iterator[Address],
         eoa_iterator: Iterator[EOA],
         evm_code_type: EVMCodeType | None = None,
+        eip_7702_feature: bool = False,
         **kwargs,
     ):
         """
@@ -118,6 +119,7 @@ class Alloc(BaseAlloc):
         self._contract_address_iterator = contract_address_iterator
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
+        self._eip_7702_mode = eip_7702_feature
 
     def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
         """
@@ -169,15 +171,37 @@ class Alloc(BaseAlloc):
         if self._alloc_mode == AllocMode.STRICT:
             assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 
-        super().__setitem__(
-            contract_address,
-            Account(
+        if self._eip_7702_mode:
+            super().__setitem__(
+                contract_address,
+                Account(
+                    nonce=nonce,
+                    balance=0,
+                    code=self.code_pre_processor(code, evm_code_type=evm_code_type),
+                    storage={},
+                ),
+            )
+
+            eoa_set_code_proxy = next(self._eoa_iterator)
+            account = Account(
                 nonce=nonce,
                 balance=balance,
-                code=self.code_pre_processor(code, evm_code_type=evm_code_type),
+                code=DELEGATION_DESIGNATION + bytes(contract_address),
                 storage=storage,
-            ),
-        )
+            )
+            super().__setitem__(eoa_set_code_proxy, account)
+            contract_address = eoa_set_code_proxy
+        else:
+            super().__setitem__(
+                contract_address,
+                Account(
+                    nonce=nonce,
+                    balance=balance,
+                    code=self.code_pre_processor(code, evm_code_type=evm_code_type),
+                    storage=storage,
+                ),
+            )
+
         if label is None:
             # Try to deduce the label from the code
             frame = inspect.currentframe()
@@ -318,31 +342,22 @@ def eoa_iterator() -> Iterator[EOA]:
     return iter(eoa_by_index(i).copy() for i in count())
 
 
-@pytest.fixture(autouse=True)
-def evm_code_type(request: pytest.FixtureRequest) -> EVMCodeType:
-    """
-    Returns the default EVM code type for all tests (LEGACY).
-    """
-    parameter_evm_code_type = request.config.getoption("evm_code_type")
-    if parameter_evm_code_type is not None:
-        assert type(parameter_evm_code_type) is EVMCodeType, "Invalid EVM code type"
-        return parameter_evm_code_type
-    return EVMCodeType.LEGACY
-
-
 @pytest.fixture(scope="function")
 def pre(
     alloc_mode: AllocMode,
     contract_address_iterator: Iterator[Address],
     eoa_iterator: Iterator[EOA],
-    evm_code_type: EVMCodeType,
+    evm_code_type: EVMCodeType | None,
+    eip_7702_feature: bool,
 ) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
     """
+    # TODO: Compare `eip_7702_feature` against the current fork.
     return Alloc(
         alloc_mode=alloc_mode,
         contract_address_iterator=contract_address_iterator,
         eoa_iterator=eoa_iterator,
         evm_code_type=evm_code_type,
+        eip_7702_feature=eip_7702_feature,
     )
