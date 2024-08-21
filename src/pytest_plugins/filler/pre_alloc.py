@@ -75,6 +75,16 @@ def pytest_addoption(parser: pytest.Parser):
         choices=list(EVMCodeType),
         help="Type of EVM code to deploy in each test by default.",
     )
+    pre_alloc_group.addoption(
+        "--eip-7702-mode",
+        action="store_true",
+        dest="eip_7702_mode",
+        default=False,
+        help=(
+            "Enables filling all tests in EIP-7702 mode, where all deployed test contracts are a"
+            " set-code proxy instead of the actual test code account."
+        ),
+    )
 
 
 class AllocMode(IntEnum):
@@ -86,7 +96,7 @@ class AllocMode(IntEnum):
     STRICT = 1
 
 
-DELEGATION_DESIGNATION = b"\xef\x01\x00"
+SET_CODE_DELEGATION_DESIGNATION = b"\xef\x01\x00"
 
 
 class Alloc(BaseAlloc):
@@ -98,6 +108,7 @@ class Alloc(BaseAlloc):
     _contract_address_iterator: Iterator[Address] = PrivateAttr(...)
     _eoa_iterator: Iterator[EOA] = PrivateAttr(...)
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
+    _eip_7702_mode: bool = PrivateAttr(False)
 
     def __init__(
         self,
@@ -106,6 +117,7 @@ class Alloc(BaseAlloc):
         contract_address_iterator: Iterator[Address],
         eoa_iterator: Iterator[EOA],
         evm_code_type: EVMCodeType | None = None,
+        eip_7702_mode: bool = False,
         **kwargs,
     ):
         """
@@ -116,6 +128,7 @@ class Alloc(BaseAlloc):
         self._contract_address_iterator = contract_address_iterator
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
+        self._eip_7702_mode = eip_7702_mode
 
     def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
         """
@@ -167,15 +180,37 @@ class Alloc(BaseAlloc):
         if self._alloc_mode == AllocMode.STRICT:
             assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 
-        super().__setitem__(
-            contract_address,
-            Account(
+        if self._eip_7702_mode:
+            super().__setitem__(
+                contract_address,
+                Account(
+                    nonce=nonce,
+                    balance=0,
+                    code=self.code_pre_processor(code, evm_code_type=evm_code_type),
+                    storage={},
+                ),
+            )
+
+            eoa_set_code_proxy = next(self._eoa_iterator)
+            account = Account(
                 nonce=nonce,
                 balance=balance,
-                code=self.code_pre_processor(code, evm_code_type=evm_code_type),
+                code=SET_CODE_DELEGATION_DESIGNATION + bytes(contract_address),
                 storage=storage,
-            ),
-        )
+            )
+            super().__setitem__(eoa_set_code_proxy, account)
+            contract_address = eoa_set_code_proxy
+        else:
+            super().__setitem__(
+                contract_address,
+                Account(
+                    nonce=nonce,
+                    balance=balance,
+                    code=self.code_pre_processor(code, evm_code_type=evm_code_type),
+                    storage=storage,
+                ),
+            )
+
         if label is None:
             # Try to deduce the label from the code
             frame = inspect.currentframe()
@@ -219,7 +254,7 @@ class Alloc(BaseAlloc):
                     nonce=1,
                     balance=amount,
                     storage=storage if storage is not None else {},
-                    code=DELEGATION_DESIGNATION + bytes(delegation)  # type: ignore
+                    code=SET_CODE_DELEGATION_DESIGNATION + bytes(delegation)  # type: ignore
                     if delegation is not None
                     else b"",
                 )
@@ -311,12 +346,21 @@ def evm_code_type(request: pytest.FixtureRequest) -> EVMCodeType:
     return EVMCodeType.LEGACY
 
 
+@pytest.fixture(scope="session")
+def eip_7702_mode(request: pytest.FixtureRequest) -> bool:
+    """
+    Returns whether the EIP-7702 mode is enabled.
+    """
+    return request.config.getoption("eip_7702_mode")
+
+
 @pytest.fixture(scope="function")
 def pre(
     alloc_mode: AllocMode,
     contract_address_iterator: Iterator[Address],
     eoa_iterator: Iterator[EOA],
     evm_code_type: EVMCodeType,
+    eip_7702_mode: bool,
 ) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
@@ -326,4 +370,5 @@ def pre(
         contract_address_iterator=contract_address_iterator,
         eoa_iterator=eoa_iterator,
         evm_code_type=evm_code_type,
+        eip_7702_mode=eip_7702_mode,
     )
