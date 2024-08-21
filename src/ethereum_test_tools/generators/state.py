@@ -24,7 +24,7 @@ class GasTestType(str, Enum):
     OOG = "oog"
 
 
-def bytecode_gas_test(
+def exact_gas_test(
     *,
     gas_test_types: List[GasTestType] | GasTestType = list(GasTestType),
     with_data: bool = False,

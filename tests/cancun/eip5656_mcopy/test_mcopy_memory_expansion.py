@@ -8,7 +8,7 @@ import pytest
 
 from ethereum_test_tools import Bytecode, GasTestType
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import bytecode_gas_test, cost_memory_bytes
+from ethereum_test_tools import cost_memory_bytes, exact_gas_test
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
@@ -85,7 +85,7 @@ def data(initial_memory: bytes) -> bytes:
     ],
 )
 @pytest.mark.valid_from("Cancun")
-@bytecode_gas_test(with_data=True)
+@exact_gas_test(with_data=True)
 def test_mcopy_memory_expansion_gas():
     """
     Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.
@@ -118,7 +118,7 @@ def test_mcopy_memory_expansion_gas():
     ],
 )
 @pytest.mark.valid_from("Cancun")
-@bytecode_gas_test(gas_test_types=GasTestType.OOG, with_data=True)
+@exact_gas_test(gas_test_types=GasTestType.OOG, with_data=True)
 def test_mcopy_huge_memory_expansion():
     """
     Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly
