@@ -17,15 +17,15 @@ from pytest_plugins.consume.consume import JsonSource
 TestCase = TestCaseIndexFile | TestCaseStream
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def test_suite_name() -> str:
     """
     The name of the hive test suite used in this simulator.
     """
-    return "eest-rlp"
+    return "eest-block-rlp"
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def test_suite_description() -> str:
     """
     The description of the hive test suite used in this simulator.

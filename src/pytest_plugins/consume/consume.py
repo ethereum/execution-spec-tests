@@ -15,6 +15,7 @@ import rich
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures.consume import TestCases
+from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
 cached_downloads_directory = Path("./cached_downloads")
 
@@ -29,12 +30,12 @@ def default_input_directory() -> str:
     return "./fixtures"
 
 
-def default_html_report_filename() -> str:
+def default_html_report_file_path() -> str:
     """
-    The default file to store the generated HTML test report. Defined as a
+    The default filepath to store the generated HTML test report. Defined as a
     function to allow for easier testing.
     """
-    return "report_consume.html"
+    return ".meta/report_consume.html"
 
 
 def is_url(string: str) -> bool:
@@ -69,7 +70,7 @@ def download_and_extract(url: str, base_directory: Path) -> Path:
     with tarfile.open(archive_path, "r:gz") as tar:
         tar.extractall(path=extract_to)
 
-    return extract_to
+    return extract_to / "fixtures"
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -84,6 +85,15 @@ def pytest_addoption(parser):  # noqa: D103
         help=(
             "A URL or local directory specifying the JSON test fixtures. Default: "
             f"'{default_input_directory()}'."
+        ),
+    )
+    consume_group.addoption(
+        "--latest",
+        action="store_true",
+        dest="latest_source",
+        default=False,
+        help=(
+            "The latest EEST development JSON test fixtures. Cannot be used alongside `--input`."
         ),
     )
     consume_group.addoption(
@@ -122,10 +132,21 @@ def pytest_configure(config):  # noqa: D103
     called before the pytest-html plugin's pytest_configure to ensure that
     it uses the modified `htmlpath` option.
     """
+    input_flag = any(arg.startswith("--input") for arg in config.invocation_params.args)
+    latest_flag = config.getoption("latest_source")
+
+    if input_flag and latest_flag:
+        pytest.exit("Cannot use both `--input` and `--latest`, please select one input flag.")
+
     input_source = config.getoption("fixture_source")
-    if input_source == "stdin":
+
+    if input_flag and input_source == "stdin":
         config.test_cases = TestCases.from_stream(sys.stdin)
         return
+
+    if latest_flag:
+        release_base_url = "https://github.com/ethereum/execution-spec-tests/releases"
+        input_source = f"{release_base_url}/latest/download/fixtures_develop.tar.gz"
 
     if is_url(input_source):
         cached_downloads_directory.mkdir(parents=True, exist_ok=True)
@@ -140,20 +161,20 @@ def pytest_configure(config):  # noqa: D103
             f"Specified fixture directory '{input_source}' does not contain any JSON files."
         )
 
-    index_file = input_source / "index.json"
+    index_file = input_source / ".meta" / "index.json"
     if not index_file.exists():
         rich.print(f"Generating index file [bold cyan]{index_file}[/]...")
-    generate_fixtures_index(
-        Path(input_source), quiet_mode=False, force_flag=False, disable_infer_format=False
-    )
-    config.test_cases = TestCases.from_index_file(Path(input_source) / "index.json")
+        generate_fixtures_index(
+            input_source, quiet_mode=False, force_flag=False, disable_infer_format=False
+        )
+    config.test_cases = TestCases.from_index_file(index_file)
 
     if config.option.collectonly:
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
         config.option.htmlpath = os.path.join(
-            config.getoption("fixture_source"), default_html_report_filename()
+            config.getoption("fixture_source"), default_html_report_file_path()
         )
 
 
@@ -165,8 +186,9 @@ def pytest_html_report_title(report):
 
 
 def pytest_report_header(config):  # noqa: D103
-    input_source = config.getoption("fixture_source")
-    return f"fixtures: {input_source}"
+    consume_version = f"consume commit: {get_current_commit_hash_or_tag()}"
+    input_source = f"fixtures: {config.getoption('fixture_source')}"
+    return [consume_version, input_source]
 
 
 @pytest.fixture(scope="function")

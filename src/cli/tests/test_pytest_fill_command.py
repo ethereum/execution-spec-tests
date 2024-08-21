@@ -11,7 +11,7 @@ from click.testing import CliRunner
 
 import pytest_plugins.filler.filler
 
-from ..pytest_commands import fill
+from ..pytest_commands.fill import fill
 
 
 @pytest.fixture
@@ -26,7 +26,9 @@ def test_fill_help(runner):
     """
     result = runner.invoke(fill, ["--help"])
     assert result.exit_code == pytest.ExitCode.OK
-    assert "[--evm-bin EVM_BIN] [--traces]" in result.output
+    assert "[--evm-bin EVM_BIN]" in result.output
+    assert "[--traces]" in result.output
+    assert "[--evm-code-type EVM_CODE_TYPE]" in result.output
     assert "--help" in result.output
     assert "Arguments defining evm executable behavior:" in result.output
 
@@ -54,7 +56,7 @@ def test_tf_deprecation(runner):
     """
     Test the deprecation message of the `tf` command.
     """
-    from ..pytest_commands import tf
+    from ..pytest_commands.fill import tf
 
     result = runner.invoke(tf, [])
     assert result.exit_code == 1
@@ -78,11 +80,11 @@ class TestHtmlReportFlags:
         return ["-k", "test_dup and state_test-DUP16", "--fork", "Frontier"]
 
     @pytest.fixture()
-    def default_html_report_filename(self):
+    def default_html_report_file_path(self):
         """
-        The default filename for fill's pytest html report.
+        The default file path for fill's pytest html report.
         """
-        return pytest_plugins.filler.filler.default_html_report_filename()
+        return pytest_plugins.filler.filler.default_html_report_file_path()
 
     @pytest.fixture(scope="function")
     def temp_dir(self) -> Generator[Path, None, None]:  # noqa: D102
@@ -113,12 +115,12 @@ class TestHtmlReportFlags:
         runner,
         temp_dir,
         fill_args,
-        default_html_report_filename,
+        default_html_report_file_path,
     ):
         """
         Test default pytest html behavior: Neither `--html` or `--output` is specified.
         """
-        default_html_path = temp_dir / default_html_report_filename
+        default_html_path = temp_dir / default_html_report_file_path
         result = runner.invoke(fill, fill_args)
         assert result.exit_code == pytest.ExitCode.OK
         assert default_html_path.exists()
@@ -128,12 +130,12 @@ class TestHtmlReportFlags:
         runner,
         temp_dir,
         fill_args,
-        default_html_report_filename,
+        default_html_report_file_path,
     ):
         """
         Test pytest html report is disabled with the `--no-html` flag.
         """
-        default_html_path = temp_dir / default_html_report_filename
+        default_html_path = temp_dir / default_html_report_file_path
         fill_args += ["--no-html"]
         result = runner.invoke(fill, fill_args)
         assert result.exit_code == pytest.ExitCode.OK
@@ -159,13 +161,13 @@ class TestHtmlReportFlags:
         runner,
         temp_dir,
         fill_args,
-        default_html_report_filename,
+        default_html_report_file_path,
     ):
         """
         Tests pytest html report generation with only the `--output` flag.
         """
         output_dir = temp_dir / "non_default_output_dir"
-        non_default_html_path = output_dir / default_html_report_filename
+        non_default_html_path = output_dir / default_html_report_file_path
         fill_args += ["--output", str(output_dir)]
         result = runner.invoke(fill, fill_args)
         assert result.exit_code == pytest.ExitCode.OK

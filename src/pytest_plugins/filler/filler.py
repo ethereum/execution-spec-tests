@@ -5,7 +5,7 @@ Top-level pytest configuration file providing:
 and that modifies pytest hooks in order to fill test specs for all tests and
 writes the generated fixtures to file.
 """
-
+import argparse
 import configparser
 import datetime
 import os
@@ -15,8 +15,10 @@ from pathlib import Path
 from typing import Generator, List, Type
 
 import pytest
+from filelock import FileLock
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
+from cli.gen_index import generate_fixtures_index
 from ethereum_test_base_types import Alloc, ReferenceSpec
 from ethereum_test_fixtures import FixtureCollector, FixtureFormats, TestInfo
 from ethereum_test_forks import (
@@ -45,12 +47,12 @@ def default_output_directory() -> str:
     return "./fixtures"
 
 
-def default_html_report_filename() -> str:
+def default_html_report_file_path() -> str:
     """
-    The default file to store the generated HTML test report. Defined as a
+    The default file path to store the generated HTML test report. Defined as a
     function to allow for easier testing.
     """
-    return "report_fill.html"
+    return ".meta/report_fill.html"
 
 
 def strip_output_tarball_suffix(output: Path) -> Path:
@@ -184,6 +186,13 @@ def pytest_addoption(parser: pytest.Parser):
         type=str,
         help="Specify a build name for the fixtures.ini file, e.g., 'stable'.",
     )
+    test_group.addoption(
+        "--index",
+        action="store_true",
+        dest="generate_index",
+        default=False,
+        help="Generate an index file for all produced fixtures.",
+    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -193,6 +202,16 @@ def pytest_addoption(parser: pytest.Parser):
         dest="base_dump_dir",
         default="",
         help="Path to dump the transition tool debug output.",
+    )
+
+    internal_group = parser.getgroup("internal", "Internal arguments")
+    internal_group.addoption(
+        "--session-temp-folder",
+        action="store",
+        dest="session_temp_folder",
+        type=Path,
+        default=None,
+        help=argparse.SUPPRESS,
     )
 
 
@@ -234,7 +253,7 @@ def pytest_configure(config):
         # generate an html report by default, unless explicitly disabled
         config.option.htmlpath = (
             strip_output_tarball_suffix(config.getoption("output"))
-            / default_html_report_filename()
+            / default_html_report_file_path()
         )
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
@@ -262,7 +281,11 @@ def pytest_configure(config):
         "t8n": t8n.version(),
         "solc": str(config.solc_version),
     }
-    command_line_args = "fill " + " ".join(config.invocation_params.args)
+    args = ["fill"] + [str(arg) for arg in config.invocation_params.args]
+    for i in range(len(args)):
+        if " " in args[i]:
+            args[i] = f'"{args[i]}"'
+    command_line_args = " ".join(args)
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
 
@@ -491,8 +514,18 @@ def output_dir(request: pytest.FixtureRequest, is_output_tarball: bool) -> Path:
     return output
 
 
+@pytest.fixture(scope="session")
+def output_metadata_dir(output_dir: Path) -> Path:
+    """
+    Returns the metadata directory to store fixture meta files.
+    """
+    return output_dir / ".meta"
+
+
 @pytest.fixture(scope="session", autouse=True)
-def create_properties_file(request: pytest.FixtureRequest, output_dir: Path) -> None:
+def create_properties_file(
+    request: pytest.FixtureRequest, output_dir: Path, output_metadata_dir: Path
+) -> None:
     """
     Creates an ini file with fixture build properties in the fixture output
     directory.
@@ -501,6 +534,8 @@ def create_properties_file(request: pytest.FixtureRequest, output_dir: Path) -> 
         return
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
+    if not output_metadata_dir.exists():
+        output_metadata_dir.mkdir(parents=True)
 
     fixture_properties = {
         "timestamp": datetime.datetime.now().isoformat(),
@@ -529,7 +564,7 @@ def create_properties_file(request: pytest.FixtureRequest, output_dir: Path) -> 
             warnings.warn(f"Fixtures ini file: Skipping metadata key {key} with value {val}.")
     config["environment"] = environment_properties
 
-    ini_filename = output_dir / "fixtures.ini"
+    ini_filename = output_metadata_dir / "fixtures.ini"
     with open(ini_filename, "w") as f:
         f.write("; This file describes fixture build properties\n\n")
         config.write(f)
@@ -593,6 +628,16 @@ def get_fixture_collection_scope(fixture_name, config):
     return "module"
 
 
+@pytest.fixture(scope="session")
+def session_temp_folder(request) -> Path | None:  # noqa: D103
+    return request.config.option.session_temp_folder
+
+
+@pytest.fixture(scope="session")
+def generate_index(request) -> bool:  # noqa: D103
+    return request.config.option.generate_index
+
+
 @pytest.fixture(scope=get_fixture_collection_scope)
 def fixture_collector(
     request: pytest.FixtureRequest,
@@ -601,11 +646,29 @@ def fixture_collector(
     filler_path: Path,
     base_dump_dir: Path | None,
     output_dir: Path,
+    session_temp_folder: Path | None,
+    generate_index: bool,
 ) -> Generator[FixtureCollector, None, None]:
     """
     Returns the configured fixture collector instance used for all tests
     in one test module.
     """
+    if session_temp_folder is not None:
+        fixture_collector_count_file_name = "fixture_collector_count"
+        fixture_collector_count_file = session_temp_folder / fixture_collector_count_file_name
+        fixture_collector_count_file_lock = (
+            session_temp_folder / f"{fixture_collector_count_file_name}.lock"
+        )
+        with FileLock(fixture_collector_count_file_lock):
+            if fixture_collector_count_file.exists():
+                with open(fixture_collector_count_file, "r") as f:
+                    fixture_collector_count = int(f.read())
+            else:
+                fixture_collector_count = 0
+            fixture_collector_count += 1
+            with open(fixture_collector_count_file, "w") as f:
+                f.write(str(fixture_collector_count))
+
     fixture_collector = FixtureCollector(
         output_dir=output_dir,
         flat_output=request.config.getoption("flat_output"),
@@ -617,6 +680,19 @@ def fixture_collector(
     fixture_collector.dump_fixtures()
     if do_fixture_verification:
         fixture_collector.verify_fixture_files(evm_fixture_verification)
+
+    fixture_collector_count = 0
+    if session_temp_folder is not None:
+        with FileLock(fixture_collector_count_file_lock):
+            with open(fixture_collector_count_file, "r") as f:
+                fixture_collector_count = int(f.read())
+            fixture_collector_count -= 1
+            with open(fixture_collector_count_file, "w") as f:
+                f.write(str(fixture_collector_count))
+    if generate_index and fixture_collector_count == 0:
+        generate_fixtures_index(
+            output_dir, quiet_mode=True, force_flag=False, disable_infer_format=False
+        )
 
 
 @pytest.fixture(autouse=True, scope="session")

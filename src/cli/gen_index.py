@@ -60,6 +60,8 @@ def infer_fixture_format_from_path(file: Path) -> FixtureFormats:
         return FixtureFormats.BLOCKCHAIN_TEST
     if "state_tests" in file.parts:
         return FixtureFormats.STATE_TEST
+    if "eof_tests" in file.parts:
+        return FixtureFormats.EOF_TEST
     return FixtureFormats.UNSET_TEST_FORMAT
 
 
@@ -134,7 +136,7 @@ def generate_fixtures_index(
     if not quiet_mode:
         total_files = count_json_files_exclude_index(input_path)
 
-    output_file = Path(f"{input_path}/index.json")
+    output_file = Path(f"{input_path}/.meta/index.json")
     try:
         root_hash = HashableItem.from_folder(folder_path=input_path).hash()
     except (KeyError, TypeError):

@@ -47,6 +47,7 @@ from ethereum_test_base_types.conversions import (
 )
 from ethereum_test_exceptions import TransactionException
 from ethereum_test_forks import Fork
+from ethereum_test_vm import EVMCodeType
 
 
 # Sentinel classes
@@ -269,6 +270,7 @@ class Alloc(BaseAlloc):
         balance: NumberConvertible = 0,
         nonce: NumberConvertible = 1,
         address: Address | None = None,
+        evm_code_type: EVMCodeType | None = None,
         label: str | None = None,
     ) -> Address:
         """
@@ -1053,6 +1055,8 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         nonce_bytes = (
             bytes() if self.nonce == 0 else self.nonce.to_bytes(length=1, byteorder="big")
         )
+        if self.sender is None:
+            raise ValueError("sender address is None")
         hash = keccak256(eth_rlp.encode([self.sender, nonce_bytes]))
         return Address(hash[-20:])
 

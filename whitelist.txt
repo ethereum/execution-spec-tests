@@ -71,6 +71,7 @@ conftest
 contractAddr
 controlflow
 cp
+cmd
 CPUs
 crypto
 currentframe
@@ -127,6 +128,7 @@ EthereumJS
 ethereum's
 evaluatable
 evm
+EVMCodeType
 evmone
 Evmone
 executables
@@ -134,6 +136,7 @@ extcodecopy
 extcodehash
 extcodesize
 F00
+filelock
 filesystem
 fillvalue
 firstlineno
@@ -186,6 +189,7 @@ hexary
 HexNumber
 hexsha
 hexbytes
+hiveview
 homebrew
 html
 htmlpath
@@ -262,6 +266,7 @@ ori
 P1
 P2
 parseable
+passthrough
 pathlib
 pdb
 perf
@@ -380,6 +385,7 @@ ubuntu
 ukiyo
 uncomment
 undersize
+unlink
 usr
 util
 utils

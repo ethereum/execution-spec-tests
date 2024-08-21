@@ -18,8 +18,8 @@ runs:
       id: properties
       shell: bash
       run: |
-        yq -r --arg feature "${{ inputs.name }}" '.[$feature] | to_entries | map("\(.key)=\(.value)")[]' ./configs/feature.yaml >> "$GITHUB_OUTPUT"
-    - uses: ./.github/actions/build-evm
+        yq -r --arg feature "${{ inputs.name }}" '.[$feature] | to_entries | map("\(.key)=\(.value)")[]' ./.github/configs/feature.yaml >> "$GITHUB_OUTPUT"
+    - uses: ./.github/actions/build-evm-base
       id: evm-builder
       with:
         type: ${{ steps.properties.outputs.evm-type }}
@@ -31,7 +31,7 @@ runs:
         source env/bin/activate
         pip install -e .
         solc-select use  ${{ steps.properties.outputs.solc }} --always-install
-        fill -n auto --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.name }}.tar.gz --build-name ${{ inputs.name }}
+        fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.name }}.tar.gz --build-name ${{ inputs.name }}
     - uses: actions/upload-artifact@v4
       with:
         name: fixtures_${{ inputs.name }}

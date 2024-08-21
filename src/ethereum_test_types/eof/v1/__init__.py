@@ -69,9 +69,20 @@ class ContainerKind(Enum):
         Calls the class constructor without info and appends the serialization schema.
         """
         return no_info_plain_validator_function(
-            source_type,
+            source_type.from_str,
             serialization=to_string_ser_schema(),
         )
+
+    @staticmethod
+    def from_str(value: "str | ContainerKind | None") -> "ContainerKind | None":
+        """
+        Returns the ContainerKind enum value from a string.
+        """
+        if value is None:
+            return None
+        if isinstance(value, ContainerKind):
+            return value
+        return ContainerKind[value.upper()]
 
     def __str__(self) -> str:
         """
@@ -370,6 +381,11 @@ class Container(CopyValidateModel):
     Used to have a cohesive type among all test cases, even those that do not
     resemble a valid EOF V1 container.
     """
+    expected_bytecode: Optional[Bytes] = None
+    """
+    Optional raw bytes of the expected constructed bytecode.
+    This allows confirming that raw EOF and Container() representations are identical.
+    """
 
     @cached_property
     def bytecode(self) -> bytes:
@@ -443,6 +459,10 @@ class Container(CopyValidateModel):
         # Add extra (garbage)
         c += self.extra
 
+        # Check if the constructed bytecode matches the expected one
+        if self.expected_bytecode is not None:
+            assert c == self.expected_bytecode
+
         return c
 
     @classmethod
@@ -464,6 +484,15 @@ class Container(CopyValidateModel):
         Returns the length of the container bytecode.
         """
         return len(self.bytecode)
+
+    def __str__(self) -> str:
+        """
+        Returns the name of the container if available, otherwise the bytecode of the container
+        as a string.
+        """
+        if self.name:
+            return self.name
+        return str(self.bytecode)
 
 
 @dataclass(kw_only=True)

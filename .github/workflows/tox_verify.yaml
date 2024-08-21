@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - uses: ./.github/actions/build-evm
+      - uses: ./.github/actions/build-evm-base
         id: evm-builder
         with:
           type: ${{ matrix.evm-type }}

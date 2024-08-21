@@ -53,7 +53,7 @@ import pytest
 
 @pytest.mark.with_all_tx_types
 @pytest.mark.valid_from("Berlin")
-def test_something_with_all_tx_types(tx_type):
+def test_something_with_all_tx_types(tx_type: int):
     pass
 ```
 
@@ -74,17 +74,81 @@ import pytest
 
 @pytest.mark.with_all_precompiles
 @pytest.mark.valid_from("Shanghai")
-def test_something_with_all_precompiles(precompile):
+def test_something_with_all_precompiles(precompile: int):
     pass
 ```
 
 In this example, the test will be parameterized for parameter `precompile` with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]` for fork Shanghai, but with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` for fork Cancun (because of EIP-4844).
+
+### pytest.mark.with_all_evm_code_types
+
+This marker is used to automatically parameterize a test with all EVM code types that are valid for the fork being tested.
+
+```python
+import pytest
+
+@pytest.mark.with_all_evm_code_types
+@pytest.mark.valid_from("Frontier")
+def test_something_with_all_evm_code_types(pre: Alloc):
+    pass
+```
+
+In this example, the test will be parameterized for parameter `evm_code_type` only with value `[EVMCodeType.LEGACY]` starting on fork Frontier, and eventually it will be parametrized with with values `[EVMCodeType.LEGACY, EVMCodeType.EOF_V1]` on the EOF activation fork.
+
+In all calls to `pre.deploy_contract`, if the code parameter is `Bytecode` type, and `evm_code_type==EVMCodeType.EOF_V1`, the bytecode will be automatically wrapped in an EOF V1 container.
+
+Code wrapping might fail in the following circumstances:
+
+- The code contains invalid EOF V1 opcodes.
+- The code does not end with a valid EOF V1 terminating opcode (such as `Op.STOP` or `Op.REVERT` or `Op.RETURN`).
+
+In the case where the code wrapping fails, `evm_code_type` can be added as a parameter to the test and the bytecode can be dynamically modified to be compatible with the EOF V1 container.
+
+```python
+import pytest
+
+@pytest.mark.with_all_evm_code_types
+@pytest.mark.valid_from("Frontier")
+def test_something_with_all_evm_code_types(pre: Alloc, evm_code_type: EVMCodeType):
+    code = Op.SSTORE(1, 1)
+    if evm_code_type == EVMCodeType.EOF_V1:
+        # Modify the bytecode to be compatible with EOF V1 container
+        code += Op.STOP
+    pre.deploy_contract(code)
+    ...
+```
+
+### pytest.mark.with_all_call_opcodes
+
+This marker is used to automatically parameterize a test with all EVM call opcodes that are valid for the fork being tested.
+
+```python
+import pytest
+
+@pytest.mark.with_all_call_opcodes
+@pytest.mark.valid_from("Frontier")
+def test_something_with_all_call_opcodes(pre: Alloc, call_opcode: Op):
+    ...
+```
+
+In this example, the test will be parametrized for parameter `call_opcode` with values `[Op.CALL, Op.CALLCODE]` starting on fork Frontier, `[Op.CALL, Op.CALLCODE, Op.DELEGATECALL]` on fork Homestead, `[Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]` on fork Byzantium, and eventually it will be parametrized with with values `[Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL, Op.EXTCALL, Op.EXTSTATICCALL, Op.EXTDELEGATECALL]` on the EOF activation fork.
+
+Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
 
 ## Other Markers
 
 ### pytest.mark.slow
 
 This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.
+
+### pytest.mark.pre_alloc_modify
+
+This marker is used to mark tests that modify the pre-alloc in a way that would be impractical to reproduce in a real-world scenario.
+
+Examples of this include:
+
+- Modifying the pre-alloc to have a balance of 2^256 - 1.
+- Address collisions that would require hash collisions.
 
 ### pytest.mark.skip("reason")
 
