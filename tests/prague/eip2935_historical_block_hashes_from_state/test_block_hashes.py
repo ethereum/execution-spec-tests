@@ -78,9 +78,9 @@ def generate_block_check_code(
 @pytest.mark.parametrize(
     "blocks_before_fork, blocks_after_fork",
     [
-        [1, 2],
-        [Spec.BLOCKHASH_OLD_WINDOW + 1, 10],
-        [1, Spec.BLOCKHASH_OLD_WINDOW + 1],
+        pytest.param(1, 2),
+        pytest.param(Spec.BLOCKHASH_OLD_WINDOW + 1, 10, marks=pytest.mark.slow),
+        pytest.param(1, Spec.BLOCKHASH_OLD_WINDOW + 1, marks=pytest.mark.slow),
     ],
 )
 @pytest.mark.valid_at_transition_to("Prague")
