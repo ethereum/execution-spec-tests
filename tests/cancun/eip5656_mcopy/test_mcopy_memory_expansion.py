@@ -84,6 +84,7 @@ def data(initial_memory: bytes) -> bytes:
         pytest.param(bytes(), id="from_empty_memory"),
     ],
 )
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.valid_from("Cancun")
 @exact_gas_test(with_data=True)
 def test_mcopy_memory_expansion_gas():
@@ -117,6 +118,7 @@ def test_mcopy_memory_expansion_gas():
         pytest.param(bytes(), id="from_empty_memory"),
     ],
 )
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.valid_from("Cancun")
 @exact_gas_test(gas_test_types=GasTestType.OOG, with_data=True)
 def test_mcopy_huge_memory_expansion():
