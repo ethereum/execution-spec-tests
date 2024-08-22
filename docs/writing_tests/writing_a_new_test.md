@@ -274,45 +274,6 @@ Tests can also be automatically parametrized with appropriate fork covariant
 values using the `with_all_*` markers listed in the
 [Test Markers](./test_markers.md#fork-covariant-markers) page.
 
-### `parametrize_with_defaults` decorator
+### The `extend_with_defaults` Utility
 
-This decorator can be used as a replacement to `@pytest.mark.parametrize` that
-allows to provide default values for the parameters and to specify each case
-only with the parameters that are different from the default values, and
-therefore lower the amount of redundant test cases.
-
-Example:
-
-```python
-@parametrize_with_defaults(
-    signer_type=SignerType.SINGLE_SIGNER,
-    authorization_invalidity_type=AuthorizationInvalidityType.NONE,
-    authorizations_count=1,
-    chain_id_type=ChainIDType.GENERIC,
-    authorize_to_address=AddressType.EMPTY_ACCOUNT,
-    access_list_case=AccessListType.EMPTY,
-    self_sponsored=False,
-    authority_type=AddressType.EMPTY_ACCOUNT,
-    data=b"",
-    cases=[
-        dict(authorizations_count=2, id="two_authorizations", marks=[pytest.mark.valid_from("Berlin")]),
-        ...
-    ],
-)
-def test_gas(
-    blockchain_test: BlockchainTestFiller,
-    signer_type: SignerType,
-    authorization_invalidity_type: AuthorizationInvalidityType,
-    authorizations_count: int,
-    chain_id_type: ChainIDType,
-    authorize_to_address: AddressType,
-    access_list_case: AccessListType,
-    self_sponsored: bool,
-    authority_type: AddressType,
-    data: bytes,
-):
-    ... 
-```
-
-This will run the test with the default values for all parameters except for
-`authorizations_count` which will be set to `2`.
+::: ethereum_test_tools.utility.pytest.extend_with_defaults
