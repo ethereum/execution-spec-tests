@@ -1056,6 +1056,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#parametrizing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrizing tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parametrizing tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-extend_with_defaults-utility" class="md-nav__link">
+    <span class="md-ellipsis">
+      The extend_with_defaults Utility
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.utility.pytest.extend_with_defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      extend_with_defaults
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -13688,6 +13721,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#parametrizing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrizing tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parametrizing tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-extend_with_defaults-utility" class="md-nav__link">
+    <span class="md-ellipsis">
+      The extend_with_defaults Utility
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.utility.pytest.extend_with_defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      extend_with_defaults
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -13922,6 +13988,420 @@ base fee of the block, etc.</p>
 <p>Blocks in a BlockchainTest can contain intrinsically invalid transactions but
 in this case the block is expected to be completely rejected, along with all
 transactions in it, including other valid transactions.</p>
+<h2 id="parametrizing-tests">Parametrizing tests<a class="headerlink" href="#parametrizing-tests" title="Permanent link">&para;</a></h2>
+<p>Tests can be parametrized by using the <code>@pytest.mark.parametrize</code> decorator.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;tx_value,expected_balance&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero-value&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;non-zero-value&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_contract_creating_tx</span><span class="p">(</span>
+    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">tx_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">expected_balance</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">):</span>
+</code></pre></div>
+<p>This will run the test twice, once with <code>tx_value</code> set to <code>0</code> and <code>expected_balance</code>
+set to <code>0</code>, and once with <code>tx_value</code> set to <code>100</code> and <code>expected_balance</code> set to <code>100</code>.</p>
+<p>The <code>fork</code> fixture is automatically provided by the framework and contains the
+current fork under test, and does not need to be parametrized.</p>
+<p>Tests can also be automatically parametrized with appropriate fork covariant
+values using the <code>with_all_*</code> markers listed in the
+<a href="../test_markers/#fork-covariant-markers">Test Markers</a> page.</p>
+<h3 id="the-extend_with_defaults-utility">The <code>extend_with_defaults</code> Utility<a class="headerlink" href="#the-extend_with_defaults-utility" title="Permanent link">&para;</a></h3>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="ethereum_test_tools.utility.pytest.extend_with_defaults"></a>
+    <div class="doc doc-contents first">
+
+      <p>Extends test cases with default parameter values.</p>
+<p>This utility function extends test case parameters by adding default values
+from the <code>defaults</code> dictionary to each case in the <code>cases</code> list. If a case
+already specifies a value for a parameter, its default is ignored.</p>
+<p>This function is particularly useful in scenarios where you want to define
+a common set of default values but allow individual test cases to override
+them as needed.</p>
+<p>The function returns a dictionary that can be directly unpacked and passed
+to the <code>@pytest.mark.parametrize</code> decorator.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code>defaults</code></td>
+            <td>
+                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A dictionary of default parameter names and
+their values. These values will be added to each case unless the case
+already defines a value for each parameter.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>cases</code></td>
+            <td>
+                  <code><span title="typing.List">List</span>[<span title="_pytest.mark.structures.ParameterSet">ParameterSet</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A list of <code>pytest.param</code> objects representing
+different test cases. Its first argument must be a dictionary defining
+parameter names and values.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>parametrize_kwargs</code></td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional keyword arguments to be passed to
+<code>@pytest.mark.parametrize</code>. These arguments are not modified by this
+function and are passed through unchanged.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dict[str, Any]: A dictionary with the following structure:
+<code>argnames</code>: A list of parameter names.
+<code>argvalues</code>: A list of test cases with modified parameter values.
+<code>parametrize_kwargs</code>: Additional keyword arguments passed through unchanged.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">extend_with_defaults</span><span class="p">(</span>
+    <span class="n">defaults</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># default minimum value is 0</span>
+        <span class="n">max_value</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># default maximum value is 100</span>
+        <span class="n">average</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>  <span class="c1"># default average value is 50</span>
+    <span class="p">),</span>
+    <span class="n">cases</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(),</span>  <span class="c1"># use default values</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;default_case&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>  <span class="c1"># override with min_value=10</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;min_value_10&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">max_value</span><span class="o">=</span><span class="mi">200</span><span class="p">),</span>  <span class="c1"># override with max_value=200</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;max_value_200&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>  <span class="c1"># override both min_value</span>
+            <span class="c1"># and max_value</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;min_-10_max_50&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>  <span class="c1"># all defaults</span>
+            <span class="c1"># are overridden</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;min_20_max_80_avg_50&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>  <span class="c1"># invalid range</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;invalid_range&#39;</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s1">&#39;invalid range&#39;</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+<span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_range</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">,</span> <span class="n">average</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">max_value</span>
+    <span class="k">assert</span> <span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">average</span> <span class="o">&lt;=</span> <span class="n">max_value</span>
+</code></pre></div>
+</details>      <p>The above test will execute with the following sets of parameters:</p>
+<div class="highlight"><pre><span></span><code><span class="s2">&quot;default_case&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="s2">&quot;min_value_10&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="s2">&quot;max_value_200&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="s2">&quot;min_-10_max_50&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="s2">&quot;min_20_max_80_avg_50&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="s2">&quot;invalid_range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>  <span class="c1"># expected to fail</span>
+</code></pre></div>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Each case in <code>cases</code> must contain exactly one value, which is a dictionary
+  of parameter values.</li>
+<li>The function performs an in-place update of the <code>cases</code> list, so the
+  original <code>cases</code> list is modified.</li>
+</ul>
+</details>
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_tools/utility/pytest.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extend_with_defaults</span><span class="p">(</span>
+    <span class="n">defaults</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterSet</span><span class="p">],</span> <span class="o">**</span><span class="n">parametrize_kwargs</span><span class="p">:</span> <span class="n">Any</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extends test cases with default parameter values.</span>
+
+<span class="sd">    This utility function extends test case parameters by adding default values</span>
+<span class="sd">    from the `defaults` dictionary to each case in the `cases` list. If a case</span>
+<span class="sd">    already specifies a value for a parameter, its default is ignored.</span>
+
+<span class="sd">    This function is particularly useful in scenarios where you want to define</span>
+<span class="sd">    a common set of default values but allow individual test cases to override</span>
+<span class="sd">    them as needed.</span>
+
+<span class="sd">    The function returns a dictionary that can be directly unpacked and passed</span>
+<span class="sd">    to the `@pytest.mark.parametrize` decorator.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        defaults (Dict[str, Any]): A dictionary of default parameter names and</span>
+<span class="sd">            their values. These values will be added to each case unless the case</span>
+<span class="sd">            already defines a value for each parameter.</span>
+<span class="sd">        cases (List[ParameterSet]): A list of `pytest.param` objects representing</span>
+<span class="sd">            different test cases. Its first argument must be a dictionary defining</span>
+<span class="sd">            parameter names and values.</span>
+<span class="sd">        parametrize_kwargs (Any): Additional keyword arguments to be passed to</span>
+<span class="sd">            `@pytest.mark.parametrize`. These arguments are not modified by this</span>
+<span class="sd">            function and are passed through unchanged.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict[str, Any]: A dictionary with the following structure:</span>
+<span class="sd">            `argnames`: A list of parameter names.</span>
+<span class="sd">            `argvalues`: A list of test cases with modified parameter values.</span>
+<span class="sd">            `parametrize_kwargs`: Additional keyword arguments passed through unchanged.</span>
+
+
+<span class="sd">    Example:</span>
+<span class="sd">        ```python</span>
+<span class="sd">        @pytest.mark.parametrize(**extend_with_defaults(</span>
+<span class="sd">            defaults=dict(</span>
+<span class="sd">                min_value=0,  # default minimum value is 0</span>
+<span class="sd">                max_value=100,  # default maximum value is 100</span>
+<span class="sd">                average=50,  # default average value is 50</span>
+<span class="sd">            ),</span>
+<span class="sd">            cases=[</span>
+<span class="sd">                pytest.param(</span>
+<span class="sd">                    dict(),  # use default values</span>
+<span class="sd">                    id=&#39;default_case&#39;,</span>
+<span class="sd">                ),</span>
+<span class="sd">                pytest.param(</span>
+<span class="sd">                    dict(min_value=10),  # override with min_value=10</span>
+<span class="sd">                    id=&#39;min_value_10&#39;,</span>
+<span class="sd">                ),</span>
+<span class="sd">                pytest.param(</span>
+<span class="sd">                    dict(max_value=200),  # override with max_value=200</span>
+<span class="sd">                    id=&#39;max_value_200&#39;,</span>
+<span class="sd">                ),</span>
+<span class="sd">                pytest.param(</span>
+<span class="sd">                    dict(min_value=-10, max_value=50),  # override both min_value</span>
+<span class="sd">                    # and max_value</span>
+<span class="sd">                    id=&#39;min_-10_max_50&#39;,</span>
+<span class="sd">                ),</span>
+<span class="sd">                pytest.param(</span>
+<span class="sd">                    dict(min_value=20, max_value=80, average=50),  # all defaults</span>
+<span class="sd">                    # are overridden</span>
+<span class="sd">                    id=&quot;min_20_max_80_avg_50&quot;,</span>
+<span class="sd">                ),</span>
+<span class="sd">                pytest.param(</span>
+<span class="sd">                    dict(min_value=100, max_value=0),  # invalid range</span>
+<span class="sd">                    id=&#39;invalid_range&#39;,</span>
+<span class="sd">                    marks=pytest.mark.xfail(reason=&#39;invalid range&#39;),</span>
+<span class="sd">                )</span>
+<span class="sd">            ],</span>
+<span class="sd">        ))</span>
+<span class="sd">        def test_range(min_value, max_value, average):</span>
+<span class="sd">            assert min_value &lt;= max_value</span>
+<span class="sd">            assert min_value &lt;= average &lt;= max_value</span>
+<span class="sd">        ```</span>
+
+<span class="sd">    The above test will execute with the following sets of parameters:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    &quot;default_case&quot;: {&quot;min_value&quot;: 0, &quot;max_value&quot;: 100, &quot;average&quot;: 50}</span>
+<span class="sd">    &quot;min_value_10&quot;: {&quot;min_value&quot;: 10, &quot;max_value&quot;: 100, &quot;average&quot;: 50}</span>
+<span class="sd">    &quot;max_value_200&quot;: {&quot;min_value&quot;: 0, &quot;max_value&quot;: 200, &quot;average&quot;: 50}</span>
+<span class="sd">    &quot;min_-10_max_50&quot;: {&quot;min_value&quot;: -10, &quot;max_value&quot;: 50, &quot;average&quot;: 50}</span>
+<span class="sd">    &quot;min_20_max_80_avg_50&quot;: {&quot;min_value&quot;: 20, &quot;max_value&quot;: 80, &quot;average&quot;: 50}</span>
+<span class="sd">    &quot;invalid_range&quot;: {&quot;min_value&quot;: 100, &quot;max_value&quot;: 0, &quot;average&quot;: 50}  # expected to fail</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        - Each case in `cases` must contain exactly one value, which is a dictionary</span>
+<span class="sd">          of parameter values.</span>
+<span class="sd">        - The function performs an in-place update of the `cases` list, so the</span>
+<span class="sd">          original `cases` list is modified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cases</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;each case must contain exactly one value; a dict of parameter values&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="n">UnknownParameterInCasesError</span><span class="p">()</span>
+        <span class="c1"># Overwrite values in defaults if the parameter is present in the test case values</span>
+        <span class="n">merged_params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">defaults</span><span class="p">,</span> <span class="o">**</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>  <span class="c1"># type: ignore</span>
+        <span class="n">cases</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="o">*</span><span class="n">merged_params</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="n">case</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">case</span><span class="o">.</span><span class="n">marks</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;argnames&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">defaults</span><span class="p">),</span> <span class="s2">&quot;argvalues&quot;</span><span class="p">:</span> <span class="n">cases</span><span class="p">,</span> <span class="o">**</span><span class="n">parametrize_kwargs</span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
