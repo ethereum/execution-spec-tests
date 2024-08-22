@@ -29,7 +29,7 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
     eip_2028_transaction_data_cost,
-    parametrize_with_defaults,
+    extend_with_defaults,
 )
 
 from .helpers import AddressType, ChainIDType
@@ -343,178 +343,14 @@ def sender(pre: Alloc) -> EOA:
 # Helper functions to parametrize the tests
 
 
-def parametrize_gas_test(*, include_many: bool = True, include_data: bool = True):
+def gas_test_parameter_args(include_many: bool = True, include_data: bool = True):
     """
     Return the parametrize decorator that can be used in all gas test functions.
     """
     MULTIPLE_AUTHORIZATIONS_COUNT = 2
     MANY_AUTHORIZATIONS_COUNT = 5_000
 
-    cases = [
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorizations_count=1,
-            id="single_valid_authorization_single_signer",
-        ),
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorizations_count=1,
-            chain_id_type=ChainIDType.CHAIN_SPECIFIC,
-            id="single_valid_chain_specific_authorization_single_signer",
-        ),
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="multiple_valid_authorizations_single_signer",
-        ),
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorization_invalidity_type=AuthorizationInvalidityType.INVALID_NONCE,
-            authorizations_count=1,
-            id="single_invalid_nonce_authorization_single_signer",
-        ),
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorization_invalidity_type=AuthorizationInvalidityType.INVALID_CHAIN_ID,
-            authorizations_count=1,
-            id="single_invalid_authorization_invalid_chain_id_single_signer",
-        ),
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorization_invalidity_type=AuthorizationInvalidityType.INVALID_NONCE,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="multiple_invalid_nonce_authorizations_single_signer",
-        ),
-        dict(
-            signer_type=SignerType.MULTIPLE_SIGNERS,
-            authorization_invalidity_type=AuthorizationInvalidityType.INVALID_NONCE,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="multiple_invalid_nonce_authorizations_multiple_signers",
-        ),
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorization_invalidity_type=AuthorizationInvalidityType.INVALID_CHAIN_ID,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="multiple_invalid_chain_id_authorizations_single_signer",
-        ),
-        dict(
-            signer_type=SignerType.MULTIPLE_SIGNERS,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="multiple_valid_authorizations_multiple_signers",
-        ),
-        dict(
-            signer_type=SignerType.SINGLE_SIGNER,
-            authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="first_valid_then_single_repeated_nonce_authorization",
-        ),
-        dict(
-            signer_type=SignerType.MULTIPLE_SIGNERS,
-            authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT * 2,
-            id="first_valid_then_single_repeated_nonce_authorizations_multiple_signers",
-        ),
-        dict(
-            authorize_to_address=AddressType.EOA,
-            id="single_valid_authorization_to_eoa",
-        ),
-        dict(
-            authorize_to_address=AddressType.CONTRACT,
-            id="single_valid_authorization_to_contract",
-        ),
-        dict(
-            access_list_case=AccessListType.CONTAINS_AUTHORITY,
-            id="single_valid_authorization_with_authority_in_access_list",
-        ),
-        dict(
-            access_list_case=AccessListType.CONTAINS_SET_CODE_ADDRESS,
-            id="single_valid_authorization_with_set_code_address_in_access_list",
-        ),
-        dict(
-            access_list_case=AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS,
-            id="single_valid_authorization_with_authority_and_set_code_address_in_access_list",
-        ),
-        dict(
-            authority_type=AddressType.EOA,
-            id="single_valid_authorization_eoa_authority",
-        ),
-        dict(
-            authority_type=AddressType.EOA,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="multiple_valid_authorizations_eoa_authority",
-        ),
-        dict(
-            self_sponsored=True,
-            authority_type=AddressType.EOA,
-            id="single_valid_authorization_eoa_self_sponsored_authority",
-        ),
-        dict(
-            self_sponsored=True,
-            authority_type=AddressType.EOA,
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            id="multiple_valid_authorizations_eoa_self_sponsored_authority",
-        ),
-        dict(
-            authority_type=AddressType.CONTRACT,
-            marks=pytest.mark.pre_alloc_modify,
-            id="single_valid_authorization_invalid_contract_authority",
-        ),
-        dict(
-            signer_type=SignerType.MULTIPLE_SIGNERS,
-            authority_type=[AddressType.EMPTY_ACCOUNT, AddressType.CONTRACT],
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            marks=pytest.mark.pre_alloc_modify,
-            id="multiple_authorizations_empty_account_then_contract_authority",
-        ),
-        dict(
-            signer_type=SignerType.MULTIPLE_SIGNERS,
-            authority_type=[AddressType.EOA, AddressType.CONTRACT],
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            marks=pytest.mark.pre_alloc_modify,
-            id="multiple_authorizations_eoa_then_contract_authority",
-        ),
-        dict(
-            self_sponsored=True,
-            signer_type=SignerType.MULTIPLE_SIGNERS,
-            authority_type=[AddressType.EOA, AddressType.CONTRACT],
-            authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
-            marks=pytest.mark.pre_alloc_modify,
-            id="multiple_authorizations_eoa_self_sponsored_then_contract_authority",
-        ),
-    ]
-
-    if include_data:
-        cases += [
-            dict(
-                data=b"\x01",
-                id="single_valid_authorization_with_single_non_zero_byte_data",
-            ),
-            dict(
-                data=b"\x00",
-                id="single_valid_authorization_with_single_zero_byte_data",
-            ),
-        ]
-
-    if include_many:
-        cases += [
-            dict(
-                signer_type=SignerType.SINGLE_SIGNER,
-                authorizations_count=MANY_AUTHORIZATIONS_COUNT,
-                id="many_valid_authorizations_single_signer",
-            ),
-            dict(
-                signer_type=SignerType.MULTIPLE_SIGNERS,
-                authorizations_count=MANY_AUTHORIZATIONS_COUNT,
-                id="many_valid_authorizations_multiple_signers",
-            ),
-            dict(
-                signer_type=SignerType.SINGLE_SIGNER,
-                authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
-                authorizations_count=MANY_AUTHORIZATIONS_COUNT,
-                id="first_valid_then_many_duplicate_authorizations",
-            ),
-        ]
-    return parametrize_with_defaults(
+    defaults = dict(
         signer_type=SignerType.SINGLE_SIGNER,
         authorization_invalidity_type=None,
         authorizations_count=1,
@@ -524,15 +360,237 @@ def parametrize_gas_test(*, include_many: bool = True, include_data: bool = True
         self_sponsored=False,
         authority_type=AddressType.EMPTY_ACCOUNT,
         data=b"",
-        cases=cases,
-        indirect=["authorize_to_address"],
     )
+
+    cases = [
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorizations_count=1,
+            ),
+            id="single_valid_authorization_single_signer",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorizations_count=1,
+                chain_id_type=ChainIDType.CHAIN_SPECIFIC,
+            ),
+            id="single_valid_chain_specific_authorization_single_signer",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="multiple_valid_authorizations_single_signer",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorization_invalidity_type=AuthorizationInvalidityType.INVALID_NONCE,
+                authorizations_count=1,
+            ),
+            id="single_invalid_nonce_authorization_single_signer",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorization_invalidity_type=AuthorizationInvalidityType.INVALID_CHAIN_ID,
+                authorizations_count=1,
+            ),
+            id="single_invalid_authorization_invalid_chain_id_single_signer",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorization_invalidity_type=AuthorizationInvalidityType.INVALID_NONCE,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="multiple_invalid_nonce_authorizations_single_signer",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.MULTIPLE_SIGNERS,
+                authorization_invalidity_type=AuthorizationInvalidityType.INVALID_NONCE,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="multiple_invalid_nonce_authorizations_multiple_signers",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorization_invalidity_type=AuthorizationInvalidityType.INVALID_CHAIN_ID,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="multiple_invalid_chain_id_authorizations_single_signer",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.MULTIPLE_SIGNERS,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="multiple_valid_authorizations_multiple_signers",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.SINGLE_SIGNER,
+                authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="first_valid_then_single_repeated_nonce_authorization",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.MULTIPLE_SIGNERS,
+                authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT * 2,
+            ),
+            id="first_valid_then_single_repeated_nonce_authorizations_multiple_signers",
+        ),
+        pytest.param(
+            dict(
+                authorize_to_address=AddressType.EOA,
+            ),
+            id="single_valid_authorization_to_eoa",
+        ),
+        pytest.param(
+            dict(
+                authorize_to_address=AddressType.CONTRACT,
+            ),
+            id="single_valid_authorization_to_contract",
+        ),
+        pytest.param(
+            dict(
+                access_list_case=AccessListType.CONTAINS_AUTHORITY,
+            ),
+            id="single_valid_authorization_with_authority_in_access_list",
+        ),
+        pytest.param(
+            dict(
+                access_list_case=AccessListType.CONTAINS_SET_CODE_ADDRESS,
+            ),
+            id="single_valid_authorization_with_set_code_address_in_access_list",
+        ),
+        pytest.param(
+            dict(
+                access_list_case=AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS,
+            ),
+            id="single_valid_authorization_with_authority_and_set_code_address_in_access_list",
+        ),
+        pytest.param(
+            dict(
+                authority_type=AddressType.EOA,
+            ),
+            id="single_valid_authorization_eoa_authority",
+        ),
+        pytest.param(
+            dict(
+                authority_type=AddressType.EOA,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="multiple_valid_authorizations_eoa_authority",
+        ),
+        pytest.param(
+            dict(
+                self_sponsored=True,
+                authority_type=AddressType.EOA,
+            ),
+            id="single_valid_authorization_eoa_self_sponsored_authority",
+        ),
+        pytest.param(
+            dict(
+                self_sponsored=True,
+                authority_type=AddressType.EOA,
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            id="multiple_valid_authorizations_eoa_self_sponsored_authority",
+        ),
+        pytest.param(
+            dict(
+                authority_type=AddressType.CONTRACT,
+            ),
+            marks=pytest.mark.pre_alloc_modify,
+            id="single_valid_authorization_invalid_contract_authority",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.MULTIPLE_SIGNERS,
+                authority_type=[AddressType.EMPTY_ACCOUNT, AddressType.CONTRACT],
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            marks=pytest.mark.pre_alloc_modify,
+            id="multiple_authorizations_empty_account_then_contract_authority",
+        ),
+        pytest.param(
+            dict(
+                signer_type=SignerType.MULTIPLE_SIGNERS,
+                authority_type=[AddressType.EOA, AddressType.CONTRACT],
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            marks=pytest.mark.pre_alloc_modify,
+            id="multiple_authorizations_eoa_then_contract_authority",
+        ),
+        pytest.param(
+            dict(
+                self_sponsored=True,
+                signer_type=SignerType.MULTIPLE_SIGNERS,
+                authority_type=[AddressType.EOA, AddressType.CONTRACT],
+                authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
+            ),
+            marks=pytest.mark.pre_alloc_modify,
+            id="multiple_authorizations_eoa_self_sponsored_then_contract_authority",
+        ),
+    ]
+
+    if include_data:
+        cases += [
+            pytest.param(
+                dict(
+                    data=b"\x01",
+                ),
+                id="single_valid_authorization_with_single_non_zero_byte_data",
+            ),
+            pytest.param(
+                dict(
+                    data=b"\x00",
+                ),
+                id="single_valid_authorization_with_single_zero_byte_data",
+            ),
+        ]
+
+    if include_many:
+        cases += [
+            pytest.param(
+                dict(
+                    signer_type=SignerType.SINGLE_SIGNER,
+                    authorizations_count=MANY_AUTHORIZATIONS_COUNT,
+                ),
+                id="many_valid_authorizations_single_signer",
+            ),
+            pytest.param(
+                dict(
+                    signer_type=SignerType.MULTIPLE_SIGNERS,
+                    authorizations_count=MANY_AUTHORIZATIONS_COUNT,
+                ),
+                id="many_valid_authorizations_multiple_signers",
+            ),
+            pytest.param(
+                dict(
+                    signer_type=SignerType.SINGLE_SIGNER,
+                    authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
+                    authorizations_count=MANY_AUTHORIZATIONS_COUNT,
+                ),
+                id="first_valid_then_many_duplicate_authorizations",
+            ),
+        ]
+    return extend_with_defaults(cases=cases, defaults=defaults, indirect=["authorize_to_address"])
 
 
 # Tests
 
 
-@parametrize_gas_test()
+@pytest.mark.parametrize(**gas_test_parameter_args())
 def test_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -635,10 +693,7 @@ def test_gas_cost(
     )
 
 
-@parametrize_gas_test(
-    include_many=False,
-    include_data=False,
-)
+@pytest.mark.parametrize(**gas_test_parameter_args(include_many=False, include_data=False))
 def test_account_warming(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -716,7 +771,7 @@ def test_account_warming(
     )
 
 
-@parametrize_gas_test()
+@pytest.mark.parametrize(**gas_test_parameter_args())
 @pytest.mark.parametrize(
     "valid",
     [True, False],
