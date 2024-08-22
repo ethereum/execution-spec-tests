@@ -12,6 +12,8 @@ api
 apis
 arcname
 argcount
+argnames
+argvalues
 ase
 at5
 AuthorizationInvalidityType
