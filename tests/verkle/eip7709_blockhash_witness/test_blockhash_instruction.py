@@ -16,10 +16,9 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7709.md"
@@ -32,7 +31,6 @@ BLOCKHASH_OLD_WINDOW = 256
 block_number = 1000
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "block_num_target",
@@ -51,25 +49,23 @@ block_number = 1000
         "too_old_block",
     ],
 )
-def test_blockhash(blockchain_test: BlockchainTestFiller, fork: str, block_num_target: int):
+def test_blockhash(blockchain_test: BlockchainTestFiller, block_num_target: int):
     """
     Test BLOCKHASH witness.
     """
-    _blockhash(blockchain_test, fork, block_num_target)
+    _blockhash(blockchain_test, block_num_target)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
-def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
+def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller):
     """
     Test BLOCKHASH with insufficient gas.
     """
-    _blockhash(blockchain_test, fork, block_number - 1, gas_limit=21_042, fail=True)
+    _blockhash(blockchain_test, block_number - 1, gas_limit=21_042, fail=True)
 
 
 def _blockhash(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     block_num_target: int,
     gas_limit=1_000_000,
     fail=False,
@@ -81,6 +77,7 @@ def _blockhash(
         number=1,
         timestamp=1000,
     )
+
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(code=Op.BLOCKHASH(block_num_target)),
@@ -94,21 +91,28 @@ def _blockhash(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(TestAddress2, pre[TestAddress2])
-    # if not fail:
-    #     storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
-    #     value = None  # TODO(verkle): TODO.
-    #     witness.add_storage_slot(blockhash_system_contract_address, storage_slot, value)
+    # Validate that pre, fee recipient, & blockhash system contract are present in the witness
+    witness_check = WitnessCheck(
+        state_diff_alloc={
+            **pre,
+            env.fee_recipient: Account(),
+            **(
+                {
+                    blockhash_system_contract_address: Account(
+                        storage={block_num_target % HISTORY_STORAGE_ADDRESS: None}  # TODO
+                    )
+                }
+                if not fail
+                else {}
+            ),
+        },
+    )
 
+    blocks = [Block(txs=[tx], witness_check=witness_check)]
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        # witness=witness,
     )

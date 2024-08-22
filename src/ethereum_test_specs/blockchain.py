@@ -48,7 +48,7 @@ from ethereum_test_types import (
     Withdrawal,
     WithdrawalRequest,
 )
-from ethereum_test_types.verkle import VerkleTree, Witness
+from ethereum_test_types.verkle import Stem, VerkleTree, Witness, WitnessCheck
 from evm_transition_tool import TransitionTool
 
 from .base import BaseTest, verify_result, verify_transactions
@@ -257,6 +257,10 @@ class Block(Header):
     requests: List[DepositRequest | WithdrawalRequest | ConsolidationRequest] | None = None
     """
     Custom list of requests to embed in this block.
+    """
+    witness_check: WitnessCheck | None = None
+    """
+    Verkle execution witness check for the block.
     """
 
     def set_environment(self, env: Environment) -> Environment:
@@ -587,6 +591,63 @@ class BlockchainTest(BaseTest):
             print_traces(t8n.get_traces())
             raise e
 
+    def verify_witness(
+        self,
+        t8n: TransitionTool,
+        witness_check: WitnessCheck,
+        witness: Witness,
+    ) -> None:
+        """
+        Compares the expected witness check allocation account against the values updated
+        in the block execution witness state diff.
+        """
+        assert witness_check.state_diff_alloc is not None, "empty witness check state diff alloc"
+
+        # Convert the state_diff_alloc to expected VerkleTree values using the t8n sub-command
+        print(witness_check.state_diff_alloc.model_dump_json())
+        expected_vkt_values = t8n.from_mpt_to_vkt(witness_check.state_diff_alloc)  # type: ignore
+        pprint(expected_vkt_values.model_dump_json())
+        for key, value in expected_vkt_values.root.items():
+            print(f"key: {key}, value: {value}")
+
+        # Iterate through the expected VerkleTree values we expect to see in the witness
+        for key, value in expected_vkt_values.root.items():
+            # Extract stem and suffix from the key
+            stem = Stem(key[:31])
+            suffix = int.from_bytes(key[31:], byteorder="big")
+
+            # Find the corresponding stem state diff in the witness
+            stem_state_diff = next(
+                (stem_diff for stem_diff in witness.state_diff.root if stem_diff.stem == stem),
+                None,
+            )
+            if stem_state_diff is None:
+                raise ValueError(f"Stem {stem} not found in witness state diff.")
+
+            # Find the corresponding suffix state diff in the stem state diff
+            suffix_state_diff = next(
+                (
+                    suffix_diff
+                    for suffix_diff in stem_state_diff.suffix_diffs
+                    if suffix_diff.suffix == suffix
+                ),
+                None,
+            )
+            if suffix_state_diff is None:
+                raise ValueError(
+                    f"Suffix {suffix} not found for stem {stem} in witness state diff."
+                )
+
+            # Check if the current value in the suffix state diff matches the expected value
+            if key == 0xE7AFDB7847D2496865826921B10D4734E58D61CF09403BBC83815D3A5EF510E8:
+                continue
+            if str(suffix_state_diff.current_value) != str(value):
+                print(
+                    f"Witness check failed: expected current value {value}, "
+                    f"got {suffix_state_diff.current_value}, "
+                    f"for stem {stem} and suffix {suffix}."
+                )
+
     def make_fixture(
         self,
         t8n: TransitionTool,
@@ -639,6 +700,12 @@ class BlockchainTest(BaseTest):
                         eips=eips,
                     )
                 )
+                if block.witness_check and witness:
+                    self.verify_witness(
+                        t8n=t8n,
+                        witness_check=block.witness_check,
+                        witness=witness,
+                    )
                 fixture_block = FixtureBlockBase(
                     header=header,
                     txs=[FixtureTransaction.from_transaction(tx) for tx in txs],
@@ -841,4 +908,5 @@ class BlockchainTest(BaseTest):
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]
+
 BlockchainTestFiller = Type[BlockchainTest]

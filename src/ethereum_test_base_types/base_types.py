@@ -181,18 +181,20 @@ class FixedSizeHexNumber(int, ToStringSchema):
 
         return Sized
 
-    def __new__(cls, input: NumberConvertible | N):
+    def __new__(cls, input: NumberConvertible | N | None):
         """
         Creates a new Number object.
         """
-        i = to_number(input)
-        if i > cls.max_value:
-            raise ValueError(f"Value {i} is too large for {cls.byte_length} bytes")
-        if i < 0:
-            i += cls.max_value + 1
-            if i <= 0:
-                raise ValueError(f"Value {i} is too small for {cls.byte_length} bytes")
-        return super(FixedSizeHexNumber, cls).__new__(cls, i)
+        if input is not None:
+            i = to_number(input)
+            if i > cls.max_value:
+                raise ValueError(f"Value {i} is too large for {cls.byte_length} bytes")
+            if i < 0:
+                i += cls.max_value + 1
+                if i <= 0:
+                    raise ValueError(f"Value {i} is too small for {cls.byte_length} bytes")
+            return super(FixedSizeHexNumber, cls).__new__(cls, i)
+        return None
 
     def __str__(self) -> str:
         """

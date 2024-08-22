@@ -30,6 +30,7 @@ from .types import (
     Withdrawal,
     WithdrawalRequest,
 )
+from .verkle import VerkleTree, Witness, WitnessCheck
 
 __all__ = (
     "AccessList",
@@ -53,8 +54,11 @@ __all__ = (
     "TestPrivateKey",
     "TestPrivateKey2",
     "Transaction",
+    "VerkleTree",
     "Withdrawal",
     "WithdrawalRequest",
+    "Witness",
+    "WitnessCheck",
     "ZeroPaddedHexNumber",
     "add_kzg_version",
     "ceiling_division",

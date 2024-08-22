@@ -8,6 +8,7 @@ from pydantic import Field, RootModel, field_validator
 from pydantic.functional_serializers import model_serializer
 
 from ethereum_test_base_types import CamelModel, HexNumber, PaddedFixedSizeBytes
+from ethereum_test_types import Alloc
 
 IPA_PROOF_DEPTH = 8
 
@@ -148,3 +149,14 @@ class VerkleTree(RootModel[Dict[Hash, Hash]]):
     """
 
     root: Dict[Hash, Hash] = Field(default_factory=dict)
+
+
+class WitnessCheck(CamelModel):
+    """
+    Definition of a Witness Check.
+
+    Used as an intermediary check between blocks to verify the correctness of the state transition.
+    Contains the allocation of the accounts to checked within the Witness StateDiff.
+    """
+
+    state_diff_alloc: Alloc | None = Field(None)
