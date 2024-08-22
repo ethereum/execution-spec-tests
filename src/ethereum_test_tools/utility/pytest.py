@@ -114,9 +114,10 @@ def extend_with_defaults(
           original `cases` list is modified.
     """
     for i, case in enumerate(cases):
-        assert len(case.values) == 1 and isinstance(
-            case.values[0], dict
-        ), "each case must contain exactly one value; a dict of parameter values"
+        if not (len(case.values) == 1 and isinstance(case.values[0], dict)):
+            raise ValueError(
+                "each case must contain exactly one value; a dict of parameter values"
+            )
         if set(case.values[0].keys()) - set(defaults.keys()):
             raise UnknownParameterInCasesError()
         # Overwrite values in defaults if the parameter is present in the test case values

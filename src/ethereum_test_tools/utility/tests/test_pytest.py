@@ -137,8 +137,29 @@ def test_extend_with_defaults(defaults, cases, parametrize_kwargs, expected):  #
     assert result == parametrize_kwargs
 
 
-def test_extend_with_defaults_raises_for_unknown_default():
+def test_extend_with_defaults_raises_for_unknown_default():  # noqa: D103
     with pytest.raises(
         UnknownParameterInCasesError, match="only contain parameters present in defaults"
     ):
         extend_with_defaults(dict(a=0, b=1), [pytest.param(dict(c=2))])
+
+
+@pytest.mark.parametrize(
+    "defaults, cases",
+    [
+        pytest.param(
+            dict(param_1="default1"),
+            [pytest.param(dict(param_1="value1"), dict(param_2="value2"))],
+            id="multiple_values",
+        ),
+        pytest.param(
+            dict(param_1="default1"),
+            [pytest.param("not_a_dict")],
+            id="non_dict_value",
+        ),
+    ],
+)
+def test_extend_with_defaults_raises_value_error(defaults, cases):  # noqa: D103
+    expected_message = "each case must contain exactly one value; a dict of parameter values"
+    with pytest.raises(ValueError, match=expected_message):
+        extend_with_defaults(defaults, cases)
