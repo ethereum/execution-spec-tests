@@ -79,7 +79,7 @@ from .code import (
     Yul,
     YulCompiler,
 )
-from .utility.pytest import parametrize_with_defaults
+from .utility.pytest import extend_with_defaults
 
 __all__ = (
     "SPEC_TYPES",
@@ -150,6 +150,6 @@ __all__ = (
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
     "eip_2028_transaction_data_cost",
-    "parametrize_with_defaults",
+    "extend_with_defaults",
     "vm",
 )
