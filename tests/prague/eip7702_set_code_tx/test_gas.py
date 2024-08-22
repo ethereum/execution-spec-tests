@@ -769,6 +769,7 @@ def test_gas_cost(
     )
 
 
+@pytest.mark.parametrize("check_delegated_account_first", [True, False])
 @pytest.mark.parametrize(**gas_test_parameter_args(include_many=False, include_data=False))
 def test_account_warming(
     state_test: StateTestFiller,
@@ -777,49 +778,80 @@ def test_account_warming(
     authorization_list: List[AuthorizationTuple],
     access_list_case: AccessListType,
     access_list: List[AccessList],
-    authorize_to_address: Address,
     data: bytes,
     sender: EOA,
+    check_delegated_account_first: bool,
 ):
     """
     Test warming of the authority and authorized accounts for set-code transactions.
     """
-    overhead_cost = 3
+    OVERHEAD_COST = 3
+    COLD_ACCOUNT_COST = 2600
+    WARM_ACCOUNT_COST = 100
 
-    # Dictionary to keep track of the addresses to check for warming, with a boolean value to
-    # indicate whether the address should already be warm or not.
-    addresses_to_check: Dict[Address, bool] = {}
+    # Dictionary to keep track of the addresses to check for warming, and the expected cost of
+    # accessing such account.
+    addresses_to_check: Dict[Address, int] = {}
 
     for authorization_with_properties in authorization_list_with_properties:
         authority = authorization_with_properties.tuple.signer
         assert authority is not None, "authority address is not set"
-        if authority not in addresses_to_check:
-            warm = False
-            if not authorization_with_properties.skip and (
-                authorization_with_properties.invalidity_type is None
-                or (
-                    authorization_with_properties.invalidity_type
-                    != AuthorizationInvalidityType.INVALID_CHAIN_ID
-                )
-                or access_list_case.contains_authority()
-            ):
-                warm = True
-            addresses_to_check[authority] = warm
+        delegated_account = authorization_with_properties.tuple.address
 
-    if authorize_to_address not in addresses_to_check:
-        addresses_to_check[authorize_to_address] = access_list_case.contains_set_code_address()
+        if check_delegated_account_first:
+            if delegated_account not in addresses_to_check:
+                addresses_to_check[delegated_account] = (
+                    WARM_ACCOUNT_COST
+                    if access_list_case.contains_authority()
+                    else COLD_ACCOUNT_COST
+                )
+            if authority not in addresses_to_check:
+                access_cost = (
+                    COLD_ACCOUNT_COST + WARM_ACCOUNT_COST
+                )  # Delegated-to account is unconditionally warm at this point
+                if not authorization_with_properties.skip and (
+                    authorization_with_properties.invalidity_type is None
+                    or (
+                        authorization_with_properties.invalidity_type
+                        != AuthorizationInvalidityType.INVALID_CHAIN_ID
+                    )
+                    or access_list_case.contains_authority()
+                ):
+                    access_cost = WARM_ACCOUNT_COST * 2
+
+                addresses_to_check[authority] = access_cost
+        else:
+            if authority not in addresses_to_check:
+                access_cost = COLD_ACCOUNT_COST
+                if not authorization_with_properties.skip and (
+                    authorization_with_properties.invalidity_type is None
+                    or (
+                        authorization_with_properties.invalidity_type
+                        != AuthorizationInvalidityType.INVALID_CHAIN_ID
+                    )
+                    or access_list_case.contains_authority()
+                ):
+                    access_cost = WARM_ACCOUNT_COST
+                if (
+                    delegated_account in addresses_to_check
+                    or access_list_case.contains_set_code_address()
+                ):
+                    access_cost += WARM_ACCOUNT_COST
+                else:
+                    access_cost += COLD_ACCOUNT_COST
+                addresses_to_check[authority] = access_cost
 
     callee_storage = Storage()
     callee_code: Bytecode = sum(  # type: ignore
         (
             CodeGasMeasure(
                 code=Op.EXTCODESIZE(check_address),
-                overhead_cost=overhead_cost,
+                overhead_cost=OVERHEAD_COST,
                 extra_stack_items=1,
-                sstore_key=callee_storage.store_next(100 if warm else 2600),
+                sstore_key=callee_storage.store_next(access_cost),
                 stop=False,
             )
-            for check_address, warm in addresses_to_check.items()
+            for check_address, access_cost in addresses_to_check.items()
         )
     )
     callee_code += Op.STOP
