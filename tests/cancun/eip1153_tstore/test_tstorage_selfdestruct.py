@@ -243,7 +243,7 @@ def test_reentrant_selfdestructing_call(
     post: Dict = {caller_address: Account(storage=expected_storage)}
 
     if pre_existing_contract:
-        post[callee_address] = Account(code=callee_bytecode)
+        post[callee_address] = Account(code=pre[callee_address].code)  # type: ignore
     else:
         post[callee_address] = Account.NONEXISTENT
 

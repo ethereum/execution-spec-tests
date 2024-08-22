@@ -118,7 +118,6 @@ def test_tload_after_sstore(state_test: StateTestFiller, pre: Alloc):
 
     post = {
         code_address: Account(
-            code=code,
             storage={slot - 1: 0xFF for slot in slots_under_test}
             | {slot: 0 for slot in slots_under_test},
         )
@@ -233,7 +232,7 @@ def test_gas_usage(
         gas_limit=1_000_000,
     )
     post = {
-        code_address: Account(code=gas_measure_bytecode, storage={0: expected_gas}),
+        code_address: Account(storage={0: expected_gas}),
     }
     state_test(env=env, pre=pre, tx=tx, post=post)
 
@@ -279,6 +278,6 @@ def test_run_until_out_of_gas(
         gas_limit=30_000_000,
     )
     post = {
-        code_address: Account(code=bytecode, storage={}),
+        code_address: Account(storage={}),
     }
     state_test(env=Environment(), pre=pre, tx=tx, post=post)

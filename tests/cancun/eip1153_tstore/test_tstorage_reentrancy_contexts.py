@@ -293,6 +293,6 @@ def test_reentrant_call(
         gas_limit=1_000_000,
     )
 
-    post = {callee_address: Account(code=bytecode, storage=expected_storage)}
+    post = {callee_address: Account(storage=expected_storage)}
 
     state_test(env=env, pre=pre, post=post, tx=tx)

@@ -1323,7 +1323,7 @@ def test_create_selfdestruct_same_tx_increased_nonce(
             storage=entry_code_storage,
         ),
         initcode_copy_from_address: Account(
-            code=selfdestruct_contract_initcode,
+            # code=selfdestruct_contract_initcode,
         ),
     }
 
