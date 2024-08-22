@@ -9,9 +9,10 @@ from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Tr
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_vm import Bytecode, EVMCodeType
+
+from .. import EOF_FORK_NAME
 from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 from .helpers import slot_cold_gas, slot_warm_gas
-from .. import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
