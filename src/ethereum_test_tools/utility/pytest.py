@@ -8,6 +8,16 @@ import pytest
 from _pytest.mark.structures import ParameterSet
 
 
+class UnknownParameterInCasesError(Exception):
+    """
+    Exception raised when a test case contains parameters
+    that are not present in the defaults.
+    """
+
+    def __init__(self) -> None:
+        super().__init__("each case must only contain parameters present in defaults")
+
+
 def extend_with_defaults(
     defaults: Dict[str, Any], cases: List[ParameterSet], **parametrize_kwargs: Any
 ) -> Dict[str, Any]:
@@ -107,6 +117,8 @@ def extend_with_defaults(
         assert len(case.values) == 1 and isinstance(
             case.values[0], dict
         ), "each case must contain exactly one value; a dict of parameter values"
+        if set(case.values[0].keys()) - set(defaults.keys()):
+            raise UnknownParameterInCasesError()
         # Overwrite values in defaults if the parameter is present in the test case values
         merged_params = {**defaults, **case.values[0]}  # type: ignore
         cases[i] = pytest.param(*merged_params.values(), id=case.id, marks=case.marks)

@@ -5,6 +5,7 @@ Tests for ethereum_test_tools.utility.pytest.
 import pytest
 
 from ethereum_test_tools import extend_with_defaults
+from ethereum_test_tools.utility.pytest import UnknownParameterInCasesError
 
 
 # TODO: This is from the docstring in extend_with_defaults; should be tested automatically
@@ -134,3 +135,10 @@ def test_extend_with_defaults(defaults, cases, parametrize_kwargs, expected):  #
     result.pop("argnames")
     result.pop("argvalues")
     assert result == parametrize_kwargs
+
+
+def test_extend_with_defaults_raises_for_unknown_default():
+    with pytest.raises(
+        UnknownParameterInCasesError, match="only contain parameters present in defaults"
+    ):
+        extend_with_defaults(dict(a=0, b=1), [pytest.param(dict(c=2))])
