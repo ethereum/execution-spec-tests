@@ -103,6 +103,7 @@ class AuthorityWithProperties:
     """
 
     authority: EOA
+    address_type: AddressType
     invalidity_type: AuthorizationInvalidityType | None
     empty: bool
 
@@ -112,6 +113,7 @@ def authority_iterator(
     pre: Alloc,
     sender: EOA,
     authority_type: AddressType | List[AddressType],
+    authorize_to_address: Address,
     self_sponsored: bool,
 ) -> Iterator[AuthorityWithProperties]:
     """
@@ -134,6 +136,7 @@ def authority_iterator(
                     ), "Self-sponsored empty-account authority is not supported"
                     yield AuthorityWithProperties(
                         authority=pre.fund_eoa(0),
+                        address_type=current_authority_type,
                         invalidity_type=None,
                         empty=True,
                     )
@@ -141,12 +144,29 @@ def authority_iterator(
                     if i == 0 and self_sponsored:
                         yield AuthorityWithProperties(
                             authority=sender,
+                            address_type=current_authority_type,
                             invalidity_type=None,
                             empty=False,
                         )
                     else:
                         yield AuthorityWithProperties(
                             authority=pre.fund_eoa(),
+                            address_type=current_authority_type,
+                            invalidity_type=None,
+                            empty=False,
+                        )
+                case AddressType.EOA_WITH_SET_CODE:
+                    if i == 0 and self_sponsored:
+                        yield AuthorityWithProperties(
+                            authority=sender,
+                            address_type=current_authority_type,
+                            invalidity_type=None,
+                            empty=False,
+                        )
+                    else:
+                        yield AuthorityWithProperties(
+                            authority=pre.fund_eoa(0, delegation=authorize_to_address),
+                            address_type=current_authority_type,
                             invalidity_type=None,
                             empty=False,
                         )
@@ -160,6 +180,7 @@ def authority_iterator(
                     authority_account.code = Bytes(Op.STOP)
                     yield AuthorityWithProperties(
                         authority=authority,
+                        address_type=current_authority_type,
                         invalidity_type=AuthorizationInvalidityType.AUTHORITY_IS_CONTRACT,
                         empty=False,
                     )
@@ -178,6 +199,7 @@ class AuthorizationWithProperties:
     tuple: AuthorizationTuple
     invalidity_type: AuthorizationInvalidityType | None
     empty: bool
+    skip: bool
 
 
 @pytest.fixture
@@ -189,6 +211,7 @@ def authorization_list_with_properties(
     authority_iterator: Iterator[AuthorityWithProperties],
     authorize_to_address: Address,
     self_sponsored: bool,
+    re_authorize: bool,
 ) -> List[AuthorizationWithProperties]:
     """
     Fixture to return the authorization-list-with-properties for the given case.
@@ -220,7 +243,12 @@ def authorization_list_with_properties(
                     invalidity_type = authority_with_properties.invalidity_type
                 else:
                     invalidity_type = authorization_invalidity_type
-
+                skip = False
+                if (
+                    authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+                    and not re_authorize
+                ):
+                    skip = True
                 authorization_list.append(
                     AuthorizationWithProperties(
                         tuple=AuthorizationTuple(
@@ -231,6 +259,7 @@ def authorization_list_with_properties(
                         ),
                         invalidity_type=invalidity_type,
                         empty=authority_with_properties.empty,
+                        skip=skip,
                     )
                 )
             return authorization_list
@@ -262,7 +291,12 @@ def authorization_list_with_properties(
                     invalidity_type = authority_with_properties.invalidity_type
                 else:
                     invalidity_type = authorization_invalidity_type
-
+                skip = False
+                if (
+                    authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+                    and not re_authorize
+                ):
+                    skip = True
                 authorization_list.append(
                     AuthorizationWithProperties(
                         tuple=AuthorizationTuple(
@@ -273,6 +307,7 @@ def authorization_list_with_properties(
                         ),
                         invalidity_type=invalidity_type,
                         empty=authority_with_properties.empty,
+                        skip=skip,
                     )
                 )
             return authorization_list
@@ -288,7 +323,9 @@ def authorization_list(
     Fixture to return the authorization list for the given case.
     """
     return [
-        authorization_tuple.tuple for authorization_tuple in authorization_list_with_properties
+        authorization_tuple.tuple
+        for authorization_tuple in authorization_list_with_properties
+        if not authorization_tuple.skip
     ]
 
 
@@ -333,17 +370,29 @@ def access_list(
 
 
 @pytest.fixture()
-def sender(pre: Alloc) -> EOA:
+def sender(
+    pre: Alloc,
+    authority_type: AddressType | List[AddressType],
+    authorize_to_address: Address,
+) -> EOA:
     """
     Fixture to return the sender address.
     """
+    if (
+        isinstance(authority_type, list)
+        and AddressType.EOA_WITH_SET_CODE in authority_type
+        or (authority_type == AddressType.EOA_WITH_SET_CODE)
+    ):
+        return pre.fund_eoa(delegation=authorize_to_address)
     return pre.fund_eoa()
 
 
 # Helper functions to parametrize the tests
 
 
-def gas_test_parameter_args(include_many: bool = True, include_data: bool = True):
+def gas_test_parameter_args(
+    include_many: bool = True, include_data: bool = True, include_pre_authorized: bool = True
+):
     """
     Return the parametrize decorator that can be used in all gas test functions.
     """
@@ -358,6 +407,7 @@ def gas_test_parameter_args(include_many: bool = True, include_data: bool = True
         authorize_to_address=AddressType.EMPTY_ACCOUNT,
         access_list_case=AccessListType.EMPTY,
         self_sponsored=False,
+        re_authorize=False,
         authority_type=AddressType.EMPTY_ACCOUNT,
         data=b"",
     )
@@ -486,6 +536,13 @@ def gas_test_parameter_args(include_many: bool = True, include_data: bool = True
         ),
         pytest.param(
             dict(
+                authority_type=AddressType.EOA_WITH_SET_CODE,
+                re_authorize=True,
+            ),
+            id="single_valid_re_authorization_eoa_authority",
+        ),
+        pytest.param(
+            dict(
                 authority_type=AddressType.EOA,
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
@@ -543,6 +600,25 @@ def gas_test_parameter_args(include_many: bool = True, include_data: bool = True
         ),
     ]
 
+    if include_pre_authorized:
+        cases += [
+            pytest.param(
+                dict(
+                    authority_type=AddressType.EOA_WITH_SET_CODE,
+                    re_authorize=False,
+                ),
+                id="pre_authorized_eoa_authority_no_re_authorization",
+            ),
+            pytest.param(
+                dict(
+                    authority_type=AddressType.EOA_WITH_SET_CODE,
+                    re_authorize=False,
+                    self_sponsored=True,
+                ),
+                id="pre_authorized_eoa_authority_no_re_authorization_self_sponsored",
+            ),
+        ]
+
     if include_data:
         cases += [
             pytest.param(
@@ -590,7 +666,7 @@ def gas_test_parameter_args(include_many: bool = True, include_data: bool = True
 # Tests
 
 
-@pytest.mark.parametrize(**gas_test_parameter_args())
+@pytest.mark.parametrize(**gas_test_parameter_args(include_pre_authorized=False))
 def test_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -719,7 +795,7 @@ def test_account_warming(
         assert authority is not None, "authority address is not set"
         if authority not in addresses_to_check:
             warm = False
-            if (
+            if not authorization_with_properties.skip and (
                 authorization_with_properties.invalidity_type is None
                 or (
                     authorization_with_properties.invalidity_type
@@ -752,7 +828,7 @@ def test_account_warming(
     tx = Transaction(
         gas_limit=1_000_000,
         to=callee_address,
-        authorization_list=authorization_list,
+        authorization_list=authorization_list if authorization_list else None,
         access_list=access_list,
         sender=sender,
         data=data,
@@ -771,7 +847,7 @@ def test_account_warming(
     )
 
 
-@pytest.mark.parametrize(**gas_test_parameter_args())
+@pytest.mark.parametrize(**gas_test_parameter_args(include_pre_authorized=False))
 @pytest.mark.parametrize(
     "valid",
     [True, False],
