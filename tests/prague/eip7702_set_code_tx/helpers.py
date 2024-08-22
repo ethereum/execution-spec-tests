@@ -13,6 +13,7 @@ class AddressType(Enum):
 
     EMPTY_ACCOUNT = auto()
     EOA = auto()
+    EOA_WITH_SET_CODE = auto()
     CONTRACT = auto()
 
 
