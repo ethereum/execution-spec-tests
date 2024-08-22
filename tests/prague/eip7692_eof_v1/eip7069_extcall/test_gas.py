@@ -8,11 +8,10 @@ import pytest
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_vm import Bytecode
-
-from .. import EOF_FORK_NAME
+from ethereum_test_vm import Bytecode, EVMCodeType
 from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 from .helpers import slot_cold_gas, slot_warm_gas
+from .. import EOF_FORK_NAME
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
@@ -20,8 +19,21 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
+@pytest.fixture
+def state_env() -> Environment:
+    """
+    Prepare the environment for all state test cases.
+
+    Main difference is that the excess blob gas is not increased by the target, as
+    there is no genesis block -> block 1 transition, and therefore the excess blob gas
+    is not decreased by the target.
+    """
+    return Environment()
+
+
 def gas_test(
     state_test: StateTestFiller,
+    env: Environment,
     pre: Alloc,
     setup_code: Bytecode,
     subject_code: Bytecode,
@@ -35,16 +47,10 @@ def gas_test(
     if warm_gas is None:
         warm_gas = cold_gas
 
-    env = Environment()
-
     sender = pre.fund_eoa(10**18)
 
-    address_baseline = pre.deploy_contract(
-        Container(sections=[Section.Code(code=setup_code + tear_down_code)])
-    )
-    address_subject = pre.deploy_contract(
-        Container(sections=[Section.Code(code=setup_code + subject_code + tear_down_code)])
-    )
+    address_baseline = pre.deploy_contract(setup_code + tear_down_code)
+    address_subject = pre.deploy_contract(setup_code + subject_code + tear_down_code)
     address_legacy_harness = pre.deploy_contract(
         code=(
             # warm subject and baseline without executing
@@ -81,13 +87,14 @@ def gas_test(
             # store cold gas
             + (Op.SWAP1 + Op.SUB + Op.PUSH2(slot_cold_gas) + Op.SSTORE)
             + Op.STOP
-        )
+        ),
+        evm_code_type=EVMCodeType.LEGACY,  # Needs to be legacy to use GAS opcode
     )
 
     post = {
         address_legacy_harness: Account(
             storage={
-                slot_warm_gas: cold_gas if warm_gas is None else warm_gas,
+                slot_warm_gas: warm_gas,
                 slot_cold_gas: cold_gas,
             },
         ),
@@ -110,6 +117,7 @@ def gas_test(
 def test_ext_calls_gas(
     state_test: StateTestFiller,
     pre: Alloc,
+    state_env: Environment,
     opcode: Op,
     pre_setup: Op,
     cold_gas: int,
@@ -120,6 +128,7 @@ def test_ext_calls_gas(
 
     gas_test(
         state_test,
+        state_env,
         pre,
         setup_code=pre_setup + Op.PUSH0 + Op.PUSH0 + Op.PUSH20(address_target),
         subject_code=opcode,
