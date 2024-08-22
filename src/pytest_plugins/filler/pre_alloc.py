@@ -86,6 +86,9 @@ class AllocMode(IntEnum):
     STRICT = 1
 
 
+DELEGATION_DESIGNATION = b"\xef\x01\x00"
+
+
 class Alloc(BaseAlloc):
     """
     Allocation of accounts in the state, pre and post test execution.
@@ -193,6 +196,7 @@ class Alloc(BaseAlloc):
         amount: NumberConvertible = 10**21,
         label: str | None = None,
         storage: Storage | None = None,
+        delegation: Address | None = None,
     ) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
@@ -201,8 +205,8 @@ class Alloc(BaseAlloc):
         returned.
         """
         eoa = next(self._eoa_iterator)
-        if Number(amount) > 0 or storage is not None:
-            if storage is None:
+        if Number(amount) > 0 or storage is not None or delegation is not None:
+            if storage is None and delegation is None:
                 account = Account(
                     nonce=0,
                     balance=amount,
@@ -212,7 +216,10 @@ class Alloc(BaseAlloc):
                 account = Account(
                     nonce=1,
                     balance=amount,
-                    storage=storage,
+                    storage=storage if storage is not None else {},
+                    code=DELEGATION_DESIGNATION + bytes(delegation)
+                    if delegation is not None
+                    else None,
                 )
                 eoa.nonce = Number(1)
 

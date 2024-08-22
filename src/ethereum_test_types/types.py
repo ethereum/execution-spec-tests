@@ -283,6 +283,7 @@ class Alloc(BaseAlloc):
         amount: NumberConvertible = 10**21,
         label: str | None = None,
         storage: Storage | None = None,
+        delegation: Address | None = None,
     ) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
