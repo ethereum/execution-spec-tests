@@ -153,19 +153,19 @@ class CovariantDescriptor:
         """
         marker = self.get_marker(metafunc)
         assert marker is not None
-        if len(marker.args) == 0:
+        if len(marker.kwargs) == 0:
             return values
-        assert len(marker.args) == 1, f"Invalid number of arguments for marker {self.marker_name}"
-        filter_func = marker.args[0]
-        filtered_values = []
-        for value in values:
-            if isinstance(value, tuple) or isinstance(value, list):
-                if filter_func(*value[: filter_func.__code__.co_argcount]):
+        kwargs = dict(marker.kwargs)
+        if "selector" in kwargs:
+            selector = kwargs.pop("selector")
+            filtered_values = []
+            for value in values:
+                if selector(value):
                     filtered_values.append(value)
-            else:
-                if filter_func(value):
-                    filtered_values.append(value)
-        return filtered_values
+            values = filtered_values
+        if len(kwargs) > 0:
+            raise ValueError(f"Unknown arguments to {self.marker_name}: {kwargs}")
+        return values
 
     def add_values(self, metafunc: Metafunc, fork_parametrizer: ForkParametrizer) -> None:
         """

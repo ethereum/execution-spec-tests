@@ -133,6 +133,8 @@ Code wrapping might fail in the following circumstances:
 
 In the case where the code wrapping fails, `evm_code_type` can be added as a parameter to the test and the bytecode can be dynamically modified to be compatible with the EOF V1 container.
 
+One thing to note is that `evm_code_type` is not necessary to be added as a parameter to the test because the `pre: Alloc` fixture automatically consumes this fixture, and therefore it only needs to be added to the test signature if the test's logic needs it.
+
 ```python
 import pytest
 
@@ -226,16 +228,20 @@ def test_something_with_all_system_contracts(
 
 In this example, the test will be parameterized for parameter `system_contract` with value `[0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02]` for fork Cancun.
 
-### Covariant Marker Filter
+### Covariant Marker Keyword Arguments
 
-All fork covariant markers accept a lambda function as an argument that can be used to filter the values that are valid for the fork being tested.
+All fork covariant markers accept the following keyword arguments:
+
+#### `selector`
+
+A lambda function that can be used to filter the fork covariant values that are valid for this specific test.
 
 ```python
 import pytest
 
 from ethereum_test_tools import Alloc, StateTestFiller
 
-@pytest.mark.with_all_tx_types(lambda tx_type: tx_type != 2)
+@pytest.mark.with_all_tx_types(selector=lambda tx_type: tx_type != 2)
 @pytest.mark.valid_from("London")
 def test_something_with_all_tx_types(
     state_test: StateTestFiller, 
