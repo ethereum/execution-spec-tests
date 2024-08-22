@@ -814,7 +814,9 @@ def test_eof_calls_min_callee_gas(
     )
 
 
-@pytest.mark.parametrize("balance", [0, 1, 2, 2**256 - 1])
+@pytest.mark.parametrize(
+    "balance", [0, 1, 2, pytest.param(2**256 - 1, marks=pytest.mark.pre_alloc_modify)]
+)
 @pytest.mark.parametrize("value", [0, 1, 2, 2**256 - 1])
 def test_eof_calls_with_value(
     state_test: StateTestFiller,
