@@ -143,6 +143,36 @@ import pytest
             0,
             id="with_all_system_contracts",
         ),
+        pytest.param(
+            """
+            import pytest
+            @pytest.mark.with_all_tx_types(invalid_parameter="invalid")
+            @pytest.mark.valid_from("Paris")
+            @pytest.mark.valid_until("Paris")
+            def test_case(state_test_only, tx_type):
+                pass
+            """,
+            0,
+            0,
+            0,
+            1,
+            id="invalid_covariant_marker_parameter",
+        ),
+        pytest.param(
+            """
+            import pytest
+            @pytest.mark.with_all_tx_types(selector=None)
+            @pytest.mark.valid_from("Paris")
+            @pytest.mark.valid_until("Paris")
+            def test_case(state_test_only, tx_type):
+                pass
+            """,
+            0,
+            0,
+            0,
+            1,
+            id="invalid_selector",
+        ),
     ],
 )
 def test_fork_covariant_markers(
@@ -158,7 +188,7 @@ def test_fork_covariant_markers(
         - Creates an outcome with exactly one error.
         - Triggers the expected error string in pytest's console output.
 
-    Each invalid marker/marker combination is tested with one test in its own test
+    Each invalid marwith_all_tx_typesker/marker combination is tested with one test in its own test
     session.
     """
     pytester.makepyfile(test_function)

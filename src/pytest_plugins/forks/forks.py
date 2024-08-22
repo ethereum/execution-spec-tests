@@ -6,6 +6,7 @@ import itertools
 import sys
 import textwrap
 from dataclasses import dataclass, field
+from types import FunctionType
 from typing import Any, List, Set
 
 import pytest
@@ -158,6 +159,7 @@ class CovariantDescriptor:
         kwargs = dict(marker.kwargs)
         if "selector" in kwargs:
             selector = kwargs.pop("selector")
+            assert isinstance(selector, FunctionType), "selector must be a function"
             filtered_values = []
             for value in values:
                 if selector(value):
