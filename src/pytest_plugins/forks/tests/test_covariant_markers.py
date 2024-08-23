@@ -116,6 +116,24 @@ import pytest
         pytest.param(
             """
             import pytest
+            from ethereum_test_tools import EVMCodeType
+            @pytest.mark.with_all_call_opcodes(
+                selector=(lambda _, evm_code_type: evm_code_type == EVMCodeType.LEGACY)
+            )
+            @pytest.mark.valid_from("Cancun")
+            @pytest.mark.valid_until("Cancun")
+            def test_case(state_test_only, call_opcode):
+                pass
+            """,
+            4,
+            0,
+            0,
+            0,
+            id="with_all_call_opcodes_with_selector_for_evm_code_type",
+        ),
+        pytest.param(
+            """
+            import pytest
             from ethereum_test_tools import Opcodes as Op
             @pytest.mark.with_all_call_opcodes(selector=lambda call_opcode: call_opcode == Op.CALL)
             @pytest.mark.valid_from("Cancun")
@@ -143,6 +161,38 @@ import pytest
             0,
             0,
             id="with_all_create_opcodes",
+        ),
+        pytest.param(
+            """
+            import pytest
+            @pytest.mark.with_all_call_opcodes()
+            @pytest.mark.with_all_precompiles()
+            @pytest.mark.valid_from("Cancun")
+            @pytest.mark.valid_until("Cancun")
+            def test_case(state_test_only, call_opcode, precompile):
+                pass
+            """,
+            4 * 10,
+            0,
+            0,
+            0,
+            id="with_all_call_opcodes_and_precompiles",
+        ),
+        pytest.param(
+            """
+            import pytest
+            @pytest.mark.with_all_call_opcodes()
+            @pytest.mark.with_all_create_opcodes()
+            @pytest.mark.valid_from("Cancun")
+            @pytest.mark.valid_until("Cancun")
+            def test_case(state_test_only, call_opcode, create_opcode):
+                pass
+            """,
+            4 * 2,
+            0,
+            0,
+            0,
+            id="with_all_call_opcodes_and_create_opcodes",
         ),
         pytest.param(
             """
@@ -231,4 +281,3 @@ def test_fork_covariant_markers(
         skipped=skipped,
         errors=errors,
     )
-    # assert error_string in "\n".join(result.stdout.lines)
