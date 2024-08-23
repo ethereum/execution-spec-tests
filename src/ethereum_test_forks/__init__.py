@@ -20,11 +20,15 @@ from .forks.forks import (
     Prague,
     Shanghai,
 )
+
 from .forks.transition import (
     BerlinToLondonAt5,
     ParisToShanghaiAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
+
+from .fork_registry import update_fork_registry, get_fork_registry
+
 from .helpers import (
     InvalidForkError,
     forks_from,
@@ -67,10 +71,12 @@ __all__ = [
     "forks_from_until",
     "get_deployed_forks",
     "get_development_forks",
+    "get_fork_registry",
     "get_forks",
     "get_forks_with_solc_support",
     "get_forks_without_solc_support",
     "get_closest_fork_with_solc_support",
     "transition_fork_from_to",
     "transition_fork_to",
+    "update_fork_registry",
 ]
