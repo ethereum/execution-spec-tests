@@ -213,7 +213,7 @@ class Alloc(BaseAlloc):
                 )
             else:
                 # Type-4 transaction is sent to the EOA to set the storage, so the nonce must be 1
-                if delegation == "Self":
+                if not isinstance(delegation, Address) and delegation == "Self":
                     delegation = eoa
                 account = Account(
                     nonce=1,
