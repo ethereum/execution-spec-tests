@@ -154,6 +154,7 @@ class CovariantDescriptor:
         """
         marker = self.get_marker(metafunc)
         assert marker is not None
+        assert len(marker.args) == 0, "Only keyword arguments are supported"
         if len(marker.kwargs) == 0:
             return values
         kwargs = dict(marker.kwargs)
