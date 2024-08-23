@@ -11,7 +11,6 @@ from ethereum_test_types import Alloc, Transaction, eip_2028_transaction_data_co
 from ethereum_test_vm import Bytecode
 from ethereum_test_vm import Opcodes as Op
 
-
 Decorator = Callable[[Callable[..., Any]], Callable[..., Any]]
 
 
@@ -39,15 +38,25 @@ def pytest_runtest_setup(item):
         # TODO: Add a similar check for the 'data' fixture.
 
 
+@pytest.fixture()
+def data_checked(data: bytes) -> bytes:
+    """
+    Fixture to provide the data or an empty bytes array.
+    """
+    if data:
+        return data
+    return b""
+
+
 @pytest.fixture
-def total_gas(exact_gas_cost: int, data: bytes = b"") -> int:
+def total_gas(exact_gas_cost: int, data_checked: bytes) -> int:
     """
     Fixture to provide the exact gas cost required to execute the bytecode.
     """
     total_gas = (
         21_000  # Intrinsic tx cost
         + 2_100  # Cold account access cost
-        + eip_2028_transaction_data_cost(data)
+        + eip_2028_transaction_data_cost(data_checked)
         + 20_000  # Op.SSTORE
         + 3  # Op.PUSH2
         + 3  # Op.PUSH1(1)
@@ -69,7 +78,7 @@ def tx(
     gas_test_type: GasTestType,
     total_gas: int,
     test_code_address: Address,
-    data: bytes = b"",
+    data_checked: bytes,
 ) -> Transaction:
     """
     Fixture to provide the transaction with the exact gas cost required to execute the bytecode.
@@ -77,7 +86,7 @@ def tx(
     return Transaction(
         sender=pre.fund_eoa(),
         to=test_code_address,
-        data=data,
+        data=data_checked,
         gas_limit=total_gas if gas_test_type == GasTestType.EXACT_GAS else total_gas - 1,
     )
 
@@ -100,7 +109,7 @@ def pytest_configure(config):
     Register the 'exact_gas_cost' and 'with_data' markers.
     """
     config.addinivalue_line(
-        "markers", "generate_gas_test(gas_test_types, data=b" "): Apply exact gas cost test"
+        "markers", "generate_gas_test(gas_test_types, with_data=False): Apply exact gas cost test"
     )
 
 

@@ -78,7 +78,6 @@ from .code import (
     Yul,
     YulCompiler,
 )
-from .generators import GasTestType, exact_gas_test
 
 __all__ = (
     "SPEC_TYPES",
@@ -109,7 +108,6 @@ __all__ = (
     "EOFTestFiller",
     "EVMCodeType",
     "FixtureCollector",
-    "GasTestType",
     "Hash",
     "Header",
     "Initcode",
@@ -148,7 +146,5 @@ __all__ = (
     "copy_opcode_cost",
     "cost_memory_bytes",
     "eip_2028_transaction_data_cost",
-    "eip_2028_transaction_data_cost",
-    "exact_gas_test",
     "vm",
 )

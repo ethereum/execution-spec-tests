@@ -14,13 +14,12 @@ from ethereum_test_tools import (
     Address,
     Alloc,
     Environment,
-    GasTestType,
     StateTestFiller,
     Transaction,
     cost_memory_bytes,
-    exact_gas_test,
 )
 from ethereum_test_tools import Opcodes as Op
+from pytest_plugins.filler.generate_gas_test import GasTestType
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
@@ -104,7 +103,6 @@ def test_mcopy_memory_expansion_gas(
     pre: Alloc,
     post: Dict[Address, Account],
     tx: Transaction,
-    data: bytes,
 ):
     """
     Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.
@@ -112,36 +110,42 @@ def test_mcopy_memory_expansion_gas(
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
-# @pytest.mark.parametrize(
-#     "dest,src,length",
-#     [
-#         pytest.param(2**256 - 1, 0x00, 0x01, id="max_dest_single_byte_expansion"),
-#         pytest.param(2**256 - 2, 0x00, 0x01, id="max_dest_minus_one_single_byte_expansion"),
-#         pytest.param(2**255 - 1, 0x00, 0x01, id="half_max_dest_single_byte_expansion"),
-#         pytest.param(0x00, 2**256 - 1, 0x01, id="max_src_single_byte_expansion"),
-#         pytest.param(0x00, 2**256 - 2, 0x01, id="max_src_minus_one_single_byte_expansion"),
-#         pytest.param(0x00, 2**255 - 1, 0x01, id="half_max_src_single_byte_expansion"),
-#         pytest.param(0x00, 0x00, 2**256 - 1, id="max_length_expansion"),
-#         pytest.param(0x00, 0x00, 2**256 - 2, id="max_length_minus_one_expansion"),
-#         pytest.param(0x00, 0x00, 2**255 - 1, id="half_max_length_expansion"),
-#     ],
-# )
-# @pytest.mark.parametrize(
-#     "exact_gas_cost", [pytest.param(30_000_000, id="")]
-# )  # Hard-code gas, otherwise it would be impossibly large
-# @pytest.mark.parametrize(
-#     "initial_memory",
-#     [
-#         pytest.param(bytes(range(0x00, 0x100)), id="from_existent_memory"),
-#         pytest.param(bytes(), id="from_empty_memory"),
-#     ],
-# )
-# @pytest.mark.with_all_evm_code_types
-# @pytest.mark.valid_from("Cancun")
-# @exact_gas_test(gas_test_types=GasTestType.OOG, with_data=True)
-# def test_mcopy_huge_memory_expansion():
-#     """
-#     Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly
-#     runs out of gas.
-#     """
-#     pass
+@pytest.mark.parametrize(
+    "dest,src,length",
+    [
+        pytest.param(2**256 - 1, 0x00, 0x01, id="max_dest_single_byte_expansion"),
+        pytest.param(2**256 - 2, 0x00, 0x01, id="max_dest_minus_one_single_byte_expansion"),
+        pytest.param(2**255 - 1, 0x00, 0x01, id="half_max_dest_single_byte_expansion"),
+        pytest.param(0x00, 2**256 - 1, 0x01, id="max_src_single_byte_expansion"),
+        pytest.param(0x00, 2**256 - 2, 0x01, id="max_src_minus_one_single_byte_expansion"),
+        pytest.param(0x00, 2**255 - 1, 0x01, id="half_max_src_single_byte_expansion"),
+        pytest.param(0x00, 0x00, 2**256 - 1, id="max_length_expansion"),
+        pytest.param(0x00, 0x00, 2**256 - 2, id="max_length_minus_one_expansion"),
+        pytest.param(0x00, 0x00, 2**255 - 1, id="half_max_length_expansion"),
+    ],
+)
+@pytest.mark.parametrize(
+    "exact_gas_cost", [pytest.param(30_000_000, id="")]
+)  # Hard-code gas, otherwise it would be impossibly large
+@pytest.mark.parametrize(
+    "initial_memory",
+    [
+        pytest.param(bytes(range(0x00, 0x100)), id="from_existent_memory"),
+        pytest.param(bytes(), id="from_empty_memory"),
+    ],
+)
+@pytest.mark.with_all_evm_code_types
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.generate_gas_test(gas_test_types=GasTestType.OOG, with_data=True)
+def test_mcopy_huge_memory_expansion(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: Dict[Address, Account],
+    tx: Transaction,
+    data: bytes,
+):
+    """
+    Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly
+    runs out of gas.
+    """
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
