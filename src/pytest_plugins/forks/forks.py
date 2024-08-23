@@ -162,8 +162,12 @@ class CovariantDescriptor:
             assert isinstance(selector, FunctionType), "selector must be a function"
             filtered_values = []
             for value in values:
-                if selector(value):
-                    filtered_values.append(value)
+                if isinstance(value, tuple) or isinstance(value, list):
+                    if selector(*value[: selector.__code__.co_argcount]):
+                        filtered_values.append(value)
+                else:
+                    if selector(value):
+                        filtered_values.append(value)
             values = filtered_values
         if len(kwargs) > 0:
             raise ValueError(f"Unknown arguments to {self.marker_name}: {kwargs}")
