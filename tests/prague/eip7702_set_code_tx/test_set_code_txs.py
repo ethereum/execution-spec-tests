@@ -2171,8 +2171,10 @@ def test_set_code_to_log(
 
 
 @pytest.mark.with_all_call_opcodes(
-    lambda opcode: opcode
-    not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+    selector=(
+        lambda opcode: opcode
+        not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+    )
 )
 @pytest.mark.with_all_precompiles
 def test_set_code_to_precompile(
@@ -2237,8 +2239,10 @@ def deposit_contract_initial_storage() -> Storage:
 
 
 @pytest.mark.with_all_call_opcodes(
-    lambda opcode: opcode
-    not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+    selector=(
+        lambda opcode: opcode
+        not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+    )
 )
 @pytest.mark.with_all_system_contracts
 def test_set_code_to_system_contract(
