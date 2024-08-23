@@ -976,3 +976,61 @@ def test_intrinsic_gas_cost(
         tx=tx,
         post={},
     )
+
+
+@pytest.mark.parametrize("pre_authorized", [True, False])
+def test_self_set_code_cost(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    pre_authorized: bool,
+):
+    """
+    Test set to code account access cost when it delegates to itself.
+    """
+    if pre_authorized:
+        auth_signer = pre.fund_eoa(0, delegation="Self")
+    else:
+        auth_signer = pre.fund_eoa(0)
+
+    slot_call_cost = 1
+
+    OVERHEAD_COST = 3
+
+    callee_code = CodeGasMeasure(
+        code=Op.EXTCODESIZE(address=auth_signer),
+        overhead_cost=OVERHEAD_COST,
+        extra_stack_items=1,
+        sstore_key=slot_call_cost,
+    )
+
+    callee_address = pre.deploy_contract(callee_code)
+    callee_storage = Storage()
+    callee_storage[slot_call_cost] = 200 if not pre_authorized else 2700
+
+    tx = Transaction(
+        gas_limit=1_000_000,
+        to=callee_address,
+        authorization_list=[
+            AuthorizationTuple(
+                address=auth_signer,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ]
+        if not pre_authorized
+        else None,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            callee_address: Account(storage=callee_storage),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(auth_signer),
+            ),
+        },
+    )
