@@ -163,6 +163,36 @@ class CovariantDescriptor:
         """
         return self.get_marker(metafunc) is not None
 
+    @staticmethod
+    def process_value(
+        values: Any | List[Any] | Tuple[Any],
+        selector: FunctionType,
+        marks: None
+        | pytest.Mark
+        | pytest.MarkDecorator
+        | List[pytest.Mark | pytest.MarkDecorator],
+        marks_selector: FunctionType,
+    ) -> List[List[MarkedValue]]:
+        """
+        Process a values for a covariant parameter.
+
+        I.e. if the marker has an argument, the argument is interpreted as a lambda function
+        that filters the values.
+        """
+        if not isinstance(values, tuple) and not isinstance(values, list):
+            values = [values]
+
+        if selector(*values[: selector.__code__.co_argcount]):
+            if marks is None:
+                marks = []
+            elif not isinstance(marks, list):
+                marks = [marks]
+            if not marks_selector(*values[: marks_selector.__code__.co_argcount]):
+                marks = []
+            return [[MarkedValue(value=v, marks=marks) for v in values]]
+
+        return []
+
     def process_values(self, metafunc: Metafunc, values: List[Any]) -> List[List[MarkedValue]]:
         """
         Filter the values for the covariant parameter.
@@ -178,22 +208,17 @@ class CovariantDescriptor:
 
         selector = kwargs.pop("selector", lambda _: True)
         assert isinstance(selector, FunctionType), "selector must be a function"
-        selector_arg_count = selector.__code__.co_argcount
 
-        kwargs.pop("marks", None)
-        # TODO: Add support for marks
+        marks = kwargs.pop("marks", None)
+        marks_selector = kwargs.pop("marks_selector", lambda _: True)
+        assert isinstance(marks_selector, FunctionType), "marks_selector must be a function"
 
         if len(kwargs) > 0:
             raise ValueError(f"Unknown arguments to {self.marker_name}: {kwargs}")
 
         processed_values: List[List[MarkedValue]] = []
         for value in values:
-            if isinstance(value, tuple) or isinstance(value, list):
-                if selector(*value[:selector_arg_count]):
-                    processed_values.append([MarkedValue(value=v) for v in value])
-            else:
-                if selector(value):
-                    processed_values.append([MarkedValue(value=value)])
+            processed_values.extend(self.process_value(value, selector, marks, marks_selector))
 
         return processed_values
 
