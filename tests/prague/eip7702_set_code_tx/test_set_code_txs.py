@@ -20,6 +20,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Bytecode,
+    Bytes,
     CodeGasMeasure,
     Conditional,
     Environment,
@@ -913,6 +914,7 @@ def test_ext_code_on_set_code(
     callee_address = pre.deploy_contract(callee_code)
 
     set_code_to_address: Address
+    set_code: Bytecode | Bytes
     match set_code_type:
         case AddressType.EMPTY_ACCOUNT:
             set_code = Bytecode()
@@ -920,6 +922,10 @@ def test_ext_code_on_set_code(
         case AddressType.EOA:
             set_code = Bytecode()
             set_code_to_address = pre.fund_eoa(1)
+        case AddressType.EOA_WITH_SET_CODE:
+            set_code_account = pre.fund_eoa(0)
+            set_code = Spec.delegation_designation(set_code_account)
+            set_code_to_address = pre.fund_eoa(1, delegation=set_code_account)
         case AddressType.CONTRACT:
             set_code = Op.STOP
             set_code_to_address = pre.deploy_contract(set_code)
@@ -965,9 +971,70 @@ def test_ext_code_on_set_code(
     )
 
 
+@pytest.mark.parametrize(
+    "balance",
+    [0, 1],
+)
+def test_ext_code_on_self_set_code(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    balance: int,
+):
+    """
+    Test different ext*code operations on self set-code address.
+    """
+    auth_signer = pre.fund_eoa(balance)
+
+    slot = count(1)
+    slot_ext_code_size_result = next(slot)
+    slot_ext_code_hash_result = next(slot)
+    slot_ext_code_copy_result = next(slot)
+    slot_ext_balance_result = next(slot)
+
+    set_code = (
+        Op.SSTORE(slot_ext_code_size_result, Op.EXTCODESIZE(auth_signer))
+        + Op.SSTORE(slot_ext_code_hash_result, Op.EXTCODEHASH(auth_signer))
+        + Op.EXTCODECOPY(auth_signer, 0, 0, Op.EXTCODESIZE(auth_signer))
+        + Op.SSTORE(slot_ext_code_copy_result, Op.MLOAD(0))
+        + Op.SSTORE(slot_ext_balance_result, Op.BALANCE(auth_signer))
+        + Op.STOP
+    )
+    set_code_address = pre.deploy_contract(set_code)
+
+    set_code_storage = Storage()
+    set_code_storage[slot_ext_code_size_result] = len(set_code)
+    set_code_storage[slot_ext_code_hash_result] = set_code.keccak256()
+    set_code_storage[slot_ext_code_copy_result] = bytes(set_code).ljust(32, b"\x00")[:32]
+    set_code_storage[slot_ext_balance_result] = balance
+
+    tx = Transaction(
+        gas_limit=10_000_000,
+        to=auth_signer,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(storage=set_code_storage),
+        },
+    )
+
+
 @pytest.mark.with_all_call_opcodes(
-    lambda opcode: opcode
-    not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+    selector=(
+        lambda opcode: opcode
+        not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+    )
 )
 @pytest.mark.parametrize(
     "set_code_address_first",
@@ -1025,8 +1092,8 @@ def test_set_code_address_and_authority_warm_state(
     callee_address = pre.deploy_contract(callee_code)
     callee_storage = Storage()
     callee_storage[slot_call_success] = 1
-    callee_storage[slot_set_code_to_warm_state] = 2_600
-    callee_storage[slot_authority_warm_state] = 100
+    callee_storage[slot_set_code_to_warm_state] = 2_600 if set_code_address_first else 100
+    callee_storage[slot_authority_warm_state] = 200 if set_code_address_first else 2_700
 
     tx = Transaction(
         gas_limit=1_000_000,
