@@ -802,7 +802,13 @@ def test_call_into_self_delegating_set_code(
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
     storage = Storage()
-    entry_code = Op.SSTORE(storage.store_next(False), call_opcode(address=auth_signer)) + Op.STOP
+    entry_code = (
+        Op.SSTORE(
+            storage.store_next(call_return_code(opcode=call_opcode, success=False)),
+            call_opcode(address=auth_signer),
+        )
+        + Op.STOP
+    )
     entry_address = pre.deploy_contract(entry_code)
 
     tx = Transaction(
