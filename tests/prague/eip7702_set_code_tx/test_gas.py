@@ -224,15 +224,21 @@ def authorization_list_with_properties(
     match signer_type:
         case SignerType.SINGLE_SIGNER:
             authority_with_properties = next(authority_iterator)
+            # We have to take into account the cases where the nonce has already been increased
+            # before the authorization is processed.
+            increased_nonce = (
+                self_sponsored
+                or authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+            )
             for i in range(authorizations_count):
                 # Get the nonce of this authorization
                 match authorization_invalidity_type:
                     case AuthorizationInvalidityType.INVALID_NONCE:
-                        nonce = 0 if self_sponsored else 1
+                        nonce = 0 if increased_nonce else 1
                     case AuthorizationInvalidityType.REPEATED_NONCE:
-                        nonce = 1 if self_sponsored else 0
+                        nonce = 1 if increased_nonce else 0
                     case _:
-                        nonce = i if not self_sponsored else i + 1
+                        nonce = i if not increased_nonce else i + 1
 
                 # Get the validity of this authorization
                 invalidity_type: AuthorizationInvalidityType | None
@@ -272,7 +278,10 @@ def authorization_list_with_properties(
             for i in range(authorizations_count):
                 # Get the nonce of this authorization
                 authority_with_properties = next(authority_iterator)
-                if self_sponsored and i == 0:
+                increased_nonce = (
+                    self_sponsored and i == 0
+                ) or authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+                if increased_nonce:
                     if authorization_invalidity_type == AuthorizationInvalidityType.INVALID_NONCE:
                         nonce = 0
                     else:
@@ -374,13 +383,13 @@ def sender(
     pre: Alloc,
     authority_type: AddressType | List[AddressType],
     authorize_to_address: Address,
+    self_sponsored: bool,
 ) -> EOA:
     """
     Fixture to return the sender address.
     """
-    if (
-        isinstance(authority_type, list)
-        and AddressType.EOA_WITH_SET_CODE in authority_type
+    if self_sponsored and (
+        (isinstance(authority_type, list) and AddressType.EOA_WITH_SET_CODE in authority_type)
         or (authority_type == AddressType.EOA_WITH_SET_CODE)
     ):
         return pre.fund_eoa(delegation=authorize_to_address)
