@@ -189,6 +189,21 @@ import pytest
             1,
             id="invalid_selector",
         ),
+        pytest.param(
+            """
+            import pytest
+            @pytest.mark.with_all_tx_types(lambda tx_type: tx_type != 0)
+            @pytest.mark.valid_from("Paris")
+            @pytest.mark.valid_until("Paris")
+            def test_case(state_test_only, tx_type):
+                pass
+            """,
+            0,
+            0,
+            0,
+            1,
+            id="selector_as_positional_argument",
+        ),
     ],
 )
 def test_fork_covariant_markers(
