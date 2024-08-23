@@ -8,17 +8,9 @@ from typing import Dict
 
 import pytest
 
-from ethereum_test_tools import (
-    Account,
-    Bytecode,
-    Address,
-    Alloc,
-    Environment,
-    StateTestFiller,
-    Transaction,
-    cost_memory_bytes,
-)
+from ethereum_test_tools import Account, Address, Alloc, Bytecode, Environment
 from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTestFiller, Transaction, cost_memory_bytes
 from pytest_plugins.filler.generate_gas_test import GasTestType
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
