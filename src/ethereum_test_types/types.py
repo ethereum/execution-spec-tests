@@ -4,7 +4,7 @@ Useful types for generating Ethereum tests.
 
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Any, ClassVar, Dict, Generic, List, Sequence, Tuple
+from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, Tuple
 
 from coincurve.keys import PrivateKey, PublicKey
 from ethereum import rlp as eth_rlp
@@ -283,7 +283,7 @@ class Alloc(BaseAlloc):
         amount: NumberConvertible = 10**21,
         label: str | None = None,
         storage: Storage | None = None,
-        delegation: Address | None = None,
+        delegation: Address | Literal["Self"] | None = None,
     ) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
