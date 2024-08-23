@@ -116,6 +116,22 @@ import pytest
         pytest.param(
             """
             import pytest
+            from ethereum_test_tools import Opcodes as Op
+            @pytest.mark.with_all_call_opcodes(selector=lambda call_opcode: call_opcode == Op.CALL)
+            @pytest.mark.valid_from("Cancun")
+            @pytest.mark.valid_until("Cancun")
+            def test_case(state_test_only, call_opcode):
+                pass
+            """,
+            1,
+            0,
+            0,
+            0,
+            id="with_all_call_opcodes_with_selector",
+        ),
+        pytest.param(
+            """
+            import pytest
             @pytest.mark.with_all_create_opcodes()
             @pytest.mark.valid_from("Cancun")
             @pytest.mark.valid_until("Cancun")
