@@ -3,7 +3,7 @@ Defines EIP-7702 specification constants and functions.
 """
 from dataclasses import dataclass
 
-from ethereum_test_base_types import Address
+from ethereum_test_base_types import Address, Bytes
 
 
 @dataclass(frozen=True)
@@ -33,8 +33,8 @@ class Spec:
     DELEGATION_DESIGNATION = b"\xef\x01\x00"
 
     @staticmethod
-    def delegation_designation(address: Address) -> bytes:
+    def delegation_designation(address: Address) -> Bytes:
         """
         Returns the delegation designation for the given address.
         """
-        return Spec.DELEGATION_DESIGNATION + bytes(address)
+        return Bytes(Spec.DELEGATION_DESIGNATION + bytes(address))
