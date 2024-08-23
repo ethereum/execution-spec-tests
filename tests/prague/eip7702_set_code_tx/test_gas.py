@@ -794,7 +794,9 @@ def test_account_warming(
     """
     Test warming of the authority and authorized accounts for set-code transactions.
     """
+    # Overhead cost is the single push operation required for the address to check.
     OVERHEAD_COST = 3
+
     COLD_ACCOUNT_COST = 2600
     WARM_ACCOUNT_COST = 100
 
@@ -811,27 +813,43 @@ def test_account_warming(
             if delegated_account not in addresses_to_check:
                 addresses_to_check[delegated_account] = (
                     WARM_ACCOUNT_COST
-                    if access_list_case.contains_authority()
+                    if access_list_case.contains_set_code_address()
                     else COLD_ACCOUNT_COST
                 )
+
             if authority not in addresses_to_check:
-                access_cost = (
-                    COLD_ACCOUNT_COST + WARM_ACCOUNT_COST
-                )  # Delegated-to account is unconditionally warm at this point
-                if not authorization_with_properties.skip and (
-                    authorization_with_properties.invalidity_type is None
-                    or (
-                        authorization_with_properties.invalidity_type
-                        != AuthorizationInvalidityType.INVALID_CHAIN_ID
+                if not authorization_with_properties.skip:
+                    if (
+                        authorization_with_properties.invalidity_type is None
+                        or (
+                            authorization_with_properties.invalidity_type
+                            != AuthorizationInvalidityType.INVALID_CHAIN_ID
+                        )
+                        or access_list_case.contains_authority()
+                    ):
+                        access_cost = WARM_ACCOUNT_COST
+                    else:
+                        access_cost = COLD_ACCOUNT_COST
+                    if authorization_with_properties.invalidity_type is None:
+                        access_cost += WARM_ACCOUNT_COST
+                else:
+                    access_cost = (
+                        COLD_ACCOUNT_COST
+                        if Address(sender) != authorization_with_properties.tuple.signer
+                        else WARM_ACCOUNT_COST
                     )
-                    or access_list_case.contains_authority()
-                ):
-                    access_cost = WARM_ACCOUNT_COST * 2
+                    if authorization_with_properties.invalidity_type is None:
+                        access_cost += WARM_ACCOUNT_COST
 
                 addresses_to_check[authority] = access_cost
+
         else:
             if authority not in addresses_to_check:
-                access_cost = COLD_ACCOUNT_COST
+                access_cost = (
+                    COLD_ACCOUNT_COST
+                    if Address(sender) != authorization_with_properties.tuple.signer
+                    else WARM_ACCOUNT_COST
+                )
                 if not authorization_with_properties.skip and (
                     authorization_with_properties.invalidity_type is None
                     or (
@@ -841,14 +859,32 @@ def test_account_warming(
                     or access_list_case.contains_authority()
                 ):
                     access_cost = WARM_ACCOUNT_COST
+
                 if (
-                    delegated_account in addresses_to_check
+                    # We can only charge the delegated account access cost if the authorization
+                    # went through
+                    authorization_with_properties.invalidity_type
+                    is None
+                ):
+                    if (
+                        delegated_account in addresses_to_check
+                        or access_list_case.contains_set_code_address()
+                    ):
+                        access_cost += WARM_ACCOUNT_COST
+                    else:
+                        access_cost += COLD_ACCOUNT_COST
+
+                addresses_to_check[authority] = access_cost
+
+            if delegated_account not in addresses_to_check:
+                if (
+                    authorization_with_properties.invalidity_type is None
                     or access_list_case.contains_set_code_address()
                 ):
-                    access_cost += WARM_ACCOUNT_COST
+                    access_cost = WARM_ACCOUNT_COST
                 else:
-                    access_cost += COLD_ACCOUNT_COST
-                addresses_to_check[authority] = access_cost
+                    access_cost = COLD_ACCOUNT_COST
+                addresses_to_check[delegated_account] = access_cost
 
     callee_storage = Storage()
     callee_code: Bytecode = sum(  # type: ignore
