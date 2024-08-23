@@ -4,11 +4,14 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
     that produce a memory expansion, and potentially an out-of-gas error.
 
 """  # noqa: E501
+from typing import Dict
+
 import pytest
 
-from ethereum_test_tools import Bytecode, GasTestType
+from ethereum_test_tools import Account, Address, Alloc, Bytecode, Environment
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import cost_memory_bytes, exact_gas_test
+from ethereum_test_tools import StateTestFiller, Transaction, cost_memory_bytes
+from pytest_plugins.filler.generate_gas_test import GasTestType
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
@@ -86,12 +89,17 @@ def data(initial_memory: bytes) -> bytes:
 )
 @pytest.mark.with_all_evm_code_types
 @pytest.mark.valid_from("Cancun")
-@exact_gas_test(with_data=True)
-def test_mcopy_memory_expansion_gas():
+@pytest.mark.generate_gas_test(with_data=True)
+def test_mcopy_memory_expansion_gas(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: Dict[Address, Account],
+    tx: Transaction,
+):
     """
     Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.
     """
-    pass
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize(
@@ -120,10 +128,16 @@ def test_mcopy_memory_expansion_gas():
 )
 @pytest.mark.with_all_evm_code_types
 @pytest.mark.valid_from("Cancun")
-@exact_gas_test(gas_test_types=GasTestType.OOG, with_data=True)
-def test_mcopy_huge_memory_expansion():
+@pytest.mark.generate_gas_test(gas_test_types=GasTestType.OOG, with_data=True)
+def test_mcopy_huge_memory_expansion(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: Dict[Address, Account],
+    tx: Transaction,
+    data: bytes,
+):
     """
     Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly
     runs out of gas.
     """
-    pass
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
