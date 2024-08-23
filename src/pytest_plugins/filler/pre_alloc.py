@@ -221,7 +221,7 @@ class Alloc(BaseAlloc):
                     storage=storage if storage is not None else {},
                     code=DELEGATION_DESIGNATION + bytes(delegation)  # type: ignore
                     if delegation is not None
-                    else None,
+                    else b"",
                 )
                 eoa.nonce = Number(1)
 
