@@ -108,5 +108,3 @@ target-version = ["py310"]
 [tool.mypy]
 mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
 plugins = ["pydantic.mypy"]
-
-# vim: set ft=toml:
