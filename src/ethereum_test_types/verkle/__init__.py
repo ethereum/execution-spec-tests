@@ -2,6 +2,7 @@
 Ethereum Verkle Test Types.
 """
 
+from .helpers import chunkify_code
 from .types import (
     IpaProof,
     StateDiff,
@@ -22,4 +23,5 @@ __all__ = (
     "VerkleTree",
     "Witness",
     "WitnessCheck",
+    "chunkify_code",
 )
