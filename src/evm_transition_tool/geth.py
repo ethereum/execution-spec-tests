@@ -13,7 +13,7 @@ from pathlib import Path
 from re import compile
 from typing import Optional
 
-from ethereum_test_base_types import Address, Alloc, Hash, Number, to_json
+from ethereum_test_base_types import Address, Alloc, Number, to_json
 from ethereum_test_forks import Fork
 from ethereum_test_types.verkle import VerkleTree
 
@@ -192,7 +192,7 @@ class GethTransitionTool(TransitionTool):
 
     def get_verkle_single_key(
         self, address: Address, storage_slot: Optional[Number] = None
-    ) -> Hash:
+    ) -> str:
         """
         Returns the VKT key for an account address or storage slot.
         """
@@ -200,11 +200,11 @@ class GethTransitionTool(TransitionTool):
         if storage_slot is not None:
             args.append(str(storage_slot))
         output = self._run_verkle_command("single-key", *args)
-        return Hash(json.loads(output))
+        return str(json.loads(output))
 
-    def get_verkle_code_chunk_key(self, address: Address, code_chunk: Number) -> Hash:
+    def get_verkle_code_chunk_key(self, address: Address, code_chunk: Number) -> str:
         """
         Returns the VKT key of a code chunk for an account address.
         """
         output = self._run_verkle_command("code-chunk-key", str(address), str(code_chunk))
-        return Hash(json.loads(output))
+        return str(json.loads(output))
