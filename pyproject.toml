@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.2", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -89,32 +89,12 @@ order_fixtures = "cli.order_fixtures:order_fixtures"
 evm_bytes_to_python = "cli.evm_bytes_to_python:main"
 hasher = "cli.hasher:main"
 
-[tool.setuptools]
-package-dir = { "" = "src" }
-packages = [
-    "ethereum_test_base_types",
-    "ethereum_test_exceptions",
-    "ethereum_test_fixtures",
-    "ethereum_test_forks",
-    "ethereum_test_specs",
-    "ethereum_test_tools",
-    "ethereum_test_types",
-    "ethereum_test_vm",
-    "evm_transition_tool",
-    "pytest_plugins",
-]
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["*tests*"]
 
 [tool.setuptools.package-data]
-ethereum_test_base_types = ["py.typed"]
-ethereum_test_exceptions = ["py.typed"]
-ethereum_test_fixtures = ["py.typed"]
-ethereum_test_forks = ["py.typed", "forks/contracts/*.bin"]
-ethereum_test_specs = ["py.typed"]
-ethereum_test_tools = ["py.typed"]
-ethereum_test_types = ["py.typed"]
-ethereum_test_vm = ["py.typed"]
-evm_transition_tool = ["py.typed"]
-pytest_plugins = ["py.typed"]
+ethereum_test_forks = ["forks/contracts/*.bin"]
 
 [tool.isort]
 profile = "black"
@@ -126,7 +106,7 @@ line-length = 99
 target-version = ["py310"]
 
 [tool.mypy]
-mypy_path = ["$MYPY_CONFIG_FILE_DIR/stubs"]
+mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
 plugins = ["pydantic.mypy"]
 
 # vim: set ft=toml:
