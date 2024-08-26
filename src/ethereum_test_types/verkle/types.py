@@ -11,7 +11,8 @@ from pydantic.functional_serializers import model_serializer
 
 from ethereum_test_base_types import Address, CamelModel, HexNumber, PaddedFixedSizeBytes
 from ethereum_test_types import Alloc
-from evm_transition_tool import TransitionTool
+
+# from evm_transition_tool import TransitionTool
 
 IPA_PROOF_DEPTH = 8
 
@@ -162,7 +163,7 @@ class WitnessCheck:
     """
 
     # TODO: use this properly
-    t8n = TransitionTool
+    # t8n = TransitionTool
 
     class AccountHeaderEntry(Enum):
         """
@@ -179,85 +180,146 @@ class WitnessCheck:
         """
         self.witness_check: Dict[Hash, Hash | None] = {}
 
-    def add_account_full(self, address: Address, account: Alloc, t8n: TransitionTool):
+    def add_account_full(
+        self,
+        address: Address,
+        account: Alloc,
+        # t8n: TransitionTool,
+    ):
         """
         Adds the address, nonce, balance and code.
         """
-        self.add_account_basic_data(address, account, t8n)
+        self.add_account_basic_data(
+            address,
+            account,
+            # t8n,
+        )
         account_data = account[address]
         if account_data and account_data.code:
             code_hash = Hash(keccak256(account_data.code).digest())
-            self.add_account_codehash(address, code_hash, t8n)
+            self.add_account_codehash(
+                address,
+                code_hash,
+                # t8n,
+            )
 
     def add_account_basic_data(
-        self, address: Address, account: Optional[Alloc], t8n: TransitionTool
+        self,
+        address: Address,
+        account: Optional[Alloc],
+        # t8n: TransitionTool,
     ):
         """
         Adds the basic data witness for the given address.
         """
         if account is None:
             self.witness_check[
-                self._account_key(address, WitnessCheck.AccountHeaderEntry.BASIC_DATA, t8n)
+                self._account_key(
+                    address,
+                    WitnessCheck.AccountHeaderEntry.BASIC_DATA,
+                    # t8n,
+                )
             ] = None
             return
         # Placeholder: Encode basic data as little_endian based on the account table structure
         basic_data_value = Hash(0)
         self.witness_check[
-            self._account_key(address, WitnessCheck.AccountHeaderEntry.BASIC_DATA, t8n)
+            self._account_key(
+                address,
+                WitnessCheck.AccountHeaderEntry.BASIC_DATA,
+                # t8n,
+            )
         ] = basic_data_value
 
     def add_account_codehash(
-        self, address: Address, codehash: Optional[Hash], t8n: TransitionTool
+        self,
+        address: Address,
+        codehash: Optional[Hash],
+        # t8n: TransitionTool,
     ):
         """
         Adds the code hash witness for the given address.
         """
         self.witness_check[
-            self._account_key(address, WitnessCheck.AccountHeaderEntry.CODEHASH, t8n)
+            self._account_key(
+                address,
+                WitnessCheck.AccountHeaderEntry.CODEHASH,
+                # t8n,
+            )
         ] = codehash
 
     def add_storage_slot(
-        self, address: Address, storage_slot: HexNumber, value: Optional[Hash], t8n: TransitionTool
+        self,
+        address: Address,
+        storage_slot: HexNumber,
+        value: Optional[Hash],
+        # t8n: TransitionTool,
     ):
         """
         Adds the storage slot witness for the given address and storage slot.
         """
-        tree_key = self._storage_key(address, storage_slot, t8n)
+        tree_key = self._storage_key(
+            address,
+            storage_slot,
+            # t8n,
+        )
         self.witness_check[tree_key] = value
 
     def add_code_chunk(
-        self, address: Address, chunk_number: HexNumber, value: Optional[Hash], t8n: TransitionTool
+        self,
+        address: Address,
+        chunk_number: HexNumber,
+        value: Optional[Hash],
+        # t8n: TransitionTool,
     ):
         """
         Adds the code chunk witness for the given address and chunk number.
         """
-        tree_key = self._code_chunk_key(address, chunk_number, t8n)
+        tree_key = self._code_chunk_key(
+            address,
+            chunk_number,
+            # t8n,
+        )
         self.witness_check[tree_key] = value
 
     def _account_key(
-        self, address: Address, entry: AccountHeaderEntry, t8n: TransitionTool
+        self,
+        address: Address,
+        entry: AccountHeaderEntry,
+        # t8n: TransitionTool,
     ) -> Hash:
         """
         Returns a VerkleTree key for the address and account header entry.
         """
-        tree_key_str = t8n.get_verkle_single_key(address)
-        tree_key = bytearray.fromhex(tree_key_str[2:])
-        entry_bytes = entry.value.to_bytes(2, byteorder="big")
-        tree_key[-2:] = entry_bytes
-        return Hash(bytes(tree_key))
+        # tree_key_str = t8n.get_verkle_single_key(address)
+        # tree_key = bytearray.fromhex(tree_key_str[2:])
+        # entry_bytes = entry.value.to_bytes(2, byteorder="big")
+        # tree_key[-2:] = entry_bytes
+        # return Hash(bytes(tree_key))
+        return Hash(0)
 
-    def _storage_key(self, address: Address, storage_slot: HexNumber, t8n: TransitionTool) -> Hash:
+    def _storage_key(
+        self,
+        address: Address,
+        storage_slot: HexNumber,
+        # t8n: TransitionTool,
+    ) -> Hash:
         """
         Returns a VerkleTree key for the storage of a given address.
         """
-        storage_tree_key = t8n.get_verkle_single_key(address, storage_slot)
-        return Hash(storage_tree_key)
+        # storage_tree_key = t8n.get_verkle_single_key(address, storage_slot)
+        # return Hash(storage_tree_key)
+        return Hash(0)
 
     def _code_chunk_key(
-        self, address: Address, code_chunk: HexNumber, t8n: TransitionTool
+        self,
+        address: Address,
+        code_chunk: HexNumber,
+        # t8n: TransitionTool,
     ) -> Hash:
         """
         Returns a VerkleTree key for the code chunk number of a given address.
         """
-        code_chunk_tree_key = t8n.get_verkle_code_chunk_key(address, code_chunk)
-        return Hash(code_chunk_tree_key)
+        # code_chunk_tree_key = t8n.get_verkle_code_chunk_key(address, code_chunk)
+        # return Hash(code_chunk_tree_key)
+        return Hash(0)

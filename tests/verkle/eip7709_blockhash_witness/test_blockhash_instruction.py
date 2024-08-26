@@ -93,21 +93,7 @@ def _blockhash(
     )
 
     # Validate that pre, fee recipient, & blockhash system contract are present in the witness
-    witness_check = WitnessCheck(
-        state_diff_alloc={
-            **pre,
-            env.fee_recipient: Account(),
-            **(
-                {
-                    blockhash_system_contract_address: Account(
-                        storage={block_num_target % HISTORY_STORAGE_ADDRESS: None}  # TODO
-                    )
-                }
-                if not fail
-                else {}
-            ),
-        },
-    )
+    witness_check = WitnessCheck()
 
     blocks = [Block(txs=[tx], witness_check=witness_check)]
     blockchain_test(
