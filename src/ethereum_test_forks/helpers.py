@@ -2,7 +2,7 @@
 Helper methods to resolve forks during test filling
 """
 
-from typing import List, Optional
+from typing import List, Optional, Set
 
 from semver import Version
 
