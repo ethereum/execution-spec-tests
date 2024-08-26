@@ -24,7 +24,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 @pytest.fixture
 def pre() -> Mapping:  # noqa: D103
     return {
-        TestAddress: Account(balance=10**40),
+        TestAddress: Account(balance=2**127),
         code_address: Account(
             nonce=1,
             balance=1,
