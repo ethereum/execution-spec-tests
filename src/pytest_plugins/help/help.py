@@ -51,6 +51,7 @@ def show_test_help(config):
             "filler location",
             "defining debug",
             "pre-allocation behavior",
+            "testing of features",
         ]
     elif pytest_ini.name in [
         "pytest-consume.ini",

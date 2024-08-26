@@ -39,15 +39,10 @@ def pytest_addoption(parser: pytest.Parser):
     """
     Adds command-line options to pytest.
     """
-    pre_alloc_group = parser.getgroup("pre_alloc", "Arguments defining pre-allocation behavior.")
-
-    pre_alloc_group.addoption(
-        "--strict-alloc",
-        action="store_true",
-        dest="strict_alloc",
-        default=False,
-        help=("[DEBUG ONLY] Disallows deploying a contract in a predefined address."),
+    pre_alloc_group = parser.getgroup(
+        "pre_alloc", "Arguments defining pre-allocation behavior during test filling"
     )
+
     pre_alloc_group.addoption(
         "--ca-start",
         "--contract-address-start",
@@ -67,23 +62,11 @@ def pytest_addoption(parser: pytest.Parser):
         help="The address increment value to each deployed contract by a test.",
     )
     pre_alloc_group.addoption(
-        "--evm-code-type",
-        action="store",
-        dest="evm_code_type",
-        default=None,
-        type=EVMCodeType,
-        choices=list(EVMCodeType),
-        help="Type of EVM code to deploy in each test by default.",
-    )
-    pre_alloc_group.addoption(
-        "--eip-7702-mode",
+        "--strict-alloc",
         action="store_true",
-        dest="eip_7702_mode",
+        dest="strict_alloc",
         default=False,
-        help=(
-            "Enables filling all tests in EIP-7702 mode, where all deployed test contracts are a"
-            " set-code proxy instead of the actual test code account."
-        ),
+        help=("[DEBUG ONLY] Disallows deploying a contract in a predefined address."),
     )
 
 
@@ -117,7 +100,7 @@ class Alloc(BaseAlloc):
         contract_address_iterator: Iterator[Address],
         eoa_iterator: Iterator[EOA],
         evm_code_type: EVMCodeType | None = None,
-        eip_7702_mode: bool = False,
+        eip_7702_feature: bool = False,
         **kwargs,
     ):
         """
@@ -128,7 +111,7 @@ class Alloc(BaseAlloc):
         self._contract_address_iterator = contract_address_iterator
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
-        self._eip_7702_mode = eip_7702_mode
+        self._eip_7702_mode = eip_7702_feature
 
     def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
         """
@@ -334,41 +317,22 @@ def eoa_iterator() -> Iterator[EOA]:
     return iter(eoa_by_index(i).copy() for i in count())
 
 
-@pytest.fixture(autouse=True)
-def evm_code_type(request: pytest.FixtureRequest) -> EVMCodeType:
-    """
-    Returns the default EVM code type for all tests (LEGACY).
-    """
-    parameter_evm_code_type = request.config.getoption("evm_code_type")
-    if parameter_evm_code_type is not None:
-        assert type(parameter_evm_code_type) is EVMCodeType, "Invalid EVM code type"
-        return parameter_evm_code_type
-    return EVMCodeType.LEGACY
-
-
-@pytest.fixture(scope="session")
-def eip_7702_mode(request: pytest.FixtureRequest) -> bool:
-    """
-    Returns whether the EIP-7702 mode is enabled.
-    """
-    return request.config.getoption("eip_7702_mode")
-
-
 @pytest.fixture(scope="function")
 def pre(
     alloc_mode: AllocMode,
     contract_address_iterator: Iterator[Address],
     eoa_iterator: Iterator[EOA],
-    evm_code_type: EVMCodeType,
-    eip_7702_mode: bool,
+    evm_code_type: EVMCodeType | None,
+    eip_7702_feature: bool,
 ) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
     """
+    # TODO: Compare `eip_7702_feature` against the current fork.
     return Alloc(
         alloc_mode=alloc_mode,
         contract_address_iterator=contract_address_iterator,
         eoa_iterator=eoa_iterator,
         evm_code_type=evm_code_type,
-        eip_7702_mode=eip_7702_mode,
+        eip_7702_feature=eip_7702_feature,
     )
