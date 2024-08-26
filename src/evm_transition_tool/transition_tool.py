@@ -15,9 +15,10 @@ from pathlib import Path
 from re import Pattern
 from typing import Dict, List, Mapping, Optional, Type
 
+from ethereum_test_base_types import Address, Alloc, Hash, Number
 from ethereum_test_fixtures import FixtureFormats, FixtureVerifier
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types import Environment, Transaction
 from ethereum_test_types.verkle import VerkleTree
 
 from .file_utils import dump_files_to_directory, write_json_file
@@ -576,23 +577,39 @@ class TransitionTool(FixtureVerifier):
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
         )
 
-    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
-        """
-        Returns the VKT state root of from an input MPT.
-
-        Currently only implemented by geth's evm.
-        """
-        raise NotImplementedError(
-            "The `get_verkle_state_root` function is not supported by this tool. Use geth's evm "
-            "tool."
-        )
-
     def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
         """
-        Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.
-
-        Currently only implemented by geth's evm.
+        Returns the verkle tree representation for an input MPT.
         """
         raise NotImplementedError(
-            "The `from_mpt_to_vkt` function is not supported by this tool. Use geth's evm tool."
+            "The `from_mpt_to_vkt()` function is not supported by this tool. Use geth's evm tool."
+        )
+
+    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
+        """
+        Returns the VKT state root from an input MPT.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_state_root()` function is not supported by this tool. Use geth's evm"
+            " tool."
+        )
+
+    def get_verkle_single_key(
+        self, address: Address, storage_slot: Optional[Number] = None
+    ) -> Hash:
+        """
+        Returns the VKT key for an account address or storage slot.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_single_key()` function is not supported by this tool. Use geth's evm"
+            " tool."
+        )
+
+    def get_verkle_code_chunk_key(self, address: Address, code_chunk: Number) -> Hash:
+        """
+        Returns the VKT key of a code chunk for an account address.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_code_chunk_key()` function is not supported by this tool. Use geth's"
+            " evm tool."
         )
