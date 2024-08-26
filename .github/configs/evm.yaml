@@ -18,5 +18,5 @@ eip7692-prague:
 verkle:
   impl: geth
   repo: gballet/go-ethereum
-  ref: jsign-t8n-verkle-genesis-rebased
+  ref: kaustinen-with-shapella
   evm-bin: evm
