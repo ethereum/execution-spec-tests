@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.32">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.33">
     
     
       
@@ -13446,6 +13446,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_section_order.test_container_section_order" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_container_section_order
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -13462,7 +13471,7 @@
 
 
 <h1 id="test-section-order">Test Section Order<a class="headerlink" href="#test-section-order" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e35feeaa662517600c3b5b779c6a6cfda5a4ddd0/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/40d8dd28ddae0a52cb1de01851b7f09824925a2c/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -13590,9 +13599,7 @@ For all forks up to and including Prague:
 <span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;section_kind&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">])</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;section_kind&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;section_test&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">SectionTest</span><span class="o">.</span><span class="n">MISSING</span><span class="p">,</span> <span class="n">SectionTest</span><span class="o">.</span><span class="n">WRONG_ORDER</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;test_position&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">]</span>
@@ -13648,6 +13655,10 @@ For all forks up to and including Prague:
         <span class="n">skip_body_listing</span><span class="o">=</span><span class="n">calculate_skip_flag</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">),</span>
     <span class="p">)</span>
 
+    <span class="n">expected_code</span><span class="p">,</span> <span class="n">expected_exception</span> <span class="o">=</span> <span class="n">get_expected_code_exception</span><span class="p">(</span>
+        <span class="n">section_kind</span><span class="p">,</span> <span class="n">section_test</span><span class="p">,</span> <span class="n">test_position</span>
+    <span class="p">)</span>
+
     <span class="n">eof_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="n">make_section_order</span><span class="p">(</span><span class="n">section_kind</span><span class="p">),</span>
         <span class="n">auto_type_section</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
@@ -13664,18 +13675,159 @@ For all forks up to and including Prague:
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">),</span>
+        <span class="n">expected_bytecode</span><span class="o">=</span><span class="n">expected_code</span><span class="p">,</span>
     <span class="p">)</span>
-
-    <span class="n">expected_code</span><span class="p">,</span> <span class="n">expected_exception</span> <span class="o">=</span> <span class="n">get_expected_code_exception</span><span class="p">(</span>
-        <span class="n">section_kind</span><span class="p">,</span> <span class="n">section_test</span><span class="p">,</span> <span class="n">test_position</span>
-    <span class="p">)</span>
-
-    <span class="c1"># TODO remove this after Container class implementation is reliable</span>
-    <span class="k">assert</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">eof_code</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span> <span class="o">==</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">expected_code</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
 
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">eof_code</span><span class="p">,</span>
         <span class="n">expect_exception</span><span class="o">=</span><span class="n">expected_exception</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_section_order.test_container_section_order" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_container_section_order</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">container_position</span><span class="p">,</span> <span class="n">test_position</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_section_order.test_container_section_order" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Test containers section being out of order in the header and/or body.
+This extends and follows the convention of the test_section_order()
+for the optional container section.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;container_position&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;test_position&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_container_section_order</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">container_position</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">test_position</span><span class="p">:</span> <span class="n">CasePosition</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test containers section being out of order in the header and/or body.</span>
+<span class="sd">    This extends and follows the convention of the test_section_order()</span>
+<span class="sd">    for the optional container section.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">section_code</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># TODO: Migrated tests had the following infinite loop, so it is kept here</span>
+        <span class="c1">#       to equalize code coverage.</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">section_type</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;00800004&quot;</span><span class="p">))</span>
+    <span class="n">section_data</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;ef&quot;</span><span class="p">)</span>
+    <span class="n">section_container</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">))</span>
+
+    <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="n">section_type</span><span class="p">,</span> <span class="n">section_code</span><span class="p">,</span> <span class="n">section_data</span><span class="p">]</span>
+    <span class="n">sections</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">container_position</span><span class="p">,</span> <span class="n">section_container</span><span class="p">)</span>
+    <span class="n">eof_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
+        <span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">,</span>
+        <span class="n">auto_type_section</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
+        <span class="n">auto_sort_sections</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">AutoSection</span><span class="o">.</span><span class="n">ONLY_BODY</span>
+            <span class="k">if</span> <span class="n">test_position</span> <span class="o">==</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span>
+            <span class="k">else</span> <span class="p">(</span>
+                <span class="n">AutoSection</span><span class="o">.</span><span class="n">ONLY_HEADER</span> <span class="k">if</span> <span class="n">test_position</span> <span class="o">==</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span> <span class="k">else</span> <span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_expected_exception</span><span class="p">():</span>
+        <span class="k">match</span> <span class="n">container_position</span><span class="p">,</span> <span class="n">test_position</span><span class="p">:</span>
+            <span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span> <span class="k">_</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Valid containers section position</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">:</span>  <span class="c1"># Messes up with the type section</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">:</span>  <span class="c1"># Messes up with the code section</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNDEFINED_INSTRUCTION</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">:</span>  <span class="c1"># Data section messes up with the container section</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAGIC</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">|</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">|</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">|</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span>
+
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">eof_code</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">get_expected_exception</span><span class="p">(),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -13749,7 +13901,7 @@ For all forks up to and including Prague:
     <script id="__config" type="application/json">{"base": "../../../../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.471ce7a9.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.af256bd8.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
