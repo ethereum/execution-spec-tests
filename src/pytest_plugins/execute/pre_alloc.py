@@ -202,10 +202,17 @@ class Alloc(BaseAlloc):
         contract_address.label = label
         return contract_address
 
-    def fund_eoa(self, amount: NumberConvertible | None = None, label: str | None = None) -> EOA:
+    def fund_eoa(
+        self,
+        amount: NumberConvertible | None = None,
+        label: str | None = None,
+        storage: Storage | None = None,
+    ) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
+        if storage is not None:
+            raise ValueError("EOAs storage support needs to be updated")
         eoa = next(self._eoa_iterator)
         # Send a transaction to fund the EOA
         if amount is None:
