@@ -13,6 +13,7 @@ from pydantic import Field, model_validator
 
 from ethereum_test_base_types import Account, Bytes
 from ethereum_test_exceptions import EOFException, EvmoneExceptionMapper
+from ethereum_test_exceptions.exceptions import EOFExceptionInstanceOrList, to_pipe_str
 from ethereum_test_fixtures import BaseFixture, FixtureFormats
 from ethereum_test_fixtures.eof import Fixture, Result, Vector
 from ethereum_test_forks import Fork
@@ -136,7 +137,7 @@ class EOFTest(BaseTest):
     """
 
     data: Bytes
-    expect_exception: EOFException | None = None
+    expect_exception: EOFExceptionInstanceOrList | None = None
     container_kind: ContainerKind | None = None
 
     supported_fixture_formats: ClassVar[List[FixtureFormats]] = [
@@ -237,21 +238,42 @@ class EOFTest(BaseTest):
                 raise UnexpectedEOFException(
                     code=code, got=f"{actual_exception} ({actual_message})"
                 )
+        elif isinstance(expected_result.exception, List):
+            expected_string = to_pipe_str(expected_result.exception)
+            if "OK" in actual_message:
+                raise ExpectedEOFException(
+                    code=code,
+                    expected=f"multiple possible exceptions {expected_string}",
+                    got="valid EOF code",
+                )
 
-        expected_exception = expected_result.exception
-        expected_message = parser.exception_to_message(expected_exception)
+            for expected in expected_result.exception:
+                if expected == actual_exception:
+                    return
 
-        if "OK" in actual_message:
-            raise ExpectedEOFException(
-                code=code, expected=f"{expected_exception} ({expected_message})"
-            )
-
-        if expected_exception != actual_exception:
             raise EOFExceptionMismatch(
                 code=code,
-                expected=f"{expected_exception} ({expected_message})",
+                expected=f"multiple possible exceptions {expected_string}",
                 got=f"{actual_exception} ({actual_message})",
             )
+
+        else:
+            expected_exception = expected_result.exception
+            expected_message = parser.exception_to_message(expected_exception)
+
+            if "OK" in actual_message:
+                raise ExpectedEOFException(
+                    code=code,
+                    expected=f"{expected_exception} ({expected_message})",
+                    got="balid EOF code",
+                )
+
+            if expected_exception != actual_exception:
+                raise EOFExceptionMismatch(
+                    code=code,
+                    expected=f"{expected_exception} ({expected_message})",
+                    got=f"{actual_exception} ({actual_message})",
+                )
 
     def generate(
         self,
