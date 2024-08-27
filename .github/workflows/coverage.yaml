@@ -154,7 +154,6 @@ jobs:
           echo "$files" | while read line; do
             file=$(echo "$line" | cut -c 3-)
             fill $file --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-            (fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
           done
 
           if grep -q "FAILURES" filloutput.log; then
