@@ -459,8 +459,13 @@ class BlockchainTest(BaseTest):
         try:
             rejected_txs = verify_transactions(txs, transition_tool_output.result)
             verify_result(transition_tool_output.result, env)
-            # TODO: add verify witness (against vkt)
-            # verify_witness(transition_tool_output.witness, transition_tool_output.vkt)
+            if block.witness_check:
+                self.verify_witness(
+                    t8n=t8n,
+                    transition_tool_output_witness=transition_tool_output.witness,
+                    witness_check=block.witness_check,
+                )
+
         except Exception as e:
             print_traces(t8n.get_traces())
             pprint(transition_tool_output.result)
@@ -542,7 +547,7 @@ class BlockchainTest(BaseTest):
                 )
             )
             transition_tool_output.alloc = previous_alloc
-            # TODO: hack for now
+            # TODO: hack for now, replace with actual witness output once available from t8n
             transition_tool_output.witness = Witness(
                 verkle_proof=transition_tool_output.result.verkle_proof,
                 state_diff=transition_tool_output.result.state_diff,
@@ -594,13 +599,15 @@ class BlockchainTest(BaseTest):
     def verify_witness(
         self,
         t8n: TransitionTool,
+        transition_tool_output_witness: Witness | None,
         witness_check: WitnessCheck,
-        witness: Witness,
     ) -> None:
         """
         Compares the expected witness check allocation account against the values updated
         in the block execution witness state diff.
         """
+        key_values = t8n.format_witness_check(witness_check)
+        print(key_values)
         pass
 
     def make_fixture(
@@ -655,12 +662,6 @@ class BlockchainTest(BaseTest):
                         eips=eips,
                     )
                 )
-                if block.witness_check and witness:
-                    self.verify_witness(
-                        t8n=t8n,
-                        witness_check=block.witness_check,
-                        witness=witness,
-                    )
                 fixture_block = FixtureBlockBase(
                     header=header,
                     txs=[FixtureTransaction.from_transaction(tx) for tx in txs],

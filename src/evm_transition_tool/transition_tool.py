@@ -15,11 +15,11 @@ from pathlib import Path
 from re import Pattern
 from typing import Dict, List, Mapping, Optional, Type
 
-from ethereum_test_base_types import Address, Alloc, Number
+from ethereum_test_base_types import Address, Alloc
 from ethereum_test_fixtures import FixtureFormats, FixtureVerifier
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Transaction
-from ethereum_test_types.verkle import VerkleTree
+from ethereum_test_types.verkle import VerkleTree, WitnessCheck
 
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput
@@ -594,9 +594,7 @@ class TransitionTool(FixtureVerifier):
             " tool."
         )
 
-    def get_verkle_single_key(
-        self, address: Address, storage_slot: Optional[Number] = None
-    ) -> str:
+    def get_verkle_single_key(self, address: Address, storage_slot: Optional[int] = None) -> str:
         """
         Returns the VKT key for an account address or storage slot.
         """
@@ -605,11 +603,20 @@ class TransitionTool(FixtureVerifier):
             " tool."
         )
 
-    def get_verkle_code_chunk_key(self, address: Address, code_chunk: Number) -> str:
+    def get_verkle_code_chunk_key(self, address: Address, code_chunk: int) -> str:
         """
         Returns the VKT key of a code chunk for an account address.
         """
         raise NotImplementedError(
             "The `get_verkle_code_chunk_key()` function is not supported by this tool. Use geth's"
             " evm tool."
+        )
+
+    def format_witness_check(self, witness_check: WitnessCheck) -> Dict:
+        """
+        Returns the formatted witness check as a key value dictionary
+        """
+        raise NotImplementedError(
+            "The `format_witness_check()` function is not supported by this tool. Use geth's evm"
+            " tool."
         )

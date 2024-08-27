@@ -11,11 +11,12 @@ import tempfile
 import textwrap
 from pathlib import Path
 from re import compile
-from typing import Optional
+from typing import Dict, Optional
 
-from ethereum_test_base_types import Address, Alloc, Number, to_json
+from ethereum_test_base_types import Address, Alloc, to_json
 from ethereum_test_forks import Fork
-from ethereum_test_types.verkle import VerkleTree
+from ethereum_test_types.verkle import VerkleTree, WitnessCheck
+from ethereum_test_types.verkle.types import Hash as VerkleHash
 
 from .transition_tool import FixtureFormats, TransitionTool, dump_files_to_directory
 
@@ -190,9 +191,7 @@ class GethTransitionTool(TransitionTool):
             hex_string = self._run_verkle_command("state-root", "--input.alloc", alloc_path)
             return binascii.unhexlify(hex_string[2:])
 
-    def get_verkle_single_key(
-        self, address: Address, storage_slot: Optional[Number] = None
-    ) -> str:
+    def get_verkle_single_key(self, address: Address, storage_slot: Optional[int] = None) -> str:
         """
         Returns the VKT key for an account address or storage slot.
         """
@@ -202,9 +201,40 @@ class GethTransitionTool(TransitionTool):
         output = self._run_verkle_command("single-key", *args)
         return str(json.loads(output))
 
-    def get_verkle_code_chunk_key(self, address: Address, code_chunk: Number) -> str:
+    def get_verkle_code_chunk_key(self, address: Address, code_chunk: int) -> str:
         """
         Returns the VKT key of a code chunk for an account address.
         """
         output = self._run_verkle_command("code-chunk-key", str(address), str(code_chunk))
         return str(json.loads(output))
+
+    def format_witness_check(
+        self, witness_check: WitnessCheck
+    ) -> Dict[VerkleHash, VerkleHash | None]:
+        """
+        Returns the formatted witness check as a key value dictionary
+        """
+        witness_check_key_values: Dict[VerkleHash, VerkleHash | None] = {}
+
+        # Format account entries using `evm verkle single-key`
+        if witness_check.account_entries:
+            for address, entry, value in witness_check.account_entries:
+                tree_key_str = self.get_verkle_single_key(address)
+                tree_key = bytearray.fromhex(tree_key_str[2:])
+                entry_bytes = entry.value.to_bytes(2, byteorder="big")
+                tree_key[-2:] = entry_bytes
+                witness_check_key_values[VerkleHash(bytes(tree_key))] = value
+
+        # Format storage entries using `evm verkle single-key`
+        if witness_check.storage_slots:
+            for address, storage_slot, value in witness_check.storage_slots:
+                storage_tree_key = self.get_verkle_single_key(address, storage_slot)
+                witness_check_key_values[VerkleHash(storage_tree_key)] = value
+
+        # Format code chunks using `evm verkle code-chunk-key`
+        if witness_check.code_chunks:
+            for address, code_chunk, value in witness_check.code_chunks:
+                code_chunk_tree_key = self.get_verkle_code_chunk_key(address, code_chunk)
+                witness_check_key_values[VerkleHash(code_chunk_tree_key)] = value
+
+        return witness_check_key_values
