@@ -571,7 +571,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 ef0001010004020001000b0300010014040000000080000436600060ff6000ec005000ef000101000402
                 000100010400000000800000fe""",
             ),
-            id="EOF1_eofcreate_valid_0",
+            id="eofcreate_0",
         ),
         pytest.param(
             Container(
@@ -586,7 +586,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_embedded_container_0",
+            id="orphan_subcontainer_0",
         ),
         pytest.param(
             Container(
@@ -602,7 +602,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # it contains two errors: data section truncated and orphan subcontainer.
                 validity_error=EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
             ),
-            id="EOF1_embedded_container_1",
+            id="orphan_subcontainer_0_and_truncated_data",
         ),
         pytest.param(
             Container(
@@ -618,7 +618,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_embedded_container_2",
+            id="orphan_subcontainer_0_and_data",
         ),
         pytest.param(
             Container(
@@ -629,7 +629,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # The original test has been modified to reference the subcontainer by EOFCREATE.
                 validity_error=EOFException.INVALID_MAGIC,
             ),
-            id="EOF1_embedded_container_3",
+            id="subcontainer_0_with_invalid_prefix",
         ),
         pytest.param(
             Container(
@@ -652,7 +652,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_eofcreate_valid_1",
+            id="eofcreate_1_orphan_subcontainer_0",
         ),
         pytest.param(
             Container(
@@ -668,7 +668,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_embedded_container_4",
+            id="two_orphan_subcontainers",
         ),
         pytest.param(
             Container(
@@ -688,7 +688,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_eofcreate_valid_2",
+            id="eofcreate_255_max_orphan_subcontainers",
         ),
         pytest.param(
             Container(
@@ -698,7 +698,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_embedded_container_5",
+            id="max_orphan_subcontainers",
         ),
     ],
 )
