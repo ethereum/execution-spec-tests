@@ -24,6 +24,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Fixed fixture index generation on EOF tests ([#728](https://github.com/ethereum/execution-spec-tests/pull/728)).
 - 🐞 Fixes consume genesis mismatch exception for hive based simulators ([#734](https://github.com/ethereum/execution-spec-tests/pull/734)).
 - ✨ Adds reproducible consume commands to hiveview ([#717](https://github.com/ethereum/execution-spec-tests/pull/717)).
+- 💥 Added multiple exceptions to the EOF fixture format ([#759](https://github.com/ethereum/execution-spec-tests/pull/759)).
 
 ### 🔧 EVM Tools
 
@@ -31,6 +32,10 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Feature releases can now include multiple types of fixture tarball files from different releases that start with the same prefix ([#736](https://github.com/ethereum/execution-spec-tests/pull/736)).
 - ✨ Releases for feature eip7692 now include both Cancun and Prague based tests in the same release, in files `fixtures_eip7692.tar.gz` and `fixtures_eip7692-prague.tar.gz` respectively ([#743](https://github.com/ethereum/execution-spec-tests/pull/743)).
+
+### 💥 Breaking Change
+
+- The EOF fixture format contained in `eof_tests` may now contain multiple exceptions in the `"exception"` field in the form of a pipe (`|`) separated string ([#759](https://github.com/ethereum/execution-spec-tests/pull/759)).
 
 ## [v3.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2024-07-22
 
