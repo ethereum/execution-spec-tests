@@ -2460,6 +2460,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.EOFException.INVALID_CODE_SECTION_INDEX" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_CODE_SECTION_INDEX
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.EOFException.UNEXPECTED_HEADER_KIND" class="md-nav__link">
+    <span class="md-ellipsis">
+      UNEXPECTED_HEADER_KIND
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -15765,6 +15783,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.EOFException.INVALID_CODE_SECTION_INDEX" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_CODE_SECTION_INDEX
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.EOFException.UNEXPECTED_HEADER_KIND" class="md-nav__link">
+    <span class="md-ellipsis">
+      UNEXPECTED_HEADER_KIND
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -16576,7 +16612,10 @@
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">:</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Translate between EEST exceptions and error strings returned by evmone.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16644,6 +16683,9 @@
         <span class="p">),</span>
         <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HEIGHT_MISMATCH</span><span class="p">,</span> <span class="s2">&quot;err: stack_height_mismatch&quot;</span><span class="p">),</span>
         <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TOO_MANY_CONTAINERS</span><span class="p">,</span> <span class="s2">&quot;err: too_many_container_sections&quot;</span><span class="p">),</span>
+        <span class="n">ExceptionMessage</span><span class="p">(</span>
+            <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_CODE_SECTION_INDEX</span><span class="p">,</span> <span class="s2">&quot;err: invalid_code_section_index&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -16700,13 +16742,13 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/evmone_exceptions.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
-<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">exception_to_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">exception_to_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes an EOFException and returns a formatted string.&quot;&quot;&quot;</span>
     <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
         <span class="n">exception</span><span class="p">,</span>
@@ -16739,13 +16781,13 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/evmone_exceptions.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOFException</span><span class="p">:</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOFException</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes a string and tries to find matching exception&quot;&quot;&quot;</span>
     <span class="c1"># TODO inform tester where to add the missing exception if get uses default</span>
     <span class="n">exception</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="o">.</span><span class="n">inverse</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
@@ -18550,7 +18592,15 @@ a fork that is not active yet.</p>
 <span class="normal">729</span>
 <span class="normal">730</span>
 <span class="normal">731</span>
-<span class="normal">732</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span>
+<span class="normal">740</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when an EOF container is invalid.</span>
@@ -18739,6 +18789,14 @@ a fork that is not active yet.</p>
     <span class="n">TOO_MANY_CONTAINERS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container header has too many sub-containers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_CODE_SECTION_INDEX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CALLF Operation referes to a non-existent code section</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">UNEXPECTED_HEADER_KIND</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Header parsing encounterd a section kind it wasn&#39;t expecting</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -19961,6 +20019,60 @@ when returning</p>
     <div class="doc doc-contents ">
 
       <p>EOF container header has too many sub-containers.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.EOFException.INVALID_CODE_SECTION_INDEX" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_CODE_SECTION_INDEX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.EOFException.INVALID_CODE_SECTION_INDEX" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>CALLF Operation referes to a non-existent code section</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.EOFException.UNEXPECTED_HEADER_KIND" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UNEXPECTED_HEADER_KIND</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.EOFException.UNEXPECTED_HEADER_KIND" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Header parsing encounterd a section kind it wasn't expecting</p>
     </div>
 
 </div>

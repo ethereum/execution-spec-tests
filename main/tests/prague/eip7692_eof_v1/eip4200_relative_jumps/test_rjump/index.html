@@ -13759,7 +13759,7 @@
 
 
 <h1 id="test-rjump">Test Rjump<a class="headerlink" href="#test-rjump" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6d307c125f332fb9ddcb9f997bbdc9861756c729/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9886436b8cd8249ac7bb5fdcd40d10446fc41a29/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -15079,7 +15079,7 @@ unreachable code</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate&quot;&quot;&quot;</span>
     <span class="n">code</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">jump</span> <span class="o">==</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">BACKWARD</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
@@ -15229,7 +15229,7 @@ unreachable code</p>
     <span class="n">data_portion_length</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">opcode</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mh">0x5F</span>
     <span class="k">if</span> <span class="n">jump</span> <span class="o">==</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">:</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">data_portion_length</span> <span class="k">if</span> <span class="n">data_portion_end</span> <span class="k">else</span> <span class="mi">1</span>
-        <span class="n">code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">offset</span><span class="p">]</span> <span class="o">+</span> <span class="n">opcode</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">offset</span><span class="p">]</span> <span class="o">+</span> <span class="n">opcode</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span> <span class="k">if</span> <span class="n">data_portion_end</span> <span class="k">else</span> <span class="o">-</span><span class="mi">4</span> <span class="o">-</span> <span class="n">data_portion_length</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">code</span> <span class="o">=</span> <span class="n">opcode</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">offset</span><span class="p">]</span>

@@ -1514,6 +1514,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      💥 Breaking Change
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1557,7 +1566,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change" class="md-nav__link">
+  <a href="#breaking-change_1" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -1776,7 +1785,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_1" class="md-nav__link">
+  <a href="#breaking-change_2" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -1818,7 +1827,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_2" class="md-nav__link">
+  <a href="#breaking-change_3" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -13933,6 +13942,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      💥 Breaking Change
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -13976,7 +13994,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change" class="md-nav__link">
+  <a href="#breaking-change_1" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -14195,7 +14213,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_1" class="md-nav__link">
+  <a href="#breaking-change_2" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -14237,7 +14255,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_2" class="md-nav__link">
+  <a href="#breaking-change_3" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -14360,6 +14378,7 @@
 <li>🐞 Fixed fixture index generation on EOF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/728">#728</a>).</li>
 <li>🐞 Fixes consume genesis mismatch exception for hive based simulators (<a href="https://github.com/ethereum/execution-spec-tests/pull/734">#734</a>).</li>
 <li>✨ Adds reproducible consume commands to hiveview (<a href="https://github.com/ethereum/execution-spec-tests/pull/717">#717</a>).</li>
+<li>💥 Added multiple exceptions to the EOF fixture format (<a href="https://github.com/ethereum/execution-spec-tests/pull/759">#759</a>).</li>
 <li>✨ Added optional parameter to all <code>with_all_*</code> markers to specify a lambda function that filters the parametrized values (<a href="https://github.com/ethereum/execution-spec-tests/pull/739">#739</a>).</li>
 <li>✨ Added <a href="https://ethereum.github.io/execution-spec-tests/main/writing_tests/writing_a_new_test/#ethereum_test_tools.utility.pytest.extend_with_defaults"><code>extend_with_defaults</code> utility function</a>, which helps extend test case parameter sets with default values. <code>@pytest.mark.parametrize</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/739">#739</a>).</li>
 <li>✨ Added <code>Container.Init</code> to <code>ethereum_test_types.EOF.V1</code> package, which allows generation of an EOF init container more easily (<a href="https://github.com/ethereum/execution-spec-tests/pull/739">#739</a>).</li>
@@ -14370,6 +14389,10 @@
 <li>✨ Feature releases can now include multiple types of fixture tarball files from different releases that start with the same prefix (<a href="https://github.com/ethereum/execution-spec-tests/pull/736">#736</a>).</li>
 <li>✨ Releases for feature eip7692 now include both Cancun and Prague based tests in the same release, in files <code>fixtures_eip7692.tar.gz</code> and <code>fixtures_eip7692-prague.tar.gz</code> respectively (<a href="https://github.com/ethereum/execution-spec-tests/pull/743">#743</a>).</li>
 <li>🔀 Simplify Python project configuration and consolidate it into <code>pyproject.toml</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/764">#764</a>).</li>
+</ul>
+<h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The EOF fixture format contained in <code>eof_tests</code> may now contain multiple exceptions in the <code>"exception"</code> field in the form of a pipe (<code>|</code>) separated string (<a href="https://github.com/ethereum/execution-spec-tests/pull/759">#759</a>).</li>
 </ul>
 <h2 id="v300-2024-07-22"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0">v3.0.0</a> - 2024-07-22<a class="headerlink" href="#v300-2024-07-22" title="Permanent link">&para;</a></h2>
 <h3 id="test-cases_1">🧪 Test Cases<a class="headerlink" href="#test-cases_1" title="Permanent link">&para;</a></h3>
@@ -14437,7 +14460,7 @@
 <li>✨ Releases now contain a <code>fixtures_eip7692.tar.gz</code> which contains all EOF fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/573">#573</a>).</li>
 <li>✨ Use <code>solc-select</code> for tox when running locally and within CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/604">#604</a>).</li>
 </ul>
-<h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Cancun is now the latest deployed fork, and the development fork is now Prague (<a href="https://github.com/ethereum/execution-spec-tests/pull/489">#489</a>).</li>
 <li>Stable fixtures artifact <code>fixtures.tar.gz</code> has been renamed to <code>fixtures_stable.tar.gz</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/573">#573</a>)</li>
@@ -14637,7 +14660,7 @@
 <li>✨ Docs: Add <a href="https://ethereum.github.io/execution-spec-tests/main/getting_started/using_fixtures/">a section explaining execution-spec-tests release artifacts</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/334">#334</a>).</li>
 <li>🔀 T8N Tool: Branch used to generate the tests for Cancun is now <a href="https://github.com/lightclient/go-ethereum/tree/devnet-10">lightclient/go-ethereum@devnet-10</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336">#336</a>)</li>
 </ul>
-<h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change_2">💥 Breaking Change<a class="headerlink" href="#breaking-change_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixtures now use the Mainnet Trusted Setup merged on <a href="https://github.com/ethereum/consensus-specs/pull/3521">consensus-specs#3521</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336">#336</a>)</li>
 </ul>
@@ -14654,7 +14677,7 @@
 <li>✨ CI/CD: Run development fork tests in Github Actions (<a href="https://github.com/ethereum/execution-spec-tests/pull/302">#302</a>).</li>
 <li>✨ CI/CD: Generate test JSON fixtures on push (<a href="https://github.com/ethereum/execution-spec-tests/pull/303">#303</a>).</li>
 </ul>
-<h3 id="breaking-change_2">💥 Breaking Change<a class="headerlink" href="#breaking-change_2" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change_3">💥 Breaking Change<a class="headerlink" href="#breaking-change_3" title="Permanent link">&para;</a></h3>
 <p>Please use development fixtures from now on when testing Cancun. These refer to changes that are currently under development within clients:</p>
 <ul>
 <li>fixtures: All tests until the last stable fork (Shanghai)</li>

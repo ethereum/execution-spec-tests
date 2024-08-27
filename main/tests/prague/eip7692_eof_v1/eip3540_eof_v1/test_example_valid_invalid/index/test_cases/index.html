@@ -13448,7 +13448,7 @@
 <h1 id="test-example-valid-invalid-test-cases">Test Example Valid Invalid - Test Cases<a class="headerlink" href="#test-example-valid-invalid-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/6d307c125f332fb9ddcb9f997bbdc9861756c729/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/9886436b8cd8249ac7bb5fdcd40d10446fc41a29/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_example_valid_invalid[fork_CancunEIP7692-eof_test-simple_eof_1_deploy]
 test_example_valid_invalid[fork_CancunEIP7692-eof_test-fe_opcode_ok]
 test_example_valid_invalid[fork_CancunEIP7692-eof_test-headers_terminator_invalid]
@@ -13461,12 +13461,12 @@ test_example_valid_invalid[fork_CancunEIP7692-eof_test-jump_to_opcode_ok]
 test_example_valid_invalid[fork_CancunEIP7692-eof_test-rjump_3_2_m6_fails]
 test_example_valid_invalid[fork_CancunEIP7692-eof_test-push1_0_0_0_rjump_3_2_m6_fails]
 test_example_valid_invalid[fork_CancunEIP7692-eof_test-jump_jumpdest_fails]
-test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-skip_header_listing_True-skip_body_listing_True-skip_types_body_listing_False-skip_types_header_listing_False-expected_code_ef000101000802000100030400040000800001000000003050000bad60A7-expected_exception_EOFException.INVALID_TYPE_SECTION_SIZE]
-test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-skip_header_listing_True-skip_body_listing_False-skip_types_body_listing_False-skip_types_header_listing_False-expected_code_ef000101000802000100030400040000800001000000003050003050000bad60A7-expected_exception_EOFException.INVALID_TYPE_SECTION_SIZE]
-test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-skip_header_listing_False-skip_body_listing_True-skip_types_body_listing_False-skip_types_header_listing_False-expected_code_ef0001010008020002000300030400040000800001000000003050000bad60A7-expected_exception_EOFException.UNREACHABLE_CODE_SECTIONS]
-test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-skip_header_listing_False-skip_body_listing_False-skip_types_body_listing_False-skip_types_header_listing_False-expected_code_ef0001010008020002000300030400040000800001000000003050003050000bad60A7-expected_exception_EOFException.UNREACHABLE_CODE_SECTIONS]
-test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-skip_header_listing_True-skip_body_listing_True-skip_types_body_listing_True-skip_types_header_listing_False-expected_code_ef0001010008020001000304000400008000013050000bad60a7-expected_exception_EOFException.INVALID_TYPE_SECTION_SIZE]
-test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-skip_header_listing_True-skip_body_listing_True-skip_types_body_listing_True-skip_types_header_listing_True-expected_code_ef0001010004020001000304000400008000013050000bad60a7-expected_exception_None]
+test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-drop_code_section_and_header]
+test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-drop_code_header]
+test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-drop_code_section]
+test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-layout_ok_code_bad]
+test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-drop_types_header]
+test_code_section_header_body_mismatch[fork_CancunEIP7692-eof_test-drop_everything]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.filler.pre_alloc -p pytest_plugins.filler.filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.help.help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</span>

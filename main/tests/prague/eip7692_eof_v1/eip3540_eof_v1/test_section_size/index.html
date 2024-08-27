@@ -13480,7 +13480,7 @@
 
 
 <h1 id="test-section-size">Test Section Size<a class="headerlink" href="#test-section-size" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6d307c125f332fb9ddcb9f997bbdc9861756c729/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9886436b8cd8249ac7bb5fdcd40d10446fc41a29/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -13526,8 +13526,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 40</span>
-<span class="normal"> 41</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 41</span>
 <span class="normal"> 42</span>
 <span class="normal"> 43</span>
 <span class="normal"> 44</span>
@@ -13593,34 +13592,83 @@ For all forks up to and including Prague:
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
-<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;section_kind, section_size, exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">UNDERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">OVERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">HUGE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">MAX</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">UNDERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">OVERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">HUGE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">MAX</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">UNDERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">OVERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">HUGE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">MAX</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">UNDERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">OVERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">HUGE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">MAX</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">UNDERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">OVERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">HUGE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">CODE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">MAX</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span>
+            <span class="n">SectionSize</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_size_zero&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">UNDERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">OVERSIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">HUGE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span>
+            <span class="n">SectionSize</span><span class="o">.</span><span class="n">MAX</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_size_max&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_section_size</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">section_size</span><span class="p">:</span> <span class="n">SectionSize</span><span class="p">,</span>
     <span class="n">section_kind</span><span class="p">:</span> <span class="n">SectionKind</span><span class="p">,</span>
-    <span class="n">exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">,</span>
+    <span class="n">exception</span><span class="p">:</span> <span class="n">EOFExceptionInstanceOrList</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test custom_size is auto, more or less then the actual size of the section</span>
@@ -13688,32 +13736,32 @@ Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases without 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;truncation_len, exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># The original container is not valid by itself because its 2-byte code section</span>
@@ -13766,29 +13814,29 @@ Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases with dat
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;truncation_len, exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>

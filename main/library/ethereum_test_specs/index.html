@@ -16272,10 +16272,7 @@ spec type as filler for the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
 <span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
@@ -16372,7 +16369,10 @@ spec type as filler for the test.</p>
 <span class="normal">375</span>
 <span class="normal">376</span>
 <span class="normal">377</span>
-<span class="normal">378</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">):</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests EOF containers and also generates a state/blockchain test.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16505,10 +16505,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">301</span>
 <span class="normal">302</span>
 <span class="normal">303</span>
 <span class="normal">304</span>
@@ -16523,7 +16520,10 @@ spec type as filler for the test.</p>
 <span class="normal">313</span>
 <span class="normal">314</span>
 <span class="normal">315</span>
-<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
 <span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">check_container_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -16572,12 +16572,12 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">321</span>
 <span class="normal">322</span>
-<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Workaround for pytest parameter name.</span>
@@ -16609,10 +16609,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">328</span>
 <span class="normal">329</span>
 <span class="normal">330</span>
 <span class="normal">331</span>
@@ -16637,7 +16634,10 @@ spec type as filler for the test.</p>
 <span class="normal">350</span>
 <span class="normal">351</span>
 <span class="normal">352</span>
-<span class="normal">353</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the StateTest filler.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16692,10 +16692,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span>
 <span class="normal">361</span>
@@ -16715,7 +16712,10 @@ spec type as filler for the test.</p>
 <span class="normal">375</span>
 <span class="normal">376</span>
 <span class="normal">377</span>
-<span class="normal">378</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -16779,8 +16779,7 @@ spec type as filler for the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
-<span class="normal">134</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
@@ -16917,13 +16916,16 @@ spec type as filler for the test.</p>
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests EOF containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span><span class="p">:</span> <span class="n">Bytes</span>
-    <span class="n">expect_exception</span><span class="p">:</span> <span class="n">EOFException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">expect_exception</span><span class="p">:</span> <span class="n">EOFExceptionInstanceOrList</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">container_kind</span><span class="p">:</span> <span class="n">ContainerKind</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">supported_fixture_formats</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureFormats</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
@@ -17024,21 +17026,23 @@ spec type as filler for the test.</p>
                 <span class="k">raise</span> <span class="n">UnexpectedEOFException</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="p">)</span>
-
-        <span class="n">expected_exception</span> <span class="o">=</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span>
-        <span class="n">expected_message</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">exception_to_message</span><span class="p">(</span><span class="n">expected_exception</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ExpectedEOFException</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span>
-            <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">expected_exception</span> <span class="o">!=</span> <span class="n">actual_exception</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">EOFExceptionMismatch</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
-                <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-                <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expected_string</span> <span class="o">=</span> <span class="n">to_pipe_str</span><span class="p">(</span><span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">expected_string</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">actual_exception</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ExpectedEOFException</span><span class="p">(</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+                    <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">actual_exception</span> <span class="ow">in</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">EOFExceptionMismatch</span><span class="p">(</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+                    <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -17088,8 +17092,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -17118,7 +17121,8 @@ spec type as filler for the test.</p>
 <span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+<span class="normal">176</span>
+<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
 <span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">check_container_exception</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -17179,12 +17183,12 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
-<span class="normal">179</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Workaround for pytest parameter name.</span>
@@ -17216,8 +17220,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
-<span class="normal">186</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
@@ -17254,7 +17257,8 @@ spec type as filler for the test.</p>
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
-<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
+<span class="normal">223</span>
+<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -17319,8 +17323,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
-<span class="normal">226</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
 <span class="normal">229</span>
@@ -17348,7 +17351,10 @@ spec type as filler for the test.</p>
 <span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks that the reported exception string matches the expected error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -17363,21 +17369,23 @@ spec type as filler for the test.</p>
             <span class="k">raise</span> <span class="n">UnexpectedEOFException</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span>
             <span class="p">)</span>
-
-    <span class="n">expected_exception</span> <span class="o">=</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span>
-    <span class="n">expected_message</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">exception_to_message</span><span class="p">(</span><span class="n">expected_exception</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ExpectedEOFException</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span>
-        <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">expected_exception</span> <span class="o">!=</span> <span class="n">actual_exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">EOFExceptionMismatch</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
-            <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">expected_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-            <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">expected_string</span> <span class="o">=</span> <span class="n">to_pipe_str</span><span class="p">(</span><span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">expected_string</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">actual_exception</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;OK&quot;</span> <span class="ow">in</span> <span class="n">actual_message</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExpectedEOFException</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+                <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">actual_exception</span> <span class="ow">in</span> <span class="n">expected_result</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EOFExceptionMismatch</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+                <span class="n">expected</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">got</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actual_exception</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">actual_message</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -17404,10 +17412,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
@@ -17419,7 +17424,10 @@ spec type as filler for the test.</p>
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>

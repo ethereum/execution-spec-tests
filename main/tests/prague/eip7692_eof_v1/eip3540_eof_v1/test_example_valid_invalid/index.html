@@ -13471,7 +13471,7 @@
 
 
 <h1 id="test-example-valid-invalid">Test Example Valid Invalid<a class="headerlink" href="#test-example-valid-invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6d307c125f332fb9ddcb9f997bbdc9861756c729/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9886436b8cd8249ac7bb5fdcd40d10446fc41a29/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -13517,8 +13517,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 19</span>
-<span class="normal"> 20</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 20</span>
 <span class="normal"> 21</span>
 <span class="normal"> 22</span>
 <span class="normal"> 23</span>
@@ -13759,7 +13758,8 @@ For all forks up to and including Prague:
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
-<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;eof_code,expected_hex_bytecode,exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -13805,7 +13805,7 @@ For all forks up to and including Prague:
                 <span class="n">header_terminator</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xFF</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="s2">&quot;ef00010100040200010003040001ff00800001305000ef&quot;</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;headers_terminator_invalid&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -14028,8 +14028,7 @@ For all forks up to and including Prague:
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
-<span class="normal">265</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
@@ -14126,59 +14125,70 @@ For all forks up to and including Prague:
 <span class="normal">359</span>
 <span class="normal">360</span>
 <span class="normal">361</span>
-<span class="normal">362</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;skip_header_listing, skip_body_listing, skip_types_body_listing, skip_types_header_listing,&quot;</span>
     <span class="s2">&quot;expected_code, expected_exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="p">(</span>
-            <span class="c1"># Data 16 test case of valid invalid eof ori filler</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in code header array</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in container&#39;s body (it&#39;s code bytes)</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes still listed in container&#39;s body</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes size still added to types section size</span>
             <span class="s2">&quot;ef000101000802000100030400040000800001000000003050000bad60A7&quot;</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;drop_code_section_and_header&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="p">(</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in code header array</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># second section code is in container&#39;s body (3050000)</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes still listed in container&#39;s body</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes size still added to types section size</span>
             <span class="s2">&quot;ef000101000802000100030400040000800001000000003050003050000bad60A7&quot;</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;drop_code_header&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="p">(</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># second section is mentioned in code header array (0003)</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in container&#39;s body (it&#39;s code bytes)</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes still listed in container&#39;s body</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes size still added to types section size</span>
             <span class="s2">&quot;ef0001010008020002000300030400040000800001000000003050000bad60A7&quot;</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_CODE_SECTIONS</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_CODE_SECTIONS</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;drop_code_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="p">(</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># second section is mentioned in code header array (0003)</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># second section code is in container&#39;s body (3050000)</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes still listed in container&#39;s body</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes size still added to types section size</span>
             <span class="s2">&quot;ef0001010008020002000300030400040000800001000000003050003050000bad60A7&quot;</span><span class="p">,</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_CODE_SECTIONS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;layout_ok_code_bad&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="p">(</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Data 17 test case of valid invalid eof ori filler</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in code header array</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in container&#39;s body (it&#39;s code bytes)</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># it&#39;s code input bytes are not listed in container&#39;s body (00000000)</span>
             <span class="kc">False</span><span class="p">,</span>  <span class="c1"># but it&#39;s code input bytes size still added to types section size</span>
             <span class="s2">&quot;ef0001010008020001000304000400008000013050000bad60a7&quot;</span><span class="p">,</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;drop_types_header&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="p">(</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in code header array</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># second section is not in container&#39;s body (it&#39;s code bytes)</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># it&#39;s code input bytes are not listed in container&#39;s body (00000000)</span>
             <span class="kc">True</span><span class="p">,</span>  <span class="c1"># and it is bytes size is not counted in types header</span>
             <span class="s2">&quot;ef0001010004020001000304000400008000013050000bad60a7&quot;</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;drop_everything&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -14189,7 +14199,7 @@ For all forks up to and including Prague:
     <span class="n">skip_types_body_listing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">skip_types_header_listing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">expected_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">expected_exception</span><span class="p">:</span> <span class="n">EOFException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">expected_exception</span><span class="p">:</span> <span class="n">EOFExceptionInstanceOrList</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inconsistent number of code sections (between types and code)</span>
