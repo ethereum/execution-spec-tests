@@ -103,5 +103,4 @@ def test_cover_revert(state_test: StateTestFiller, pre: Alloc):
         protected=False,
     )
 
-    post = {}
-    state_test(env=Environment(), pre=pre, post=post, tx=tx)
+    state_test(env=Environment(), pre=pre, post={}, tx=tx)
