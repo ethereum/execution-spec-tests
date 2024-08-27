@@ -93,13 +93,14 @@ def _blockhash(
     )
 
     witness_check = WitnessCheck()
-    witness_check.add_account_full(env.fee_recipient, None)
-    witness_check.add_account_full(TestAddress, pre[TestAddress])
-    # witness_check.add_account_full(TestAddress2, pre[TestAddress2])
-    # if not fail:
-    # storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
-    # value = None  # TODO(verkle): TODO.
-    # witness_check.add_storage_slot(blockhash_system_contract_address, storage_slot, value)
+    for address in [env.fee_recipient, TestAddress, TestAddress2]:
+        witness_check.add_account_full(
+            address, None if address == env.fee_recipient else pre[address]
+        )
+    if not fail:
+        storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
+        value = None  # TODO: Process the value for Verkle storage slot
+        witness_check.add_storage_slot(blockhash_system_contract_address, storage_slot, value)
 
     blocks = [Block(txs=[tx], witness_check=witness_check)]
     blockchain_test(

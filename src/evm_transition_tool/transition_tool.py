@@ -15,7 +15,7 @@ from pathlib import Path
 from re import Pattern
 from typing import Dict, List, Mapping, Optional, Type
 
-from ethereum_test_base_types import Address, Alloc
+from ethereum_test_base_types import Address, Alloc, ZeroPaddedHexNumber
 from ethereum_test_fixtures import FixtureFormats, FixtureVerifier
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Transaction
@@ -594,7 +594,9 @@ class TransitionTool(FixtureVerifier):
             " tool."
         )
 
-    def get_verkle_single_key(self, address: Address, storage_slot: Optional[int] = None) -> str:
+    def get_verkle_single_key(
+        self, address: Address, storage_slot: Optional[ZeroPaddedHexNumber] = None
+    ) -> str:
         """
         Returns the VKT key for an account address or storage slot.
         """
@@ -603,7 +605,7 @@ class TransitionTool(FixtureVerifier):
             " tool."
         )
 
-    def get_verkle_code_chunk_key(self, address: Address, code_chunk: int) -> str:
+    def get_verkle_code_chunk_key(self, address: Address, code_chunk: ZeroPaddedHexNumber) -> str:
         """
         Returns the VKT key of a code chunk for an account address.
         """
