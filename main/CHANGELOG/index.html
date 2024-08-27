@@ -14382,6 +14382,7 @@
 <li>✨ Added optional parameter to all <code>with_all_*</code> markers to specify a lambda function that filters the parametrized values (<a href="https://github.com/ethereum/execution-spec-tests/pull/739">#739</a>).</li>
 <li>✨ Added <a href="https://ethereum.github.io/execution-spec-tests/main/writing_tests/writing_a_new_test/#ethereum_test_tools.utility.pytest.extend_with_defaults"><code>extend_with_defaults</code> utility function</a>, which helps extend test case parameter sets with default values. <code>@pytest.mark.parametrize</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/739">#739</a>).</li>
 <li>✨ Added <code>Container.Init</code> to <code>ethereum_test_types.EOF.V1</code> package, which allows generation of an EOF init container more easily (<a href="https://github.com/ethereum/execution-spec-tests/pull/739">#739</a>).</li>
+<li>🐞 Fixed <code>consume</code> exit code return values, ensuring that pytest's return value is correctly propagated to the shell. This allows the shell to accurately reflect the test results (e.g., failures) based on the pytest exit code (<a href="https://github.com/ethereum/execution-spec-tests/pull/765">#765</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
