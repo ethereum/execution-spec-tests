@@ -549,7 +549,9 @@ def test_set_code_to_self_caller(
 
     first_entry_slot = storage.store_next(True)
     re_entry_success_slot = storage.store_next(not static_call)
-    re_entry_call_return_code_slot = storage.store_next(not static_call)
+    re_entry_call_return_code_slot = storage.store_next(
+        call_return_code(opcode=call_opcode, success=not static_call)
+    )
     set_code = Conditional(
         condition=Op.ISZERO(Op.SLOAD(first_entry_slot)),
         if_true=Op.SSTORE(first_entry_slot, 1)
@@ -609,7 +611,9 @@ def test_set_code_call_set_code(
 
     static_call = call_opcode in [Op.STATICCALL, Op.EXTSTATICCALL]
 
-    set_code_1_call_result_slot = storage_1.store_next(not static_call)
+    set_code_1_call_result_slot = storage_1.store_next(
+        call_return_code(opcode=call_opcode, success=not static_call)
+    )
     set_code_1_success = storage_1.store_next(True)
 
     auth_signer_2 = pre.fund_eoa(auth_account_start_balance)
@@ -849,7 +853,13 @@ def test_call_into_chain_delegating_set_code(
     auth_signer_2 = pre.fund_eoa(auth_account_start_balance)
 
     storage = Storage()
-    entry_code = Op.SSTORE(storage.store_next(False), call_opcode(address=auth_signer_1)) + Op.STOP
+    entry_code = (
+        Op.SSTORE(
+            storage.store_next(call_return_code(opcode=call_opcode, success=False)),
+            call_opcode(address=auth_signer_1),
+        )
+        + Op.STOP
+    )
     entry_address = pre.deploy_contract(entry_code)
 
     tx = Transaction(
@@ -2190,7 +2200,10 @@ def test_set_code_to_precompile(
 
     caller_code_storage = Storage()
     caller_code = (
-        Op.SSTORE(caller_code_storage.store_next(True), call_opcode(address=auth_signer))
+        Op.SSTORE(
+            caller_code_storage.store_next(call_return_code(opcode=call_opcode, success=True)),
+            call_opcode(address=auth_signer),
+        )
         + Op.SSTORE(caller_code_storage.store_next(0), Op.RETURNDATASIZE)
         + Op.STOP
     )
@@ -2257,8 +2270,8 @@ def test_set_code_to_system_contract(
     caller_code_storage = Storage()
     call_return_code_slot = caller_code_storage.store_next(
         call_return_code(
-            call_opcode,
-            True,
+            opcode=call_opcode,
+            success=True,
         )
     )
     call_return_data_size_slot = caller_code_storage.store_next(0)
