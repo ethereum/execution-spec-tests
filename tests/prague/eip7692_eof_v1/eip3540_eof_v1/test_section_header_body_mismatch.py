@@ -124,13 +124,13 @@ def test_code_section_header_body_mismatch(
                 code_inputs=0,
                 code_outputs=0,
                 max_stack_height=0,
-                # weather to not mention it in code section header list
+                # whether to not mention it in code section header list
                 skip_header_listing=skip_header_listing,
-                # weather to not print it's code in containers body
+                # whether to not print its code in containers body
                 skip_body_listing=skip_body_listing,
-                # weather to not print it's input bytes in containers body
+                # whether to not print its input bytes in containers body
                 skip_types_body_listing=skip_types_body_listing,
-                # weather to not calculate it's input bytes size in types section's header
+                # whether to not calculate its input bytes size in types section's header
                 skip_types_header_listing=skip_types_header_listing,
             ),
             Section.Data("0x0bad60A7"),
