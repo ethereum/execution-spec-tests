@@ -63,21 +63,21 @@
 - [x] Container without type section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_section_order -k 'SectionTest.MISSING-section_kind_TYPE'`)
 - [x] Container without code sections (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_section_order -k 'SectionTest.MISSING-section_kind_CODE'`)
 - [x] Container without data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_section_order -k 'SectionTest.MISSING-section_kind_DATA'`)
-- [ ] Valid containers without data section and with subcontainers (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_Copier.json)
-- [ ] Valid containers with data section and with subcontainers (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_Copier.json)
-- [ ] Valid container with maximum number of subcontainers (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_Copier.json)
-- [ ] Container with number of subcontainers above the limit (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_invalid_Copier.json)
-- [ ] Subcontainer section header truncated before subcontainer number (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_invalid_Copier.json)
-- [ ] Subcontainer section header truncated before subcontainer size (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_invalid_Copier.json)
-- [ ] Truncated subcontainer size (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_invalid_Copier.json)
-- [ ] Zero container section number (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_invalid_Copier.json)
-- [ ] Zero container size (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_invalid_Copier.json)
-- [ ] Truncated container section body (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_embedded_container_invalid_Copier.json)
-- [ ] Multiple container section headers
-- [ ] Invalid subcontainer
-- [ ] Invalid subcontainer on a deep nesting level
-- [ ] Max number of inputs/outputs in a section (ethereum/tests: src/EOFTestsFiller/efValidation/max_arguments_count_Copier.json)
-- [ ] Number of inputs/outputs in a section above the limit (ethereum/tests: src/EOFTestsFiller/efValidation/max_arguments_count_Copier.json)
+- [x] Valid containers without data section and with subcontainers (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_valid_containers[fork_CancunEIP7692-eof_test-single_subcontainer_without_data]`)
+- [x] Valid containers with data section and with subcontainers (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_valid_containers[fork_CancunEIP7692-eof_test-single_subcontainer_with_data]`)
+- [x] Valid container with maximum number of subcontainers (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_CancunEIP7692-eof_test-256]`)
+- [x] Container with number of subcontainers above the limit (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_CancunEIP7692-eof_test-257]`)
+- [x] Subcontainer section header truncated before subcontainer number (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k no_container_section_count`)
+- [x] Subcontainer section header truncated before subcontainer size (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k incomplete_container_section_count`)
+- [x] Truncated subcontainer size (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k no_container_section_size`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k incomplete_container_section_size`)
+- [x] Zero container section number (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k zero_container_section_count`)
+- [ ] Zero container section size (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k zero_size_container_section`)
+- [x] Truncated container section body (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k no_container_section_contents`)
+- [ ] Multiple container section headers (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k multiple_container_headers`)
+- [x] Invalid subcontainer (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py -k invalid`)
+- [x] Invalid subcontainer on a deep nesting level (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_deep_container`)
+- [x] Max number of inputs/outputs in a section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_valid_containers[fork_CancunEIP7692-eof_test-code_section_input_maximum]`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_valid_containers[fork_CancunEIP7692-eof_test-code_section_output_maximum]`)
+- [x] Number of inputs/outputs in a section above the limit (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k code_section_input_too_large`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py -k code_section_output_too_large`)
 
 ### Execution
 
