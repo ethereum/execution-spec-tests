@@ -30,8 +30,7 @@ runs:
         python -m venv env
         source env/bin/activate
         pip install -e .
-        solc-select use  ${{ steps.properties.outputs.solc }} --always-install
-        fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.name }}.tar.gz --build-name ${{ inputs.name }}
+        fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} --solc-version=${{ steps.properties.outputs.solc }} ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.name }}.tar.gz --build-name ${{ inputs.name }}
     - uses: actions/upload-artifact@v4
       with:
         name: fixtures_${{ inputs.name }}
