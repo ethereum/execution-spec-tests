@@ -2039,48 +2039,28 @@ def test_set_code_using_valid_synthetic_signatures(
 @pytest.mark.parametrize(
     "v,r,s",
     [
-        pytest.param(2, 1, 1, id="v=2,r=1,s=1"),
-        pytest.param(1, 0, 1, id="v=1,r=0,s=1"),
-        pytest.param(1, 1, 0, id="v=1,r=1,s=0"),
-        pytest.param(
-            0,
-            SECP256K1N,
-            1,
-            id="v=0,r=SECP256K1N,s=1",
-        ),
-        pytest.param(
-            0,
-            SECP256K1N - 1,
-            1,
-            id="v=0,r=SECP256K1N-1,s=1",
-        ),
+        pytest.param(2, 1, 1, id="v_2,r_1,s_1"),
         pytest.param(
             0,
             1,
             SECP256K1N_OVER_2 + 1,
-            id="v=0,r=1,s=SECP256K1N_OVER_2+1",
+            id="v_0,r_1,s_SECP256K1N_OVER_2+1",
         ),
         pytest.param(
             2**256 - 1,
             1,
             1,
-            id="v=2**256-1,r=1,s=1",
+            id="v_2**256-1,r_1,s_1",
         ),
         pytest.param(
             0,
             1,
             2**256 - 1,
-            id="v=0,r=1,s=2**256-1",
-        ),
-        pytest.param(
-            1,
-            2**256 - 1,
-            1,
-            id="v=1,r=2**256-1,s=1",
+            id="v_0,r_1,s_2**256-1",
         ),
     ],
 )
-def test_set_code_using_invalid_signatures(
+def test_invalid_tx_invalid_auth_signature(
     state_test: StateTestFiller,
     pre: Alloc,
     v: int,
@@ -2120,6 +2100,88 @@ def test_set_code_using_invalid_signatures(
         post={
             callee_address: Account(
                 storage={success_slot: 0},
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "v,r,s",
+    [
+        pytest.param(1, 0, 1, id="v_1,r_0,s_1"),
+        pytest.param(1, 1, 0, id="v_1,r_1,s_0"),
+        pytest.param(
+            0,
+            SECP256K1N,
+            1,
+            id="v_0,r_SECP256K1N,s_1",
+        ),
+        pytest.param(
+            0,
+            SECP256K1N - 1,
+            1,
+            id="v_0,r_SECP256K1N-1,s_1",
+        ),
+        pytest.param(
+            0,
+            1,
+            SECP256K1N_OVER_2,
+            id="v_0,r_1,s_SECP256K1N_OVER_2",
+        ),
+        pytest.param(
+            0,
+            1,
+            SECP256K1N_OVER_2 - 1,
+            id="v_0,r_1,s_SECP256K1N_OVER_2_minus_one",
+        ),
+        pytest.param(
+            1,
+            2**256 - 1,
+            1,
+            id="v_1,r_2**256-1,s_1",
+        ),
+    ],
+)
+def test_set_code_using_invalid_signatures(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    v: int,
+    r: int,
+    s: int,
+):
+    """
+    Test sending a transaction to set the code of an account using synthetic signatures,
+    the transaction is valid but the authorization should not go through.
+    """
+    success_slot = 1
+
+    callee_code = Op.SSTORE(success_slot, 1) + Op.STOP
+    callee_address = pre.deploy_contract(callee_code)
+
+    authorization_tuple = AuthorizationTuple(
+        address=0,
+        nonce=0,
+        chain_id=1,
+        v=v,
+        r=r,
+        s=s,
+    )
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=callee_address,
+        value=0,
+        authorization_list=[authorization_tuple],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            callee_address: Account(
+                storage={success_slot: 1},
             ),
         },
     )
