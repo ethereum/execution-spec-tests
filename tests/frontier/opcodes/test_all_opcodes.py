@@ -1,6 +1,6 @@
 """
-Call every possible opcode to see if it is recognized by the evm
-If opcode is undefined the subcall will fail
+Call every possible opcode and test that the subcall is successful
+if the opcode is supported by the fork supports and fails otherwise.
 """
 
 from typing import Dict
@@ -23,8 +23,6 @@ from ethereum_test_tools.vm.opcode import UndefinedOpcodes
 
 REFERENCE_SPEC_GIT_PATH = "N/A"
 REFERENCE_SPEC_VERSION = "N/A"
-all_opcodes = set(Op)
-undefined_opcodes = set(UndefinedOpcodes)
 
 
 def prepare_stack(opcode: Opcode) -> Bytecode:
@@ -49,11 +47,15 @@ def prepare_suffix(opcode: Opcode) -> Bytecode:
 
 @pytest.mark.valid_from("Frontier")
 def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
-    """Check if the opcode supported on given fork"""
+    """
+    Test each possible opcode on the fork with a single contract that
+    calls each opcode in succession. Check that each subcall passes
+    if the opcode is supported and fails otherwise.
+    """
     code_worked = 1000
 
     code_contract: Dict[Opcode, Address] = {}
-    for opcode in sorted(all_opcodes | undefined_opcodes):
+    for opcode in sorted(set(Op) | set(UndefinedOpcodes)):
         code_contract[opcode] = pre.deploy_contract(
             balance=10,
             code=prepare_stack(opcode) + opcode + prepare_suffix(opcode),
@@ -61,7 +63,7 @@ def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
         )
 
     # EVM code to make the call and store the result
-    caller = pre.deploy_contract(
+    contract_address = pre.deploy_contract(
         code=sum(
             Op.SSTORE(
                 Op.PUSH1(opcode.int()),
@@ -74,7 +76,7 @@ def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     )
 
     post = {
-        caller: Account(
+        contract_address: Account(
             storage={**{opcode.int(): 1 for opcode in fork.valid_opcodes()}, code_worked: 1}
         ),
     }
@@ -82,7 +84,7 @@ def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     tx = Transaction(
         sender=pre.fund_eoa(),
         gas_limit=500_000_000,
-        to=caller,
+        to=contract_address,
         data=b"",
         value=0,
         protected=False,
