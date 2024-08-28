@@ -1138,9 +1138,9 @@ def test_rjumpv_at_the_end(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(0) + Op.PUSH1(0) + Op.RJUMPI[1] + Op.STOP + Op.RJUMPV[-3],
+                    code=Op.PUSH1(0) + Op.PUSH1(0) + Op.RJUMPI[1] + Op.STOP + Op.RJUMPV[-7](1),
                 )
             ],
         ),
-        expect_exception=EOFException.INVALID_RJUMP_DESTINATION,
+        expect_exception=EOFException.MISSING_STOP_OPCODE,
     )
