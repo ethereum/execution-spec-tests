@@ -124,6 +124,21 @@ VALID_CONTAINER = Container(sections=[Section.Code(code=Op.STOP)])
                 ),
             ],
         ),
+        Container(
+            name="single_subcontainer_without_data",
+            sections=[
+                Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                Section.Container(Container.Code(Op.INVALID)),
+            ],
+        ),
+        Container(
+            name="single_subcontainer_with_data",
+            sections=[
+                Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                Section.Container(Container.Code(Op.INVALID)),
+                Section.Data(data="0xAA"),
+            ],
+        ),
     ],
     ids=lambda c: c.name,
 )
@@ -301,6 +316,46 @@ def test_valid_containers(
             name="data_section_size_incomplete",
             raw_bytes="ef00 01 01 0004 02 0001 0001 04 00",
             validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="no_container_section_count",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03",
+            validity_error=EOFException.INCOMPLETE_SECTION_NUMBER,
+        ),
+        Container(
+            name="incomplete_container_section_count",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 00",
+            validity_error=EOFException.INCOMPLETE_SECTION_NUMBER,
+        ),
+        Container(
+            name="zero_container_section_count",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0000 04 0000 00 00800000 00",
+            validity_error=EOFException.ZERO_SECTION_SIZE,
+        ),
+        Container(
+            name="no_container_section_size",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0001",
+            validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
+        ),
+        Container(
+            name="incomplete_container_section_size",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0001 00",
+            validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="incomplete_container_section_size_2",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 0001",
+            validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="incomplete_container_section_size_3",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 0001 00",
+            validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="zero_size_container_section",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0001 0000 04 0000 00 00800000 00",
+            validity_error=EOFException.ZERO_SECTION_SIZE,
         ),
         Container(
             name="truncated_header_data_section_with_container_section",
@@ -510,6 +565,23 @@ def test_valid_containers(
             ],
             # TODO the exception must be about code section EOFException.INVALID_CODE_SECTION,
             validity_error=EOFException.ZERO_SECTION_SIZE,
+        ),
+        Container(
+            name="no_container_section_contents",
+            sections=[
+                Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                Section(kind=SectionKind.CONTAINER, data=b"", custom_size=20),
+            ],
+            validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
+        ),
+        Container(
+            name="no_container_section_contents_with_data",
+            sections=[
+                Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                Section(kind=SectionKind.CONTAINER, data=b"", custom_size=20),
+                Section.Data(b"\0" * 20),
+            ],
+            validity_error=EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
         ),
         Container(
             name="no_data_section_contents",
