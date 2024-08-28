@@ -855,7 +855,7 @@ def test_rjumpi_at_the_end(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(0) + Op.PUSH1(0) + Op.RJUMPI[1] + Op.STOP + Op.RJUMPI[-3],
+                    code=Op.PUSH1(0) + Op.PUSH1(0) + Op.RJUMPI[1] + Op.STOP + Op.RJUMPI[-4],
                 )
             ],
         ),
