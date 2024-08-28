@@ -6,13 +6,20 @@ abstract: Tests [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org
 import pytest
 
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
-from ethereum_test_tools.eof.v1 import Container, Section
+from ethereum_test_tools.eof.v1 import Container
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_vm import Bytecode, EVMCodeType
 
 from .. import EOF_FORK_NAME
 from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
-from .helpers import slot_cold_gas, slot_warm_gas
+from .helpers import (
+    slot_cold_gas,
+    slot_oog_call_result,
+    slot_sanity_call_result,
+    slot_warm_gas,
+    value_call_legacy_abort,
+    value_call_legacy_success,
+)
 
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
@@ -50,29 +57,29 @@ def gas_test(
 
     sender = pre.fund_eoa(10**18)
 
-    address_baseline = pre.deploy_contract(
-        Container(sections=[Section.Code(setup_code + tear_down_code)])
-    )
+    address_baseline = pre.deploy_contract(Container.Code(setup_code + tear_down_code))
     address_subject = pre.deploy_contract(
-        Container(sections=[Section.Code(setup_code + subject_code + tear_down_code)])
+        Container.Code(setup_code + subject_code + tear_down_code)
     )
+    # GAS, POP, CALL, 7 times PUSH1 - instructions charged for at every gas run
+    gas_single_gas_run = 2 + 2 + 100 + 7 * 3
     address_legacy_harness = pre.deploy_contract(
         code=(
             # warm subject and baseline without executing
             (Op.BALANCE(address_subject) + Op.POP + Op.BALANCE(address_baseline) + Op.POP)
-            # cold gas run
+            # Baseline gas run
             + (
                 Op.GAS
-                + Op.CALL(address=address_subject, gas=500_000)
+                + Op.CALL(address=address_baseline, gas=500_000)
                 + Op.POP
                 + Op.GAS
                 + Op.SWAP1
                 + Op.SUB
             )
-            # Baseline gas run
+            # cold gas run
             + (
                 Op.GAS
-                + Op.CALL(address=address_baseline, gas=500_000)
+                + Op.CALL(address=address_subject, gas=500_000)
                 + Op.POP
                 + Op.GAS
                 + Op.SWAP1
@@ -87,10 +94,30 @@ def gas_test(
                 + Op.SWAP1
                 + Op.SUB
             )
-            # Store warm gas
-            + (Op.DUP2 + Op.SWAP1 + Op.SUB + Op.PUSH2(slot_warm_gas) + Op.SSTORE)
-            # store cold gas
-            + (Op.SWAP1 + Op.SUB + Op.PUSH2(slot_cold_gas) + Op.SSTORE)
+            # Store warm gas: DUP3 is the gas of the baseline gas run
+            + (Op.DUP3 + Op.SWAP1 + Op.SUB + Op.PUSH2(slot_warm_gas) + Op.SSTORE)
+            # store cold gas: DUP2 is the gas of the baseline gas run
+            + (Op.DUP2 + Op.SWAP1 + Op.SUB + Op.PUSH2(slot_cold_gas) + Op.SSTORE)
+            # oog gas run:
+            # - DUP7 is the gas of the baseline gas run, after other CALL args were pushed
+            # - subtract the gas charged by the harness
+            # - add warm gas charged by the subject
+            # - subtract 1 to cause OOG exception
+            + Op.SSTORE(
+                slot_oog_call_result,
+                Op.CALL(
+                    gas=Op.ADD(warm_gas - gas_single_gas_run - 1, Op.DUP7),
+                    address=address_subject,
+                ),
+            )
+            # sanity gas run: not subtracting 1 to see if enough gas makes the call succeed
+            + Op.SSTORE(
+                slot_sanity_call_result,
+                Op.CALL(
+                    gas=Op.ADD(warm_gas - gas_single_gas_run, Op.DUP7),
+                    address=address_subject,
+                ),
+            )
             + Op.STOP
         ),
         evm_code_type=EVMCodeType.LEGACY,  # Needs to be legacy to use GAS opcode
@@ -101,22 +128,46 @@ def gas_test(
             storage={
                 slot_warm_gas: warm_gas,
                 slot_cold_gas: cold_gas,
+                slot_oog_call_result: value_call_legacy_abort,
+                slot_sanity_call_result: value_call_legacy_success,
             },
         ),
     }
 
-    tx = Transaction(to=address_legacy_harness, gas_limit=2_000_000, sender=sender)
+    tx = Transaction(to=address_legacy_harness, gas_limit=20_000_000, sender=sender)
 
     state_test(env=env, pre=pre, tx=tx, post=post)
 
 
 @pytest.mark.parametrize(
-    ["opcode", "pre_setup", "cold_gas", "warm_gas"],
+    ["opcode", "pre_setup", "cold_gas", "warm_gas", "new_account"],
     [
-        pytest.param(Op.EXTCALL, Op.PUSH0, 2600, 100, id="EXTCALL"),
-        pytest.param(Op.EXTCALL, Op.PUSH1(1), 2600 + 9000, 100 + 9000, id="EXTCALL_with_value"),
-        pytest.param(Op.EXTDELEGATECALL, Op.NOOP, 2600, 100, id="EXTSTATICCALL"),
-        pytest.param(Op.EXTSTATICCALL, Op.NOOP, 2600, 100, id="EXTDELEGATECALL"),
+        pytest.param(Op.EXTCALL, Op.PUSH0, 2600, 100, False, id="EXTCALL"),
+        pytest.param(
+            Op.EXTCALL, Op.PUSH1(1), 2600 + 9000, 100 + 9000, False, id="EXTCALL_with_value"
+        ),
+        pytest.param(Op.EXTDELEGATECALL, Op.NOOP, 2600, 100, False, id="EXTSTATICCALL"),
+        pytest.param(Op.EXTSTATICCALL, Op.NOOP, 2600, 100, False, id="EXTDELEGATECALL"),
+        pytest.param(Op.EXTCALL, Op.PUSH0, 2600, 100, True, id="EXTCALL_new_acc"),
+        pytest.param(
+            Op.EXTCALL,
+            Op.PUSH1(1),
+            2600 + 25000 + 9000,
+            100 + 25000 + 9000,
+            True,
+            id="EXTCALL_with_value_new_acc",
+        ),
+        pytest.param(Op.EXTDELEGATECALL, Op.NOOP, 2600, 100, True, id="EXTSTATICCALL_new_acc"),
+        pytest.param(Op.EXTSTATICCALL, Op.NOOP, 2600, 100, True, id="EXTDELEGATECALL_new_acc"),
+    ],
+)
+@pytest.mark.parametrize(
+    ["mem_expansion_size", "mem_expansion_extra_gas"],
+    [
+        pytest.param(0, 0, id="no_mem_expansion"),
+        pytest.param(1, 3, id="1byte_mem_expansion"),
+        pytest.param(32, 3, id="1word_mem_expansion"),
+        pytest.param(33, 6, id="33bytes_mem_expansion"),
     ],
 )
 def test_ext_calls_gas(
@@ -126,18 +177,23 @@ def test_ext_calls_gas(
     opcode: Op,
     pre_setup: Op,
     cold_gas: int,
-    warm_gas: int | None,
+    warm_gas: int,
+    new_account: bool,
+    mem_expansion_size: int,
+    mem_expansion_extra_gas: int,
 ):
-    """Tests 4 variations of EXT*CALL gas, both warm and cold"""
-    address_target = pre.deploy_contract(Container(sections=[Section.Code(code=Op.STOP)]))
+    """Tests variations of EXT*CALL gas, both warm and cold"""
+    address_target = (
+        pre.fund_eoa(0) if new_account else pre.deploy_contract(Container.Code(Op.STOP))
+    )
 
     gas_test(
         state_test,
         state_env,
         pre,
-        setup_code=pre_setup + Op.PUSH0 + Op.PUSH0 + Op.PUSH20(address_target),
+        setup_code=pre_setup + Op.PUSH1(mem_expansion_size) + Op.PUSH0 + Op.PUSH20(address_target),
         subject_code=opcode,
         tear_down_code=Op.STOP,
-        cold_gas=cold_gas,
-        warm_gas=warm_gas,
+        cold_gas=cold_gas + mem_expansion_extra_gas,
+        warm_gas=warm_gas + mem_expansion_extra_gas,
     )
