@@ -35,6 +35,7 @@ from typing import Dict, List, Optional
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     EOA,
     Account,
@@ -48,7 +49,6 @@ from ethereum_test_tools import (
     Storage,
     Transaction,
     call_return_code,
-    eip_2028_transaction_data_cost,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -542,6 +542,7 @@ def test_call_opcode_types(
 )
 @pytest.mark.valid_from("Cancun")
 def test_tx_entry_point(
+    fork: Fork,
     state_test: StateTestFiller,
     precompile_input: bytes,
     call_gas: int,
@@ -559,7 +560,8 @@ def test_tx_entry_point(
     sender = pre.fund_eoa(amount=start_balance)
 
     # Gas is appended the intrinsic gas cost of the transaction
-    intrinsic_gas_cost = 21_000 + eip_2028_transaction_data_cost(precompile_input)
+    calldata_gas_calculator = fork.calldata_gas_calculator()
+    intrinsic_gas_cost = 21_000 + calldata_gas_calculator(data=precompile_input)
 
     # Consumed gas will only be the precompile gas if the proof is correct and
     # the call gas is sufficient.

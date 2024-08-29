@@ -9,6 +9,7 @@ note: Tests ported from:
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     EOA,
     Account,
@@ -215,18 +216,18 @@ class TestContractCreationGasUsage:
     """
 
     @pytest.fixture
-    def exact_intrinsic_gas(self, initcode: Initcode) -> int:
+    def exact_intrinsic_gas(self, fork: Fork, initcode: Initcode) -> int:
         """
         Calculates the intrinsic tx gas cost.
         """
-        return calculate_create_tx_intrinsic_cost(initcode)
+        return calculate_create_tx_intrinsic_cost(fork, initcode)
 
     @pytest.fixture
-    def exact_execution_gas(self, initcode: Initcode) -> int:
+    def exact_execution_gas(self, fork: Fork, initcode: Initcode) -> int:
         """
         Calculates the total execution gas cost.
         """
-        return calculate_create_tx_execution_cost(initcode)
+        return calculate_create_tx_execution_cost(fork, initcode)
 
     @pytest.fixture
     def tx_error(self, gas_test_case: str) -> TransactionException | None:

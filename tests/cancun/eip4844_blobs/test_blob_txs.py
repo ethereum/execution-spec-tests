@@ -44,7 +44,6 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
     add_kzg_version,
-    eip_2028_transaction_data_cost,
 )
 
 from .spec import Spec, SpecHelpers, ref_spec_4844
@@ -90,6 +89,7 @@ def tx_value() -> int:
 
 @pytest.fixture
 def tx_gas(
+    fork: Fork,
     tx_calldata: bytes,
     tx_access_list: List[AccessList],
 ) -> int:
@@ -103,7 +103,8 @@ def tx_gas(
             access_list_gas += ACCESS_LIST_ADDRESS_COST
             access_list_gas += len(address.storage_keys) * ACCESS_LIST_STORAGE_KEY_COST
 
-    return 21000 + eip_2028_transaction_data_cost(tx_calldata) + access_list_gas
+    calldata_gas_calculator = fork.calldata_gas_calculator()
+    return 21000 + calldata_gas_calculator(data=tx_calldata) + access_list_gas
 
 
 @pytest.fixture
