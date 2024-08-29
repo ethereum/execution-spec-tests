@@ -4,6 +4,7 @@ tests.
 """
 
 from ethereum_test_base_types import (
+    AccessList,
     Account,
     Address,
     Bytes,
@@ -36,7 +37,6 @@ from ethereum_test_specs import (
 from ethereum_test_specs.blockchain import Block, Header
 from ethereum_test_types import (
     EOA,
-    AccessList,
     Alloc,
     AuthorizationTuple,
     ConsolidationRequest,
