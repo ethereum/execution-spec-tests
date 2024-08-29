@@ -13,7 +13,7 @@ from semver import Version
 from ethereum_test_forks import Frontier
 from ethereum_test_tools.code import Solc
 
-SOLC_VERSION = "0.8.24"
+DEFAULT_SOLC_VERSION = "0.8.24"
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -37,7 +37,7 @@ def pytest_addoption(parser: pytest.Parser):
         action="store",
         dest="solc_version",
         default=None,
-        help=f"Version of the solc compiler to use. Default: {SOLC_VERSION}.",
+        help=f"Version of the solc compiler to use. Default: {DEFAULT_SOLC_VERSION}.",
     )
 
 
@@ -61,7 +61,7 @@ def pytest_configure(config: pytest.Config):
         solc_version_semver = Solc(config.getoption("solc_bin")).version
     else:
         # if no solc binary is specified, use solc-select
-        solc_version = solc_version or SOLC_VERSION
+        solc_version = solc_version or DEFAULT_SOLC_VERSION
         try:
             version, _ = solc_select.current_version()
         except ArgumentTypeError:
