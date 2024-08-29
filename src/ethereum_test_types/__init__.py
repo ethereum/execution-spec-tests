@@ -12,7 +12,6 @@ from .helpers import (
 )
 from .types import (
     EOA,
-    AccessList,
     Account,
     Alloc,
     AuthorizationTuple,
@@ -31,7 +30,6 @@ from .types import (
 )
 
 __all__ = (
-    "AccessList",
     "Account",
     "Alloc",
     "AuthorizationTuple",
