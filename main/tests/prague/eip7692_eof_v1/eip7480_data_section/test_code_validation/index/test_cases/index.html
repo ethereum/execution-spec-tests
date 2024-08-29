@@ -13535,7 +13535,7 @@
 <h1 id="test-code-validation-test-cases">Test Code Validation - Test Cases<a class="headerlink" href="#test-code-validation-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip7480_data_section/test_code_validation.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/c4aa83ccf0963077c85351777e7c65dea9696e97/tests/prague/eip7692_eof_v1/eip7480_data_section/test_code_validation.py"><code>tests/prague/eip7692_eof_v1/eip7480_data_section/test_code_validation.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/bc820c647a9a88915c89d0776a45e9e8547add48/tests/prague/eip7692_eof_v1/eip7480_data_section/test_code_validation.py"><code>tests/prague/eip7692_eof_v1/eip7480_data_section/test_code_validation.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_legacy_initcode_valid_eof_v1_contract[fork_CancunEIP7692-eof_test-empty_data_section]
 test_legacy_initcode_valid_eof_v1_contract[fork_CancunEIP7692-eof_test-small_data_section]
 test_legacy_initcode_valid_eof_v1_contract[fork_CancunEIP7692-eof_test-large_data_section]
@@ -13549,7 +13549,7 @@ test_legacy_initcode_invalid_eof_v1_contract[fork_CancunEIP7692-eof_test-DATALOA
 test_legacy_initcode_invalid_eof_v1_contract[fork_CancunEIP7692-eof_test-data_section_over_container_limit]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.filler.pre_alloc -p pytest_plugins.filler.filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.help.help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip7480_data_section/test_code_validation.py</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.filler.pre_alloc -p pytest_plugins.filler.solc -p pytest_plugins.filler.filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.help.help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip7480_data_section/test_code_validation.py</span>
 </code></pre></div>
 </div>
 
