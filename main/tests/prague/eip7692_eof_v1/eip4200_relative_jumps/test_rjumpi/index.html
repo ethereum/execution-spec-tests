@@ -5371,6 +5371,8 @@
       
         
       
+        
+      
     
     
       
@@ -5476,6 +5478,91 @@
   
     <li class="md-nav__item">
       <a href="../../eip4750_functions/test_callf_execution/index/test_cases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test Cases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2_8_5_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../eip4750_functions/test_code_validation/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Test Code Validation
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10_2_8_5_3" id="__nav_10_2_8_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_10_2_8_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2_8_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Test Code Validation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eip4750_functions/test_code_validation/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -13839,6 +13926,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_tangled_rjumpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_tangled_rjumpi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_backwards_onto_dup" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_rjumpi_backwards_onto_dup
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -13855,7 +13960,7 @@
 
 
 <h1 id="test-rjumpi">Test Rjumpi<a class="headerlink" href="#test-rjumpi" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bc820c647a9a88915c89d0776a45e9e8547add48/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/681f3a31b7247a891c16483d2420a0265c11a21f/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -16270,6 +16375,130 @@ This implies that the last instruction may be a terminating instruction or RJUMP
             <span class="p">],</span>
         <span class="p">),</span>
         <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_STOP_OPCODE</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_tangled_rjumpi" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_tangled_rjumpi</span><span class="p">(</span><span class="n">eof_test</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_tangled_rjumpi" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>EOF code containing tangled RJUMPI paths</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">866</span>
+<span class="normal">867</span>
+<span class="normal">868</span>
+<span class="normal">869</span>
+<span class="normal">870</span>
+<span class="normal">871</span>
+<span class="normal">872</span>
+<span class="normal">873</span>
+<span class="normal">874</span>
+<span class="normal">875</span>
+<span class="normal">876</span>
+<span class="normal">877</span>
+<span class="normal">878</span>
+<span class="normal">879</span>
+<span class="normal">880</span>
+<span class="normal">881</span>
+<span class="normal">882</span>
+<span class="normal">883</span>
+<span class="normal">884</span>
+<span class="normal">885</span>
+<span class="normal">886</span>
+<span class="normal">887</span>
+<span class="normal">888</span>
+<span class="normal">889</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tangled_rjumpi</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF code containing tangled RJUMPI paths</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># [0,0]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># [1,1]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>  <span class="c1"># [2,2]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">127</span><span class="p">)</span>  <span class="c1"># [1,1]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>  <span class="c1"># [2,2]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># [1,1]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># [1,1]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># [2,1]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">LT</span>  <span class="c1"># [1,x]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>  <span class="c1"># [1,x]</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_backwards_onto_dup" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_rjumpi_backwards_onto_dup</span><span class="p">(</span><span class="n">eof_test</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_backwards_onto_dup" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Backwards jumpi onto a dup</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">892</span>
+<span class="normal">893</span>
+<span class="normal">894</span>
+<span class="normal">895</span>
+<span class="normal">896</span>
+<span class="normal">897</span>
+<span class="normal">898</span>
+<span class="normal">899</span>
+<span class="normal">900</span>
+<span class="normal">901</span>
+<span class="normal">902</span>
+<span class="normal">903</span>
+<span class="normal">904</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_backwards_onto_dup</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Backwards jumpi onto a dup</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
+        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

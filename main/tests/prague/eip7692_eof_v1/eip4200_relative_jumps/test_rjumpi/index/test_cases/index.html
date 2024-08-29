@@ -5381,6 +5381,8 @@
       
         
       
+        
+      
     
     
       
@@ -5486,6 +5488,91 @@
   
     <li class="md-nav__item">
       <a href="../../../../eip4750_functions/test_callf_execution/index/test_cases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test Cases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2_8_5_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../eip4750_functions/test_code_validation/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Test Code Validation
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10_2_8_5_3" id="__nav_10_2_8_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_10_2_8_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2_8_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Test Code Validation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../eip4750_functions/test_code_validation/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -13535,7 +13622,7 @@
 <h1 id="test-rjumpi-test-cases">Test Rjumpi - Test Cases<a class="headerlink" href="#test-rjumpi-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/bc820c647a9a88915c89d0776a45e9e8547add48/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/681f3a31b7247a891c16483d2420a0265c11a21f/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test-False]
 test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test-True]
 test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test_engine-False]
@@ -13730,6 +13817,8 @@ test_rjumpi_into_returncontract[fork_CancunEIP7692-eof_test]
 test_rjumpi_backwards_reference_only[fork_CancunEIP7692-eof_test]
 test_rjumpi_stack_validation[fork_CancunEIP7692-eof_test]
 test_rjumpi_at_the_end[fork_CancunEIP7692-eof_test]
+test_tangled_rjumpi[fork_CancunEIP7692-eof_test]
+test_rjumpi_backwards_onto_dup[fork_CancunEIP7692-eof_test]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.filler.pre_alloc -p pytest_plugins.filler.solc -p pytest_plugins.filler.filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.help.help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</span>

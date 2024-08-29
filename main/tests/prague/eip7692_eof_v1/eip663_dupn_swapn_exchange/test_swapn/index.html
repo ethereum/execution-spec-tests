@@ -5367,6 +5367,8 @@
       
         
       
+        
+      
     
     
       
@@ -5472,6 +5474,91 @@
   
     <li class="md-nav__item">
       <a href="../../eip4750_functions/test_callf_execution/index/test_cases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test Cases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2_8_5_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../eip4750_functions/test_code_validation/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Test Code Validation
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10_2_8_5_3" id="__nav_10_2_8_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_10_2_8_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2_8_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Test Code Validation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eip4750_functions/test_code_validation/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -13567,7 +13654,7 @@
 
 
 <h1 id="test-swapn">Test Swapn<a class="headerlink" href="#test-swapn" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bc820c647a9a88915c89d0776a45e9e8547add48/tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py"><code>tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/681f3a31b7247a891c16483d2420a0265c11a21f/tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py"><code>tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -13802,11 +13889,13 @@ For all forks up to and including Prague:
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">106</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;stack_height&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="mi">0</span><span class="p">,</span>
         <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">21</span><span class="p">,</span>
         <span class="mi">2</span><span class="o">**</span><span class="mi">8</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -13824,7 +13913,7 @@ For all forks up to and including Prague:
                 <span class="n">code</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stack_height</span><span class="p">))</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAPN</span><span class="p">[</span><span class="n">stack_height</span><span class="p">]</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="n">MAX_OPERAND_STACK_HEIGHT</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="n">stack_height</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>
     <span class="p">)</span>
