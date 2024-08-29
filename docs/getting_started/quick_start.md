@@ -1,25 +1,24 @@
 # Quick Start
 
 !!! info "Testing features under active development"
-    The EVM features under test must be implemented in the `evm` tool and `solc` executables that are used by the execution-spec-tests framework. The following guide installs stable versions of these tools.
+    The EVM features under test must be implemented in the `evm` tool and `solc` executables that are used by the execution-spec-tests framework. The following guide installs the stable version of the geth `evm`; `solc` will be installed by the `fill` command.
 
     To test features under active development, start with this base configuration and then follow the steps in [executing tests for features under development](./executing_tests_dev_fork.md). 
 
 The following requires a Python 3.10, 3.11 or 3.12 installation.
 
-1. Ensure `go-ethereum`'s `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20), [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21), [0.8.22](https://github.com/ethereum/solidity/releases/tag/v0.8.22), [0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23)  supported) are in your path. Either build the required versions, or alternatively:
+1. Ensure `go-ethereum`'s `evm` tool is in your path. Either build the required version, or alternatively:
 
     === "Ubuntu"
 
           ```console
           sudo add-apt-repository -y ppa:ethereum/ethereum
           sudo apt-get update
-          sudo apt-get install ethereum solc
+          sudo apt-get install ethereum
           ```
           More help:
 
           - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
-          - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
 
     === "macOS"
 
@@ -32,7 +31,6 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
           More help:
 
           - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#macos-via-homebrew).
-          - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#macos-packages).
 
     === "Windows"
 
@@ -44,7 +42,6 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
           More help:
 
           - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#windows).
-          - [solc static binaries doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#static-binaries).
 
 2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies (it's recommended to use a virtual environment for the installation):
 
@@ -80,7 +77,7 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
         </figure>
         Check:
 
-        1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
+        1. The versions of the `evm` tool is as expected (your versions may differ from those in the highlighted box).
         2. The generated HTML test report by clicking the link at the bottom of the console output.
         3. The corresponding fixture file has been generated:
 
