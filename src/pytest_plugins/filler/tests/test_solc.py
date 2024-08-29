@@ -45,7 +45,6 @@ def create_clean_solc_select_environment(request):
         os.makedirs(artifacts_dir, exist_ok=True)  # this won't get recreated by solc-select
 
         yield
-        print("Running teardown")
         # Teardown: Restore the original files and directory from the temporary location
         if global_version_file.exists():
             os.remove(global_version_file)
@@ -77,10 +76,9 @@ class TestSolcVersion:  # noqa: D101
             from ethereum_test_tools.code import Solc
 
             @pytest.fixture(autouse=True)
-            def check_solc_version(request):
+            def check_solc_version(request, solc_bin):
                 assert request.config.getoption("solc_version") == "{solc_version}"
-                #solc_bin_version = Solc(request.config.getoption("solc_bin")).version
-                #assert request.config.getoption("solc_version") == solc_bin_version
+                assert Solc(solc_bin).version == "{solc_version}"
             """
         )
         pytester.copy_example(name="pytest.ini")
