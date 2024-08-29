@@ -162,7 +162,7 @@ class Frontier(BaseFork, solc_name="homestead"):
             previous_words = ceiling_division(previous_bytes, 32)
 
             def c(w: int) -> int:
-                return (gas_costs.G_MEMORY * w) + ((w * w) // 512)  # type: ignore
+                return (gas_costs.G_MEMORY * w) + ((w * w) // 512)
 
             return c(new_words) - c(previous_words)
 
@@ -182,9 +182,9 @@ class Frontier(BaseFork, solc_name="homestead"):
             cost = 0
             for b in Bytes(data):
                 if b == 0:
-                    cost += gas_costs.G_TX_DATA_ZERO  # type: ignore
+                    cost += gas_costs.G_TX_DATA_ZERO
                 else:
-                    cost += gas_costs.G_TX_DATA_NON_ZERO  # type: ignore
+                    cost += gas_costs.G_TX_DATA_NON_ZERO
             return cost
 
         return fn
