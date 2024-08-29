@@ -595,7 +595,7 @@ def test_deep_container(
     ["width", "exception"],
     [
         pytest.param(256, None, id="256"),
-        pytest.param(257, EOFException.TOO_MANY_CONTAINERS, id="257"),
+        pytest.param(257, EOFException.TOO_MANY_CONTAINER_SECTIONS, id="257"),
         pytest.param(0x8000, EOFException.CONTAINER_SIZE_ABOVE_LIMIT, id="negative_i16"),
         pytest.param(0xFFFF, EOFException.CONTAINER_SIZE_ABOVE_LIMIT, id="max_u16"),
     ],

@@ -589,6 +589,10 @@ class EOFException(ExceptionBase):
     """
     EOF container's section has non-returning flag set incorrectly.
     """
+    CALLF_TO_NON_RETURNING_FUNCTION = auto()
+    """
+    EOF container's section has CALLF instruction to non-returning function.
+    """
     INVALID_RJUMP_DESTINATION = auto()
     """
     Code has RJUMP instruction with invalid parameters.
@@ -665,6 +669,10 @@ class EOFException(ExceptionBase):
     """
     EOF container header has too many code sections.
     """
+    EOF_CREATE_WITH_TRUNCATED_CONTAINER = auto()
+    """
+    EOF Create has truncated container.
+    """
     MISSING_STOP_OPCODE = auto()
     """
     EOF container's code missing STOP bytecode at it's end.
@@ -684,6 +692,10 @@ class EOFException(ExceptionBase):
     STACK_UNDERFLOW = auto()
     """
     EOF container's code produces an stack underflow.
+    """
+    STACK_OVERFLOW = auto()
+    """
+    EOF container's code produces an stack overflow.
     """
     STACK_HEIGHT_MISMATCH = auto()
     """
@@ -734,7 +746,7 @@ class EOFException(ExceptionBase):
     """
     Incompatible instruction found in a container of a specific kind.
     """
-    TOO_MANY_CONTAINERS = auto()
+    TOO_MANY_CONTAINER_SECTIONS = auto()
     """
     EOF container header has too many sub-containers.
     """
@@ -745,6 +757,10 @@ class EOFException(ExceptionBase):
     UNEXPECTED_HEADER_KIND = auto()
     """
     Header parsing encounterd a section kind it wasn't expecting
+    """
+    AMBIGUOUS_CONTAINER_KIND = auto()
+    """
+    Container referenced by eofcreate and returncontract.
     """
 
 
