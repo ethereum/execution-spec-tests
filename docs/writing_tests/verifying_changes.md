@@ -12,7 +12,7 @@ The `tox` tool can be executed locally to check that local changes won't cause G
 ```console
 python -m venv ./venv/
 source ./venv/bin/activate
-pip install tox
+pip install tox-uv
 ```
 
 ### Execution

@@ -31,13 +31,17 @@ jobs:
           echo $(pwd)
           echo ${{ github.workspace }}
 
-          #install pyspec deps from root repo
-          python3 --version
-          pip install --upgrade pip
-          python3 -m venv ./venv/
-          source ./venv/bin/activate
-          pip install -e .
-          solc-select use 0.8.25 --always-install
+      - name: Set up uv
+        run: curl -LsSf https://astral.sh/uv/0.3.5/install.sh | sh
+
+      - name: Set up Python
+        run: uv python install 3.10
+
+      - name: Install EEST
+        run: |
+          uv sync --no-progress
+          uv run solc-select use 0.8.25 --always-install
+          uv run python --version
 
       # Required to fill .py tests
       - name: Build GO EVM
@@ -68,7 +72,6 @@ jobs:
           path: legacytestpath
           sparse-checkout: |
             Cancun/GeneralStateTests
-
 
       # This command diffs the file and filters in new lines
       - name: Parse converted tests from converted-ethereum-tests.txt
@@ -153,8 +156,8 @@ jobs:
           mkdir -p fixtures/eof_tests
           echo "$files" | while read line; do
             file=$(echo "$line" | cut -c 3-)
-            fill $file --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-            (fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
+            uv run fill $file --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+            (uv run fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
           done
 
           if grep -q "FAILURES" filloutput.log; then
