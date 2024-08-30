@@ -595,6 +595,7 @@ class TransactionDefaults:
     """
     Default values for transactions.
     """
+
     chain_id: int = 1
 
 
