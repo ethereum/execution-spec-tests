@@ -39,7 +39,7 @@ jobs:
         with:
           type: ${{ matrix.evm-type }}
       - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/0.3.5/install.sh | sh
+        uses: ./.github/actions/setup-uv
       - name: Set up Python ${{ matrix.python }}
         run: uv python install ${{ matrix.python }}
       - name: Setup Tools/Dependencies Ubuntu

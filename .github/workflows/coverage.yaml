@@ -3,7 +3,7 @@ name: Evmone Coverage Report
 on:
   pull_request:
     paths:
-      - 'converted-ethereum-tests.txt' # This triggers the workflow only for changes in file.txt
+      - "converted-ethereum-tests.txt" # This triggers the workflow only for changes in file.txt
 
 jobs:
   evmone-coverage-diff:
@@ -32,7 +32,7 @@ jobs:
           echo ${{ github.workspace }}
 
       - name: Set up uv
-        run: curl -LsSf https://astral.sh/uv/0.3.5/install.sh | sh
+        uses: ./.github/actions/setup-uv
 
       - name: Set up Python
         run: uv python install 3.10
@@ -48,13 +48,13 @@ jobs:
         uses: ./.github/actions/build-evm-client/geth
         id: evm-builder
         with:
-          type: 'main'
+          type: "main"
 
       - name: Build EVMONE EVM
         uses: ./.github/actions/build-evm-client/evmone
         id: evm-builder2
         with:
-          type: 'main'
+          type: "main"
 
       - name: Checkout ethereum/tests
         uses: actions/checkout@v4
@@ -121,9 +121,8 @@ jobs:
                 exit 1
               fi
           done
-          
 
-     # This command diffs the .py scripts introduced by a PR
+      # This command diffs the .py scripts introduced by a PR
       - name: Parse and fill introduced test sources
         run: |
           python3 -m venv ./venv/
