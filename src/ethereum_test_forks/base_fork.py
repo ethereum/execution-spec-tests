@@ -7,7 +7,7 @@ from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Tuple, Type
 
 from semver import Version
 
-from ethereum_test_base_types import Address
+from ethereum_test_base_types import AccessList, Address
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
@@ -47,6 +47,24 @@ class CalldataGasCalculator(Protocol):
     def __call__(self, *, data: BytesConvertible) -> int:
         """
         Returns the transaction gas cost of calldata given its contents.
+        """
+        pass
+
+
+class TransactionIntrinsicCostCalculator(Protocol):
+    """
+    A protocol to calculate the intrinsic gas cost of a transaction for a given fork.
+    """
+
+    def __call__(
+        self,
+        *,
+        calldata: BytesConvertible = b"",
+        contract_creation: bool = False,
+        access_list: List[AccessList] | None = None,
+    ) -> int:
+        """
+        Returns the intrinsic gas cost of a transaction given its properties.
         """
         pass
 
@@ -214,6 +232,16 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """
         Returns a callable that calculates the transaction gas cost for its calldata
         depending on its contents.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def transaction_intrinsic_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionIntrinsicCostCalculator:
+        """
+        Returns a callable that calculates the intrinsic gas cost of a transaction for the fork.
         """
         pass
 
