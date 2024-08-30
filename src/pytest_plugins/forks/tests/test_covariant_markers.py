@@ -6,7 +6,7 @@ import pytest
 
 
 @pytest.mark.parametrize(
-    "test_function,passed,failed,skipped,errors",
+    "test_function,outcomes,error_string",
     [
         pytest.param(
             """
@@ -17,10 +17,8 @@ import pytest
             def test_case(state_test_only, tx_type):
                 pass
             """,
-            3,
-            0,
-            0,
-            0,
+            dict(passed=3, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_tx_types",
         ),
         pytest.param(
@@ -32,10 +30,8 @@ import pytest
             def test_case(state_test_only, tx_type):
                 pass
             """,
-            2,
-            0,
-            0,
-            0,
+            dict(passed=2, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_tx_types_with_selector",
         ),
         pytest.param(
@@ -47,10 +43,8 @@ import pytest
             def test_case(state_test_only, tx_type):
                 pass
             """,
-            3,
-            0,
-            0,
-            0,
+            dict(passed=3, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_contract_creating_tx_types",
         ),
         pytest.param(
@@ -62,10 +56,8 @@ import pytest
             def test_case(state_test_only, tx_type):
                 pass
             """,
-            3,
-            0,
-            0,
-            0,
+            dict(passed=3, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_contract_creating_tx_types",
         ),
         pytest.param(
@@ -77,10 +69,8 @@ import pytest
             def test_case(state_test_only, precompile):
                 pass
             """,
-            10,
-            0,
-            0,
-            0,
+            dict(passed=10, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_precompiles",
         ),
         pytest.param(
@@ -92,10 +82,8 @@ import pytest
             def test_case(state_test_only, evm_code_type):
                 pass
             """,
-            1,
-            0,
-            0,
-            0,
+            dict(passed=1, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_evm_code_types",
         ),
         pytest.param(
@@ -107,10 +95,8 @@ import pytest
             def test_case(state_test_only, call_opcode):
                 pass
             """,
-            4,
-            0,
-            0,
-            0,
+            dict(passed=4, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_call_opcodes",
         ),
         pytest.param(
@@ -125,10 +111,8 @@ import pytest
             def test_case(state_test_only, call_opcode):
                 pass
             """,
-            4,
-            0,
-            0,
-            0,
+            dict(passed=4, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_call_opcodes_with_selector_for_evm_code_type",
         ),
         pytest.param(
@@ -141,10 +125,8 @@ import pytest
             def test_case(state_test_only, call_opcode):
                 pass
             """,
-            1,
-            0,
-            0,
-            0,
+            dict(passed=1, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_call_opcodes_with_selector",
         ),
         pytest.param(
@@ -156,10 +138,8 @@ import pytest
             def test_case(state_test_only, create_opcode):
                 pass
             """,
-            2,
-            0,
-            0,
-            0,
+            dict(passed=2, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_create_opcodes",
         ),
         pytest.param(
@@ -172,10 +152,8 @@ import pytest
             def test_case(state_test_only, call_opcode, precompile):
                 pass
             """,
-            4 * 10,
-            0,
-            0,
-            0,
+            dict(passed=4 * 10, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_call_opcodes_and_precompiles",
         ),
         pytest.param(
@@ -188,10 +166,8 @@ import pytest
             def test_case(state_test_only, call_opcode, create_opcode):
                 pass
             """,
-            4 * 2,
-            0,
-            0,
-            0,
+            dict(passed=2 * 4, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_call_opcodes_and_create_opcodes",
         ),
         pytest.param(
@@ -203,10 +179,8 @@ import pytest
             def test_case(state_test_only, system_contract):
                 pass
             """,
-            1,
-            0,
-            0,
-            0,
+            dict(passed=1, failed=0, skipped=0, errors=0),
+            None,
             id="with_all_system_contracts",
         ),
         pytest.param(
@@ -218,10 +192,8 @@ import pytest
             def test_case(state_test_only, tx_type):
                 pass
             """,
-            0,
-            0,
-            0,
-            1,
+            dict(passed=0, failed=0, skipped=0, errors=1),
+            "Unknown arguments to with_all_tx_types",
             id="invalid_covariant_marker_parameter",
         ),
         pytest.param(
@@ -233,10 +205,8 @@ import pytest
             def test_case(state_test_only, tx_type):
                 pass
             """,
-            0,
-            0,
-            0,
-            1,
+            dict(passed=0, failed=0, skipped=0, errors=1),
+            "selector must be a function",
             id="invalid_selector",
         ),
         pytest.param(
@@ -248,36 +218,26 @@ import pytest
             def test_case(state_test_only, tx_type):
                 pass
             """,
-            0,
-            0,
-            0,
-            1,
+            dict(passed=0, failed=0, skipped=0, errors=1),
+            "Only keyword arguments are supported",
             id="selector_as_positional_argument",
         ),
     ],
 )
 def test_fork_covariant_markers(
-    pytester,
-    test_function: str,
-    passed: int,
-    failed: int,
-    skipped: int,
-    errors: int,
+    pytester, test_function: str, outcomes: dict, error_string: str | None
 ):
     """
-    Test that a test with an invalid marker cases:
-        - Creates an outcome with exactly one error.
-        - Triggers the expected error string in pytest's console output.
+    Test fork covariant markers in an isolated test session, i.e., in
+    a `fill` execution.
 
-    Each invalid marwith_all_tx_typesker/marker combination is tested with one test in its own test
-    session.
+    In the case of an error, check that the expected error string is in the
+    console output.
     """
     pytester.makepyfile(test_function)
     pytester.copy_example(name="pytest.ini")
     result = pytester.runpytest()
-    result.assert_outcomes(
-        passed=passed,
-        failed=failed,
-        skipped=skipped,
-        errors=errors,
-    )
+    result.assert_outcomes(**outcomes)
+    if outcomes["errors"]:
+        assert error_string is not None
+        assert error_string in "\n".join(result.stdout.lines)
