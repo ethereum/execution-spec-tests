@@ -38,49 +38,65 @@ import pytest
             """
             import pytest
             @pytest.mark.with_all_tx_types(
-                marks=pytest.mark.xfail,
-                marks_selector=lambda tx_type: tx_type == 1,
+                marks=lambda tx_type: pytest.mark.skip("incompatible") if tx_type == 1 else None,
             )
             @pytest.mark.valid_from("Paris")
             @pytest.mark.valid_until("Paris")
             def test_case(state_test_only, tx_type):
-                pass
+                assert tx_type != 1
             """,
-            dict(passed=2, xpassed=1, failed=0, skipped=0, errors=0),
+            dict(passed=2, xpassed=0, failed=0, skipped=1, errors=0),
             None,
-            id="with_all_tx_types_with_marks_selector",
+            id="with_all_tx_types_with_marks_lambda",
         ),
         pytest.param(
             """
             import pytest
-            from _pytest.mark.structures import Mark  # yikes
-
-
-            def flatten_marks(marks):
-                flattened = []
-                for mark in marks:
-                    if isinstance(mark, Mark) and 'marks' in mark.kwargs:
-                        flattened.extend(flatten_marks(mark.kwargs['marks']))
-                    flattened.append(mark)
-                return flattened
-
-
+            @pytest.mark.with_all_tx_types(marks=pytest.mark.skip("incompatible"))
+            @pytest.mark.valid_from("Paris")
+            @pytest.mark.valid_until("Paris")
+            def test_case(state_test_only, tx_type):
+                assert False
+            """,
+            dict(passed=0, xpassed=0, failed=0, skipped=3, errors=0),
+            None,
+            id="with_all_tx_types_with_marks_lambda",
+        ),
+        pytest.param(
+            """
+            import pytest
+            @pytest.mark.with_all_tx_types(marks=[pytest.mark.skip("incompatible")])
+            @pytest.mark.valid_from("Paris")
+            @pytest.mark.valid_until("Paris")
+            def test_case(state_test_only, tx_type):
+                assert False
+            """,
+            dict(passed=0, xpassed=0, failed=0, skipped=3, errors=0),
+            None,
+            id="with_all_tx_types_with_marks_lambda",
+        ),
+        pytest.param(
+            """
+            import pytest
             @pytest.mark.with_all_tx_types(
-                marks=[pytest.mark.xfail, pytest.mark.slow],
-                marks_selector=lambda tx_type: tx_type == 1,
+                marks=(
+                    lambda tx_type:
+                        [pytest.mark.xfail, pytest.mark.slow]
+                        if tx_type == 1 else None
+                    ),
             )
             @pytest.mark.valid_from("Paris")
             @pytest.mark.valid_until("Paris")
             def test_case(request, state_test_only, tx_type):
-                marks = list(request.node.iter_markers())
-                flattened_marks = flatten_marks(marks)
+                mark_names = [mark.name for mark in request.node.iter_markers()]
 
-                assert any(mark.name == "state_test" for mark in flattened_marks)
-                assert any(mark.name == "slow" for mark in flattened_marks)
+                assert "state_test" in mark_names
+                if tx_type == 1:
+                    assert "slow" in mark_names
             """,
             dict(passed=2, xpassed=1, failed=0, skipped=0, errors=0),
             None,
-            id="with_all_tx_types_with_marks_selector_multiple_marks",
+            id="with_all_tx_types_with_marks_lambda_multiple_marks",
         ),
         pytest.param(
             """

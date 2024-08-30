@@ -7,7 +7,7 @@ import sys
 import textwrap
 from dataclasses import dataclass, field
 from types import FunctionType
-from typing import Any, List, Set, Tuple
+from typing import Any, Callable, List, Set, Tuple
 
 import pytest
 from _pytest.mark.structures import ParameterSet
@@ -173,8 +173,11 @@ class CovariantDescriptor:
         marks: None
         | pytest.Mark
         | pytest.MarkDecorator
-        | List[pytest.Mark | pytest.MarkDecorator],
-        marks_selector: FunctionType,
+        | List[pytest.Mark | pytest.MarkDecorator]
+        | Callable[
+            [Any],
+            List[pytest.Mark | pytest.MarkDecorator] | pytest.Mark | pytest.MarkDecorator | None,
+        ],
     ) -> List[List[MarkedValue]]:
         """
         Process a value for a covariant parameter.
@@ -185,12 +188,14 @@ class CovariantDescriptor:
             values = [values]
 
         if selector(*values[: selector.__code__.co_argcount]):
+            if isinstance(marks, FunctionType):
+                marks = marks(*values[: marks.__code__.co_argcount])
+            assert not isinstance(marks, FunctionType), "marks must be a list or None"
             if marks is None:
                 marks = []
             elif not isinstance(marks, list):
-                marks = [marks]
-            if not marks_selector(*values[: marks_selector.__code__.co_argcount]):
-                marks = []
+                marks = [marks]  # type: ignore
+
             return [[MarkedValue(value=v, marks=marks) for v in values]]
 
         return []
@@ -212,15 +217,13 @@ class CovariantDescriptor:
         assert isinstance(selector, FunctionType), "selector must be a function"
 
         marks = kwargs.pop("marks", None)
-        marks_selector = kwargs.pop("marks_selector", lambda _: True)
-        assert isinstance(marks_selector, FunctionType), "marks_selector must be a function"
 
         if len(kwargs) > 0:
             raise ValueError(f"Unknown arguments to {self.marker_name}: {kwargs}")
 
         processed_values: List[List[MarkedValue]] = []
         for value in values:
-            processed_values.extend(self.process_value(value, selector, marks, marks_selector))
+            processed_values.extend(self.process_value(value, selector, marks))
 
         return processed_values
 
