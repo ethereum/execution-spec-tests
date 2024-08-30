@@ -48,7 +48,7 @@ from ethereum_test_types import (
     Withdrawal,
     WithdrawalRequest,
 )
-from ethereum_test_types.verkle import VerkleTree, Witness, WitnessCheck
+from ethereum_test_types.verkle import StateDiff, Stem, VerkleTree, Witness, WitnessCheck
 from evm_transition_tool import TransitionTool
 
 from .base import BaseTest, verify_result, verify_transactions
@@ -460,9 +460,13 @@ class BlockchainTest(BaseTest):
             rejected_txs = verify_transactions(txs, transition_tool_output.result)
             verify_result(transition_tool_output.result, env)
             if block.witness_check:
+                if transition_tool_output.result.state_diff is None:
+                    raise Exception(
+                        "no state diff in transition tool output, cannot verify witness"
+                    )
                 self.verify_witness(
                     t8n=t8n,
-                    transition_tool_output_witness=transition_tool_output.witness,
+                    state_diff=transition_tool_output.result.state_diff,
                     witness_check=block.witness_check,
                 )
 
@@ -599,16 +603,58 @@ class BlockchainTest(BaseTest):
     def verify_witness(
         self,
         t8n: TransitionTool,
-        transition_tool_output_witness: Witness | None,
+        state_diff: StateDiff,
         witness_check: WitnessCheck,
     ) -> None:
         """
         Compares the expected witness check allocation account against the values updated
         in the block execution witness state diff.
         """
-        key_values = t8n.format_witness_check(witness_check)
-        print(key_values)
-        pass
+        # Format the WitnessCheck object to key-values for comparison against the t8n state diff
+        witness_check_key_values = t8n.format_witness_check(witness_check)
+        pprint(state_diff.model_dump())
+        for key, value in witness_check_key_values.items():
+            # Extract stem and suffix from the key
+            stem = Stem(key[:31])
+            print(key)
+            print(stem)
+            suffix = int.from_bytes(key[31:], byteorder="big")
+            print(suffix)
+            # Find the corresponding stem state diff in the witness
+            stem_state_diff = next(
+                (stem_diff for stem_diff in state_diff.root if stem_diff.stem == stem),
+                None,
+            )
+            for stem_diff in state_diff.root:
+                print(f"stem_diff.stem: {stem_diff.stem}")
+            if stem_state_diff:
+                print(
+                    f"Found matching stem_diff.stem: {stem_state_diff.stem}"
+                )  # Debug print for stem_diff.stem
+            else:
+                print(f"No matching stem_diff found for stem: {stem}")
+            if stem_state_diff is None:
+                raise ValueError(f"Stem {stem} not found in witness state diff.")
+            # Find the corresponding suffix state diff in the stem state diff
+            suffix_state_diff = next(
+                (
+                    suffix_diff
+                    for suffix_diff in stem_state_diff.suffix_diffs
+                    if suffix_diff.suffix == suffix
+                ),
+                None,
+            )
+            if suffix_state_diff is None:
+                raise ValueError(
+                    f"Suffix {suffix} not found for stem {stem} in witness state diff."
+                )
+            # Compare the expected witness check value with the current value in the state diff
+            if str(suffix_state_diff.current_value) != str(value):
+                raise ValueError(
+                    f"Witness check failed: expected current value {value}, "
+                    f"got {suffix_state_diff.current_value}, "
+                    f"for stem {stem} and suffix {suffix}."
+                )
 
     def make_fixture(
         self,
