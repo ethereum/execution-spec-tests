@@ -95,14 +95,25 @@ def _blockhash(
     witness_check = WitnessCheck()
     for address in [env.fee_recipient, TestAddress, TestAddress2]:
         witness_check.add_account_full(
-            address, None if address == env.fee_recipient else pre[address]
+            address=address,
+            account=(None if address == env.fee_recipient else pre[address]),
         )
     if not fail:
         storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
         value = None  # TODO: Process the value for Verkle storage slot
-        witness_check.add_storage_slot(blockhash_system_contract_address, storage_slot, value)
+        witness_check.add_storage_slot(
+            address=blockhash_system_contract_address,
+            storage_slot=storage_slot,
+            value=value,
+        )
 
-    blocks = [Block(txs=[tx], witness_check=witness_check)]
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
+
     blockchain_test(
         genesis_environment=env,
         pre=pre,
