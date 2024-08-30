@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     EOA,
     AccessList,
     Account,
+    AccountType,
     Address,
     Alloc,
     AuthorizationTuple,
@@ -32,7 +33,7 @@ from ethereum_test_tools import (
     extend_with_defaults,
 )
 
-from .helpers import AddressType, ChainIDType
+from .helpers import ChainIDType
 from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
@@ -103,7 +104,7 @@ class AuthorityWithProperties:
     """
 
     authority: EOA
-    address_type: AddressType
+    address_type: AccountType
     invalidity_type: AuthorizationInvalidityType | None
     empty: bool
 
@@ -112,7 +113,7 @@ class AuthorityWithProperties:
 def authority_iterator(
     pre: Alloc,
     sender: EOA,
-    authority_type: AddressType | List[AddressType],
+    authority_type: AccountType | List[AccountType],
     authorize_to_address: Address,
     self_sponsored: bool,
 ) -> Iterator[AuthorityWithProperties]:
@@ -121,16 +122,16 @@ def authority_iterator(
     """
     authority_type_iterator = (
         cycle([authority_type])
-        if isinstance(authority_type, AddressType)
+        if isinstance(authority_type, AccountType)
         else cycle(authority_type)
     )
 
     def generator(
-        authority_type_iterator: Iterator[AddressType],
+        authority_type_iterator: Iterator[AccountType],
     ) -> Generator[AuthorityWithProperties, None, None]:
         for i, current_authority_type in enumerate(authority_type_iterator):
             match current_authority_type:
-                case AddressType.EMPTY_ACCOUNT:
+                case AccountType.EMPTY:
                     assert (
                         not self_sponsored
                     ), "Self-sponsored empty-account authority is not supported"
@@ -140,7 +141,7 @@ def authority_iterator(
                         invalidity_type=None,
                         empty=True,
                     )
-                case AddressType.EOA:
+                case AccountType.EOA:
                     if i == 0 and self_sponsored:
                         yield AuthorityWithProperties(
                             authority=sender,
@@ -155,7 +156,7 @@ def authority_iterator(
                             invalidity_type=None,
                             empty=False,
                         )
-                case AddressType.EOA_WITH_SET_CODE:
+                case AccountType.EOA_WITH_SET_CODE:
                     if i == 0 and self_sponsored:
                         yield AuthorityWithProperties(
                             authority=sender,
@@ -170,7 +171,7 @@ def authority_iterator(
                             invalidity_type=None,
                             empty=False,
                         )
-                case AddressType.CONTRACT:
+                case AccountType.CONTRACT:
                     assert (
                         not self_sponsored or i > 0
                     ), "Self-sponsored contract authority is not supported"
@@ -228,7 +229,7 @@ def authorization_list_with_properties(
             # before the authorization is processed.
             increased_nonce = (
                 self_sponsored
-                or authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+                or authority_with_properties.address_type == AccountType.EOA_WITH_SET_CODE
             )
             for i in range(authorizations_count):
                 # Get the nonce of this authorization
@@ -251,7 +252,7 @@ def authorization_list_with_properties(
                     invalidity_type = authorization_invalidity_type
                 skip = False
                 if (
-                    authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+                    authority_with_properties.address_type == AccountType.EOA_WITH_SET_CODE
                     and not re_authorize
                 ):
                     skip = True
@@ -280,7 +281,7 @@ def authorization_list_with_properties(
                 authority_with_properties = next(authority_iterator)
                 increased_nonce = (
                     self_sponsored and i == 0
-                ) or authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+                ) or authority_with_properties.address_type == AccountType.EOA_WITH_SET_CODE
                 if increased_nonce:
                     if authorization_invalidity_type == AuthorizationInvalidityType.INVALID_NONCE:
                         nonce = 0
@@ -302,7 +303,7 @@ def authorization_list_with_properties(
                     invalidity_type = authorization_invalidity_type
                 skip = False
                 if (
-                    authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
+                    authority_with_properties.address_type == AccountType.EOA_WITH_SET_CODE
                     and not re_authorize
                 ):
                     skip = True
@@ -344,11 +345,11 @@ def authorize_to_address(request: pytest.FixtureRequest, pre: Alloc) -> Address:
     Fixture to return the address to which the authority authorizes to set the code to.
     """
     match request.param:
-        case AddressType.EMPTY_ACCOUNT:
+        case AccountType.EMPTY:
             return pre.fund_eoa(0)
-        case AddressType.EOA:
+        case AccountType.EOA:
             return pre.fund_eoa(1)
-        case AddressType.CONTRACT:
+        case AccountType.CONTRACT:
             return pre.deploy_contract(Op.STOP)
     raise ValueError(f"Unsupported authorization address case: {request.param}")
 
@@ -402,7 +403,7 @@ def intrinsic_gas(
 @pytest.fixture()
 def sender(
     pre: Alloc,
-    authority_type: AddressType | List[AddressType],
+    authority_type: AccountType | List[AccountType],
     authorize_to_address: Address,
     self_sponsored: bool,
 ) -> EOA:
@@ -410,8 +411,8 @@ def sender(
     Fixture to return the sender address.
     """
     if self_sponsored and (
-        (isinstance(authority_type, list) and AddressType.EOA_WITH_SET_CODE in authority_type)
-        or (authority_type == AddressType.EOA_WITH_SET_CODE)
+        (isinstance(authority_type, list) and AccountType.EOA_WITH_SET_CODE in authority_type)
+        or (authority_type == AccountType.EOA_WITH_SET_CODE)
     ):
         return pre.fund_eoa(delegation=authorize_to_address)
     return pre.fund_eoa()
@@ -434,11 +435,11 @@ def gas_test_parameter_args(
         authorization_invalidity_type=None,
         authorizations_count=1,
         chain_id_type=ChainIDType.GENERIC,
-        authorize_to_address=AddressType.EMPTY_ACCOUNT,
+        authorize_to_address=AccountType.EMPTY,
         access_list_case=AccessListType.EMPTY,
         self_sponsored=False,
         re_authorize=False,
-        authority_type=AddressType.EMPTY_ACCOUNT,
+        authority_type=AccountType.EMPTY,
         data=b"",
     )
 
@@ -530,13 +531,13 @@ def gas_test_parameter_args(
         ),
         pytest.param(
             dict(
-                authorize_to_address=AddressType.EOA,
+                authorize_to_address=AccountType.EOA,
             ),
             id="single_valid_authorization_to_eoa",
         ),
         pytest.param(
             dict(
-                authorize_to_address=AddressType.CONTRACT,
+                authorize_to_address=AccountType.CONTRACT,
             ),
             id="single_valid_authorization_to_contract",
         ),
@@ -560,20 +561,20 @@ def gas_test_parameter_args(
         ),
         pytest.param(
             dict(
-                authority_type=AddressType.EOA,
+                authority_type=AccountType.EOA,
             ),
             id="single_valid_authorization_eoa_authority",
         ),
         pytest.param(
             dict(
-                authority_type=AddressType.EOA_WITH_SET_CODE,
+                authority_type=AccountType.EOA_WITH_SET_CODE,
                 re_authorize=True,
             ),
             id="single_valid_re_authorization_eoa_authority",
         ),
         pytest.param(
             dict(
-                authority_type=AddressType.EOA,
+                authority_type=AccountType.EOA,
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
             id="multiple_valid_authorizations_eoa_authority",
@@ -581,21 +582,21 @@ def gas_test_parameter_args(
         pytest.param(
             dict(
                 self_sponsored=True,
-                authority_type=AddressType.EOA,
+                authority_type=AccountType.EOA,
             ),
             id="single_valid_authorization_eoa_self_sponsored_authority",
         ),
         pytest.param(
             dict(
                 self_sponsored=True,
-                authority_type=AddressType.EOA,
+                authority_type=AccountType.EOA,
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
             id="multiple_valid_authorizations_eoa_self_sponsored_authority",
         ),
         pytest.param(
             dict(
-                authority_type=AddressType.CONTRACT,
+                authority_type=AccountType.CONTRACT,
             ),
             marks=pytest.mark.pre_alloc_modify,
             id="single_valid_authorization_invalid_contract_authority",
@@ -603,7 +604,7 @@ def gas_test_parameter_args(
         pytest.param(
             dict(
                 signer_type=SignerType.MULTIPLE_SIGNERS,
-                authority_type=[AddressType.EMPTY_ACCOUNT, AddressType.CONTRACT],
+                authority_type=[AccountType.EMPTY, AccountType.CONTRACT],
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
             marks=pytest.mark.pre_alloc_modify,
@@ -612,7 +613,7 @@ def gas_test_parameter_args(
         pytest.param(
             dict(
                 signer_type=SignerType.MULTIPLE_SIGNERS,
-                authority_type=[AddressType.EOA, AddressType.CONTRACT],
+                authority_type=[AccountType.EOA, AccountType.CONTRACT],
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
             marks=pytest.mark.pre_alloc_modify,
@@ -622,7 +623,7 @@ def gas_test_parameter_args(
             dict(
                 self_sponsored=True,
                 signer_type=SignerType.MULTIPLE_SIGNERS,
-                authority_type=[AddressType.EOA, AddressType.CONTRACT],
+                authority_type=[AccountType.EOA, AccountType.CONTRACT],
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
             marks=pytest.mark.pre_alloc_modify,
@@ -634,14 +635,14 @@ def gas_test_parameter_args(
         cases += [
             pytest.param(
                 dict(
-                    authority_type=AddressType.EOA_WITH_SET_CODE,
+                    authority_type=AccountType.EOA_WITH_SET_CODE,
                     re_authorize=False,
                 ),
                 id="pre_authorized_eoa_authority_no_re_authorization",
             ),
             pytest.param(
                 dict(
-                    authority_type=AddressType.EOA_WITH_SET_CODE,
+                    authority_type=AccountType.EOA_WITH_SET_CODE,
                     re_authorize=False,
                     self_sponsored=True,
                 ),

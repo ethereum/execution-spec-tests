@@ -14,6 +14,7 @@ from ethereum.crypto.hash import keccak256
 from ethereum_test_tools import (
     AccessList,
     Account,
+    AccountType,
     Address,
     Alloc,
     AuthorizationTuple,
@@ -45,7 +46,6 @@ from ...cancun.eip4844_blobs.spec import Spec as Spec4844
 from ..eip6110_deposits.helpers import DepositRequest
 from ..eip7002_el_triggerable_withdrawals.helpers import WithdrawalRequest
 from ..eip7251_consolidations.helpers import ConsolidationRequest
-from .helpers import AddressType
 from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
@@ -152,6 +152,7 @@ def test_self_sponsored_set_code(
         pytest.param(Om.OOG + Op.STOP, False, id="out-of-gas"),
     ],
 )
+@pytest.mark.with_all_evm_code_types()
 def test_set_code_to_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -718,6 +719,44 @@ def test_address_from_set_code(
     )
 
 
+def test_address_from_pre_set_code(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test the address opcode in a set-code transaction.
+    """
+    address_key = 1
+
+    set_code = Op.SSTORE(address_key, Op.ADDRESS) + Op.STOP
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    auth_signer = pre.fund_eoa(auth_account_start_balance, delegation=set_code_to_address)
+
+    tx = Transaction(
+        gas_limit=10_000_000,
+        to=auth_signer,
+        value=0,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            set_code_to_address: Account(storage={}),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage={
+                    address_key: auth_signer,
+                },
+            ),
+        },
+    )
+
+
 def test_tx_into_self_delegating_set_code(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -897,16 +936,12 @@ def test_call_into_chain_delegating_set_code(
     "balance",
     [0, 1],
 )
-@pytest.mark.parametrize(
-    "set_code_type",
-    list(AddressType),
-    ids=lambda address_type: address_type.name,
-)
+@pytest.mark.with_all_account_types()
 def test_ext_code_on_set_code(
     state_test: StateTestFiller,
     pre: Alloc,
     balance: int,
-    set_code_type: AddressType,
+    account_type: AccountType,
 ):
     """
     Test different ext*code operations on a set-code address.
@@ -931,27 +966,30 @@ def test_ext_code_on_set_code(
 
     set_code_to_address: Address
     set_code: Bytecode | Bytes
-    match set_code_type:
-        case AddressType.EMPTY_ACCOUNT:
+    match account_type:
+        case AccountType.EMPTY:
             set_code = Bytecode()
             set_code_to_address = pre.fund_eoa(0)
-        case AddressType.EOA:
+        case AccountType.EOA:
             set_code = Bytecode()
             set_code_to_address = pre.fund_eoa(1)
-        case AddressType.EOA_WITH_SET_CODE:
+        case AccountType.EOA_WITH_SET_CODE:
             set_code_account = pre.fund_eoa(0)
             set_code = Spec.delegation_designation(set_code_account)
             set_code_to_address = pre.fund_eoa(1, delegation=set_code_account)
-        case AddressType.CONTRACT:
+        case AccountType.CONTRACT:
             set_code = Op.STOP
             set_code_to_address = pre.deploy_contract(set_code)
+        case AccountType.EOF_V1_CONTRACT:
+            set_code = Bytes(b"\xef\x00")
+            set_code_to_address = pre.deploy_contract(Container.Code(Op.STOP))
         case _:
-            raise ValueError(f"Unsupported set code type: {set_code_type}")
+            raise ValueError(f"Unsupported set code type: {account_type}")
 
     callee_storage = Storage()
     callee_storage[slot_ext_code_size_result] = len(set_code)
     callee_storage[slot_ext_code_hash_result] = (
-        set_code.keccak256() if set_code_type != AddressType.EMPTY_ACCOUNT else 0
+        set_code.keccak256() if account_type != AccountType.EMPTY else 0
     )
     callee_storage[slot_ext_code_copy_result] = bytes(set_code).ljust(32, b"\x00")[:32]
     callee_storage[slot_ext_balance_result] = balance
@@ -975,7 +1013,7 @@ def test_ext_code_on_set_code(
         tx=tx,
         post={
             set_code_to_address: Account.NONEXISTENT
-            if set_code_type == AddressType.EMPTY_ACCOUNT
+            if account_type == AccountType.EMPTY
             else Account(storage={}),
             auth_signer: Account(
                 nonce=1,
