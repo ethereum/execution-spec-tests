@@ -108,7 +108,7 @@ class ForkParametrizer:
         """
         param_value_combinations = [
             # Flatten the list of values for each parameter
-            list(itertools.chain.from_iterable(v for v in params))
+            list(itertools.chain(*params))
             for params in itertools.product(
                 # Add the fork so it is multiplied by the other parameters.
                 # It's a list of lists because all parameters are, but it will
@@ -174,10 +174,9 @@ class CovariantDescriptor:
         marks_selector: FunctionType,
     ) -> List[List[MarkedValue]]:
         """
-        Process a values for a covariant parameter.
+        Process a value for a covariant parameter.
 
-        I.e. if the marker has an argument, the argument is interpreted as a lambda function
-        that filters the values.
+        The `selector` is applied to values in order to filter them.
         """
         if not isinstance(values, tuple) and not isinstance(values, list):
             values = [values]
