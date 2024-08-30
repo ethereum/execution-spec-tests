@@ -269,7 +269,7 @@ fork_covariant_descriptors = [
     CovariantDescriptor(
         marker_name="with_all_evm_code_types",
         description="marks a test to be parametrized for all EVM code types at parameter named"
-        " `evm_code_type` of type `EVMCodeType`, such as `LEGACY` and `EOF_V1`",
+        " `evm_code_type` of type `ethereum_test_vm.EVMCodeType`, such as `LEGACY` and `EOF_V1`",
         fork_attribute_name="evm_code_types",
         parameter_names=["evm_code_type"],
     ),
@@ -293,6 +293,14 @@ fork_covariant_descriptors = [
         " system_contract of type int",
         fork_attribute_name="system_contracts",
         parameter_names=["system_contract"],
+    ),
+    CovariantDescriptor(
+        marker_name="with_all_account_types",
+        description="marks a test to be parametrized for all EVM account types at parameter named"
+        " `account_type` of type `ethereum_test_vm.AccountType`, such as `EMPTY`, `EOA` and "
+        "`CONTRACT`",
+        fork_attribute_name="evm_account_types",
+        parameter_names=["account_type"],
     ),
 ]
 

@@ -58,6 +58,7 @@ from ethereum_test_types import (
     eip_2028_transaction_data_cost,
 )
 from ethereum_test_vm import (
+    AccountType,
     Bytecode,
     EVMCodeType,
     Macro,
@@ -109,6 +110,7 @@ __all__ = (
     "EOFStateTestFiller",
     "EOFTest",
     "EOFTestFiller",
+    "AccountType",
     "EVMCodeType",
     "FixtureCollector",
     "Hash",

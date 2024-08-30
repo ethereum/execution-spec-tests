@@ -10,7 +10,7 @@ from typing import List, Mapping, Optional, Tuple
 from semver import Version
 
 from ethereum_test_base_types import Address
-from ethereum_test_vm import EVMCodeType, Opcodes
+from ethereum_test_vm import AccountType, EVMCodeType, Opcodes
 
 from ..base_fork import BaseFork
 
@@ -186,6 +186,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         At Genesis, only legacy EVM code is supported.
         """
         return [EVMCodeType.LEGACY]
+
+    @classmethod
+    def evm_account_types(cls, block_number: int = 0, timestamp: int = 0) -> List[AccountType]:
+        """
+        Returns the list of EVM account types supported by the fork.
+        """
+        return [AccountType.EMPTY, AccountType.EOA, AccountType.CONTRACT]
 
     @classmethod
     def call_opcodes(
@@ -901,6 +908,13 @@ class Prague(Cancun):
         return new_allocation | super(Prague, cls).pre_allocation_blockchain()
 
     @classmethod
+    def evm_account_types(cls, block_number: int = 0, timestamp: int = 0) -> List[AccountType]:
+        """
+        Returns the list of EVM account types supported by the fork.
+        """
+        return [AccountType.EOA_WITH_SET_CODE] + super(Prague, cls).evm_account_types()
+
+    @classmethod
     def header_requests_required(cls, block_number: int, timestamp: int) -> bool:
         """
         Prague requires that the execution layer block contains the beacon
@@ -1010,6 +1024,15 @@ class PragueEIP7692(  # noqa: SC200
             block_number,
             timestamp,
         ) + [EVMCodeType.EOF_V1]
+
+    @classmethod
+    def evm_account_types(cls, block_number: int = 0, timestamp: int = 0) -> List[AccountType]:
+        """
+        Returns the list of EVM account types supported by the fork.
+        """
+        return [AccountType.EOF_V1_CONTRACT] + super(
+            PragueEIP7692, cls  # noqa: SC200
+        ).evm_account_types()
 
     @classmethod
     def call_opcodes(

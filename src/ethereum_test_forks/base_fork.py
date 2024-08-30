@@ -8,7 +8,7 @@ from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Tuple, Type
 from semver import Version
 
 from ethereum_test_base_types import Address
-from ethereum_test_vm import EVMCodeType, Opcodes
+from ethereum_test_vm import AccountType, EVMCodeType, Opcodes
 
 from .base_decorators import prefer_transition_to_method
 
@@ -276,6 +276,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
         """
         Returns the list of EVM code types supported by the fork.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def evm_account_types(cls, block_number: int = 0, timestamp: int = 0) -> List[AccountType]:
+        """
+        Returns the list of EVM account types supported by the fork.
         """
         pass
 
