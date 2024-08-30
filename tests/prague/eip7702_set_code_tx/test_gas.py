@@ -379,6 +379,27 @@ def access_list(
 
 
 @pytest.fixture()
+def intrinsic_gas(
+    data: bytes,
+    access_list: List[AccessList],
+    authorization_list: List[AuthorizationTuple],
+) -> int:
+    """
+    Fixture to return the intrinsic gas cost of the transaction.
+    """
+    intrinsic_gas = (
+        21_000
+        + eip_2028_transaction_data_cost(data)
+        + 1900 * sum(len(al.storage_keys) for al in access_list)
+        + 2400 * len(access_list)
+    )
+    # Calculate the intrinsic gas cost of the authorizations, by default the
+    # full empty account cost is charged for each authorization.
+    intrinsic_gas += Spec.PER_EMPTY_ACCOUNT_COST * len(authorization_list)
+    return intrinsic_gas
+
+
+@pytest.fixture()
 def sender(
     pre: Alloc,
     authority_type: AddressType | List[AddressType],
@@ -683,21 +704,12 @@ def test_gas_cost(
     authorization_list: List[AuthorizationTuple],
     data: bytes,
     access_list: List[AccessList],
+    intrinsic_gas: int,
     sender: EOA,
 ):
     """
     Test gas at the execution start of a set-code transaction in multiple scenarios.
     """
-    intrinsic_gas = (
-        21_000
-        + eip_2028_transaction_data_cost(data)
-        + 1900 * sum(len(al.storage_keys) for al in access_list)
-        + 2400 * len(access_list)
-    )
-    # Calculate the intrinsic gas cost of the authorizations, by default the
-    # full empty account cost is charged for each authorization.
-    intrinsic_gas += Spec.PER_EMPTY_ACCOUNT_COST * len(authorization_list_with_properties)
-
     discounted_authorizations = 0
     seen_authority = set()
     for authorization_with_properties in authorization_list_with_properties:
@@ -935,6 +947,7 @@ def test_intrinsic_gas_cost(
     authorization_list: List[AuthorizationTuple],
     data: bytes,
     access_list: List[AccessList],
+    intrinsic_gas: int,
     sender: EOA,
     valid: bool,
 ):
@@ -942,16 +955,6 @@ def test_intrinsic_gas_cost(
     Test sending a transaction with the exact intrinsic gas required and also insufficient
     gas.
     """
-    intrinsic_gas = (
-        21_000
-        + eip_2028_transaction_data_cost(data)
-        + 1900 * sum(len(al.storage_keys) for al in access_list)
-        + 2400 * len(access_list)
-    )
-    # Calculate the intrinsic gas cost of the authorizations, by default the
-    # full empty account cost is charged for each authorization.
-    intrinsic_gas += Spec.PER_EMPTY_ACCOUNT_COST * len(authorization_list)
-
     tx_gas = intrinsic_gas
     if not valid:
         tx_gas -= 1
