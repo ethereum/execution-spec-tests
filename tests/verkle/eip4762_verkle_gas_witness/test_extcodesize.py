@@ -18,11 +18,10 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
     compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -50,30 +49,29 @@ EmptyAddress = Address("0xFFFFFFf6D732807Ef1319fB7B8bB8522d0BeacFF")
         "system_contract",
     ],
 )
-def test_extcodesize(blockchain_test: BlockchainTestFiller, fork: str, target, bytecode):
+def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode):
     """
     Test EXTCODESIZE witness.
     """
-    witness = Witness()
+    witness_check_extra = WitnessCheck()
     if target != precompile_address and target != system_contract_address:
         account = Account(code=bytecode)
-        witness.add_account_basic_data(target, account)
+        witness_check_extra.add_account_basic_data(target, account)
 
-    _extcodesize(blockchain_test, fork, target, bytecode, witness)
+    _extcodesize(blockchain_test, target, bytecode, witness_check_extra)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
-def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
+def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller):
     """
     Test EXTCODESIZE with insufficient gas.
     """
     _extcodesize(
         blockchain_test,
-        fork,
         TestAddress2,
         Op.PUSH0 * 1000,
-        Witness(),
+        WitnessCheck(),
         gas_limit=53_540,
         fails=True,
     )
@@ -81,23 +79,22 @@ def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller, for
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
-def test_extcodesize_warm(blockchain_test: BlockchainTestFiller, fork: str):
+def test_extcodesize_warm(blockchain_test: BlockchainTestFiller):
     """
     Test EXTCODESIZE with WARM cost.
     """
     bytecode = Op.ADD(1, 2) * 10
     account = Account(code=bytecode)
-    witness = Witness()
-    witness.add_account_basic_data(TestAddress2, account)
-    _extcodesize(blockchain_test, fork, TestAddress2, bytecode, witness, warm=True)
+    witness_check_extra = WitnessCheck()
+    witness_check_extra.add_account_basic_data(TestAddress2, account)
+    _extcodesize(blockchain_test, TestAddress2, bytecode, witness_check_extra, warm=True)
 
 
 def _extcodesize(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     target: Address,
     bytecode: Bytecode,
-    extra_witness: Witness,
+    witness_check_extra: WitnessCheck,
     gas_limit=1_000_000,
     warm=False,
     fails=False,
@@ -127,22 +124,26 @@ def _extcodesize(
             deploy_code=Op.EXTCODESIZE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE
         ),
     )
-    blocks = [Block(txs=[tx])]
 
     post = {}
     if not fails:
         contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
         post[contract_address] = Account(storage={0: len(bytecode)})
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.merge(extra_witness)
+    witness_check = witness_check_extra
+    witness_check.add_account_full(env.fee_recipient, None)
+    witness_check.add_account_full(TestAddress, pre[TestAddress])
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        # witness=witness,
     )

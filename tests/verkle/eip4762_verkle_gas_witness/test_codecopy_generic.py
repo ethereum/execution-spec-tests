@@ -11,18 +11,18 @@ from ethereum_test_tools import (
     Account,
     Address,
     Block,
-    Bytecode,
     BlockchainTestFiller,
+    Bytecode,
     Environment,
     Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
-    # compute_create_address,
+    WitnessCheck,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-# from ..temp_verkle_helpers import vkt_chunkify, Witness
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -65,9 +65,7 @@ code_size = 200 * 31 + 60
         "partial_out_of_bounds_touching_further_non_existent_code_chunk",
     ],
 )
-def test_generic_codecopy(
-    blockchain_test: BlockchainTestFiller, fork: str, instruction, offset, size
-):
+def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, offset, size):
     """
     Test *CODECOPY witness.
     """
@@ -81,7 +79,6 @@ def test_generic_codecopy(
 
     _generic_codecopy(
         blockchain_test,
-        fork,
         instruction,
         offset,
         size,
@@ -98,14 +95,13 @@ def test_generic_codecopy(
         Op.EXTCODECOPY,
     ],
 )
-def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, fork: str, instruction):
+def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instruction):
     """
     Test *CODECOPY with WARM access.
     """
     witness_code_chunks = range(0, (code_size - 5) // 31 + 1)
     _generic_codecopy(
         blockchain_test,
-        fork,
         instruction,
         0,
         code_size - 5,
@@ -130,14 +126,13 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, fork: str,
 )
 # TODO(verkle): consider reusing code from test_generic_codecopy.py.
 def test_codecopy_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: str, gas_limit, witness_code_chunks
+    blockchain_test: BlockchainTestFiller, gas_limit, witness_code_chunks
 ):
     """
     Test CODECOPY with insufficient gas.
     """
     _generic_codecopy(
         blockchain_test,
-        fork,
         Op.CODECOPY,
         0,
         code_size,
@@ -165,7 +160,6 @@ def test_codecopy_insufficient_gas(
 # TODO(verkle): consider reusing code from test_generic_codecopy.py.
 def test_extcodecopy_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     gas_limit,
     witness_target_basic_data,
     witness_code_chunks,
@@ -175,7 +169,6 @@ def test_extcodecopy_insufficient_gas(
     """
     _generic_codecopy(
         blockchain_test,
-        fork,
         Op.CODECOPY,
         0,
         code_size,
@@ -187,7 +180,6 @@ def test_extcodecopy_insufficient_gas(
 
 def _generic_codecopy(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     instr: Op,
     offset: int,
     size: int,
@@ -226,26 +218,34 @@ def _generic_codecopy(
         gas_price=10,
         data=data,
     )
-    blocks = [Block(txs=[tx])]
-    # tx_target_addr = (
-    #     TestAddress2 if instr == Op.CODECOPY else compute_create_address(TestAddress, 0)
-    # )
 
-    # code_chunks = vkt_chunkify(pre[TestAddress2].code)
+    tx_target_addr = (
+        TestAddress2 if instr == Op.CODECOPY else compute_create_address(TestAddress, 0)
+    )
+    code_chunks = chunkify_code(pre[TestAddress2].code)
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(tx_target_addr, pre[tx_target_addr])
-    # if witness_target_basic_data:
-    #     witness.add_account_basic_data(TestAddress2, pre[TestAddress2])
-    # for chunk_num in witness_code_chunks:
-    #     witness.add_code_chunk(TestAddress2, chunk_num, code_chunks[chunk_num])
+    witness_check = WitnessCheck()
+    for address in [TestAddress, tx_target_addr, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=(None if address == env.fee_recipient else pre[address]),
+        )
+    if witness_target_basic_data:
+        witness_check.add_account_basic_data(TestAddress2, pre[TestAddress2])
+
+    for chunk_num in witness_code_chunks:
+        witness_check.add_code_chunk(TestAddress2, chunk_num, code_chunks[chunk_num])
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
-        post={},
         blocks=blocks,
-        # witness=witness,
+        post={},
     )

@@ -9,18 +9,17 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
-    Alloc,
     Address,
+    Alloc,
     Block,
     BlockchainTestFiller,
     Environment,
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -56,7 +55,6 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 )
 def test_self_destruct(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     target,
     beneficiary_must_exist,
     contract_balance,
@@ -66,7 +64,6 @@ def test_self_destruct(
     """
     _selfdestruct(
         blockchain_test,
-        fork,
         target,
         beneficiary_must_exist,
         contract_balance,
@@ -95,7 +92,6 @@ def test_self_destruct(
 )
 def test_self_destruct_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     gas_limit,
     beneficiary_must_exist,
     beneficiary_add_basic_data,
@@ -106,7 +102,6 @@ def test_self_destruct_insufficient_gas(
     """
     _selfdestruct(
         blockchain_test,
-        fork,
         ExampleAddress,
         beneficiary_must_exist,
         100,
@@ -119,7 +114,6 @@ def test_self_destruct_insufficient_gas(
 
 def _selfdestruct(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     beneficiary: Address,
     beneficiary_must_exist: bool,
     contract_balance: int,
@@ -152,16 +146,24 @@ def _selfdestruct(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(TestAddress2, pre[TestAddress2])
-    # if beneficiary_add_basic_data:
-    #     witness.add_account_basic_data(beneficiary, pre.get(beneficiary))
-    # if beneficiary_add_codehash:
-    #     witness.add_account_codehash(beneficiary, None)
+    witness_check = WitnessCheck()
+    for address in [TestAddress, TestAddress2, env.fee_recipeint]:
+        witness_check.add_account_full(
+            address=address,
+            account=(None if address == env.fee_recipient else pre[address]),
+        )
+    if beneficiary_add_basic_data:
+        witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
+    if beneficiary_add_codehash:
+        witness_check.add_account_codehash(beneficiary, None)
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     post: Alloc = {}
     if not fail and contract_balance > 0 and beneficiary != TestAddress2:
@@ -178,5 +180,4 @@ def _selfdestruct(
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )

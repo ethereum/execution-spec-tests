@@ -18,10 +18,9 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -60,28 +59,27 @@ def test_extcodehash(blockchain_test: BlockchainTestFiller, fork: str, target):
     """
     Test EXTCODEHASH witness.
     """
-    witness = Witness()
+    witness_check_extra = WitnessCheck()
     if target == ExampleAddress:
-        witness.add_account_full(ExampleAddress, ExampleAccount)
+        witness_check_extra.add_account_full(ExampleAddress, ExampleAccount)
     elif target == TestAddress:
-        witness.add_account_basic_data(TestAddress, TestAccount)
+        witness_check_extra.add_account_basic_data(TestAddress, TestAccount)
     elif target == EmptyAddress:
-        witness.add_account_basic_data(EmptyAddress, None)
+        witness_check_extra.add_account_basic_data(EmptyAddress, None)
     # For precompile or system contract, we don't need to add any witness.
-
-    _extcodehash(blockchain_test, fork, target, witness)
+    _extcodehash(blockchain_test, target, witness_check_extra)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
-def test_extcodehash_warm(blockchain_test: BlockchainTestFiller, fork: str):
+def test_extcodehash_warm(blockchain_test: BlockchainTestFiller):
     """
     Test EXTCODEHASH with WARM cost.
     """
-    witness = Witness()
-    witness.add_account_full(ExampleAddress, ExampleAccount)
+    witness_check_extra = WitnessCheck()
+    witness_check_extra.add_account_full(ExampleAddress, ExampleAccount)
 
-    _extcodehash(blockchain_test, fork, ExampleAddress, witness, warm=True)
+    _extcodehash(blockchain_test, ExampleAddress, witness_check_extra, warm=True)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -100,7 +98,6 @@ def test_extcodehash_warm(blockchain_test: BlockchainTestFiller, fork: str):
 )
 def test_extcodehash_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     gas_limit: int,
     witness_assert_basic_data,
     witness_assert_codehash,
@@ -108,20 +105,21 @@ def test_extcodehash_insufficient_gas(
     """
     Test EXTCODEHASH with insufficient gas.
     """
-    witness = Witness()
+    witness_check_extra = WitnessCheck()
     if witness_assert_basic_data:
-        witness.add_account_basic_data(ExampleAddress, ExampleAccount)
+        witness_check_extra.add_account_basic_data(ExampleAddress, ExampleAccount)
     if witness_assert_codehash:
-        witness.add_account_codehash(ExampleAddress, Hash(keccak256(ExampleAccount.code)))
+        witness_check_extra.add_account_codehash(
+            ExampleAddress, Hash(keccak256(ExampleAccount.code))
+        )
 
-    _extcodehash(blockchain_test, fork, ExampleAddress, witness, gas_limit, fails=True)
+    _extcodehash(blockchain_test, ExampleAddress, witness_check_extra, gas_limit, fails=True)
 
 
 def _extcodehash(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     target,
-    extra_witness,
+    witness_check_extra,
     gas_limit=1_000_000,
     warm=False,
     fails=False,
@@ -149,23 +147,29 @@ def _extcodehash(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
 
     post = {}
     if not fails:
         # TODO(verkle): assign correct storage slot value when filling
         post[TestAddress2] = Account(code=pre[TestAddress2].code, storage={0: 0x424242})
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(TestAddress2, pre[TestAddress2])
-    # witness.merge(extra_witness)
+    witness_check = witness_check_extra
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=(None if address == env.fee_recipient else pre[address]),
+        )
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )

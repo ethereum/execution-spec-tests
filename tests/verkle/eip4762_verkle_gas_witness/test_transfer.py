@@ -16,9 +16,8 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
-
-from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -44,7 +43,7 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
     "value",
     [0, 1],
 )
-def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, value):
+def test_transfer(blockchain_test: BlockchainTestFiller, target, value):
     """
     Test that value transfer generates a correct witness.
     """
@@ -68,7 +67,6 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, valu
         gas_price=10,
         value=value,
     )
-    blocks = [Block(txs=[tx])]
 
     post_account = pre.get(target, Account())
     if post_account is None:
@@ -78,16 +76,22 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: str, target, valu
         target: post_account,
     }
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # if target != precompile_address and target != system_contract_address:
-    #     witness.add_account_full(target, pre.get(target))
+    witness_check = WitnessCheck()
+    witness_check.add_account_full(env.fee_recipient, None)
+    witness_check.add_account_full(TestAddress, pre[TestAddress])
+    if target != precompile_address and target != system_contract_address:
+        witness_check.add_account_full(target, pre.get(target))
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )

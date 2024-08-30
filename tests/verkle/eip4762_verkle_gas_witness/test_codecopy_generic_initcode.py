@@ -15,11 +15,10 @@ from ethereum_test_tools import (
     Initcode,
     TestAddress,
     Transaction,
+    WitnessCheck,
     compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-# from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -66,18 +65,24 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
         gas_price=10,
         data=data,
     )
-    blocks = [Block(txs=[tx])]
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(contract_address, None)
-    # No code chunks.
+    witness_check = WitnessCheck()
+    for address in [TestAddress, contract_address, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=(None if address != TestAddress else pre[address]),
+        )
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        # witness=witness,
     )

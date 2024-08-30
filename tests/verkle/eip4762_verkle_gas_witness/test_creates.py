@@ -18,12 +18,12 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
     compute_create2_address,
     compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-from ..temp_verkle_helpers import Witness, vkt_chunkify
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -58,7 +58,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
     ],
 )
 def test_create(
-    blockchain_test: BlockchainTestFiller, fork: str, create_instruction: Opcode, value, code_size
+    blockchain_test: BlockchainTestFiller, create_instruction: Opcode, value, code_size
 ):
     """
     Test tx contract creation and *CREATE witness.
@@ -72,18 +72,17 @@ def test_create(
         )
 
     num_code_chunks = (len(contract_code) + 30) // 31
-    code_chunks = vkt_chunkify(contract_code)
+    code_chunks = chunkify_code(contract_code)
 
-    witness_extra = Witness()
-    # witness_extra.add_account_full(contract_address, None)
-    # for i in range(num_code_chunks):
-    #     witness_extra.add_code_chunk(contract_address, i, code_chunks[i])
+    witness_check_extra = WitnessCheck()
+    witness_check_extra.add_account_full(contract_address, None)
+    for i in range(num_code_chunks):
+        witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])
 
     _create(
         blockchain_test,
-        fork,
         create_instruction,
-        witness_extra,
+        witness_check_extra,
         contract_code,
         value=value,
     )
@@ -117,7 +116,6 @@ def test_create(
 )
 def test_create_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     create_instruction,
     gas_limit,
     witness_basic_data: bool,
@@ -135,22 +133,21 @@ def test_create_insufficient_gas(
             TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
         )
 
-    code_chunks = vkt_chunkify(contract_code)
+    code_chunks = chunkify_code(contract_code)
 
-    witness_extra = Witness()
+    witness_check_extra = WitnessCheck()
     if witness_basic_data and witness_codehash:
-        witness_extra.add_account_full(contract_address, None)
+        witness_check_extra.add_account_full(contract_address, None)
         for i in range(witness_chunk_count):
-            witness_extra.add_code_chunk(contract_address, i, code_chunks[i])
+            witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])
     elif witness_basic_data and not witness_codehash:
-        witness_extra.add_account_basic_data(contract_address, None)
+        witness_check_extra.add_account_basic_data(contract_address, None)
         # No code chunks since we failed earlier.
 
     _create(
         blockchain_test,
-        fork,
         create_instruction,
-        witness_extra,
+        witness_check_extra,
         contract_code,
         value=0,
         gas_limit=gas_limit,
@@ -169,7 +166,6 @@ def test_create_insufficient_gas(
 )
 def test_create_static_cost(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     create_instruction,
     gas_limit,
 ):
@@ -178,9 +174,8 @@ def test_create_static_cost(
     """
     _create(
         blockchain_test,
-        fork,
         create_instruction,
-        Witness(),  # Static cost failure means the created contract shouldn't be in the witness
+        WitnessCheck(),  # Static cost fail means the created contract shouldn't be in the witness
         Op.PUSH0 * (129 * 31 + 42),
         value=0,
         gas_limit=gas_limit,
@@ -199,7 +194,6 @@ def test_create_static_cost(
 )
 def test_create_collision(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     create_instruction,
 ):
     """
@@ -207,9 +201,8 @@ def test_create_collision(
     """
     _create(
         blockchain_test,
-        fork,
         create_instruction,
-        Witness(),  # Collision means the created contract shouldn't be in the witness
+        WitnessCheck(),  # Collision means the created contract shouldn't be in the witness
         Op.PUSH0 * (129 * 31 + 42),
         value=0,
         generate_collision=True,
@@ -228,7 +221,6 @@ def test_create_collision(
 )
 def test_big_calldata(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     create_instruction,
 ):
     """
@@ -243,15 +235,14 @@ def test_big_calldata(
             TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
         )
 
-    witness_extra = Witness()
-    witness_extra.add_account_full(contract_address, None)
+    witness_check_extra = WitnessCheck()
+    witness_check_extra.add_account_full(contract_address, None)
     # No code chunks since we do an immediate STOP in the Initcode.
 
     _create(
         blockchain_test,
-        fork,
         create_instruction,
-        Witness(),
+        WitnessCheck(),
         contract_code,
         value=0,
         initcode_stop_prefix=True,
@@ -260,9 +251,8 @@ def test_big_calldata(
 
 def _create(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     create_instruction: Opcode | None,
-    witness_extra: Witness,
+    witness_check_extra: WitnessCheck,
     contract_code,
     value=1,
     gas_limit=10000000000,
@@ -322,19 +312,23 @@ def _create(
         value=tx_value,
         data=tx_data,
     )
-    blocks = [Block(txs=[tx])]
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # if tx_target is not None:
-    #     witness.add_account_full(tx_target, pre[tx_target])
-    # witness.merge(witness_extra)
+    witness_check = witness_check_extra
+    witness_check.add_account_full(env.fee_recipient, None)
+    witness_check.add_account_full(TestAddress, pre[TestAddress])
+    if tx_target is not None:
+        witness_check.add_account_full(tx_target, pre[tx_target])
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        # witness=witness,
     )

@@ -12,16 +12,15 @@ from ethereum_test_tools import (
     Address,
     Alloc,
     Block,
-    Bytecode,
     BlockchainTestFiller,
+    Bytecode,
     Environment,
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-# from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -176,7 +175,25 @@ def _generic_call(
         gas_price=10,
         value=tx_value,
     )
-    blocks = [Block(txs=[tx])]
+
+    witness_check = WitnessCheck()
+    for address in [TestAddress, caller_address, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=(None if address == env.fee_recipient else pre[address]),
+        )
+    if target != precompile_address and enough_gas_read_witness:
+        witness_check.add_account_basic_data(
+            address=target,
+            account=pre[target],
+        )
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     if call_instruction == Op.DELEGATECALL:
         post = {
@@ -190,19 +207,11 @@ def _generic_call(
             target: Account(balance=pre[target].balance + value, code=pre[target].code),
         }
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(caller_address, pre[caller_address])
-    # if target != precompile_address and enough_gas_read_witness:
-    #     witness.add_account_basic_data(target, pre[target])
-
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )
 
 
@@ -253,7 +262,21 @@ def test_call_non_existent_account(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
+
+    witness_check = WitnessCheck()
+    for address in [TestAddress, caller_address, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=pre[Address],
+        )
+        witness_check.add_account_basic_data(address=TestAddress2, account=None)
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     post: Alloc = Alloc()
     if enough_gas_account_creation:
@@ -263,16 +286,9 @@ def test_call_non_existent_account(
             }
         )
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(caller_address, pre[caller_address])
-    # witness.add_account_basic_data(TestAddress2, None)
-
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )
