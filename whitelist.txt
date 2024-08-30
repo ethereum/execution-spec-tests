@@ -424,6 +424,7 @@ xF
 xFA
 xFD
 xFF
+xpassed
 yaml
 YAML
 yml
