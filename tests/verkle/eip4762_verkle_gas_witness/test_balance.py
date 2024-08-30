@@ -16,10 +16,9 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-# from ..temp_verkle_helpers import Witness
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -88,23 +87,33 @@ def _balance(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
+
+    witness_check = WitnessCheck()
+    for address in [env.fee_recipient, TestAddress, TestAddress2]:
+        witness_check.add_account_full(
+            address=address,
+            account=(None if address == env.fee_recipient else pre[address]),
+        )
+    for address in exp_addr_basic_data:
+        witness_check.add_account_basic_data(
+            address=address,
+            account=pre[address],
+        )
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     post = {
         TestAddress2: Account(code=pre[TestAddress2].code, storage={0: pre[target].balance}),
     }
-
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(TestAddress2, pre[TestAddress2])
-    # for addr in exp_addr_basic_data:
-    #     witness.add_account_basic_data(addr, pre[addr])
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )
