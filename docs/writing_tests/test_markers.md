@@ -271,7 +271,6 @@ def test_something_with_all_tx_types_but_skip_type_1(state_test_only, tx_type):
 
 In this example, the test will be skipped if `tx_type` is equal to 1 by returning a `pytest.mark.skip` marker, and return `None` otherwise.
 
-
 ## Other Markers
 
 ### `@pytest.mark.slow`
