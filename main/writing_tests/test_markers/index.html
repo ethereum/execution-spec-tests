@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.33">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.33">
     
     
       
@@ -1092,6 +1092,15 @@
   <a href="#selector" class="md-nav__link">
     <span class="md-ellipsis">
       selector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marks" class="md-nav__link">
+    <span class="md-ellipsis">
+      marks
     </span>
   </a>
   
@@ -13963,6 +13972,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#marks" class="md-nav__link">
+    <span class="md-ellipsis">
+      marks
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -14229,6 +14247,19 @@
     <span class="k">pass</span>
 </code></pre></div>
 <p>Ideally, the lambda function should be used to explicitly filter out values that are not compatible with the test (exclusive filter), rather than explicitly selecting values (inclusive filter), as the parametrized values might change with future forks.</p>
+<h4 id="marks"><code>marks</code><a class="headerlink" href="#marks" title="Permanent link">&para;</a></h4>
+<p>A marker, list of markers, or a lambda function that can be used to add additional markers to the test.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span>
+    <span class="n">marks</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;incompatible&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;London&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_something_with_all_tx_types_but_skip_type_1</span><span class="p">(</span><span class="n">state_test_only</span><span class="p">,</span> <span class="n">tx_type</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">1</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>In this example, the test will be skipped if <code>tx_type</code> is equal to 1 by returning a <code>pytest.mark.skip</code> marker, and return <code>None</code> otherwise.</p>
 <h2 id="other-markers">Other Markers<a class="headerlink" href="#other-markers" title="Permanent link">&para;</a></h2>
 <h3 id="pytestmarkslow"><code>@pytest.mark.slow</code><a class="headerlink" href="#pytestmarkslow" title="Permanent link">&para;</a></h3>
 <p>This marker is used to mark tests that are slow to run. These tests are not run during tox testing, and are only run when a release is being prepared.</p>
