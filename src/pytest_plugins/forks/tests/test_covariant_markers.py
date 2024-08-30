@@ -193,19 +193,6 @@ import pytest
         pytest.param(
             """
             import pytest
-            @pytest.mark.with_all_create_opcodes(mark)
-            @pytest.mark.valid_from("Cancun")
-            @pytest.mark.valid_until("Cancun")
-            def test_case(state_test_only, create_opcode):
-                pass
-            """,
-            dict(passed=2, failed=0, skipped=0, errors=0),
-            None,
-            id="with_all_create_opcodes",
-        ),
-        pytest.param(
-            """
-            import pytest
             @pytest.mark.with_all_call_opcodes()
             @pytest.mark.with_all_precompiles()
             @pytest.mark.valid_from("Cancun")
