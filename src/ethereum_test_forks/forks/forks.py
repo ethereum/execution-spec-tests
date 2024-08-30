@@ -10,11 +10,16 @@ from typing import List, Mapping, Optional, Tuple
 
 from semver import Version
 
-from ethereum_test_base_types import Address, Bytes
+from ethereum_test_base_types import AccessList, Address, Bytes
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
-from ..base_fork import BaseFork, CalldataGasCalculator, MemoryExpansionGasCalculator
+from ..base_fork import (
+    BaseFork,
+    CalldataGasCalculator,
+    MemoryExpansionGasCalculator,
+    TransactionIntrinsicCostCalculator,
+)
 from ..gas_costs import GasCosts
 
 CURRENT_FILE = Path(realpath(__file__))
@@ -186,6 +191,34 @@ class Frontier(BaseFork, solc_name="homestead"):
                 else:
                     cost += gas_costs.G_TX_DATA_NON_ZERO
             return cost
+
+        return fn
+
+    @classmethod
+    def transaction_intrinsic_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionIntrinsicCostCalculator:
+        """
+        Returns a callable that calculates the intrinsic gas cost of a transaction for the fork.
+        """
+        gas_costs = cls.gas_costs(block_number, timestamp)
+        calldata_gas_calculator = cls.calldata_gas_calculator(block_number, timestamp)
+
+        def fn(
+            *,
+            calldata: BytesConvertible = b"",
+            contract_creation: bool = False,
+            access_list: List[AccessList] | None = None,
+        ) -> int:
+            assert access_list is None, f"Access list is not supported in {cls.name()}"
+            intrinsic_cost: int = gas_costs.G_TRANSACTION
+
+            if contract_creation:
+                intrinsic_cost += gas_costs.G_INITCODE_WORD * ceiling_division(
+                    len(Bytes(calldata)), 32
+                )
+
+            return intrinsic_cost + calldata_gas_calculator(data=calldata)
 
         return fn
 
@@ -523,6 +556,35 @@ class Homestead(Frontier):
         """
         return [Opcodes.DELEGATECALL] + super(Homestead, cls).valid_opcodes()
 
+    @classmethod
+    def transaction_intrinsic_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionIntrinsicCostCalculator:
+        """
+        At Homestead, the transaction intrinsic cost needs to take contract creation into account.
+        """
+        super_fn = super(Homestead, cls).transaction_intrinsic_cost_calculator(
+            block_number, timestamp
+        )
+        gas_costs = cls.gas_costs(block_number, timestamp)
+
+        def fn(
+            *,
+            calldata: BytesConvertible = b"",
+            contract_creation: bool = False,
+            access_list: List[AccessList] | None = None,
+        ) -> int:
+            intrinsic_cost: int = super_fn(
+                calldata=calldata,
+                contract_creation=contract_creation,
+                access_list=access_list,
+            )
+            if contract_creation:
+                intrinsic_cost += gas_costs.G_TRANSACTION_CREATE
+            return intrinsic_cost
+
+        return fn
+
 
 class Byzantium(Homestead):
     """
@@ -676,6 +738,37 @@ class Berlin(Istanbul):
         At Berlin, access list transactions are introduced
         """
         return [1] + super(Berlin, cls).contract_creating_tx_types(block_number, timestamp)
+
+    @classmethod
+    def transaction_intrinsic_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionIntrinsicCostCalculator:
+        """
+        At Berlin, the transaction intrinsic cost needs to take the access list into account
+        """
+        super_fn = super(Berlin, cls).transaction_intrinsic_cost_calculator(
+            block_number, timestamp
+        )
+        gas_costs = cls.gas_costs(block_number, timestamp)
+
+        def fn(
+            *,
+            calldata: BytesConvertible = b"",
+            contract_creation: bool = False,
+            access_list: List[AccessList] | None = None,
+        ) -> int:
+            intrinsic_cost: int = super_fn(
+                calldata=calldata,
+                contract_creation=contract_creation,
+            )
+            if access_list is not None:
+                for access in access_list:
+                    intrinsic_cost += gas_costs.G_ACCESS_LIST_ADDRESS
+                    for _ in access.storage_keys:
+                        intrinsic_cost += gas_costs.G_ACCESS_LIST_STORAGE
+            return intrinsic_cost
+
+        return fn
 
 
 class London(Berlin):
