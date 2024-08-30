@@ -61,10 +61,9 @@ def call_exact_cost(
     """
     Returns the exact cost of the subcall, based on the initial memory and the length of the copy.
     """
-    calldata_gas_calculator = fork.calldata_gas_calculator()
     cost_memory_bytes = fork.memory_expansion_gas_calculator()
-
-    intrinsic_cost = 21000 + calldata_gas_calculator(data=initial_memory)
+    gas_costs = fork.gas_costs()
+    tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
 
     mcopy_cost = 3
     mcopy_cost += 3 * ((length + 31) // 32)
@@ -77,12 +76,12 @@ def call_exact_cost(
     calldatacopy_cost += 3 * ((len(initial_memory) + 31) // 32)
     calldatacopy_cost += cost_memory_bytes(new_bytes=len(initial_memory))
 
-    pushes_cost = 3 * 9
-    calldatasize_cost = 2
+    pushes_cost = gas_costs.G_VERY_LOW * 9
+    calldatasize_cost = gas_costs.G_BASE
 
     sstore_cost = 22100
     return (
-        intrinsic_cost
+        tx_intrinsic_gas_cost_calculator(calldata=initial_memory)
         + mcopy_cost
         + calldatacopy_cost
         + pushes_cost

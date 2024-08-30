@@ -560,8 +560,8 @@ def test_tx_entry_point(
     sender = pre.fund_eoa(amount=start_balance)
 
     # Gas is appended the intrinsic gas cost of the transaction
-    calldata_gas_calculator = fork.calldata_gas_calculator()
-    intrinsic_gas_cost = 21_000 + calldata_gas_calculator(data=precompile_input)
+    tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
+    intrinsic_gas_cost = tx_intrinsic_gas_cost_calculator(calldata=precompile_input)
 
     # Consumed gas will only be the precompile gas if the proof is correct and
     # the call gas is sufficient.

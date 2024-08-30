@@ -94,17 +94,8 @@ def tx_gas(
     tx_access_list: List[AccessList],
 ) -> int:
     """Default gas allocated to transactions sent during test."""
-    access_list_gas = 0
-    if tx_access_list:
-        ACCESS_LIST_ADDRESS_COST = 2400
-        ACCESS_LIST_STORAGE_KEY_COST = 1900
-
-        for address in tx_access_list:
-            access_list_gas += ACCESS_LIST_ADDRESS_COST
-            access_list_gas += len(address.storage_keys) * ACCESS_LIST_STORAGE_KEY_COST
-
-    calldata_gas_calculator = fork.calldata_gas_calculator()
-    return 21000 + calldata_gas_calculator(data=tx_calldata) + access_list_gas
+    tx_intrinsic_cost_calculator = fork.transaction_intrinsic_cost_calculator()
+    return tx_intrinsic_cost_calculator(calldata=tx_calldata, access_list=tx_access_list)
 
 
 @pytest.fixture
