@@ -48,9 +48,10 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
     cd execution-spec-tests
-    python3 -m venv ./venv/
-    source ./venv/bin/activate
-    pip install -e '.[docs,lint,test]'
+    pip install uv  # or curl -LsSf https://astral.sh/uv/install.sh | sh
+    uv sync --all-extras
+    uv run solc-select use 0.8.24 --always-install
+    source .venv/bin/activate  # or run `uv run fill ...`
     ```
 
 3. Verify installation:

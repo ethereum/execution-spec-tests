@@ -9,13 +9,13 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python: '3.10'
-            evm-type: 'stable'
-            tox-cmd: 'tox run-parallel --parallel-no-spinner'
+            python: "3.10"
+            evm-type: "stable"
+            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
           - os: ubuntu-latest
-            python: '3.12'
-            evm-type: 'stable'
-            tox-cmd: 'tox run-parallel --parallel-no-spinner'
+            python: "3.12"
+            evm-type: "stable"
+            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"
           # Disabled due to unavailable evm implementation for devnet-1
           # - os: ubuntu-latest
           #   python: '3.11'
@@ -27,9 +27,9 @@ jobs:
           #   evm-type: 'eip7692'
           #   tox-cmd: 'tox -e tests-eip7692'
           - os: macos-latest
-            python: '3.11'
-            evm-type: 'stable'
-            tox-cmd: 'tox run-parallel --parallel-no-spinner'
+            python: "3.11"
+            evm-type: "stable"
+            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,11 +38,10 @@ jobs:
         id: evm-builder
         with:
           type: ${{ matrix.evm-type }}
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
-          allow-prereleases: true
+      - name: Set up uv
+        uses: ./.github/actions/setup-uv
+      - name: Set up Python ${{ matrix.python }}
+        run: uv python install ${{ matrix.python }}
       - name: Setup Tools/Dependencies Ubuntu
         if: runner.os == 'Linux'
         run: |
@@ -54,7 +53,7 @@ jobs:
           # Add additional packages on 3.11: https://github.com/ethereum/execution-spec-tests/issues/274
           if [ ${{ matrix.python }} == '3.11' ]; then brew install autoconf automake libtool; fi
       - name: Install Tox and any other packages
-        run: pip install tox
+        run: pip install tox-uv
       - name: Run Tox (CPython)
         run: ${{ matrix.tox-cmd }}
       - uses: DavidAnson/markdownlint-cli2-action@v16

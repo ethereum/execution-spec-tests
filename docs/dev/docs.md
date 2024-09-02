@@ -5,7 +5,7 @@ The `execution-spec-tests` documentation is generated via [`mkdocs`](https://www
 ## Prerequisites
 
 ```console
-pip install -e .[docs]
+uv pip install -e .[docs]
 ```
 
 ## Build the Documentation
@@ -13,12 +13,13 @@ pip install -e .[docs]
 One time build:
 
 ```console
-mkdocs build
+uv run mkdocs build
 ```
 
-Pre-commit check: One time build and lint/type checking:
+Do a pre-commit check: One time build and lint/type checking:
 
 ```console
+pip install tox-uv
 tox -e docs
 ```
 
@@ -27,7 +28,7 @@ tox -e docs
 This runs continually: Deploys the site locally and re-generates the site upon modifications to `docs/**/*.md` or `tests/**/*.py`:
 
 ```console
-mkdocs serve
+uv run mkdocs serve
 ```
 
 ## Remote Deployment and Versioning
@@ -67,7 +68,7 @@ There are two workflows that automatically deploy updated/new versions of the do
 Build a new version and deploy it to remote (this version will then show up in the version selector list):
 
 ```console
-mike deploy --push v1.2.3
+uv run mike deploy --push v1.2.3
 ```
 
 !!! note "Local deployment"
@@ -78,7 +79,7 @@ mike deploy --push v1.2.3
 Build, deploy and update the version an alias points to with:
 
 ```console
-mike deploy --push --update-aliases v1.2.3 latest
+uv run mike deploy --push --update-aliases v1.2.3 latest
 ```
 
 where `v1.2.3` indicates the version's name and `development` is the alias. This will overwrite the version if it already exists.  
@@ -87,13 +88,13 @@ where `v1.2.3` indicates the version's name and `development` is the alias. This
     "main" is just a version name (intended to reflect that it is build from the main branch). However, `mike` will build the docs site from the current local repository state (including local modifications). Therefore, make sure you're on the HEAD of the main branch before executing (unless you know what you're doing :wink:)!
 
     ```console
-    mike deploy --push main
+    uv run mike deploy --push main
     ```
 
     If the alias accidentally go change:
 
     ```console
-    mike deploy --push --update-aliases main development
+    uv run mike deploy --push --update-aliases main development
     ```
 
 ### Viewing and Deleting Versions
@@ -101,13 +102,13 @@ where `v1.2.3` indicates the version's name and `development` is the alias. This
 List versions:
 
 ```console
-mike list
+uv run mike list
 ```
 
 Delete a version:
 
 ```console
-mike delete v1.2.3a1-eof
+uv run mike delete v1.2.3a1-eof
 ```
 
 ### Set Default Version
@@ -115,7 +116,7 @@ mike delete v1.2.3a1-eof
 Set the default version of the docs to open upon loading the page:
 
 ```console
-mike set-default --push latest
+uv run mike set-default --push latest
 ```
 
 Typically, this must only be executed once for a repo.

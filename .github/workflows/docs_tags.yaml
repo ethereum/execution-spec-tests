@@ -3,35 +3,29 @@ name: Deploy Docs Tags
 on:
   push:
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10, v0.1.1a1
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10, v0.1.1a1
 
 jobs:
   deploy:
-    if: github.repository_owner == 'ethereum'  # don't run on forks
+    if: github.repository_owner == 'ethereum' # don't run on forks
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        ssh-key: ${{secrets.GH_ACTIONS_DEPLOY_KEY}}
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e .[docs]
-
-    - name: Setup doc deploy
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email github-actions[bot]@users.noreply.github.com
-
-    - name: Build and deploy docs to gh-pages
-      run: |
-        mike deploy --update-aliases --push --remote origin ${{ github.ref_name }} latest
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ssh-key: ${{secrets.GH_ACTIONS_DEPLOY_KEY}}
+      - name: Set up uv
+        uses: ./.github/actions/setup-uv
+      - name: Set up Python
+        run: uv python install 3.11
+      - name: Install EEST and dependencies
+        run: uv sync --extra=docs --no-progress
+      - name: Setup doc deploy
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email github-actions[bot]@users.noreply.github.com
+      - name: Build and deploy docs to gh-pages
+        run: |
+          uv run mike deploy --update-aliases --push --remote origin ${{ github.ref_name }} latest
