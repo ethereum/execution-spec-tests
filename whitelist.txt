@@ -222,6 +222,7 @@ isort's
 ispkg
 itemName
 jimporter
+joinpath
 jq
 js
 json
@@ -240,7 +241,9 @@ lllc
 london
 macOS
 mainnet
+makefiles
 makereport
+makeconftest
 marioevz
 markdownlint
 md
@@ -421,6 +424,7 @@ xF
 xFA
 xFD
 xFF
+xpassed
 yaml
 YAML
 yml

@@ -40,7 +40,6 @@ jobs:
       - name: Install EEST
         run: |
           uv sync --no-progress
-          uv run solc-select use 0.8.25 --always-install
           uv run python --version
 
       # Required to fill .py tests
@@ -81,7 +80,7 @@ jobs:
           files=$(echo "$lines" | grep -oP '(?<=\+).+\.json')
 
           if [ -z "$files" ]; then
-             echo "Error: No new JSON files found in converted-ethereum-tests.txt"
+              echo "Error: No new JSON files found in converted-ethereum-tests.txt"
               exit 1
           fi
 
@@ -117,7 +116,7 @@ jobs:
               fi
 
               if [ $file_found -eq 0 ]; then
-               echo "Error: Failed to find the test file $file in test repo"
+                echo "Error: Failed to find the test file $file in test repo"
                 exit 1
               fi
           done
@@ -155,12 +154,14 @@ jobs:
           mkdir -p fixtures/eof_tests
           echo "$files" | while read line; do
             file=$(echo "$line" | cut -c 3-)
-            uv run fill $file --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-            (uv run fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
+            uv run fill $file --until=Cancun --evm-bin evmone-t8n --solc-version=0.8.25 || true >> filloutput.log 2>&1
+            (uv run fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n --solc-version=0.8.25 -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
+            fill $file --until=Cancun --evm-bin evmone-t8n --solc-version=0.8.25 || true >> filloutput.log 2>&1
+            (fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n --solc-version=0.8.25 -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
           done
 
           if grep -q "FAILURES" filloutput.log; then
-             echo "Error: failed to generate .py tests."
+              echo "Error: failed to generate .py tests."
               exit 1
           fi
           if [ "${{ matrix.driver }}" = "retesteth" ] && grep -q "passed" filloutputEOF.log; then
@@ -176,7 +177,7 @@ jobs:
           filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
           if [ -z "$filesState" ] && [ -z "$filesEOF" ]; then
               echo "Error: No filled JSON fixtures found in fixtures."
-               exit 1
+              exit 1
           fi
 
           PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
