@@ -49,13 +49,19 @@ def gas_test(
     cold_gas: int,
     warm_gas: int | None = None,
 ):
-    """Creates a State Test to check the gas cost of a sequence of EOF code."""
+    """
+    Creates a State Test to check the gas cost of a sequence of EOF code.
+
+    `setup_code` and `tear_down_code` are called multiple times during the test, and MUST NOT have
+    any side-effects which persist across message calls, and in particular, any effects on the gas
+    usage of `subject_code`.
+    """
     if cold_gas <= 0:
-        raise ValueError(f"Target gas allocations (warm_gas) must be > 0, got {cold_gas}")
+        raise ValueError(f"Target gas allocations (cold_gas) must be > 0, got {cold_gas}")
     if warm_gas is None:
         warm_gas = cold_gas
 
-    sender = pre.fund_eoa(10**18)
+    sender = pre.fund_eoa()
 
     address_baseline = pre.deploy_contract(Container.Code(setup_code + tear_down_code))
     address_subject = pre.deploy_contract(
