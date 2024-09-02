@@ -27,6 +27,12 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
+COLD_ACCOUNT_ACCESS_GAS = 2600
+WARM_ACCOUNT_ACCESS_GAS = 100
+CALL_WITH_VALUE_GAS = 9000
+ACCOUNT_CREATION_GAS = 25000
+
+
 @pytest.fixture
 def state_env() -> Environment:
     """
@@ -68,7 +74,7 @@ def gas_test(
         Container.Code(setup_code + subject_code + tear_down_code)
     )
     # 2 times GAS, POP, CALL, 6 times PUSH1 - instructions charged for at every gas run
-    gas_single_gas_run = 2 * 2 + 2 + 100 + 6 * 3
+    gas_single_gas_run = 2 * 2 + 2 + WARM_ACCOUNT_ACCESS_GAS + 6 * 3
     address_legacy_harness = pre.deploy_contract(
         code=(
             # warm subject and baseline without executing
@@ -148,23 +154,70 @@ def gas_test(
 @pytest.mark.parametrize(
     ["opcode", "pre_setup", "cold_gas", "warm_gas", "new_account"],
     [
-        pytest.param(Op.EXTCALL, Op.PUSH0, 2600, 100, False, id="EXTCALL"),
         pytest.param(
-            Op.EXTCALL, Op.PUSH1(1), 2600 + 9000, 100 + 9000, False, id="EXTCALL_with_value"
+            Op.EXTCALL,
+            Op.PUSH0,
+            COLD_ACCOUNT_ACCESS_GAS,
+            WARM_ACCOUNT_ACCESS_GAS,
+            False,
+            id="EXTCALL",
         ),
-        pytest.param(Op.EXTDELEGATECALL, Op.NOOP, 2600, 100, False, id="EXTSTATICCALL"),
-        pytest.param(Op.EXTSTATICCALL, Op.NOOP, 2600, 100, False, id="EXTDELEGATECALL"),
-        pytest.param(Op.EXTCALL, Op.PUSH0, 2600, 100, True, id="EXTCALL_new_acc"),
         pytest.param(
             Op.EXTCALL,
             Op.PUSH1(1),
-            2600 + 25000 + 9000,
-            100 + 25000 + 9000,
+            COLD_ACCOUNT_ACCESS_GAS + CALL_WITH_VALUE_GAS,
+            WARM_ACCOUNT_ACCESS_GAS + CALL_WITH_VALUE_GAS,
+            False,
+            id="EXTCALL_with_value",
+        ),
+        pytest.param(
+            Op.EXTDELEGATECALL,
+            Op.NOOP,
+            COLD_ACCOUNT_ACCESS_GAS,
+            WARM_ACCOUNT_ACCESS_GAS,
+            False,
+            id="EXTSTATICCALL",
+        ),
+        pytest.param(
+            Op.EXTSTATICCALL,
+            Op.NOOP,
+            COLD_ACCOUNT_ACCESS_GAS,
+            WARM_ACCOUNT_ACCESS_GAS,
+            False,
+            id="EXTDELEGATECALL",
+        ),
+        pytest.param(
+            Op.EXTCALL,
+            Op.PUSH0,
+            COLD_ACCOUNT_ACCESS_GAS,
+            WARM_ACCOUNT_ACCESS_GAS,
+            True,
+            id="EXTCALL_new_acc",
+        ),
+        pytest.param(
+            Op.EXTCALL,
+            Op.PUSH1(1),
+            COLD_ACCOUNT_ACCESS_GAS + ACCOUNT_CREATION_GAS + CALL_WITH_VALUE_GAS,
+            WARM_ACCOUNT_ACCESS_GAS + ACCOUNT_CREATION_GAS + CALL_WITH_VALUE_GAS,
             True,
             id="EXTCALL_with_value_new_acc",
         ),
-        pytest.param(Op.EXTDELEGATECALL, Op.NOOP, 2600, 100, True, id="EXTSTATICCALL_new_acc"),
-        pytest.param(Op.EXTSTATICCALL, Op.NOOP, 2600, 100, True, id="EXTDELEGATECALL_new_acc"),
+        pytest.param(
+            Op.EXTDELEGATECALL,
+            Op.NOOP,
+            COLD_ACCOUNT_ACCESS_GAS,
+            WARM_ACCOUNT_ACCESS_GAS,
+            True,
+            id="EXTSTATICCALL_new_acc",
+        ),
+        pytest.param(
+            Op.EXTSTATICCALL,
+            Op.NOOP,
+            COLD_ACCOUNT_ACCESS_GAS,
+            WARM_ACCOUNT_ACCESS_GAS,
+            True,
+            id="EXTDELEGATECALL_new_acc",
+        ),
     ],
 )
 @pytest.mark.parametrize(
