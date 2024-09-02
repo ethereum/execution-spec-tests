@@ -67,8 +67,8 @@ def gas_test(
     address_subject = pre.deploy_contract(
         Container.Code(setup_code + subject_code + tear_down_code)
     )
-    # GAS, POP, CALL, 7 times PUSH1 - instructions charged for at every gas run
-    gas_single_gas_run = 2 + 2 + 100 + 7 * 3
+    # 2 times GAS, POP, CALL, 6 times PUSH1 - instructions charged for at every gas run
+    gas_single_gas_run = 2 * 2 + 2 + 100 + 6 * 3
     address_legacy_harness = pre.deploy_contract(
         code=(
             # warm subject and baseline without executing
@@ -76,7 +76,7 @@ def gas_test(
             # Baseline gas run
             + (
                 Op.GAS
-                + Op.CALL(address=address_baseline, gas=500_000)
+                + Op.CALL(address=address_baseline, gas=Op.GAS)
                 + Op.POP
                 + Op.GAS
                 + Op.SWAP1
@@ -85,7 +85,7 @@ def gas_test(
             # cold gas run
             + (
                 Op.GAS
-                + Op.CALL(address=address_subject, gas=500_000)
+                + Op.CALL(address=address_subject, gas=Op.GAS)
                 + Op.POP
                 + Op.GAS
                 + Op.SWAP1
@@ -94,7 +94,7 @@ def gas_test(
             # warm gas run
             + (
                 Op.GAS
-                + Op.CALL(address=address_subject, gas=500_000)
+                + Op.CALL(address=address_subject, gas=Op.GAS)
                 + Op.POP
                 + Op.GAS
                 + Op.SWAP1
@@ -140,7 +140,7 @@ def gas_test(
         ),
     }
 
-    tx = Transaction(to=address_legacy_harness, gas_limit=20_000_000, sender=sender)
+    tx = Transaction(to=address_legacy_harness, gas_limit=env.gas_limit, sender=sender)
 
     state_test(env=env, pre=pre, tx=tx, post=post)
 
