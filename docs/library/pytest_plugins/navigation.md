@@ -2,4 +2,5 @@
 * [Overview](index.md)
 * [Forks](forks.md)
 * [Test Filler](filler.md)
+* [Features](features.md)
 * [Spec Version Checker](spec_version_checker.md)

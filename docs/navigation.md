@@ -45,3 +45,4 @@
     * [EVM Transition Tool Package](library/evm_transition_tool.md)
     * [Pytest Plugins](library/pytest_plugins/index.md)
       * [Filler Plugin](library/pytest_plugins/filler.md)
+      * [Features Plugin](library/pytest_plugins/features.md)

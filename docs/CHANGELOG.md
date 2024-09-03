@@ -35,6 +35,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Added a new flag `--solc-version` to the `fill` command, which allows the user to specify the version of the Solidity compiler to use when compiling Yul source code; this version will now be automatically downloaded by `fill` via [`solc-select`](https://github.com/crytic/solc-select) ([#772](https://github.com/ethereum/execution-spec-tests/pull/772)).
 - 🐞 Fix usage of multiple `@pytest.mark.with_all*` markers which shared parameters, such as `with_all_call_opcodes` and `with_all_create_opcodes` which shared `evm_code_type`, and now only parametrize compatible values ([#762](https://github.com/ethereum/execution-spec-tests/pull/762)).
 - ✨ Added `selector` and `marks` fields to all `@pytest.mark.with_all*` markers, which allows passing lambda functions to select or mark specific parametrized values (see [documentation](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#covariant-marker-keyword-arguments) for more information) ([#762](https://github.com/ethereum/execution-spec-tests/pull/762)).
+- ✨ Added `--feature` flag to the `fill` command, which allows the user to enable features for all tests during filling (features currently supported: `eip_7702`, `eof_v1`) ([#781](https://github.com/ethereum/execution-spec-tests/pull/781)).
 
 ### 🔧 EVM Tools
 
