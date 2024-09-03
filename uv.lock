@@ -640,7 +640,7 @@ requires-dist = [
     { name = "rich", specifier = ">=13.7.0,<14" },
     { name = "semver", specifier = ">=3.0.1,<4" },
     { name = "setuptools" },
-    { name = "solc-select", specifier = ">=1.0.4" },
+    { name = "solc-select", specifier = ">=1.0.4,<2" },
     { name = "tenacity", specifier = ">8.2.0,<9" },
     { name = "trie", specifier = ">=2.0.2,<3" },
     { name = "types-requests", marker = "extra == 'lint'" },
