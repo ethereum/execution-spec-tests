@@ -41,13 +41,13 @@ jobs:
 
       # Required to fill .py tests
       - name: Build GO EVM
-        uses: ./.github/actions/build-evm
+        uses: ./.github/actions/build-evm-client/geth
         id: evm-builder
         with:
           type: 'main'
 
       - name: Build EVMONE EVM
-        uses: ./.github/actions/build-evmone-evm
+        uses: ./.github/actions/build-evm-client/evmone
         id: evm-builder2
         with:
           type: 'main'

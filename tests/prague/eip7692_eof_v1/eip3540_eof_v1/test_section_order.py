@@ -7,6 +7,7 @@ from typing import List
 
 import pytest
 
+from ethereum_test_exceptions.exceptions import EOFExceptionInstanceOrList
 from ethereum_test_tools import EOFException, EOFTestFiller
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools.eof.v1 import AutoSection, Container, Section, SectionKind
@@ -40,24 +41,33 @@ class CasePosition(Enum):
 
 def get_expected_code_exception(
     section_kind, section_test, test_position
-) -> tuple[str, EOFException | None]:
+) -> tuple[str, EOFExceptionInstanceOrList | None]:
     """
     Verification vectors with code and exception based on test combinations
     """
     match (section_kind, section_test, test_position):
         case (SectionKind.TYPE, SectionTest.MISSING, CasePosition.HEADER):
-            return "ef000102000100030400010000800001305000ef", EOFException.MISSING_TYPE_HEADER
+            return (
+                "ef000102000100030400010000800001305000ef",
+                [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
+            )
         case (SectionKind.TYPE, SectionTest.MISSING, CasePosition.BODY):
             return (
                 "ef0001010004020001000304000100305000ef",
-                EOFException.INVALID_SECTION_BODIES_SIZE,
+                [
+                    EOFException.INVALID_SECTION_BODIES_SIZE,
+                    EOFException.INVALID_FIRST_SECTION_TYPE,
+                ],
             )
         case (SectionKind.TYPE, SectionTest.MISSING, CasePosition.BODY_AND_HEADER):
-            return "ef0001020001000304000100305000ef", EOFException.MISSING_TYPE_HEADER
+            return (
+                "ef0001020001000304000100305000ef",
+                [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
+            )
         case (SectionKind.TYPE, SectionTest.WRONG_ORDER, CasePosition.HEADER):
             return (
                 "ef000102000100030100040400010000800001305000ef",
-                EOFException.MISSING_TYPE_HEADER,
+                [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             )
         case (SectionKind.TYPE, SectionTest.WRONG_ORDER, CasePosition.BODY):
             return (
@@ -68,23 +78,29 @@ def get_expected_code_exception(
         case (SectionKind.TYPE, SectionTest.WRONG_ORDER, CasePosition.BODY_AND_HEADER):
             return (
                 "ef000102000100030100040400010030500000800001ef",
-                EOFException.MISSING_TYPE_HEADER,
+                [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             )
         case (SectionKind.CODE, SectionTest.MISSING, CasePosition.HEADER):
-            return "ef00010100040400010000800001305000ef", EOFException.MISSING_CODE_HEADER
+            return (
+                "ef00010100040400010000800001305000ef",
+                [EOFException.MISSING_CODE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
+            )
         case (SectionKind.CODE, SectionTest.MISSING, CasePosition.BODY):
             return (
                 "ef000101000402000100030400010000800001ef",
                 # TODO should be an exception of empty code bytes, because it can understand that
                 # last byte is data section byte
-                EOFException.INVALID_SECTION_BODIES_SIZE,
+                [EOFException.INVALID_SECTION_BODIES_SIZE, EOFException.UNEXPECTED_HEADER_KIND],
             )
         case (SectionKind.CODE, SectionTest.MISSING, CasePosition.BODY_AND_HEADER):
-            return "ef00010100040400010000800001ef", EOFException.MISSING_CODE_HEADER
+            return (
+                "ef00010100040400010000800001ef",
+                [EOFException.MISSING_CODE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
+            )
         case (SectionKind.CODE, SectionTest.WRONG_ORDER, CasePosition.HEADER):
             return (
                 "ef000101000404000102000100030000800001305000ef",
-                EOFException.MISSING_CODE_HEADER,
+                [EOFException.MISSING_CODE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             )
         case (SectionKind.CODE, SectionTest.WRONG_ORDER, CasePosition.BODY):
             return (
@@ -94,21 +110,27 @@ def get_expected_code_exception(
         case (SectionKind.CODE, SectionTest.WRONG_ORDER, CasePosition.BODY_AND_HEADER):
             return (
                 "ef000101000404000102000100030000800001ef305000",
-                EOFException.MISSING_CODE_HEADER,
+                [EOFException.MISSING_CODE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             )
         case (SectionKind.DATA, SectionTest.MISSING, CasePosition.HEADER):
-            return "ef000101000402000100030000800001305000ef", EOFException.MISSING_DATA_SECTION
+            return (
+                "ef000101000402000100030000800001305000ef",
+                [EOFException.MISSING_DATA_SECTION, EOFException.UNEXPECTED_HEADER_KIND],
+            )
         case (SectionKind.DATA, SectionTest.MISSING, CasePosition.BODY):
             return (
                 "ef000101000402000100030400010000800001305000",
                 EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
             )
         case (SectionKind.DATA, SectionTest.MISSING, CasePosition.BODY_AND_HEADER):
-            return "ef000101000402000100030000800001305000", EOFException.MISSING_DATA_SECTION
+            return (
+                "ef000101000402000100030000800001305000",
+                [EOFException.MISSING_DATA_SECTION, EOFException.UNEXPECTED_HEADER_KIND],
+            )
         case (SectionKind.DATA, SectionTest.WRONG_ORDER, CasePosition.HEADER):
             return (
                 "ef000104000101000402000100030000800001305000ef",
-                EOFException.MISSING_TYPE_HEADER,
+                [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             )
         case (SectionKind.DATA, SectionTest.WRONG_ORDER, CasePosition.BODY):
             return (
@@ -118,7 +140,7 @@ def get_expected_code_exception(
         case (SectionKind.DATA, SectionTest.WRONG_ORDER, CasePosition.BODY_AND_HEADER):
             return (
                 "ef0001040001010004020001000300ef00800001305000",
-                EOFException.MISSING_TYPE_HEADER,
+                [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             )
     return "", None
 
@@ -179,6 +201,10 @@ def test_section_order(
         skip_body_listing=calculate_skip_flag(SectionKind.DATA, CasePosition.BODY),
     )
 
+    expected_code, expected_exception = get_expected_code_exception(
+        section_kind, section_test, test_position
+    )
+
     eof_code = Container(
         sections=make_section_order(section_kind),
         auto_type_section=AutoSection.NONE,
@@ -195,16 +221,72 @@ def test_section_order(
                 )
             )
         ),
+        expected_bytecode=expected_code,
     )
-
-    expected_code, expected_exception = get_expected_code_exception(
-        section_kind, section_test, test_position
-    )
-
-    # TODO remove this after Container class implementation is reliable
-    assert bytes(eof_code).hex() == bytes.fromhex(expected_code).hex()
 
     eof_test(
         data=eof_code,
         expect_exception=expected_exception,
+    )
+
+
+@pytest.mark.parametrize("container_position", range(4))
+@pytest.mark.parametrize(
+    "test_position", [CasePosition.BODY, CasePosition.HEADER, CasePosition.BODY_AND_HEADER]
+)
+def test_container_section_order(
+    eof_test: EOFTestFiller,
+    container_position: int,
+    test_position: CasePosition,
+):
+    """
+    Test containers section being out of order in the header and/or body.
+    This extends and follows the convention of the test_section_order()
+    for the optional container section.
+    """
+    section_code = Section.Code(
+        code=Op.EOFCREATE[0](0, 0, 0, 0)
+        # TODO: Migrated tests had the following infinite loop, so it is kept here
+        #       to equalize code coverage.
+        + Op.RJUMP[0]
+        + Op.STOP()
+    )
+    section_type = Section(kind=SectionKind.TYPE, data=bytes.fromhex("00800004"))
+    section_data = Section.Data("ef")
+    section_container = Section.Container(Container.Code(Op.INVALID))
+
+    sections = [section_type, section_code, section_data]
+    sections.insert(container_position, section_container)
+    eof_code = Container(
+        sections=sections,
+        auto_type_section=AutoSection.NONE,
+        auto_sort_sections=(
+            AutoSection.ONLY_BODY
+            if test_position == CasePosition.HEADER
+            else (
+                AutoSection.ONLY_HEADER if test_position == CasePosition.BODY else AutoSection.NONE
+            )
+        ),
+    )
+
+    def get_expected_exception():
+        match container_position, test_position:
+            case 2, _:
+                return None  # Valid containers section position
+            case 0, CasePosition.BODY:  # Messes up with the type section
+                return EOFException.INVALID_FIRST_SECTION_TYPE
+            case 1, CasePosition.BODY:  # Messes up with the code section
+                return EOFException.UNDEFINED_INSTRUCTION
+            case 3, CasePosition.BODY:  # Data section messes up with the container section
+                return EOFException.INVALID_MAGIC
+            case 0, CasePosition.HEADER | CasePosition.BODY_AND_HEADER:
+                return EOFException.MISSING_TYPE_HEADER
+            case 1, CasePosition.HEADER | CasePosition.BODY_AND_HEADER:
+                return EOFException.MISSING_CODE_HEADER
+            case 3, CasePosition.HEADER | CasePosition.BODY_AND_HEADER:
+                return EOFException.MISSING_TERMINATOR
+
+    eof_test(
+        data=eof_code,
+        expect_exception=get_expected_exception(),
     )

@@ -2,7 +2,11 @@
 GeneralStateTests/stCreate2/call_outsize_then_create2_successful_then_returndatasize.json
 GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.json
 
+([#598](https://github.com/ethereum/execution-spec-tests/pull/598))
+EOFTests/EIP3540/validInvalid.json
+
 EOFTests/efValidation/EOF1_eofcreate_valid_.json
+EOFTests/efValidation/EOF1_section_order_.json
 EOFTests/efValidation/EOF1_truncated_section_.json
 
 ([#647](https://github.com/ethereum/execution-spec-tests/pull/647))

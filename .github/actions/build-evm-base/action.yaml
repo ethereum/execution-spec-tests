@@ -17,15 +17,24 @@ outputs:
     value: ${{ steps.config-evm-reader.outputs.ref }}
   evm-bin:
     description: "Binary name of the evm tool to use"
-    value: ${{ steps.config-evm-reader.outputs.evm-bin }}
+    value: ${{ steps.config-evm-impl-config-reader.outputs.evm-bin }}
+  x-dist:
+    description: "Binary name of the evm tool to use"
+    value: ${{ steps.config-evm-impl-config-reader.outputs.x-dist }}
 runs:
   using: "composite"
   steps:
-    - name: Get the selected EVM version from the configs/evm.yaml
+    - name: Get the selected EVM version from the .github/configs/evm.yaml
       id: config-evm-reader
       shell: bash
       run: |
-        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./configs/evm.yaml \
+        awk "/^${{ inputs.type }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./.github/configs/evm.yaml \
+        | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
+    - name: Get the EVM implementation configuration from .github/configs/evm-impl-config.yaml
+      id: config-evm-impl-config-reader
+      shell: bash
+      run: |
+        awk "/^${{ steps.config-evm-reader.outputs.impl }}:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag" ./.github/configs/evm-impl.yaml \
         | sed 's/ //g' | sed 's/:/=/g' >> "$GITHUB_OUTPUT"
     - name: Print Variables for the selected EVM type
       shell: bash
@@ -33,22 +42,23 @@ runs:
         echo "Implementation: ${{ steps.config-evm-reader.outputs.impl }}"
         echo "Repository: ${{ steps.config-evm-reader.outputs.repo }}"
         echo "Reference: ${{ steps.config-evm-reader.outputs.ref }}"
-        echo "EVM Binary: ${{ steps.config-evm-reader.outputs.evm-bin }}"
+        echo "EVM Binary: ${{ steps.config-evm-impl-config-reader.outputs.evm-bin }}"
+        echo "X-Dist parameter: ${{ steps.config-evm-impl-config-reader.outputs.x-dist }}"
     - name: Build the EVM using Geth action
       if: steps.config-evm-reader.outputs.impl == 'geth'
-      uses: ./.github/actions/build-geth-evm
+      uses: ./.github/actions/build-evm-client/geth
       with:
         repo: ${{ steps.config-evm-reader.outputs.repo }}
         ref: ${{ steps.config-evm-reader.outputs.ref }}
     - name: Build the EVM using EVMONE action
       if: steps.config-evm-reader.outputs.impl == 'evmone'
-      uses: ./.github/actions/build-evmone-evm
+      uses: ./.github/actions/build-evm-client/evmone
       with:
         repo: ${{ steps.config-evm-reader.outputs.repo }}
         ref: ${{ steps.config-evm-reader.outputs.ref }}
     - name: Build the EVM using Besu action
       if: steps.config-evm-reader.outputs.impl == 'besu'
-      uses: ./.github/actions/build-besu-evm
+      uses: ./.github/actions/build-evm-client/besu
       with:
         repo: ${{ steps.config-evm-reader.outputs.repo }}
         ref: ${{ steps.config-evm-reader.outputs.ref }}

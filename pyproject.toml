@@ -1,6 +1,100 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.2", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "ethereum-execution-spec-tests"
+version = "1.0.0"
+description = "Ethereum execution client test authoring framework"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+keywords = ["ethereum", "testing", "blockchain"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "click>=8.1.0,<9",
+    "ethereum @ git+https://github.com/ethereum/execution-specs",
+    "hive.py @ git+https://github.com/marioevz/hive.py",
+    "setuptools",
+    "types-setuptools",
+    "gitpython>=3.1.31,<4",
+    "PyJWT>=2.3.0,<3",
+    "tenacity>8.2.0,<9",
+    "bidict>=0.23,<1",
+    "requests>=2.31.0,<3",
+    "colorlog>=6.7.0,<7",
+    "pytest>7.3.2,<8",
+    "pytest-html>=4.1.0,<5",
+    "pytest-metadata>=3,<4",
+    "pytest-xdist>=3.3.1,<4",
+    "coincurve>=20.0.0,<21",
+    "trie>=2.0.2,<3",
+    "semver>=3.0.1,<4",
+    "pydantic>=2.8.0,<2.9",
+    "rich>=13.7.0,<14",
+    "solc-select>=1.0.4",
+    "filelock>=3.15.1,<4",
+]
+
+[project.urls]
+Homepage = "https://github.com/ethereum/execution-spec-tests"
+Documentation = "https://ethereum.github.io/execution-spec-tests"
+Repository = "https://github.com/ethereum/execution-spec-tests"
+Issues = "https://github.com/ethereum/execution-spec-tests/issues"
+Changelog = "https://ethereum.github.io/execution-spec-tests/main/CHANGELOG/"
+
+
+[project.optional-dependencies]
+test = ["pytest-cov>=4.1.0,<5"]
+lint = [
+    "isort>=5.8,<6",
+    "mypy==0.991; implementation_name == 'cpython'",
+    "types-requests",
+    "black==22.3.0; implementation_name == 'cpython'",
+    "flake8-spellcheck>=0.24,<0.25",
+    "flake8-docstrings>=1.6,<2",
+    "flake8>=6.1.0,<7",
+    "pep8-naming==0.13.3",
+    "fname8>=0.0.3",
+]
+docs = [
+    "cairosvg>=2.7.0,<3",
+    "mike>=1.1.2,<2",
+    "mkdocs>=1.4.3,<2",
+    "mkdocs-gen-files>=0.5.0,<1",
+    "mkdocs-git-authors-plugin>=0.7.1,<1",
+    "mkdocs-glightbox>=0.3.4,<1",
+    "mkdocs-literate-nav>=0.6.0,<1",
+    "mkdocs-material>=9.1.14,<10",
+    "mkdocs-material-extensions>=1.1.1,<2",
+    "mkdocstrings>=0.21.2,<1",
+    "mkdocstrings-python>=1.0.0,<2",
+    "pillow>=10.0.1,<11",
+    "pyspelling>=2.8.2,<3",
+]
+
+[project.scripts]
+fill = "cli.pytest_commands.fill:fill"
+tf = "cli.pytest_commands.fill:tf"
+checkfixtures = "cli.check_fixtures:check_fixtures"
+consume = "cli.pytest_commands.consume:consume"
+genindex = "cli.gen_index:generate_fixtures_index_cli"
+gentest = "cli.gentest:make_test"
+pyspelling_soft_fail = "cli.tox_helpers:pyspelling"
+markdownlintcli2_soft_fail = "cli.tox_helpers:markdownlint"
+order_fixtures = "cli.order_fixtures:order_fixtures"
+evm_bytes_to_python = "cli.evm_bytes_to_python:main"
+hasher = "cli.hasher:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["*tests*"]
+
+[tool.setuptools.package-data]
+ethereum_test_forks = ["forks/contracts/*.bin"]
 
 [tool.isort]
 profile = "black"
@@ -9,7 +103,8 @@ line_length = 99
 
 [tool.black]
 line-length = 99
+target-version = ["py310"]
 
 [tool.mypy]
-mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs"
+mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
 plugins = ["pydantic.mypy"]

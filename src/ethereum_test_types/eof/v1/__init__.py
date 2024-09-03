@@ -17,7 +17,7 @@ from pydantic_core.core_schema import (
 from ethereum_test_base_types import Bytes
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_base_types.pydantic import CopyValidateModel
-from ethereum_test_exceptions import EOFException
+from ethereum_test_exceptions.exceptions import EOFExceptionInstanceOrList
 from ethereum_test_vm import Bytecode
 from ethereum_test_vm import Opcodes as Op
 
@@ -365,7 +365,7 @@ class Container(CopyValidateModel):
     Body: type section first, all code sections, data section(s), last
                 container sections
     """
-    validity_error: EOFException | str | None = None
+    validity_error: EOFExceptionInstanceOrList | str | None = None
     """
     Optional error expected for the container.
 
@@ -473,6 +473,22 @@ class Container(CopyValidateModel):
         kwargs.pop("kind", None)
         return cls(sections=[Section.Code(code=code, **kwargs)])
 
+    @classmethod
+    def Init(cls, deploy_container: "Container", **kwargs) -> "Container":  # noqa: N802
+        """
+        Creates simple init container that deploys the specified container.
+        """
+        return cls(
+            sections=[
+                Section.Code(
+                    code=Op.RETURNCONTRACT[0](0, 0),
+                ),
+                Section.Container(
+                    container=deploy_container,
+                ),
+            ],
+        )
+
     def __bytes__(self) -> bytes:
         """
         Returns the bytecode of the container.
@@ -484,6 +500,15 @@ class Container(CopyValidateModel):
         Returns the length of the container bytecode.
         """
         return len(self.bytecode)
+
+    def __str__(self) -> str:
+        """
+        Returns the name of the container if available, otherwise the bytecode of the container
+        as a string.
+        """
+        if self.name:
+            return self.name
+        return str(self.bytecode)
 
 
 @dataclass(kw_only=True)

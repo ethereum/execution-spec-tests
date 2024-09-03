@@ -37,4 +37,4 @@ runs:
       run: |
         cd $GITHUB_WORKSPACE/besu
         ./gradlew installDist
-        echo $GITHUB_WORKSPACE/besu/build/install/besu/bin/evmtool >> $GITHUB_PATH
+        echo $GITHUB_WORKSPACE/besu/build/install/besu/bin/ >> $GITHUB_PATH

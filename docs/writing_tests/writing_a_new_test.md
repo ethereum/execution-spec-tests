@@ -242,3 +242,38 @@ An intrinsically valid transaction can still revert during its execution.
 Blocks in a BlockchainTest can contain intrinsically invalid transactions but
 in this case the block is expected to be completely rejected, along with all
 transactions in it, including other valid transactions.
+
+## Parametrizing tests
+
+Tests can be parametrized by using the `@pytest.mark.parametrize` decorator.
+
+Example:
+
+```python
+import pytest
+
+@pytest.mark.parametrize(
+    "tx_value,expected_balance",
+    [
+        pytest.param(0, 0, id="zero-value"),
+        pytest.param(100, 100, id="non-zero-value"),
+    ],
+)
+def test_contract_creating_tx(
+    blockchain_test: BlockchainTestFiller, fork: Fork, tx_value: int, expected_balance: int
+):
+```
+
+This will run the test twice, once with `tx_value` set to `0` and `expected_balance`
+set to `0`, and once with `tx_value` set to `100` and `expected_balance` set to `100`.
+
+The `fork` fixture is automatically provided by the framework and contains the
+current fork under test, and does not need to be parametrized.
+
+Tests can also be automatically parametrized with appropriate fork covariant
+values using the `with_all_*` markers listed in the
+[Test Markers](./test_markers.md#fork-covariant-markers) page.
+
+### The `extend_with_defaults` Utility
+
+::: ethereum_test_tools.utility.pytest.extend_with_defaults
