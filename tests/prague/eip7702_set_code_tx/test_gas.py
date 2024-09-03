@@ -373,8 +373,10 @@ def access_list(
         )
 
     if access_list_case.contains_set_code_address():
-        set_to_set = set(a.address for a in authorization_list)
-        access_list.extend(AccessList(address=address, storage_keys=[0]) for address in set_to_set)
+        authorized_addresses = set(a.address for a in authorization_list)
+        access_list.extend(
+            AccessList(address=address, storage_keys=[0]) for address in authorized_addresses
+        )
 
     return access_list
 

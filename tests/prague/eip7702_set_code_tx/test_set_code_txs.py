@@ -219,7 +219,7 @@ def test_set_code_to_zero_address(
     pre: Alloc,
 ):
     """
-    Test the executing a simple SSTORE in a set-code transaction.
+    Test setting the code to the zero address (0x0) in a set-code transaction.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 

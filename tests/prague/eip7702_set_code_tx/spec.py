@@ -30,7 +30,7 @@ class Spec:
     MAGIC = 0x05
     PER_AUTH_BASE_COST = 2_500
     PER_EMPTY_ACCOUNT_COST = 25_000
-    DELEGATION_DESIGNATION = b"\xef\x01\x00"
+    DELEGATION_DESIGNATION = bytes.fromhex("ef0100")
 
     @staticmethod
     def delegation_designation(address: Address) -> Bytes:
