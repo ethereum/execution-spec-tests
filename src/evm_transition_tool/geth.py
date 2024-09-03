@@ -223,8 +223,8 @@ class GethTransitionTool(TransitionTool):
             for address, entry, value in witness_check.account_entries:
                 tree_key_str = self.get_verkle_single_key(address)
                 tree_key = bytearray.fromhex(tree_key_str[2:])
-                entry_bytes = entry.value.to_bytes(2, byteorder="big")
-                tree_key[-2:] = entry_bytes
+                entry_bytes = entry.value.to_bytes(1, byteorder="big")
+                tree_key[-1:] = entry_bytes
                 witness_check_key_values[VerkleHash(bytes(tree_key))] = value
 
         # Format storage entries using `evm verkle single-key`
