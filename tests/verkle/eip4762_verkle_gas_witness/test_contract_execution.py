@@ -50,26 +50,29 @@ class Jumpi(Jump):
 
 def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
     """
-    Returns the requested code with defined size, jumps and PUSHNs
+    Returns the requested code with defined size, jumps, and PUSHNs.
     """
     code = Op.PUSH0 * size
+    result_code = bytes()
+    last_offset = 0
     for j in jumps:
+        result_code += bytes(code)[last_offset : j.offset]
         if isinstance(j, Jump):
-            jump_code = Op.JUMP(j.pc)
-            code = code[: j.offset] + jump_code + code[j.offset + len(jump_code) :]
+            jump_code = bytes(Op.JUMP(j.pc))
         elif isinstance(j, Jumpi):
-            jumpi_code = Op.JUMPI(j.pc, 1 if j.condition else 0)
-            code = code[: j.offset] + jumpi_code + code[j.offset + len(jumpi_code) :]
+            jump_code = bytes(Op.JUMPI(j.pc, 1 if j.condition else 0))
+        result_code += jump_code
+        last_offset = j.offset + len(jump_code)
+        result_code += bytes(Op.JUMPDEST)
 
-        code[j.pc] = Op.JUMPDEST
-
-    return code
+    result_code += bytes(code)[last_offset:]
+    return result_code
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
-    "bytecode, gas_limit, exp_code_chunk_ranges",
+    "bytecode, gas_limit, witness_code_chunk_numbers",
     [
         (  # only_code_in_account_header
             code_with_jumps(10),
