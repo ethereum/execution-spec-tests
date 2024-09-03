@@ -827,3 +827,78 @@ def test_rjumpi_backwards_reference_only(
         data=container,
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS,
     )
+
+
+def test_rjumpi_stack_validation(
+    eof_test: EOFTestFiller,
+):
+    """
+    Check that you can get to the same opcode with two different stack heights
+    Spec now allows this:
+    4.b in https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation
+    """
+    container = Container.Code(code=Op.RJUMPI[1](1) + Op.ADDRESS + Op.NOOP + Op.STOP)
+    eof_test(
+        data=container,
+        expect_exception=None,
+    )
+
+
+def test_rjumpi_at_the_end(
+    eof_test: EOFTestFiller,
+):
+    """
+    https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation 4.i:
+    This implies that the last instruction may be a terminating instruction or RJUMP
+    """
+    eof_test(
+        data=Container(
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1(0) + Op.PUSH1(0) + Op.RJUMPI[1] + Op.STOP + Op.RJUMPI[-4],
+                )
+            ],
+        ),
+        expect_exception=EOFException.MISSING_STOP_OPCODE,
+    )
+
+
+def test_tangled_rjumpi(
+    eof_test: EOFTestFiller,
+):
+    """
+    EOF code containing tangled RJUMPI paths
+    """
+    container = Container.Code(
+        code=(
+            Op.PUSH0  # [0,0]
+            + Op.PUSH0  # [1,1]
+            + Op.RJUMPI[8]  # [2,2]
+            + Op.PUSH1(127)  # [1,1]
+            + Op.RJUMPI[7]  # [2,2]
+            + Op.RJUMP[5]  # [1,1]
+            + Op.PUSH0  # [1,1]
+            + Op.RJUMP[0]  # [2,1]
+            + Op.LT  # [1,x]
+            + Op.STOP  # [1,x]
+        )
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_UNDERFLOW,
+    )
+
+
+def test_rjumpi_backwards_onto_dup(
+    eof_test: EOFTestFiller,
+):
+    """
+    Backwards jumpi onto a dup
+    """
+    container = Container.Code(
+        code=(Op.PUSH0 + Op.DUP1 + Op.RJUMPI[-4] + Op.STOP),
+        max_stack_height=2,
+    )
+    eof_test(
+        data=container,
+    )

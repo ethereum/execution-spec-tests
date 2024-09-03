@@ -253,6 +253,24 @@ def test_something_with_all_tx_types(
 
 Ideally, the lambda function should be used to explicitly filter out values that are not compatible with the test (exclusive filter), rather than explicitly selecting values (inclusive filter), as the parametrized values might change with future forks.
 
+#### `marks`
+
+A marker, list of markers, or a lambda function that can be used to add additional markers to the test.
+
+```python
+import pytest
+
+@pytest.mark.with_all_tx_types(
+    marks=lambda tx_type: pytest.mark.skip("incompatible") if tx_type == 1 else None,
+)
+@pytest.mark.valid_from("London")
+def test_something_with_all_tx_types_but_skip_type_1(state_test_only, tx_type):
+    assert tx_type != 1
+    ...
+```
+
+In this example, the test will be skipped if `tx_type` is equal to 1 by returning a `pytest.mark.skip` marker, and return `None` otherwise.
+
 ## Other Markers
 
 ### `@pytest.mark.slow`

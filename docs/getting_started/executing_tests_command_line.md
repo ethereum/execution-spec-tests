@@ -114,16 +114,35 @@ fill --help
 Output:
 
 ```text
-usage: fill [-h] [--evm-bin EVM_BIN] [--traces] [--verify-fixtures]
-            [--verify-fixtures-bin VERIFY_FIXTURES_BIN] [--solc-bin SOLC_BIN]
+usage: fill [-h] [--strict-alloc] [--ca-start CA_START] [--ca-incr CA_INCR]
+            [--evm-code-type EVM_CODE_TYPE] [--solc-bin SOLC_BIN]
+            [--solc-version SOLC_VERSION] [--evm-bin EVM_BIN] [--traces]
+            [--verify-fixtures] [--verify-fixtures-bin VERIFY_FIXTURES_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
-            [--single-fixture-per-file] [--no-html] [--strict-alloc]
-            [--ca-start CA_START] [--ca-incr CA_INCR] [--build-name BUILD_NAME]
-            [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK] [--from FROM]
-            [--until UNTIL] [--test-help]
+            [--single-fixture-per-file] [--no-html] [--build-name BUILD_NAME]
+            [--index] [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK]
+            [--from FROM] [--until UNTIL] [--test-help]
 
 options:
   -h, --help            show this help message and exit
+
+Arguments defining pre-allocation behavior.:
+  --strict-alloc        [DEBUG ONLY] Disallows deploying a contract in a
+                        predefined address.
+  --ca-start CA_START, --contract-address-start CA_START
+                        The starting address from which tests will deploy
+                        contracts.
+  --ca-incr CA_INCR, --contract-address-increment CA_INCR
+                        The address increment value to each deployed contract by
+                        a test.
+  --evm-code-type EVM_CODE_TYPE
+                        Type of EVM code to deploy in each test by default.
+
+Arguments defining the solc executable:
+  --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).
+                        No default; if unspecified `--solc-version` is used.
+  --solc-version SOLC_VERSION
+                        Version of the solc compiler to use. Default: 0.8.24.
 
 Arguments defining evm executable behavior:
   --evm-bin EVM_BIN     Path to an evm executable that provides `t8n`. Default:
@@ -140,18 +159,14 @@ Arguments defining evm executable behavior:
                         Path to an evm executable that provides the `blocktest`
                         command. Default: The first (geth) 'evm' entry in PATH.
 
-Arguments defining the solc executable:
-  --solc-bin SOLC_BIN   Path to a solc executable (for Yul source compilation).
-                        Default: First 'solc' entry in PATH.
-
 Arguments defining filler location and output:
   --filler-path FILLER_PATH
                         Path to filler directives
-  --output OUTPUT       Directory path to store the generated test fixtures. Can
-                        be deleted. If the specified path ends in '.tar.gz', then
-                        the specified tarball is additionally created (the
-                        fixtures are still written to the specified path without
-                        '.tar.gz' suffix). Default: './fixtures'.
+  --output OUTPUT       Directory path to store the generated test fixtures. If
+                        the specified path ends in '.tar.gz', then the specified
+                        tarball is additionally created (the fixtures are still
+                        written to the specified path without the '.tar.gz'
+                        suffix). Can be deleted. Default: './fixtures'.
   --flat-output         Output each test case in the directory without the folder
                         structure.
   --single-fixture-per-file
@@ -161,17 +176,10 @@ Arguments defining filler location and output:
   --no-html             Don't generate an HTML test report (in the output
                         directory). The --html flag can be used to specify a
                         different path.
-  --strict-alloc        [DEBUG ONLY] Disallows deploying a contract in a
-                        predefined address.
-  --ca-start CA_START, --contract-address-start CA_START
-                        The starting address from which tests will deploy
-                        contracts.
-  --ca-incr CA_INCR, --contract-address-increment CA_INCR
-                        The address increment value to each deployed contract by
-                        a test.
   --build-name BUILD_NAME
                         Specify a build name for the fixtures.ini file, e.g.,
                         'stable'.
+  --index               Generate an index file for all produced fixtures.
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR

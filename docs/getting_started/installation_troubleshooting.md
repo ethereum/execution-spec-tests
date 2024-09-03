@@ -2,7 +2,7 @@
 
 This page provides guidance on how to troubleshoot common issues that may arise when installing the Execution Spec Tests repository.
 
-## Pip Installation Issues
+## `uv`/`pip` Installation Issues
 
 ### Coincurve Installation
 

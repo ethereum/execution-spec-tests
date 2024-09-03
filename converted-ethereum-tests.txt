@@ -1,3 +1,7 @@
+([#748](https://github.com/ethereum/execution-spec-tests/pull/748))
+GeneralStateTests/stBadOpcode/badOpcodes.json
+GeneralStateTests/stBugs/evmBytecode.json
+
 ([#497](https://github.com/ethereum/execution-spec-tests/pull/497))
 GeneralStateTests/stCreate2/call_outsize_then_create2_successful_then_returndatasize.json
 GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.json
@@ -5,6 +9,7 @@ GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.jso
 ([#598](https://github.com/ethereum/execution-spec-tests/pull/598))
 EOFTests/EIP3540/validInvalid.json
 
+EOFTests/efValidation/EOF1_embedded_container_.json
 EOFTests/efValidation/EOF1_eofcreate_valid_.json
 EOFTests/efValidation/EOF1_section_order_.json
 EOFTests/efValidation/EOF1_truncated_section_.json
