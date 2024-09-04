@@ -2,6 +2,12 @@
 JSON-RPC methods and helper functions for EEST consume based hive simulators.
 """
 
-from .rpc import BlockNumberType, DebugRPC, EngineRPC, EthRPC
+from .rpc import BlockNumberType, DebugRPC, EngineRPC, EthRPC, SendTransactionException
 
-__all__ = ["EthRPC", "BlockNumberType", "EngineRPC", "DebugRPC"]
+__all__ = [
+    "BlockNumberType",
+    "DebugRPC",
+    "EngineRPC",
+    "EthRPC",
+    "SendTransactionException",
+]
