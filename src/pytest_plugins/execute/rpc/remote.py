@@ -60,14 +60,22 @@ def rpc_endpoint(request) -> str:
 
 
 @pytest.fixture(autouse=True, scope="session")
+def chain_id(request) -> int:
+    """
+    Returns the chain id where the tests will be executed.
+    """
+    chain_id = request.config.getoption("rpc_chain_id")
+    if chain_id is not None:
+        TransactionDefaults.chain_id = chain_id
+    return chain_id
+
+
+@pytest.fixture(autouse=True, scope="session")
 def eth_rpc(request, rpc_endpoint: str) -> EthRPC:
     """
     Initialize ethereum RPC client for the execution client under test.
     """
     tx_wait_timeout = request.config.getoption("tx_wait_timeout")
-    chain_id = request.config.getoption("rpc_chain_id")
-    if chain_id is not None:
-        TransactionDefaults.chain_id = chain_id
     return EthRPC(rpc_endpoint, transaction_wait_timeout=tx_wait_timeout)
 
 

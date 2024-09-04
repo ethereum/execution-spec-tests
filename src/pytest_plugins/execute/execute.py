@@ -24,6 +24,7 @@ from ethereum_test_forks import (
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo, Transaction, Yul
 from ethereum_test_tools.code import Solc
+from ethereum_test_types import TransactionDefaults
 from evm_transition_tool import TransitionTool
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -330,6 +331,15 @@ def t8n(request, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     )
     yield t8n
     t8n.shutdown()
+
+
+@pytest.fixture(autouse=True, scope="session")
+def modify_transaction_defaults(request):
+    """
+    Modify transaction defaults to values better suited for live networks.
+    """
+    TransactionDefaults.max_fee_per_gas = 8
+    TransactionDefaults.max_priority_fee_per_gas = 8
 
 
 @pytest.fixture(scope="session")
