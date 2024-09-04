@@ -161,6 +161,8 @@ class WitnessCheck:
     during the filling process of a blockchain test.
     """
 
+    version: int = 0
+
     class AccountHeaderEntry(Enum):
         """
         Represents all the data entries in an account header.
@@ -208,10 +210,29 @@ class WitnessCheck:
             self.account_entries.append(
                 (address, WitnessCheck.AccountHeaderEntry.BASIC_DATA, None)
             )
-        else:
-            basic_data_value = Hash(0)  # Placeholder: Encode basic data as little_endian
+        else:  # Use big-endian encoding for basic data items
+            basic_data_value = bytearray(32)
+
+            # Set version to 0 (1 byte at offset 0)
+            basic_data_value[0] = self.version
+
+            # Bytes 1..4 are reserved for future use, leave them as 0
+
+            # Set code_size (3 bytes at offset 5)
+            code_size_bytes = len(account.code).to_bytes(3, byteorder="big")
+            basic_data_value[5:8] = code_size_bytes
+
+            # Set nonce (8 bytes at offset 8)
+            nonce_bytes = account.nonce.to_bytes(8, byteorder="big")
+            basic_data_value[8:16] = nonce_bytes
+
+            # Set balance (16 bytes at offset 16) - encode as big-endian
+            balance_bytes = account.balance.to_bytes(16, byteorder="big")
+            basic_data_value[16:32] = balance_bytes
+
+            # Append the encoded basic data to account_entries
             self.account_entries.append(
-                (address, WitnessCheck.AccountHeaderEntry.BASIC_DATA, basic_data_value)
+                (address, WitnessCheck.AccountHeaderEntry.BASIC_DATA, Hash(basic_data_value))
             )
 
     def add_account_codehash(self, address: Address, codehash: Optional[Hash]) -> None:
