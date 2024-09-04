@@ -459,22 +459,6 @@ class BlockchainTest(BaseTest):
         try:  # General checks for the transition tool output
             rejected_txs = verify_transactions(txs, transition_tool_output.result)
             verify_result(transition_tool_output.result, env)
-        except Exception as e:
-            print_traces(t8n.get_traces())
-            print(f"\nTransition tool output result:\n{pformat(transition_tool_output.result)}")
-            print(f"\nPrevious transition tool alloc:\n{pformat(previous_alloc)}")
-            if transition_tool_output.alloc is not None:
-                print(
-                    "\nTransition tool output alloc:\n" f"{pformat(transition_tool_output.alloc)}"
-                )
-            if transition_tool_output.vkt is not None:
-                print(
-                    "\nTransition tools output verkle tree:\n"
-                    f"{pformat(transition_tool_output.vkt)}"
-                )
-            raise e
-
-        try:  # Witness specific checks after the transition tool output is verified
             if block.witness_check:
                 if transition_tool_output.result.state_diff is None:
                     raise Exception(
@@ -486,11 +470,31 @@ class BlockchainTest(BaseTest):
                     witness_check=block.witness_check,
                 )
         except Exception as e:
-            if transition_tool_output.witness is not None:
+            print_traces(t8n.get_traces())
+            print(
+                "\nTransition tool output result:\n"
+                f"{pformat(transition_tool_output.result.model_dump_json(indent=4))}"
+            )
+            print(
+                "\nPrevious transition tool alloc:\n"
+                f"{pformat(previous_alloc.model_dump_json())}"
+            )
+            if transition_tool_output.alloc is not None:
                 print(
-                    "\nTransition tools output witness:\n"
-                    f"{pformat(transition_tool_output.witness)}"
+                    "\nTransition tool output alloc:\n"
+                    f"{pformat(transition_tool_output.alloc.model_dump_json())}"
                 )
+            if transition_tool_output.vkt is not None:
+                print(
+                    "\nTransition tools output verkle tree:\n"
+                    f"{pformat(transition_tool_output.vkt.model_dump_json())}"
+                )
+            # TODO: t8n has the witness state diff from the result for now
+            # if transition_tool_output.witness is not None:
+            # print(
+            # "\nTransition tools output witness:\n"
+            # f"{pformat(transition_tool_output.witness.model_dump_json())}"
+            # )
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
