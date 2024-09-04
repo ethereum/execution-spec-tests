@@ -597,6 +597,9 @@ class TransactionDefaults:
     """
 
     chain_id: int = 1
+    gas_price = 10
+    max_fee_per_gas = 7
+    max_priority_fee_per_gas: int = 0
 
 
 class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
@@ -763,16 +766,16 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         # Set default values for fields that are required for certain tx types
         if self.ty <= 1 and self.gas_price is None:
-            self.gas_price = 10
+            self.gas_price = TransactionDefaults.gas_price
         if self.ty >= 1 and self.access_list is None:
             self.access_list = []
         if self.ty < 1:
             assert self.access_list is None, "access_list must be None"
 
         if self.ty >= 2 and self.max_fee_per_gas is None:
-            self.max_fee_per_gas = 7
+            self.max_fee_per_gas = TransactionDefaults.max_fee_per_gas
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
-            self.max_priority_fee_per_gas = 0
+            self.max_priority_fee_per_gas = TransactionDefaults.max_priority_fee_per_gas
         if self.ty < 2:
             assert self.max_fee_per_gas is None, "max_fee_per_gas must be None"
             assert self.max_priority_fee_per_gas is None, "max_priority_fee_per_gas must be None"
