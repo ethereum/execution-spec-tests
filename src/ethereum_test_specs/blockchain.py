@@ -456,20 +456,9 @@ class BlockchainTest(BaseTest):
             debug_output_path=self.get_next_transition_tool_output_path(),
         )
 
-        try:
+        try:  # General checks for the transition tool output
             rejected_txs = verify_transactions(txs, transition_tool_output.result)
             verify_result(transition_tool_output.result, env)
-            if block.witness_check:
-                if transition_tool_output.result.state_diff is None:
-                    raise Exception(
-                        "no state diff in transition tool output, cannot verify witness"
-                    )
-                self.verify_witness(
-                    t8n=t8n,
-                    state_diff=transition_tool_output.result.state_diff,
-                    witness_check=block.witness_check,
-                )
-
         except Exception as e:
             print_traces(t8n.get_traces())
             print(f"\nTransition tool output result:\n{pformat(transition_tool_output.result)}")
@@ -483,6 +472,20 @@ class BlockchainTest(BaseTest):
                     "\nTransition tools output verkle tree:\n"
                     f"{pformat(transition_tool_output.vkt)}"
                 )
+            raise e
+
+        try:  # Witness specific checks after the transition tool output is verified
+            if block.witness_check:
+                if transition_tool_output.result.state_diff is None:
+                    raise Exception(
+                        "no state diff in transition tool output, cannot verify witness"
+                    )
+                self.verify_witness(
+                    t8n=t8n,
+                    state_diff=transition_tool_output.result.state_diff,
+                    witness_check=block.witness_check,
+                )
+        except Exception as e:
             if transition_tool_output.witness is not None:
                 print(
                     "\nTransition tools output witness:\n"
@@ -665,6 +668,8 @@ class BlockchainTest(BaseTest):
                         indent=4,
                     )
                 )
+            # Print passing checks
+            print(f"Witness check passed - {key} = {value}")
 
     def make_fixture(
         self,
