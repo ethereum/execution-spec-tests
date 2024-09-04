@@ -473,7 +473,7 @@ class BlockchainTest(BaseTest):
             print_traces(t8n.get_traces())
             print(
                 "\nTransition tool output result:\n"
-                f"{pformat(transition_tool_output.result.model_dump_json(indent=4))}"
+                f"{pformat(transition_tool_output.result.model_dump_json())}"
             )
             print(
                 "\nPrevious transition tool alloc:\n"
