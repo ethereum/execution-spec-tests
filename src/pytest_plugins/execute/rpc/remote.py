@@ -16,6 +16,7 @@ def pytest_addoption(parser):
     remote_rpc_group = parser.getgroup("remote_rpc", "Arguments defining remote RPC configuration")
     remote_rpc_group.addoption(
         "--rpc-endpoint",
+        required=True,
         action="store",
         dest="rpc_endpoint",
         help="RPC endpoint to an execution client",
@@ -23,6 +24,7 @@ def pytest_addoption(parser):
     remote_rpc_group.addoption(
         "--rpc-seed-key",
         action="store",
+        required=True,
         dest="rpc_seed_key",
         help=(
             "Seed key used to fund all sender keys. This account must have a balance of at least "
