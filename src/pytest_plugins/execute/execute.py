@@ -92,18 +92,6 @@ def pytest_addoption(parser):
         ),
     )
 
-    solc_group = parser.getgroup("solc", "Arguments defining the solc executable")
-    solc_group.addoption(
-        "--solc-bin",
-        action="store",
-        dest="solc_bin",
-        default=None,
-        help=(
-            "Path to a solc executable (for Yul source compilation). "
-            "Default: First 'solc' entry in PATH."
-        ),
-    )
-
     test_group = parser.getgroup("tests", "Arguments defining filler location and output")
     test_group.addoption(
         "--filler-path",
