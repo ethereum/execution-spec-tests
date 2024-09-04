@@ -19,7 +19,7 @@ from ethereum_test_rpc import EthRPC
 from ethereum_test_rpc.types import TransactionByHashResponse
 from ethereum_test_tools import EOA, Account, Address
 from ethereum_test_tools import Alloc as BaseAlloc
-from ethereum_test_tools import Initcode
+from ethereum_test_tools import AuthorizationTuple, Initcode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
     Storage,
@@ -88,6 +88,7 @@ class Alloc(BaseAlloc):
     _deployed_contracts: List[Tuple[Address, bytes]] = PrivateAttr(default_factory=list)
     _funded_eoa: List[EOA] = PrivateAttr(default_factory=list)
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
+    _chain_id: int = PrivateAttr(...)
 
     def __init__(
         self,
@@ -95,6 +96,7 @@ class Alloc(BaseAlloc):
         sender: EOA,
         eth_rpc: EthRPC,
         eoa_iterator: Iterator[EOA],
+        chain_id: int,
         evm_code_type: EVMCodeType | None = None,
         **kwargs,
     ):
@@ -103,6 +105,7 @@ class Alloc(BaseAlloc):
         self._eth_rpc = eth_rpc
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
+        self._chain_id = chain_id
 
     def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
         """
@@ -214,25 +217,41 @@ class Alloc(BaseAlloc):
         """
         if storage is not None:
             raise ValueError("EOAs storage support needs to be updated")
-        if delegation is not None:
-            raise ValueError("EOAs delegation support needs to be updated")
         eoa = next(self._eoa_iterator)
         # Send a transaction to fund the EOA
         if amount is None:
             amount = self.eoa_fund_amount_default
 
-        fund_tx = Transaction(
-            sender=self._sender,
-            to=eoa,
-            value=amount,
-        ).with_signature_and_sender()
+        if delegation is not None:
+            if not isinstance(delegation, Address) and delegation == "Self":
+                delegation = eoa
+            fund_tx = Transaction(
+                sender=self._sender,
+                to=eoa,
+                value=amount,
+                authorization_list=[
+                    AuthorizationTuple(
+                        chain_id=self._chain_id,
+                        address=delegation,
+                        nonce=eoa.nonce,
+                        signer=eoa,
+                    ),
+                ],
+                gas_limit=100_000,
+            ).with_signature_and_sender()
+        else:
+            fund_tx = Transaction(
+                sender=self._sender,
+                to=eoa,
+                value=amount,
+            ).with_signature_and_sender()
 
         self._eth_rpc.send_transaction(fund_tx)
         self._txs.append(fund_tx)
         super().__setitem__(
             eoa,
             Account(
-                nonce=0,
+                nonce=eoa.nonce,
                 balance=amount,
             ),
         )
@@ -287,6 +306,7 @@ def pre(
     eoa_iterator: Iterator[EOA],
     eth_rpc: EthRPC,
     evm_code_type: EVMCodeType,
+    chain_id: int,
 ) -> Alloc:
     """
     Returns the default pre allocation for all tests (Empty alloc).
@@ -296,4 +316,5 @@ def pre(
         eth_rpc=eth_rpc,
         eoa_iterator=eoa_iterator,
         evm_code_type=evm_code_type,
+        chain_id=chain_id,
     )
