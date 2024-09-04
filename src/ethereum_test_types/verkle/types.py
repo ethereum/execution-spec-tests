@@ -232,7 +232,11 @@ class WitnessCheck:
 
             # Append the encoded basic data to account_entries
             self.account_entries.append(
-                (address, WitnessCheck.AccountHeaderEntry.BASIC_DATA, Hash(basic_data_value))
+                (
+                    address,
+                    WitnessCheck.AccountHeaderEntry.BASIC_DATA,
+                    Hash(bytes(basic_data_value)),
+                )
             )
 
     def add_account_codehash(self, address: Address, codehash: Optional[Hash]) -> None:

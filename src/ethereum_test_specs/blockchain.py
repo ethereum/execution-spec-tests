@@ -2,7 +2,7 @@
 Ethereum blockchain test spec definition and filler.
 """
 
-from pprint import pprint
+from pprint import pformat
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tuple, Type
 
 from pydantic import ConfigDict, Field, field_validator
@@ -472,13 +472,22 @@ class BlockchainTest(BaseTest):
 
         except Exception as e:
             print_traces(t8n.get_traces())
-            pprint(transition_tool_output.result)
-            pprint(previous_alloc)
-            pprint(transition_tool_output.alloc)
+            print(f"\nTransition tool output result:\n{pformat(transition_tool_output.result)}")
+            print(f"\nPrevious transition tool alloc:\n{pformat(previous_alloc)}")
+            if transition_tool_output.alloc is not None:
+                print(
+                    "\nTransition tool output alloc:\n" f"{pformat(transition_tool_output.alloc)}"
+                )
             if transition_tool_output.vkt is not None:
-                pprint(transition_tool_output.vkt)
+                print(
+                    "\nTransition tools output verkle tree:\n"
+                    f"{pformat(transition_tool_output.vkt)}"
+                )
             if transition_tool_output.witness is not None:
-                pprint(transition_tool_output.witness)
+                print(
+                    "\nTransition tools output witness:\n"
+                    f"{pformat(transition_tool_output.witness)}"
+                )
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -621,7 +630,10 @@ class BlockchainTest(BaseTest):
                 None,
             )
             if stem_state_diff is None:
-                raise ValueError(f"Stem {stem} not found in witness state diff.")
+                raise ValueError(
+                    "Witness check failed - stem not found in witness state diff.\n\n"
+                    + pformat({"stem": str(stem)}, indent=4),
+                )
 
             # Check that the suffix exists in the stem state diff
             suffix = int.from_bytes(key[31:], byteorder="big")
@@ -635,16 +647,23 @@ class BlockchainTest(BaseTest):
             )
             if suffix_state_diff is None:
                 raise ValueError(
-                    f"Suffix {suffix} not found for stem {stem} in witness state diff."
+                    "Witness check failed - suffix not found for stem in state diff.\n\n"
+                    + pformat({"stem": str(stem), "suffix": suffix}, indent=4)
                 )
 
             # Compare the expected witness check value with the current value in the state diff
-            # TODO: fix basic account value.
             if str(suffix_state_diff.current_value) != str(value):
                 raise ValueError(
-                    f"Witness check failed: expected current value {value}, "
-                    f"got {suffix_state_diff.current_value}, "
-                    f"for stem {stem} and suffix {suffix}."
+                    "Witness check failed - value mismatch.\n\n"
+                    + pformat(
+                        {
+                            "stem": str(stem),
+                            "suffix": suffix,
+                            "expected_value": str(value),
+                            "actual_value": str(suffix_state_diff.current_value),
+                        },
+                        indent=4,
+                    )
                 )
 
     def make_fixture(
