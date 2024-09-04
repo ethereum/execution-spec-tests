@@ -25,6 +25,27 @@ from .types import (
 BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
 
+class SendTransactionException(Exception):
+    """
+    Represents an exception that is raised when a transaction fails to be sent.
+    """
+
+    tx: Transaction
+
+    def __init__(self, *args, tx: Transaction):
+        """
+        Initializes the SendTransactionException class with the given transaction
+        """
+        super().__init__(*args)
+        self.tx = tx
+
+    def __str__(self):
+        """
+        Returns a string representation of the exception.
+        """
+        return f"{super().__str__()} Transaction={self.tx.model_dump_json()}"
+
+
 class BaseRPC:
     """
     Represents a base RPC class for every RPC call used within EEST based hive simulators.
@@ -147,7 +168,12 @@ class EthRPC(BaseRPC):
         """
         `eth_sendRawTransaction`: Send a transaction to the client.
         """
-        result_hash = Hash(self.post_request("sendRawTransaction", f"0x{transaction.rlp.hex()}"))
+        try:
+            result_hash = Hash(
+                self.post_request("sendRawTransaction", f"0x{transaction.rlp.hex()}")
+            )
+        except Exception as e:
+            raise SendTransactionException(str(e), tx=transaction)
         assert result_hash == transaction.hash
 
     def send_transactions(self, transactions: List[Transaction]):
@@ -181,8 +207,8 @@ class EthRPC(BaseRPC):
                 return tx
             time.sleep(1)
         raise Exception(
-            f"Transaction {tx_hash} not included in a block after "
-            f"{self.transaction_wait_timeout} seconds"
+            f"Transaction {tx_hash} ({transaction.model_dump_json()}) not included in a "
+            f"block after {self.transaction_wait_timeout} seconds"
         )
 
     def wait_for_transactions(
@@ -207,8 +233,11 @@ class EthRPC(BaseRPC):
             if not tx_hashes:
                 return responses
             time.sleep(1)
+        missing_txs_strings = [
+            f"{tx.hash} ({tx.model_dump_json()})" for tx in transactions if tx.hash in tx_hashes
+        ]
         raise Exception(
-            f"Transaction {tx_hash} not included in a block "
+            f"Transactions {', '.join(missing_txs_strings)} not included in a block "
             f"after {self.transaction_wait_timeout} seconds"
         )
 
