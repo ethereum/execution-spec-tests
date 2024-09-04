@@ -736,7 +736,10 @@ class EthRPC(BaseEthRPC):
 
                     last_pending_tx_hashes_count = len(self.pending_tx_hashes)
             time.sleep(0.1)
-        raise Exception(f"Transaction {tx_hash} not included in a block after {timeout} seconds")
+        raise Exception(
+            f"Transaction {tx_hash} ({transaction.model_dump_json()}) not "
+            f"included in a block after {timeout} seconds"
+        )
 
     def wait_for_transactions(
         self, transactions: List[Transaction], timeout: int = 600
@@ -775,7 +778,13 @@ class EthRPC(BaseEthRPC):
 
                     last_pending_tx_hashes_count = len(self.pending_tx_hashes)
             time.sleep(0.1)
-        raise Exception(f"Transaction {tx_hash} not included in a block after {timeout} seconds")
+        missing_txs_strings = [
+            f"{tx.hash} ({tx.model_dump_json()})" for tx in transactions if tx.hash in tx_hashes
+        ]
+        raise Exception(
+            f"Transactions {', '.join(missing_txs_strings)} not included in a block "
+            f"after {self.transaction_wait_timeout} seconds"
+        )
 
 
 @pytest.fixture(scope="session")
