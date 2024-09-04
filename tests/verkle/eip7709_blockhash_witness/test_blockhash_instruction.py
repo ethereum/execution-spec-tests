@@ -98,14 +98,15 @@ def _blockhash(
             address=address,
             account=(None if address == env.fee_recipient else pre[address]),
         )
-    if fail:
-        storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
-        value = None  # TODO: Process the value for Verkle storage slot
-        witness_check.add_storage_slot(
-            address=blockhash_system_contract_address,
-            storage_slot=storage_slot,
-            value=value,
-        )
+    # TODO: Add this back once we update the test to include 1000+ dummy blocks
+    # if fail:
+    # storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
+    # value = None  # TODO: Process the null value
+    # witness_check.add_storage_slot(
+    # address=blockhash_system_contract_address,
+    # storage_slot=storage_slot,
+    # value=value,
+    # )
 
     blocks = [
         Block(
