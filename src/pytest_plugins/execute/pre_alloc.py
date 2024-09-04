@@ -4,7 +4,7 @@ Pre-allocation fixtures using for test filling.
 
 from itertools import count
 from random import randint
-from typing import Iterator, List, Tuple
+from typing import Iterator, List, Literal, Tuple
 
 import pytest
 from pydantic import PrivateAttr
@@ -207,12 +207,15 @@ class Alloc(BaseAlloc):
         amount: NumberConvertible | None = None,
         label: str | None = None,
         storage: Storage | None = None,
+        delegation: Address | Literal["Self"] | None = None,
     ) -> EOA:
         """
         Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
         """
         if storage is not None:
             raise ValueError("EOAs storage support needs to be updated")
+        if delegation is not None:
+            raise ValueError("EOAs delegation support needs to be updated")
         eoa = next(self._eoa_iterator)
         # Send a transaction to fund the EOA
         if amount is None:
