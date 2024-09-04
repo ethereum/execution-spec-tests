@@ -3,9 +3,9 @@ Useful Verkle types for generating Ethereum tests.
 """
 
 from enum import Enum
-from hashlib import sha3_256 as keccak256
 from typing import Any, Dict, List, Optional, Tuple
 
+from ethereum.crypto.hash import keccak256
 from pydantic import Field, RootModel, field_validator
 from pydantic.functional_serializers import model_serializer
 
@@ -199,7 +199,7 @@ class WitnessCheck:
         """
         self.add_account_basic_data(address, account)
         if account and account.code:
-            code_hash = Hash(keccak256(account.code).digest())
+            code_hash = Hash(keccak256(account.code))
             self.add_account_codehash(address, code_hash)
 
     def add_account_basic_data(self, address: Address, account: Account | None) -> None:
