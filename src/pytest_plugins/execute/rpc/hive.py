@@ -799,6 +799,14 @@ def transactions_per_block(request) -> int:  # noqa: D103
     return max(int(worker_count_env), 1)
 
 
+@pytest.fixture(scope="session")
+def chain_id() -> int:
+    """
+    Returns the chain id where the tests will be executed.
+    """
+    return 1
+
+
 @pytest.fixture(autouse=True, scope="session")
 def eth_rpc(
     request,
