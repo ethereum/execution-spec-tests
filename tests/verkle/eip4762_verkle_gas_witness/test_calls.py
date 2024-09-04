@@ -63,7 +63,7 @@ def test_calls(
     """
     Test *CALL instructions gas and witness.
     """
-    _generic_call(blockchain_test, fork, call_instruction, target, value)
+    _generic_call(blockchain_test, call_instruction, target, value)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -81,7 +81,7 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     """
     Test *CALL warm cost.
     """
-    _generic_call(blockchain_test, fork, call_instruction, TestAddress2, 0, warm=True)
+    _generic_call(blockchain_test, call_instruction, TestAddress2, 0, warm=True)
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -115,14 +115,13 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     ],
 )
 def test_calls_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: str, call_instruction: Bytecode, gas_limit
+    blockchain_test: BlockchainTestFiller, call_instruction: Bytecode, gas_limit
 ):
     """
     Test *CALL witness assertion when there's insufficient gas for different scenarios.
     """
     _generic_call(
         blockchain_test,
-        fork,
         call_instruction,
         TestAddress2,
         0,
@@ -133,7 +132,6 @@ def test_calls_insufficient_gas(
 
 def _generic_call(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     call_instruction,
     target: Address,
     value,
@@ -228,7 +226,6 @@ def _generic_call(
 )
 def test_call_non_existent_account(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     call_instruction,
     gas_limit: int,
     enough_gas_account_creation: bool,
@@ -267,8 +264,9 @@ def test_call_non_existent_account(
     for address in [TestAddress, caller_address, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,
-            account=pre[Address],
+            account=(None if address == env.fee_recipient else pre[address]),
         )
+    if enough_gas_account_creation:
         witness_check.add_account_basic_data(address=TestAddress2, account=None)
 
     blocks = [
