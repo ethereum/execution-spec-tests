@@ -11,10 +11,10 @@ from ethereum_test_tools import (
     Account,
     Block,
     BlockchainTestFiller,
-    Environment,
-    Opcode,
     Bytecode,
+    Environment,
     Initcode,
+    Opcode,
     TestAddress,
     TestAddress2,
     Transaction,
@@ -77,7 +77,7 @@ def test_create(
     witness_check_extra = WitnessCheck()
     witness_check_extra.add_account_full(contract_address, None)
     for i in range(num_code_chunks):
-        witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])
+        witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])  # type: ignore
 
     _create(
         blockchain_test,
@@ -133,13 +133,13 @@ def test_create_insufficient_gas(
             TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
         )
 
-    code_chunks = chunkify_code(contract_code)
+    code_chunks = chunkify_code(bytes(contract_code))
 
     witness_check_extra = WitnessCheck()
     if witness_basic_data and witness_codehash:
         witness_check_extra.add_account_full(contract_address, None)
         for i in range(witness_chunk_count):
-            witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])
+            witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])  # type: ignore
     elif witness_basic_data and not witness_codehash:
         witness_check_extra.add_account_basic_data(contract_address, None)
         # No code chunks since we failed earlier.

@@ -110,7 +110,7 @@ def test_extcodehash_insufficient_gas(
         witness_check_extra.add_account_basic_data(ExampleAddress, ExampleAccount)
     if witness_assert_codehash:
         witness_check_extra.add_account_codehash(
-            ExampleAddress, Hash(keccak256(ExampleAccount.code))
+            ExampleAddress, Hash(keccak256(ExampleAccount.code))  # type: ignore
         )
 
     _extcodehash(blockchain_test, ExampleAddress, witness_check_extra, gas_limit, fails=True)

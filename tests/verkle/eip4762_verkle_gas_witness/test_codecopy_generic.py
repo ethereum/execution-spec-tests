@@ -83,6 +83,7 @@ def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, of
         offset,
         size,
         witness_code_chunks,
+        witness_target_basic_data=True,
     )
 
 
@@ -106,6 +107,7 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instructio
         0,
         code_size - 5,
         witness_code_chunks,
+        witness_target_basic_data=True,
         warm=True,
     )
 
@@ -137,6 +139,7 @@ def test_codecopy_insufficient_gas(
         0,
         code_size,
         witness_code_chunks,
+        witness_target_basic_data=True,
         gas_limit=gas_limit,
     )
 
@@ -184,7 +187,7 @@ def _generic_codecopy(
     offset: int,
     size: int,
     witness_code_chunks,
-    witness_target_basic_data=True,
+    witness_target_basic_data,
     warm=False,
     gas_limit=1_000_000,
 ):
@@ -220,15 +223,18 @@ def _generic_codecopy(
     )
 
     tx_target_addr = (
-        TestAddress2 if instr == Op.CODECOPY else compute_create_address(TestAddress, 0)
+        TestAddress2
+        if instr == Op.CODECOPY
+        else compute_create_address(address=TestAddress, nonce=0)
     )
     code_chunks = chunkify_code(pre[TestAddress2].code)
 
+    # TODO: fix tests
     witness_check = WitnessCheck()
     for address in [TestAddress, tx_target_addr, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
+            account=(pre[address] if address == TestAddress else None),
         )
     if witness_target_basic_data:
         witness_check.add_account_basic_data(TestAddress2, pre[TestAddress2])

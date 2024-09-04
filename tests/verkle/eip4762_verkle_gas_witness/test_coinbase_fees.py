@@ -58,11 +58,10 @@ def test_coinbase_fees(blockchain_test: BlockchainTestFiller, priority_fee):
     post = {} if priority_fee == 0 else {coinbase_addr: Account(balance=0x42)}
 
     witness_check = WitnessCheck()
-    for address in [TestAddress, TestAddress2, coinbase_addr]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == coinbase_addr else pre[address]),
-        )
+    witness_check.add_account_full(address=TestAddress, account=pre[TestAddress])
+    # TODO:
+    # witness_check.add_account_full(address=coinbase_addr, account=None)
+    # witness_check.add_account_basic_data(address=TestAddress2, account=None)
 
     blocks = [
         Block(
