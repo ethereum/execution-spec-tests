@@ -67,8 +67,8 @@ def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller):
 def _blockhash(
     blockchain_test: BlockchainTestFiller,
     block_num_target: int,
-    gas_limit=1_000_000,
-    fail=False,
+    gas_limit: int = 1_000_000,
+    fail: bool = False,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -98,7 +98,7 @@ def _blockhash(
             address=address,
             account=(None if address == env.fee_recipient else pre[address]),
         )
-    if not fail:
+    if fail:
         storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
         value = None  # TODO: Process the value for Verkle storage slot
         witness_check.add_storage_slot(
