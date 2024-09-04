@@ -164,7 +164,7 @@ class EthRPC(BaseRPC):
         block = hex(block_number) if isinstance(block_number, int) else block_number
         return Hash(self.post_request("getStorageAt", f"{address}", f"{position}", block))
 
-    def send_transaction(self, transaction: Transaction):
+    def send_transaction(self, transaction: Transaction) -> Hash:
         """
         `eth_sendRawTransaction`: Send a transaction to the client.
         """
@@ -172,16 +172,17 @@ class EthRPC(BaseRPC):
             result_hash = Hash(
                 self.post_request("sendRawTransaction", f"0x{transaction.rlp.hex()}")
             )
+            assert result_hash == transaction.hash
+            assert result_hash is not None
+            return transaction.hash
         except Exception as e:
             raise SendTransactionException(str(e), tx=transaction)
-        assert result_hash == transaction.hash
 
-    def send_transactions(self, transactions: List[Transaction]):
+    def send_transactions(self, transactions: List[Transaction]) -> List[Hash]:
         """
         Uses `eth_sendRawTransaction` to send a list of transactions to the client.
         """
-        for tx in transactions:
-            self.send_transaction(tx)
+        return [self.send_transaction(tx) for tx in transactions]
 
     def storage_at_keys(
         self, account: Address, keys: List[Hash], block_number: BlockNumberType = "latest"

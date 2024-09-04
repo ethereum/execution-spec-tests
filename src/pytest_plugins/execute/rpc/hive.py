@@ -699,15 +699,16 @@ class EthRPC(BaseEthRPC):
             if tx_hash in self.pending_tx_hashes:
                 self.pending_tx_hashes.remove(tx_hash)
 
-    def send_transaction(self, transaction: Transaction):
+    def send_transaction(self, transaction: Transaction) -> Hash:
         """
         `eth_sendRawTransaction`: Send a transaction to the client.
         """
-        super().send_transaction(transaction)
+        returned_hash = super().send_transaction(transaction)
         with self.pending_tx_hashes:
             self.pending_tx_hashes.append(transaction.hash)
             if len(self.pending_tx_hashes) >= self.transactions_per_block:
                 self.generate_block()
+        return returned_hash
 
     def wait_for_transaction(
         self, transaction: Transaction, timeout: int = 600
