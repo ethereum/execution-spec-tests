@@ -5,7 +5,7 @@ Simple transaction-send then post-check execution format.
 from typing import List
 
 from ethereum_test_base_types import Alloc, Hash
-from ethereum_test_rpc import EthRPC
+from ethereum_test_rpc import EthRPC, SendTransactionException
 from ethereum_test_types import Transaction
 
 from .base import BaseExecute
@@ -32,14 +32,16 @@ class TransactionPost(BaseExecute):
                     eth_rpc.send_wait_transaction(transaction.with_signature_and_sender())
                 else:
                     try:
-                        eth_rpc.send_transaction(transaction.with_signature_and_sender())
+                        tx = transaction.with_signature_and_sender()
+                        tx_hash = eth_rpc.send_transaction(tx)
                         raise AssertionError(
-                            f"Expected error {transaction.error} for transaction {transaction}."
+                            f"Expected error {tx.error} for transaction "
+                            f"{tx_hash} ({tx.model_dump_json()})."
                         )
-                    except AssertionError as e:
-                        raise e
-                    except Exception:
+                    except SendTransactionException:
                         pass
+                    except Exception as e:
+                        raise e
         else:
             eth_rpc.send_wait_transactions(
                 [tx.with_signature_and_sender() for tx in self.transactions]
