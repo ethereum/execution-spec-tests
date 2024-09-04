@@ -31,12 +31,16 @@ jobs:
           echo $(pwd)
           echo ${{ github.workspace }}
 
-          #install pyspec deps from root repo
-          python3 --version
-          pip install --upgrade pip
-          python3 -m venv ./venv/
-          source ./venv/bin/activate
-          pip install -e .
+      - name: Set up uv
+        uses: ./.github/actions/setup-uv
+
+      - name: Set up Python
+        run: uv python install 3.10
+
+      - name: Install EEST
+        run: |
+          uv sync --no-progress
+          uv run python --version
 
       # Required to fill .py tests
       - name: Build GO EVM
@@ -116,7 +120,6 @@ jobs:
                 exit 1
               fi
           done
-          
 
       # This command diffs the .py scripts introduced by a PR
       - name: Parse and fill introduced test sources
@@ -151,8 +154,8 @@ jobs:
           mkdir -p fixtures/eof_tests
           echo "$files" | while read line; do
             file=$(echo "$line" | cut -c 3-)
-            fill $file --until=Cancun --evm-bin evmone-t8n --solc-version=0.8.25 || true >> filloutput.log 2>&1
-            (fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n --solc-version=0.8.25 -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
+            uv run fill $file --until=Cancun --evm-bin evmone-t8n --solc-version=0.8.25 || true >> filloutput.log 2>&1
+            (uv run fill $file --fork=CancunEIP7692 --evm-bin evmone-t8n --solc-version=0.8.25 -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
           done
 
           if grep -q "FAILURES" filloutput.log; then

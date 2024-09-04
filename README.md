@@ -98,14 +98,14 @@ This guide installs stable versions of the external (go-ethereum) `evm` executab
 
     Help for other platforms is available in the [online doc](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
 
-2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies (it's recommended to use a virtual environment for the installation):
+2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies ([`uv`](https://docs.astral.sh/uv/) will create and manage a virtual environment for its installation):
 
    ```console
    git clone https://github.com/ethereum/execution-spec-tests
    cd execution-spec-tests
-   python3 -m venv ./venv/
-   source ./venv/bin/activate
-   pip install -e .[docs,lint,test]
+   pip install uv  # or curl -LsSf https://astral.sh/uv/install.sh | sh
+   uv sync --all-extras
+   source .venv/bin/activate  # or run `uv run fill ...`
    ```
 
 3. Verify the installation:
