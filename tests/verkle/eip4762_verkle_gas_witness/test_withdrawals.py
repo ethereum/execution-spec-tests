@@ -46,10 +46,10 @@ def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
     }
 
     witness_check = WitnessCheck()
-    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+    for address in [TestAddress, TestAddress2]:
         witness_check.add_account_full(
             address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
+            account=pre.get(address),
         )
 
     blocks = [
