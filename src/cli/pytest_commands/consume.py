@@ -3,6 +3,7 @@ CLI entry point for the `consume` pytest-based command.
 """
 
 import os
+import sys
 import warnings
 from pathlib import Path
 from tempfile import TemporaryDirectory
