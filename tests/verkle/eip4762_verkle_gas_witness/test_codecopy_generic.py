@@ -202,7 +202,7 @@ def _generic_codecopy(
     codecopy_code = Op.CODECOPY(0, offset, size) * repeat
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(code=codecopy_code + Op.PUSH0 * (code_size - len(codecopy_code))),
+        TestAddress2: Account(code=codecopy_code + Op.PUSH0 * max(0, size - len(codecopy_code))),
     }
 
     to: Address | None = TestAddress2
@@ -210,7 +210,7 @@ def _generic_codecopy(
     if instr == Op.EXTCODECOPY:
         to = None
         extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
-        data = Initcode(deploy_code=extcodecopy_code)
+        data = extcodecopy_code
 
     tx = Transaction(
         ty=0x0,
