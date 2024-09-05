@@ -19,12 +19,13 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.types import Hash
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
+TestAddress2Storage: dict[int, Hash] = {0: Hash(0xAA), 1000: Hash(0xBB)}
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -153,7 +154,7 @@ def _sstore(
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
+            account=pre.get(address),
         )
 
     blocks = [
