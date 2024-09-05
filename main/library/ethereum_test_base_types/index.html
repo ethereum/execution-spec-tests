@@ -1671,6 +1671,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.Bytes.keccak256" class="md-nav__link">
+    <span class="md-ellipsis">
+      keccak256
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -8683,6 +8692,8 @@
       
         
       
+        
+      
     
     
       
@@ -8698,11 +8709,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/prague/eip7702_eoa_code_tx/" class="md-nav__link ">
+            <a href="../../tests/prague/eip7702_set_code_tx/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    EIP-7702 Eoa Code Tx
+    EIP-7702 Set Code Tx
   </span>
   
 
@@ -8718,7 +8729,7 @@
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_10_2_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_2_9">
             <span class="md-nav__icon md-icon"></span>
-            EIP-7702 Eoa Code Tx
+            EIP-7702 Set Code Tx
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -8731,7 +8742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7702_eoa_code_tx/spec/" class="md-nav__link">
+      <a href="../../tests/prague/eip7702_set_code_tx/spec/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -8775,11 +8786,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tests/prague/eip7702_eoa_code_tx/test_eoa_code_txs/" class="md-nav__link ">
+            <a href="../../tests/prague/eip7702_set_code_tx/test_gas/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    Test Eoa Code Txs
+    Test Gas
   </span>
   
 
@@ -8795,7 +8806,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_2_9_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_2_9_3">
             <span class="md-nav__icon md-icon"></span>
-            Test Eoa Code Txs
+            Test Gas
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -8808,7 +8819,92 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7702_eoa_code_tx/test_eoa_code_txs/index/test_cases/" class="md-nav__link">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_gas/index/test_cases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Test Cases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2_9_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../tests/prague/eip7702_set_code_tx/test_set_code_txs/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Test Set Code Txs
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10_2_9_4" id="__nav_10_2_9_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_2_9_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2_9_4">
+            <span class="md-nav__icon md-icon"></span>
+            Test Set Code Txs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_set_code_txs/index/test_cases/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -14616,6 +14712,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.Bytes.keccak256" class="md-nav__link">
+    <span class="md-ellipsis">
+      keccak256
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -15490,12 +15595,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">20</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">20</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent Ethereum addresses in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15543,12 +15648,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bloom</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">256</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bloom</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">256</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent blooms in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15596,12 +15701,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BLSPublicKey</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">48</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BLSPublicKey</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">48</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent BLS public keys in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15649,12 +15754,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BLSSignature</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">96</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BLSSignature</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">96</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent BLS signatures in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15702,8 +15807,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
-<span class="normal">110</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
 <span class="normal">113</span>
@@ -15740,7 +15844,15 @@
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bytes</span><span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">ToStringSchema</span><span class="p">):</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bytes</span><span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">ToStringSchema</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent bytes of variable length in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15779,6 +15891,13 @@
         <span class="k">if</span> <span class="nb">input</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">input</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytes&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the keccak256 hash of the opcode byte representation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">keccak</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">digest_bits</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -15807,13 +15926,13 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
-<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">):</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a new Bytes object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15846,11 +15965,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
-<span class="normal">123</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
-<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the hash of the bytes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15881,11 +16000,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
-<span class="normal">129</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">132</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the hexadecimal representation of the bytes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15916,11 +16035,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the hexadecimal representation of the bytes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15955,14 +16074,14 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
-<span class="normal">141</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">or_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="s2">&quot;Bytes | BytesConvertible | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytes | None&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts the input to a Bytes while accepting None.</span>
@@ -15970,6 +16089,43 @@
     <span class="k">if</span> <span class="nb">input</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">input</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_base_types.Bytes.keccak256" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">keccak256</span><span class="p">()</span></code>
+
+<a href="#ethereum_test_base_types.Bytes.keccak256" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Return the keccak256 hash of the opcode byte representation.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytes&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the keccak256 hash of the opcode byte representation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">keccak</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">digest_bits</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -16010,15 +16166,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
 <span class="normal">229</span>
@@ -16068,7 +16216,15 @@
 <span class="normal">273</span>
 <span class="normal">274</span>
 <span class="normal">275</span>
-<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FixedSizeBytes</span><span class="p">(</span><span class="n">Bytes</span><span class="p">):</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FixedSizeBytes</span><span class="p">(</span><span class="n">Bytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent bytes of fixed length in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16155,15 +16311,15 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__class_getitem__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;FixedSizeBytes&quot;</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__class_getitem__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;FixedSizeBytes&quot;</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a new FixedSizeBytes class with the given length.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16198,13 +16354,13 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span> <span class="o">|</span> <span class="n">T</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span> <span class="o">|</span> <span class="n">T</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a new FixedSizeBytes object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16237,11 +16393,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the hash of the bytes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16276,14 +16432,14 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">or_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="nb">input</span><span class="p">:</span> <span class="n">T</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts the input to a Fixed Size Bytes while accepting None.</span>
@@ -16317,19 +16473,19 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
 <span class="normal">269</span>
-<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compares two FixedSizeBytes objects to be equal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16368,11 +16524,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compares two FixedSizeBytes objects to be not equal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16417,12 +16573,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Hash</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">32</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Hash</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">32</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent hashes in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16470,12 +16626,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HashInt</span><span class="p">(</span><span class="n">FixedSizeHexNumber</span><span class="p">[</span><span class="mi">32</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HashInt</span><span class="p">(</span><span class="n">FixedSizeHexNumber</span><span class="p">[</span><span class="mi">32</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent hashes in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16523,12 +16679,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HeaderNonce</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">8</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HeaderNonce</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">8</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent the header nonce in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16576,8 +16732,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
-<span class="normal">78</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
@@ -16585,7 +16740,8 @@
 <span class="normal">83</span>
 <span class="normal">84</span>
 <span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HexNumber</span><span class="p">(</span><span class="n">Number</span><span class="p">):</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HexNumber</span><span class="p">(</span><span class="n">Number</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent an hexadecimal numbers in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16623,11 +16779,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">82</span>
-<span class="normal">83</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">83</span>
 <span class="normal">84</span>
 <span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the string representation of the number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16672,8 +16828,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
@@ -16702,7 +16857,8 @@
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Number</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">ToStringSchema</span><span class="p">):</span>
+<span class="normal">74</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Number</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">ToStringSchema</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent numbers in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16761,11 +16917,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
-<span class="normal">50</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">|</span> <span class="n">N</span><span class="p">):</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">|</span> <span class="n">N</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a new Number object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16796,11 +16952,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
-<span class="normal">56</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">59</span>
+<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the string representation of the number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16831,11 +16987,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
-<span class="normal">62</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the hexadecimal representation of the number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16870,14 +17026,14 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
-<span class="normal">68</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">74</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">or_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="nb">input</span><span class="p">:</span> <span class="n">N</span> <span class="o">|</span> <span class="n">NumberConvertible</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">N</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts the input to a Number while accepting None.</span>
@@ -16925,8 +17081,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
-<span class="normal"> 90</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
@@ -16939,7 +17094,8 @@
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ZeroPaddedHexNumber</span><span class="p">(</span><span class="n">HexNumber</span><span class="p">):</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ZeroPaddedHexNumber</span><span class="p">(</span><span class="n">HexNumber</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that helps represent zero padded hexadecimal numbers in tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -16982,8 +17138,7 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
-<span class="normal"> 95</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
@@ -16991,7 +17146,8 @@
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the hexadecimal representation of the number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

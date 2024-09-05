@@ -1386,22 +1386,32 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_eoa_code_tx/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/</loc>
          <lastmod>2024-09-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_eoa_code_tx/spec/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/spec/</loc>
          <lastmod>2024-09-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_eoa_code_tx/test_eoa_code_txs/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_gas/</loc>
          <lastmod>2024-09-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_eoa_code_tx/test_eoa_code_txs/index/test_cases/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_gas/index/test_cases/</loc>
+         <lastmod>2024-09-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/</loc>
+         <lastmod>2024-09-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/index/test_cases/</loc>
          <lastmod>2024-09-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
