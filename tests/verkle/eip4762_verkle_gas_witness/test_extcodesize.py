@@ -54,7 +54,9 @@ def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode):
     Test EXTCODESIZE witness.
     """
     witness_check_extra = WitnessCheck()
-    if target != precompile_address and target != system_contract_address:
+    if target == EmptyAddress:
+        witness_check_extra.add_account_basic_data(target, None)
+    elif target != precompile_address and target != system_contract_address:
         account = Account(code=bytecode)
         witness_check_extra.add_account_basic_data(target, account)
 
@@ -120,9 +122,7 @@ def _extcodesize(
         to=Address("0x00"),
         gas_limit=gas_limit,
         gas_price=10,
-        data=Initcode(
-            deploy_code=Op.EXTCODESIZE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE
-        ),
+        data=Op.EXTCODESIZE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE,
     )
 
     post = {}
