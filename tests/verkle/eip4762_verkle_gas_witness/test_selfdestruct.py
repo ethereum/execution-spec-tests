@@ -68,7 +68,6 @@ def test_self_destruct(
         beneficiary_must_exist,
         contract_balance,
         contract_balance > 0,
-        contract_balance > 0 and not beneficiary_must_exist,
     )
 
 
@@ -76,12 +75,12 @@ def test_self_destruct(
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(
-    "gas_limit, beneficiary_must_exist, beneficiary_add_basic_data, beneficiary_add_codehash",
+    "gas_limit, beneficiary_must_exist, beneficiary_add_basic_data",
     [
-        ("TBD", True, False, False),
-        ("TBD", True, False, False),
-        ("TBD", False, False, False),
-        ("TBD", False, True, False),
+        ("TBD", True, False),
+        ("TBD", True, False),
+        ("TBD", False, False),
+        ("TBD", False, True),
     ],
     ids=[
         "beneficiary_exist_not_enough_substract_contract_balance",
@@ -106,7 +105,6 @@ def test_self_destruct_insufficient_gas(
         beneficiary_must_exist,
         100,
         beneficiary_add_basic_data,
-        beneficiary_add_codehash,
         gas_limit=gas_limit,
         fail=True,
     )
@@ -118,7 +116,6 @@ def _selfdestruct(
     beneficiary_must_exist: bool,
     contract_balance: int,
     beneficiary_add_basic_data: bool,
-    beneficiary_add_codehash: bool,
     gas_limit=1_000_000,
     fail=False,
 ):
@@ -148,15 +145,13 @@ def _selfdestruct(
     )
 
     witness_check = WitnessCheck()
-    for address in [TestAddress, TestAddress2, env.fee_recipeint]:
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,
             account=(None if address == env.fee_recipient else pre[address]),
         )
     if beneficiary_add_basic_data:
         witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
-    if beneficiary_add_codehash:
-        witness_check.add_account_codehash(beneficiary, None)
 
     blocks = [
         Block(
