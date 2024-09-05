@@ -213,7 +213,7 @@ V1_EOF_ONLY_OPCODES = [
     Op.EXTSTATICCALL,
     # EIP-7480 EOF Data Section Access
     Op.DATALOAD,
-    Op.DATALOAD,
+    Op.DATALOADN,
     Op.DATASIZE,
     Op.DATACOPY,
     # EIP-7620 EOF Create and Return Contract operation
