@@ -1178,3 +1178,27 @@ def test_rjumpv_at_the_end(
         ),
         expect_exception=EOFException.MISSING_STOP_OPCODE,
     )
+
+
+def test_rjumpv_backwards_min_stack_wrong(
+    eof_test: EOFTestFiller,
+):
+    """
+    Backwards rjumpv where min_stack does not match
+    """
+    container = Container.Code(
+        code=(
+            Op.PUSH0
+            + Op.PUSH1(0)
+            + Op.RJUMPV[1]
+            + Op.PUSH0
+            + Op.PUSH1(4)
+            + Op.RJUMPV[-11]
+            + Op.STOP
+        ),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
