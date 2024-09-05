@@ -72,7 +72,7 @@ def eest_consume_commands(
     """
     hive_dev = f"./hive --dev --client-file configs/develop.yaml --client {client_type.name}"
     consume = (
-        f'consume {test_suite_name.split("-")[-1]} -v --input "latest-develop-release" -k '
+        f'consume {test_suite_name.split("-")[-1]} -v --input latest-develop-release -k '
         f'"{test_case.id}"'
     )
     return [hive_dev, consume]

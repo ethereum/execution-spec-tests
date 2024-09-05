@@ -85,7 +85,7 @@ def pytest_addoption(parser):  # noqa: D103
         help=(
             "Specify the JSON test fixtures source. Can be a local directory, a URL pointing to a "
             " fixtures.tar.gz archive, or one of the special keywords: 'stdin', "
-            "'latest-stable-release', 'latest-develop-release'. "
+            "'latest-stable', 'latest-develop'. "
             f"Defaults to the following local directory: '{default_input_directory()}'."
         ),
     )
@@ -126,9 +126,9 @@ def pytest_configure(config):  # noqa: D103
         return
 
     latest_base_url = "https://github.com/ethereum/execution-spec-tests/releases/latest/download"
-    if input_source == "latest-stable-release":
+    if input_source == "latest-stable-release" or input_source == "latest-stable":
         input_source = f"{latest_base_url}/fixtures_stable.tar.gz"
-    if input_source == "latest-develop-release":
+    if input_source == "latest-develop-release" or input_source == "latest-develop":
         input_source = f"{latest_base_url}/fixtures_develop.tar.gz"
 
     if is_url(input_source):
