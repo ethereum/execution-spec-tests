@@ -330,7 +330,7 @@ def test_suite_description() -> str:
 
 @pytest.fixture(autouse=True, scope="session")
 def base_hive_test(
-    test_suite: HiveTestSuite, session_temp_folder: Path
+    request: pytest.FixtureRequest, test_suite: HiveTestSuite, session_temp_folder: Path
 ) -> Generator[HiveTest, None, None]:
     """
     Base test used to deploy the main client to be used throughout all tests.
@@ -367,6 +367,12 @@ def base_hive_test(
 
     yield test
 
+    test_pass = True
+    test_details = "All tests have completed"
+    if request.session.testsfailed > 0:  # noqa: SC200
+        test_pass = False
+        test_details = "One or more tests have failed"
+
     with FileLock(users_lock_file):
         with open(users_file, "r") as f:
             users = json.load(f)
@@ -374,7 +380,7 @@ def base_hive_test(
         with open(users_file, "w") as f:
             json.dump(users, f)
         if users == 0:
-            test.end(result=HiveTestResult(test_pass=True, details="All tests have completed"))
+            test.end(result=HiveTestResult(test_pass=test_pass, details=test_details))
             base_file.unlink()
             users_file.unlink()
 
@@ -435,22 +441,26 @@ def client(
     """
     base_name = "hive_client"
     base_file = session_temp_folder / base_name
+    base_error_file = session_temp_folder / f"{base_name}.err"
     base_lock_file = session_temp_folder / f"{base_name}.lock"
     client: Client | None = None
     with FileLock(base_lock_file):
-        if base_file.exists():
-            with open(base_file, "r") as f:
-                client = Client(**json.load(f))
-        else:
-            client = base_hive_test.start_client(
-                client_type=client_type, environment=environment, files=client_files
-            )
-            if client is not None:
-                with open(base_file, "w") as f:
-                    json.dump(
-                        asdict(replace(client, config=None)),  # type: ignore
-                        f,
-                    )
+        if not base_error_file.exists():
+            if base_file.exists():
+                with open(base_file, "r") as f:
+                    client = Client(**json.load(f))
+            else:
+                base_error_file.touch()  # Assume error
+                client = base_hive_test.start_client(
+                    client_type=client_type, environment=environment, files=client_files
+                )
+                if client is not None:
+                    base_error_file.unlink()  # Success
+                    with open(base_file, "w") as f:
+                        json.dump(
+                            asdict(replace(client, config=None)),  # type: ignore
+                            f,
+                        )
 
     error_message = (
         f"Unable to connect to the client container ({client_type.name}) via Hive during test "
@@ -810,7 +820,7 @@ def chain_id() -> int:
 
 @pytest.fixture(autouse=True, scope="session")
 def eth_rpc(
-    request,
+    request: pytest.FixtureRequest,
     client: Client,
     base_genesis_header: FixtureHeader,
     base_fork: Fork,
