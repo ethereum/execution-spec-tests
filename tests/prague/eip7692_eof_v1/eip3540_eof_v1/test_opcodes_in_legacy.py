@@ -1,8 +1,6 @@
 """
 Tests all EOF-only opcodes in legacy contracts and expects failure.
 """
-from typing import List
-
 import pytest
 
 from ethereum_test_base_types import Account
@@ -151,15 +149,11 @@ def test_opcodes_in_create_operation(
     env = Environment()
 
     init_code = Initcode(initcode_prefix=code, deploy_code=Op.RETURN(0, 0))
-    salt_param = [0] if legacy_create_opcode == Op.CREATE2 else []
     factory_code = (
         Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-        + Op.SSTORE(slot_create_address, legacy_create_opcode(0, 0, Op.CALLDATASIZE, *salt_param))
+        + Op.SSTORE(slot_create_address, legacy_create_opcode(size=Op.CALLDATASIZE))
         + Op.SSTORE(slot_code_worked, value_code_worked)
     )
-
-    sender = pre.fund_eoa()
-    contract_address = pre.deploy_contract(code=factory_code)
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(code=factory_code)
@@ -182,11 +176,11 @@ def test_opcodes_in_create_operation(
 
 
 @pytest.mark.parametrize(
-    ("ext_call_opcode", "ext_call_suffix"),
+    ("ext_call_opcode"),
     [
-        pytest.param(Op.EXTCALL, [0], id="EXTCALL"),
-        pytest.param(Op.EXTDELEGATECALL, [], id="EXTDELEGATECALL"),
-        pytest.param(Op.EXTSTATICCALL, [], id="EXTSTATICCALL"),
+        pytest.param(Op.EXTCALL, id="EXTCALL"),
+        pytest.param(Op.EXTDELEGATECALL, id="EXTDELEGATECALL"),
+        pytest.param(Op.EXTSTATICCALL, id="EXTSTATICCALL"),
     ],
 )
 @pytest.mark.parametrize(
@@ -198,7 +192,6 @@ def test_opcodes_in_eof_calling_legacy(
     pre: Alloc,
     code: Opcodes,
     ext_call_opcode: Op,
-    ext_call_suffix: List[int],
 ):
     """
     Test all EOF only opcodes in legacy contracts and expects failure.
@@ -214,7 +207,7 @@ def test_opcodes_in_eof_calling_legacy(
         code=Container(
             sections=[
                 Section.Code(
-                    ext_call_opcode(address_test_contract, 0, 0, *ext_call_suffix)
+                    ext_call_opcode(address=address_test_contract)
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP
                 )
