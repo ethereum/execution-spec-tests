@@ -21,6 +21,7 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.types import Hash as HashVerkle
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -61,11 +62,15 @@ def test_extcodehash(blockchain_test: BlockchainTestFiller, fork: str, target):
     """
     witness_check_extra = WitnessCheck()
     if target == ExampleAddress:
-        witness_check_extra.add_account_full(ExampleAddress, ExampleAccount)
+        witness_check_extra.add_account_codehash(
+            ExampleAddress, HashVerkle(keccak256(ExampleAccount.code))
+        )
     elif target == TestAddress:
-        witness_check_extra.add_account_basic_data(TestAddress, TestAccount)
+        witness_check_extra.add_account_codehash(
+            TestAddress, HashVerkle(keccak256(TestAccount.code))
+        )
     elif target == EmptyAddress:
-        witness_check_extra.add_account_basic_data(EmptyAddress, None)
+        witness_check_extra.add_account_codehash(EmptyAddress, None)
     # For precompile or system contract, we don't need to add any witness.
     _extcodehash(blockchain_test, target, witness_check_extra)
 
@@ -77,7 +82,9 @@ def test_extcodehash_warm(blockchain_test: BlockchainTestFiller):
     Test EXTCODEHASH with WARM cost.
     """
     witness_check_extra = WitnessCheck()
-    witness_check_extra.add_account_full(ExampleAddress, ExampleAccount)
+    witness_check_extra.add_account_codehash(
+        ExampleAddress, HashVerkle(keccak256(ExampleAccount.code))
+    )
 
     _extcodehash(blockchain_test, ExampleAddress, witness_check_extra, warm=True)
 
