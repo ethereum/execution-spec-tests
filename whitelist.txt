@@ -95,6 +95,7 @@ datasize
 datastructures
 delitem
 Dencun
+designator
 deprecations
 deserialization
 deserialized
@@ -112,6 +113,7 @@ dup
 EEST
 eip
 eip3540
+eip4844
 eip6110
 eip7002
 eip7251
@@ -331,6 +333,7 @@ ruleset
 runtime
 sandboxed
 secp256k1
+secp256k1n
 selfbalance
 ser
 servable
@@ -341,6 +344,7 @@ sharding
 SignerType
 solc
 soliditylang
+Spec4844
 spencer
 spencertaylorbrown
 spencertb
