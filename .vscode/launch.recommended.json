@@ -72,20 +72,7 @@
         "-v"
       ],
       "cwd": "${workspaceFolder}"
-    },
-    {
-      // To help debugging the --test-help command.
-      "name": "Launch fill --test-help",
-      "type": "python",
-      "request": "launch",
-      "module": "pytest",
-      "args": [
-        "-c",
-        "pytest.ini",
-        "--test-help"
-      ],
-      "cwd": "/home/dtopz/code/github/danceratopz/execution-spec-tests"
-    },
+    }
   ],
   "inputs": [
     {
