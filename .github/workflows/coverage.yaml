@@ -158,9 +158,6 @@ jobs:
           source $GITHUB_ENV
           files=$(echo "$NEW_TESTS" | tr ',' '\n')
 
-          python3 -m venv ./venv/
-          source ./venv/bin/activate
-
           # fill new tests
           # using `|| true` here because if no tests found, pyspec fill returns error code
           mkdir -p fixtures/state_tests
@@ -169,8 +166,8 @@ jobs:
           # Use a while loop with a here-string to avoid subshell issues
           while IFS= read -r file; do
             echo "Fill: $file"
-            fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-            (fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
+            uv run fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+            (uv run fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
           done <<< "$files"
 
           if grep -q "FAILURES" filloutput.log; then
@@ -194,7 +191,7 @@ jobs:
 
           # Include basic evm operations into coverage by default
           # As when we translate from yul/solidity some dup/push opcodes could become untouched
-          fill tests/homestead/coverage/test_coverage.py --until=Cancun --evm-bin evmone-t8n
+          uv run fill tests/homestead/coverage/test_coverage.py --until=Cancun --evm-bin evmone-t8n
 
           PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
           mkdir -p $PATCH_TEST_PATH
@@ -215,9 +212,6 @@ jobs:
             PREV_COMMIT=$(git rev-parse HEAD)
             echo "Checkout head $PREV_COMMIT"
 
-            python3 -m venv ./venv/
-            source ./venv/bin/activate
-
             rm -r fixtures
             rm filloutput.log
             rm filloutputEOF.log
@@ -227,8 +221,8 @@ jobs:
             # Use a while loop with a here-string to avoid subshell issues
             while IFS= read -r file; do
              echo "Fill: $file"
-              fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-              (fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
+              uv run fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+              (uv run fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
             done <<< "$files"
 
             if grep -q "FAILURES" filloutput.log; then
