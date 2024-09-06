@@ -25,6 +25,7 @@ dependencies = [
     "tenacity>8.2.0,<9",
     "bidict>=0.23,<1",
     "requests>=2.31.0,<3",
+    "requests_unixsocket2>=0.4.0",
     "colorlog>=6.7.0,<7",
     "pytest>7.3.2,<8",
     "pytest-html>=4.1.0,<5",
