@@ -429,9 +429,9 @@
 - [ ] EOFCREATE is not a valid terminating instruction (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)
 - [ ] EOFCREATE immediate referring to non-existing container (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)
 - [ ] EOFCREATE immediate referring to container with truncated data (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)
-- [x] Valid RETURNCONTRACTs referring to various container numbers (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_valid_index_*`)
+- [x] Valid RETURNCONTRACTs referring to various container numbers (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py -k test_returncontract_valid_index`)
 - [x] Truncated before RETURNCONTRACT immediate (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_invalid_truncated_immediate`)
-- [x] RETURNCONTRACT immediate referring to non-existing container (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_invalid_index_*`)
+- [x] RETURNCONTRACT immediate referring to non-existing container (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py -k test_returncontract_invalid_index`)
 - [x] Unreachable code after RETURNCONTRACT, check that RETURNCONTRACT is terminating (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_terminating`)
 
 ### Execution
