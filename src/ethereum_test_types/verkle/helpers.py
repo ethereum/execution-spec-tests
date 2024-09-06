@@ -4,7 +4,7 @@ Helper functions/classes used to generate Ethereum tests.
 
 from typing import List
 
-from ethereum_test_base_types.base_types import Hash
+from ethereum_test_types.verkle.types import Hash
 
 
 def chunkify_code(code: bytes) -> List[Hash]:
