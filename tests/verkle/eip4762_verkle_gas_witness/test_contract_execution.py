@@ -75,18 +75,18 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
 # TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
-    "bytecode, gas_limit, witness_code_chunk_numbers",
+    "bytecode, gas_limit, witness_code_chunk_ranges",
     [
         (  # only_code_in_account_header
             code_with_jumps(10),
             1_000_000,
             [[0, 0]],
         ),
-        # (  # chunks_both_in_and_out_account_header
-        #     code_with_jumps(128 * 31 + 100),
-        #     1_000_000,
-        #     [[0, 132]],
-        # ),
+        (  # chunks_both_in_and_out_account_header
+            code_with_jumps(128 * 31 + 100),
+            1_000_000,
+            [[0, 131]],
+        ),
         # (  # touches_only_first_byte_code_chunk
         #     code_with_jumps(128 * 31 + 1),
         #     1_000_000,
@@ -180,7 +180,7 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
     ],
     ids=[
         "only_code_in_account_header",
-        # "chunks_both_in_and_out_account_header",
+        "chunks_both_in_and_out_account_header",
         # "touches_only_first_byte_code_chunk",
         # "touches_only_last_byte_code_chunk",
         # "pushn_with_data_in_chunk_that_cant_be_paid",
@@ -205,7 +205,7 @@ def test_contract_execution_foo(
     blockchain_test: BlockchainTestFiller,
     bytecode,
     gas_limit,
-    witness_code_chunk_numbers,
+    witness_code_chunk_ranges,
 ):
     """
     Test that contract execution generates expected witness.
@@ -232,6 +232,7 @@ def test_contract_execution_foo(
 
     code_chunks = chunkify_code(bytecode)
     assert len(code_chunks) > 0
+    print("Number of chunks {}".format(len(code_chunks)))
 
     witness_check = WitnessCheck()
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
@@ -239,9 +240,9 @@ def test_contract_execution_foo(
             address=address,
             account=(None if address == env.fee_recipient else pre[address]),
         )
-    for chunk_ranges in witness_code_chunk_numbers:
+    for chunk_ranges in witness_code_chunk_ranges:
         for chunk_number in range(chunk_ranges[0], chunk_ranges[1] + 1):
-            witness_check.add_code_chunk(TestAddress2, chunk_ranges, code_chunks[chunk_number])
+            witness_check.add_code_chunk(TestAddress2, chunk_number, code_chunks[chunk_number])
 
     blocks = [
         Block(
