@@ -1202,3 +1202,19 @@ def test_rjumpv_backwards_min_stack_wrong(
         data=container,
         expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
     )
+
+
+def test_double_rjumpv(
+    eof_test: EOFTestFiller,
+):
+    """
+    Two RJUMPVs, causing the min stack to underflow
+    """
+    container = Container.Code(
+        code=(Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[6] + Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[0] + Op.RETURN),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_UNDERFLOW,
+    )

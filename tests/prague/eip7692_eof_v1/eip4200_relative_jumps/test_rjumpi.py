@@ -926,3 +926,19 @@ def test_rjumpi_backwards_min_stack_wrong(
         data=container,
         expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
     )
+
+
+def test_double_rjumpi(
+    eof_test: EOFTestFiller,
+):
+    """
+    Two RJUNMPIs, causing the min stack to underflow
+    """
+    container = Container.Code(
+        code=(Op.PUSH0 + Op.PUSH0 + Op.RJUMPI[5] + Op.PUSH0 + Op.PUSH0 + Op.RJUMPI[0] + Op.RETURN),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_UNDERFLOW,
+    )
