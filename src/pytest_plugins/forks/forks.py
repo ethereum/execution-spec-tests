@@ -170,14 +170,19 @@ class CovariantDescriptor:
     def process_value(
         values: Any | List[Any] | Tuple[Any],
         selector: FunctionType,
-        marks: None
-        | pytest.Mark
-        | pytest.MarkDecorator
-        | List[pytest.Mark | pytest.MarkDecorator]
-        | Callable[
-            [Any],
-            List[pytest.Mark | pytest.MarkDecorator] | pytest.Mark | pytest.MarkDecorator | None,
-        ],
+        marks: (
+            None
+            | pytest.Mark
+            | pytest.MarkDecorator
+            | List[pytest.Mark | pytest.MarkDecorator]
+            | Callable[
+                [Any],
+                List[pytest.Mark | pytest.MarkDecorator]
+                | pytest.Mark
+                | pytest.MarkDecorator
+                | None,
+            ]
+        ),
     ) -> List[List[MarkedValue]]:
         """
         Process a value for a covariant parameter.
@@ -424,8 +429,8 @@ def pytest_configure(config: pytest.Config):
 
     evm_bin = config.getoption("evm_bin")
     t8n = TransitionTool.from_binary_path(binary_path=evm_bin)
-    config.unsupported_forks = filter(  # type: ignore
-        lambda fork: not t8n.is_fork_supported(fork), fork_set
+    config.unsupported_forks = (  # type: ignore
+        set(filter(lambda fork: not t8n.is_fork_supported(fork), fork_set))
     )
 
 
@@ -596,13 +601,13 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                         marks=[
                             pytest.mark.skip(
                                 reason=(
-                                    f"Fork '{fork}' unsupported by "
+                                    f"Fork '{fork.name()}' unsupported by "
                                     f"'{metafunc.config.getoption('evm_bin')}'."
                                 )
                             )
                         ],
                     )
-                    if fork.name() in sorted(list(unsupported_forks))
+                    if fork in sorted(list(unsupported_forks))
                     else ForkParametrizer(fork=fork)
                 )
                 for fork in sorted(list(intersection_set))
