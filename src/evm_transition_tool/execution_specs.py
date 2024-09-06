@@ -140,7 +140,7 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         Stops the t8n-server process if it was started.
         """
         if self.process:
-            self.process.kill()
+            self.process.terminate()
         if self.server_dir:
             self.server_dir.cleanup()
             self.server_dir = None
