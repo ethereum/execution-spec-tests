@@ -137,7 +137,7 @@ def test_jumpf_stack_returning_rules(
 
 
 @pytest.mark.parametrize(
-    ["target_inputs", "target_outputs", "pre_stack", "expected_exception"],
+    ["target_inputs", "target_outputs", "stack_height", "expected_exception"],
     [
         pytest.param(1, 0, 1, EOFException.STACK_UNDERFLOW, id="less_stack"),
         pytest.param(2, 1, 2, None, id="same_stack"),
@@ -155,17 +155,73 @@ def test_jumpf_incompatible_outputs(
     eof_test: EOFTestFiller,
     target_inputs: int,
     target_outputs: int,
-    pre_stack: int,
+    stack_height: int,
     expected_exception: EOFException,
 ):
     """
     Tests jumpf into fuction with incorrect output sizes
     """
+    current_section_outputs = 1
+    if (current_section_outputs + target_inputs - target_outputs) != stack_height:
+        assert expected_exception is not None
     eof_test(
         data=Container(
             sections=[
                 Section.Code(Op.CALLF(1) + Op.STOP, max_stack_height=1),
-                Section.Code(Op.PUSH0 * pre_stack + Op.JUMPF(2), code_outputs=1),
+                Section.Code(
+                    Op.PUSH0 * stack_height + Op.JUMPF(2),
+                    code_outputs=current_section_outputs,
+                ),
+                Section.Code(
+                    Op.POP * (target_inputs - target_outputs) + Op.RETF,
+                    code_inputs=target_inputs,
+                    code_outputs=target_outputs,
+                    max_stack_height=target_inputs,
+                ),
+            ]
+        ),
+        expect_exception=expected_exception,
+    )
+
+
+@pytest.mark.parametrize(
+    ["target_inputs", "target_outputs", "min_stack_height", "expected_exception"],
+    [
+        pytest.param(1, 0, 1, EOFException.STACK_UNDERFLOW, id="less_stack"),
+        pytest.param(2, 1, 2, EOFException.STACK_HIGHER_THAN_OUTPUTS, id="same_stack"),
+        pytest.param(
+            3, 2, 3, EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS, id="more_stack"
+        ),
+        pytest.param(
+            2, 2, 1, EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS, id="less_output"
+        ),
+        pytest.param(1, 1, 1, EOFException.STACK_HIGHER_THAN_OUTPUTS, id="same_output"),
+        pytest.param(0, 0, 1, EOFException.STACK_HIGHER_THAN_OUTPUTS, id="more_output"),
+    ],
+)
+def test_jumpf_diff_max_stack_height(
+    eof_test: EOFTestFiller,
+    target_inputs: int,
+    target_outputs: int,
+    min_stack_height: int,
+    expected_exception: EOFException,
+):
+    """
+    Tests jumpf with a different min and max stack height
+    """
+    current_section_outputs = 1
+    eof_test(
+        data=Container(
+            sections=[
+                Section.Code(Op.CALLF(1) + Op.STOP, max_stack_height=1),
+                Section.Code(
+                    (Op.PUSH0 * min_stack_height)  # (0, 0)
+                    + Op.PUSH0  # (min_stack_height, min_stack_height)
+                    + Op.RJUMPI[1]  # (min_stack_height + 1, min_stack_height + 1)
+                    + Op.PUSH0  # (min_stack_height, min_stack_height)
+                    + Op.JUMPF(2),  # (min_stack_height, min_stack_height + 1)
+                    code_outputs=current_section_outputs,
+                ),
                 Section.Code(
                     Op.POP * (target_inputs - target_outputs) + Op.RETF,
                     code_inputs=target_inputs,
