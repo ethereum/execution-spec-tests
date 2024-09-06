@@ -14031,6 +14031,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_backwards_min_stack_wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_rjumpi_backwards_min_stack_wrong
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_rjumpv_backwards_min_stack_wrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_rjumpi_rjumpv_backwards_min_stack_wrong
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_double_rjumpi
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -14047,7 +14074,7 @@
 
 
 <h1 id="test-rjumpi">Test Rjumpi<a class="headerlink" href="#test-rjumpi" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/75fad860efa7fc2c60a83d9c1f6f24611a280569/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8da6e5dd2c37fafa3aac10608eb53885c1e4240a/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -16586,6 +16613,213 @@ This implies that the last instruction may be a terminating instruction or RJUMP
     <span class="p">)</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_backwards_min_stack_wrong" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_rjumpi_backwards_min_stack_wrong</span><span class="p">(</span><span class="n">eof_test</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_backwards_min_stack_wrong" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Backwards rjumpi where min_stack does not match</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">907</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span>
+<span class="normal">917</span>
+<span class="normal">918</span>
+<span class="normal">919</span>
+<span class="normal">920</span>
+<span class="normal">921</span>
+<span class="normal">922</span>
+<span class="normal">923</span>
+<span class="normal">924</span>
+<span class="normal">925</span>
+<span class="normal">926</span>
+<span class="normal">927</span>
+<span class="normal">928</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_backwards_min_stack_wrong</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Backwards rjumpi where min_stack does not match</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (0, 0)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (1, 1)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># (2, 2) To PUSH1</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 1)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># (1, 2)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span>  <span class="c1"># (2, 3) To first RJUMPI with (1, 2)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>  <span class="c1"># (1, 2)</span>
+        <span class="p">),</span>
+        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HEIGHT_MISMATCH</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_rjumpv_backwards_min_stack_wrong" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_rjumpi_rjumpv_backwards_min_stack_wrong</span><span class="p">(</span><span class="n">eof_test</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_rjumpv_backwards_min_stack_wrong" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Backwards rjumpv where min_stack does not match</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">931</span>
+<span class="normal">932</span>
+<span class="normal">933</span>
+<span class="normal">934</span>
+<span class="normal">935</span>
+<span class="normal">936</span>
+<span class="normal">937</span>
+<span class="normal">938</span>
+<span class="normal">939</span>
+<span class="normal">940</span>
+<span class="normal">941</span>
+<span class="normal">942</span>
+<span class="normal">943</span>
+<span class="normal">944</span>
+<span class="normal">945</span>
+<span class="normal">946</span>
+<span class="normal">947</span>
+<span class="normal">948</span>
+<span class="normal">949</span>
+<span class="normal">950</span>
+<span class="normal">951</span>
+<span class="normal">952</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_rjumpv_backwards_min_stack_wrong</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Backwards rjumpv where min_stack does not match</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (0, 0)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (1, 1)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># (2, 2) To PUSH1</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 1)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># (1, 2)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># (2, 3) To first RJUMPI with (1, 2)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>  <span class="c1"># (1, 2)</span>
+        <span class="p">),</span>
+        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HEIGHT_MISMATCH</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_double_rjumpi</span><span class="p">(</span><span class="n">eof_test</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Two RJUNMPIs, causing the min stack to underflow</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">955</span>
+<span class="normal">956</span>
+<span class="normal">957</span>
+<span class="normal">958</span>
+<span class="normal">959</span>
+<span class="normal">960</span>
+<span class="normal">961</span>
+<span class="normal">962</span>
+<span class="normal">963</span>
+<span class="normal">964</span>
+<span class="normal">965</span>
+<span class="normal">966</span>
+<span class="normal">967</span>
+<span class="normal">968</span>
+<span class="normal">969</span>
+<span class="normal">970</span>
+<span class="normal">971</span>
+<span class="normal">972</span>
+<span class="normal">973</span>
+<span class="normal">974</span>
+<span class="normal">975</span>
+<span class="normal">976</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_double_rjumpi</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Two RJUNMPIs, causing the min stack to underflow</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (0, 0)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 1)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># (2, 2) To RETURN</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 1)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (2, 2)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># (3, 3)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span>  <span class="c1"># (1, 2) Underflow</span>
+        <span class="p">),</span>
+        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

@@ -13709,7 +13709,7 @@
 <h1 id="test-rjumpi-test-cases">Test Rjumpi - Test Cases<a class="headerlink" href="#test-rjumpi-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/75fad860efa7fc2c60a83d9c1f6f24611a280569/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/8da6e5dd2c37fafa3aac10608eb53885c1e4240a/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test-False]
 test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test-True]
 test_rjumpi_condition_forwards[fork_CancunEIP7692-blockchain_test_engine-False]
@@ -13906,6 +13906,9 @@ test_rjumpi_stack_validation[fork_CancunEIP7692-eof_test]
 test_rjumpi_at_the_end[fork_CancunEIP7692-eof_test]
 test_tangled_rjumpi[fork_CancunEIP7692-eof_test]
 test_rjumpi_backwards_onto_dup[fork_CancunEIP7692-eof_test]
+test_rjumpi_backwards_min_stack_wrong[fork_CancunEIP7692-eof_test]
+test_rjumpi_rjumpv_backwards_min_stack_wrong[fork_CancunEIP7692-eof_test]
+test_double_rjumpi[fork_CancunEIP7692-eof_test]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.filler.pre_alloc -p pytest_plugins.filler.solc -p pytest_plugins.filler.filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.help.help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</span>

@@ -13716,6 +13716,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_incompatible_outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_jumpf_incompatible_outputs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_diff_max_stack_height" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_jumpf_diff_max_stack_height
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_diff_min_stack_height" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_jumpf_diff_min_stack_height
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -13732,7 +13759,7 @@
 
 
 <h1 id="test-jumpf-stack">Test Jumpf Stack<a class="headerlink" href="#test-jumpf-stack" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/75fad860efa7fc2c60a83d9c1f6f24611a280569/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py"><code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8da6e5dd2c37fafa3aac10608eb53885c1e4240a/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py"><code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -13779,8 +13806,7 @@ Valid cases are executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
-<span class="normal">20</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
@@ -13825,7 +13851,8 @@ Valid cases are executed.</p>
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_inputs&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;ti-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
@@ -13899,8 +13926,7 @@ Valid cases are executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
-<span class="normal"> 69</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
 <span class="normal"> 72</span>
@@ -13966,7 +13992,8 @@ Valid cases are executed.</p>
 <span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
-<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;source_outputs&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;so-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
@@ -13979,7 +14006,7 @@ Valid cases are executed.</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_inputs&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;to-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
+    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;ti-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;stack_diff&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;less-stack&quot;</span><span class="p">,</span> <span class="s2">&quot;same-stack&quot;</span><span class="p">,</span> <span class="s2">&quot;more-stack&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_jumpf_stack_returning_rules</span><span class="p">(</span>
@@ -14033,6 +14060,365 @@ Valid cases are executed.</p>
         <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
         <span class="n">container_post</span><span class="o">=</span><span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">}),</span>
         <span class="n">tx_data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\1</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_incompatible_outputs" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_jumpf_incompatible_outputs</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">target_inputs</span><span class="p">,</span> <span class="n">target_outputs</span><span class="p">,</span> <span class="n">stack_height</span><span class="p">,</span> <span class="n">expected_exception</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_incompatible_outputs" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Tests jumpf into fuction with incorrect output sizes</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;target_inputs&quot;</span><span class="p">,</span> <span class="s2">&quot;target_outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;expected_exception&quot;</span><span class="p">],</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;less_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;same_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;more_stack&quot;</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;less_output&quot;</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;same_output&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;more_output&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_jumpf_incompatible_outputs</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">target_inputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">target_outputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stack_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">expected_exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests jumpf into fuction with incorrect output sizes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_section_outputs</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">current_section_outputs</span> <span class="o">+</span> <span class="n">target_inputs</span> <span class="o">-</span> <span class="n">target_outputs</span><span class="p">)</span> <span class="o">!=</span> <span class="n">stack_height</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">expected_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">stack_height</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="n">current_section_outputs</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="p">(</span><span class="n">target_inputs</span> <span class="o">-</span> <span class="n">target_outputs</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="n">target_outputs</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">expected_exception</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_diff_max_stack_height" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_jumpf_diff_max_stack_height</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">target_inputs</span><span class="p">,</span> <span class="n">target_outputs</span><span class="p">,</span> <span class="n">stack_height</span><span class="p">,</span> <span class="n">expected_exception</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_diff_max_stack_height" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Tests jumpf with a different max stack height</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;target_inputs&quot;</span><span class="p">,</span> <span class="s2">&quot;target_outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;expected_exception&quot;</span><span class="p">],</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;less_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HIGHER_THAN_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;same_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;more_stack&quot;</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;less_output&quot;</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HIGHER_THAN_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;same_output&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HIGHER_THAN_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;more_output&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_jumpf_diff_max_stack_height</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">target_inputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">target_outputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stack_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">expected_exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests jumpf with a different max stack height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_section_outputs</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">stack_height</span><span class="p">)</span>  <span class="c1"># (0, 0)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (stack_height, stack_height)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># (stack_height + 1, stack_height + 1)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (stack_height, stack_height)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>  <span class="c1"># (stack_height, stack_height + 1)</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="n">current_section_outputs</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="p">(</span><span class="n">target_inputs</span> <span class="o">-</span> <span class="n">target_outputs</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="n">target_outputs</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">expected_exception</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_diff_min_stack_height" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_jumpf_diff_min_stack_height</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">target_inputs</span><span class="p">,</span> <span class="n">target_outputs</span><span class="p">,</span> <span class="n">stack_height</span><span class="p">,</span> <span class="n">expected_exception</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_diff_min_stack_height" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Tests jumpf with a different min stack height</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;target_inputs&quot;</span><span class="p">,</span> <span class="s2">&quot;target_outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;expected_exception&quot;</span><span class="p">],</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;less_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;same_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;more_stack&quot;</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;less_output&quot;</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;same_output&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;more_output&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_jumpf_diff_min_stack_height</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">target_inputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">target_outputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stack_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">expected_exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests jumpf with a different min stack height</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_section_outputs</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="p">(</span><span class="n">stack_height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># (0, 0)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (stack_height - 1, stack_height - 1)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># (stack_height, stack_height)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (stack_height - 1, stack_height - 1)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>  <span class="c1"># (stack_height - 1, stack_height)</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="n">current_section_outputs</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="p">(</span><span class="n">target_inputs</span> <span class="o">-</span> <span class="n">target_outputs</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="n">target_outputs</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">expected_exception</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

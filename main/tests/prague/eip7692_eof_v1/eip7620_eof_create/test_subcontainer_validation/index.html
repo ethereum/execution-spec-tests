@@ -13867,7 +13867,7 @@
 
 
 <h1 id="test-subcontainer-validation">Test Subcontainer Validation<a class="headerlink" href="#test-subcontainer-validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/75fad860efa7fc2c60a83d9c1f6f24611a280569/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8da6e5dd2c37fafa3aac10608eb53885c1e4240a/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -14237,31 +14237,31 @@ For all forks up to and including Prague:
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">returncontract_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/RETURNCONTRACT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_RETURNCONTRACT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">stop_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/STOP&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_STOP&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">return_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/RETURN&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_RETURN&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">revert_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/REVERT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_REVERT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">revert_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/REVERT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_REVERT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -14354,19 +14354,19 @@ For all forks up to and including Prague:
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">stop_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/STOP&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_STOP&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">return_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/RETURN&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_RETURN&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">returncontract_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/RETURNCONTRACT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_RETURNCONTRACT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -14473,27 +14473,27 @@ For all forks up to and including Prague:
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_revert_code_section</span><span class="p">,</span>
             <span class="n">returncontract_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/RETURNCONTRACT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_RETURNCONTRACT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">stop_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/STOP&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_STOP&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">return_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/RETURN&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_RETURN&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_revert_code_section</span><span class="p">,</span>
             <span class="n">revert_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/REVERT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_REVERT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">revert_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/REVERT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_REVERT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -14601,17 +14601,17 @@ For all forks up to and including Prague:
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_revert_code_section</span><span class="p">,</span>
             <span class="n">stop_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/STOP&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_STOP&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_revert_code_section</span><span class="p">,</span>
             <span class="n">return_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/RETURN&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_RETURN&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">returncontract_sub_container</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/RETURNCONTRACT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_RETURNCONTRACT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -14724,31 +14724,31 @@ For all forks up to and including Prague:
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">returncontract_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/RETURNCONTRACT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_RETURNCONTRACT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">stop_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/STOP&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_STOP&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">return_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/RETURN&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_RETURN&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">revert_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/REVERT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_REVERT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">revert_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/REVERT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_REVERT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -14836,19 +14836,19 @@ For all forks up to and including Prague:
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">stop_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/STOP&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_STOP&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">eofcreate_code_section</span><span class="p">,</span>
             <span class="n">return_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE/RETURN&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOFCREATE_RETURN&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">returncontract_code_section</span><span class="p">,</span>
             <span class="n">returncontract_sub_container</span><span class="p">,</span>
             <span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT/RETURNCONTRACT&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;RETURNCONTRACT_RETURNCONTRACT&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
