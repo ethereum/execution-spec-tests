@@ -394,14 +394,35 @@ class TransitionTool(FixtureVerifier):
         """
         Executes the transition tool sending inputs and outputs via a server.
         """
+        input_contents = t8n_data.to_input()
+        input_json = input_contents.model_dump(mode="json", **model_dump_config)
         post_data = {
             "state": {
                 "fork": t8n_data.fork_name,
                 "chainid": t8n_data.chain_id,
                 "reward": t8n_data.reward,
             },
-            "input": t8n_data.to_input().model_dump(mode="json", **model_dump_config),
+            "input": input_json,
         }
+
+        if debug_output_path:
+            request_info = (
+                f"Server URL: {self.server_url}\n\n"
+                f"Request Data:\n{json.dumps(post_data, indent=2)}\n"
+            )
+            dump_files_to_directory(
+                debug_output_path,
+                {
+                    "input/alloc.json": input_contents.alloc,
+                    "input/env.json": input_contents.env,
+                    "input/txs.json": [
+                        tx.model_dump(mode="json", **model_dump_config)
+                        for tx in input_contents.txs
+                    ],
+                    "request_info.txt": request_info,
+                },
+            )
+
         response = Session().post(self.server_url, json=post_data, timeout=10)
         response.raise_for_status()  # exception visible in pytest failure output
         if response.status_code != 200:
@@ -409,7 +430,25 @@ class TransitionTool(FixtureVerifier):
                 f"t8n-server returned status code {response.status_code}, "
                 f"response: {response.text}"
             )
+
         output: TransitionToolOutput = TransitionToolOutput.model_validate(response.json())
+
+        if debug_output_path:
+            response_info = (
+                f"Status Code: {response.status_code}\n\n"
+                f"Headers:\n{json.dumps(dict(response.headers), indent=2)}\n\n"
+                f"Content:\n{response.text}\n"
+            )
+            dump_files_to_directory(
+                debug_output_path,
+                {
+                    "output/alloc.json": output.alloc,
+                    "output/result.json": output.result,
+                    "output/txs.rlp": str(output.body),
+                    "response_info.txt": response_info,
+                },
+            )
+
         return output
 
     def _evaluate_stream(
