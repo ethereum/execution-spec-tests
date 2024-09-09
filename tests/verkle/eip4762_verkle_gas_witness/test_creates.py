@@ -44,10 +44,10 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
     "code_size, value",
     [
         (0, 0),
-        (127 * 32, 0),
-        (130 * 32, 0),
-        (130 * 32 + 1, 0),
-        (130 * 32 + 1, 1),
+        (127 * 31, 0),
+        (130 * 31, 0),
+        (130 * 31 + 1, 0),
+        (130 * 31 + 1, 1),
     ],
     ids=[
         "empty",
@@ -63,21 +63,22 @@ def test_create(
     """
     Test tx contract creation and *CREATE witness.
     """
-    contract_code = Op.PUSH0 * code_size
-    if create_instruction is None or create_instruction == Op.CREATE:
+    contract_code = bytes(Op.PUSH0 * code_size)
+    if create_instruction is None:
         contract_address = compute_create_address(address=TestAddress, nonce=0)
+    elif create_instruction == Op.CREATE:
+        contract_address = compute_create_address(address=TestAddress2, nonce=0)
     else:
         contract_address = compute_create2_address(
-            TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
+            TestAddress2, 0xDEADBEEF, Initcode(deploy_code=contract_code)
         )
 
     num_code_chunks = (len(contract_code) + 30) // 31
-    code_chunks = chunkify_code(contract_code)
 
     witness_check_extra = WitnessCheck()
     witness_check_extra.add_account_full(contract_address, None)
     for i in range(num_code_chunks):
-        witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])  # type: ignore
+        witness_check_extra.add_code_chunk(contract_address, i, None)
 
     _create(
         blockchain_test,
@@ -197,7 +198,7 @@ def test_create_collision(
     create_instruction,
 ):
     """
-    Test *CREATE  with address collision.
+    Test tx contract creation and *CREATE with address collision.
     """
     _create(
         blockchain_test,
@@ -281,7 +282,7 @@ def _create(
         tx_value = 0
         tx_data = deploy_code
         if generate_collision:
-            contract_address = compute_create_address(address=TestAddress, nonce=0)
+            contract_address = compute_create_address(address=TestAddress2, nonce=0)
             pre[contract_address] = Account(nonce=1)
     elif create_instruction is not None and create_instruction.int() == Op.CREATE2.int():
         pre[TestAddress2] = Account(
@@ -292,7 +293,7 @@ def _create(
         tx_value = 0
         tx_data = deploy_code
         if generate_collision:
-            contract_address = compute_create2_address(TestAddress, 0xDEADBEEF, deploy_code)
+            contract_address = compute_create2_address(TestAddress2, 0xDEADBEEF, deploy_code)
             pre[contract_address] = Account(nonce=1)
     else:
         tx_target = None

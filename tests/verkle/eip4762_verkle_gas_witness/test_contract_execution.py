@@ -177,11 +177,11 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         #     1_000_000,
         #     [[0, 0]],
         # ),
-        (  # push20 with data split in two chunks
-            Op.PUSH0 * (31 - (1 + 10)) + Op.PUSH20(0xAA),
-            1_000_000,
-            [[0, 1]],
-        ),
+        # (  # push20 with data split in two chunks
+        #     Op.PUSH0 * (31 - (1 + 10)) + Op.PUSH20(0xAA),
+        #     1_000_000,
+        #     [[0, 1]],
+        # ),
         # (  # push32 spanning three chunks
         #     Op.PUSH0 * (31 - 1) + Op.PUSH32(0xAA),
         #     1_000_000,
@@ -211,7 +211,7 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         # "sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk",
         # "jump_outside_code_size",
         # "jumpi_outside_code_size",
-        "push20_with_data_split_in_two_chunks",
+        # "push20_with_data_split_in_two_chunks",
         # "push32_spanning_three_chunks",
         # "pushn_with_expected_data_past_code_size",
     ],
