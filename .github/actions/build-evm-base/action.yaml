@@ -46,6 +46,7 @@ runs:
         echo "X-Dist parameter: ${{ steps.config-evm-impl-config-reader.outputs.x-dist }}"
     - name: Skip building for EELS
       if: steps.config-evm-reader.outputs.impl == 'eels'
+      shell: bash
       run: echo "Skipping build for EELS"
     - name: Build the EVM using Geth action
       if: steps.config-evm-reader.outputs.impl == 'geth'
