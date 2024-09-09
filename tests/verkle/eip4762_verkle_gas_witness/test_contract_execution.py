@@ -76,107 +76,107 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
 @pytest.mark.parametrize(
     "bytecode, gas_limit, witness_code_chunk_ranges",
     [
-        # (  # only_code_in_account_header
-        #     code_with_jumps(10),
-        #     1_000_000,
-        #     [[0, 0]],
-        # ),
-        # (  # chunks_both_in_and_out_account_header
-        #     code_with_jumps(128 * 31 + 100),
-        #     1_000_000,
-        #     [[0, 131]],
-        # ),
-        # (  # touches_only_first_byte_code_chunk
-        #     code_with_jumps(128 * 31 + 1),
-        #     1_000_000,
-        #     [[0, 128]],
-        # ),
-        # (  # touches_only_last_byte_code_chunk
-        #     code_with_jumps(128 * 31 + 100, [Jump(10, 128 * 31 + 9)]),
-        #     1_000_000,
-        #     [[0, 0], [131, 131]],
-        # ),
-        # (  # pushn_with_data_in_chunk_that_cant_be_paid
-        #     bytes(Op.PUSH0 * 30 + Op.PUSH1(42)),
-        #     21000,
-        #     [[0, 0]],
-        # ),
-        # (  # jump_to_jumpdest_in_pushn_data
-        #     bytes(
-        #         Op.PUSH0 * 10
-        #         + Op.JUMP(10 + 3 + 1 + 1000 + 1)  # 3+1=PUSH2+JUMP
-        #         + Op.PUSH0 * 1000
-        #         + Op.PUSH1(0x5B)
-        #         + Op.PUSH0 * 100  # Add more code, but can't be executed due to the invalid jump
-        #     ),
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
-        # (  # jumpi_to_jumpdest_in_pushn_data
-        #     bytes(
-        #         Op.PUSH0 * 10
-        #         + Op.JUMPI(10 + 5 + 1 + 1000 + 1, 1)  # 5+1=PUSH1+PUSH2+JUMPI
-        #         + Op.PUSH0 * 1000
-        #         + Op.PUSH1(0x5B)
-        #         + Op.PUSH0 * 100
-        #     ),
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
-        # (  # jump_to_non_jumpdest_destiny
-        #     bytes(
-        #         Op.PUSH0 * 10 + Op.JUMP(10 + 3 + 1 + 1000) + Op.PUSH0 * 1000 + Op.ORIGIN
-        #     ),  # 3+1=PUSH2+JUMP
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
-        # (  # jumpi_to_non_jumpdest_destiny
-        #     bytes(
-        #         Op.PUSH0 * 10 + Op.JUMPI(10 + 5 + 1 + 1000, 1) + Op.PUSH0 * 1000 + Op.ORIGIN
-        #     ),  # 5+1=PUSH1+PUSH2+JUMPI
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
-        # (  # linear_execution_stopping_at_first_byte_of_next_chunk
-        #     code_with_jumps(128 * 31 + 1),
-        #     1_000_000,
-        #     [[0, 128]],
-        # ),
-        # (  # false_jumpi
-        #     code_with_jumps(150 * 31 + 10, [Jumpi(50, 1000, False)]),
-        #     1_000_000,
-        #     [[0, 150]],
-        # ),
-        # (  # insufficient_gas_for_jump_instruction
-        #     code_with_jumps(150 * 31, [Jump(10, 1000)]),
-        #     21000 + 200 + 10 + 3,
-        #     [[0, 0]],
-        # ),
-        # (  # insufficient_gas_for_jumpi_instruction
-        #     code_with_jumps(150 * 31, [Jumpi(10, 1000, True)]),
-        #     21000 + 200 + 10 + 3 + 3,
-        #     [[0, 0]],
-        # ),
-        # (  # sufficient_gas_for_jump_instruction_but_not_for_code_chunk
-        #     code_with_jumps(150 * 31, [Jump(10, 1000)]),
-        #     21000 + 200 + 10 + 3 + 8,
-        #     [[0, 0]],
-        # ),
-        # (  # sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk
-        #     code_with_jumps(150 * 31, [Jumpi(10, 1000, True)]),
-        #     21000 + 200 + 10 + 3 + 3 + 10,
-        #     [[0, 0]],
-        # ),
-        # (  # jump_outside_code_size
-        #     code_with_jumps(150 * 31, [Jump(10, 150 * 31 + 42)]),
-        #     1_000_000,
-        #     [[0, 0]],
-        # ),
-        # (  # jumpi_outside_code_size
-        #     code_with_jumps(150 * 31, [Jumpi(50, 150 * 31 + 42, True)]),
-        #     1_000_000,
-        #     [[0, 0]],
-        # ),
+        (  # only_code_in_account_header
+            code_with_jumps(10),
+            1_000_000,
+            [[0, 0]],
+        ),
+        (  # chunks_both_in_and_out_account_header
+            code_with_jumps(128 * 31 + 100),
+            1_000_000,
+            [[0, 131]],
+        ),
+        (  # touches_only_first_byte_code_chunk
+            code_with_jumps(128 * 31 + 1),
+            1_000_000,
+            [[0, 128]],
+        ),
+        (  # touches_only_last_byte_code_chunk
+            code_with_jumps(128 * 31 + 100, [Jump(10, 128 * 31 + 9)]),
+            1_000_000,
+            [[0, 0], [131, 131]],
+        ),
+        (  # pushn_with_data_in_chunk_that_cant_be_paid
+            bytes(Op.PUSH0 * 30 + Op.PUSH1(42)),
+            21000,
+            [[0, 0]],
+        ),
+        (  # jump_to_jumpdest_in_pushn_data
+            bytes(
+                Op.PUSH0 * 10
+                + Op.JUMP(10 + 3 + 1 + 1000 + 1)  # 3+1=PUSH2+JUMP
+                + Op.PUSH0 * 1000
+                + Op.PUSH1(0x5B)
+                + Op.PUSH0 * 100  # Add more code, but can't be executed due to the invalid jump
+            ),
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
+        (  # jumpi_to_jumpdest_in_pushn_data
+            bytes(
+                Op.PUSH0 * 10
+                + Op.JUMPI(10 + 5 + 1 + 1000 + 1, 1)  # 5+1=PUSH1+PUSH2+JUMPI
+                + Op.PUSH0 * 1000
+                + Op.PUSH1(0x5B)
+                + Op.PUSH0 * 100
+            ),
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
+        (  # jump_to_non_jumpdest_destiny
+            bytes(
+                Op.PUSH0 * 10 + Op.JUMP(10 + 3 + 1 + 1000) + Op.PUSH0 * 1000 + Op.ORIGIN
+            ),  # 3+1=PUSH2+JUMP
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
+        (  # jumpi_to_non_jumpdest_destiny
+            bytes(
+                Op.PUSH0 * 10 + Op.JUMPI(10 + 5 + 1 + 1000, 1) + Op.PUSH0 * 1000 + Op.ORIGIN
+            ),  # 5+1=PUSH1+PUSH2+JUMPI
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
+        (  # linear_execution_stopping_at_first_byte_of_next_chunk
+            code_with_jumps(128 * 31 + 1),
+            1_000_000,
+            [[0, 128]],
+        ),
+        (  # false_jumpi
+            code_with_jumps(150 * 31 + 10, [Jumpi(50, 1000, False)]),
+            1_000_000,
+            [[0, 150]],
+        ),
+        (  # insufficient_gas_for_jump_instruction
+            code_with_jumps(150 * 31, [Jump(10, 1000)]),
+            21000 + 200 + 10 + 3,
+            [[0, 0]],
+        ),
+        (  # insufficient_gas_for_jumpi_instruction
+            code_with_jumps(150 * 31, [Jumpi(10, 1000, True)]),
+            21000 + 200 + 10 + 3 + 3,
+            [[0, 0]],
+        ),
+        (  # sufficient_gas_for_jump_instruction_but_not_for_code_chunk
+            code_with_jumps(150 * 31, [Jump(10, 1000)]),
+            21000 + 200 + 10 + 3 + 8,
+            [[0, 0]],
+        ),
+        (  # sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk
+            code_with_jumps(150 * 31, [Jumpi(10, 1000, True)]),
+            21000 + 200 + 10 + 3 + 3 + 10,
+            [[0, 0]],
+        ),
+        (  # jump_outside_code_size
+            code_with_jumps(150 * 31, [Jump(10, 150 * 31 + 42)]),
+            1_000_000,
+            [[0, 0]],
+        ),
+        (  # jumpi_outside_code_size
+            code_with_jumps(150 * 31, [Jumpi(50, 150 * 31 + 42, True)]),
+            1_000_000,
+            [[0, 0]],
+        ),
         # (  # push20 with data split in two chunks
         #     Op.PUSH0 * (31 - (1 + 10)) + Op.PUSH20(0xAA),
         #     1_000_000,
@@ -194,23 +194,23 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         # ),
     ],
     ids=[
-        # "only_code_in_account_header",
-        # "chunks_both_in_and_out_account_header",
-        # "touches_only_first_byte_code_chunk",
-        # "touches_only_last_byte_code_chunk",
-        # "pushn_with_data_in_chunk_that_cant_be_paid",
-        # "jump_to_jumpdest_in_pushn_data",
-        # "jumpi_to_jumpdest_in_pushn_data",
-        # "jump_to_non_jumpdest_destiny",
-        # "jumpi_to_non_jumpdest_destiny",
-        # "linear_execution_stopping_at_first_byte_of_next_chunk",
-        # "false_jumpi",
-        # "insufficient_gas_for_jump_instruction",
-        # "insufficient_gas_for_jumpi_instruction",
-        # "sufficient_gas_for_jump_instruction_but_not_for_code_chunk",
-        # "sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk",
-        # "jump_outside_code_size",
-        # "jumpi_outside_code_size",
+        "only_code_in_account_header",
+        "chunks_both_in_and_out_account_header",
+        "touches_only_first_byte_code_chunk",
+        "touches_only_last_byte_code_chunk",
+        "pushn_with_data_in_chunk_that_cant_be_paid",
+        "jump_to_jumpdest_in_pushn_data",
+        "jumpi_to_jumpdest_in_pushn_data",
+        "jump_to_non_jumpdest_destiny",
+        "jumpi_to_non_jumpdest_destiny",
+        "linear_execution_stopping_at_first_byte_of_next_chunk",
+        "false_jumpi",
+        "insufficient_gas_for_jump_instruction",
+        "insufficient_gas_for_jumpi_instruction",
+        "sufficient_gas_for_jump_instruction_but_not_for_code_chunk",
+        "sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk",
+        "jump_outside_code_size",
+        "jumpi_outside_code_size",
         # "push20_with_data_split_in_two_chunks",
         # "push32_spanning_three_chunks",
         # "pushn_with_expected_data_past_code_size",
