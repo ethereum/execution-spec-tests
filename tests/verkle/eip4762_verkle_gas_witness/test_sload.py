@@ -19,12 +19,13 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.types import Hash
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
+TestAddress2Storage: dict[int, Hash] = {0: Hash(0xAA), 1000: Hash(0xBB)}
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -60,6 +61,7 @@ def test_sload(blockchain_test: BlockchainTestFiller, storage_slot_accesses):
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.skip("Unskip when geth fixes Touch* witness inclusion with insufficient gas")
 @pytest.mark.valid_from("Verkle")
 def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
     """
@@ -69,12 +71,11 @@ def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str
     for slot in [1000, 1001]:
         witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
-    _sload(blockchain_test, [1000, 1001, 1002, 1003], witness_check_extra, gas_limit=21_024)
+    _sload(blockchain_test, [1000, 1001, 1002, 1003], witness_check_extra, gas_limit=23_506)
 
 
 def _sload(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     storage_slot_accesses: list[int],
     witness_check_extra: WitnessCheck,
     gas_limit=1_000_000,
@@ -111,7 +112,7 @@ def _sload(
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
+            account=pre.get(address),
         )
 
     blocks = [
