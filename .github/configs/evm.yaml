@@ -1,7 +1,7 @@
 stable:
-  impl: geth
-  repo: ethereum/go-ethereum
-  ref: master
+  impl: eels
+  repo: null
+  ref: null
 develop:
   impl: geth
   repo: lightclient/go-ethereum

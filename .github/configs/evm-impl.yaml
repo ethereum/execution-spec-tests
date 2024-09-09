@@ -1,3 +1,6 @@
+eels:
+  evm-bin: ethereum-spec-evm-resolver
+  x-dist: auto
 geth:
   evm-bin: evm
   x-dist: auto

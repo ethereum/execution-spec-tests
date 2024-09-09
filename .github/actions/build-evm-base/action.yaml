@@ -44,6 +44,9 @@ runs:
         echo "Reference: ${{ steps.config-evm-reader.outputs.ref }}"
         echo "EVM Binary: ${{ steps.config-evm-impl-config-reader.outputs.evm-bin }}"
         echo "X-Dist parameter: ${{ steps.config-evm-impl-config-reader.outputs.x-dist }}"
+    - name: Skip building for EELS
+      if: steps.config-evm-reader.outputs.impl == 'eels'
+      run: echo "Skipping build for EELS"
     - name: Build the EVM using Geth action
       if: steps.config-evm-reader.outputs.impl == 'geth'
       uses: ./.github/actions/build-evm-client/geth
