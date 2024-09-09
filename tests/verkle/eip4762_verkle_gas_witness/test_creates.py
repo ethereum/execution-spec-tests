@@ -41,25 +41,21 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
     ],
 )
 @pytest.mark.parametrize(
-    "code_size, value",
+    "code_size",
     [
-        (0, 0),
-        (127 * 31, 0),
-        (130 * 31, 0),
-        (130 * 31 + 1, 0),
-        (130 * 31 + 1, 1),
+        0,
+        127 * 31,
+        130 * 31,
+        130 * 31 + 1,
     ],
     ids=[
         "empty",
         "all_chunks_in_account_header",
         "chunks_outside_account_header",
         "with_partial_code_chunk",
-        "with_value",
     ],
 )
-def test_create(
-    blockchain_test: BlockchainTestFiller, create_instruction: Opcode, value, code_size
-):
+def test_create(blockchain_test: BlockchainTestFiller, create_instruction: Opcode, code_size):
     """
     Test tx contract creation and *CREATE witness.
     """
@@ -85,7 +81,34 @@ def test_create(
         create_instruction,
         witness_check_extra,
         contract_code,
-        value=value,
+        value=0,
+    )
+
+
+@pytest.mark.valid_from("Verkle")
+@pytest.mark.parametrize(
+    "create_instruction",
+    [
+        Op.CREATE,
+        Op.CREATE2,
+    ],
+)
+def test_create_with_value_insufficient_balance(
+    blockchain_test: BlockchainTestFiller,
+    create_instruction: Opcode,
+):
+    """
+    Test tx contract creation and *CREATE value-bearing without sufficient balance.
+    """
+    contract_code = bytes(Op.PUSH0 * 10)
+
+    _create(
+        blockchain_test,
+        create_instruction,
+        WitnessCheck(),
+        contract_code,
+        value=100,
+        creator_balance=0,
     )
 
 
@@ -255,10 +278,11 @@ def _create(
     create_instruction: Opcode | None,
     witness_check_extra: WitnessCheck,
     contract_code,
-    value=1,
+    value: int = 0,
     gas_limit=10000000000,
     generate_collision: bool = False,
     initcode_stop_prefix: bool = False,
+    creator_balance: int = 0,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -268,7 +292,7 @@ def _create(
         timestamp=1000,
     )
     pre = {
-        TestAddress: Account(balance=1000000000000000000000),
+        TestAddress: Account(balance=1_000_000_000_000),
     }
 
     deploy_code = Initcode(
@@ -276,7 +300,8 @@ def _create(
     )
     if create_instruction is not None and create_instruction.int() == Op.CREATE.int():
         pre[TestAddress2] = Account(
-            code=Op.CALLDATACOPY(0, 0, len(deploy_code)) + Op.CREATE(value, 0, len(deploy_code))
+            code=Op.CALLDATACOPY(0, 0, len(deploy_code)) + Op.CREATE(value, 0, len(deploy_code)),
+            balance=creator_balance,
         )
         tx_target = TestAddress2
         tx_value = 0
@@ -287,7 +312,8 @@ def _create(
     elif create_instruction is not None and create_instruction.int() == Op.CREATE2.int():
         pre[TestAddress2] = Account(
             code=Op.CALLDATACOPY(0, 0, len(deploy_code))
-            + Op.CREATE2(value, 0, len(deploy_code), 0xDEADBEEF)
+            + Op.CREATE2(value, 0, len(deploy_code), 0xDEADBEEF),
+            balance=creator_balance,
         )
         tx_target = TestAddress2
         tx_value = 0
