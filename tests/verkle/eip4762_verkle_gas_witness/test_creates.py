@@ -251,12 +251,14 @@ def test_big_calldata(
     Test *CREATE checking that code-chunk touching in the witness is not calculated from calldata
     size but actual returned code from initcode execution.
     """
-    contract_code = Op.PUSH0 * (1000 * 31 + 42)
-    if create_instruction is None or create_instruction == Op.CREATE:
+    contract_code = bytes(Op.PUSH0 * (1000 * 31 + 42))
+    if create_instruction is None:
         contract_address = compute_create_address(address=TestAddress, nonce=0)
+    elif create_instruction == Op.CREATE:
+        contract_address = compute_create_address(address=TestAddress2, nonce=0)
     else:
         contract_address = compute_create2_address(
-            TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
+            TestAddress2, 0xDEADBEEF, Initcode(initcode_prefix=Op.STOP, deploy_code=contract_code)
         )
 
     witness_check_extra = WitnessCheck()
@@ -266,7 +268,7 @@ def test_big_calldata(
     _create(
         blockchain_test,
         create_instruction,
-        WitnessCheck(),
+        witness_check_extra,
         contract_code,
         value=0,
         initcode_stop_prefix=True,
