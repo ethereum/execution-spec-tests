@@ -423,7 +423,7 @@ class TransitionTool(FixtureVerifier):
                 },
             )
 
-        response = Session().post(self.server_url, json=post_data, timeout=120)
+        response = Session().post(self.server_url, json=post_data, timeout=20)
         response.raise_for_status()  # exception visible in pytest failure output
         if response.status_code != 200:
             raise Exception(

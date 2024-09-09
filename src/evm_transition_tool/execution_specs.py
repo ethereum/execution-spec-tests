@@ -24,7 +24,7 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 
     `ethereum-spec-evm-resolver` is installed by default for `execution-spec-tests`:
     ```console
-    uv run fill --evm-bin=ethereum-spec-evm
+    uv run fill --evm-bin=ethereum-spec-evm-resolver
     ```
 
     To use a specific version of the `ethereum-spec-evm-resolver` tool, update it to the
@@ -56,7 +56,7 @@ class ExecutionSpecsTransitionTool(TransitionTool):
                 f"{e}."
             )
         except Exception as e:
-            raise Exception(f"Unexpected exception calling ethereum-spec-evm: {e}.")
+            raise Exception(f"Unexpected exception calling ethereum-spec-evm-resolver: {e}.")
         self.help_string = result.stdout
 
     def start_server(self):

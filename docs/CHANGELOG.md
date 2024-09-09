@@ -40,7 +40,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🔧 EVM Tools
 
-- ✨ Use the `ethereum-specs` evm resolver tool to fill tests, which provides a speed increase of around 57x in comparison to geth ([#453](https://github.com/ethereum/execution-spec-tests/pull/453)).
+- ✨ Use the `ethereum-specs` evm resolver tool to fill tests, which provides a speed increase of around 57x in comparison to geth ([#792](https://github.com/ethereum/execution-spec-tests/pull/792)).
 
 ### 📋 Misc
 
