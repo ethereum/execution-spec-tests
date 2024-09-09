@@ -13,6 +13,7 @@ def chunkify_code(code: bytes) -> List[Hash]:
 
     Used to generate code chunks for Witness state diff verification.
     """
+    code = bytes(code)
     if len(code) % 31 != 0:
         code += b"\x00" * (31 - (len(code) % 31))
     bytes_to_exec_data = [0] * (len(code) + 32)
