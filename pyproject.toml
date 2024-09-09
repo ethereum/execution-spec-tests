@@ -18,6 +18,7 @@ dependencies = [
     "click>=8.1.0,<9",
     "ethereum @ git+https://github.com/ethereum/execution-specs",
     "hive.py @ git+https://github.com/marioevz/hive.py",
+    "ethereum-spec-evm-resolver @ git+https://github.com/petertdavies/ethereum-spec-evm-resolver",
     "setuptools",
     "types-setuptools",
     "gitpython>=3.1.31,<4",
