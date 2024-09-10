@@ -264,7 +264,7 @@ class GethTransitionTool(TransitionTool):
         # Format code chunks using `evm verkle code-chunk-key`
         if witness_check.code_chunks:
             for address, code_chunk, value in witness_check.code_chunks:
-                code_chunk_tree_key_str = self.get_verkle_single_key(
+                code_chunk_tree_key_str = self.get_verkle_code_chunk_key(
                     address, ZeroPaddedHexNumber(code_chunk)
                 )
                 tree_key = bytearray.fromhex(code_chunk_tree_key_str[2:])
