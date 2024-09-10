@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
@@ -53,7 +54,7 @@ def test_sload(blockchain_test: BlockchainTestFiller, storage_slot_accesses):
     """
     Test SLOAD witness.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     for slot in storage_slot_accesses:
         witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
@@ -67,7 +68,7 @@ def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str
     """
     Test SLOAD with insufficient gas.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     for slot in [1000, 1001]:
         witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 

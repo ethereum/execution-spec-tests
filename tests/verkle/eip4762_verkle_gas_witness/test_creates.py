@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
@@ -71,7 +72,7 @@ def test_create(blockchain_test: BlockchainTestFiller, create_instruction: Opcod
 
     num_code_chunks = (len(contract_code) + 30) // 31
 
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     witness_check_extra.add_account_full(contract_address, None)
     for i in range(num_code_chunks):
         witness_check_extra.add_code_chunk(contract_address, i, None)
@@ -105,7 +106,7 @@ def test_create_with_value_insufficient_balance(
     _create(
         blockchain_test,
         create_instruction,
-        WitnessCheck(),
+        WitnessCheck(fork=Verkle),
         contract_code,
         value=100,
         creator_balance=0,
@@ -159,7 +160,7 @@ def test_create_insufficient_gas(
 
     code_chunks = chunkify_code(bytes(contract_code))
 
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     if witness_basic_data and witness_codehash:
         witness_check_extra.add_account_full(contract_address, None)
         for i in range(witness_chunk_count):
@@ -199,7 +200,9 @@ def test_create_static_cost(
     _create(
         blockchain_test,
         create_instruction,
-        WitnessCheck(),  # Static cost fail means the created contract shouldn't be in the witness
+        WitnessCheck(
+            fork=Verkle
+        ),  # Static cost fail means the created contract shouldn't be in the witness
         Op.PUSH0 * (129 * 31 + 42),
         value=0,
         gas_limit=gas_limit,
@@ -226,7 +229,9 @@ def test_create_collision(
     _create(
         blockchain_test,
         create_instruction,
-        WitnessCheck(),  # Collision means the created contract shouldn't be in the witness
+        WitnessCheck(
+            fork=Verkle
+        ),  # Collision means the created contract shouldn't be in the witness
         Op.PUSH0 * (129 * 31 + 42),
         value=0,
         generate_collision=True,
@@ -261,7 +266,7 @@ def test_big_calldata(
             TestAddress2, 0xDEADBEEF, Initcode(initcode_prefix=Op.STOP, deploy_code=contract_code)
         )
 
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     witness_check_extra.add_account_full(contract_address, None)
     # No code chunks since we do an immediate STOP in the Initcode.
 

@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
@@ -66,7 +67,7 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
         data=data,
     )
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, contract_address, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,

@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -43,7 +44,7 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
     "value",
     [0, 1],
 )
-def test_transfer(blockchain_test: BlockchainTestFiller, target, value):
+def test_transfer_foo(blockchain_test: BlockchainTestFiller, target, value):
     """
     Test that value transfer generates a correct witness.
     """
@@ -76,7 +77,7 @@ def test_transfer(blockchain_test: BlockchainTestFiller, target, value):
         target: post_account,
     }
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     witness_check.add_account_full(env.fee_recipient, None)
     witness_check.add_account_full(TestAddress, pre[TestAddress])
     if target != precompile_address and target != system_contract_address:

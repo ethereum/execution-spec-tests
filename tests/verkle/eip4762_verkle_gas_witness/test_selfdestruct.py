@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -144,7 +145,7 @@ def _selfdestruct(
         gas_price=10,
     )
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,

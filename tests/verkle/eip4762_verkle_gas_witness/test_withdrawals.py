@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
@@ -45,7 +46,7 @@ def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
         TestAddress2: Account(balance=4000000000),
     }
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, TestAddress2]:
         witness_check.add_account_full(
             address=address,

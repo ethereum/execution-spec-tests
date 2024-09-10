@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -174,7 +175,7 @@ def _generic_call(
         value=tx_value,
     )
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, caller_address, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,
@@ -260,7 +261,7 @@ def test_call_non_existent_account(
         gas_price=10,
     )
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, caller_address, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,

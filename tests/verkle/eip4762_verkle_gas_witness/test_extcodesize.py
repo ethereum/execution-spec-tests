@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -52,7 +53,7 @@ def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode):
     """
     Test EXTCODESIZE witness.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     if target == EmptyAddress:
         witness_check_extra.add_account_basic_data(target, None)
     elif target != precompile_address and target != system_contract_address:
@@ -72,7 +73,7 @@ def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller):
         blockchain_test,
         TestAddress2,
         Op.PUSH0 * 1000,
-        WitnessCheck(),
+        WitnessCheck(fork=Verkle),
         gas_limit=53_540,
         fails=True,
     )
@@ -86,7 +87,7 @@ def test_extcodesize_warm(blockchain_test: BlockchainTestFiller):
     """
     bytecode = Op.ADD(1, 2) * 10
     account = Account(code=bytecode)
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     witness_check_extra.add_account_basic_data(TestAddress2, account)
     _extcodesize(blockchain_test, TestAddress2, bytecode, witness_check_extra, warm=True)
 

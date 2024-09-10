@@ -14,7 +14,6 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
-    Hash,
     TestAddress,
     TestAddress2,
     Transaction,

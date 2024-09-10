@@ -8,6 +8,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 import pytest
 from ethereum.crypto.hash import keccak256
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -60,7 +61,7 @@ def test_extcodehash(blockchain_test: BlockchainTestFiller, fork: str, target):
     """
     Test EXTCODEHASH witness.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     if target == ExampleAddress:
         witness_check_extra.add_account_codehash(
             ExampleAddress, HashVerkle(keccak256(ExampleAccount.code))
@@ -81,7 +82,7 @@ def test_extcodehash_warm(blockchain_test: BlockchainTestFiller):
     """
     Test EXTCODEHASH with WARM cost.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     witness_check_extra.add_account_codehash(
         ExampleAddress, HashVerkle(keccak256(ExampleAccount.code))
     )
@@ -112,7 +113,7 @@ def test_extcodehash_insufficient_gas(
     """
     Test EXTCODEHASH with insufficient gas.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     if witness_assert_basic_data:
         witness_check_extra.add_account_basic_data(ExampleAddress, ExampleAccount)
     if witness_assert_codehash:

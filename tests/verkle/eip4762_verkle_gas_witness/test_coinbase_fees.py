@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -57,7 +58,7 @@ def test_coinbase_fees(blockchain_test: BlockchainTestFiller, priority_fee):
     # TODO(verkle): change value when filling
     post = {} if priority_fee == 0 else {coinbase_addr: Account(balance=0x42)}
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     witness_check.add_account_full(address=TestAddress, account=pre[TestAddress])
     # TODO:
     # witness_check.add_account_full(address=coinbase_addr, account=None)
