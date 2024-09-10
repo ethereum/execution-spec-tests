@@ -464,9 +464,15 @@ class BlockchainTest(BaseTest):
                     raise Exception(
                         "no state diff in transition tool output, cannot verify witness"
                     )
+                # TODO: hack for now, temp addition to check hist. storage contract
+                block.witness_check.add_storage_slot(
+                    address=Address(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE),
+                    storage_slot=env.number - 1,
+                    # value=env.parent_hash,
+                    value=None,
+                )
                 self.verify_witness(
                     t8n=t8n,
-                    fork=fork,
                     state_diff=transition_tool_output.result.state_diff,
                     witness_check=block.witness_check,
                 )
@@ -620,7 +626,6 @@ class BlockchainTest(BaseTest):
     def verify_witness(
         self,
         t8n: TransitionTool,
-        fork: Fork,
         state_diff: StateDiff,
         witness_check: WitnessCheck,
     ) -> None:
@@ -633,17 +638,11 @@ class BlockchainTest(BaseTest):
         )
         print("\nExpected witness check state diff:")
         print(witness_check_state_diff.model_dump_json(indent=4))
-        system_contract_accounts = fork.pre_allocation_blockchain().items()
-        addresses_to_skip = [Address(address) for address, _ in system_contract_accounts]
 
         for stem_state_diff in state_diff.root:
             actual_stem = stem_state_diff.stem
             address = witness_check_address_mapping.get(actual_stem, None)
             print(f"\nChecking witness for stem: {actual_stem} at address: {address}")
-            # TODO: skip system contract addresses for now
-            if address in addresses_to_skip:
-                print(f"Skipping system contract address in witness check: {address}")
-                continue
             # check for stem in the expected witness check
             expected_stem_state_diff = next(
                 (sd for sd in witness_check_state_diff.root if sd.stem == actual_stem), None
