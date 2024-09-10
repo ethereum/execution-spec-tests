@@ -13,13 +13,13 @@ from dataclasses import dataclass, field
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Dict, List, Mapping, Optional, Type
+from typing import Dict, List, Mapping, Optional, Tuple, Type
 
 from ethereum_test_base_types import Address, Alloc, ZeroPaddedHexNumber
 from ethereum_test_fixtures import FixtureFormats, FixtureVerifier
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Transaction
-from ethereum_test_types.verkle import VerkleTree, WitnessCheck
+from ethereum_test_types.verkle import StateDiff, Stem, VerkleTree, WitnessCheck
 
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput
@@ -614,11 +614,15 @@ class TransitionTool(FixtureVerifier):
             " evm tool."
         )
 
-    def format_witness_check(self, witness_check: WitnessCheck) -> Dict:
+    def get_witness_check_mapping(
+        self, witness_check: WitnessCheck
+    ) -> Tuple[StateDiff, Dict[Stem, Address]]:
         """
-        Returns the formatted witness check as a key value dictionary
+        Returns a tuple containing:
+        A) StateDiff - A pseudo StateDiff type with stems, suffixes, and current values.
+        B) Dict[Stem, Address] - A mapping of stems to their associated addresses.
         """
         raise NotImplementedError(
-            "The `format_witness_check()` function is not supported by this tool. Use geth's evm"
-            " tool."
+            "The `get_witness_check_mapping()` function is not supported by this tool. Use geth's"
+            " evm tool."
         )

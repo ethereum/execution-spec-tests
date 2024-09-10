@@ -48,7 +48,7 @@ from ethereum_test_types import (
     Withdrawal,
     WithdrawalRequest,
 )
-from ethereum_test_types.verkle import StateDiff, Stem, VerkleTree, Witness, WitnessCheck
+from ethereum_test_types.verkle import StateDiff, VerkleTree, Witness, WitnessCheck
 from evm_transition_tool import TransitionTool
 
 from .base import BaseTest, verify_result, verify_transactions
@@ -626,54 +626,74 @@ class BlockchainTest(BaseTest):
         Compares the expected witness check allocation account against the values updated
         in the block execution witness state diff.
         """
-        # Format the WitnessCheck object to key-values for comparison against the t8n state diff
-        witness_check_key_values = t8n.format_witness_check(witness_check)
-
-        for key, value in witness_check_key_values.items():
-            # Check that the stem exists in the state diff
-            stem = Stem(key[:31])
-            stem_state_diff = next(
-                (stem_diff for stem_diff in state_diff.root if stem_diff.stem == stem),
-                None,
+        witness_check_state_diff, witness_check_address_mapping = t8n.get_witness_check_mapping(
+            witness_check
+        )
+        for stem_state_diff in state_diff.root:
+            actual_stem = stem_state_diff.stem
+            address = witness_check_address_mapping.get(actual_stem, None)
+            print("Stem we are checking from actual witness:")
+            print(str(actual_stem))
+            print("Address we are checking from actual witness:")
+            print(str(address))
+            # check for stem in the expected witness check
+            expected_stem_state_diff = next(
+                (sd for sd in witness_check_state_diff.root if sd.stem == actual_stem), None
             )
-            if stem_state_diff is None:
+            if not expected_stem_state_diff:
                 raise ValueError(
-                    "Witness check failed - stem not found in witness state diff.\n\n"
-                    + pformat({"stem": str(stem)}, indent=4),
-                )
-
-            # Check that the suffix exists in the stem state diff
-            suffix = int.from_bytes(key[31:], byteorder="big")
-            suffix_state_diff = next(
-                (
-                    suffix_diff
-                    for suffix_diff in stem_state_diff.suffix_diffs
-                    if suffix_diff.suffix == suffix
-                ),
-                None,
-            )
-            if suffix_state_diff is None:
-                raise ValueError(
-                    "Witness check failed - suffix not found for stem in state diff.\n\n"
-                    + pformat({"stem": str(stem), "suffix": suffix}, indent=4)
-                )
-
-            # Compare the expected witness check value with the current value in the state diff
-            if str(suffix_state_diff.current_value) != str(value):
-                raise ValueError(
-                    "Witness check failed - value mismatch.\n\n"
+                    "Witness check failed - missing stem not found in expected witness check.\n\n"
                     + pformat(
                         {
-                            "stem": str(stem),
-                            "suffix": suffix,
-                            "expected_value": str(value),
-                            "actual_value": str(suffix_state_diff.current_value),
+                            "test_account_address": str(address),
+                            "stem": str(actual_stem),
                         },
                         indent=4,
                     )
                 )
-            # Print passing checks
-            print(f"Witness check passed - {key} = {value}")
+            for suffix_diff in stem_state_diff.suffix_diffs:
+                actual_suffix = suffix_diff.suffix
+                actual_current_value = suffix_diff.current_value
+                # check for suffix in the expected witness check
+                expected_suffix_state_diff = next(
+                    (
+                        sd
+                        for sd in expected_stem_state_diff.suffix_diffs
+                        if sd.suffix == actual_suffix
+                    ),
+                    None,
+                )
+                if not expected_suffix_state_diff:
+                    raise ValueError(
+                        "Witness check failed - actual suffix not found in expected witness"
+                        " check.\n\n"
+                        + pformat(
+                            {
+                                "test_account_address": str(address),
+                                "stem": str(actual_stem),
+                                "suffix": actual_suffix,
+                                "value_actual": str(actual_current_value),
+                                "value_expected": "value not found",
+                            },
+                            indent=4,
+                        )
+                    )
+                # check the current value of the actual suffix state diff matches the expected
+                if actual_current_value != expected_suffix_state_diff.current_value:
+                    raise ValueError(
+                        "Witness check failed - current value mismatch. The stem and suffix"
+                        " exist.\n\n"
+                        + pformat(
+                            {
+                                "test_account_address": str(address),
+                                "stem": str(actual_stem),
+                                "suffix": actual_suffix,
+                                "value_actual": str(actual_current_value),
+                                "value_expected": str(expected_suffix_state_diff.current_value),
+                            },
+                            indent=4,
+                        )
+                    )
 
     def make_fixture(
         self,

@@ -7,6 +7,7 @@ from .types import (
     IpaProof,
     StateDiff,
     Stem,
+    StemStateDiff,
     SuffixStateDiff,
     VerkleProof,
     VerkleTree,
@@ -17,6 +18,7 @@ from .types import (
 __all__ = (
     "IpaProof",
     "StateDiff",
+    "StemStateDiff",
     "SuffixStateDiff",
     "Stem",
     "VerkleProof",

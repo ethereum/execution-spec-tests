@@ -79,7 +79,7 @@ class SuffixStateDiff(CamelModel):
 
     suffix: int
     current_value: Hash | None
-    new_value: Hash | None
+    new_value: Hash | None = Field(None)
 
     @model_serializer(mode="wrap")
     def custom_serializer(self, handler) -> Dict[str, Any]:
@@ -197,10 +197,13 @@ class WitnessCheck:
         """
         Adds the address, nonce, balance, and code. Delays actual key computation until later.
         """
-        self.add_account_basic_data(address, account)
         if account and account.code:
             code_hash = Hash(keccak256(account.code))
-            self.add_account_codehash(address, code_hash)
+        else:
+            # keccak256 of empty byte array
+            code_hash = Hash(0xC5D2460186F7233C927E7DB2DCC703C0E500B653CA82273B7BFAD8045D85A470)
+        self.add_account_basic_data(address, account)
+        self.add_account_codehash(address, code_hash)
 
     def add_account_basic_data(self, address: Address, account: Account | None) -> None:
         """

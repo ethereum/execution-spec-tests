@@ -11,12 +11,18 @@ import tempfile
 import textwrap
 from pathlib import Path
 from re import compile
-from typing import Dict, Optional
+from typing import Dict, List, Optional, Tuple
 
 from ethereum_test_base_types import Address, Alloc, ZeroPaddedHexNumber, to_json
 from ethereum_test_forks import Fork
-from ethereum_test_types.verkle import VerkleTree, WitnessCheck
-from ethereum_test_types.verkle.types import Hash as VerkleHash
+from ethereum_test_types.verkle import (
+    StateDiff,
+    Stem,
+    StemStateDiff,
+    SuffixStateDiff,
+    VerkleTree,
+    WitnessCheck,
+)
 
 from .transition_tool import FixtureFormats, TransitionTool, dump_files_to_directory
 
@@ -210,37 +216,66 @@ class GethTransitionTool(TransitionTool):
         output = self._run_verkle_command("code-chunk-key", str(address), str(code_chunk))
         return output
 
-    def format_witness_check(
+    def get_witness_check_mapping(
         self, witness_check: WitnessCheck
-    ) -> Dict[VerkleHash, VerkleHash | None]:
+    ) -> Tuple[StateDiff, Dict[Stem, Address]]:
         """
-        Returns the formatted witness check as a key value dictionary
+        Returns a tuple containing:
+        A) StateDiff - A pseudo StateDiff type with stems, suffixes, and current values.
+        B) Dict[Stem, Address] - A mapping of stems to their associated addresses.
         """
-        witness_check_key_values: Dict[VerkleHash, VerkleHash | None] = {}
+        stem_account_mapping: Dict[Stem, Address] = {}
+        state_diff: List[StemStateDiff] = []
 
         # Format account entries using `evm verkle single-key`
         if witness_check.account_entries:
             for address, entry, value in witness_check.account_entries:
-                tree_key_str = self.get_verkle_single_key(address)
-                tree_key = bytearray.fromhex(tree_key_str[2:])
-                entry_bytes = entry.value.to_bytes(1, byteorder="big")
-                tree_key[-1:] = entry_bytes
-                witness_check_key_values[VerkleHash(bytes(tree_key))] = value
+                account_tree_key_str = self.get_verkle_single_key(address)
+                tree_key = bytearray.fromhex(account_tree_key_str[2:])
+                stem = Stem(bytes(tree_key[:-1]))
+                stem_account_mapping[stem] = address
+                suffix_state_diff = SuffixStateDiff(
+                    suffix=entry,
+                    current_value=value,
+                )
+                stem_state_diff = next((sd for sd in state_diff if sd.stem == stem), None)
+                if stem_state_diff is None:
+                    stem_state_diff = StemStateDiff(stem=stem, suffix_diffs=[])
+                    state_diff.append(stem_state_diff)
+                stem_state_diff.suffix_diffs.append(suffix_state_diff)
 
         # Format storage entries using `evm verkle single-key`
         if witness_check.storage_slots:
             for address, storage_slot, value in witness_check.storage_slots:
-                storage_tree_key = self.get_verkle_single_key(
+                storage_tree_key_str = self.get_verkle_single_key(
                     address, ZeroPaddedHexNumber(storage_slot)
                 )
-                witness_check_key_values[VerkleHash(storage_tree_key)] = value
+                tree_key = bytearray.fromhex(storage_tree_key_str[2:])
+                stem = Stem(bytes(tree_key[:-1]))
+                suffix = int(tree_key[-1])
+                stem_account_mapping[stem] = address
+                suffix_state_diff = SuffixStateDiff(suffix=suffix, current_value=value)
+                stem_state_diff = next((sd for sd in state_diff if sd.stem == stem), None)
+                if stem_state_diff is None:
+                    stem_state_diff = StemStateDiff(stem=stem, suffix_diffs=[])
+                    state_diff.append(stem_state_diff)
+                stem_state_diff.suffix_diffs.append(suffix_state_diff)
 
         # Format code chunks using `evm verkle code-chunk-key`
         if witness_check.code_chunks:
             for address, code_chunk, value in witness_check.code_chunks:
-                code_chunk_tree_key = self.get_verkle_code_chunk_key(
+                code_chunk_tree_key_str = self.get_verkle_single_key(
                     address, ZeroPaddedHexNumber(code_chunk)
                 )
-                witness_check_key_values[VerkleHash(code_chunk_tree_key)] = value
+                tree_key = bytearray.fromhex(code_chunk_tree_key_str[2:])
+                stem = Stem(bytes(tree_key[:-1]))
+                suffix = int(tree_key[-1])
+                stem_account_mapping[stem] = address
+                suffix_state_diff = SuffixStateDiff(suffix=suffix, current_value=value)
+                stem_state_diff = next((sd for sd in state_diff if sd.stem == stem), None)
+                if stem_state_diff is None:
+                    stem_state_diff = StemStateDiff(stem=stem, suffix_diffs=[])
+                    state_diff.append(stem_state_diff)
+                stem_state_diff.suffix_diffs.append(suffix_state_diff)
 
-        return witness_check_key_values
+        return StateDiff(root=state_diff), stem_account_mapping
