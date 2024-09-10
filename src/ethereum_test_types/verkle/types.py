@@ -10,6 +10,7 @@ from pydantic import Field, RootModel, field_validator
 from pydantic.functional_serializers import model_serializer
 
 from ethereum_test_base_types import Address, CamelModel, HexNumber, PaddedFixedSizeBytes
+from ethereum_test_forks import Fork, Verkle
 from ethereum_test_types import Account
 
 IPA_PROOF_DEPTH = 8
@@ -171,15 +172,21 @@ class WitnessCheck:
         BASIC_DATA = 0
         CODEHASH = 1
 
-    def __init__(self) -> None:
+    def __init__(self, fork: Fork) -> None:
         """
         Initializes a WitnessCheck instance.
         """
+        assert fork >= Verkle, "WitnessCheck is only supported for Verkle fork and later"
         self.account_entries: List[
             Tuple[Address, WitnessCheck.AccountHeaderEntry, Optional[Hash]]
         ] = []
         self.storage_slots: List[Tuple[Address, int, Optional[Hash]]] = []
         self.code_chunks: List[Tuple[Address, int, Optional[Hash]]] = []
+
+        # Add the pre-allocation accounts by default
+        pre_allocations = fork.pre_allocation_blockchain()
+        for address, account_data in pre_allocations.items():
+            self.add_account_full(Address(address), Account(**account_data))
 
     def __repr__(self) -> str:
         """
@@ -197,13 +204,17 @@ class WitnessCheck:
         """
         Adds the address, nonce, balance, and code. Delays actual key computation until later.
         """
-        if account and account.code:
-            code_hash = Hash(keccak256(account.code))
-        else:
-            # keccak256 of empty byte array
-            code_hash = Hash(0xC5D2460186F7233C927E7DB2DCC703C0E500B653CA82273B7BFAD8045D85A470)
         self.add_account_basic_data(address, account)
-        self.add_account_codehash(address, code_hash)
+        if account:
+            if account.code:
+                code_hash = Hash(keccak256(account.code))
+            else:  # keccak256 of empty byte array
+                code_hash = Hash(
+                    0xC5D2460186F7233C927E7DB2DCC703C0E500B653CA82273B7BFAD8045D85A470
+                )
+            self.add_account_codehash(address, code_hash)
+        else:
+            self.add_account_codehash(address, None)
 
     def add_account_basic_data(self, address: Address, account: Account | None) -> None:
         """

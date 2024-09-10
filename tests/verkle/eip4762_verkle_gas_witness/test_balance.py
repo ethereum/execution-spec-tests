@@ -7,18 +7,21 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
     Block,
     BlockchainTestFiller,
     Environment,
+    Hash,
     TestAddress,
     TestAddress2,
     Transaction,
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -88,12 +91,15 @@ def _balance(
         gas_price=10,
     )
 
-    witness_check = WitnessCheck()
-    for address in [env.fee_recipient, TestAddress, TestAddress2]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
+    witness_check = WitnessCheck(fork=Verkle)
+    witness_check.add_account_full(address=TestAddress, account=pre[TestAddress])
+    witness_check.add_account_full(address=TestAddress2, account=pre[TestAddress2])
+    witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    witness_check.add_account_full(address=env.fee_recipient, account=None)
     for address in exp_addr_basic_data:
         witness_check.add_account_basic_data(
             address=address,
