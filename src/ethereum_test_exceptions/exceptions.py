@@ -362,6 +362,10 @@ class TransactionException(ExceptionBase):
     """
     Transaction is type 4, but has an empty authorization list.
     """
+    TYPE_4_TX_CONTRACT_CREATION = auto()
+    """
+    Transaction is a type 4 transaction and has an empty `to`.
+    """
 
 
 @unique

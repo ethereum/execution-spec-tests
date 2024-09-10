@@ -2187,6 +2187,45 @@ def test_set_code_using_invalid_signatures(
     )
 
 
+def test_contract_creating_set_code_transaction(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test sending a transaction to set the code of an account using a contract creating transaction.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+    sender = pre.fund_eoa()
+
+    initcode = Op.RETURN(0, 0)
+
+    tx = Transaction(
+        gas_limit=10_000_000,
+        to=None,
+        data=initcode,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=0,
+                nonce=0,
+                chain_id=0,
+                signer=auth_signer,
+            )
+        ],
+        error=TransactionException.TYPE_4_TX_CONTRACT_CREATION,
+        sender=sender,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            tx.created_contract: Account.NONEXISTENT,
+        },
+    )
+
+
 @pytest.mark.parametrize(
     "log_opcode",
     [
