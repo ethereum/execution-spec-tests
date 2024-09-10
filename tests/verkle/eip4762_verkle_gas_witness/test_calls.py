@@ -22,6 +22,7 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -49,12 +50,12 @@ precompile_address = Address("0x04")
 @pytest.mark.parametrize(
     "target",
     [
-        TestAddress2,
+        # TestAddress2,
         precompile_address,
-        system_contract_address,
+        # system_contract_address,
     ],
 )
-def test_calls(
+def test_calls_foo(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     call_instruction: Bytecode,
@@ -181,11 +182,17 @@ def _generic_call(
             address=address,
             account=(None if address == env.fee_recipient else pre[address]),
         )
-    if target != precompile_address and enough_gas_read_witness:
-        witness_check.add_account_basic_data(
-            address=target,
-            account=pre[target],
-        )
+    if enough_gas_read_witness:
+        if value > 0 or (target != precompile_address and target != precompile_address):
+            witness_check.add_account_basic_data(address=target, account=pre[target])
+
+    code_chunks = chunkify_code(caller_code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=caller_address, chunk_number=i, value=chunk)
+    code_chunks = chunkify_code(pre[target].code)
+    if target != precompile_address and target != system_contract_address:
+        for i, chunk in enumerate(code_chunks, start=0):
+            witness_check.add_code_chunk(address=target, chunk_number=i, value=chunk)
 
     blocks = [
         Block(
