@@ -55,7 +55,7 @@ precompile_address = Address("0x04")
         # system_contract_address,
     ],
 )
-def test_calls_foo(
+def test_calls(
     blockchain_test: BlockchainTestFiller,
     fork: str,
     call_instruction: Bytecode,
@@ -186,7 +186,7 @@ def _generic_call(
         if value > 0 or (target != precompile_address and target != precompile_address):
             witness_check.add_account_basic_data(address=target, account=pre[target])
 
-    code_chunks = chunkify_code(caller_code)
+    code_chunks = chunkify_code(pre[caller_address].code)
     for i, chunk in enumerate(code_chunks, start=0):
         witness_check.add_code_chunk(address=caller_address, chunk_number=i, value=chunk)
     code_chunks = chunkify_code(pre[target].code)
