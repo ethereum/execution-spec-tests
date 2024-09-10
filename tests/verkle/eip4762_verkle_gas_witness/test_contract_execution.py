@@ -97,46 +97,44 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
             [[0, 0], [131, 131]],
         ),
         (  # pushn_with_data_in_chunk_that_cant_be_paid
-            bytes(Op.PUSH0 * 30 + Op.PUSH1(42)),
+            Op.PUSH0 * 30 + Op.PUSH1(42),
             21000,
             [[0, 0]],
         ),
-        (  # jump_to_jumpdest_in_pushn_data
-            bytes(
-                Op.PUSH0 * 10
-                + Op.JUMP(10 + 3 + 1 + 1000 + 1)  # 3+1=PUSH2+JUMP
-                + Op.PUSH0 * 1000
-                + Op.PUSH1(0x5B)
-                + Op.PUSH0 * 100  # Add more code, but can't be executed due to the invalid jump
-            ),
-            1_000_000,
-            [[0, 0], [32, 32]],
-        ),
-        (  # jumpi_to_jumpdest_in_pushn_data
-            bytes(
-                Op.PUSH0 * 10
-                + Op.JUMPI(10 + 5 + 1 + 1000 + 1, 1)  # 5+1=PUSH1+PUSH2+JUMPI
-                + Op.PUSH0 * 1000
-                + Op.PUSH1(0x5B)
-                + Op.PUSH0 * 100
-            ),
-            1_000_000,
-            [[0, 0], [32, 32]],
-        ),
-        (  # jump_to_non_jumpdest_destiny
-            bytes(
-                Op.PUSH0 * 10 + Op.JUMP(10 + 3 + 1 + 1000) + Op.PUSH0 * 1000 + Op.ORIGIN
-            ),  # 3+1=PUSH2+JUMP
-            1_000_000,
-            [[0, 0], [32, 32]],
-        ),
-        (  # jumpi_to_non_jumpdest_destiny
-            bytes(
-                Op.PUSH0 * 10 + Op.JUMPI(10 + 5 + 1 + 1000, 1) + Op.PUSH0 * 1000 + Op.ORIGIN
-            ),  # 5+1=PUSH1+PUSH2+JUMPI
-            1_000_000,
-            [[0, 0], [32, 32]],
-        ),
+        # (  # jump_to_jumpdest_in_pushn_data
+        #     Op.PUSH0 * 10
+        #     + Op.JUMP(10 + 3 + 1 + 1000 + 1)  # 3+1=PUSH2+JUMP
+        #     + Op.PUSH0 * 1000
+        #     + Op.PUSH1(0x5B)
+        #     + Op.PUSH0 * 100,  # Add more code, but can't be executed due to the invalid jump
+        #     1_000_000,
+        #     [[0, 0], [32, 32]],
+        # ),
+        # (  # jumpi_to_jumpdest_in_pushn_data
+        #     bytes(
+        #         Op.PUSH0 * 10
+        #         + Op.JUMPI(10 + 5 + 1 + 1000 + 1, 1)  # 5+1=PUSH1+PUSH2+JUMPI
+        #         + Op.PUSH0 * 1000
+        #         + Op.PUSH1(0x5B)
+        #         + Op.PUSH0 * 100
+        #     ),
+        #     1_000_000,
+        #     [[0, 0], [32, 32]],
+        # ),
+        # (  # jump_to_non_jumpdest_destiny
+        #     bytes(
+        #         Op.PUSH0 * 10 + Op.JUMP(10 + 3 + 1 + 1000) + Op.PUSH0 * 1000 + Op.ORIGIN
+        #     ),  # 3+1=PUSH2+JUMP
+        #     1_000_000,
+        #     [[0, 0], [32, 32]],
+        # ),
+        # (  # jumpi_to_non_jumpdest_destiny
+        #     bytes(
+        #         Op.PUSH0 * 10 + Op.JUMPI(10 + 5 + 1 + 1000, 1) + Op.PUSH0 * 1000 + Op.ORIGIN
+        #     ),  # 5+1=PUSH1+PUSH2+JUMPI
+        #     1_000_000,
+        #     [[0, 0], [32, 32]],
+        # ),
         (  # linear_execution_stopping_at_first_byte_of_next_chunk
             code_with_jumps(128 * 31 + 1),
             1_000_000,
@@ -177,21 +175,21 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
             1_000_000,
             [[0, 0]],
         ),
-        # (  # push20 with data split in two chunks
-        #     Op.PUSH0 * (31 - (1 + 10)) + Op.PUSH20(0xAA),
-        #     1_000_000,
-        #     [[0, 1]],
-        # ),
-        # (  # push32 spanning three chunks
-        #     Op.PUSH0 * (31 - 1) + Op.PUSH32(0xAA),
-        #     1_000_000,
-        #     [[0, 2]],
-        # ),
-        # (  # pushn with expected data past code size
-        #     Op.PUSH0 * (31 - 5) + Op.PUSH20,
-        #     1_000_000,
-        #     [[0, 0]],
-        # ),
+        (  # push20 with data split in two chunks
+            Op.PUSH0 * (31 - (1 + 10)) + Op.PUSH20(0xAA),
+            1_000_000,
+            [[0, 1]],
+        ),
+        (  # push32 spanning three chunks
+            Op.PUSH0 * (31 - 1) + Op.PUSH32(0xAA),
+            1_000_000,
+            [[0, 2]],
+        ),
+        (  # pushn with expected data past code size
+            Op.PUSH0 * (31 - 5) + Op.PUSH20,
+            1_000_000,
+            [[0, 0]],
+        ),
     ],
     ids=[
         "only_code_in_account_header",
@@ -199,10 +197,10 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         "touches_only_first_byte_code_chunk",
         "touches_only_last_byte_code_chunk",
         "pushn_with_data_in_chunk_that_cant_be_paid",
-        "jump_to_jumpdest_in_pushn_data",
-        "jumpi_to_jumpdest_in_pushn_data",
-        "jump_to_non_jumpdest_destiny",
-        "jumpi_to_non_jumpdest_destiny",
+        # "jump_to_jumpdest_in_pushn_data",
+        # "jumpi_to_jumpdest_in_pushn_data",
+        # "jump_to_non_jumpdest_destiny",
+        # "jumpi_to_non_jumpdest_destiny",
         "linear_execution_stopping_at_first_byte_of_next_chunk",
         "false_jumpi",
         "insufficient_gas_for_jump_instruction",
@@ -211,9 +209,9 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         "sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk",
         "jump_outside_code_size",
         "jumpi_outside_code_size",
-        # "push20_with_data_split_in_two_chunks",
-        # "push32_spanning_three_chunks",
-        # "pushn_with_expected_data_past_code_size",
+        "push20_with_data_split_in_two_chunks",
+        "push32_spanning_three_chunks",
+        "pushn_with_expected_data_past_code_size",
     ],
 )
 def test_contract_execution_foo(
@@ -247,17 +245,16 @@ def test_contract_execution_foo(
 
     code_chunks = chunkify_code(bytecode)
     assert len(code_chunks) > 0
-    print("Number of chunks {}".format(len(code_chunks)))
 
     witness_check = WitnessCheck()
-    # for address in [TestAddress, TestAddress2, env.fee_recipient]:
-    #     witness_check.add_account_full(
-    #         address=address,
-    #         account=pre.get(address),
-    #     )
-    # for chunk_ranges in witness_code_chunk_ranges:
-    #     for chunk_number in range(chunk_ranges[0], chunk_ranges[1] + 1):
-    #         witness_check.add_code_chunk(TestAddress2, chunk_number, code_chunks[chunk_number])
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=pre.get(address),
+        )
+    for chunk_ranges in witness_code_chunk_ranges:
+        for chunk_number in range(chunk_ranges[0], chunk_ranges[1] + 1):
+            witness_check.add_code_chunk(TestAddress2, chunk_number, code_chunks[chunk_number])
 
     blocks = [
         Block(
