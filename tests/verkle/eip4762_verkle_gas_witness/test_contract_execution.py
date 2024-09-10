@@ -101,40 +101,40 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
             21000,
             [[0, 0]],
         ),
-        # (  # jump_to_jumpdest_in_pushn_data
-        #     Op.PUSH0 * 10
-        #     + Op.JUMP(10 + 3 + 1 + 1000 + 1)  # 3+1=PUSH2+JUMP
-        #     + Op.PUSH0 * 1000
-        #     + Op.PUSH1(0x5B)
-        #     + Op.PUSH0 * 100,  # Add more code, but can't be executed due to the invalid jump
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
-        # (  # jumpi_to_jumpdest_in_pushn_data
-        #     bytes(
-        #         Op.PUSH0 * 10
-        #         + Op.JUMPI(10 + 5 + 1 + 1000 + 1, 1)  # 5+1=PUSH1+PUSH2+JUMPI
-        #         + Op.PUSH0 * 1000
-        #         + Op.PUSH1(0x5B)
-        #         + Op.PUSH0 * 100
-        #     ),
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
-        # (  # jump_to_non_jumpdest_destiny
-        #     bytes(
-        #         Op.PUSH0 * 10 + Op.JUMP(10 + 3 + 1 + 1000) + Op.PUSH0 * 1000 + Op.ORIGIN
-        #     ),  # 3+1=PUSH2+JUMP
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
-        # (  # jumpi_to_non_jumpdest_destiny
-        #     bytes(
-        #         Op.PUSH0 * 10 + Op.JUMPI(10 + 5 + 1 + 1000, 1) + Op.PUSH0 * 1000 + Op.ORIGIN
-        #     ),  # 5+1=PUSH1+PUSH2+JUMPI
-        #     1_000_000,
-        #     [[0, 0], [32, 32]],
-        # ),
+        (  # jump_to_jumpdest_in_pushn_data
+            Op.PUSH0 * 10
+            + Op.JUMP(10 + 3 + 1 + 1000 + 1)  # 3+1=PUSH2+JUMP
+            + Op.PUSH0 * 1000
+            + Op.PUSH1(0x5B)
+            + Op.PUSH0 * 100,  # Add more code, but can't be executed due to the invalid jump
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
+        (  # jumpi_to_jumpdest_in_pushn_data
+            bytes(
+                Op.PUSH0 * 10
+                + Op.JUMPI(10 + 5 + 1 + 1000 + 1, 1)  # 5+1=PUSH1+PUSH2+JUMPI
+                + Op.PUSH0 * 1000
+                + Op.PUSH1(0x5B)
+                + Op.PUSH0 * 100
+            ),
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
+        (  # jump_to_non_jumpdest_destiny
+            bytes(
+                Op.PUSH0 * 10 + Op.JUMP(10 + 3 + 1 + 1000) + Op.PUSH0 * 1000 + Op.ORIGIN
+            ),  # 3+1=PUSH2+JUMP
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
+        (  # jumpi_to_non_jumpdest_destiny
+            bytes(
+                Op.PUSH0 * 10 + Op.JUMPI(10 + 5 + 1 + 1000, 1) + Op.PUSH0 * 1000 + Op.ORIGIN
+            ),  # 5+1=PUSH1+PUSH2+JUMPI
+            1_000_000,
+            [[0, 0], [32, 32]],
+        ),
         (  # linear_execution_stopping_at_first_byte_of_next_chunk
             code_with_jumps(128 * 31 + 1),
             1_000_000,
@@ -197,10 +197,10 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         "touches_only_first_byte_code_chunk",
         "touches_only_last_byte_code_chunk",
         "pushn_with_data_in_chunk_that_cant_be_paid",
-        # "jump_to_jumpdest_in_pushn_data",
-        # "jumpi_to_jumpdest_in_pushn_data",
-        # "jump_to_non_jumpdest_destiny",
-        # "jumpi_to_non_jumpdest_destiny",
+        "jump_to_jumpdest_in_pushn_data",
+        "jumpi_to_jumpdest_in_pushn_data",
+        "jump_to_non_jumpdest_destiny",
+        "jumpi_to_non_jumpdest_destiny",
         "linear_execution_stopping_at_first_byte_of_next_chunk",
         "false_jumpi",
         "insufficient_gas_for_jump_instruction",
@@ -214,7 +214,7 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         "pushn_with_expected_data_past_code_size",
     ],
 )
-def test_contract_execution_foo(
+def test_contract_execution(
     blockchain_test: BlockchainTestFiller,
     bytecode: bytes,
     gas_limit: int,
