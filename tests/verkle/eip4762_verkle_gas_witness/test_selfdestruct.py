@@ -161,15 +161,17 @@ def _selfdestruct(
         )
     ]
 
-    post: Alloc = {}
+    post: Alloc = Alloc({})
     if not fail and contract_balance > 0 and beneficiary != TestAddress2:
         beneficiary_account = pre.get(beneficiary)
         beneficiary_balance = 0 if beneficiary_account is None else beneficiary_account.balance
         pre[TestAddress2]
-        post = {
-            TestAddress2: Account(code=pre[TestAddress2].code, balance=0),
-            beneficiary: Account(balance=beneficiary_balance + contract_balance),
-        }
+        post = Alloc(
+            {
+                TestAddress2: Account(code=pre[TestAddress2].code, balance=0),
+                beneficiary: Account(balance=beneficiary_balance + contract_balance),
+            }
+        )
 
     blockchain_test(
         genesis_environment=env,

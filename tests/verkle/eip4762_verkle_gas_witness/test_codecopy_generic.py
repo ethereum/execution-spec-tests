@@ -15,7 +15,6 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     Bytecode,
     Environment,
-    Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
