@@ -19,7 +19,6 @@ from ethereum_test_tools import (
     TestAddress2,
     Transaction,
     WitnessCheck,
-    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.helpers import chunkify_code
@@ -65,7 +64,7 @@ code_size = 200 * 31 + 60
         "partial_out_of_bounds_touching_further_non_existent_code_chunk",
     ],
 )
-def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, offset, size):
+def test_generic_codecopy_foo(blockchain_test: BlockchainTestFiller, instruction, offset, size):
     """
     Test *CODECOPY witness.
     """
@@ -191,6 +190,7 @@ def _generic_codecopy(
     warm=False,
     gas_limit=1_000_000,
 ):
+    dummy_address = Address("0xffff19589531694250d570040a0c4b74576919b8")
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
@@ -202,15 +202,16 @@ def _generic_codecopy(
     codecopy_code = Op.CODECOPY(0, offset, size) * repeat
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(code=codecopy_code + Op.PUSH0 * max(0, size - len(codecopy_code))),
+        TestAddress2: Account(
+            code=codecopy_code + Op.STOP + Op.PUSH0 * max(0, size - len(codecopy_code) - 1)
+        ),
+        dummy_address: Account(code=Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat),
     }
 
-    to: Address | None = TestAddress2
+    to = TestAddress2
     data = Bytecode()
     if instr == Op.EXTCODECOPY:
-        to = None
-        extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
-        data = extcodecopy_code
+        to = dummy_address
 
     tx = Transaction(
         ty=0x0,
@@ -222,23 +223,21 @@ def _generic_codecopy(
         data=data,
     )
 
-    tx_target_addr = (
-        TestAddress2
-        if instr == Op.CODECOPY
-        else compute_create_address(address=TestAddress, nonce=0)
-    )
-    code_chunks = chunkify_code(pre[TestAddress2].code)
-
-    # TODO: fix tests
     witness_check = WitnessCheck(fork=Verkle)
-    for address in [TestAddress, tx_target_addr, env.fee_recipient]:
-        witness_check.add_account_full(
-            address=address,
-            account=(pre[address] if address == TestAddress else None),
-        )
-    if witness_target_basic_data:
-        witness_check.add_account_basic_data(TestAddress2, pre[TestAddress2])
+    for address in [TestAddress, to, env.fee_recipient]:
+        witness_check.add_account_full(address=address, account=pre.get(address))
 
+    code_chunks = chunkify_code(pre[to].code)
+    # We'll always have code-chunk 0 since it has the actual
+    # CODECOPY/EXTCODECOPY opcode execution.
+    witness_check.add_code_chunk(to, 0, code_chunks[0])
+
+    if instr == Op.EXTCODECOPY:
+        witness_check.add_account_basic_data(address=TestAddress2, account=pre.get(TestAddress2))
+
+    # Depending on the CODECOPY/EXTCODECOPY offset and size, we include the extra expected
+    # code-chunks.
+    code_chunks = chunkify_code(pre[TestAddress2].code)
     for chunk_num in witness_code_chunks:
         witness_check.add_code_chunk(TestAddress2, chunk_num, code_chunks[chunk_num])
 
