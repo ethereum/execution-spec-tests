@@ -263,6 +263,7 @@ nethermind
 nexternal
 nGo
 nJSON
+nonreturning
 nop
 NOP
 NOPs
