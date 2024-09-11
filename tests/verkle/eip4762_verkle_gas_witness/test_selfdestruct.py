@@ -21,6 +21,7 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -50,7 +51,10 @@ system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 )
 @pytest.mark.parametrize(
     "contract_balance",
-    [0, 1],
+    [
+        0,
+        1,
+    ],
 )
 def test_self_destruct(
     blockchain_test: BlockchainTestFiller,
@@ -66,7 +70,6 @@ def test_self_destruct(
         target,
         beneficiary_must_exist,
         contract_balance,
-        contract_balance > 0,
     )
 
 
@@ -102,7 +105,6 @@ def test_self_destruct_insufficient_gas(
         ExampleAddress,
         beneficiary_must_exist,
         100,
-        beneficiary_add_basic_data,
         gas_limit=gas_limit,
         fail=True,
     )
@@ -113,7 +115,6 @@ def _selfdestruct(
     beneficiary: Address,
     beneficiary_must_exist: bool,
     contract_balance: int,
-    beneficiary_add_basic_data: bool,
     gas_limit=1_000_000,
     fail=False,
 ):
@@ -144,12 +145,12 @@ def _selfdestruct(
 
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
-    if beneficiary_add_basic_data:
+        witness_check.add_account_full(address=address, account=pre.get(address))
+    if contract_balance > 0 or (beneficiary != precompile_address):
         witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
     blocks = [
         Block(
