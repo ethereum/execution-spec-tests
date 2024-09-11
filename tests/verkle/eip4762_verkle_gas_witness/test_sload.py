@@ -21,6 +21,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.types import Hash
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -112,6 +113,9 @@ def _sload(
             address=address,
             account=pre.get(address),
         )
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
     blocks = [
         Block(
