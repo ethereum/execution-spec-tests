@@ -56,9 +56,9 @@ def test_coinbase_fees(blockchain_test: BlockchainTestFiller, priority_fee):
 
     witness_check = WitnessCheck(fork=Verkle)
     witness_check.add_account_full(address=TestAddress, account=pre[TestAddress])
-    # TODO:
-    # witness_check.add_account_full(address=coinbase_addr, account=None)
-    # witness_check.add_account_basic_data(address=TestAddress2, account=None)
+    witness_check.add_account_full(address=TestAddress2, account=None)
+    if priority_fee > 0:
+        witness_check.add_account_full(address=coinbase_addr, account=None)
 
     blocks = [
         Block(

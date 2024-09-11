@@ -62,7 +62,7 @@ code_size = 200 * 31 + 60
         "partial_out_of_bounds_touching_further_non_existent_code_chunk",
     ],
 )
-def test_generic_codecopy_foo(blockchain_test: BlockchainTestFiller, instruction, offset, size):
+def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, offset, size):
     """
     Test *CODECOPY witness.
     """
