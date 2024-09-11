@@ -19,9 +19,9 @@ from ethereum_test_tools import (
     TestAddress2,
     Transaction,
     WitnessCheck,
-    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -107,6 +107,9 @@ def _extcodesize(
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
+        TestAddress2: Account(
+            code=Op.EXTCODESIZE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE
+        ),
     }
     if len(bytecode) > 0:
         pre[TestAddress2] = Account(code=bytecode)
@@ -115,20 +118,26 @@ def _extcodesize(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=Address("0x00"),
+        to=TestAddress2,
         gas_limit=gas_limit,
         gas_price=10,
-        data=Op.EXTCODESIZE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE,
     )
 
     post = {}
     if not fails:
-        contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
-        post[contract_address] = Account(storage={0: len(bytecode)})
+        post[TestAddress2] = Account(code=pre[TestAddress2].code, storage={0: 0x424242})
 
     witness_check = witness_check_extra
     witness_check.add_account_full(env.fee_recipient, None)
     witness_check.add_account_full(TestAddress, pre[TestAddress])
+    witness_check.add_account_full(TestAddress2, pre[TestAddress2])
+
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    if not fails:
+        witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
 
     blocks = [
         Block(

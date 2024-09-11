@@ -43,20 +43,20 @@ ExampleAccount = Account(code=Op.PUSH0 * 300)
     "target",
     [
         TestAddress,
-        # ExampleAddress,
-        # EmptyAddress,
-        # system_contract_address,
-        # precompile_address,
+        ExampleAddress,
+        EmptyAddress,
+        system_contract_address,
+        precompile_address,
     ],
     ids=[
         "eoa",
-        # "contract",
-        # "non_existent_account",
-        # "system_contract",
-        # "precompile",
+        "contract",
+        "non_existent_account",
+        "system_contract",
+        "precompile",
     ],
 )
-def test_extcodehash_foo(blockchain_test: BlockchainTestFiller, fork: str, target):
+def test_extcodehash(blockchain_test: BlockchainTestFiller, fork: str, target):
     """
     Test EXTCODEHASH witness.
     """
