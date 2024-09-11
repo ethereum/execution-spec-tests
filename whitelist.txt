@@ -249,6 +249,7 @@ makeconftest
 marioevz
 markdownlint
 md
+mem
 metaclass
 mixhash
 mkdocs
