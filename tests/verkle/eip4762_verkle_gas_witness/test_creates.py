@@ -106,7 +106,7 @@ def test_create_with_value_insufficient_balance(
         create_instruction,
         WitnessCheck(fork=Verkle),
         contract_code,
-        value=100,  # TODO(verkle): add test (or generalize this one) with value>0 and enough balance?
+        value=100,  # TODO(verkle): generalize with value>0 and enough balance?
         creator_balance=0,
     )
 

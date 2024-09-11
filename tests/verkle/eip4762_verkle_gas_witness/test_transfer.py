@@ -19,6 +19,8 @@ from ethereum_test_tools import (
     Transaction,
     WitnessCheck,
 )
+from ethereum_test_forks import Fork
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -42,7 +44,7 @@ system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
     "value",
     [0, 1],
 )
-def test_transfer(blockchain_test: BlockchainTestFiller, target, value):
+def test_transfer(blockchain_test: BlockchainTestFiller, fork: Fork, target, value):
     """
     Test that value transfer generates a correct witness.
     """
@@ -78,8 +80,15 @@ def test_transfer(blockchain_test: BlockchainTestFiller, target, value):
     witness_check = WitnessCheck(fork=Verkle)
     witness_check.add_account_full(env.fee_recipient, None)
     witness_check.add_account_full(TestAddress, pre[TestAddress])
-    if target != precompile_address and target != system_contract_address:
-        witness_check.add_account_full(target, pre.get(target))
+    witness_check.add_account_full(target, pre.get(target))
+
+    if target == system_contract_address:
+        code = Account(**fork.pre_allocation_blockchain()[system_contract_address]).code
+        code_chunks = chunkify_code(code)
+        for i, code_chunk in enumerate(code_chunks, start=0):
+            witness_check.add_code_chunk(
+                address=system_contract_address, chunk_number=i, value=code_chunk
+            )
 
     blocks = [
         Block(
