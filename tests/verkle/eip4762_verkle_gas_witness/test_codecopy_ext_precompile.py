@@ -55,7 +55,7 @@ def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: For
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(
-            balance=1000000000000000000000, code=Op.EXTCODECOPY(target, 0, 0, 100)
+            balance=1000000000000000000000, code=Op.EXTCODECOPY(target, 0, 0, 10)
         ),
     }
 
@@ -78,9 +78,9 @@ def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: For
     if target == system_contract_address:
         code = Account(**fork.pre_allocation_blockchain()[system_contract_address]).code
         code_chunks = chunkify_code(code)
-        for i in range(5):
+        for i in range(1):
             witness_check.add_code_chunk(
-                address=TestAddress2, chunk_number=i, value=code_chunks[i]
+                address=system_contract_address, chunk_number=i, value=code_chunks[i]
             )
 
     blocks = [
