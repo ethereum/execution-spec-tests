@@ -37,7 +37,7 @@ system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 @pytest.mark.parametrize(
     "target",
     [
-        # precompile_address,
+        precompile_address,
         system_contract_address,
     ],
 )
@@ -78,10 +78,9 @@ def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: For
     if target == system_contract_address:
         code = Account(**fork.pre_allocation_blockchain()[system_contract_address]).code
         code_chunks = chunkify_code(code)
-        for i in range(1):
-            witness_check.add_code_chunk(
-                address=system_contract_address, chunk_number=i, value=code_chunks[i]
-            )
+        witness_check.add_code_chunk(
+            address=system_contract_address, chunk_number=0, value=code_chunks[0]
+        )
 
     blocks = [
         Block(
