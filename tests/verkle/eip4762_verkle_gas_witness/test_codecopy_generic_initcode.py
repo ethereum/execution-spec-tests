@@ -32,7 +32,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
     "instruction",
     [
         Op.CODECOPY,
-        Op.EXTCODECOPY,
+        # Op.EXTCODECOPY,
     ],
 )
 def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str, instruction):

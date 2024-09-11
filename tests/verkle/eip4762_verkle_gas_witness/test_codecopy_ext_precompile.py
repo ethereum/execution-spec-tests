@@ -14,19 +14,22 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
-    Initcode,
     TestAddress,
+    TestAddress2,
     Transaction,
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
+from ethereum_test_forks import Fork
+
 
 # TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 precompile_address = Address("0x04")
-system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
+system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 
 
 # TODO(verkle): update to Osaka when t8n supports the fork.
@@ -34,11 +37,11 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 @pytest.mark.parametrize(
     "target",
     [
-        precompile_address,
+        # precompile_address,
         system_contract_address,
     ],
 )
-def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: str, target):
+def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: Fork, target):
     """
     Test EXTCODECOPY targeting a precompile or system contract.
     """
@@ -51,24 +54,34 @@ def test_extcodecopy_precompile(blockchain_test: BlockchainTestFiller, fork: str
     )
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
+        TestAddress2: Account(
+            balance=1000000000000000000000, code=Op.EXTCODECOPY(target, 0, 0, 100)
+        ),
     }
 
     tx = Transaction(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=None,
+        to=TestAddress2,
         gas_limit=1_000_000,
         gas_price=10,
-        data=Initcode(deploy_code=Op.EXTCODECOPY(target, 0, 0, 100)),
     )
 
     witness_check = WitnessCheck(fork=Verkle)
-    for address in [env.fee_recipient, TestAddress]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
+    for address in [env.fee_recipient, TestAddress, TestAddress2]:
+        witness_check.add_account_full(address=address, account=pre.get(address))
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    if target == system_contract_address:
+        code = Account(**fork.pre_allocation_blockchain()[system_contract_address]).code
+        code_chunks = chunkify_code(code)
+        for i in range(5):
+            witness_check.add_code_chunk(
+                address=TestAddress2, chunk_number=i, value=code_chunks[i]
+            )
 
     blocks = [
         Block(

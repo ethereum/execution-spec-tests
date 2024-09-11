@@ -178,10 +178,7 @@ def _generic_call(
 
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, caller_address, env.fee_recipient]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
+        witness_check.add_account_full(address=address, account=pre.get(address))
     if enough_gas_read_witness:
         if value > 0 or (target != precompile_address and target != precompile_address):
             witness_check.add_account_basic_data(address=target, account=pre[target])
