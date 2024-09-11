@@ -23,14 +23,12 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.helpers import chunkify_code
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 code_size = 200 * 31 + 60
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "instruction",
@@ -86,7 +84,6 @@ def test_generic_codecopy_foo(blockchain_test: BlockchainTestFiller, instruction
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "instruction",
@@ -111,7 +108,6 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instructio
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
@@ -125,7 +121,6 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instructio
         "partial_code_range",
     ],
 )
-# TODO(verkle): consider reusing code from test_generic_codecopy.py.
 def test_codecopy_insufficient_gas(
     blockchain_test: BlockchainTestFiller, gas_limit, witness_code_chunks
 ):
@@ -143,7 +138,6 @@ def test_codecopy_insufficient_gas(
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
@@ -159,7 +153,6 @@ def test_codecopy_insufficient_gas(
         "partial_code_range",
     ],
 )
-# TODO(verkle): consider reusing code from test_generic_codecopy.py.
 def test_extcodecopy_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     gas_limit,

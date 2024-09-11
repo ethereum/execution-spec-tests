@@ -22,14 +22,12 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.types import Hash
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 TestAddress2Storage: dict[int, Hash] = {0: Hash(0xAA), 1000: Hash(0xBB)}
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "storage_slot_writes",
@@ -67,7 +65,6 @@ def test_sstore(blockchain_test: BlockchainTestFiller, storage_slot_writes):
     _sstore(blockchain_test, storage_slot_writes, witness_check_extra)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(

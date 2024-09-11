@@ -22,7 +22,6 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.helpers import chunkify_code
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
@@ -72,7 +71,6 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
     return result_code
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "bytecode, gas_limit, witness_code_chunk_ranges",

@@ -24,7 +24,6 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.types import Hash as HashVerkle
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
@@ -38,7 +37,6 @@ ExampleAddress = Address("0xfffffff4fce5edbc8e2a8697c15331677e6ebf0c")
 ExampleAccount = Account(code=Op.PUSH0 * 300)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target",
@@ -76,7 +74,6 @@ def test_extcodehash(blockchain_test: BlockchainTestFiller, fork: str, target):
     _extcodehash(blockchain_test, target, witness_check_extra)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 def test_extcodehash_warm(blockchain_test: BlockchainTestFiller):
     """
@@ -90,7 +87,6 @@ def test_extcodehash_warm(blockchain_test: BlockchainTestFiller):
     _extcodehash(blockchain_test, ExampleAddress, witness_check_extra, warm=True)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("Pending TBD gas limits")
 @pytest.mark.parametrize(

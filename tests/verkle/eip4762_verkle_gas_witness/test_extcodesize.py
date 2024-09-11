@@ -23,7 +23,6 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
@@ -32,7 +31,6 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 EmptyAddress = Address("0xFFFFFFf6D732807Ef1319fB7B8bB8522d0BeacFF")
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target, bytecode",
@@ -63,7 +61,6 @@ def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode):
     _extcodesize(blockchain_test, target, bytecode, witness_check_extra)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller):
     """
@@ -79,7 +76,6 @@ def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller):
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 def test_extcodesize_warm(blockchain_test: BlockchainTestFiller):
     """

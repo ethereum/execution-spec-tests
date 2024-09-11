@@ -24,7 +24,6 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.helpers import chunkify_code
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
@@ -33,7 +32,6 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 precompile_address = Address("0x04")
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "call_instruction, value",
@@ -68,7 +66,6 @@ def test_calls(
     _generic_call(blockchain_test, call_instruction, target, value)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "call_instruction",
@@ -86,7 +83,6 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     _generic_call(blockchain_test, call_instruction, TestAddress2, 0, warm=True)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("Pending TBD gas limits")
 @pytest.mark.parametrize(
@@ -218,7 +214,6 @@ def _generic_call(
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "call_instruction, gas_limit, enough_gas_account_creation",

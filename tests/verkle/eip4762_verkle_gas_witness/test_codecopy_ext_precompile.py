@@ -24,7 +24,6 @@ from ethereum_test_types.verkle.helpers import chunkify_code
 from ethereum_test_forks import Fork
 
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
@@ -32,7 +31,6 @@ precompile_address = Address("0x04")
 system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target",

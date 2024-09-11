@@ -20,11 +20,10 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7709.md"
 REFERENCE_SPEC_VERSION = "TODO"
 
-# TODO(verkle): to be confirmed
+# TODO(verkle): fix
 blockhash_system_contract_address = Address("0xa4690f0ed0d089faa1e0ad94c8f1b4a2fd4b0734")
 HISTORY_STORAGE_ADDRESS = 8192
 BLOCKHASH_OLD_WINDOW = 256
