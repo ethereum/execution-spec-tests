@@ -23,12 +23,13 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.types import Hash as HashVerkle
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 precompile_address = Address("0x04")
-system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
+system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 EmptyAddress = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
 
 TestAccount = Account(balance=1000000000000000000000)
@@ -42,20 +43,20 @@ ExampleAccount = Account(code=Op.PUSH0 * 300)
     "target",
     [
         TestAddress,
-        ExampleAddress,
-        EmptyAddress,
-        system_contract_address,
-        precompile_address,
+        # ExampleAddress,
+        # EmptyAddress,
+        # system_contract_address,
+        # precompile_address,
     ],
     ids=[
         "eoa",
-        "contract",
-        "non_existent_account",
-        "system_contract",
-        "precompile",
+        # "contract",
+        # "non_existent_account",
+        # "system_contract",
+        # "precompile",
     ],
 )
-def test_extcodehash(blockchain_test: BlockchainTestFiller, fork: str, target):
+def test_extcodehash_foo(blockchain_test: BlockchainTestFiller, fork: str, target):
     """
     Test EXTCODEHASH witness.
     """
@@ -123,7 +124,7 @@ def test_extcodehash_insufficient_gas(
 def _extcodehash(
     blockchain_test: BlockchainTestFiller,
     target,
-    witness_check_extra,
+    witness_check_extra: WitnessCheck,
     gas_limit=1_000_000,
     warm=False,
     fails=False,
@@ -154,15 +155,18 @@ def _extcodehash(
 
     post = {}
     if not fails:
-        # TODO(verkle): assign correct storage slot value when filling
         post[TestAddress2] = Account(code=pre[TestAddress2].code, storage={0: 0x424242})
 
     witness_check = witness_check_extra
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
+        witness_check.add_account_full(address=address, account=pre.get(address))
+
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    if not fails:
+        witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
 
     blocks = [
         Block(

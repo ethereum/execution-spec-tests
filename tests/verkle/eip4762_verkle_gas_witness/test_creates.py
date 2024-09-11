@@ -54,7 +54,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
         "with_partial_code_chunk",
     ],
 )
-def test_create_foo(blockchain_test: BlockchainTestFiller, create_instruction: Opcode, code_size):
+def test_create(blockchain_test: BlockchainTestFiller, create_instruction: Opcode, code_size):
     """
     Test tx contract creation and *CREATE witness.
     """
