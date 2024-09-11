@@ -213,7 +213,7 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         "pushn_with_expected_data_past_code_size",
     ],
 )
-def test_contract_execution_foo(
+def test_contract_execution(
     blockchain_test: BlockchainTestFiller,
     bytecode: bytes,
     gas_limit: int,

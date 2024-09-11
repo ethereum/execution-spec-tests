@@ -54,7 +54,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
         "with_partial_code_chunk",
     ],
 )
-def test_create(blockchain_test: BlockchainTestFiller, create_instruction: Opcode, code_size):
+def test_create_foo(blockchain_test: BlockchainTestFiller, create_instruction: Opcode, code_size):
     """
     Test tx contract creation and *CREATE witness.
     """
@@ -106,7 +106,7 @@ def test_create_with_value_insufficient_balance(
         create_instruction,
         WitnessCheck(fork=Verkle),
         contract_code,
-        value=100,
+        value=100,  # TODO(verkle): add test (or generalize this one) with value>0 and enough balance?
         creator_balance=0,
     )
 
@@ -307,8 +307,8 @@ def _create(
         tx_target = TestAddress2
         tx_value = 0
         tx_data = deploy_code
+        contract_address = compute_create_address(address=TestAddress2, nonce=0)
         if generate_collision:
-            contract_address = compute_create_address(address=TestAddress2, nonce=0)
             pre[contract_address] = Account(nonce=1)
     elif create_instruction is not None and create_instruction.int() == Op.CREATE2.int():
         pre[TestAddress2] = Account(
@@ -319,15 +319,15 @@ def _create(
         tx_target = TestAddress2
         tx_value = 0
         tx_data = deploy_code
+        contract_address = compute_create2_address(TestAddress2, 0xDEADBEEF, deploy_code)
         if generate_collision:
-            contract_address = compute_create2_address(TestAddress2, 0xDEADBEEF, deploy_code)
             pre[contract_address] = Account(nonce=1)
     else:
         tx_target = None
         tx_value = value
         tx_data = deploy_code
+        contract_address = compute_create_address(address=TestAddress, nonce=0)
         if generate_collision:
-            contract_address = compute_create_address(address=TestAddress, nonce=0)
             pre[contract_address] = Account(nonce=1)
 
     tx = Transaction(
@@ -346,6 +346,15 @@ def _create(
     witness_check.add_account_full(TestAddress, pre[TestAddress])
     if tx_target is not None:
         witness_check.add_account_full(tx_target, pre[tx_target])
+        code_chunks = chunkify_code(pre[tx_target].code)
+        # Code that executes the CREATE*
+        for i, chunk in enumerate(code_chunks, start=0):
+            witness_check.add_code_chunk(address=tx_target, chunk_number=i, value=chunk)
+
+    # Assert the code-chunks where the contract is deployed are provided.
+    code_chunks = chunkify_code(bytes(deploy_code.deploy_code))
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
 
     blocks = [
         Block(

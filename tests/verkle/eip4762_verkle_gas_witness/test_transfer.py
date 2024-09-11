@@ -42,7 +42,7 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
     "value",
     [0, 1],
 )
-def test_transfer_foo(blockchain_test: BlockchainTestFiller, target, value):
+def test_transfer(blockchain_test: BlockchainTestFiller, target, value):
     """
     Test that value transfer generates a correct witness.
     """
