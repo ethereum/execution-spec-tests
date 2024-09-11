@@ -176,7 +176,7 @@ def gas_test(
             COLD_ACCOUNT_ACCESS_GAS,
             WARM_ACCOUNT_ACCESS_GAS,
             False,
-            id="EXTSTATICCALL",
+            id="EXTDELEGATECALL",
         ),
         pytest.param(
             Op.EXTSTATICCALL,
@@ -184,7 +184,7 @@ def gas_test(
             COLD_ACCOUNT_ACCESS_GAS,
             WARM_ACCOUNT_ACCESS_GAS,
             False,
-            id="EXTDELEGATECALL",
+            id="EXTSTATICCALL",
         ),
         pytest.param(
             Op.EXTCALL,
@@ -208,7 +208,7 @@ def gas_test(
             COLD_ACCOUNT_ACCESS_GAS,
             WARM_ACCOUNT_ACCESS_GAS,
             True,
-            id="EXTSTATICCALL_new_acc",
+            id="EXTDELEGATECALL_new_acc",
         ),
         pytest.param(
             Op.EXTSTATICCALL,
@@ -216,7 +216,7 @@ def gas_test(
             COLD_ACCOUNT_ACCESS_GAS,
             WARM_ACCOUNT_ACCESS_GAS,
             True,
-            id="EXTDELEGATECALL_new_acc",
+            id="EXTSTATICCALL_new_acc",
         ),
     ],
 )
@@ -241,7 +241,7 @@ def test_ext_calls_gas(
     mem_expansion_size: int,
     mem_expansion_extra_gas: int,
 ):
-    """Tests variations of EXT*CALL gas, both warm and cold"""
+    """Tests variations of EXT*CALL gas, both warm and cold, without and with mem expansions"""
     address_target = (
         pre.fund_eoa(0) if new_account else pre.deploy_contract(Container.Code(Op.STOP))
     )
