@@ -32,7 +32,7 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
     "instruction",
     [
         Op.CODECOPY,
-        # Op.EXTCODECOPY,
+        Op.EXTCODECOPY,
     ],
 )
 def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: str, instruction):
@@ -52,10 +52,9 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
 
     contract_address = compute_create_address(address=TestAddress, nonce=0)
     if instruction == Op.EXTCODECOPY:
-        deploy_code = Op.EXTCODECOPY(contract_address, 0, 0, 100) + Op.ORIGIN * 100
-        data = Initcode(deploy_code=deploy_code)
+        data = Op.EXTCODECOPY(contract_address, 0, 0, 100) + Op.ORIGIN * 100
     else:
-        data = Initcode(deploy_code=Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100)
+        data = Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100
 
     tx = Transaction(
         ty=0x0,
@@ -69,10 +68,7 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
 
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, contract_address, env.fee_recipient]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address != TestAddress else pre[address]),
-        )
+        witness_check.add_account_full(address=address, account=pre.get(address))
 
     blocks = [
         Block(
