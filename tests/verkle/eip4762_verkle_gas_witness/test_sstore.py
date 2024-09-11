@@ -21,6 +21,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.types import Hash
+from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -42,8 +43,8 @@ TestAddress2Storage: dict[int, Hash] = {0: Hash(0xAA), 1000: Hash(0xBB)}
         [(1000, 0xFF), (1000, 0xFE)],
     ],
     ids=[
-        "subreeedit_chunkedit_in_account_header",
-        "subreeedit_chunkedit_outside_account_header",
+        "chunkedit_in_account_header",
+        "chunkedit_outside_account_header",
         "two_in_same_branch_with_fill_cost",
         "two_different_subtreeedit_cost_and_no_fill_cost",
         "fill_and_subtree_edit_cost",
@@ -56,13 +57,7 @@ def test_sstore(blockchain_test: BlockchainTestFiller, storage_slot_writes):
     """
     Test SSTORE witness.
     """
-    witness_check_extra = WitnessCheck(fork=Verkle)
-    for sstore in storage_slot_writes:
-        witness_check_extra.add_storage_slot(
-            TestAddress2, sstore[0], TestAddress2Storage.get(sstore[0])
-        )
-
-    _sstore(blockchain_test, storage_slot_writes, witness_check_extra)
+    _sstore(blockchain_test, storage_slot_writes)
 
 
 @pytest.mark.valid_from("Verkle")
@@ -84,14 +79,9 @@ def test_sstore_insufficient_gas(
     """
     Test SSTORE with insufficient gas.
     """
-    witness_check_extra = WitnessCheck(fork=Verkle)
-    if must_be_in_witness:
-        witness_check_extra.add_storage_slot(TestAddress2, 5000, None)
-
     _sstore(
         blockchain_test,
         [(5000, Hash(0xFF))],
-        witness_check_extra,
         gas_limit=gas_limit,
         post_state_mutated_slot_count=0,
     )
@@ -100,7 +90,6 @@ def test_sstore_insufficient_gas(
 def _sstore(
     blockchain_test: BlockchainTestFiller,
     storage_slot_writes: list[tuple[int, Hash]],
-    witness_check_extra: WitnessCheck,
     gas_limit=1_000_000,
     post_state_mutated_slot_count=None,
 ):
@@ -148,11 +137,20 @@ def _sstore(
         ),
     }
 
-    witness_check = witness_check_extra
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
         witness_check.add_account_full(
             address=address,
             account=pre.get(address),
+        )
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+    for i in range(successful_writes):
+        witness_check.add_storage_slot(
+            TestAddress2,
+            storage_slot_writes[i][0],
+            TestAddress2Storage.get(storage_slot_writes[i][0]),
         )
 
     blocks = [
