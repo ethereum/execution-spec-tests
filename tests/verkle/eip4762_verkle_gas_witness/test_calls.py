@@ -231,7 +231,7 @@ def test_call_non_existent_account(
     enough_gas_account_creation: bool,
 ):
     """
-    Test *CALL witness assertion when there's insufficient gas for different scenarios.
+    Test *CALL witness assertion when target account does not exist.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -262,12 +262,14 @@ def test_call_non_existent_account(
 
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, caller_address, env.fee_recipient]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
+        witness_check.add_account_full(address=address, account=pre.get(address))
+
+    code_chunks = chunkify_code(pre[caller_address].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=caller_address, chunk_number=i, value=chunk)
+
     if enough_gas_account_creation:
-        witness_check.add_account_basic_data(address=TestAddress2, account=None)
+        witness_check.add_account_full(address=TestAddress2, account=None)
 
     blocks = [
         Block(
@@ -278,11 +280,7 @@ def test_call_non_existent_account(
 
     post: Alloc = Alloc()
     if enough_gas_account_creation:
-        post = Alloc(
-            {
-                TestAddress2: Account(balance=call_value),
-            }
-        )
+        post = Alloc({TestAddress2: Account(balance=call_value)})
 
     blockchain_test(
         genesis_environment=env,
