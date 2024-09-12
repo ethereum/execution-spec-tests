@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
@@ -18,12 +19,10 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
     """
@@ -45,7 +44,7 @@ def test_withdrawals(blockchain_test: BlockchainTestFiller, fork: str):
         TestAddress2: Account(balance=4000000000),
     }
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, TestAddress2]:
         witness_check.add_account_full(
             address=address,

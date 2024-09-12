@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -20,17 +21,16 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 ExampleAddress = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
 precompile_address = Address("0x04")
-system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
+system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target, beneficiary_must_exist",
@@ -67,11 +67,9 @@ def test_self_destruct(
         target,
         beneficiary_must_exist,
         contract_balance,
-        contract_balance > 0,
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(
@@ -104,7 +102,6 @@ def test_self_destruct_insufficient_gas(
         ExampleAddress,
         beneficiary_must_exist,
         100,
-        beneficiary_add_basic_data,
         gas_limit=gas_limit,
         fail=True,
     )
@@ -115,7 +112,6 @@ def _selfdestruct(
     beneficiary: Address,
     beneficiary_must_exist: bool,
     contract_balance: int,
-    beneficiary_add_basic_data: bool,
     gas_limit=1_000_000,
     fail=False,
 ):
@@ -144,14 +140,17 @@ def _selfdestruct(
         gas_price=10,
     )
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
-    if beneficiary_add_basic_data:
+        witness_check.add_account_full(address=address, account=pre.get(address))
+    if contract_balance > 0 or (beneficiary != precompile_address):
         witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
+    if contract_balance > 0 and not beneficiary_must_exist:
+        witness_check.add_account_full(beneficiary, pre.get(beneficiary))
+
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
     blocks = [
         Block(
@@ -160,15 +159,17 @@ def _selfdestruct(
         )
     ]
 
-    post: Alloc = {}
+    post: Alloc = Alloc({})
     if not fail and contract_balance > 0 and beneficiary != TestAddress2:
         beneficiary_account = pre.get(beneficiary)
         beneficiary_balance = 0 if beneficiary_account is None else beneficiary_account.balance
         pre[TestAddress2]
-        post = {
-            TestAddress2: Account(code=pre[TestAddress2].code, balance=0),
-            beneficiary: Account(balance=beneficiary_balance + contract_balance),
-        }
+        post = Alloc(
+            {
+                TestAddress2: Account(code=pre[TestAddress2].code, balance=0),
+                beneficiary: Account(balance=beneficiary_balance + contract_balance),
+            }
+        )
 
     blockchain_test(
         genesis_environment=env,

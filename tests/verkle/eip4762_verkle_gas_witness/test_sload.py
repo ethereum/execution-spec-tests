@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
@@ -20,15 +21,14 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.types import Hash
+from ethereum_test_types.verkle.helpers import chunkify_code
 
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 TestAddress2Storage: dict[int, Hash] = {0: Hash(0xAA), 1000: Hash(0xBB)}
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "storage_slot_accesses",
@@ -53,21 +53,20 @@ def test_sload(blockchain_test: BlockchainTestFiller, storage_slot_accesses):
     """
     Test SLOAD witness.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     for slot in storage_slot_accesses:
         witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
     _sload(blockchain_test, storage_slot_accesses, witness_check_extra)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.skip("Unskip when geth fixes Touch* witness inclusion with insufficient gas")
 @pytest.mark.valid_from("Verkle")
 def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
     """
     Test SLOAD with insufficient gas.
     """
-    witness_check_extra = WitnessCheck()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     for slot in [1000, 1001]:
         witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
@@ -114,6 +113,9 @@ def _sload(
             address=address,
             account=pre.get(address),
         )
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
     blocks = [
         Block(

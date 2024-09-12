@@ -404,7 +404,9 @@ class Homestead(Frontier):
         """
         At Homestead, DELEGATECALL opcode was introduced.
         """
-        return [(Opcodes.DELEGATECALL, EVMCodeType.LEGACY),] + super(
+        return [
+            (Opcodes.DELEGATECALL, EVMCodeType.LEGACY),
+        ] + super(
             Homestead, cls
         ).call_opcodes(block_number, timestamp)
 
@@ -449,7 +451,9 @@ class Byzantium(Homestead):
         """
         At Byzantium, STATICCALL opcode was introduced.
         """
-        return [(Opcodes.STATICCALL, EVMCodeType.LEGACY),] + super(
+        return [
+            (Opcodes.STATICCALL, EVMCodeType.LEGACY),
+        ] + super(
             Byzantium, cls
         ).call_opcodes(block_number, timestamp)
 
@@ -483,7 +487,9 @@ class Constantinople(Byzantium):
         """
         At Constantinople, `CREATE2` opcode is added.
         """
-        return [(Opcodes.CREATE2, EVMCodeType.LEGACY),] + super(
+        return [
+            (Opcodes.CREATE2, EVMCodeType.LEGACY),
+        ] + super(
             Constantinople, cls
         ).create_opcodes(block_number, timestamp)
 
@@ -974,7 +980,7 @@ class Verkle(
         type tests.
         """
         new_allocation = {
-            0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE: {
+            Address(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE): {
                 "nonce": 1,
                 "code": (
                     "0x60203611603157600143035f35116029575f35612000014311602957612000"
@@ -1020,7 +1026,10 @@ class CancunEIP7692(
         """
         EOF V1 is supported starting from this fork.
         """
-        return super(CancunEIP7692, cls,).evm_code_types(  # noqa: SC200
+        return super(
+            CancunEIP7692,
+            cls,
+        ).evm_code_types(  # noqa: SC200
             block_number,
             timestamp,
         ) + [EVMCodeType.EOF_V1]
@@ -1049,7 +1058,9 @@ class CancunEIP7692(
         """
         EOF V1 introduces `EOFCREATE`.
         """
-        return [(Opcodes.EOFCREATE, EVMCodeType.EOF_V1),] + super(
+        return [
+            (Opcodes.EOFCREATE, EVMCodeType.EOF_V1),
+        ] + super(
             CancunEIP7692, cls  # noqa: SC200
         ).create_opcodes(block_number, timestamp)
 
@@ -1084,7 +1095,10 @@ class PragueEIP7692(  # noqa: SC200
         """
         EOF V1 is supported starting from this fork.
         """
-        return super(PragueEIP7692, cls,).evm_code_types(  # noqa: SC200
+        return super(
+            PragueEIP7692,
+            cls,
+        ).evm_code_types(  # noqa: SC200
             block_number,
             timestamp,
         ) + [EVMCodeType.EOF_V1]
