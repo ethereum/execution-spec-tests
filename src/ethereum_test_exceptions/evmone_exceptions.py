@@ -6,23 +6,28 @@ from dataclasses import dataclass
 
 from bidict import frozenbidict
 
-from .exceptions import EOFException
+from .exception_mapper import ExceptionMapper
+from .exceptions import EOFException, ExceptionBase, TransactionException
 
 
 @dataclass
 class ExceptionMessage:
     """Defines a mapping between an exception and a message."""
 
-    exception: EOFException
+    exception: ExceptionBase
     message: str
 
 
-class EvmoneExceptionMapper:
+class EvmoneExceptionMapper(ExceptionMapper):
     """
     Translate between EEST exceptions and error strings returned by evmone.
     """
 
     _mapping_data = (
+        ExceptionMessage(
+            TransactionException.TYPE_4_TX_CONTRACT_CREATION,
+            "set code transaction must not be a create transaction",
+        ),
         # TODO EVMONE needs to differentiate when the section is missing in the header or body
         ExceptionMessage(EOFException.MISSING_STOP_OPCODE, "err: no_terminating_instruction"),
         ExceptionMessage(EOFException.MISSING_CODE_HEADER, "err: code_section_missing"),
@@ -101,15 +106,15 @@ class EvmoneExceptionMapper:
             {entry.exception: entry.message for entry in self._mapping_data}
         )
 
-    def exception_to_message(self, exception: EOFException) -> str:
-        """Takes an EOFException and returns a formatted string."""
+    def exception_to_message(self, exception: ExceptionBase) -> str:
+        """Takes an exception and returns a formatted string."""
         message = self.exception_to_message_map.get(
             exception,
             f"No message defined for {exception}; please add it to {self.__class__.__name__}",
         )
         return message
 
-    def message_to_exception(self, exception_string: str) -> EOFException:
+    def message_to_exception(self, exception_string: str) -> ExceptionBase:
         """Takes a string and tries to find matching exception"""
         # TODO inform tester where to add the missing exception if get uses default
         exception = self.exception_to_message_map.inverse.get(

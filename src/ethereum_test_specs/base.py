@@ -14,6 +14,7 @@ from pydantic import BaseModel, Field
 
 from ethereum_clis import Result, TransitionTool
 from ethereum_test_base_types import to_hex
+from ethereum_test_exceptions import ExceptionMapper, TransactionException
 from ethereum_test_fixtures import BaseFixture, FixtureFormat
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Transaction, Withdrawal
@@ -32,7 +33,9 @@ class HashMismatchException(Exception):
         return f"{self.message}: Expected {self.expected_hash}, got {self.actual_hash}"
 
 
-def verify_transactions(txs: List[Transaction], result: Result) -> List[int]:
+def verify_transactions(
+    exception_mapper: ExceptionMapper, txs: List[Transaction], result: Result
+) -> List[int]:
     """
     Verify rejected transactions (if any) against the expected outcome.
     Raises exception on unexpected rejections or unexpected successful txs.
@@ -47,6 +50,13 @@ def verify_transactions(txs: List[Transaction], result: Result) -> List[int]:
             raise Exception(f"tx expected to fail succeeded: pos={i}, nonce={tx.nonce}")
         elif not tx.error and error:
             raise Exception(f"tx unexpectedly failed: {error}")
+        elif isinstance(tx.error, TransactionException) and error:
+            translated = exception_mapper.exception_to_message(tx.error)
+            error_code = exception_mapper.message_to_exception(error)
+            if translated != error:
+                raise Exception(
+                    f"tx exception: want={translated} ({tx.error}), got={error} ({error_code})"
+                )
 
         # TODO: Also we need a way to check we actually got the
         # correct error

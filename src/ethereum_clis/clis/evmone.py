@@ -6,6 +6,7 @@ from pathlib import Path
 from re import compile
 from typing import Optional
 
+from ethereum_test_exceptions import EvmoneExceptionMapper
 from ethereum_test_forks import Fork
 
 from ..transition_tool import TransitionTool
@@ -30,7 +31,7 @@ class EvmOneTransitionTool(TransitionTool):
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        super().__init__(binary=binary, trace=trace)
+        super().__init__(exception_mapper=EvmoneExceptionMapper(), binary=binary, trace=trace)
 
     def is_fork_supported(self, fork: Fork) -> bool:
         """

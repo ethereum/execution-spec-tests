@@ -2786,3 +2786,27 @@ def test_reset_code(
             ),
         },
     )
+
+
+def test_contract_create(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test sending type-4 tx as a create transaction
+    """
+    tx = Transaction(
+        gas_limit=100_000,
+        to=None,
+        value=0,
+        authorization_list=[],
+        error=TransactionException.TYPE_4_TX_CONTRACT_CREATION,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={},
+    )
