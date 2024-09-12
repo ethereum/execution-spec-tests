@@ -78,6 +78,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - The EOF fixture format contained in `eof_tests` may now contain multiple exceptions in the `"exception"` field in the form of a pipe (`|`) separated string ([#759](https://github.com/ethereum/execution-spec-tests/pull/759)).
 - Remove redundant tests within stable and develop fixture releases, moving them to a separate legacy release ([#788](https://github.com/ethereum/execution-spec-tests/pull/788)).
+- The `chain_id` is now added to all fixture types. Clients are advised to parse this when consuming fixtures ([#796](https://github.com/ethereum/execution-spec-tests/pull/796)).
 
 ## [v3.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2024-07-22
 

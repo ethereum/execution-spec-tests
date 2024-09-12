@@ -301,7 +301,6 @@ class BlockchainTest(BaseTest):
     blocks: List[Block]
     genesis_environment: Environment = Field(default_factory=Environment)
     verify_sync: bool = False
-    chain_id: int = 1
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         BlockchainFixture,

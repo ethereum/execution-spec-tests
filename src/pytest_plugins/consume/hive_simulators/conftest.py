@@ -147,7 +147,7 @@ def environment(blockchain_fixture: BlockchainFixtureCommon) -> dict:
         blockchain_fixture.fork in ruleset
     ), f"fork '{blockchain_fixture.fork}' missing in hive ruleset"
     return {
-        "HIVE_CHAIN_ID": "1",
+        "HIVE_CHAIN_ID": blockchain_fixture.chain_id,
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
         **{k: f"{v:d}" for k, v in ruleset[blockchain_fixture.fork].items()},

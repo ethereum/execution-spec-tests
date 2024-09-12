@@ -453,6 +453,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
             True,
             Environment(),
             {
+                "chainId": "1",
                 "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
                 "currentGasLimit": "100000000000000000",
                 "currentNumber": "1",
@@ -486,6 +487,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 block_hashes={1: 2, 3: 4},
             ),
             {
+                "chainId": "1",
                 "currentCoinbase": "0x0000000000000000000000000000000000001234",
                 "currentGasLimit": "100000000000000000",
                 "currentNumber": "1",

@@ -48,6 +48,7 @@ class BaseTest(BaseModel):
     """
 
     tag: str = ""
+    chain_id: int = 1
 
     # Transition tool specific fields
     t8n_dump_dir: Path | None = Field(None, exclude=True)
