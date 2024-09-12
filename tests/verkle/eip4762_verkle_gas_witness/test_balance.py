@@ -20,6 +20,7 @@ from ethereum_test_tools import (
     WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_forks import Fork
 from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -40,27 +41,27 @@ example_address = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
     ],
 )
 @pytest.mark.parametrize("warm", [True, False])
-def test_balance(blockchain_test: BlockchainTestFiller, fork: str, target, warm):
+def test_balance(blockchain_test: BlockchainTestFiller, fork: Fork, target, warm):
     """
     Test BALANCE witness with/without WARM access.
     """
-    _balance(blockchain_test, fork, target, [target], warm=warm)
+    _balance(blockchain_test, fork, target, True, warm=warm)
 
 
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize("target", [example_address, precompile_address])
-def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str, target):
+def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: Fork, target):
     """
     Test BALANCE with insufficient gas.
     """
-    _balance(blockchain_test, fork, target, [], 21_042)
+    _balance(blockchain_test, fork, target, False, 21_042)
 
 
 def _balance(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
+    fork: Fork,
     target: Address,
-    exp_addr_basic_data: list[Address],
+    exp_target_basic_data: bool,
     gas_limit=1_000_000,
     warm=False,
 ):
@@ -74,9 +75,11 @@ def _balance(
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(code=Op.BALANCE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE),
-        target: Account(balance=0xF1),
-        precompile_address: Account(balance=0xF2),
+        precompile_address: Account(balance=0xF0),
     }
+
+    if target != precompile_address and target != system_contract_address:
+        pre[target] = Account(balance=0xF2)
 
     tx = Transaction(
         ty=0x0,
@@ -88,19 +91,23 @@ def _balance(
     )
 
     witness_check = WitnessCheck(fork=Verkle)
-    witness_check.add_account_full(address=TestAddress, account=pre[TestAddress])
-    witness_check.add_account_full(address=TestAddress2, account=pre[TestAddress2])
-    witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+        witness_check.add_account_full(address=address, account=pre.get(address))
+
     code_chunks = chunkify_code(pre[TestAddress2].code)
     for i, chunk in enumerate(code_chunks, start=0):
         witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
-    witness_check.add_account_full(address=env.fee_recipient, account=None)
-    for address in exp_addr_basic_data:
-        witness_check.add_account_basic_data(
-            address=address,
-            account=pre[address],
-        )
+    witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
+
+    target_account = (
+        pre[target]
+        if target != system_contract_address
+        else Account(**fork.pre_allocation_blockchain()[system_contract_address])
+    )
+
+    if exp_target_basic_data:
+        witness_check.add_account_basic_data(address=target, account=target_account)
 
     blocks = [
         Block(
@@ -110,7 +117,7 @@ def _balance(
     ]
 
     post = {
-        TestAddress2: Account(code=pre[TestAddress2].code, storage={0: pre[target].balance}),
+        TestAddress2: Account(code=pre[TestAddress2].code, storage={0: target_account.balance}),
     }
 
     blockchain_test(

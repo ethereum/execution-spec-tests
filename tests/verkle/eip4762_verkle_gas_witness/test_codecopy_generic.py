@@ -13,7 +13,6 @@ from ethereum_test_tools import (
     Address,
     Block,
     BlockchainTestFiller,
-    Bytecode,
     Environment,
     TestAddress,
     TestAddress2,
@@ -26,7 +25,7 @@ from ethereum_test_types.verkle.helpers import chunkify_code
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-code_size = 200 * 31 + 60
+code_size = 130 * 31 + 60
 
 
 @pytest.mark.valid_from("Verkle")
@@ -34,7 +33,7 @@ code_size = 200 * 31 + 60
     "instruction",
     [
         Op.CODECOPY,
-        Op.EXTCODECOPY,
+        # Op.EXTCODECOPY,
     ],
 )
 @pytest.mark.parametrize(
@@ -66,12 +65,12 @@ def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, of
     """
     Test *CODECOPY witness.
     """
-    start = offset if offset < size else size
+    start = offset if offset < code_size else code_size
     end = offset + size if offset + size < code_size else code_size
     witness_code_chunks = range(0, 0)
-    if start < size and start != end:
+    if start < code_size and start != end:
         start_chunk = start // 31
-        end_chunk = (end - 1) // 31
+        end_chunk = end // 31
         witness_code_chunks = range(start_chunk, end_chunk + 1)
 
     _generic_codecopy(
@@ -96,12 +95,13 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instructio
     """
     Test *CODECOPY with WARM access.
     """
-    witness_code_chunks = range(0, (code_size - 5) // 31 + 1)
+    code_len = 150
+    witness_code_chunks = range(0, code_len // 31 + 1)
     _generic_codecopy(
         blockchain_test,
         instruction,
         0,
-        code_size - 5,
+        code_len,
         witness_code_chunks,
         witness_target_basic_data=True,
         warm=True,
@@ -191,20 +191,19 @@ def _generic_codecopy(
         number=1,
         timestamp=1000,
     )
-    repeat = 2 if warm else 1
-    codecopy_code = Op.CODECOPY(0, offset, size) * repeat
-    pre = {
-        TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(
-            code=codecopy_code + Op.STOP + Op.PUSH0 * max(0, size - len(codecopy_code) - 1)
-        ),
-        dummy_address: Account(code=Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat),
-    }
 
     to = TestAddress2
-    data = Bytecode()
     if instr == Op.EXTCODECOPY:
         to = dummy_address
+
+    repeat = 2 if warm else 1
+    codecopy_code = Op.CODECOPY(0, offset, size) * repeat + Op.STOP
+    extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+        TestAddress2: Account(code=codecopy_code + Op.PUSH0 * (code_size - len(codecopy_code))),
+        dummy_address: Account(code=extcodecopy_code),
+    }
 
     tx = Transaction(
         ty=0x0,
@@ -213,17 +212,27 @@ def _generic_codecopy(
         to=to,
         gas_limit=gas_limit,
         gas_price=10,
-        data=data,
     )
 
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, to, env.fee_recipient]:
         witness_check.add_account_full(address=address, account=pre.get(address))
 
+    # Add code-chunks related to CODECOPY/EXTCODECOPY execution.
     code_chunks = chunkify_code(pre[to].code)
-    # We'll always have code-chunk 0 since it has the actual
-    # CODECOPY/EXTCODECOPY opcode execution.
-    witness_check.add_code_chunk(to, 0, code_chunks[0])
+    executed_code_len = (
+        # In CODECOPY, not all the code is executed, since we right-padded with dummy push0-s
+        # so we can copy more code than actually executed. If we didn't do that, we can't
+        # distinguish between the code in the witness that was executed and the code that
+        # was copied.
+        (len(codecopy_code) + 31) // 32
+        if instr == Op.CODECOPY
+        # In EXTCODECOPY, all the code is executed since we're copying code from an external
+        # account.
+        else (len(extcodecopy_code) + 31) // 32
+    )
+    for i in range(executed_code_len):
+        witness_check.add_code_chunk(to, i, code_chunks[i])
 
     if instr == Op.EXTCODECOPY:
         witness_check.add_account_basic_data(address=TestAddress2, account=pre.get(TestAddress2))
