@@ -1,0 +1,41 @@
+<h1>Test Function: <code>test_invalid_tx_max_fee_per_blob_gas()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>account_balance_modifier</th>
+                        <th>parent_excess_blobs</th>
+                        <th>parent_blobs</th>
+                        <th>tx_max_fee_per_blob_gas</th>
+                        <th>tx_error</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas</td>
+                        <td>1000000000</td>
+                        <td>17</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                    </tr>
+                <tr>
+            <td>account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas</td>
+                        <td>1000000000</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

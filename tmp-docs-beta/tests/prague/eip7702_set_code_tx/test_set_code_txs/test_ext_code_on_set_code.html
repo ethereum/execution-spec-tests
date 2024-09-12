@@ -1,0 +1,102 @@
+<h1>Test Function: <code>test_ext_code_on_set_code()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>set_code_type</th>
+                        <th>balance</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>EMPTY_ACCOUNT-balance_0</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>EMPTY_ACCOUNT-balance_1</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>EOA-balance_0</td>
+                        <td>AddressType.EOA</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>EOA-balance_1</td>
+                        <td>AddressType.EOA</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>EOA_WITH_SET_CODE-balance_0</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>EOA_WITH_SET_CODE-balance_1</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>CONTRACT-balance_0</td>
+                        <td>AddressType.CONTRACT</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>CONTRACT-balance_1</td>
+                        <td>AddressType.CONTRACT</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>EMPTY_ACCOUNT-balance_0</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>EMPTY_ACCOUNT-balance_1</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>EOA-balance_0</td>
+                        <td>AddressType.EOA</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>EOA-balance_1</td>
+                        <td>AddressType.EOA</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>EOA_WITH_SET_CODE-balance_0</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>EOA_WITH_SET_CODE-balance_1</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>CONTRACT-balance_0</td>
+                        <td>AddressType.CONTRACT</td>
+                        <td>0</td>
+                    </tr>
+                <tr>
+            <td>CONTRACT-balance_1</td>
+                        <td>AddressType.CONTRACT</td>
+                        <td>1</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

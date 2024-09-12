@@ -1,0 +1,62 @@
+<h1>Test Function: <code>test_set_code_invalid_authorization_tuple()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>invalidity_reason</th>
+                        <th>transaction_exception</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.NONCE-transaction_exception_None</td>
+                        <td>InvalidityReason.NONCE</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.MULTIPLE_NONCE-transaction_exception_None</td>
+                        <td>InvalidityReason.MULTIPLE_NONCE</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.CHAIN_ID-transaction_exception_None</td>
+                        <td>InvalidityReason.CHAIN_ID</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.EMPTY_AUTHORIZATION_LIST-transaction_exception_TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST</td>
+                        <td>InvalidityReason.EMPTY_AUTHORIZATION_LIST</td>
+                        <td>TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST</td>
+                    </tr>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.NONCE-transaction_exception_None</td>
+                        <td>InvalidityReason.NONCE</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.MULTIPLE_NONCE-transaction_exception_None</td>
+                        <td>InvalidityReason.MULTIPLE_NONCE</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.CHAIN_ID-transaction_exception_None</td>
+                        <td>InvalidityReason.CHAIN_ID</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>invalidity_reason_InvalidityReason.EMPTY_AUTHORIZATION_LIST-transaction_exception_TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST</td>
+                        <td>InvalidityReason.EMPTY_AUTHORIZATION_LIST</td>
+                        <td>TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

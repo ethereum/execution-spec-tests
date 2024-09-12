@@ -1,0 +1,65 @@
+<h1>Test Function: <code>test_blobhash_opcode_contexts()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>opcode_context</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>opcode_context_on_top_level_call_stack</td>
+                        <td>on_top_level_call_stack</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_max_value</td>
+                        <td>on_max_value</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_CALL</td>
+                        <td>on_CALL</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_DELEGATECALL</td>
+                        <td>on_DELEGATECALL</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_STATICCALL</td>
+                        <td>on_STATICCALL</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_CALLCODE</td>
+                        <td>on_CALLCODE</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_CREATE</td>
+                        <td>on_CREATE</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_CREATE2</td>
+                        <td>on_CREATE2</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_type_2_tx</td>
+                        <td>on_type_2_tx</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_type_1_tx</td>
+                        <td>on_type_1_tx</td>
+                    </tr>
+                <tr>
+            <td>opcode_context_on_type_0_tx</td>
+                        <td>on_type_0_tx</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

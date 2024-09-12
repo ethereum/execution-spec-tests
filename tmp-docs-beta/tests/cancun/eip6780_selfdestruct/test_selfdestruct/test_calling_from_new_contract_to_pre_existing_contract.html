@@ -1,0 +1,80 @@
+<h1>Test Function: <code>test_calling_from_new_contract_to_pre_existing_contract()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>create_opcode</th>
+                        <th>call_opcode</th>
+                        <th>selfdestruct_contract_initial_balance</th>
+                        <th>call_times</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_DELEGATECALL-selfdestruct_contract_initial_balance_0-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>DELEGATECALL</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_DELEGATECALL-selfdestruct_contract_initial_balance_1-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>DELEGATECALL</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_CALLCODE-selfdestruct_contract_initial_balance_0-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>CALLCODE</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_CALLCODE-selfdestruct_contract_initial_balance_1-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>CALLCODE</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_DELEGATECALL-selfdestruct_contract_initial_balance_0-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>DELEGATECALL</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_DELEGATECALL-selfdestruct_contract_initial_balance_1-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>DELEGATECALL</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_CALLCODE-selfdestruct_contract_initial_balance_0-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>CALLCODE</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>create_opcode_CREATE-call_opcode_CALLCODE-selfdestruct_contract_initial_balance_1-call_times_1</td>
+                        <td>CREATE</td>
+                        <td>CALLCODE</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

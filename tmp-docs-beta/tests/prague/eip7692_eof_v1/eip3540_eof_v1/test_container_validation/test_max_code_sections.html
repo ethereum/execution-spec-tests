@@ -1,0 +1,42 @@
+<h1>Test Function: <code>test_max_code_sections()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>plus_container</th>
+                        <th>plus_data</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>plus_container_False-plus_data_False</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>plus_container_False-plus_data_True</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr>
+            <td>plus_container_True-plus_data_False</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>plus_container_True-plus_data_True</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

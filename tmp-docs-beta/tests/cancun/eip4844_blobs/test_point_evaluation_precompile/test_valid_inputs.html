@@ -1,0 +1,44 @@
+<h1>Test Function: <code>test_valid_inputs()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>result</th>
+                        <th>z</th>
+                        <th>y</th>
+                        <th>kzg_commitment</th>
+                        <th>kzg_proof</th>
+                        <th>versioned_hash</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>result_success-in_bounds_z</td>
+                        <td>Result.SUCCESS</td>
+                        <td>52435875175126190479447740508185965837690552500527637822603658699938581184512</td>
+                        <td>0</td>
+                        <td>b'\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</td>
+                        <td>b'\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>result_success-in_bounds_z</td>
+                        <td>Result.SUCCESS</td>
+                        <td>52435875175126190479447740508185965837690552500527637822603658699938581184512</td>
+                        <td>0</td>
+                        <td>b'\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</td>
+                        <td>b'\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</td>
+                        <td>None</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>
