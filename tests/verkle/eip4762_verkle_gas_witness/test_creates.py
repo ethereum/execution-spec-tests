@@ -59,26 +59,9 @@ def test_create(blockchain_test: BlockchainTestFiller, create_instruction: Opcod
     Test tx contract creation and *CREATE witness.
     """
     contract_code = bytes(Op.PUSH0 * code_size)
-    if create_instruction is None:
-        contract_address = compute_create_address(address=TestAddress, nonce=0)
-    elif create_instruction == Op.CREATE:
-        contract_address = compute_create_address(address=TestAddress2, nonce=0)
-    else:
-        contract_address = compute_create2_address(
-            TestAddress2, 0xDEADBEEF, Initcode(deploy_code=contract_code)
-        )
-
-    num_code_chunks = (len(contract_code) + 30) // 31
-
-    witness_check_extra = WitnessCheck(fork=Verkle)
-    witness_check_extra.add_account_full(contract_address, None)
-    for i in range(num_code_chunks):
-        witness_check_extra.add_code_chunk(contract_address, i, None)
-
     _create(
         blockchain_test,
         create_instruction,
-        witness_check_extra,
         contract_code,
         value=0,
     )
@@ -104,7 +87,6 @@ def test_create_with_value_insufficient_balance(
     _create(
         blockchain_test,
         create_instruction,
-        WitnessCheck(fork=Verkle),
         contract_code,
         value=100,  # TODO(verkle): generalize with value>0 and enough balance?
         creator_balance=0,
@@ -148,28 +130,10 @@ def test_create_insufficient_gas(
     Test *CREATE  with insufficient gas at different points of execution.
     """
     contract_code = Op.PUSH0 * (129 * 31 + 42)
-    if create_instruction is None or create_instruction == Op.CREATE:
-        contract_address = compute_create_address(address=TestAddress, nonce=0)
-    else:
-        contract_address = compute_create2_address(
-            TestAddress, 0xDEADBEEF, Initcode(deploy_code=contract_code)
-        )
-
-    code_chunks = chunkify_code(bytes(contract_code))
-
-    witness_check_extra = WitnessCheck(fork=Verkle)
-    if witness_basic_data and witness_codehash:
-        witness_check_extra.add_account_full(contract_address, None)
-        for i in range(witness_chunk_count):
-            witness_check_extra.add_code_chunk(contract_address, i, code_chunks[i])  # type: ignore
-    elif witness_basic_data and not witness_codehash:
-        witness_check_extra.add_account_basic_data(contract_address, None)
-        # No code chunks since we failed earlier.
 
     _create(
         blockchain_test,
         create_instruction,
-        witness_check_extra,
         contract_code,
         value=0,
         gas_limit=gas_limit,
@@ -196,9 +160,6 @@ def test_create_static_cost(
     _create(
         blockchain_test,
         create_instruction,
-        WitnessCheck(
-            fork=Verkle
-        ),  # Static cost fail means the created contract shouldn't be in the witness
         Op.PUSH0 * (129 * 31 + 42),
         value=0,
         gas_limit=gas_limit,
@@ -214,20 +175,14 @@ def test_create_static_cost(
         Op.CREATE2,
     ],
 )
-def test_create_collision(
-    blockchain_test: BlockchainTestFiller,
-    create_instruction,
-):
+def test_create_collision(blockchain_test: BlockchainTestFiller, create_instruction):
     """
     Test tx contract creation and *CREATE with address collision.
     """
     _create(
         blockchain_test,
         create_instruction,
-        WitnessCheck(
-            fork=Verkle
-        ),  # Collision means the created contract shouldn't be in the witness
-        Op.PUSH0 * (129 * 31 + 42),
+        Op.PUSH0 * (3 * 31 + 42),
         value=0,
         generate_collision=True,
     )
@@ -242,7 +197,7 @@ def test_create_collision(
         Op.CREATE2,
     ],
 )
-def test_big_calldata(
+def test_create_big_calldata(
     blockchain_test: BlockchainTestFiller,
     create_instruction,
 ):
@@ -251,23 +206,9 @@ def test_big_calldata(
     size but actual returned code from initcode execution.
     """
     contract_code = bytes(Op.PUSH0 * (1000 * 31 + 42))
-    if create_instruction is None:
-        contract_address = compute_create_address(address=TestAddress, nonce=0)
-    elif create_instruction == Op.CREATE:
-        contract_address = compute_create_address(address=TestAddress2, nonce=0)
-    else:
-        contract_address = compute_create2_address(
-            TestAddress2, 0xDEADBEEF, Initcode(initcode_prefix=Op.STOP, deploy_code=contract_code)
-        )
-
-    witness_check_extra = WitnessCheck(fork=Verkle)
-    witness_check_extra.add_account_full(contract_address, None)
-    # No code chunks since we do an immediate STOP in the Initcode.
-
     _create(
         blockchain_test,
         create_instruction,
-        witness_check_extra,
         contract_code,
         value=0,
         initcode_stop_prefix=True,
@@ -277,7 +218,6 @@ def test_big_calldata(
 def _create(
     blockchain_test: BlockchainTestFiller,
     create_instruction: Opcode | None,
-    witness_check_extra: WitnessCheck,
     contract_code,
     value: int = 0,
     gas_limit=10000000000,
@@ -341,20 +281,25 @@ def _create(
         data=tx_data,
     )
 
-    witness_check = witness_check_extra
+    witness_check = WitnessCheck(fork=Verkle)
     witness_check.add_account_full(env.fee_recipient, None)
     witness_check.add_account_full(TestAddress, pre[TestAddress])
     if tx_target is not None:
         witness_check.add_account_full(tx_target, pre[tx_target])
+        # Include code that executes the CREATE*
         code_chunks = chunkify_code(pre[tx_target].code)
-        # Code that executes the CREATE*
         for i, chunk in enumerate(code_chunks, start=0):
             witness_check.add_code_chunk(address=tx_target, chunk_number=i, value=chunk)
 
-    # Assert the code-chunks where the contract is deployed are provided.
-    code_chunks = chunkify_code(bytes(deploy_code.deploy_code))
-    for i, chunk in enumerate(code_chunks, start=0):
-        witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
+    # The contract address will always appear in the witness:
+    # - If there's a collision, it should contain the existing contract for the collision check.
+    # - Otherwise, it should prove there's no collision.
+    witness_check.add_account_full(contract_address, pre.get(contract_address))
+    # Assert the code-chunks where the contract is deployed are provided
+    if not generate_collision:
+        code_chunks = chunkify_code(bytes(deploy_code.deploy_code))
+        for i, chunk in enumerate(code_chunks, start=0):
+            witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
 
     blocks = [
         Block(
