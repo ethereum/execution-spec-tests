@@ -51,10 +51,7 @@ system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 )
 @pytest.mark.parametrize(
     "contract_balance",
-    [
-        0,
-        1,
-    ],
+    [0, 1],
 )
 def test_self_destruct(
     blockchain_test: BlockchainTestFiller,
@@ -148,6 +145,9 @@ def _selfdestruct(
         witness_check.add_account_full(address=address, account=pre.get(address))
     if contract_balance > 0 or (beneficiary != precompile_address):
         witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
+    if contract_balance > 0 and not beneficiary_must_exist:
+        witness_check.add_account_full(beneficiary, pre.get(beneficiary))
+
     code_chunks = chunkify_code(pre[TestAddress2].code)
     for i, chunk in enumerate(code_chunks, start=0):
         witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
