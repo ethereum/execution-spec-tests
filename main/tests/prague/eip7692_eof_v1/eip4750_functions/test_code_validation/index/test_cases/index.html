@@ -13796,7 +13796,7 @@
 <h1 id="test-code-validation-test-cases">Test Code Validation - Test Cases<a class="headerlink" href="#test-code-validation-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/589ab4ef1daaf97dfa60856ca0bed83891a684f9/tests/prague/eip7692_eof_v1/eip4750_functions/test_code_validation.py"><code>tests/prague/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/2f2d356d1a99a5ff328057c56d1f023e06d8664a/tests/prague/eip7692_eof_v1/eip4750_functions/test_code_validation.py"><code>tests/prague/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_eof_validity[fork_CancunEIP7692-eof_test-retf_code_input_output]
 test_eof_validity[fork_CancunEIP7692-eof_test-stack_height_equal_code_outputs_retf_zero_stop]
 test_eof_validity[fork_CancunEIP7692-eof_test-callf_max_code_sections_1]
@@ -13806,7 +13806,6 @@ test_eof_validity[fork_CancunEIP7692-eof_test-stack_higher_than_code_outputs]
 test_eof_validity[fork_CancunEIP7692-eof_test-stack_shorter_than_code_outputs]
 test_eof_validity[fork_CancunEIP7692-eof_test-oob_callf_1]
 test_eof_validity[fork_CancunEIP7692-eof_test-overflow_code_sections_1]
-test_eof_validity[fork_CancunEIP7692-eof_test-callf_to_non_returning]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.filler.pre_alloc -p pytest_plugins.filler.solc -p pytest_plugins.filler.filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.help.help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip4750_functions/test_code_validation.py</span>

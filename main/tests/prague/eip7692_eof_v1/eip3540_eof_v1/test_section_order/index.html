@@ -13819,7 +13819,7 @@
 
 
 <h1 id="test-section-order">Test Section Order<a class="headerlink" href="#test-section-order" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/589ab4ef1daaf97dfa60856ca0bed83891a684f9/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2f2d356d1a99a5ff328057c56d1f023e06d8664a/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -14117,7 +14117,10 @@ for the optional container section.</p>
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
-<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;container_position&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;container_position&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;test_position&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">]</span>
 <span class="p">)</span>
@@ -14131,6 +14134,9 @@ for the optional container section.</p>
 <span class="sd">    This extends and follows the convention of the test_section_order()</span>
 <span class="sd">    for the optional container section.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">container_position</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Skip valid container section position&quot;</span><span class="p">)</span>
+
     <span class="n">section_code</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="c1"># TODO: Migrated tests had the following infinite loop, so it is kept here</span>

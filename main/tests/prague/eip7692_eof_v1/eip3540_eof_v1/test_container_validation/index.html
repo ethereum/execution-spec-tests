@@ -13855,7 +13855,7 @@
 
 
 <h1 id="test-container-validation">Test Container Validation<a class="headerlink" href="#test-container-validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/589ab4ef1daaf97dfa60856ca0bed83891a684f9/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2f2d356d1a99a5ff328057c56d1f023e06d8664a/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -14018,23 +14018,9 @@ initcode and a contract creating transaction.</p>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">Container</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;single_code_section_with_data_section&quot;</span><span class="p">,</span>
-            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x00&quot;</span><span class="p">),</span>
-            <span class="p">],</span>
-        <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;single_code_section_max_stack_size&quot;</span><span class="p">,</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
@@ -14176,7 +14162,14 @@ initcode and a contract creating transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 161</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 154</span>
+<span class="normal"> 155</span>
+<span class="normal"> 156</span>
+<span class="normal"> 157</span>
+<span class="normal"> 158</span>
+<span class="normal"> 159</span>
+<span class="normal"> 160</span>
+<span class="normal"> 161</span>
 <span class="normal"> 162</span>
 <span class="normal"> 163</span>
 <span class="normal"> 164</span>
@@ -15089,36 +15082,7 @@ initcode and a contract creating transaction.</p>
 <span class="normal">1071</span>
 <span class="normal">1072</span>
 <span class="normal">1073</span>
-<span class="normal">1074</span>
-<span class="normal">1075</span>
-<span class="normal">1076</span>
-<span class="normal">1077</span>
-<span class="normal">1078</span>
-<span class="normal">1079</span>
-<span class="normal">1080</span>
-<span class="normal">1081</span>
-<span class="normal">1082</span>
-<span class="normal">1083</span>
-<span class="normal">1084</span>
-<span class="normal">1085</span>
-<span class="normal">1086</span>
-<span class="normal">1087</span>
-<span class="normal">1088</span>
-<span class="normal">1089</span>
-<span class="normal">1090</span>
-<span class="normal">1091</span>
-<span class="normal">1092</span>
-<span class="normal">1093</span>
-<span class="normal">1094</span>
-<span class="normal">1095</span>
-<span class="normal">1096</span>
-<span class="normal">1097</span>
-<span class="normal">1098</span>
-<span class="normal">1099</span>
-<span class="normal">1100</span>
-<span class="normal">1101</span>
-<span class="normal">1102</span>
-<span class="normal">1103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1074</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -15141,26 +15105,22 @@ initcode and a contract creating transaction.</p>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_magic&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">([</span><span class="mh">0xEF</span><span class="p">]),</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAGIC</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_version&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">([</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">]),</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_VERSION</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAGIC</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_type_header&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">([</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">]),</span>
-            <span class="c1"># TODO the exception must be about missing section types</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_type_section_size&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span>
-                <span class="p">[</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">],</span>
-            <span class="p">),</span>
-            <span class="c1"># TODO the exception must be about incomplete section in the header</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
@@ -15168,10 +15128,7 @@ initcode and a contract creating transaction.</p>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_type_section_size&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span>
-                <span class="p">[</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">],</span>
-            <span class="p">),</span>
-            <span class="c1"># TODO the exception must be about incomplete section in the header</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010100&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
@@ -15202,7 +15159,7 @@ initcode and a contract creating transaction.</p>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;code_section_count_incomplete&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">([</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">]),</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_NUMBER</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -15215,7 +15172,7 @@ initcode and a contract creating transaction.</p>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;code_section_size_incomplete&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">([</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">]),</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -16020,21 +15977,6 @@ initcode and a contract creating transaction.</p>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INPUTS_OUTPUTS_NUM_ABOVE_LIMIT</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;code_section_output_too_large_2&quot;</span><span class="p">,</span>
-            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="p">),</span>
-                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="p">(</span><span class="n">MAX_CODE_OUTPUTS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">code_outputs</span><span class="o">=</span><span class="p">(</span><span class="n">MAX_CODE_OUTPUTS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="p">(</span><span class="n">MAX_CODE_OUTPUTS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                <span class="p">),</span>
-            <span class="p">],</span>
-            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_NON_RETURNING_FLAG</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;single_code_section_max_stack_size_too_large&quot;</span><span class="p">,</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
@@ -16087,23 +16029,25 @@ initcode and a contract creating transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1106</span>
-<span class="normal">1107</span>
-<span class="normal">1108</span>
-<span class="normal">1109</span>
-<span class="normal">1110</span>
-<span class="normal">1111</span>
-<span class="normal">1112</span>
-<span class="normal">1113</span>
-<span class="normal">1114</span>
-<span class="normal">1115</span>
-<span class="normal">1116</span>
-<span class="normal">1117</span>
-<span class="normal">1118</span>
-<span class="normal">1119</span>
-<span class="normal">1120</span>
-<span class="normal">1121</span>
-<span class="normal">1122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;magic_0&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0xEE</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0xF0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1077</span>
+<span class="normal">1078</span>
+<span class="normal">1079</span>
+<span class="normal">1080</span>
+<span class="normal">1081</span>
+<span class="normal">1082</span>
+<span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span>
+<span class="normal">1088</span>
+<span class="normal">1089</span>
+<span class="normal">1090</span>
+<span class="normal">1091</span>
+<span class="normal">1092</span>
+<span class="normal">1093</span>
+<span class="normal">1094</span>
+<span class="normal">1095</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;magic_0&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0xEE</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0xF0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;magic_1&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_magic_validation</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
@@ -16113,6 +16057,8 @@ initcode and a contract creating transaction.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verify EOF container 2-byte magic</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">magic_0</span> <span class="o">==</span> <span class="mh">0xEF</span> <span class="ow">and</span> <span class="n">magic_1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Valid magic&quot;</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">VALID_CONTAINER</span><span class="p">))</span>
     <span class="n">code</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">magic_0</span>
     <span class="n">code</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">magic_1</span>
@@ -16146,20 +16092,22 @@ initcode and a contract creating transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1125</span>
-<span class="normal">1126</span>
-<span class="normal">1127</span>
-<span class="normal">1128</span>
-<span class="normal">1129</span>
-<span class="normal">1130</span>
-<span class="normal">1131</span>
-<span class="normal">1132</span>
-<span class="normal">1133</span>
-<span class="normal">1134</span>
-<span class="normal">1135</span>
-<span class="normal">1136</span>
-<span class="normal">1137</span>
-<span class="normal">1138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1098</span>
+<span class="normal">1099</span>
+<span class="normal">1100</span>
+<span class="normal">1101</span>
+<span class="normal">1102</span>
+<span class="normal">1103</span>
+<span class="normal">1104</span>
+<span class="normal">1105</span>
+<span class="normal">1106</span>
+<span class="normal">1107</span>
+<span class="normal">1108</span>
+<span class="normal">1109</span>
+<span class="normal">1110</span>
+<span class="normal">1111</span>
+<span class="normal">1112</span>
+<span class="normal">1113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_version_validation</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -16167,6 +16115,8 @@ initcode and a contract creating transaction.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verify EOF container version</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Valid version&quot;</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">VALID_CONTAINER</span><span class="p">))</span>
     <span class="n">code</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">version</span>
     <span class="n">eof_test</span><span class="p">(</span>
@@ -16199,37 +16149,37 @@ initcode and a contract creating transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1141</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1116</span>
+<span class="normal">1117</span>
+<span class="normal">1118</span>
+<span class="normal">1119</span>
+<span class="normal">1120</span>
+<span class="normal">1121</span>
+<span class="normal">1122</span>
+<span class="normal">1123</span>
+<span class="normal">1124</span>
+<span class="normal">1125</span>
+<span class="normal">1126</span>
+<span class="normal">1127</span>
+<span class="normal">1128</span>
+<span class="normal">1129</span>
+<span class="normal">1130</span>
+<span class="normal">1131</span>
+<span class="normal">1132</span>
+<span class="normal">1133</span>
+<span class="normal">1134</span>
+<span class="normal">1135</span>
+<span class="normal">1136</span>
+<span class="normal">1137</span>
+<span class="normal">1138</span>
+<span class="normal">1139</span>
+<span class="normal">1140</span>
+<span class="normal">1141</span>
 <span class="normal">1142</span>
 <span class="normal">1143</span>
 <span class="normal">1144</span>
 <span class="normal">1145</span>
-<span class="normal">1146</span>
-<span class="normal">1147</span>
-<span class="normal">1148</span>
-<span class="normal">1149</span>
-<span class="normal">1150</span>
-<span class="normal">1151</span>
-<span class="normal">1152</span>
-<span class="normal">1153</span>
-<span class="normal">1154</span>
-<span class="normal">1155</span>
-<span class="normal">1156</span>
-<span class="normal">1157</span>
-<span class="normal">1158</span>
-<span class="normal">1159</span>
-<span class="normal">1160</span>
-<span class="normal">1161</span>
-<span class="normal">1162</span>
-<span class="normal">1163</span>
-<span class="normal">1164</span>
-<span class="normal">1165</span>
-<span class="normal">1166</span>
-<span class="normal">1167</span>
-<span class="normal">1168</span>
-<span class="normal">1169</span>
-<span class="normal">1170</span>
-<span class="normal">1171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="normal">1146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_container&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_single_code_section</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
@@ -16286,7 +16236,32 @@ initcode and a contract creating transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1174</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1149</span>
+<span class="normal">1150</span>
+<span class="normal">1151</span>
+<span class="normal">1152</span>
+<span class="normal">1153</span>
+<span class="normal">1154</span>
+<span class="normal">1155</span>
+<span class="normal">1156</span>
+<span class="normal">1157</span>
+<span class="normal">1158</span>
+<span class="normal">1159</span>
+<span class="normal">1160</span>
+<span class="normal">1161</span>
+<span class="normal">1162</span>
+<span class="normal">1163</span>
+<span class="normal">1164</span>
+<span class="normal">1165</span>
+<span class="normal">1166</span>
+<span class="normal">1167</span>
+<span class="normal">1168</span>
+<span class="normal">1169</span>
+<span class="normal">1170</span>
+<span class="normal">1171</span>
+<span class="normal">1172</span>
+<span class="normal">1173</span>
+<span class="normal">1174</span>
 <span class="normal">1175</span>
 <span class="normal">1176</span>
 <span class="normal">1177</span>
@@ -16301,32 +16276,7 @@ initcode and a contract creating transaction.</p>
 <span class="normal">1186</span>
 <span class="normal">1187</span>
 <span class="normal">1188</span>
-<span class="normal">1189</span>
-<span class="normal">1190</span>
-<span class="normal">1191</span>
-<span class="normal">1192</span>
-<span class="normal">1193</span>
-<span class="normal">1194</span>
-<span class="normal">1195</span>
-<span class="normal">1196</span>
-<span class="normal">1197</span>
-<span class="normal">1198</span>
-<span class="normal">1199</span>
-<span class="normal">1200</span>
-<span class="normal">1201</span>
-<span class="normal">1202</span>
-<span class="normal">1203</span>
-<span class="normal">1204</span>
-<span class="normal">1205</span>
-<span class="normal">1206</span>
-<span class="normal">1207</span>
-<span class="normal">1208</span>
-<span class="normal">1209</span>
-<span class="normal">1210</span>
-<span class="normal">1211</span>
-<span class="normal">1212</span>
-<span class="normal">1213</span>
-<span class="normal">1214</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="normal">1189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_container&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_max_code_sections</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
