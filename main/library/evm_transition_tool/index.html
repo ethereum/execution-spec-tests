@@ -1800,6 +1800,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#evm_transition_tool.EthereumJSTransitionTool" class="md-nav__link">
+    <span class="md-ellipsis">
+      EthereumJSTransitionTool
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EthereumJSTransitionTool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evm_transition_tool.EthereumJSTransitionTool.is_fork_supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_fork_supported
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#evm_transition_tool.EvmOneTransitionTool" class="md-nav__link">
     <span class="md-ellipsis">
       EvmOneTransitionTool
@@ -14298,6 +14322,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#evm_transition_tool.EthereumJSTransitionTool" class="md-nav__link">
+    <span class="md-ellipsis">
+      EthereumJSTransitionTool
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EthereumJSTransitionTool">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evm_transition_tool.EthereumJSTransitionTool.is_fork_supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_fork_supported
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#evm_transition_tool.EvmOneTransitionTool" class="md-nav__link">
     <span class="md-ellipsis">
       EvmOneTransitionTool
@@ -14699,6 +14747,10 @@
 
 
   <div class="doc doc-children">
+
+
+
+
 
 
 
@@ -15513,6 +15565,141 @@
 <span class="sd">    Returns True if the fork is supported by the tool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="evm_transition_tool.EthereumJSTransitionTool" class="doc doc-heading">
+            <code>EthereumJSTransitionTool</code>
+
+
+<a href="#evm_transition_tool.EthereumJSTransitionTool" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="evm_transition_tool.transition_tool.TransitionTool" href="#evm_transition_tool.TransitionTool">TransitionTool</a></code></p>
+
+
+      <p>EthereumJS Transition tool interface wrapper class.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/evm_transition_tool/ethereumjs.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EthereumJSTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EthereumJS Transition tool interface wrapper class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_binary</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;ethereumjs-t8ntool.sh&quot;</span><span class="p">)</span>
+    <span class="n">detect_binary_pattern</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^ethereumjs t8n\b&quot;</span><span class="p">)</span>
+    <span class="n">version_flag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;--version&quot;</span>
+    <span class="n">t8n_use_stream</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">binary</span><span class="p">:</span> <span class="n">Path</span>
+    <span class="n">cached_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the fork is supported by the tool.</span>
+<span class="sd">        Currently, EthereumJS-t8n provides no way to determine supported forks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="evm_transition_tool.EthereumJSTransitionTool.is_fork_supported" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">is_fork_supported</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span></code>
+
+<a href="#evm_transition_tool.EthereumJSTransitionTool.is_fork_supported" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Returns True if the fork is supported by the tool.
+Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/evm_transition_tool/ethereumjs.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns True if the fork is supported by the tool.</span>
+<span class="sd">    Currently, EthereumJS-t8n provides no way to determine supported forks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
