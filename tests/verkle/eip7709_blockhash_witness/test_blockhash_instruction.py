@@ -7,6 +7,7 @@ abstract: Tests [EIP-7709: Read BLOCKHASH from storage and update cost]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -31,6 +32,7 @@ block_number = 1000
 
 
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip(reason="Not fully implemented")
 @pytest.mark.parametrize(
     "block_num_target",
     [
@@ -56,6 +58,7 @@ def test_blockhash(blockchain_test: BlockchainTestFiller, block_num_target: int)
 
 
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip(reason="Not fully implemented")
 def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller):
     """
     Test BLOCKHASH with insufficient gas.
@@ -91,7 +94,7 @@ def _blockhash(
         gas_price=10,
     )
 
-    witness_check = WitnessCheck()
+    witness_check = WitnessCheck(fork=Verkle)
     for address in [env.fee_recipient, TestAddress, TestAddress2]:
         witness_check.add_account_full(
             address=address,
