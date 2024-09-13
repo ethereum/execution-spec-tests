@@ -408,7 +408,7 @@ def test_rjump_into_push_1(eof_test: EOFTestFiller, jump: JumpDirection):
     """EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate"""
     code = (
         Op.PUSH1[1] + Op.RJUMP[-4] if jump == JumpDirection.BACKWARD else Op.RJUMP[1] + Op.PUSH1[1]
-    )
+    ) + Op.STOP
     eof_test(
         data=Container(
             sections=[
@@ -471,7 +471,7 @@ def test_rjump_into_push_n(
     data_portion_length = int.from_bytes(opcode, byteorder="big") - 0x5F
     if jump == JumpDirection.FORWARD:
         offset = data_portion_length if data_portion_end else 1
-        code = Op.RJUMP[offset] + opcode[0]
+        code = Op.RJUMP[offset] + opcode[0] + Op.STOP
     else:
         offset = -4 if data_portion_end else -4 - data_portion_length + 1
         code = opcode[0] + Op.RJUMP[offset]
@@ -695,4 +695,50 @@ def test_rjump_backwards_reference_only(
     eof_test(
         data=container,
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS,
+    )
+
+
+def test_rjump_backwards_illegal_stack_height(
+    eof_test: EOFTestFiller,
+):
+    """
+    Invalid backward jump, found via fuzzing coverage
+    """
+    eof_test(
+        data=Container.Code(
+            code=(
+                Op.PUSH0
+                + Op.RJUMPI[3]
+                + Op.RJUMP(7)
+                + Op.PUSH2(0x2015)
+                + Op.PUSH3(0x015500)
+                + Op.RJUMP[-10]
+            ),
+            max_stack_height=0x24,
+        ),
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
+
+
+def test_rjump_backwards_infinite_loop(
+    eof_test: EOFTestFiller,
+):
+    """
+    Validate that a backwards RJUMP as terminal operation is valid
+    """
+    eof_test(
+        data=Container(
+            name="backwards_rjump_terminal",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.RJUMPI[3]
+                    + Op.RJUMP[7]
+                    + Op.SSTORE(1, 0x2015)
+                    + Op.STOP
+                    + Op.RJUMP[-10]
+                ),
+                Section.Data(data="0xdeadbeef"),
+            ],
+        ),
     )

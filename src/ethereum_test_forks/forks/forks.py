@@ -9,6 +9,7 @@ from typing import List, Mapping, Optional, Tuple
 
 from semver import Version
 
+from ethereum_test_base_types import Address
 from ethereum_test_vm import EVMCodeType, Opcodes
 
 from ..base_fork import BaseFork
@@ -166,9 +167,16 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [0]
 
     @classmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
-        At Genesis, no pre-compiles are allowed
+        At Genesis, no pre-compiles are present
+        """
+        return []
+
+    @classmethod
+    def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """
+        At Genesis, no system-contracts are present
         """
         return []
 
@@ -189,6 +197,156 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [
             (Opcodes.CALL, EVMCodeType.LEGACY),
             (Opcodes.CALLCODE, EVMCodeType.LEGACY),
+        ]
+
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [
+            Opcodes.STOP,
+            Opcodes.ADD,
+            Opcodes.MUL,
+            Opcodes.SUB,
+            Opcodes.DIV,
+            Opcodes.SDIV,
+            Opcodes.MOD,
+            Opcodes.SMOD,
+            Opcodes.ADDMOD,
+            Opcodes.MULMOD,
+            Opcodes.EXP,
+            Opcodes.SIGNEXTEND,
+            Opcodes.LT,
+            Opcodes.GT,
+            Opcodes.SLT,
+            Opcodes.SGT,
+            Opcodes.EQ,
+            Opcodes.ISZERO,
+            Opcodes.AND,
+            Opcodes.OR,
+            Opcodes.XOR,
+            Opcodes.NOT,
+            Opcodes.BYTE,
+            Opcodes.SHA3,
+            Opcodes.ADDRESS,
+            Opcodes.BALANCE,
+            Opcodes.ORIGIN,
+            Opcodes.CALLER,
+            Opcodes.CALLVALUE,
+            Opcodes.CALLDATALOAD,
+            Opcodes.CALLDATASIZE,
+            Opcodes.CALLDATACOPY,
+            Opcodes.CODESIZE,
+            Opcodes.CODECOPY,
+            Opcodes.GASPRICE,
+            Opcodes.EXTCODESIZE,
+            Opcodes.EXTCODECOPY,
+            Opcodes.BLOCKHASH,
+            Opcodes.COINBASE,
+            Opcodes.TIMESTAMP,
+            Opcodes.NUMBER,
+            Opcodes.PREVRANDAO,
+            Opcodes.GASLIMIT,
+            Opcodes.POP,
+            Opcodes.MLOAD,
+            Opcodes.MSTORE,
+            Opcodes.MSTORE8,
+            Opcodes.SLOAD,
+            Opcodes.SSTORE,
+            Opcodes.PC,
+            Opcodes.MSIZE,
+            Opcodes.GAS,
+            Opcodes.JUMP,
+            Opcodes.JUMPI,
+            Opcodes.JUMPDEST,
+            Opcodes.PUSH1,
+            Opcodes.PUSH2,
+            Opcodes.PUSH3,
+            Opcodes.PUSH4,
+            Opcodes.PUSH5,
+            Opcodes.PUSH6,
+            Opcodes.PUSH7,
+            Opcodes.PUSH8,
+            Opcodes.PUSH9,
+            Opcodes.PUSH10,
+            Opcodes.PUSH11,
+            Opcodes.PUSH12,
+            Opcodes.PUSH13,
+            Opcodes.PUSH14,
+            Opcodes.PUSH15,
+            Opcodes.PUSH16,
+            Opcodes.PUSH17,
+            Opcodes.PUSH18,
+            Opcodes.PUSH19,
+            Opcodes.PUSH20,
+            Opcodes.PUSH21,
+            Opcodes.PUSH22,
+            Opcodes.PUSH23,
+            Opcodes.PUSH24,
+            Opcodes.PUSH25,
+            Opcodes.PUSH26,
+            Opcodes.PUSH27,
+            Opcodes.PUSH28,
+            Opcodes.PUSH29,
+            Opcodes.PUSH30,
+            Opcodes.PUSH31,
+            Opcodes.PUSH32,
+            Opcodes.DUP1,
+            Opcodes.DUP2,
+            Opcodes.DUP3,
+            Opcodes.DUP4,
+            Opcodes.DUP5,
+            Opcodes.DUP6,
+            Opcodes.DUP7,
+            Opcodes.DUP8,
+            Opcodes.DUP9,
+            Opcodes.DUP10,
+            Opcodes.DUP11,
+            Opcodes.DUP12,
+            Opcodes.DUP13,
+            Opcodes.DUP14,
+            Opcodes.DUP15,
+            Opcodes.DUP16,
+            Opcodes.SWAP1,
+            Opcodes.SWAP2,
+            Opcodes.SWAP3,
+            Opcodes.SWAP4,
+            Opcodes.SWAP5,
+            Opcodes.SWAP6,
+            Opcodes.SWAP7,
+            Opcodes.SWAP8,
+            Opcodes.SWAP9,
+            Opcodes.SWAP10,
+            Opcodes.SWAP11,
+            Opcodes.SWAP12,
+            Opcodes.SWAP13,
+            Opcodes.SWAP14,
+            Opcodes.SWAP15,
+            Opcodes.SWAP16,
+            Opcodes.LOG0,
+            Opcodes.LOG1,
+            Opcodes.LOG2,
+            Opcodes.LOG3,
+            Opcodes.LOG4,
+            Opcodes.CREATE,
+            Opcodes.CALL,
+            Opcodes.CALLCODE,
+            Opcodes.RETURN,
+            Opcodes.SELFDESTRUCT,
+        ]
+
+    @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        At Genesis, only `CREATE` opcode is supported.
+        """
+        return [
+            (Opcodes.CREATE, EVMCodeType.LEGACY),
         ]
 
     @classmethod
@@ -216,11 +374,13 @@ class Homestead(Frontier):
     """
 
     @classmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         At Homestead, EC-recover, SHA256, RIPEMD160, and Identity pre-compiles are introduced
         """
-        return [1, 2, 3, 4] + super(Homestead, cls).precompiles(block_number, timestamp)
+        return list(Address(i) for i in range(1, 5)) + super(Homestead, cls).precompiles(
+            block_number, timestamp
+        )
 
     @classmethod
     def call_opcodes(
@@ -232,6 +392,15 @@ class Homestead(Frontier):
         return [(Opcodes.DELEGATECALL, EVMCodeType.LEGACY),] + super(
             Homestead, cls
         ).call_opcodes(block_number, timestamp)
+
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [Opcodes.DELEGATECALL] + super(Homestead, cls).valid_opcodes()
 
 
 class Byzantium(Homestead):
@@ -248,13 +417,15 @@ class Byzantium(Homestead):
         return 3_000_000_000_000_000_000
 
     @classmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         At Byzantium, pre-compiles for bigint modular exponentiation, addition and scalar
         multiplication on elliptic curve alt_bn128, and optimal ate pairing check on
         elliptic curve alt_bn128 are introduced
         """
-        return [5, 6, 7, 8] + super(Byzantium, cls).precompiles(block_number, timestamp)
+        return list(Address(i) for i in range(5, 9)) + super(Byzantium, cls).precompiles(
+            block_number, timestamp
+        )
 
     @classmethod
     def call_opcodes(
@@ -266,6 +437,15 @@ class Byzantium(Homestead):
         return [(Opcodes.STATICCALL, EVMCodeType.LEGACY),] + super(
             Byzantium, cls
         ).call_opcodes(block_number, timestamp)
+
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [Opcodes.RETURNDATASIZE, Opcodes.STATICCALL] + super(Byzantium, cls).valid_opcodes()
 
 
 class Constantinople(Byzantium):
@@ -280,6 +460,32 @@ class Constantinople(Byzantium):
         2_000_000_000_000_000_000 wei
         """
         return 2_000_000_000_000_000_000
+
+    @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        At Constantinople, `CREATE2` opcode is added.
+        """
+        return [(Opcodes.CREATE2, EVMCodeType.LEGACY),] + super(
+            Constantinople, cls
+        ).create_opcodes(block_number, timestamp)
+
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [
+            Opcodes.SHL,
+            Opcodes.SHR,
+            Opcodes.SAR,
+            Opcodes.EXTCODEHASH,
+            Opcodes.CREATE2,
+        ] + super(Constantinople, cls).valid_opcodes()
 
 
 class ConstantinopleFix(Constantinople, solc_name="constantinople"):
@@ -296,11 +502,20 @@ class Istanbul(ConstantinopleFix):
     """
 
     @classmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         At Istanbul, pre-compile for blake2 compression is introduced
         """
-        return [9] + super(Istanbul, cls).precompiles(block_number, timestamp)
+        return [Address(9)] + super(Istanbul, cls).precompiles(block_number, timestamp)
+
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [Opcodes.CHAINID, Opcodes.SELFBALANCE] + super(Istanbul, cls).valid_opcodes()
 
 
 # Glacier forks skipped, unless explicitly specified
@@ -357,6 +572,15 @@ class London(Berlin):
         At London, dynamic fee transactions are introduced
         """
         return [2] + super(London, cls).contract_creating_tx_types(block_number, timestamp)
+
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [Opcodes.BASEFEE] + super(London, cls).valid_opcodes()
 
 
 # Glacier forks skipped, unless explicitly specified
@@ -437,6 +661,15 @@ class Shanghai(Paris):
         """
         return 2
 
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [Opcodes.PUSH0] + super(Shanghai, cls).valid_opcodes()
+
 
 class Cancun(Shanghai):
     """
@@ -486,11 +719,18 @@ class Cancun(Shanghai):
         return [3] + super(Cancun, cls).tx_types(block_number, timestamp)
 
     @classmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         At Cancun, pre-compile for kzg point evaluation is introduced
         """
-        return [0xA] + super(Cancun, cls).precompiles(block_number, timestamp)
+        return [Address(0xA)] + super(Cancun, cls).precompiles(block_number, timestamp)
+
+    @classmethod
+    def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """
+        Cancun introduces the system contract for EIP-4788
+        """
+        return [Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02)]
 
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
@@ -531,6 +771,21 @@ class Cancun(Shanghai):
         """
         return True
 
+    @classmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """
+        Returns the list of Opcodes that are valid to work on this fork.
+        """
+        return [
+            Opcodes.BLOBHASH,
+            Opcodes.BLOBBASEFEE,
+            Opcodes.TLOAD,
+            Opcodes.TSTORE,
+            Opcodes.MCOPY,
+        ] + super(Cancun, cls).valid_opcodes()
+
 
 class Prague(Cancun):
     """
@@ -553,7 +808,7 @@ class Prague(Cancun):
         return Version.parse("1.0.0")  # set a high version; currently unknown
 
     @classmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         At Prague, pre-compile for BLS operations are added:
 
@@ -567,7 +822,21 @@ class Prague(Cancun):
         MAP_FP_TO_G1 = 0x12
         MAP_FP2_TO_G2 = 0x13
         """
-        return list(range(0xB, 0x13 + 1)) + super(Prague, cls).precompiles(block_number, timestamp)
+        return list(Address(i) for i in range(0xB, 0x13 + 1)) + super(Prague, cls).precompiles(
+            block_number, timestamp
+        )
+
+    @classmethod
+    def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """
+        Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935
+        """
+        return [
+            Address(0x00000000219AB540356CBB839CBE05303D7705FA),
+            Address(0x00A3CA265EBCB825B45F985A16CEFB49958CE017),
+            Address(0x00B42DBF2194E931E80326D950320F7D9DBEAC02),
+            Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E),
+        ] + super(Prague, cls).system_contracts(block_number, timestamp)
 
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
@@ -694,6 +963,17 @@ class CancunEIP7692(  # noqa: SC200
         ).call_opcodes(
             block_number, timestamp
         )
+
+    @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        EOF V1 introduces `EOFCREATE`.
+        """
+        return [(Opcodes.EOFCREATE, EVMCodeType.EOF_V1),] + super(
+            CancunEIP7692, cls  # noqa: SC200
+        ).create_opcodes(block_number, timestamp)
 
     @classmethod
     def is_deployed(cls) -> bool:

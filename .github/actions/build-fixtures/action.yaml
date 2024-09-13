@@ -1,38 +1,34 @@
-name: Build and Package Fixtures
+name: Build and Package Fixture Release
 inputs:
-  name:
-    description: 'Name of the fixture package'
+  release_name:
+    description: 'Name of the fixture release'
     required: true
 runs:
   using: "composite"
   steps:
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.11
-    - name: Install yq
+    - name: Set up uv
+      uses: ./.github/actions/setup-uv
+    - name: Set up Python
+      shell: bash    
+      run: uv python install 3.10 --no-progress
+    - name: Install EEST
       shell: bash
-      run: |
-        pip install yq
-    - name: Extract fixture properties
+      run: uv sync --no-progress
+    - name: Extract fixture release properties from config
       id: properties
       shell: bash
       run: |
-        yq -r --arg feature "${{ inputs.name }}" '.[$feature] | to_entries | map("\(.key)=\(.value)")[]' ./.github/configs/feature.yaml >> "$GITHUB_OUTPUT"
+        echo "release_name=${{ inputs.release_name }}"
+        uv run -q .github/scripts/get_release_props.py ${{ inputs.release_name }} >> "$GITHUB_OUTPUT"
     - uses: ./.github/actions/build-evm-base
       id: evm-builder
       with:
         type: ${{ steps.properties.outputs.evm-type }}
-    - name: Run fixtures fill
+    - name: Generate fixtures using fill
       shell: bash
       run: |
-        pip install --upgrade pip
-        python -m venv env
-        source env/bin/activate
-        pip install -e .
-        solc-select use  ${{ steps.properties.outputs.solc }} --always-install
-        fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.name }}.tar.gz --build-name ${{ inputs.name }}
+        uv run fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} --solc-version=${{ steps.properties.outputs.solc }} ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.release_name }}.tar.gz --build-name ${{ inputs.release_name }}
     - uses: actions/upload-artifact@v4
       with:
-        name: fixtures_${{ inputs.name }}
-        path: fixtures_${{ inputs.name }}.tar.gz
+        name: fixtures_${{ inputs.release_name }}
+        path: fixtures_${{ inputs.release_name }}.tar.gz

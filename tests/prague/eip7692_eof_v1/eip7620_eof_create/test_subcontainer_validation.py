@@ -29,20 +29,13 @@ returncontract_code_section = Section.Code(
     code=Op.SSTORE(slot_code_worked, value_code_worked) + Op.RETURNCONTRACT[0](0, 0),
     max_stack_height=2,
 )
-stop_sub_container = Section.Container(container=Container(sections=[Section.Code(code=Op.STOP)]))
-return_sub_container = Section.Container(
-    container=Container(sections=[Section.Code(code=Op.RETURN(0, 0), max_stack_height=2)])
-)
-revert_sub_container = Section.Container(
-    container=Container(sections=[Section.Code(code=Op.REVERT(0, 0), max_stack_height=2)])
-)
+stop_sub_container = Section.Container(Container.Code(Op.STOP))
+return_sub_container = Section.Container(Container.Code(Op.RETURN(0, 0)))
+revert_sub_container = Section.Container(Container.Code(Op.REVERT(0, 0)))
 returncontract_sub_container = Section.Container(
-    container=Container(
+    Container(
         sections=[
-            Section.Code(
-                code=Op.RETURNCONTRACT[0](0, 0),
-                max_stack_height=2,
-            ),
+            Section.Code(Op.RETURNCONTRACT[0](0, 0)),
             stop_sub_container,
         ],
     )
@@ -147,31 +140,31 @@ def test_orphan_container(
             eofcreate_code_section,
             returncontract_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/RETURNCONTRACT",
+            id="EOFCREATE_RETURNCONTRACT",
         ),
         pytest.param(
             returncontract_code_section,
             stop_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/STOP",
+            id="RETURNCONTRACT_STOP",
         ),
         pytest.param(
             returncontract_code_section,
             return_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/RETURN",
+            id="RETURNCONTRACT_RETURN",
         ),
         pytest.param(
             eofcreate_code_section,
             revert_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/REVERT",
+            id="EOFCREATE_REVERT",
         ),
         pytest.param(
             returncontract_code_section,
             revert_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/REVERT",
+            id="RETURNCONTRACT_REVERT",
         ),
     ],
 )
@@ -201,19 +194,19 @@ def test_container_combos_valid(
             eofcreate_code_section,
             stop_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/STOP",
+            id="EOFCREATE_STOP",
         ),
         pytest.param(
             eofcreate_code_section,
             return_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/RETURN",
+            id="EOFCREATE_RETURN",
         ),
         pytest.param(
             returncontract_code_section,
             returncontract_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/RETURNCONTRACT",
+            id="RETURNCONTRACT_RETURNCONTRACT",
         ),
     ],
 )
@@ -242,27 +235,27 @@ def test_container_combos_invalid(
         pytest.param(
             eofcreate_revert_code_section,
             returncontract_sub_container,
-            id="EOFCREATE/RETURNCONTRACT",
+            id="EOFCREATE_RETURNCONTRACT",
         ),
         pytest.param(
             returncontract_code_section,
             stop_sub_container,
-            id="RETURNCONTRACT/STOP",
+            id="RETURNCONTRACT_STOP",
         ),
         pytest.param(
             returncontract_code_section,
             return_sub_container,
-            id="RETURNCONTRACT/RETURN",
+            id="RETURNCONTRACT_RETURN",
         ),
         pytest.param(
             eofcreate_revert_code_section,
             revert_sub_container,
-            id="EOFCREATE/REVERT",
+            id="EOFCREATE_REVERT",
         ),
         pytest.param(
             returncontract_code_section,
             revert_sub_container,
-            id="RETURNCONTRACT/REVERT",
+            id="RETURNCONTRACT_REVERT",
         ),
     ],
 )
@@ -299,17 +292,17 @@ def test_container_combos_deeply_nested_valid(
         pytest.param(
             eofcreate_revert_code_section,
             stop_sub_container,
-            id="EOFCREATE/STOP",
+            id="EOFCREATE_STOP",
         ),
         pytest.param(
             eofcreate_revert_code_section,
             return_sub_container,
-            id="EOFCREATE/RETURN",
+            id="EOFCREATE_RETURN",
         ),
         pytest.param(
             returncontract_code_section,
             returncontract_sub_container,
-            id="RETURNCONTRACT/RETURNCONTRACT",
+            id="RETURNCONTRACT_RETURNCONTRACT",
         ),
     ],
 )
@@ -350,31 +343,31 @@ def test_container_combos_deeply_nested_invalid(
             eofcreate_code_section,
             returncontract_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/RETURNCONTRACT",
+            id="EOFCREATE_RETURNCONTRACT",
         ),
         pytest.param(
             returncontract_code_section,
             stop_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/STOP",
+            id="RETURNCONTRACT_STOP",
         ),
         pytest.param(
             returncontract_code_section,
             return_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/RETURN",
+            id="RETURNCONTRACT_RETURN",
         ),
         pytest.param(
             eofcreate_code_section,
             revert_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/REVERT",
+            id="EOFCREATE_REVERT",
         ),
         pytest.param(
             returncontract_code_section,
             revert_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/REVERT",
+            id="RETURNCONTRACT_REVERT",
         ),
     ],
 )
@@ -401,19 +394,19 @@ def test_container_combos_non_first_code_sections_valid(
             eofcreate_code_section,
             stop_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/STOP",
+            id="EOFCREATE_STOP",
         ),
         pytest.param(
             eofcreate_code_section,
             return_sub_container,
             ContainerKind.RUNTIME,
-            id="EOFCREATE/RETURN",
+            id="EOFCREATE_RETURN",
         ),
         pytest.param(
             returncontract_code_section,
             returncontract_sub_container,
             ContainerKind.INITCODE,
-            id="RETURNCONTRACT/RETURNCONTRACT",
+            id="RETURNCONTRACT_RETURNCONTRACT",
         ),
     ],
 )
@@ -471,12 +464,61 @@ def test_container_both_kinds_different_sub(eof_test: EOFTestFiller):
     )
 
 
+@pytest.mark.parametrize("version", [0, 255], ids=lambda x: x)
+def test_subcontainer_wrong_eof_version(
+    eof_test: EOFTestFiller,
+    version: int,
+):
+    """Test a subcontainer with the incorrect EOF version"""
+    eof_test(
+        data=Container(
+            sections=[
+                Section.Code(
+                    code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP,
+                ),
+                Section.Container(
+                    container=Container(version=[version], sections=[Section.Code(code=Op.STOP)])
+                ),
+            ],
+            kind=ContainerKind.RUNTIME,
+        ),
+        expect_exception=EOFException.INVALID_VERSION,
+    )
+
+
+@pytest.mark.parametrize("delta", [-1, 1], ids=["smaller", "larger"])
+@pytest.mark.parametrize("kind", [ContainerKind.RUNTIME, ContainerKind.INITCODE])
+def test_subcontainer_wrong_size(
+    eof_test: EOFTestFiller,
+    delta: int,
+    kind: ContainerKind,
+):
+    """Test a subcontainer with the incorrect size in the parent's header"""
+    eof_test(
+        data=Container(
+            sections=[
+                Section.Code(
+                    code=(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP)
+                    if kind == ContainerKind.RUNTIME
+                    else (Op.RETURNCONTRACT[0](0, 0)),
+                ),
+                Section.Container(
+                    container=Container(sections=[Section.Code(code=Op.STOP)]),
+                    custom_size=len(stop_sub_container.data) + delta,
+                ),
+            ],
+            kind=kind,
+        ),
+        expect_exception=EOFException.INVALID_SECTION_BODIES_SIZE,
+    )
+
+
 @pytest.mark.parametrize(
     ["deepest_container", "exception"],
     [
-        pytest.param(Container(sections=[Section.Code(code=Op.STOP)]), None, id="valid"),
+        pytest.param(Container.Code(Op.STOP), None, id="valid"),
         pytest.param(
-            Container(sections=[Section.Code(code=Op.PUSH0)]),
+            Container.Code(code=Op.PUSH0),
             EOFException.MISSING_STOP_OPCODE,
             id="code-error",
         ),
@@ -572,13 +614,71 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                         + Op.POP
                         + Op.STOP
                     ),
-                    Section.Container(Container(sections=[Section.Code(Op.INVALID)])),
+                    Section.Container(Container.Code(Op.INVALID)),
                 ],
                 expected_bytecode="""
                 ef0001010004020001000b0300010014040000000080000436600060ff6000ec005000ef000101000402
                 000100010400000000800000fe""",
             ),
-            id="EOF1_eofcreate_valid_0",
+            id="eofcreate_0",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(Op.PUSH1[0] + Op.RJUMP[0] + Op.STOP),
+                    Section.Container(Container.Code(Op.INVALID)),
+                ],
+                expected_bytecode="""
+                ef00010100040200010006030001001404000000008000016000e0000000ef0001010004020001000104
+                00000000800000fe""",
+                # Originally this test was "valid" because it was created
+                # before "orphan subcontainer" rule was introduced.
+                validity_error=EOFException.ORPHAN_SUBCONTAINER,
+            ),
+            id="orphan_subcontainer_0",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(Op.PUSH1[0] + Op.RJUMP[0] + Op.STOP),
+                    Section.Container(Container.Code(Op.INVALID)),
+                    Section.Data(custom_size=2),
+                ],
+                expected_bytecode="""
+                ef00010100040200010006030001001404000200008000016000e0000000ef0001010004020001000104
+                00000000800000fe""",
+                # Originally this test was "valid" but against the current spec
+                # it contains two errors: data section truncated and orphan subcontainer.
+                validity_error=EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
+            ),
+            id="orphan_subcontainer_0_and_truncated_data",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(Op.PUSH1[0] + Op.RJUMP[0] + Op.STOP),
+                    Section.Container(Container.Code(Op.INVALID)),
+                    Section.Data("aabb"),
+                ],
+                expected_bytecode="""
+                ef00010100040200010006030001001404000200008000016000e0000000ef0001010004020001000104
+                00000000800000feaabb""",
+                # Originally this test was "valid" because it was created
+                # before "orphan subcontainer" rule was introduced.
+                validity_error=EOFException.ORPHAN_SUBCONTAINER,
+            ),
+            id="orphan_subcontainer_0_and_data",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                    Section.Container("aabbccddeeff"),
+                ],
+                # The original test has been modified to reference the subcontainer by EOFCREATE.
+                validity_error=EOFException.INVALID_MAGIC,
+            ),
+            id="subcontainer_0_with_invalid_prefix",
         ),
         pytest.param(
             Container(
@@ -593,7 +693,7 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                         + Op.STOP
                     )
                 ]
-                + 2 * [Section.Container(Container(sections=[Section.Code(Op.INVALID)]))],
+                + 2 * [Section.Container(Container.Code(Op.INVALID))],
                 expected_bytecode="""
                 ef0001010004020001000b03000200140014040000000080000436600060ff6000ec015000ef00010100
                 0402000100010400000000800000feef000101000402000100010400000000800000fe""",
@@ -601,7 +701,23 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_eofcreate_valid_1",
+            id="eofcreate_1_orphan_subcontainer_0",
+        ),
+        pytest.param(
+            Container(
+                sections=[
+                    Section.Code(Op.PUSH1[0] + Op.RJUMP[0] + Op.STOP),
+                    Section.Container(Container.Code(Op.INVALID)),
+                    Section.Container(Container.Code(Op.PUSH0 + Op.PUSH0 + Op.RETURN)),
+                ],
+                expected_bytecode="""
+                ef000101000402000100060300020014001604000000008000016000e0000000ef000101000402000100
+                010400000000800000feef0001010004020001000304000000008000025f5ff3""",
+                # Originally this test was "valid" because it was created
+                # before "orphan subcontainer" rule was introduced.
+                validity_error=EOFException.ORPHAN_SUBCONTAINER,
+            ),
+            id="two_orphan_subcontainers",
         ),
         pytest.param(
             Container(
@@ -616,12 +732,22 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                         + Op.STOP
                     )
                 ]
-                + 256 * [Section.Container(Container(sections=[Section.Code(Op.INVALID)]))],
+                + 256 * [Section.Container(Container.Code(Op.INVALID))],
                 # Originally this test was "valid" because it was created
                 # before "orphan subcontainer" rule was introduced.
                 validity_error=EOFException.ORPHAN_SUBCONTAINER,
             ),
-            id="EOF1_eofcreate_valid_2",
+            id="eofcreate_255_max_orphan_subcontainers",
+        ),
+        pytest.param(
+            Container(
+                sections=[Section.Code(Op.PUSH1[0] + Op.RJUMP[0] + Op.STOP)]
+                + 256 * [Section.Container(Container.Code(Op.INVALID))],
+                # Originally this test was "valid" because it was created
+                # before "orphan subcontainer" rule was introduced.
+                validity_error=EOFException.ORPHAN_SUBCONTAINER,
+            ),
+            id="max_orphan_subcontainers",
         ),
     ],
 )

@@ -5,8 +5,7 @@ There's a [pre-commit](https://pre-commit.com/) config file available in the rep
 To enable pre-commit, the following must be ran once:
 
 ```console
-pip install pre-commit
-pre-commit install
+uvx pre-commit install
 ```
 
 !!! note "Bypassing pre-commit checks"

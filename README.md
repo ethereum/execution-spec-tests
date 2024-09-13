@@ -82,31 +82,30 @@ The following requires a Python 3.10, 3.11 or 3.12 installation.
 
 ### Quick Start
 
-This guide installs stable versions of the required external (go-ethereum) `evm` and `solc` executables and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
+This guide installs stable versions of the external (go-ethereum) `evm` executable and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
 
-1. Ensure go-ethereum's `evm` tool and `solc` ([0.8.20](https://github.com/ethereum/solidity/releases/tag/v0.8.20), [0.8.21](https://github.com/ethereum/solidity/releases/tag/v0.8.21), [0.8.22](https://github.com/ethereum/solidity/releases/tag/v0.8.22), [0.8.23](https://github.com/ethereum/solidity/releases/tag/v0.8.23)  supported) are in your path. Either build the required versions, or alternatively:
+1. Ensure go-ethereum's `evm` tool is in your path. Either build the required version, or alternatively:
 
     ```console
     sudo add-apt-repository -y ppa:ethereum/ethereum
     sudo apt-get update
-    sudo apt-get install ethereum solc
+    sudo apt-get install ethereum
     ```
 
     More help:
 
     - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
-    - [solc installation doc](https://docs.soliditylang.org/en/latest/installing-solidity.html#linux-packages).
 
     Help for other platforms is available in the [online doc](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
 
-2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies (it's recommended to use a virtual environment for the installation):
+2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies ([`uv`](https://docs.astral.sh/uv/) will create and manage a virtual environment for its installation):
 
    ```console
    git clone https://github.com/ethereum/execution-spec-tests
    cd execution-spec-tests
-   python3 -m venv ./venv/
-   source ./venv/bin/activate
-   pip install -e .[docs,lint,test]
+   pip install uv  # or curl -LsSf https://astral.sh/uv/install.sh | sh
+   uv sync --all-extras
+   source .venv/bin/activate  # or run `uv run fill ...`
    ```
 
 3. Verify the installation:
@@ -129,7 +128,7 @@ This guide installs stable versions of the required external (go-ethereum) `evm`
           ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_run_example.png)
         Check:
 
-        1. The versions of the `evm` and `solc` tools are as expected (your versions may differ from those in the highlighted box).
+        1. The versions of the `evm` tool is as expected (your versions may differ from those in the highlighted box).
         2. The corresponding fixture file has been generated:
 
            ```console

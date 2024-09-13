@@ -122,6 +122,40 @@ def test_rjumpv_backwards(
     )
 
 
+def test_rjumpv_backwards_onto_dup(
+    eof_test: EOFTestFiller,
+):
+    """
+    Backwards jump vector onto a dup
+    """
+    container = Container.Code(
+        code=(Op.PUSH0 + Op.DUP1 + Op.RJUMPV[-5] + Op.STOP),
+        max_stack_height=2,
+    )
+    eof_test(
+        data=container,
+    )
+
+
+@pytest.mark.parametrize("len", [8, 9])
+def test_rjumpv_backwards_large_table(
+    eof_test: EOFTestFiller,
+    len: int,
+):
+    """
+    Backwards jump vector with a large table
+    """
+    jump_table = [0] * len
+    jump_table += [len * -2 - 6]
+    container = Container.Code(
+        code=(Op.RJUMPV[jump_table](len) + Op.STOP),
+        max_stack_height=1,
+    )
+    eof_test(
+        data=container,
+    )
+
+
 def test_rjumpv_zero(
     eof_state_test: EOFStateTestFiller,
 ):
@@ -982,7 +1016,7 @@ def test_rjumpv_into_swapn(
         pytest.param(256, 255, id="t256i255"),
     ],
 )
-def test_rjump_into_exchange(
+def test_rjumpv_into_exchange(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
@@ -1124,4 +1158,87 @@ def test_rjumpv_backwards_reference_only(
     eof_test(
         data=container,
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS,
+    )
+
+
+def test_rjumpv_at_the_end(
+    eof_test: EOFTestFiller,
+):
+    """
+    https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation 4.i:
+    This implies that the last instruction may be a terminating instruction or RJUMP
+    """
+    eof_test(
+        data=Container(
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1(0) + Op.PUSH1(0) + Op.RJUMPI[1] + Op.STOP + Op.RJUMPV[-7](1),
+                )
+            ],
+        ),
+        expect_exception=EOFException.MISSING_STOP_OPCODE,
+    )
+
+
+def test_rjumpv_backwards_min_stack_wrong(
+    eof_test: EOFTestFiller,
+):
+    """
+    Backwards rjumpv where min_stack does not match
+    """
+    container = Container.Code(
+        code=(
+            Op.PUSH0  # (0, 0)
+            + Op.PUSH1(0)  # (1, 1)
+            + Op.RJUMPV[1]  # (2, 2) To PUSH1
+            + Op.PUSH0  # (1, 1)
+            + Op.PUSH1(4)  # (1, 2)
+            + Op.RJUMPV[-11]  # (2, 3) To first RJUMPV with (1, 2)
+            + Op.STOP  # (1, 2)
+        ),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
+
+
+def test_rjumpv_rjumpi_backwards_min_stack_wrong(
+    eof_test: EOFTestFiller,
+):
+    """
+    Backwards rjumpv where min_stack does not match
+    """
+    container = Container.Code(
+        code=(
+            Op.PUSH0  # (0, 0)
+            + Op.PUSH1(0)  # (1, 1)
+            + Op.RJUMPV[1]  # (2, 2) To PUSH1
+            + Op.PUSH0  # (1, 1)
+            + Op.PUSH1(4)  # (1, 2)
+            + Op.RJUMPI[-10]  # (2, 3) To first RJUMPV with (1, 2)
+            + Op.STOP  # (1, 2)
+        ),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
+
+
+def test_double_rjumpv(
+    eof_test: EOFTestFiller,
+):
+    """
+    Two RJUMPVs, causing the min stack to underflow
+    """
+    container = Container.Code(
+        code=(Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[6] + Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[0] + Op.RETURN),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_UNDERFLOW,
     )

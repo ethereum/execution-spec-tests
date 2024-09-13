@@ -4,6 +4,8 @@ Test good and bad EOFCREATE cases
 
 import pytest
 
+from ethereum_test_exceptions import EOFException
+from ethereum_test_specs import EOFTestFiller
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -25,10 +27,10 @@ from .helpers import (
     slot_returndata_size,
     smallest_initcode_subcontainer,
     smallest_runtime_subcontainer,
-    value_call_result_success,
     value_canary_to_be_overwritten,
     value_code_worked,
     value_create_failed,
+    value_eof_call_result_success,
 )
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7620.md"
@@ -431,7 +433,7 @@ def test_return_data_cleared(
     post = {
         contract_address: Account(
             storage={
-                slot_call_result: value_call_result_success,
+                slot_call_result: value_eof_call_result_success,
                 slot_returndata_size: value_return_canary_size,
                 slot_create_address: new_contract_address,
                 slot_returndata_size_2: 0,
@@ -569,3 +571,22 @@ def test_eofcreate_revert_eof_returndata(
     )
 
     state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize("index", [1, 255], ids=lambda x: x)
+def test_eofcreate_invalid_index(
+    eof_test: EOFTestFiller,
+    index: int,
+):
+    """Referring to non-existent container section index"""
+    eof_test(
+        data=Container(
+            sections=[
+                Section.Code(
+                    code=Op.EOFCREATE[index](0, 0, 0, 0) + Op.STOP,
+                ),
+                Section.Container(container=Container(sections=[Section.Code(code=Op.INVALID)])),
+            ],
+        ),
+        expect_exception=EOFException.INVALID_CONTAINER_SECTION_INDEX,
+    )

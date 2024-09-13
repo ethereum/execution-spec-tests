@@ -354,6 +354,14 @@ class TransactionException(ExceptionBase):
     """
     Transaction is type 3, but has no blobs.
     """
+    TYPE_4_EMPTY_AUTHORIZATION_LIST = auto()
+    """
+    Transaction is type 4, but has an empty authorization list.
+    """
+    TYPE_4_INVALID_AUTHORITY_SIGNATURE = auto()
+    """
+    Transaction is type 4, but has an empty authorization list.
+    """
 
 
 @unique
@@ -730,6 +738,14 @@ class EOFException(ExceptionBase):
     """
     EOF container header has too many sub-containers.
     """
+    INVALID_CODE_SECTION_INDEX = auto()
+    """
+    CALLF Operation referes to a non-existent code section
+    """
+    UNEXPECTED_HEADER_KIND = auto()
+    """
+    Header parsing encounterd a section kind it wasn't expecting
+    """
 
 
 """
@@ -750,6 +766,12 @@ TransactionExceptionInstanceOrList = Annotated[
 
 BlockExceptionInstanceOrList = Annotated[
     List[BlockException] | BlockException,
+    BeforeValidator(from_pipe_str),
+    PlainSerializer(to_pipe_str),
+]
+
+EOFExceptionInstanceOrList = Annotated[
+    List[EOFException] | EOFException,
     BeforeValidator(from_pipe_str),
     PlainSerializer(to_pipe_str),
 ]

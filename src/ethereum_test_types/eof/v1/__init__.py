@@ -17,7 +17,7 @@ from pydantic_core.core_schema import (
 from ethereum_test_base_types import Bytes
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_base_types.pydantic import CopyValidateModel
-from ethereum_test_exceptions import EOFException
+from ethereum_test_exceptions.exceptions import EOFExceptionInstanceOrList
 from ethereum_test_vm import Bytecode
 from ethereum_test_vm import Opcodes as Op
 
@@ -365,7 +365,11 @@ class Container(CopyValidateModel):
     Body: type section first, all code sections, data section(s), last
                 container sections
     """
-    validity_error: EOFException | str | None = None
+    skip_join_concurrent_sections_in_header: bool = False
+    """
+    Skip joining concurrent sections in the header (code and container)
+    """
+    validity_error: EOFExceptionInstanceOrList | str | None = None
     """
     Optional error expected for the container.
 
@@ -435,7 +439,10 @@ class Container(CopyValidateModel):
             # Join headers of the same kind in a list of lists, only if they are next to each other
             concurrent_sections: List[List[Section]] = [[header_sections[0]]]
             for s in header_sections[1:]:
-                if s.kind == concurrent_sections[-1][-1].kind:
+                if (
+                    s.kind == concurrent_sections[-1][-1].kind
+                    and not self.skip_join_concurrent_sections_in_header
+                ):
                     concurrent_sections[-1].append(s)
                 else:
                     concurrent_sections.append([s])
@@ -472,6 +479,22 @@ class Container(CopyValidateModel):
         """
         kwargs.pop("kind", None)
         return cls(sections=[Section.Code(code=code, **kwargs)])
+
+    @classmethod
+    def Init(cls, deploy_container: "Container", **kwargs) -> "Container":  # noqa: N802
+        """
+        Creates simple init container that deploys the specified container.
+        """
+        return cls(
+            sections=[
+                Section.Code(
+                    code=Op.RETURNCONTRACT[0](0, 0),
+                ),
+                Section.Container(
+                    container=deploy_container,
+                ),
+            ],
+        )
 
     def __bytes__(self) -> bytes:
         """
