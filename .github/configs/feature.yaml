@@ -18,3 +18,7 @@ eip7692-prague:
   evm-type: eip7692-prague
   fill-params: --fork=PragueEIP7692 ./tests/prague -k "not slow"
   solc: 0.8.21
+pectra-devnet-3:
+  evm-type: pectra-devnet-3
+  fill-params: --fork=Prague -m "not slow and not 2537" ./tests/prague/
+  solc: 0.8.21
