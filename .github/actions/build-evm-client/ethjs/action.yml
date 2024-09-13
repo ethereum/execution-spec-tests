@@ -8,7 +8,7 @@ inputs:
   ref:
     description: 'Reference to branch, commit, or tag to use to build EthereumJS'
     required: true
-    default: 't8ntool'
+    default: 'master'
 runs:
   using: "composite"
   steps:
