@@ -379,6 +379,10 @@ class EOFStateTest(EOFTest):
         Generate the BlockchainTest fixture.
         """
         if fixture_format == FixtureFormats.EOF_TEST:
+            if self.data in existing_tests:
+                # Gracefully skip duplicate tests because one EOFStateTest can generate multiple
+                # state fixtures with the same data.
+                pytest.skip(f"Duplicate EOF container on EOFStateTest: {request.node.nodeid}")
             return self.make_eof_test_fixture(request=request, fork=fork, eips=eips)
         elif fixture_format in (
             FixtureFormats.STATE_TEST,
