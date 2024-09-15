@@ -378,12 +378,9 @@ def test_set_code_to_tstore_reentry(
     )
 
 
-@pytest.mark.parametrize(
-    "call_opcode",
-    [
-        Op.CALL,
-        Op.STATICCALL,
-    ],
+@pytest.mark.with_all_call_opcodes(
+    selector=lambda call_opcode: call_opcode
+    not in [Op.DELEGATECALL, Op.CALLCODE, Op.STATICCALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
 )
 @pytest.mark.parametrize("call_eoa_first", [True, False])
 def test_set_code_to_tstore_available_at_correct_address(
@@ -410,13 +407,8 @@ def test_set_code_to_tstore_available_at_correct_address(
     set_code_to_address = pre.deploy_contract(tstore_check_code)
 
     def make_call(call_type: Op, call_eoa: bool) -> Bytecode:
-
         call_target = auth_signer if call_eoa else set_code_to_address
-        if call_type == Op.STATICCALL:
-            return call_type(Op.GAS(), call_target, 0, 0, 0, 0)
-        else:
-            # call_type = Op.CALL
-            return call_type(Op.GAS(), call_target, 0, 0, 0, 0, 0)
+        return call_type(address=call_target)
 
     chain_code = make_call(call_type=call_opcode, call_eoa=call_eoa_first) + make_call(
         call_type=call_opcode, call_eoa=not call_eoa_first
