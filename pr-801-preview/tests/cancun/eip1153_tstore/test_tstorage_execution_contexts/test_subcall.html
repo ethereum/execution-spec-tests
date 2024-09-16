@@ -1,0 +1,505 @@
+<h1>Test Function: <code>test_subcall()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>callee_bytecode</th>
+                        <th>caller_bytecode</th>
+                        <th>env</th>
+                        <th>expected_callee_storage</th>
+                        <th>expected_caller_storage</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>call</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{0: 0, 1: 69}</td>
+                        <td>{0: 1, 1: 420, 2: 0}</td>
+                    </tr>
+                <tr>
+            <td>staticcall_cant_call_tstore</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420}</td>
+                    </tr>
+                <tr>
+            <td>staticcall_cant_call_tstore_with_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420}</td>
+                    </tr>
+                <tr>
+            <td>staticcalled_context_can_call_tload</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 1, 1: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 1, 1: 420, 2: 420, 3: 69, 4: 69}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 1, 1: 420, 2: 420, 3: 69, 4: 69}</td>
+                    </tr>
+                <tr>
+            <td>call_with_revert</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_invalid</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_stack_overflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_tstore_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_tstore_stack_underflow_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_tload_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_out_of_gas</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_out_of_gas_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_revert</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_invalid</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_stack_overflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_tstore_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_tstore_stack_underflow_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_tload_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_out_of_gas</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_out_of_gas_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_revert</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_invalid</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_stack_overflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_tstore_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_tstore_stack_underflow_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_tload_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_out_of_gas</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_out_of_gas_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{0: 0, 1: 69}</td>
+                        <td>{0: 1, 1: 420, 2: 0}</td>
+                    </tr>
+                <tr>
+            <td>staticcall_cant_call_tstore</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420}</td>
+                    </tr>
+                <tr>
+            <td>staticcall_cant_call_tstore_with_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420}</td>
+                    </tr>
+                <tr>
+            <td>staticcalled_context_can_call_tload</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 1, 1: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 1, 1: 420, 2: 420, 3: 69, 4: 69}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 1, 1: 420, 2: 420, 3: 69, 4: 69}</td>
+                    </tr>
+                <tr>
+            <td>call_with_revert</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_invalid</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_stack_overflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_tstore_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_tstore_stack_underflow_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_tload_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_out_of_gas</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>call_with_out_of_gas_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_revert</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_invalid</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_stack_overflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_tstore_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_tstore_stack_underflow_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_tload_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_out_of_gas</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>callcode_with_out_of_gas_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_revert</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_invalid</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_stack_overflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_tstore_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_tstore_stack_underflow_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_tload_stack_underflow</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_out_of_gas</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+                <tr>
+            <td>delegatecall_with_out_of_gas_2</td>
+                        <td></td>
+                        <td></td>
+                        <td>fee_recipient=b'*\xdc%fP\x18\xaa\x1f\xe0\xe6\xbcfm\xac\x8f\xc2i\x7f\xf9\xba' gas_limit=100000000000000000 number=1 timestamp=1000 prev_randao=None difficulty=None base_fee_per_gas=None excess_blob_gas=None parent_difficulty=None parent_timestamp=None parent_base_fee_per_gas=None parent_gas_used=None parent_gas_limit=None blob_gas_used=None parent_ommers_hash=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' parent_blob_gas_used=None parent_excess_blob_gas=None parent_beacon_block_root=None block_hashes={} ommers=[] withdrawals=None extra_data=b'\x00' parent_hash=None</td>
+                        <td>{}</td>
+                        <td>{0: 0, 1: 420, 2: 420}</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

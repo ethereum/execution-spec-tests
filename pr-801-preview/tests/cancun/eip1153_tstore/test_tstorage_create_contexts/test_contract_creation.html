@@ -1,0 +1,164 @@
+<h1>Test Function: <code>test_contract_creation()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>constructor_code</th>
+                        <th>deploy_code</th>
+                        <th>expected_storage</th>
+                        <th>opcode</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>only_constructor_code-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>only_constructor_code-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>in_constructor_and_deployed_code-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 0, 2: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>in_constructor_and_deployed_code-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 0, 2: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v0-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v0-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v1-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 0, 3: 1, 4: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v1-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 0, 3: 1, 4: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>no_constructor_code-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>no_constructor_code-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>only_constructor_code-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>only_constructor_code-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>in_constructor_and_deployed_code-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 0, 2: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>in_constructor_and_deployed_code-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 0, 2: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v0-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v0-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v1-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 0, 3: 1, 4: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>across_constructor_and_deployed_code_v1-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 0, 3: 1, 4: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr>
+            <td>no_constructor_code-create</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr>
+            <td>no_constructor_code-create2</td>
+                        <td></td>
+                        <td></td>
+                        <td>{0: 0, 1: 1}</td>
+                        <td>CREATE2</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

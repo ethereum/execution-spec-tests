@@ -1,0 +1,45 @@
+<h1>Test Function: <code>test_first_section_returning()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>code_section</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>stop</td>
+                        <td>data=b'\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>invalid0</td>
+                        <td>data=b'\xfe' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>invalid1</td>
+                        <td>data=b'0P\xfe' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=1 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>return</td>
+                        <td>data=b'`\x00`\x00\xf3' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>retf0</td>
+                        <td>data=b'\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>retf1</td>
+                        <td>data=b'_\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=1 max_stack_height=1 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

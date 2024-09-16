@@ -1,0 +1,52 @@
+<h1>Test Function: <code>test_invalid_non_multiple_excess_blob_gas()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>parent_excess_blobs</th>
+                        <th>new_blobs</th>
+                        <th>parent_blobs</th>
+                        <th>header_excess_blob_gas_delta</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>parent_excess_blobs_4-new_blobs_1-parent_blobs_4-header_excess_blob_gas_delta_1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+                <tr>
+            <td>parent_excess_blobs_4-new_blobs_1-parent_blobs_4-header_excess_blob_gas_delta_131071</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>131071</td>
+                    </tr>
+                <tr>
+            <td>parent_excess_blobs_4-new_blobs_1-parent_blobs_2-header_excess_blob_gas_delta_-1</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>-1</td>
+                    </tr>
+                <tr>
+            <td>parent_excess_blobs_4-new_blobs_1-parent_blobs_2-header_excess_blob_gas_delta_-131071</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>-131071</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

@@ -1,0 +1,52 @@
+<h1>Test Function: <code>test_retf_in_nonreturning()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>code_prefix</th>
+                        <th>first</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>code_prefix_-first_True</td>
+                        <td></td>
+                        <td>True</td>
+                    </tr>
+                <tr>
+            <td>code_prefix_-first_False</td>
+                        <td></td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>code_prefix_PUSH0-first_True</td>
+                        <td>PUSH0</td>
+                        <td>True</td>
+                    </tr>
+                <tr>
+            <td>code_prefix_PUSH0-first_False</td>
+                        <td>PUSH0</td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>PUSH0x0x80-first_True</td>
+                        <td></td>
+                        <td>True</td>
+                    </tr>
+                <tr>
+            <td>PUSH0x0x80-first_False</td>
+                        <td></td>
+                        <td>False</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

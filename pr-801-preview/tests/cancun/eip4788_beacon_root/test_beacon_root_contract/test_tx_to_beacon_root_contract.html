@@ -1,0 +1,71 @@
+<h1>Test Function: <code>test_tx_to_beacon_root_contract()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>tx_type</th>
+                        <th>call_beacon_root_contract</th>
+                        <th>auto_access_list</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>tx_type_3-call_beacon_root_contract_True-auto_access_list_False</td>
+                        <td>3</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>tx_type_3-call_beacon_root_contract_True-auto_access_list_True</td>
+                        <td>3</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr>
+            <td>tx_type_2-call_beacon_root_contract_True-auto_access_list_False</td>
+                        <td>2</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>tx_type_2-call_beacon_root_contract_True-auto_access_list_True</td>
+                        <td>2</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr>
+            <td>tx_type_1-call_beacon_root_contract_True-auto_access_list_False</td>
+                        <td>1</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>tx_type_1-call_beacon_root_contract_True-auto_access_list_True</td>
+                        <td>1</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr>
+            <td>tx_type_0-call_beacon_root_contract_True-auto_access_list_False</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr>
+            <td>tx_type_0-call_beacon_root_contract_True-auto_access_list_True</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

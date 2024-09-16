@@ -1,0 +1,47 @@
+<h1>Test Function: <code>test_eof_example_parameters()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>code_section_code</th>
+                        <th>exception</th>
+                        <th>data_section_bytes</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>code_section_code_-exception_None-data_section_bytes_b'\x01'</td>
+                        <td></td>
+                        <td>None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>code_section_code_-exception_None-data_section_bytes_b'\xef'</td>
+                        <td></td>
+                        <td>None</td>
+                        <td><code>ef</code></td>
+                    </tr>
+                <tr>
+            <td>code_section_code_-exception_EOFException.MISSING_STOP_OPCODE-data_section_bytes_b'\x01'</td>
+                        <td></td>
+                        <td>EOFException.MISSING_STOP_OPCODE</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>code_section_code_-exception_EOFException.MISSING_STOP_OPCODE-data_section_bytes_b'\xef'</td>
+                        <td></td>
+                        <td>EOFException.MISSING_STOP_OPCODE</td>
+                        <td><code>ef</code></td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

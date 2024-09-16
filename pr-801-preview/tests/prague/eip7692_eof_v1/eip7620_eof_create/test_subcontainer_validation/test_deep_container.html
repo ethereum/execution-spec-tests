@@ -1,0 +1,37 @@
+<h1>Test Function: <code>test_deep_container()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>deepest_container</th>
+                        <th>exception</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>valid</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                        <td>None</td>
+                    </tr>
+                <tr>
+            <td>code-error</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x01_'</td>
+                        <td>EOFException.MISSING_STOP_OPCODE</td>
+                    </tr>
+                <tr>
+            <td>structure-error</td>
+                        <td>0xef0100a94f5374fce5edbc8e2a8697c15331677e6ebf0b</td>
+                        <td>EOFException.INVALID_MAGIC</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

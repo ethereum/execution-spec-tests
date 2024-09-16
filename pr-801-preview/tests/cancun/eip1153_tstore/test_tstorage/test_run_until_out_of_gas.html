@@ -1,0 +1,52 @@
+<h1>Test Function: <code>test_run_until_out_of_gas()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>bytecode_repeat_times</th>
+                        <th>repeat_bytecode</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>tstore</td>
+                        <td>1000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tstore_wide_address_space</td>
+                        <td>32</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tstore_tload</td>
+                        <td>1000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tstore</td>
+                        <td>1000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tstore_wide_address_space</td>
+                        <td>32</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tstore_tload</td>
+                        <td>1000</td>
+                        <td></td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

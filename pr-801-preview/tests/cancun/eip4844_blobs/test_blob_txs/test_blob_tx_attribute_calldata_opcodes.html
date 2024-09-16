@@ -1,0 +1,131 @@
+<h1>Test Function: <code>test_blob_tx_attribute_calldata_opcodes()</code></h1>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>opcode</th>
+                        <th>tx_gas</th>
+                        <th>tx_calldata</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>tx_gas_500000-empty-opcode_CALLDATALOAD</td>
+                        <td>CALLDATALOAD</td>
+                        <td>500000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-empty-opcode_CALLDATASIZE</td>
+                        <td>CALLDATASIZE</td>
+                        <td>500000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-empty-opcode_CALLDATACOPY</td>
+                        <td>CALLDATACOPY</td>
+                        <td>500000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-single_byte-opcode_CALLDATALOAD</td>
+                        <td>CALLDATALOAD</td>
+                        <td>500000</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-single_byte-opcode_CALLDATASIZE</td>
+                        <td>CALLDATASIZE</td>
+                        <td>500000</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-single_byte-opcode_CALLDATACOPY</td>
+                        <td>CALLDATACOPY</td>
+                        <td>500000</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-word-opcode_CALLDATALOAD</td>
+                        <td>CALLDATALOAD</td>
+                        <td>500000</td>
+                        <td><code>00010001000100010001000100010001</code> <code>00010001000100010001000100010001</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-word-opcode_CALLDATASIZE</td>
+                        <td>CALLDATASIZE</td>
+                        <td>500000</td>
+                        <td><code>00010001000100010001000100010001</code> <code>00010001000100010001000100010001</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-word-opcode_CALLDATACOPY</td>
+                        <td>CALLDATACOPY</td>
+                        <td>500000</td>
+                        <td><code>00010001000100010001000100010001</code> <code>00010001000100010001000100010001</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-empty-opcode_CALLDATALOAD</td>
+                        <td>CALLDATALOAD</td>
+                        <td>500000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-empty-opcode_CALLDATASIZE</td>
+                        <td>CALLDATASIZE</td>
+                        <td>500000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-empty-opcode_CALLDATACOPY</td>
+                        <td>CALLDATACOPY</td>
+                        <td>500000</td>
+                        <td></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-single_byte-opcode_CALLDATALOAD</td>
+                        <td>CALLDATALOAD</td>
+                        <td>500000</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-single_byte-opcode_CALLDATASIZE</td>
+                        <td>CALLDATASIZE</td>
+                        <td>500000</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-single_byte-opcode_CALLDATACOPY</td>
+                        <td>CALLDATACOPY</td>
+                        <td>500000</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-word-opcode_CALLDATALOAD</td>
+                        <td>CALLDATALOAD</td>
+                        <td>500000</td>
+                        <td><code>00010001000100010001000100010001</code> <code>00010001000100010001000100010001</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-word-opcode_CALLDATASIZE</td>
+                        <td>CALLDATASIZE</td>
+                        <td>500000</td>
+                        <td><code>00010001000100010001000100010001</code> <code>00010001000100010001000100010001</code></td>
+                    </tr>
+                <tr>
+            <td>tx_gas_500000-word-opcode_CALLDATACOPY</td>
+                        <td>CALLDATACOPY</td>
+                        <td>500000</td>
+                        <td><code>00010001000100010001000100010001</code> <code>00010001000100010001000100010001</code></td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>
