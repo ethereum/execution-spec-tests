@@ -4,7 +4,7 @@ Useful types for generating Ethereum tests.
 
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, Tuple
+from typing import Any, ClassVar, Dict, Generic, List, Literal, Optional, Sequence, Tuple
 
 from coincurve.keys import PrivateKey, PublicKey
 from ethereum import rlp as eth_rlp
@@ -268,7 +268,7 @@ class Alloc(BaseAlloc):
                     )
         return state_root(state)
 
-    def verify_post_alloc(self, got_alloc: "Alloc"):
+    def verify_post_alloc(self, got_alloc: "Alloc", post_hint: Optional[Dict[int, str]] = None):
         """
         Verify that the allocation matches the expected post in the test.
         Raises exception on unexpected values.
@@ -284,7 +284,7 @@ class Alloc(BaseAlloc):
                     got_account = got_alloc.root[address]
                     assert isinstance(got_account, Account)
                     assert isinstance(account, Account)
-                    account.check_alloc(address, got_account)
+                    account.check_alloc(address, got_account, post_hint)
                 else:
                     raise Alloc.MissingAccount(address)
 

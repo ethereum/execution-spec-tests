@@ -2,7 +2,7 @@
 Base composite types for Ethereum test cases.
 """
 from dataclasses import dataclass
-from typing import Any, ClassVar, Dict, SupportsBytes, Type, TypeAlias
+from typing import Any, ClassVar, Dict, Optional, SupportsBytes, Type, TypeAlias
 
 from pydantic import Field, PrivateAttr, RootModel, TypeAdapter
 
@@ -92,22 +92,37 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         key: int
         want: int
         got: int
+        hint: Optional[Dict[int, str]] = None
 
-        def __init__(self, address: Address, key: int, want: int, got: int, *args):
+        def __init__(
+            self,
+            address: Address,
+            key: int,
+            want: int,
+            got: int,
+            hint: Optional[Dict[int, str]] = None,
+            *args,
+        ):
             super().__init__(args)
             self.address = address
             self.key = key
             self.want = want
             self.got = got
+            self.hint = hint
 
         def __str__(self):
             """Print exception string"""
             label_str = ""
             if self.address.label is not None:
                 label_str = f" ({self.address.label})"
+
+            key = Hash(self.key)
+            if self.hint is not None:
+                key = self.hint[self.key]
+
             return (
                 f"incorrect value in address {self.address}{label_str} for "
-                + f"key {Hash(self.key)}:"
+                + f"key {key}:"
                 + f" want {HexNumber(self.want)} (dec:{int(self.want)}),"
                 + f" got {HexNumber(self.got)} (dec:{int(self.got)})"
             )
@@ -233,7 +248,12 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
                     address=address, key=key, want=self[key], got=other[key]
                 )
 
-    def must_be_equal(self, address: Address, other: "Storage | None"):
+    def must_be_equal(
+        self,
+        address: Address,
+        other: "Storage | None",
+        post_hint: Optional[Dict[int, str]] = None,
+    ):
         """
         Succeeds only if "self" is equal to "other" storage.
         """
@@ -243,17 +263,21 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         for key in self.keys() & other.keys():
             if self[key] != other[key]:
                 raise Storage.KeyValueMismatch(
-                    address=address, key=key, want=self[key], got=other[key]
+                    address=address, key=key, want=self[key], got=other[key], hint=post_hint
                 )
 
         # Test keys contained in either one of the storage objects
         for key in self.keys() ^ other.keys():
             if key in self:
                 if self[key] != 0:
-                    raise Storage.KeyValueMismatch(address=address, key=key, want=self[key], got=0)
+                    raise Storage.KeyValueMismatch(
+                        address=address, key=key, want=self[key], got=0, hint=post_hint
+                    )
 
             elif other[key] != 0:
-                raise Storage.KeyValueMismatch(address=address, key=key, want=0, got=other[key])
+                raise Storage.KeyValueMismatch(
+                    address=address, key=key, want=0, got=other[key], hint=post_hint
+                )
 
     def canary(self) -> "Storage":
         """
@@ -374,7 +398,12 @@ class Account(CamelModel):
                 + f"want {self.want}, got {self.got}"
             )
 
-    def check_alloc(self: "Account", address: Address, account: "Account"):
+    def check_alloc(
+        self: "Account",
+        address: Address,
+        account: "Account",
+        post_hint: Optional[Dict[int, str]] = None,
+    ):
         """
         Checks the returned alloc against an expected account in post state.
         Raises exception on failure.
@@ -404,7 +433,7 @@ class Account(CamelModel):
                 )
 
         if "storage" in self.model_fields_set:
-            self.storage.must_be_equal(address=address, other=account.storage)
+            self.storage.must_be_equal(address=address, other=account.storage, post_hint=post_hint)
 
     def __bool__(self: "Account") -> bool:
         """
