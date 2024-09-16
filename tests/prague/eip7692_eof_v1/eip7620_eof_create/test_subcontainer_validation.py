@@ -803,8 +803,7 @@ def test_dangling_initcode_subcontainer_bytes(
 def test_dangling_runtime_subcontainer_bytes(
     eof_test: EOFTestFiller,
 ):
-    """runtime mode EOF Subcontainer test with subcontainer containing dangling bytes."""
-    """Simple EOF creation from a deployed EOF container"""
+    """Runtime mode EOF Subcontainer test with subcontainer containing dangling bytes."""
     eof_test(
         data=Container(
             sections=[
