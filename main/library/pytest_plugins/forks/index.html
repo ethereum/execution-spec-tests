@@ -15393,7 +15393,7 @@ that filters the values.</p>
             <span class="o">+</span> <span class="n">reset</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;forks_until&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">is_deployed</span><span class="p">()</span> <span class="k">for</span> <span class="n">fork</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">fork_set</span><span class="p">):</span>
         <span class="n">header</span> <span class="o">+=</span> <span class="p">[</span>
             <span class="p">(</span>
                 <span class="n">bold</span> <span class="o">+</span> <span class="n">warning</span> <span class="o">+</span> <span class="s2">&quot;Only executing tests with stable/deployed forks: &quot;</span>
