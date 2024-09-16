@@ -34,6 +34,7 @@ class StateTest(BaseTest):
     pre: Alloc
     post: Alloc
     tx: Transaction
+    post_hint: Optional[Dict[int, str]] = None
     engine_api_error_code: Optional[EngineAPIError] = None
     blockchain_test_header_verify: Optional[Header] = None
     blockchain_test_rlp_modifier: Optional[Header] = None
@@ -111,6 +112,7 @@ class StateTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         eips: Optional[List[int]] = None,
+        post_hint: Optional[Dict[int, str]] = None,
     ) -> Fixture:
         """
         Create a fixture from the state test definition.
@@ -140,7 +142,7 @@ class StateTest(BaseTest):
         )
 
         try:
-            self.post.verify_post_alloc(transition_tool_output.alloc)
+            self.post.verify_post_alloc(transition_tool_output.alloc, post_hint)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
@@ -177,7 +179,7 @@ class StateTest(BaseTest):
                 request=request, t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips
             )
         elif fixture_format == FixtureFormats.STATE_TEST:
-            return self.make_state_test_fixture(t8n, fork, eips)
+            return self.make_state_test_fixture(t8n, fork, eips, self.post_hint)
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
