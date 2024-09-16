@@ -52,7 +52,7 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
             nonce=1,
         ),
         sender: Account(
-            balance=0x2CD931,
+            balance=0x2BD931,
             nonce=1,
         ),
     }
