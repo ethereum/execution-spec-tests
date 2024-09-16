@@ -465,26 +465,21 @@ def test_container_both_kinds_different_sub(eof_test: EOFTestFiller):
 
 
 def test_container_multiple_eofcreate_references(eof_test: EOFTestFiller):
-    """Test multiple references to the same subcontainer"""
+    """Test multiple references to the same subcontainer from an EOFCREATE operation"""
     eof_test(
         data=Container(
             sections=[
                 Section.Code(
-                    code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.EOFCREATE[0](0, 0, 0, 0) + Op.JUMPF[1],
-                ),
-                Section.Code(
-                    code=Op.RETURNCONTRACT[1](0, 0),
+                    code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP,
                 ),
                 returncontract_sub_container,
-                stop_sub_container,
             ],
-            kind=ContainerKind.INITCODE,
         ),
     )
 
 
 def test_container_multiple_returncontract_references(eof_test: EOFTestFiller):
-    """Test multiple references to the same subcontainer"""
+    """Test multiple references to the same subcontainer from a RETURNCONTACT operation"""
     eof_test(
         data=Container(
             sections=[
@@ -493,8 +488,7 @@ def test_container_multiple_returncontract_references(eof_test: EOFTestFiller):
                     + Op.CALLDATALOAD
                     + Op.RJUMPI[6]
                     + Op.RETURNCONTRACT[0](0, 0)
-                    + Op.RETURNCONTRACT[0](0, 0),
-                    max_stack_height=2,
+                    + Op.RETURNCONTRACT[0](0, 0)
                 ),
                 stop_sub_container,
             ],
