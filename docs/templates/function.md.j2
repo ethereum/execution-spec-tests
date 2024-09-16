@@ -19,6 +19,6 @@ The interactive table below is also available as a [standalone page]({{ html_sta
     {{ test_function_parameter_table_skipped_parameters }}.
 
 {% include 'function_parameter_datatable.html.j2' %}
-<script> $(document).ready( function () { $('#test_table').DataTable({"pageLength": -1}); } ); </script> 
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true}); }); </script> 
 {% endif %}
 {% endblock %}
