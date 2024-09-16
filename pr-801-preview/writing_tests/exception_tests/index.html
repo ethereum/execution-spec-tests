@@ -22318,11 +22318,11 @@
 <ol>
 <li>
 <p><a href="../../consuming_tests/exceptions/#transactionexception"><code>TransactionException</code></a>: To be added to the <code>error</code> field of the <code>Transaction</code> object, and to the <code>exception</code> field of the <code>Block</code> object that includes the transaction; this exception type is used when a transaction is invalid, and therefore when included in a block, the block is expected to be invalid too. This is different from valid transactions where an exception during EVM execution is expected (e.g. a revert, or out-of-gas), which can be included in valid blocks.</p>
-<p>For an example, see <a href="../../tests/shanghai/eip3860_initcode/test_initcode/#tests.shanghai.eip3860_initcode.test_initcode.test_contract_creating_tx"><code>eip3860_initcode.test_initcode.test_contract_creating_tx</code></a> which raises <code>TransactionException.INITCODE_SIZE_EXCEEDED</code> in the case that the initcode size exceeds the maximum allowed size.</p>
+<p>For an example, see <a href="../../tests/shanghai/eip3860_initcode/test_initcode/test_contract_creating_tx/"><code>eip3860_initcode.test_initcode.test_contract_creating_tx</code></a> which raises <code>TransactionException.INITCODE_SIZE_EXCEEDED</code> in the case that the initcode size exceeds the maximum allowed size.</p>
 </li>
 <li>
 <p><a href="../../consuming_tests/exceptions/#blockexception"><code>BlockException</code></a>: To be added to the <code>exception</code> field of the <code>Block</code> object; this exception type is used when a block is expected to be invalid, but the exception is related to a block property, e.g. an invalid value of the block header.</p>
-<p>For an example, see <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/#tests.cancun.eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas"><code>eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas</code></a> which raises <code>BlockException.INCORRECT_EXCESS_BLOB_GAS</code> in the case that the <code>excessBlobGas</code> remains unchanged
+<p>For an example, see <a href="../../tests/cancun/eip4844_blobs/test_excess_blob_gas/test_invalid_static_excess_blob_gas/"><code>eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas</code></a> which raises <code>BlockException.INCORRECT_EXCESS_BLOB_GAS</code> in the case that the <code>excessBlobGas</code> remains unchanged
 but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
 </li>
 </ol>
@@ -22360,8 +22360,8 @@ but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
     </span>
     <nav>
       
-        <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
-        <a href="mailto:165581775+redistay@users.noreply.github.com">redistay</a>
+        <a href="mailto:danceratopz@gmail.com">Dan</a>, 
+        <a href="mailto:marioevz@gmail.com">Mario Vega</a>
     </nav>
   </span>
 
