@@ -110,3 +110,10 @@ markdown_extensions:
 extra:
   version:
     provider: mike
+
+extra_javascript:
+  - https://code.jquery.com/jquery-3.5.1.js
+  - https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js
+
+extra_css:
+  - https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css

@@ -1,0 +1,17 @@
+{% block title %}
+<h1>Test Function: <code>{{ title }}()</code></h1>
+{% endblock %}
+{% if cases %}
+<h2>Parametrized Test Cases</h2>
+{% include 'function_parameter_datatable.html.j2' %}
+{% endif %}
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            "pageLength": 100
+        });
+    });
+</script>

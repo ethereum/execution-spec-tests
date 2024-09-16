@@ -1,0 +1,32 @@
+{% block title %}
+# {{ title }}
+{# templates inheriting from this base template can re-define the title block #}
+{% endblock %}
+
+Documentation for [`{{ pytest_node_id }}@{{ short_git_ref }}`]({{ source_code_url }}).
+
+{% if title != "Spec" %}
+{% if valid_from_fork in deployed_forks %}
+!!! example "Generate fixtures for these test cases for all forks deployed to mainnet with:"
+
+    ```console
+    fill -v {{ pytest_node_id }}
+    ```
+{% else %}
+!!! example "Generate fixtures for these test cases for {{ valid_from_fork.capitalize() }} with:"
+
+    {{ valid_from_fork.capitalize() }} only:
+        ```console
+        fill -v {{ pytest_node_id }} --fork={{ valid_from_fork }} --evm-bin=/path/to/evm-tool-dev-version
+        ```
+
+    For all forks up to and including {{ valid_from_fork.capitalize() }}:
+        ```console
+        fill -v {{ pytest_node_id }} --until={{ valid_from_fork }}
+        ```
+{% endif %}
+{% endif %}
+
+{% block additional_content %}
+{# templates that inherit from base can add an additional_content block here #}
+{% endblock %}
