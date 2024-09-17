@@ -344,7 +344,7 @@ class TestDocsGenerator:
                         param_name = part.split("_")[0] if "_" in part else None
                         if (param_name not in self.skip_params) and (part not in self.skip_params):
                             filtered_test_id_parts.append(part)
-                    filtered_test_id = "-".join(filtered_test_id_parts)
+                    filtered_test_id = "-".join(filtered_test_id_parts).strip("-")
 
                     if filtered_test_id_parts:
                         test_cases.append(
