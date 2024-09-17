@@ -3,6 +3,8 @@ Ethereum Transient Storage EIP Tests
 https://eips.ethereum.org/EIPS/eip-1153
 """
 
+from typing import Optional
+
 import pytest
 
 from ethereum_test_tools import (
@@ -10,6 +12,7 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     Environment,
     EVMCodeType,
     Initcode,
@@ -42,8 +45,7 @@ def test_tstore_clear_after_deployment_tx(
     init_code = Op.TSTORE(1, 1)
     deploy_code = Op.SSTORE(1, Op.TLOAD(1))
 
-    code = None
-
+    code: Optional[Container | Initcode] = None
     if evm_code_type == EVMCodeType.EOF_V1:
         code = Container.Init(
             deploy_container=Container.Code(deploy_code), initcode_prefix=init_code
@@ -88,8 +90,8 @@ def test_tstore_clear_after_tx(
     env = Environment()
 
     runtime_code = Op.SSTORE(1, Op.TLOAD(1)) + Op.TSTORE(1, 1)
-    code = None
 
+    code: Optional[Container | Bytecode] = None
     if evm_code_type == EVMCodeType.EOF_V1:
         code = Container.Code(runtime_code)
     else:
