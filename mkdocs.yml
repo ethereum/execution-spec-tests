@@ -4,7 +4,7 @@ site_url: https://ethereum.github.io/execution-spec-tests/
 repo_url: https://github.com/ethereum/execution-spec-tests
 repo_name: execution-spec-tests
 edit_uri: edit/main/docs/
-copyright: 'Copyright: 2023, Ethereum Community'
+copyright: 'Copyright: 2024, Ethereum Community'
 
 plugins:
   - git-authors:
