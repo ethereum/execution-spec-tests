@@ -767,7 +767,6 @@ def test_dangling_initcode_subcontainer_bytes(
             sections=[
                 returncontract_code_section,
                 Section.Container(
-                    custom_size=len(stop_sub_container.data),
                     container=Container(
                         raw_bytes=stop_sub_container.data + b"\x99",
                     ),
@@ -788,7 +787,6 @@ def test_dangling_runtime_subcontainer_bytes(
             sections=[
                 eofcreate_code_section,
                 Section.Container(
-                    custom_size=len(returncontract_sub_container.data),
                     container=Container(
                         raw_bytes=returncontract_sub_container.data + b"\x99",
                     ),
