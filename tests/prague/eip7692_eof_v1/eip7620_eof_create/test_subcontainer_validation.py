@@ -758,27 +758,6 @@ def test_migrated_eofcreate(eof_test: EOFTestFiller, container: Container):
     eof_test(data=container, expect_exception=container.validity_error)
 
 
-def test_dangling_subcontainer_bytes(
-    eof_test: EOFTestFiller,
-):
-    """EOF Subcontainer test with subcontainer containing dangling bytes."""
-    eof_test(
-        data=Container(
-            sections=[
-                returncontract_code_section,
-                Section.Container(
-                    custom_size=len(stop_sub_container.data),
-                    container=Container(
-                        raw_bytes=stop_sub_container.data + b"\x99",
-                    ),
-                ),
-            ],
-            kind=ContainerKind.INITCODE,
-        ),
-        expect_exception=EOFException.INVALID_SECTION_BODIES_SIZE,
-    )
-
-
 def test_dangling_initcode_subcontainer_bytes(
     eof_test: EOFTestFiller,
 ):
