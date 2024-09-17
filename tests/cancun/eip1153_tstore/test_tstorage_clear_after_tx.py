@@ -51,8 +51,6 @@ def test_tstore_clear_after_deployment_tx(
     else:
         code = Initcode(deploy_code=deploy_code, initcode_prefix=init_code)
 
-    code = Initcode(deploy_code=deploy_code, initcode_prefix=init_code)
-
     sender = pre.fund_eoa()
 
     deployment_tx = Transaction(
