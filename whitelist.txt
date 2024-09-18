@@ -338,6 +338,7 @@ secp256k1n
 selfbalance
 ser
 servable
+setenv
 setitem
 sha
 SHA
@@ -370,6 +371,7 @@ subprocess
 subscriptable
 substring
 sudo
+sysconfig
 t8n
 tamasfe
 testability
