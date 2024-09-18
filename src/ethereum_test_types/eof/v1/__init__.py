@@ -485,7 +485,6 @@ class Container(CopyValidateModel):
         cls,
         deploy_container: "Container",
         initcode_prefix: Bytecode = Bytecode(),
-        **kwargs,
     ) -> "Container":
         """
         Creates simple init container that deploys the specified container.
