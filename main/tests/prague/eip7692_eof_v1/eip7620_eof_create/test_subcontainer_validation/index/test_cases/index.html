@@ -13883,7 +13883,7 @@
 <h1 id="test-subcontainer-validation-test-cases">Test Subcontainer Validation - Test Cases<a class="headerlink" href="#test-subcontainer-validation-test-cases" title="Permanent link">&para;</a></h1>
 <div class="admonition example">
 <p class="admonition-title">Test cases generated from <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></p>
-<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/be613a0332620951050a1c3d81b2264535788709/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>:</p>
+<p>Parametrized test cases generated from the test module <a href="https://github.com/ethereum/execution-spec-tests/blob/b48db3c769a46453fb8932ee93c39be1d8fd6099/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>:</p>
 <div class="highlight"><pre><span></span><code>test_simple_create_from_deployed[fork_CancunEIP7692-eof_test]
 test_simple_create_from_deployed[fork_CancunEIP7692-state_test]
 test_simple_create_from_deployed[fork_CancunEIP7692-blockchain_test]
@@ -13971,6 +13971,8 @@ test_migrated_eofcreate[fork_CancunEIP7692-eof_test-eofcreate_1_orphan_subcontai
 test_migrated_eofcreate[fork_CancunEIP7692-eof_test-two_orphan_subcontainers]
 test_migrated_eofcreate[fork_CancunEIP7692-eof_test-eofcreate_255_max_orphan_subcontainers]
 test_migrated_eofcreate[fork_CancunEIP7692-eof_test-max_orphan_subcontainers]
+test_dangling_initcode_subcontainer_bytes[fork_CancunEIP7692-eof_test]
+test_dangling_runtime_subcontainer_bytes[fork_CancunEIP7692-eof_test]
 </code></pre></div>
 <p>This output was extracted from the result of:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -p pytest_plugins.filler.pre_alloc -p pytest_plugins.filler.solc -p pytest_plugins.filler.filler -p pytest_plugins.forks.forks -p pytest_plugins.spec_version_checker.spec_version_checker -p pytest_plugins.help.help -m not eip_version_check --tb short --dist loadscope --ignore tests/cancun/eip4844_blobs/point_evaluation_vectors/ --collect-only -q --until CancunEIP7692 tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</span>

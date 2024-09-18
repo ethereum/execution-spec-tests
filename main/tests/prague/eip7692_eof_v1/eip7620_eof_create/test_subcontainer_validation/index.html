@@ -14043,6 +14043,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_dangling_initcode_subcontainer_bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_dangling_initcode_subcontainer_bytes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_dangling_runtime_subcontainer_bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_dangling_runtime_subcontainer_bytes
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -14059,7 +14077,7 @@
 
 
 <h1 id="test-subcontainer-validation">Test Subcontainer Validation<a class="headerlink" href="#test-subcontainer-validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be613a0332620951050a1c3d81b2264535788709/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b48db3c769a46453fb8932ee93c39be1d8fd6099/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <p>Prague only:
@@ -15976,6 +15994,126 @@ For all forks up to and including Prague:
 <span class="sd">    Tests migrated from EOFTests/efValidation/EOF1_eofcreate_valid_.json.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span> <span class="n">expect_exception</span><span class="o">=</span><span class="n">container</span><span class="o">.</span><span class="n">validity_error</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_dangling_initcode_subcontainer_bytes" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_dangling_initcode_subcontainer_bytes</span><span class="p">(</span><span class="n">eof_test</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_dangling_initcode_subcontainer_bytes" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Initcode mode EOF Subcontainer test with subcontainer containing dangling bytes.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_initcode_subcontainer_bytes</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initcode mode EOF Subcontainer test with subcontainer containing dangling bytes.&quot;&quot;&quot;</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">returncontract_code_section</span><span class="p">,</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span>
+                    <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+                        <span class="n">raw_bytes</span><span class="o">=</span><span class="n">stop_sub_container</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x99</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_dangling_runtime_subcontainer_bytes" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_dangling_runtime_subcontainer_bytes</span><span class="p">(</span><span class="n">eof_test</span><span class="p">)</span></code>
+
+<a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_dangling_runtime_subcontainer_bytes" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Runtime mode EOF Subcontainer test with subcontainer containing dangling bytes.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span>
+<span class="normal">825</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_runtime_subcontainer_bytes</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runtime mode EOF Subcontainer test with subcontainer containing dangling bytes.&quot;&quot;&quot;</span>
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">eofcreate_code_section</span><span class="p">,</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span>
+                    <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+                        <span class="n">raw_bytes</span><span class="o">=</span><span class="n">returncontract_sub_container</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x99</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
