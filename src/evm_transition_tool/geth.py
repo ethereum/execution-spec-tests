@@ -10,6 +10,7 @@ from pathlib import Path
 from re import compile
 from typing import Optional
 
+from ethereum_test_exceptions import GethExceptionMapper
 from ethereum_test_fixtures import BlockchainFixture, StateFixture
 from ethereum_test_forks import Fork
 
@@ -37,7 +38,7 @@ class GethTransitionTool(TransitionTool):
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        super().__init__(binary=binary, trace=trace)
+        super().__init__(exception_mapper=GethExceptionMapper(), binary=binary, trace=trace)
         args = [str(self.binary), str(self.t8n_subcommand), "--help"]
         try:
             result = subprocess.run(args, capture_output=True, text=True)

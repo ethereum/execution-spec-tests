@@ -45,21 +45,9 @@ def verify_transactions(
     }
 
     for i, tx in enumerate(txs):
-        error = rejected_txs[i] if i in rejected_txs else None
-        if tx.error and not error:
-            raise Exception(f"tx expected to fail succeeded: pos={i}, nonce={tx.nonce}")
-        elif not tx.error and error:
-            raise Exception(f"tx unexpectedly failed: {error}")
-        elif isinstance(tx.error, TransactionException) and error:
-            translated = exception_mapper.exception_to_message(tx.error)
-            error_code = exception_mapper.message_to_exception(error)
-            if translated != error:
-                raise Exception(
-                    f"tx exception: want={translated} ({tx.error}), got={error} ({error_code})"
-                )
+        error_message = rejected_txs[i] if i in rejected_txs else None
+        exception_mapper.check_transaction(error_message, tx, i)
 
-        # TODO: Also we need a way to check we actually got the
-        # correct error
     return list(rejected_txs.keys())
 
 

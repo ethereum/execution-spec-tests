@@ -103,6 +103,18 @@ def from_pipe_str(value: Any) -> str | List[str]:
 
 
 @unique
+class UndefinedException(ExceptionBase):
+    """
+    Default Exception
+    """
+
+    UNDEFINED_EXCEPTION = auto()
+    """
+    Exception to alert to define a proper exception
+    """
+
+
+@unique
 class TransactionException(ExceptionBase):
     """
     Exception raised when a transaction is invalid, and thus cannot be executed.
