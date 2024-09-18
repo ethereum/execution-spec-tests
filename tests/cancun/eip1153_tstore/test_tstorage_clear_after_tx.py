@@ -12,7 +12,6 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
-    Bytecode,
     Environment,
     EVMCodeType,
     Initcode,
@@ -80,7 +79,6 @@ def test_tstore_clear_after_deployment_tx(
 def test_tstore_clear_after_tx(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    evm_code_type: EVMCodeType,
 ):
     """
     This test first SSTOREs the TLOAD value of key 1 in slot 1. Then, it TSTOREs 1 in slot 1.
@@ -89,14 +87,7 @@ def test_tstore_clear_after_tx(
     """
     env = Environment()
 
-    runtime_code = Op.SSTORE(1, Op.TLOAD(1)) + Op.TSTORE(1, 1)
-
-    code: Optional[Container | Bytecode] = None
-    if evm_code_type == EVMCodeType.EOF_V1:
-        code = Container.Code(runtime_code)
-    else:
-        code = runtime_code
-
+    code = Op.SSTORE(1, Op.TLOAD(1)) + Op.TSTORE(1, 1)
     account = pre.deploy_contract(code)
 
     sender = pre.fund_eoa()
