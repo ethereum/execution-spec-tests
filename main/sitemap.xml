@@ -301,6 +301,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx/</loc>
+         <lastmod>2024-09-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx/index/test_cases/</loc>
+         <lastmod>2024-09-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip1153_tstore/test_tstorage_create_contexts/</loc>
          <lastmod>2024-09-18</lastmod>
          <changefreq>daily</changefreq>
