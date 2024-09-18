@@ -14,6 +14,7 @@ from .exceptions import (
     TransactionException,
     TransactionExceptionInstanceOrList,
 )
+from .geth_exceptions import GethExceptionMapper
 
 __all__ = [
     "BlockException",
@@ -23,6 +24,7 @@ __all__ = [
     "EngineAPIError",
     "ExceptionMapper",
     "EvmoneExceptionMapper",
+    "GethExceptionMapper",
     "ExceptionInstanceOrList",
     "TransactionException",
     "TransactionExceptionInstanceOrList",

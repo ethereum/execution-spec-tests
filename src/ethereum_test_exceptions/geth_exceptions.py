@@ -1,14 +1,14 @@
 """
-Evmone exceptions ENUM -> str mapper
+Geth exceptions ENUM -> str mapper
 """
 
 from .exception_mapper import ExceptionMapper, ExceptionMessage
 from .exceptions import EOFException, TransactionException
 
 
-class EvmoneExceptionMapper(ExceptionMapper):
+class GethExceptionMapper(ExceptionMapper):
     """
-    Translate between EEST exceptions and error strings returned by evmone.
+    Translate between EEST exceptions and error strings returned by geth.
     """
 
     @property
@@ -16,7 +16,48 @@ class EvmoneExceptionMapper(ExceptionMapper):
         return [
             ExceptionMessage(
                 TransactionException.TYPE_4_TX_CONTRACT_CREATION,
-                "set code transaction must ",
+                "set code transaction must not be a create transaction",
+            ),
+            ExceptionMessage(
+                TransactionException.INSUFFICIENT_ACCOUNT_FUNDS,
+                "insufficient funds for gas * price + value",
+            ),
+            ExceptionMessage(
+                TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
+                "would exceed maximum allowance",
+            ),
+            ExceptionMessage(
+                TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
+                "max fee per blob gas less than block blob gas fee",
+            ),
+            ExceptionMessage(
+                TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS,
+                "max fee per gas less than block base fee",
+            ),
+            ExceptionMessage(
+                TransactionException.TYPE_3_TX_PRE_FORK,
+                "blob tx used but field env.ExcessBlobGas missing",
+            ),
+            ExceptionMessage(
+                TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH,
+                "has invalid hash version",
+            ),
+            # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
+            ExceptionMessage(
+                TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+                "exceed maximum allowance",
+            ),
+            ExceptionMessage(
+                TransactionException.TYPE_3_TX_ZERO_BLOBS,
+                "blob transaction missing blob hashes",
+            ),
+            ExceptionMessage(
+                TransactionException.INTRINSIC_GAS_TOO_LOW,
+                "intrinsic gas too low",
+            ),
+            ExceptionMessage(
+                TransactionException.INITCODE_SIZE_EXCEEDED,
+                "max initcode size exceeded",
             ),
             # TODO EVMONE needs to differentiate when the section is missing in the header or body
             ExceptionMessage(EOFException.MISSING_STOP_OPCODE, "err: no_terminating_instruction"),
