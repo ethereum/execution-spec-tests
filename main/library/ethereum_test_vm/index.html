@@ -17813,7 +17813,30 @@ consideration.</p>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
-<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bytecode</span><span class="p">:</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bytecode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class to represent EVM bytecode.</span>
 
@@ -17955,12 +17978,35 @@ consideration.</p>
         <span class="n">a_min</span><span class="p">,</span> <span class="n">a_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_stack_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_stack_height</span>
         <span class="n">b_pop</span><span class="p">,</span> <span class="n">b_push</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">popped_stack_items</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">pushed_stack_items</span>
         <span class="n">b_min</span><span class="p">,</span> <span class="n">b_max</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">min_stack_height</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">max_stack_height</span>
-        <span class="n">a_out</span> <span class="o">=</span> <span class="n">a_min</span> <span class="o">-</span> <span class="n">a_pop</span> <span class="o">+</span> <span class="n">a_push</span>
 
-        <span class="n">c_pop</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_pop</span> <span class="o">+</span> <span class="p">(</span><span class="n">b_pop</span> <span class="o">-</span> <span class="n">a_push</span><span class="p">))</span>
-        <span class="n">c_push</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_push</span> <span class="o">+</span> <span class="n">b_push</span> <span class="o">-</span> <span class="n">b_pop</span><span class="p">)</span>
-        <span class="n">c_min</span> <span class="o">=</span> <span class="n">a_min</span> <span class="k">if</span> <span class="n">a_out</span> <span class="o">&gt;=</span> <span class="n">b_min</span> <span class="k">else</span> <span class="p">(</span><span class="n">b_min</span> <span class="o">-</span> <span class="n">a_out</span><span class="p">)</span> <span class="o">+</span> <span class="n">a_min</span>
-        <span class="n">c_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">a_max</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">b_min</span> <span class="o">-</span> <span class="n">a_out</span><span class="p">),</span> <span class="n">b_max</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_out</span> <span class="o">-</span> <span class="n">b_min</span><span class="p">))</span>
+        <span class="c1"># NOTE: &quot;_pop&quot; is understood as the number of elements required by an instruction or</span>
+        <span class="c1"># bytecode to be popped off the stack before it starts returning (pushing).</span>
+
+        <span class="c1"># Auxiliary variables representing &quot;stages&quot; of the execution of `c = a + b` bytecode:</span>
+        <span class="c1"># Assume starting point 0 as reference:</span>
+        <span class="n">a_start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># A (potentially) pops some elements and reaches its &quot;bottom&quot;, might be negative:</span>
+        <span class="n">a_bottom</span> <span class="o">=</span> <span class="n">a_start</span> <span class="o">-</span> <span class="n">a_pop</span>
+        <span class="c1"># After this A pushes some elements, then B pops and reaches its &quot;bottom&quot;:</span>
+        <span class="n">b_bottom</span> <span class="o">=</span> <span class="n">a_bottom</span> <span class="o">+</span> <span class="n">a_push</span> <span class="o">-</span> <span class="n">b_pop</span>
+
+        <span class="c1"># C&#39;s bottom is either at the bottom of A or B:</span>
+        <span class="n">c_bottom</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">a_bottom</span><span class="p">,</span> <span class="n">b_bottom</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c_bottom</span> <span class="o">==</span> <span class="n">a_bottom</span><span class="p">:</span>
+            <span class="c1"># C pops the same as A to reach its bottom, then the rest of A and B are C&#39;s &quot;push&quot;</span>
+            <span class="n">c_pop</span> <span class="o">=</span> <span class="n">a_pop</span>
+            <span class="n">c_push</span> <span class="o">=</span> <span class="n">a_push</span> <span class="o">-</span> <span class="n">b_pop</span> <span class="o">+</span> <span class="n">b_push</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A and B are C&#39;s &quot;pop&quot; to reach its bottom, then pushes the same as B</span>
+            <span class="n">c_pop</span> <span class="o">=</span> <span class="n">a_pop</span> <span class="o">-</span> <span class="n">a_push</span> <span class="o">+</span> <span class="n">b_pop</span>
+            <span class="n">c_push</span> <span class="o">=</span> <span class="n">b_push</span>
+
+        <span class="c1"># C&#39;s minimum required stack is either A&#39;s or B&#39;s shifted by the net stack balance of A</span>
+        <span class="n">c_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">a_min</span><span class="p">,</span> <span class="n">b_min</span> <span class="o">+</span> <span class="n">a_pop</span> <span class="o">-</span> <span class="n">a_push</span><span class="p">)</span>
+
+        <span class="c1"># C starts from c_min, then reaches max either in the spot where A reached a_max or in the</span>
+        <span class="c1"># spot where B reached b_max, after A had completed.</span>
+        <span class="n">c_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c_min</span> <span class="o">+</span> <span class="n">a_max</span> <span class="o">-</span> <span class="n">a_min</span><span class="p">,</span> <span class="n">c_min</span> <span class="o">-</span> <span class="n">a_pop</span> <span class="o">+</span> <span class="n">a_push</span> <span class="o">+</span> <span class="n">b_max</span> <span class="o">-</span> <span class="n">b_min</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">Bytecode</span><span class="p">(</span>
             <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">other</span><span class="p">),</span>
@@ -18408,7 +18454,30 @@ consideration.</p>
 <span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
-<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concatenate the bytecode representation with another bytecode object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -18421,12 +18490,35 @@ consideration.</p>
     <span class="n">a_min</span><span class="p">,</span> <span class="n">a_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_stack_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_stack_height</span>
     <span class="n">b_pop</span><span class="p">,</span> <span class="n">b_push</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">popped_stack_items</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">pushed_stack_items</span>
     <span class="n">b_min</span><span class="p">,</span> <span class="n">b_max</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">min_stack_height</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">max_stack_height</span>
-    <span class="n">a_out</span> <span class="o">=</span> <span class="n">a_min</span> <span class="o">-</span> <span class="n">a_pop</span> <span class="o">+</span> <span class="n">a_push</span>
 
-    <span class="n">c_pop</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_pop</span> <span class="o">+</span> <span class="p">(</span><span class="n">b_pop</span> <span class="o">-</span> <span class="n">a_push</span><span class="p">))</span>
-    <span class="n">c_push</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_push</span> <span class="o">+</span> <span class="n">b_push</span> <span class="o">-</span> <span class="n">b_pop</span><span class="p">)</span>
-    <span class="n">c_min</span> <span class="o">=</span> <span class="n">a_min</span> <span class="k">if</span> <span class="n">a_out</span> <span class="o">&gt;=</span> <span class="n">b_min</span> <span class="k">else</span> <span class="p">(</span><span class="n">b_min</span> <span class="o">-</span> <span class="n">a_out</span><span class="p">)</span> <span class="o">+</span> <span class="n">a_min</span>
-    <span class="n">c_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">a_max</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">b_min</span> <span class="o">-</span> <span class="n">a_out</span><span class="p">),</span> <span class="n">b_max</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_out</span> <span class="o">-</span> <span class="n">b_min</span><span class="p">))</span>
+    <span class="c1"># NOTE: &quot;_pop&quot; is understood as the number of elements required by an instruction or</span>
+    <span class="c1"># bytecode to be popped off the stack before it starts returning (pushing).</span>
+
+    <span class="c1"># Auxiliary variables representing &quot;stages&quot; of the execution of `c = a + b` bytecode:</span>
+    <span class="c1"># Assume starting point 0 as reference:</span>
+    <span class="n">a_start</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># A (potentially) pops some elements and reaches its &quot;bottom&quot;, might be negative:</span>
+    <span class="n">a_bottom</span> <span class="o">=</span> <span class="n">a_start</span> <span class="o">-</span> <span class="n">a_pop</span>
+    <span class="c1"># After this A pushes some elements, then B pops and reaches its &quot;bottom&quot;:</span>
+    <span class="n">b_bottom</span> <span class="o">=</span> <span class="n">a_bottom</span> <span class="o">+</span> <span class="n">a_push</span> <span class="o">-</span> <span class="n">b_pop</span>
+
+    <span class="c1"># C&#39;s bottom is either at the bottom of A or B:</span>
+    <span class="n">c_bottom</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">a_bottom</span><span class="p">,</span> <span class="n">b_bottom</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">c_bottom</span> <span class="o">==</span> <span class="n">a_bottom</span><span class="p">:</span>
+        <span class="c1"># C pops the same as A to reach its bottom, then the rest of A and B are C&#39;s &quot;push&quot;</span>
+        <span class="n">c_pop</span> <span class="o">=</span> <span class="n">a_pop</span>
+        <span class="n">c_push</span> <span class="o">=</span> <span class="n">a_push</span> <span class="o">-</span> <span class="n">b_pop</span> <span class="o">+</span> <span class="n">b_push</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># A and B are C&#39;s &quot;pop&quot; to reach its bottom, then pushes the same as B</span>
+        <span class="n">c_pop</span> <span class="o">=</span> <span class="n">a_pop</span> <span class="o">-</span> <span class="n">a_push</span> <span class="o">+</span> <span class="n">b_pop</span>
+        <span class="n">c_push</span> <span class="o">=</span> <span class="n">b_push</span>
+
+    <span class="c1"># C&#39;s minimum required stack is either A&#39;s or B&#39;s shifted by the net stack balance of A</span>
+    <span class="n">c_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">a_min</span><span class="p">,</span> <span class="n">b_min</span> <span class="o">+</span> <span class="n">a_pop</span> <span class="o">-</span> <span class="n">a_push</span><span class="p">)</span>
+
+    <span class="c1"># C starts from c_min, then reaches max either in the spot where A reached a_max or in the</span>
+    <span class="c1"># spot where B reached b_max, after A had completed.</span>
+    <span class="n">c_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c_min</span> <span class="o">+</span> <span class="n">a_max</span> <span class="o">-</span> <span class="n">a_min</span><span class="p">,</span> <span class="n">c_min</span> <span class="o">-</span> <span class="n">a_pop</span> <span class="o">+</span> <span class="n">a_push</span> <span class="o">+</span> <span class="n">b_max</span> <span class="o">-</span> <span class="n">b_min</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Bytecode</span><span class="p">(</span>
         <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">other</span><span class="p">),</span>
@@ -18462,15 +18554,15 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concatenate the opcode byte representation with another bytes object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -18505,18 +18597,18 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concatenate another bytes object with the opcode byte representation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -18554,11 +18646,11 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the hexadecimal representation of the opcode byte representation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -18589,11 +18681,11 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the keccak256 hash of the opcode byte representation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
