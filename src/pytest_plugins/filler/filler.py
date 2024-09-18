@@ -80,7 +80,7 @@ def pytest_addoption(parser: pytest.Parser):
         action="store",
         dest="evm_bin",
         type=Path,
-        default=".venv/bin/ethereum-spec-evm-resolver",
+        default="ethereum-spec-evm-resolver",
         help=(
             "Path to an evm executable that provides `t8n`. Default: Ethereum-Spec-EVM-Resolver."
         ),
