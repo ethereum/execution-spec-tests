@@ -622,13 +622,13 @@ requires-dist = [
 [[package]]
 name = "ethereum-spec-evm-resolver"
 version = "0.0.5"
-source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver#ab1c732b1b7a8ecf2c3ff3bc73fce45ba7a7d00b" }
+source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver#5d50ebe4538da4dd44dc8da90b63a68994901264" }
 dependencies = [
     { name = "coincurve" },
-    { name = "eth2spec" },
     { name = "filelock" },
     { name = "gitpython" },
     { name = "platformdirs" },
+    { name = "py-ecc" },
     { name = "pycryptodome" },
     { name = "requests-unixsocket2" },
     { name = "typing-extensions" },
@@ -1726,15 +1726,15 @@ wheels = [
 
 [[package]]
 name = "requests-unixsocket2"
-version = "0.4.2"
+version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "requests" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/14/66/88737c8720685f44e6a1c04cb2185301a6ec4538ac82324f0f33c9dc5fd5/requests_unixsocket2-0.4.2.tar.gz", hash = "sha256:929c58ecc5981f3d127661ceb9ec8c76e0f08d31c52e44ab1462ac0dcd55b5f5", size = 6367 }
+sdist = { url = "https://files.pythonhosted.org/packages/7f/fc/23d7312a1d210b6b6e39a2193c2b2e8262ea4ccfb54a297a76a01ab795c6/requests_unixsocket2-0.4.0.tar.gz", hash = "sha256:06d0bb51551a8552e7ce67937a3e19c5516f62b97ccd412b17e94a0b4c4980b9", size = 6363 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/34/b1072b2b1310572d8b801adcf3b148197eea2f8207f3750f73fcd2a6db5d/requests_unixsocket2-0.4.2-py3-none-any.whl", hash = "sha256:701fcd49d74bc0f759bbe45c4dfda0045fd89652948c2b473b1a312214c3770b", size = 7786 },
+    { url = "https://files.pythonhosted.org/packages/51/3a/60c77c2cea5b11609179cc6a172179d6ae900826b42438848255c43e38e0/requests_unixsocket2-0.4.0-py3-none-any.whl", hash = "sha256:8d3cafcc7b2feb18f85b0a5e37e4ff7b1a64777000ebd1a883df33012a07f16f", size = 7944 },
 ]
 
 [[package]]
