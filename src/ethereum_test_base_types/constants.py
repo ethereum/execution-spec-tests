@@ -1,6 +1,4 @@
-"""
-Common values used in Ethereum tests.
-"""
+"""Common values used in Ethereum tests."""
 
 
 from .base_types import Address

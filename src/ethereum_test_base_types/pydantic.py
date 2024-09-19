@@ -1,6 +1,5 @@
-"""
-Base pydantic classes used to define the models for Ethereum tests.
-"""
+"""Base pydantic classes used to define the models for Ethereum tests."""
+
 from typing import TypeVar
 
 from pydantic import BaseModel, ConfigDict
@@ -10,14 +9,10 @@ Model = TypeVar("Model", bound=BaseModel)
 
 
 class CopyValidateModel(BaseModel):
-    """
-    Base model for Ethereum tests.
-    """
+    """Base model for Ethereum tests."""
 
     def copy(self: Model, **kwargs) -> Model:
-        """
-        Creates a copy of the model with the updated fields that are validated.
-        """
+        """Create a copy of the model with the updated fields that are validated."""
         return self.__class__(**(self.model_dump(exclude_unset=True) | kwargs))
 
 

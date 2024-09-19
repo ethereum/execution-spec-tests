@@ -543,6 +543,7 @@ dependencies = [
     { name = "solc-select" },
     { name = "tenacity" },
     { name = "trie" },
+    { name = "types-requests" },
     { name = "types-setuptools" },
 ]
 
@@ -610,6 +611,7 @@ requires-dist = [
     { name = "solc-select", specifier = ">=1.0.4,<2" },
     { name = "tenacity", specifier = ">8.2.0,<9" },
     { name = "trie", specifier = ">=2.0.2,<3" },
+    { name = "types-requests", specifier = ">=2.26.0,<3" },
     { name = "types-requests", marker = "extra == 'lint'" },
     { name = "types-setuptools" },
 ]

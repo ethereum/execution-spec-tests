@@ -1,6 +1,5 @@
-"""
-Base composite types for Ethereum test cases.
-"""
+"""Base composite types for Ethereum test cases."""
+
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, SupportsBytes, Type, TypeAlias
 
@@ -17,9 +16,7 @@ StorageRootType = Dict[NumberConvertible, NumberConvertible]
 
 
 class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
-    """
-    Definition of a storage in pre or post state of a test
-    """
+    """Definition of a storage in pre or post state of a test."""
 
     root: Dict[StorageKeyValueType, StorageKeyValueType] = Field(default_factory=dict)
 
@@ -33,23 +30,22 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
     """
 
     @dataclass(kw_only=True)
-    class InvalidType(Exception):
-        """
-        Invalid type used when describing test's expected storage key or value.
-        """
+    class InvalidTypeError(Exception):
+        """Invalid type used when describing test's expected storage key or value."""
 
         key_or_value: Any
 
         def __init__(self, key_or_value: Any, *args):
+            """Initialize the exception."""
             super().__init__(args)
             self.key_or_value = key_or_value
 
         def __str__(self):
-            """Print exception string"""
+            """Print exception string."""
             return f"invalid type for key/value: {self.key_or_value}"
 
     @dataclass(kw_only=True)
-    class InvalidValue(Exception):
+    class InvalidValueError(Exception):
         """
         Invalid value used when describing test's expected storage key or
         value.
@@ -58,31 +54,31 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         key_or_value: Any
 
         def __init__(self, key_or_value: Any, *args):
+            """Initialize the exception."""
             super().__init__(args)
             self.key_or_value = key_or_value
 
         def __str__(self):
-            """Print exception string"""
+            """Print exception string."""
             return f"invalid value for key/value: {self.key_or_value}"
 
     @dataclass(kw_only=True)
-    class MissingKey(Exception):
-        """
-        Test expected to find a storage key set but key was missing.
-        """
+    class MissingKeyError(Exception):
+        """Test expected to find a storage key set but key was missing."""
 
         key: int
 
         def __init__(self, key: int, *args):
+            """Initialize the exception."""
             super().__init__(args)
             self.key = key
 
         def __str__(self):
-            """Print exception string"""
+            """Print exception string."""
             return "key {0} not found in storage".format(Hash(self.key))
 
     @dataclass(kw_only=True)
-    class KeyValueMismatch(Exception):
+    class KeyValueMismatchError(Exception):
         """
         Test expected a certain value in a storage key but value found
         was different.
@@ -94,6 +90,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         got: int
 
         def __init__(self, address: Address, key: int, want: int, got: int, *args):
+            """Initialize the exception."""
             super().__init__(args)
             self.address = address
             self.key = key
@@ -101,7 +98,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             self.got = got
 
         def __str__(self):
-            """Print exception string"""
+            """Print exception string."""
             label_str = ""
             if self.address.label is not None:
                 label_str = f" ({self.address.label})"
@@ -113,67 +110,59 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
             )
 
     def __contains__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType) -> bool:
-        """Checks for an item in the storage"""
+        """Check for an item in the storage."""
         return StorageKeyValueTypeAdapter.validate_python(key) in self.root
 
     def __getitem__(
         self, key: StorageKeyValueTypeConvertible | StorageKeyValueType
     ) -> StorageKeyValueType:
-        """Returns an item from the storage"""
+        """Return an item from the storage."""
         return self.root[StorageKeyValueTypeAdapter.validate_python(key)]
 
     def __setitem__(
         self,
         key: StorageKeyValueTypeConvertible | StorageKeyValueType,
         value: StorageKeyValueTypeConvertible | StorageKeyValueType,
-    ):  # noqa: SC200
-        """Sets an item in the storage"""
-        self.root[
-            StorageKeyValueTypeAdapter.validate_python(key)
-        ] = StorageKeyValueTypeAdapter.validate_python(value)
+    ):
+        """Set an item in the storage."""
+        self.root[StorageKeyValueTypeAdapter.validate_python(key)] = (
+            StorageKeyValueTypeAdapter.validate_python(value)
+        )
 
     def __delitem__(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType):
-        """Deletes an item from the storage"""
+        """Delete an item from the storage."""
         del self.root[StorageKeyValueTypeAdapter.validate_python(key)]
 
     def __iter__(self):
-        """Returns an iterator over the storage"""
+        """Return an iterator over the storage."""
         return iter(self.root)
 
     def __eq__(self, other) -> bool:
-        """
-        Returns True if both storages are equal.
-        """
+        """Return True if both storages are equal."""
         if not isinstance(other, Storage):
             return False
         return self.root == other.root
 
     def __ne__(self, other) -> bool:
-        """
-        Returns True if both storages are not equal.
-        """
+        """Return True if both storages are not equal."""
         if not isinstance(other, Storage):
             return False
         return self.root != other.root
 
     def __bool__(self) -> bool:
-        """Returns True if the storage is not empty"""
+        """Return True if the storage is not empty."""
         return any(v for v in self.root.values())
 
     def __add__(self, other: "Storage") -> "Storage":
-        """
-        Returns a new storage that is the sum of two storages.
-        """
+        """Return a new storage that is the sum of two storages."""
         return Storage({**self.root, **other.root})
 
     def keys(self) -> set[StorageKeyValueType]:
-        """Returns the keys of the storage"""
+        """Return the keys of the storage."""
         return set(self.root.keys())
 
     def set_next_slot(self, slot: int) -> "Storage":
-        """
-        Sets the next slot to be used by `store_next`.
-        """
+        """Set the next slot to be used by `store_next`."""
         self._current_slot = slot
         return self
 
@@ -181,7 +170,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         self, value: StorageKeyValueTypeConvertible | StorageKeyValueType | bool
     ) -> StorageKeyValueType:
         """
-        Stores a value in the storage and returns the key where the value is stored.
+        Store value in storage and returns the key where the value is stored.
 
         Increments the key counter so the next time this function is called,
         the next key is used.
@@ -192,15 +181,14 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         return slot
 
     def peek_slot(self) -> int:
-        """
-        Peeks the next slot that will be used by `store_next`.
-        """
+        """Peek the next slot that will be used by `store_next`."""
         return self._current_slot
 
     def contains(self, other: "Storage") -> bool:
         """
-        Returns True if self contains all keys with equal value as
+        Return True if self contains all keys with equal value as
         contained by second storage.
+
         Used for comparison with test expected post state and alloc returned
         by the transition tool.
         """
@@ -213,32 +201,31 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
 
     def must_contain(self, address: Address, other: "Storage"):
         """
-        Succeeds only if self contains all keys with equal value as
+        Succeed only if self contains all keys with equal value as
         contained by second storage.
+
         Used for comparison with test expected post state and alloc returned
         by the transition tool.
         Raises detailed exception when a difference is found.
         """
         for key in other.keys():
             if key not in self:
-                # storage[key]==0 is equal to missing storage
+                # storage[key] == 0 is equal to missing storage
                 if other[key] != 0:
-                    raise Storage.MissingKey(key=key)
+                    raise Storage.MissingKeyError(key=key)
             elif self[key] != other[key]:
-                raise Storage.KeyValueMismatch(
+                raise Storage.KeyValueMismatchError(
                     address=address, key=key, want=self[key], got=other[key]
                 )
 
     def must_be_equal(self, address: Address, other: "Storage | None"):
-        """
-        Succeeds only if "self" is equal to "other" storage.
-        """
+        """Succeed only if "self" is equal to "other" storage."""
         # Test keys contained in both storage objects
         if other is None:
             other = Storage({})
         for key in self.keys() & other.keys():
             if self[key] != other[key]:
-                raise Storage.KeyValueMismatch(
+                raise Storage.KeyValueMismatchError(
                     address=address, key=key, want=self[key], got=other[key]
                 )
 
@@ -246,23 +233,25 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         for key in self.keys() ^ other.keys():
             if key in self:
                 if self[key] != 0:
-                    raise Storage.KeyValueMismatch(address=address, key=key, want=self[key], got=0)
+                    raise Storage.KeyValueMismatchError(
+                        address=address, key=key, want=self[key], got=0
+                    )
 
             elif other[key] != 0:
-                raise Storage.KeyValueMismatch(address=address, key=key, want=0, got=other[key])
+                raise Storage.KeyValueMismatchError(
+                    address=address, key=key, want=0, got=other[key]
+                )
 
     def canary(self) -> "Storage":
         """
-        Returns a canary storage filled with non-zero values where the current storage expects
+        Return a canary storage filled with non-zero values where the current storage expects
         zero values, to guarantee that the test overwrites the storage.
         """
         return Storage({key: HashInt(0xBA5E) for key in self.keys() if self[key] == 0})
 
 
 class Account(CamelModel):
-    """
-    State associated with an address.
-    """
+    """State associated with an address."""
 
     nonce: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     """
@@ -290,7 +279,7 @@ class Account(CamelModel):
     """
 
     @dataclass(kw_only=True)
-    class NonceMismatch(Exception):
+    class NonceMismatchError(Exception):
         """
         Test expected a certain nonce value for an account but a different
         value was found.
@@ -301,13 +290,14 @@ class Account(CamelModel):
         got: int | None
 
         def __init__(self, address: Address, want: int | None, got: int | None, *args):
+            """Initialize the exception."""
             super().__init__(args)
             self.address = address
             self.want = want
             self.got = got
 
         def __str__(self):
-            """Print exception string"""
+            """Print exception string."""
             label_str = ""
             if self.address.label is not None:
                 label_str = f" ({self.address.label})"
@@ -317,7 +307,7 @@ class Account(CamelModel):
             )
 
     @dataclass(kw_only=True)
-    class BalanceMismatch(Exception):
+    class BalanceMismatchError(Exception):
         """
         Test expected a certain balance for an account but a different
         value was found.
@@ -328,13 +318,14 @@ class Account(CamelModel):
         got: int | None
 
         def __init__(self, address: Address, want: int | None, got: int | None, *args):
+            """Initialize the exception."""
             super().__init__(args)
             self.address = address
             self.want = want
             self.got = got
 
         def __str__(self):
-            """Print exception string"""
+            """Print exception string."""
             label_str = ""
             if self.address.label is not None:
                 label_str = f" ({self.address.label})"
@@ -344,7 +335,7 @@ class Account(CamelModel):
             )
 
     @dataclass(kw_only=True)
-    class CodeMismatch(Exception):
+    class CodeMismatchError(Exception):
         """
         Test expected a certain bytecode for an account but a different
         one was found.
@@ -355,13 +346,14 @@ class Account(CamelModel):
         got: bytes | None
 
         def __init__(self, address: Address, want: bytes | None, got: bytes | None, *args):
+            """Initialize the exception."""
             super().__init__(args)
             self.address = address
             self.want = want
             self.got = got
 
         def __str__(self):
-            """Print exception string"""
+            """Print exception string."""
             label_str = ""
             if self.address.label is not None:
                 label_str = f" ({self.address.label})"
@@ -372,12 +364,12 @@ class Account(CamelModel):
 
     def check_alloc(self: "Account", address: Address, account: "Account"):
         """
-        Checks the returned alloc against an expected account in post state.
+        Check the returned alloc against an expected account in post state.
         Raises exception on failure.
         """
         if "nonce" in self.model_fields_set:
             if self.nonce != account.nonce:
-                raise Account.NonceMismatch(
+                raise Account.NonceMismatchError(
                     address=address,
                     want=self.nonce,
                     got=account.nonce,
@@ -385,7 +377,7 @@ class Account(CamelModel):
 
         if "balance" in self.model_fields_set:
             if self.balance != account.balance:
-                raise Account.BalanceMismatch(
+                raise Account.BalanceMismatchError(
                     address=address,
                     want=self.balance,
                     got=account.balance,
@@ -393,7 +385,7 @@ class Account(CamelModel):
 
         if "code" in self.model_fields_set:
             if self.code != account.code:
-                raise Account.CodeMismatch(
+                raise Account.CodeMismatchError(
                     address=address,
                     want=self.code,
                     got=account.code,
@@ -403,25 +395,19 @@ class Account(CamelModel):
             self.storage.must_be_equal(address=address, other=account.storage)
 
     def __bool__(self: "Account") -> bool:
-        """
-        Returns True on a non-empty account.
-        """
+        """Return True on a non-empty account."""
         return any((self.nonce, self.balance, self.code, self.storage))
 
     @classmethod
     def with_code(cls: Type, code: BytesConvertible) -> "Account":
-        """
-        Create account with provided `code` and nonce of `1`.
-        """
+        """Create account with provided `code` and nonce of `1`."""
         return Account(nonce=HexNumber(1), code=Bytes(code))
 
     @classmethod
     def merge(
         cls: Type, account_1: "Dict | Account | None", account_2: "Dict | Account | None"
     ) -> "Account":
-        """
-        Create a merged account from two sources.
-        """
+        """Create a merged account from two sources."""
 
         def to_kwargs_dict(account: "Dict | Account | None") -> Dict:
             if account is None:
@@ -439,8 +425,6 @@ class Account(CamelModel):
 
 
 class Alloc(RootModel[Dict[Address, Account | None]]):
-    """
-    Allocation of accounts in the state, pre and post test execution.
-    """
+    """Allocation of accounts in the state, pre and post test execution."""
 
     root: Dict[Address, Account | None] = Field(default_factory=dict, validate_default=True)
