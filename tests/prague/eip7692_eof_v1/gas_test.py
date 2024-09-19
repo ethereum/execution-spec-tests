@@ -1,5 +1,5 @@
 """
-Test cases for all EIPs mentioned in the EOF V1 meta-EIP.
+Utility to generate gas usage related state tests automatically.
 """
 
 import itertools

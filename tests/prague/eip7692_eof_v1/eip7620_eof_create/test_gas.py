@@ -197,7 +197,7 @@ def test_eofcreate_gas(
         + initcode_execution_cost
         + deployed_code_cost,
         subject_subcontainer=initcode,
-        subject_balance=10**18,
+        subject_balance=value * 4,
         subject_address=subject_address,
         oog_difference=initcode_execution_cost + deployed_code_cost + 1,
     )
