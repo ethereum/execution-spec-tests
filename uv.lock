@@ -622,7 +622,7 @@ requires-dist = [
 [[package]]
 name = "ethereum-spec-evm-resolver"
 version = "0.0.5"
-source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver#6100b864f5f8c1ec175dc60c7b5e17d2c71358e1" }
+source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver#f17667743dd543e690f1c334540372413b324877" }
 dependencies = [
     { name = "coincurve" },
     { name = "filelock" },
