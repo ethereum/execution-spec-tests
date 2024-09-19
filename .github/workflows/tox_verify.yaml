@@ -8,21 +8,21 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             python: "3.10"
             evm-type: "stable"
             tox-cmd: "tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             python: "3.12"
             evm-type: "stable"
             tox-cmd: "tox"  # run-parallel --parallel-no-spinner"
           # Disabled due to unavailable evm implementation for devnet-1
-          # - os: ubuntu-latest
+          # - os: ubuntu-24.04
           #   python: '3.11'
           #   evm-type: 'develop'
           #   tox-cmd: 'tox -e tests-develop'
           # Disabled to not be gated by evmone implementation
-          # - os: ubuntu-latest
+          # - os: ubuntu-24.04
           #   python: '3.11'
           #   evm-type: 'eip7692'
           #   tox-cmd: 'tox -e tests-eip7692'
