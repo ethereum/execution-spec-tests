@@ -12,14 +12,14 @@ import subprocess
 import sys
 
 import click
-from pyspelling import __main__ as pyspelling_main  # type: ignore
+from pyspelling import __main__ as pyspelling_main
 
 
 @click.command(
-    context_settings=dict(
-        ignore_unknown_options=True,
-        allow_extra_args=True,
-    )
+    context_settings={
+        "ignore_unknown_options": True,
+        "allow_extra_args": True,
+    }
 )
 @click.argument("args", nargs=-1, type=click.UNPROCESSED)
 def markdownlint(args):

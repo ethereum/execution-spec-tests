@@ -5,7 +5,6 @@ This script can be used to generate Python source for a blockchain test case
 that replays a mainnet or testnet transaction from its transaction hash.
 
 Note:
-
 Requirements:
 
 1. Access to an archive node for the network where the transaction
@@ -49,6 +48,7 @@ Example Usage:
 Limitations:
 
 1. Only legacy transaction types (type 0) are currently supported.
+
 """
 
 import json
@@ -77,7 +77,7 @@ from ethereum_test_types import Transaction
 @click.argument("output_file", type=click.File("w", lazy=True))
 def make_test(transaction_hash: str, output_file: TextIO, config_file: TextIO):
     """
-    Extracts a transaction and required state from a network to make a blockchain test out of it.
+    Extract transaction and required state from network to make blockchain test.
 
     TRANSACTION_HASH is the hash of the transaction to be used.
 
@@ -109,16 +109,12 @@ def make_test(transaction_hash: str, output_file: TextIO, config_file: TextIO):
 
 
 class TestConstructor:
-    """
-    Construct .py file from test template, by replacing keywords with test data
-    """
+    """Construct .py file from test template, by replacing keywords with test data."""
 
     test_template: str
 
     def __init__(self, test_template: str):
-        """
-        Initialize with template
-        """
+        """Initialize with template."""
         self.test_template = test_template
 
     def _make_test_comments(self, test: str, tr_hash: str) -> str:
@@ -175,9 +171,7 @@ class TestConstructor:
         return test.replace("$PRE", state_str)
 
     def _make_transaction(self, test: str, tr: "RequestManager.RemoteTransaction") -> str:
-        """
-        Print legacy transaction in .py
-        """
+        """Print legacy transaction in .py."""
         pad = "            "
         tr_str = ""
         quoted_fields_array = ["data", "to"]
@@ -212,9 +206,7 @@ class TestConstructor:
         tr: "RequestManager.RemoteTransaction",
         state: Dict[Address, Account],
     ) -> str:
-        """
-        Prepare the .py file template
-        """
+        """Prepare the .py file template."""
         test = self.test_template
         test = self._make_test_comments(test, str(tr.tr_hash))
         test = self._make_test_environment(test, bl)
@@ -224,15 +216,11 @@ class TestConstructor:
 
 
 class Config:
-    """
-    Main class to manage Pyspec config
-    """
+    """Main class to manage Pyspec config."""
 
     @dataclass
     class RemoteNode:
-        """
-        Remote node structure
-        """
+        """Remote node structure."""
 
         name: str
         node_url: str
@@ -242,23 +230,17 @@ class Config:
     remote_nodes: List["Config.RemoteNode"]
 
     def __init__(self, file: TextIO):
-        """
-        Initialize pyspec config from file
-        """
+        """Initialize pyspec config from file."""
         data = json.load(file)
         self.remote_nodes = [Config.RemoteNode(**node) for node in data["remote_nodes"]]
 
 
 class RequestManager:
-    """
-    Interface for the RPC interaction with remote node
-    """
+    """Interface for the RPC interaction with remote node."""
 
     @dataclass()
     class RemoteTransaction:
-        """
-        Remote transaction structure
-        """
+        """Remote transaction structure."""
 
         block_number: int
         tr_hash: Hash
@@ -266,9 +248,7 @@ class RequestManager:
 
     @dataclass
     class RemoteBlock:
-        """
-        Remote block header information structure
-        """
+        """Remote block header information structure."""
 
         coinbase: str
         difficulty: str
@@ -280,9 +260,7 @@ class RequestManager:
     headers: dict[str, str]
 
     def __init__(self, node_config: Config.RemoteNode):
-        """
-        Initialize the RequestManager with specific client config.
-        """
+        """Initialize the RequestManager with specific client config."""
         self.node_url = node_config.node_url
         headers = {
             "CF-Access-Client-Id": node_config.client_id,
@@ -292,9 +270,7 @@ class RequestManager:
         self.debug_rpc = DebugRPC(node_config.node_url, extra_headers=headers)
 
     def eth_get_transaction_by_hash(self, transaction_hash: Hash) -> RemoteTransaction:
-        """
-        Get transaction data.
-        """
+        """Get transaction data."""
         res = self.rpc.get_transaction_by_hash(transaction_hash)
         block_number = res.block_number
         assert block_number is not None, "Transaction does not seem to be included in any block"
@@ -323,9 +299,7 @@ class RequestManager:
         )
 
     def eth_get_block_by_number(self, block_number: BlockNumberType) -> RemoteBlock:
-        """
-        Get block by number
-        """
+        """Get block by number."""
         res = self.rpc.get_block_by_number(block_number)
 
         return RequestManager.RemoteBlock(
@@ -337,9 +311,7 @@ class RequestManager:
         )
 
     def debug_trace_call(self, tr: RemoteTransaction) -> Dict[Address, Account]:
-        """
-        Get pre-state required for transaction
-        """
+        """Get pre-state required for transaction."""
         return self.debug_rpc.trace_call(
             {
                 "from": f"{str(tr.transaction.sender)}",

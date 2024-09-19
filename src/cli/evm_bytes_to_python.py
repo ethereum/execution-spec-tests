@@ -1,6 +1,4 @@
-"""
-Define an entry point wrapper for pytest.
-"""
+"""Define an entry point wrapper for pytest."""
 
 from typing import Any, List, Optional
 
