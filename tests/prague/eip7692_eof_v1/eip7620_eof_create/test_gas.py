@@ -7,6 +7,7 @@ import pytest
 from ethereum_test_tools import Alloc, Environment, StateTestFiller, compute_eofcreate_address
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.helpers import cost_memory_bytes
 
 from .. import EOF_FORK_NAME
 from ..gas_test import gas_test
@@ -92,13 +93,8 @@ def make_factory(initcode: Container):
     ],
 )
 @pytest.mark.parametrize(
-    ["mem_expansion_size", "mem_expansion_extra_gas"],
-    [
-        pytest.param(0, 0, id="no_mem_expansion"),
-        pytest.param(1, 3, id="1byte_mem_expansion"),
-        pytest.param(32, 3, id="1word_mem_expansion"),
-        pytest.param(33, 6, id="33bytes_mem_expansion"),
-    ],
+    "mem_expansion_bytes",
+    [0, 1, 32, 33],
 )
 @pytest.mark.parametrize(
     ["initcode", "initcode_execution_cost", "runtime"],
@@ -162,8 +158,7 @@ def test_eofcreate_gas(
     cold_gas: int,
     value: int,
     new_account: bool,
-    mem_expansion_size: int,
-    mem_expansion_extra_gas: int,
+    mem_expansion_bytes: int,
     initcode: Container,
     initcode_execution_cost: int,
     runtime: Container,
@@ -190,14 +185,14 @@ def test_eofcreate_gas(
         state_test,
         Environment(),
         pre,
-        setup_code=Op.PUSH1(mem_expansion_size)
+        setup_code=Op.PUSH1(mem_expansion_bytes)
         + Op.PUSH0
         + code_increment_counter
         + Op.PUSH32(value),
         subject_code=Op.EOFCREATE[0],
         tear_down_code=Op.STOP,
         cold_gas=cold_gas
-        + mem_expansion_extra_gas
+        + cost_memory_bytes(mem_expansion_bytes, 0)
         + initcode_hashing_cost
         + initcode_execution_cost
         + deployed_code_cost,

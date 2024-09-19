@@ -8,6 +8,7 @@ import pytest
 from ethereum_test_tools import Alloc, Environment, StateTestFiller
 from ethereum_test_tools.eof.v1 import Container
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.helpers import cost_memory_bytes
 
 from .. import EOF_FORK_NAME
 from ..gas_test import gas_test
@@ -107,13 +108,8 @@ def state_env() -> Environment:
     ],
 )
 @pytest.mark.parametrize(
-    ["mem_expansion_size", "mem_expansion_extra_gas"],
-    [
-        pytest.param(0, 0, id="no_mem_expansion"),
-        pytest.param(1, 3, id="1byte_mem_expansion"),
-        pytest.param(32, 3, id="1word_mem_expansion"),
-        pytest.param(33, 6, id="33bytes_mem_expansion"),
-    ],
+    "mem_expansion_bytes",
+    [0, 1, 32, 33],
 )
 def test_ext_calls_gas(
     state_test: StateTestFiller,
@@ -124,8 +120,7 @@ def test_ext_calls_gas(
     cold_gas: int,
     warm_gas: int,
     new_account: bool,
-    mem_expansion_size: int,
-    mem_expansion_extra_gas: int,
+    mem_expansion_bytes: int,
 ):
     """Tests variations of EXT*CALL gas, both warm and cold, without and with mem expansions"""
     address_target = (
@@ -136,9 +131,12 @@ def test_ext_calls_gas(
         state_test,
         state_env,
         pre,
-        setup_code=pre_setup + Op.PUSH1(mem_expansion_size) + Op.PUSH0 + Op.PUSH20(address_target),
+        setup_code=pre_setup
+        + Op.PUSH1(mem_expansion_bytes)
+        + Op.PUSH0
+        + Op.PUSH20(address_target),
         subject_code=opcode,
         tear_down_code=Op.STOP,
-        cold_gas=cold_gas + mem_expansion_extra_gas,
-        warm_gas=warm_gas + mem_expansion_extra_gas,
+        cold_gas=cold_gas + cost_memory_bytes(mem_expansion_bytes, 0),
+        warm_gas=warm_gas + cost_memory_bytes(mem_expansion_bytes, 0),
     )
