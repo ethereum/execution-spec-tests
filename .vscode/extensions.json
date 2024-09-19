@@ -4,10 +4,8 @@
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
 		"ms-python.python",
-		"ms-python.isort",
-		"ms-python.flake8",
+		"charliermarsh.ruff",
 		"ms-python.mypy-type-checker",
-		"ms-python.black-formatter",
 		"esbenp.prettier-vscode",
 		"njpwerner.autodocstring",  // https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring
 		"streetsidesoftware.code-spell-checker",
@@ -17,5 +15,9 @@
 		"DavidAnson.vscode-markdownlint",  // https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
-	"unwantedRecommendations": []
+	"unwantedRecommendations": [
+		"ms-python.black-formatter",
+		"ms-python.isort",
+		"ms-python.flake8",
+	]
 }
