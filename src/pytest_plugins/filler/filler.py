@@ -82,7 +82,8 @@ def pytest_addoption(parser: pytest.Parser):
         type=Path,
         default="ethereum-spec-evm-resolver",
         help=(
-            "Path to an evm executable that provides `t8n`. Default: Ethereum-Spec-EVM-Resolver."
+            "Path to an evm executable (or name of an executable in the PATH) that provides `t8n`."
+            " Default: `ethereum-spec-evm-resolver`."
         ),
     )
     evm_group.addoption(
