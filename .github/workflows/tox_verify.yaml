@@ -11,11 +11,11 @@ jobs:
           - os: ubuntu-24.04
             python: "3.10"
             evm-type: "stable"
-            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
+            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
           - os: ubuntu-24.04
             python: "3.12"
             evm-type: "stable"
-            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"
+            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
           # Disabled due to unavailable evm implementation for devnet-1
           # - os: ubuntu-24.04
           #   python: '3.11'
@@ -29,7 +29,7 @@ jobs:
           - os: macos-latest
             python: "3.11"
             evm-type: "stable"
-            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"
+            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
     steps:
       - uses: actions/checkout@v4
         with:
