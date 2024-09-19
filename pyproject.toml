@@ -59,19 +59,12 @@ Repository = "https://github.com/ethereum/execution-spec-tests"
 Issues = "https://github.com/ethereum/execution-spec-tests/issues"
 Changelog = "https://ethereum.github.io/execution-spec-tests/main/CHANGELOG/"
 
-
 [project.optional-dependencies]
 test = ["pytest-cov>=4.1.0,<5"]
 lint = [
-    "isort>=5.8,<6",
+    "ruff>=0.0.285",
     "mypy==0.991; implementation_name == 'cpython'",
-    "types-requests",
-    "black==22.3.0; implementation_name == 'cpython'",
-    "flake8-spellcheck>=0.24,<0.25",
-    "flake8-docstrings>=1.6,<2",
-    "flake8>=6.1.0,<7",
-    "pep8-naming==0.13.3",
-    "fname8>=0.0.3",
+    "types-requests"
 ]
 docs = [
     "cairosvg>=2.7.0,<3",
@@ -95,7 +88,6 @@ fill = "cli.pytest_commands.fill:fill"
 phil = "cli.pytest_commands.fill:phil"
 execute = "cli.pytest_commands.execute:execute"
 attac = "cli.pytest_commands.execute:execute"
-tf = "cli.pytest_commands.fill:tf"
 checkfixtures = "cli.check_fixtures:check_fixtures"
 consume = "cli.pytest_commands.consume:consume"
 protec = "cli.pytest_commands.consume:consume"
@@ -116,14 +108,14 @@ exclude = ["*tests*"]
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-line_length = 99
-
-[tool.black]
+[tool.ruff]
 line-length = 99
-target-version = ["py310"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "W", "I", "A", "N", "D", "C"]
+fixable = ["I", "B", "E", "F", "W", "D", "C"]
+ignore = ["D205", "D203", "D212", "D415", "C901"] 
+
 
 [tool.mypy]
 mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]

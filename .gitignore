@@ -49,8 +49,6 @@ pip-delete-this-directory.txt
 .coverage
 
 # misc
-.vscode/settings.json
-.vscode/launch.json
 *.code-workspace
 verify_kzg_proof
 
