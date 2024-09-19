@@ -1,0 +1,133 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // If the VS Code "Run and Debug" button, respecively launch selector are not visible, see this answer:
+    // https://stackoverflow.com/a/74245823
+    //
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch fill --until choose fork",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-c",
+                "pytest.ini",
+                "--until",
+                "${input:fork}",
+                "--evm-bin",
+                "${input:evmBinary}",
+                "-v"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch fill -k choose test path",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-c",
+                "pytest.ini",
+                "--until",
+                "Cancun",
+                "--evm-bin",
+                "${input:evmBinary}",
+                "-v",
+                "-k",
+                "${input:testPathOrId}"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch fill --until Cancun",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-c",
+                "pytest.ini",
+                "--until",
+                "Cancun",
+                "--evm-bin",
+                "${input:evmBinary}",
+                "-v"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch fill --until Prague",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-c",
+                "pytest.ini",
+                "--until",
+                "Prague",
+                "--evm-bin",
+                "${input:evmBinary}",
+                "-v"
+            ],
+            "cwd": "${workspaceFolder}"
+        }
+    ],
+    "inputs": [
+        {
+            "type": "pickString",
+            "id": "evmBinary",
+            "description": "Which evm binary to you want to run?",
+            "options": [
+                {
+                    "label": "First evm binary in PATH",
+                    "value": "evm"
+                },
+                {
+                    "label": "Geth, mario's repo",
+                    "value": "~/code/github/marioevz/go-ethereum/build/bin/evm"
+                },
+                {
+                    "label": "Geth, danceratopz's repo",
+                    "value": "~/code/github/danceratopz/go-ethereum/build/bin/evm"
+                },
+                {
+                    "label": "evmone",
+                    "value": "~/code/github/ethereum/evmone/build/bin/evmone-t8n"
+                },
+                {
+                    "label": "besu",
+                    "value": "~/code/github/danceratopz/besu/ethereum/evmtool/build/install/evmtool/bin/evm"
+                }
+            ],
+            "default": "evm"
+        },
+        {
+            "type": "pickString",
+            "id": "fork",
+            "description": "Which fork do you want to use?",
+            "options": [
+                "Frontier",
+                "Homestead",
+                "Byzantium",
+                "Constantinople",
+                "ConstantinopleFix",
+                "Istanbul",
+                "Berlin",
+                "London",
+                "Paris",
+                "Shanghai",
+                "Cancun",
+                "Prague"
+            ],
+            "default": "Cancun"
+        },
+        {
+            "type": "promptString",
+            "id": "testPathOrId",
+            "description": "Enter a test path string or id to provide to pytest -k",
+            "default": "test_"
+        }
+    ]
+}
