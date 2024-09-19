@@ -167,9 +167,9 @@ def test_eofcreate_gas(
     initcode_hashing_cost = 6 * ((len(initcode) + 31) // 32)
     deployed_code_cost = 200 * len(runtime) if runtime else 0
 
-    sender = pre.fund_eoa()
+    subject_address = pre.fund_eoa(0)
 
-    salt_addresses = [compute_eofcreate_address(sender, i, initcode) for i in range(10)]
+    salt_addresses = [compute_eofcreate_address(subject_address, i, initcode) for i in range(4)]
 
     if not new_account:
         for a in salt_addresses:
@@ -197,7 +197,7 @@ def test_eofcreate_gas(
         + initcode_execution_cost
         + deployed_code_cost,
         subject_subcontainer=initcode,
-        sender=sender,
         subject_balance=10**18,
+        subject_address=subject_address,
         oog_difference=initcode_execution_cost + deployed_code_cost + 1,
     )

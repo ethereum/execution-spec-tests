@@ -4,11 +4,11 @@ Test cases for all EIPs mentioned in the EOF V1 meta-EIP.
 
 import itertools
 
+from ethereum_test_base_types.base_types import Address
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.eof.v1 import Container
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Section
-from ethereum_test_types.types import EOA
 from ethereum_test_vm import Bytecode, EVMCodeType
 
 WARM_ACCOUNT_ACCESS_GAS = 100
@@ -33,7 +33,7 @@ def gas_test(
     cold_gas: int,
     warm_gas: int | None = None,
     subject_subcontainer: Container | None = None,
-    sender: EOA | None = None,
+    subject_address: Address | None = None,
     subject_balance: int = 0,
     oog_difference: int = 1,
 ):
@@ -49,8 +49,7 @@ def gas_test(
     if warm_gas is None:
         warm_gas = cold_gas
 
-    if not sender:
-        sender = pre.fund_eoa()
+    sender = pre.fund_eoa()
 
     address_baseline = pre.deploy_contract(Container.Code(setup_code + tear_down_code))
     code_subject = setup_code + subject_code + tear_down_code
@@ -64,6 +63,7 @@ def gas_test(
             ]
         ),
         balance=subject_balance,
+        address=subject_address,
     )
     # 2 times GAS, POP, CALL, 6 times PUSH1 - instructions charged for at every gas run
     gas_single_gas_run = 2 * 2 + 2 + WARM_ACCOUNT_ACCESS_GAS + 6 * 3
