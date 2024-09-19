@@ -74,8 +74,6 @@ class ExecutionSpecsTransitionTool(TransitionTool):
                 "--uds",
                 self.server_file_path,
             ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
         )
         start = time.time()
         while True:
