@@ -71,11 +71,13 @@ docs = [
 
 [project.scripts]
 fill = "cli.pytest_commands.fill:fill"
-tf = "cli.pytest_commands.fill:tf"
+phil = "cli.pytest_commands.fill:fill"
+protec = "cli.pytest_commands.fill:fill"
 checkfixtures = "cli.check_fixtures:check_fixtures"
 consume = "cli.pytest_commands.consume:consume"
+attac = "cli.pytest_commands.consume:consume"
 genindex = "cli.gen_index:generate_fixtures_index_cli"
-gentest = "cli.gentest:make_test"
+gentest = "cli.gen_test:make_test"
 pyspelling_soft_fail = "cli.tox_helpers:pyspelling"
 markdownlintcli2_soft_fail = "cli.tox_helpers:markdownlint"
 order_fixtures = "cli.order_fixtures:order_fixtures"
@@ -91,8 +93,12 @@ ethereum_test_forks = ["forks/contracts/*.bin"]
 
 [tool.ruff]
 line-length = 99
+
+[tool.ruff.lint]
 select = ["E", "F", "B", "W", "I", "A", "N", "D", "C"]
-fixable = ["I", "B", "E", "F", "W", "C"]
+fixable = ["I", "B", "E", "F", "W", "D", "C"]
+ignore = ["D205", "D203", "D212", "D415", "C901"] 
+
 
 [tool.mypy]
 mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]

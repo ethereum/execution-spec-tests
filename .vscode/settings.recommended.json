@@ -16,7 +16,7 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": "explicit"
         }
     },
     "python.analysis.autoFormatStrings": true,
@@ -27,7 +27,7 @@
         "-c",
         "pytest.ini"
     ],
-    "ruff.args": [
+    "ruff.lint.args": [
         "--line-length",
         "99",
         "--fix"
