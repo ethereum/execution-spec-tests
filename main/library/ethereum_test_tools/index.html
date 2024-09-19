@@ -33392,11 +33392,7 @@ optionally <code>position</code>) and may not be set directly.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
@@ -33409,7 +33405,11 @@ optionally <code>position</code>) and may not be set directly.</p>
 <span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
-<span class="normal">267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CalldataCase</span><span class="p">(</span><span class="n">Case</span><span class="p">):</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CalldataCase</span><span class="p">(</span><span class="n">Case</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Small helper class to represent a single case whose condition depends</span>
 <span class="sd">    on the value of the contract&#39;s calldata in a Switch case statement.</span>
@@ -33455,12 +33455,12 @@ optionally <code>position</code>) and may not be set directly.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the condition base on `value` and `position`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -33509,11 +33509,7 @@ list.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
 <span class="normal">238</span>
@@ -33525,7 +33521,11 @@ list.</p>
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
-<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Case</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Small helper class to represent a single, generic case in a `Switch` cases</span>
@@ -34014,7 +34014,11 @@ and to be popped at the end of the execution.</p>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
-<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Conditional</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Conditional</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate conditional bytecode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -34045,13 +34049,17 @@ and to be popped at the end of the execution.</p>
             <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
             <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition</span><span class="p">)</span>
 
+            <span class="c1"># Finally we append the condition, false and true branches, plus the jumpdest at the</span>
+            <span class="c1"># very end</span>
+            <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+
         <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
-            <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">if_false</span><span class="o">.</span><span class="n">terminating</span><span class="p">:</span>
+                <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)]</span>
             <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)](</span><span class="n">condition</span><span class="p">)</span>
 
-        <span class="c1"># Finally we append the true and false branches, and the condition, plus the jumpdest at</span>
-        <span class="c1"># the very end</span>
-        <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+            <span class="c1"># Finally we append the condition, false and true branches</span>
+            <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span>
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bytecode</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -34119,7 +34127,11 @@ paths.</p>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
-<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span><span class="p">,</span>
@@ -34145,13 +34157,17 @@ paths.</p>
         <span class="c1"># Then we need to do the conditional jump by skipping the false branch</span>
         <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PC</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">condition</span><span class="p">)</span>
 
+        <span class="c1"># Finally we append the condition, false and true branches, plus the jumpdest at the</span>
+        <span class="c1"># very end</span>
+        <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+
     <span class="k">elif</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
-        <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">if_false</span><span class="o">.</span><span class="n">terminating</span><span class="p">:</span>
+            <span class="n">if_false</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_true</span><span class="p">)]</span>
         <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">if_false</span><span class="p">)](</span><span class="n">condition</span><span class="p">)</span>
 
-    <span class="c1"># Finally we append the true and false branches, and the condition, plus the jumpdest at</span>
-    <span class="c1"># the very end</span>
-    <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+        <span class="c1"># Finally we append the condition, false and true branches</span>
+        <span class="n">bytecode</span> <span class="o">=</span> <span class="n">condition</span> <span class="o">+</span> <span class="n">if_false</span> <span class="o">+</span> <span class="n">if_true</span>
 
     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bytecode</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -34737,11 +34753,7 @@ The initcode can be padded to a specified length for testing purposes.</p>
 </details>
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
@@ -34846,7 +34858,11 @@ The initcode can be padded to a specified length for testing purposes.</p>
 <span class="normal">376</span>
 <span class="normal">377</span>
 <span class="normal">378</span>
-<span class="normal">379</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Switch</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Switch</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate switch-case expressions in EVM bytecode.</span>
 
@@ -35066,11 +35082,7 @@ switch-case behavior.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
@@ -35145,7 +35157,11 @@ switch-case behavior.</p>
 <span class="normal">376</span>
 <span class="normal">377</span>
 <span class="normal">378</span>
-<span class="normal">379</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">default_action</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

@@ -14800,6 +14800,7 @@
 <li>✨ Example test <code>tests/frontier/opcodes/test_dup.py</code> now includes EOF parametrization (<a href="https://github.com/ethereum/execution-spec-tests/pull/610">#610</a>).</li>
 <li>✨ Convert all opcodes validation test <code>tests/frontier/opcodes/test_all_opcodes.py</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/748">#748</a>).</li>
 <li>✨ Update <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702</a> tests for Devnet-3 (<a href="https://github.com/ethereum/execution-spec-tests/pull/733">#733</a>)</li>
+<li>🐞 Fix <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702</a>+EOF tests due to incorrect test expectations and faulty <code>Conditional</code> test generator in EOF mode (<a href="https://github.com/ethereum/execution-spec-tests/pull/821">#821</a>)</li>
 </ul>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <ul>
@@ -14826,6 +14827,7 @@
 <li>✨ Added <code>selector</code> and <code>marks</code> fields to all <code>@pytest.mark.with_all*</code> markers, which allows passing lambda functions to select or mark specific parametrized values (see <a href="https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#covariant-marker-keyword-arguments">documentation</a> for more information) (<a href="https://github.com/ethereum/execution-spec-tests/pull/762">#762</a>).</li>
 <li>✨ Improves consume input flags for develop and stable fixture releases, fixes <code>--help</code> flag for consume (<a href="https://github.com/ethereum/execution-spec-tests/pull/745">#745</a>).</li>
 <li>🐞 Fix erroneous fork message in pytest session header with development forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/806">#806</a>).</li>
+<li>🐞 Fix <code>Conditional</code> code generator in EOF mode (<a href="https://github.com/ethereum/execution-spec-tests/pull/821">#821</a>)</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
