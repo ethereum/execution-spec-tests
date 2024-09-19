@@ -17,7 +17,7 @@ from ethereum_test_fixtures.blockchain import FixtureCommon
 from ethereum_test_forks import Berlin, Fork, Istanbul, London, Paris, Shanghai
 from ethereum_test_types import Alloc, Environment, Transaction
 from ethereum_test_vm import Opcodes as Op
-from evm_transition_tool import GethTransitionTool
+from evm_transition_tool import ExecutionSpecsTransitionTool
 
 from ..blockchain import Block, BlockchainTest, Header
 from ..state import StateTest
@@ -84,7 +84,7 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
         }
     )
 
-    t8n = GethTransitionTool()
+    t8n = ExecutionSpecsTransitionTool()
     fixture = BlockchainTest(
         genesis_environment=env,
         pre=pre,
@@ -146,7 +146,7 @@ def test_fill_state_test(
         ),
     }
 
-    t8n = GethTransitionTool()
+    t8n = ExecutionSpecsTransitionTool()
     generated_fixture = StateTest(
         env=env,
         pre=pre,
@@ -478,7 +478,7 @@ class TestFillBlockchainValidTxs:
         genesis_environment: Environment,
         fixture_format: FixtureFormats,
     ):
-        t8n = GethTransitionTool()
+        t8n = ExecutionSpecsTransitionTool()
         return BlockchainTest(
             pre=pre,
             post=post,
@@ -858,7 +858,7 @@ def test_fill_blockchain_invalid_txs(fork: Fork, check_hive: bool, expected_json
         fee_recipient="0xba5e000000000000000000000000000000000000",
     )
 
-    t8n = GethTransitionTool()
+    t8n = ExecutionSpecsTransitionTool()
     fixture_format = (
         FixtureFormats.BLOCKCHAIN_TEST_ENGINE if check_hive else FixtureFormats.BLOCKCHAIN_TEST
     )

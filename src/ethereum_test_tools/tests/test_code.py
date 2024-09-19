@@ -22,7 +22,7 @@ from ethereum_test_specs import StateTest
 from ethereum_test_types import Alloc, Environment, Transaction
 from ethereum_test_vm import Opcodes as Op
 from ethereum_test_vm import UndefinedOpcodes
-from evm_transition_tool import GethTransitionTool
+from evm_transition_tool import ExecutionSpecsTransitionTool
 
 from ..code import CalldataCase, Case, Conditional, Initcode, Solc, Switch, Yul
 from .conftest import SOLC_PADDING_VERSION
@@ -636,7 +636,7 @@ def test_switch(tx_data: bytes, switch_bytecode: bytes, expected_storage: Mappin
         post=post,
     )
     state_test.generate(
-        t8n=GethTransitionTool(),
+        t8n=ExecutionSpecsTransitionTool(),
         fork=Cancun,
         fixture_format=FixtureFormats.BLOCKCHAIN_TEST,
         eips=None,

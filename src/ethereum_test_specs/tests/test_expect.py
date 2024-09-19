@@ -10,7 +10,7 @@ from ethereum_test_base_types import Account, Address
 from ethereum_test_fixtures import FixtureFormats
 from ethereum_test_forks import Fork, get_deployed_forks
 from ethereum_test_types import Alloc, Environment, Storage, Transaction
-from evm_transition_tool import GethTransitionTool
+from evm_transition_tool import ExecutionSpecsTransitionTool
 
 from ..state import StateTest
 
@@ -52,8 +52,8 @@ def state_test(  # noqa: D103
 
 
 @pytest.fixture
-def t8n() -> GethTransitionTool:  # noqa: D103
-    return GethTransitionTool()
+def t8n() -> ExecutionSpecsTransitionTool:  # noqa: D103
+    return ExecutionSpecsTransitionTool()
 
 
 # Storage value mismatch tests

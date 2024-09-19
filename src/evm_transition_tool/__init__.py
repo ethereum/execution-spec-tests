@@ -10,7 +10,7 @@ from .nimbus import NimbusTransitionTool
 from .transition_tool import TransitionTool, TransitionToolNotFoundInPath, UnknownTransitionTool
 from .types import Result, TransitionToolOutput
 
-TransitionTool.set_default_tool(GethTransitionTool)
+TransitionTool.set_default_tool(ExecutionSpecsTransitionTool)
 
 __all__ = (
     "BesuTransitionTool",
