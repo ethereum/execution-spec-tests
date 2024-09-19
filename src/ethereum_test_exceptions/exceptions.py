@@ -1,6 +1,4 @@
-"""
-Exceptions for invalid execution.
-"""
+"""Exceptions for invalid execution."""
 
 from enum import Enum, auto, unique
 from typing import Annotated, Any, Dict, List
@@ -16,14 +14,10 @@ _exception_classes: Dict[str, type] = {}
 
 
 class ExceptionBase(Enum):
-    """
-    Base class for exceptions.
-    """
+    """Base class for exceptions."""
 
     def __init_subclass__(cls) -> None:
-        """
-        Register the exception class.
-        """
+        """Register the exception class."""
         super().__init_subclass__()
         _exception_classes[cls.__name__] = cls
 
@@ -31,9 +25,7 @@ class ExceptionBase(Enum):
     def __get_pydantic_core_schema__(
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """
-        Calls the class constructor without info and appends the serialization schema.
-        """
+        """Call the class constructor without info and appends the serialization schema."""
         return no_info_plain_validator_function(
             cls.from_str,
             serialization=to_string_ser_schema(),
@@ -41,9 +33,7 @@ class ExceptionBase(Enum):
 
     @classmethod
     def from_str(cls, value: "str | ExceptionBase") -> "ExceptionBase":
-        """
-        Returns the ContainerKind enum value from a string.
-        """
+        """Return the ContainerKind enum value from a string."""
         if isinstance(value, ExceptionBase):
             return value
 
@@ -66,15 +56,11 @@ class ExceptionBase(Enum):
         raise ValueError(f"No such exception in {class_name}: {value}")
 
     def __contains__(self, exception) -> bool:
-        """
-        Checks if provided exception is equal to this
-        """
+        """Check if provided exception is equal to this."""
         return self == exception
 
     def __str__(self) -> str:
-        """
-        Returns the string representation of the exception
-        """
+        """Return the string representation of the exception."""
         return f"{self.__class__.__name__}.{self.name}"
 
 
@@ -91,9 +77,7 @@ def to_pipe_str(value: Any) -> str:
 
 
 def from_pipe_str(value: Any) -> str | List[str]:
-    """
-    Parses a single string as a pipe separated list into enum exceptions.
-    """
+    """Parse a single string as a pipe separated list into enum exceptions."""
     if isinstance(value, str):
         exception_list = value.split("|")
         if len(exception_list) == 1:
@@ -550,9 +534,7 @@ class BlockException(ExceptionBase):
 
 @unique
 class EOFException(ExceptionBase):
-    """
-    Exception raised when an EOF container is invalid.
-    """
+    """Exception raised when an EOF container is invalid."""
 
     DEFAULT_EXCEPTION = auto()
     """
@@ -740,11 +722,11 @@ class EOFException(ExceptionBase):
     """
     INVALID_CODE_SECTION_INDEX = auto()
     """
-    CALLF Operation referes to a non-existent code section
+    CALLF Operation refers to a non-existent code section
     """
     UNEXPECTED_HEADER_KIND = auto()
     """
-    Header parsing encounterd a section kind it wasn't expecting
+    Header parsing encountered a section kind it wasn't expecting
     """
 
 

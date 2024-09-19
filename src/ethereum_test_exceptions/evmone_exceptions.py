@@ -1,6 +1,4 @@
-"""
-Evmone eof exceptions ENUM -> str mapper
-"""
+"""Evmone eof exceptions ENUM -> str mapper."""
 
 from dataclasses import dataclass
 
@@ -18,9 +16,7 @@ class ExceptionMessage:
 
 
 class EvmoneExceptionMapper:
-    """
-    Translate between EEST exceptions and error strings returned by evmone.
-    """
+    """Translate between EEST exceptions and error strings returned by evmone."""
 
     _mapping_data = (
         # TODO EVMONE needs to differentiate when the section is missing in the header or body
@@ -91,10 +87,11 @@ class EvmoneExceptionMapper:
     )
 
     def __init__(self) -> None:
-        assert len(set(entry.exception for entry in self._mapping_data)) == len(
+        """Initialize the exception to message mapping."""
+        assert len({entry.exception for entry in self._mapping_data}) == len(
             self._mapping_data
         ), "Duplicate exception in _mapping_data"
-        assert len(set(entry.message for entry in self._mapping_data)) == len(
+        assert len({entry.message for entry in self._mapping_data}) == len(
             self._mapping_data
         ), "Duplicate message in _mapping_data"
         self.exception_to_message_map: frozenbidict = frozenbidict(
@@ -102,7 +99,7 @@ class EvmoneExceptionMapper:
         )
 
     def exception_to_message(self, exception: EOFException) -> str:
-        """Takes an EOFException and returns a formatted string."""
+        """Take an EOFException and return a formatted string."""
         message = self.exception_to_message_map.get(
             exception,
             f"No message defined for {exception}; please add it to {self.__class__.__name__}",
@@ -110,7 +107,7 @@ class EvmoneExceptionMapper:
         return message
 
     def message_to_exception(self, exception_string: str) -> EOFException:
-        """Takes a string and tries to find matching exception"""
+        """Take a string and try to find matching exception."""
         # TODO inform tester where to add the missing exception if get uses default
         exception = self.exception_to_message_map.inverse.get(
             exception_string, EOFException.UNDEFINED_EXCEPTION

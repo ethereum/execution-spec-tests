@@ -1,6 +1,4 @@
-"""
-Exceptions for invalid execution.
-"""
+"""Exceptions for invalid execution."""
 
 from .engine_api import EngineAPIError
 from .evmone_exceptions import EvmoneExceptionMapper
