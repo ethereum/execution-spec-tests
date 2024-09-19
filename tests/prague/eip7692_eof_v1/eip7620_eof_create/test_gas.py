@@ -50,35 +50,8 @@ def make_factory(initcode: Container):
     )
 
 
-@pytest.mark.parametrize(
-    ["cold_gas", "value", "new_account"],
-    [
-        pytest.param(
-            EOFCREATE_GAS,
-            0,
-            False,
-            id="EOFCREATE",
-        ),
-        pytest.param(
-            EOFCREATE_GAS,
-            1,
-            False,
-            id="EOFCREATE_with_value",
-        ),
-        pytest.param(
-            EOFCREATE_GAS,
-            0,
-            True,
-            id="EOFCREATE_new_acc",
-        ),
-        pytest.param(
-            EOFCREATE_GAS,
-            1,
-            True,
-            id="EOFCREATE_with_value_new_acc",
-        ),
-    ],
-)
+@pytest.mark.parametrize("value", [0, 1])
+@pytest.mark.parametrize("new_account", [True, False])
 @pytest.mark.parametrize(
     "mem_expansion_bytes",
     [0, 1, 32, 33],
@@ -142,7 +115,6 @@ def make_factory(initcode: Container):
 def test_eofcreate_gas(
     state_test: StateTestFiller,
     pre: Alloc,
-    cold_gas: int,
     value: int,
     new_account: bool,
     mem_expansion_bytes: int,
@@ -178,7 +150,7 @@ def test_eofcreate_gas(
         + Op.PUSH32(value),
         subject_code=Op.EOFCREATE[0],
         tear_down_code=Op.STOP,
-        cold_gas=cold_gas
+        cold_gas=EOFCREATE_GAS
         + cost_memory_bytes(mem_expansion_bytes, 0)
         + initcode_hashing_cost
         + initcode_execution_cost
