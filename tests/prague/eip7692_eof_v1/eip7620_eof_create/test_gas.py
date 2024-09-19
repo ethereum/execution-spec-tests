@@ -37,19 +37,6 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 EOFCREATE_GAS = 32000
 
 
-def make_initcode(runtime: Container):
-    """
-    Wraps a runtime container into a minimal initcontainer
-    """
-    return Container(
-        name="Initcode Subcontainer",
-        sections=[
-            Section.Code(code=Op.RETURNCONTRACT[0](0, 0)),
-            Section.Container(container=runtime),
-        ],
-    )
-
-
 def make_factory(initcode: Container):
     """
     Wraps an initcontainer into a minimal runtime container
@@ -106,7 +93,7 @@ def make_factory(initcode: Container):
             id="smallest_code",
         ),
         pytest.param(
-            make_initcode(aborting_container),
+            Container.Init(aborting_container),
             smallest_initcode_subcontainer_gas,
             aborting_container,
             id="aborting_runtime",
@@ -121,13 +108,13 @@ def make_factory(initcode: Container):
             id="expensively_reverting_initcode",
         ),
         pytest.param(
-            make_initcode(big_runtime_subcontainer),
+            Container.Init(big_runtime_subcontainer),
             smallest_initcode_subcontainer_gas,
             big_runtime_subcontainer,
             id="big_runtime",
         ),
         pytest.param(
-            make_initcode(make_factory(smallest_initcode_subcontainer)),
+            Container.Init(make_factory(smallest_initcode_subcontainer)),
             smallest_initcode_subcontainer_gas,
             make_factory(smallest_initcode_subcontainer),
             id="nested_initcode",
