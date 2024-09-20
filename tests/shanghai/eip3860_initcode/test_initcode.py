@@ -142,19 +142,15 @@ def test_contract_creating_tx(
     Tests creating a contract using a transaction with an initcode that is
     on/over the max allowed limit.
     """
-    create_contract_address = compute_create_address(
-        address=sender,
-        nonce=0,
-    )
-
     tx = Transaction(
-        nonce=0,
         to=None,
         data=initcode,
         gas_limit=10000000,
         gas_price=10,
         sender=sender,
     )
+
+    create_contract_address = tx.created_contract
 
     if len(initcode) > Spec.MAX_INITCODE_SIZE:
         # Initcode is above the max size, tx inclusion in the block makes
@@ -265,7 +261,6 @@ class TestContractCreationGasUsage:
             pytest.fail("Invalid gas test case provided.")
 
         return Transaction(
-            nonce=0,
             to=None,
             data=initcode,
             gas_limit=gas_limit,
@@ -437,7 +432,6 @@ class TestCreateInitcode:
         Generates the transaction that executes the caller contract.
         """
         return Transaction(
-            nonce=0,
             to=caller_contract_address,
             data=initcode,
             gas_limit=10000000,

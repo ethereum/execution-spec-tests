@@ -578,7 +578,7 @@ def gas_test_parameter_args(
             dict(
                 authority_type=AddressType.CONTRACT,
             ),
-            marks=pytest.mark.pre_alloc_modify,
+            marks=pytest.mark.execute(pytest.mark.skip(reason="Pre-alloc modification")),
             id="single_valid_authorization_invalid_contract_authority",
         ),
         pytest.param(
@@ -587,7 +587,7 @@ def gas_test_parameter_args(
                 authority_type=[AddressType.EMPTY_ACCOUNT, AddressType.CONTRACT],
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
-            marks=pytest.mark.pre_alloc_modify,
+            marks=pytest.mark.execute(pytest.mark.skip(reason="Pre-alloc modification")),
             id="multiple_authorizations_empty_account_then_contract_authority",
         ),
         pytest.param(
@@ -596,7 +596,7 @@ def gas_test_parameter_args(
                 authority_type=[AddressType.EOA, AddressType.CONTRACT],
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
-            marks=pytest.mark.pre_alloc_modify,
+            marks=pytest.mark.execute(pytest.mark.skip(reason="Pre-alloc modification")),
             id="multiple_authorizations_eoa_then_contract_authority",
         ),
         pytest.param(
@@ -606,7 +606,7 @@ def gas_test_parameter_args(
                 authority_type=[AddressType.EOA, AddressType.CONTRACT],
                 authorizations_count=MULTIPLE_AUTHORIZATIONS_COUNT,
             ),
-            marks=pytest.mark.pre_alloc_modify,
+            marks=pytest.mark.execute(pytest.mark.skip(reason="Pre-alloc modification")),
             id="multiple_authorizations_eoa_self_sponsored_then_contract_authority",
         ),
     ]
@@ -653,6 +653,7 @@ def gas_test_parameter_args(
                     signer_type=SignerType.SINGLE_SIGNER,
                     authorizations_count=MANY_AUTHORIZATIONS_COUNT,
                 ),
+                marks=pytest.mark.execute(pytest.mark.xfail(reason="excessive gas")),
                 id="many_valid_authorizations_single_signer",
             ),
             pytest.param(
@@ -660,6 +661,7 @@ def gas_test_parameter_args(
                     signer_type=SignerType.MULTIPLE_SIGNERS,
                     authorizations_count=MANY_AUTHORIZATIONS_COUNT,
                 ),
+                marks=pytest.mark.execute(pytest.mark.xfail(reason="excessive gas")),
                 id="many_valid_authorizations_multiple_signers",
             ),
             pytest.param(
@@ -668,6 +670,7 @@ def gas_test_parameter_args(
                     authorization_invalidity_type=AuthorizationInvalidityType.REPEATED_NONCE,
                     authorizations_count=MANY_AUTHORIZATIONS_COUNT,
                 ),
+                marks=pytest.mark.execute(pytest.mark.xfail(reason="excessive gas")),
                 id="first_valid_then_many_duplicate_authorizations",
             ),
         ]
@@ -678,6 +681,7 @@ def gas_test_parameter_args(
 
 
 @pytest.mark.parametrize(**gas_test_parameter_args(include_pre_authorized=False))
+@pytest.mark.execute(pytest.mark.skip(reason="Test requires specific block base fee"))
 def test_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,

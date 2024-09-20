@@ -676,6 +676,7 @@ def test_withdrawal_requests(
         ),
     ],
 )
+@pytest.mark.execute(pytest.mark.skip(reason="requires block validation"))
 def test_withdrawal_requests_negative(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,

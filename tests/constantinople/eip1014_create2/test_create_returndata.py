@@ -126,10 +126,9 @@ def test_create2_return_data(
     tx = Transaction(
         sender=pre.fund_eoa(),
         to=address_to,
-        protected=False,
         data=initcode,
-        gas_limit=0x0A00000000,
+        gas_limit=1_000_000,
         value=0,
-    )  # type: ignore
+    )
 
     state_test(env=Environment(), pre=pre, post=post, tx=tx)

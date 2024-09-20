@@ -68,10 +68,6 @@ class ConsolidationRequestInteractionBase:
     Base class for all types of consolidation transactions we want to test.
     """
 
-    sender_balance: int = 32_000_000_000_000_000_000 * 100
-    """
-    Balance of the account that sends the transaction.
-    """
     sender_account: EOA | None = None
     """
     Account that will send the transaction.
@@ -80,6 +76,11 @@ class ConsolidationRequestInteractionBase:
     """
     Consolidation requests to be included in the block.
     """
+
+    @cached_property
+    def requests_value(self) -> int:
+        """Return the total value of the consolidation requests."""
+        return sum(r.value for r in self.requests)
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the consolidation request."""
@@ -106,7 +107,6 @@ class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
         return [
             Transaction(
                 gas_limit=request.gas_limit,
-                gas_price=0x07,
                 to=request.interaction_contract_address,
                 value=request.value,
                 data=request.calldata,
@@ -117,7 +117,8 @@ class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        self.sender_account = pre.fund_eoa()
+        pre.fund_address(address=self.sender_account, amount=self.requests_value)
 
     def valid_requests(self, current_minimum_fee: int) -> List[ConsolidationRequest]:
         """Return the list of consolidation requests that are valid."""
@@ -138,10 +139,6 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     Gas limit for the transaction.
     """
 
-    contract_balance: int = 32_000_000_000_000_000_000 * 100
-    """
-    Balance of the contract that will make the call to the pre-deploy contract.
-    """
     contract_address: Address | None = None
     """
     Address of the contract that will make the call to the pre-deploy contract.
@@ -163,6 +160,11 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     """
     Extra code to be added to the contract code.
     """
+
+    @cached_property
+    def contract_balance(self) -> int:
+        """Balance of the contract that sends the consolidation requests."""
+        return self.requests_value
 
     @property
     def contract_code(self) -> Bytecode:
@@ -191,7 +193,6 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
         return [
             Transaction(
                 gas_limit=self.tx_gas_limit,
-                gas_price=0x07,
                 to=self.entry_address,
                 value=0,
                 data=b"".join(r.calldata for r in self.requests),
@@ -201,7 +202,7 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        self.sender_account = pre.fund_eoa()
         self.contract_address = pre.deploy_contract(
             code=self.contract_code, balance=self.contract_balance
         )

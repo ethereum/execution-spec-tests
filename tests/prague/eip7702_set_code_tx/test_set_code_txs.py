@@ -2598,7 +2598,14 @@ def test_set_code_to_system_contract(
 
 
 @pytest.mark.with_all_evm_code_types
-@pytest.mark.with_all_tx_types(selector=lambda tx_type: tx_type != 4)
+@pytest.mark.with_all_tx_types(
+    selector=lambda tx_type: tx_type != 4,
+    marks=lambda tx_type: pytest.mark.execute(pytest.mark.xfail(reason="incompatible"))
+    if tx_type == 0
+    else pytest.mark.execute(pytest.mark.skip(reason="incompatible"))
+    if tx_type == 3
+    else None,
+)
 def test_eoa_tx_after_set_code(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,

@@ -202,6 +202,7 @@ def test_block_hashes_history_at_transition(
         ),
     ],
 )
+@pytest.mark.execute(pytest.mark.xfail(reason="requires specific blockchain history"))
 @pytest.mark.valid_from("Prague")
 def test_block_hashes_history(
     blockchain_test: BlockchainTestFiller,
@@ -308,6 +309,7 @@ def test_block_hashes_history(
         pytest.param(2**64, True, id="2**64"),
     ],
 )
+@pytest.mark.execute(pytest.mark.xfail(reason="requires specific blockchain history"))
 @pytest.mark.valid_from("Prague")
 def test_invalid_history_contract_calls(
     blockchain_test: BlockchainTestFiller,

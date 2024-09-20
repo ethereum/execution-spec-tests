@@ -33,6 +33,7 @@ pytestmark = [
         pytest.param(
             (Spec.INF_G1 + Spec.INF_G2) * 1000,
             Spec.PAIRING_TRUE,
+            marks=pytest.mark.execute(pytest.mark.xfail(reason="excessive gas usage")),
             id="multi_inf_pair",
         ),
     ],
@@ -92,6 +93,7 @@ def test_valid(
         ),
         pytest.param(
             (Spec.INF_G1 + Spec.INF_G2) * 1000 + PointG1(Spec.P, 0) + Spec.INF_G2,
+            marks=pytest.mark.execute(pytest.mark.xfail(reason="excessive gas usage")),
             id="multi_inf_plus_g1_P_g2_inf_1",
         ),
         pytest.param(

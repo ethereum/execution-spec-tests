@@ -729,6 +729,7 @@ def test_consolidation_requests(
         ),
     ],
 )
+@pytest.mark.execute(pytest.mark.skip(reason="requires block validation"))
 def test_consolidation_requests_negative(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,

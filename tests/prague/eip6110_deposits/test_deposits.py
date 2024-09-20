@@ -24,6 +24,8 @@ REFERENCE_SPEC_VERSION = ref_spec_6110.version
 
 pytestmark = pytest.mark.valid_from("Prague")
 
+DEFAULT_DEPOSIT_GWEI_VALUE = 32_000_000_000
+
 
 @pytest.mark.parametrize(
     "requests",
@@ -35,7 +37,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         )
@@ -56,9 +58,9 @@ pytestmark = pytest.mark.valid_from("Prague")
                             index=0x0,
                         )
                     ],
-                    sender_balance=120_000_001_000_000_000 * 10**9,
                 ),
             ],
+            marks=pytest.mark.execute(pytest.mark.skip(reason="excessive balance requirement")),
             id="single_deposit_from_eoa_huge_amount",
         ),
         pytest.param(
@@ -68,14 +70,14 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x1,
                         ),
@@ -108,7 +110,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         )
@@ -119,7 +121,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x1,
                         )
@@ -142,7 +144,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
@@ -158,7 +160,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
@@ -181,7 +183,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             # From traces, gas used by the first tx is 82,718 so reduce by one here
@@ -191,7 +193,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
@@ -207,14 +209,14 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             # From traces, gas used by the second tx is 68,594, reduce by one here
@@ -233,7 +235,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             calldata_modifier=lambda _: b"",
@@ -251,7 +253,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         )
@@ -267,7 +269,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
@@ -299,7 +301,28 @@ pytestmark = pytest.mark.valid_from("Prague")
                     tx_gas_limit=60_000_000,
                 ),
             ],
+            marks=pytest.mark.execute(pytest.mark.skip(reason="excessive gas requirement")),
             id="many_deposits_from_contract",
+        ),
+        pytest.param(
+            # Same as above but with a lower gas limit to be able to run in live networks
+            [
+                DepositContract(
+                    requests=[
+                        DepositRequest(
+                            pubkey=0x01,
+                            withdrawal_credentials=0x02,
+                            amount=1_000_000_000,
+                            signature=0x03,
+                            index=i,
+                        )
+                        for i in range(200)
+                    ],
+                    tx_gas_limit=20_000_000,
+                ),
+            ],
+            marks=pytest.mark.fill(pytest.mark.skip(reason="execute version")),
+            id="many_deposits_from_contract_execute",
         ),
         pytest.param(
             [
@@ -408,7 +431,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             valid=False,
@@ -434,7 +457,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             valid=False,
@@ -470,6 +493,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                     tx_gas_limit=23_738_700,
                 ),
             ],
+            marks=pytest.mark.execute(pytest.mark.skip(reason="excessive gas requirement")),
             id="many_deposits_from_contract_oog",
         ),
         pytest.param(
@@ -479,7 +503,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
@@ -490,7 +514,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x1,
                         )
@@ -506,7 +530,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         )
@@ -517,7 +541,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x1,
                         ),
@@ -533,7 +557,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         )
@@ -544,7 +568,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x1,
                         ),
@@ -555,7 +579,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x2,
                         )
@@ -571,7 +595,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         ),
@@ -582,7 +606,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x1,
                         )
@@ -593,7 +617,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x2,
                         ),
@@ -609,7 +633,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             valid=False,
@@ -627,7 +651,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             valid=False,
@@ -645,7 +669,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                             valid=False,
@@ -663,7 +687,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         )
@@ -680,7 +704,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
-                            amount=32_000_000_000,
+                            amount=DEFAULT_DEPOSIT_GWEI_VALUE,
                             signature=0x03,
                             index=0x0,
                         )
@@ -950,6 +974,7 @@ def test_deposit(
         ),
     ],
 )
+@pytest.mark.execute(pytest.mark.skip(reason="requires block validation"))
 def test_deposit_negative(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,

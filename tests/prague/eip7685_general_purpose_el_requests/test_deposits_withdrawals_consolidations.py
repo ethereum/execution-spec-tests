@@ -48,7 +48,7 @@ def single_deposit(i: int) -> DepositRequest:  # noqa: D103
     return DepositRequest(
         pubkey=(i * 3),
         withdrawal_credentials=(i * 3) + 1,
-        amount=32_000_000_000,
+        amount=1_000_000_000,
         signature=(i * 3) + 2,
         index=i,
     )
@@ -284,12 +284,13 @@ def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=contract_code,
+        balance=total_value,
     )
 
     tx = Transaction(
         gas_limit=10_000_000,
         to=contract_address,
-        value=total_value,
+        value=0,
         data=calldata,
         sender=sender,
     )
@@ -360,6 +361,7 @@ def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
         ),
     ],
 )
+@pytest.mark.execute(pytest.mark.skip(reason="requires block validation"))
 def test_invalid_deposit_withdrawal_consolidation_requests(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
