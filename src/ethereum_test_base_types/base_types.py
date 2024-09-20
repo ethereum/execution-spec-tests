@@ -75,6 +75,50 @@ class Number(int, ToStringSchema):
         return cls(input)
 
 
+class Wei(Number):
+    """
+    Class that helps represent wei that can be parsed from strings
+    """
+
+    def __new__(cls, input: NumberConvertible | N):
+        """
+        Creates a new Number object.
+        """
+        if isinstance(input, str):
+            words = input.split()
+            multiplier = 1
+            assert len(words) <= 2
+            value_str = words[0]
+            if len(words) > 1:
+                unit = words[1]
+                if unit == "wei":
+                    multiplier = 1
+                elif unit == "kwei":
+                    multiplier = 10**3
+                elif unit == "mwei":
+                    multiplier = 10**6
+                elif unit == "gwei":
+                    multiplier = 10**9
+                elif unit == "szabo":
+                    multiplier = 10**12
+                elif unit == "finney":
+                    multiplier = 10**15
+                elif unit == "ether":
+                    multiplier = 10**18
+                else:
+                    raise ValueError(f"Invalid unit {unit}")
+            value: int
+            if "e" in value_str:
+                value = int(float(value_str))
+            elif "**" in value_str:
+                base, exp = value_str.split("**")
+                value = int(base) ** int(exp)
+            else:
+                value = int(value_str)
+            return super(Number, cls).__new__(cls, value * multiplier)
+        return super(Number, cls).__new__(cls, to_number(input))
+
+
 class HexNumber(Number):
     """
     Class that helps represent an hexadecimal numbers in tests.
