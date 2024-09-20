@@ -17,6 +17,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    PrivateAttr,
     RootModel,
     computed_field,
     model_serializer,
@@ -122,6 +123,8 @@ class Alloc(BaseAlloc):
     """
     Allocation of accounts in the state, pre and post test execution.
     """
+
+    _eoa_fund_amount_default: int = PrivateAttr(10**21)
 
     @dataclass(kw_only=True)
     class UnexpectedAccount(Exception):
@@ -296,7 +299,7 @@ class Alloc(BaseAlloc):
 
     def fund_eoa(
         self,
-        amount: NumberConvertible = 10**21,
+        amount: NumberConvertible | None = None,
         label: str | None = None,
         storage: Storage | None = None,
         delegation: Address | Literal["Self"] | None = None,
