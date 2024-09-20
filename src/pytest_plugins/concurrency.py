@@ -20,7 +20,7 @@ def session_temp_folder_name(testrun_uid: str) -> str:  # noqa: SC200
     xdist workers to coordinate the tests.
 
     "testrun_uid" is a fixture provided by the xdist plugin, and is unique for each test run,
-    so it is used to create the unique folder name for each test run.
+    so it is used to create the unique folder name.
     """
     return f"pytest-{testrun_uid}"  # noqa: SC200
 
