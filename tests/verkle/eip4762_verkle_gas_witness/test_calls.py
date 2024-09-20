@@ -8,6 +8,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 import pytest
 
 from ethereum_test_forks import Verkle
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Address,
@@ -48,14 +49,14 @@ precompile_address = Address("0x04")
 @pytest.mark.parametrize(
     "target",
     [
-        # TestAddress2,
+        TestAddress2,
         precompile_address,
-        # system_contract_address,
+        system_contract_address,
     ],
 )
 def test_calls(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
+    fork: Fork,
     call_instruction: Bytecode,
     target: Address,
     value,
@@ -63,7 +64,7 @@ def test_calls(
     """
     Test *CALL instructions gas and witness.
     """
-    _generic_call(blockchain_test, call_instruction, target, value)
+    _generic_call(blockchain_test, fork, call_instruction, target, value)
 
 
 @pytest.mark.valid_from("Verkle")
@@ -76,11 +77,11 @@ def test_calls(
         Op.STATICCALL,
     ],
 )
-def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instruction: Bytecode):
+def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_instruction: Bytecode):
     """
     Test *CALL warm cost.
     """
-    _generic_call(blockchain_test, call_instruction, TestAddress2, 0, warm=True)
+    _generic_call(blockchain_test, fork, call_instruction, TestAddress2, 0, warm=True)
 
 
 @pytest.mark.valid_from("Verkle")
@@ -113,13 +114,14 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: str, call_instr
     ],
 )
 def test_calls_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, call_instruction: Bytecode, gas_limit
+    blockchain_test: BlockchainTestFiller, fork: Fork, call_instruction: Bytecode, gas_limit
 ):
     """
     Test *CALL witness assertion when there's insufficient gas for different scenarios.
     """
     _generic_call(
         blockchain_test,
+        fork,
         call_instruction,
         TestAddress2,
         0,
@@ -130,6 +132,7 @@ def test_calls_insufficient_gas(
 
 def _generic_call(
     blockchain_test: BlockchainTestFiller,
+    fork: Fork,
     call_instruction,
     target: Address,
     value,
@@ -159,7 +162,6 @@ def _generic_call(
             balance=2000000000000000000000, code=caller_code * (2 if warm else 1)
         ),
         precompile_address: Account(balance=3000000000000000000000),
-        system_contract_address: Account(balance=4000000000000000000000),
     }
 
     tx = Transaction(
@@ -171,21 +173,31 @@ def _generic_call(
         gas_price=10,
         value=tx_value,
     )
-
+    target_account = (
+        pre[target]
+        if target != system_contract_address
+        else Account(**fork.pre_allocation_blockchain()[system_contract_address])
+    )
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, caller_address, env.fee_recipient]:
         witness_check.add_account_full(address=address, account=pre.get(address))
     if enough_gas_read_witness:
         if value > 0 or (target != precompile_address and target != precompile_address):
-            witness_check.add_account_basic_data(address=target, account=pre[target])
+            witness_check.add_account_basic_data(address=target, account=target_account)
 
     code_chunks = chunkify_code(pre[caller_address].code)
     for i, chunk in enumerate(code_chunks, start=0):
         witness_check.add_code_chunk(address=caller_address, chunk_number=i, value=chunk)
-    code_chunks = chunkify_code(pre[target].code)
-    if target != precompile_address and target != system_contract_address:
+    if target != precompile_address:
+        code_chunks = chunkify_code(target_account.code)
         for i, chunk in enumerate(code_chunks, start=0):
             witness_check.add_code_chunk(address=target, chunk_number=i, value=chunk)
+
+    if target == system_contract_address:
+        # If the target is the 2935 system contract, we should check for the first storage-slot.
+        # The account storage address depends on the kind of *CALL done.
+        sslot_target = system_contract_address if call_instruction == Op.CALL else caller_address
+        witness_check.add_storage_slot(address=sslot_target, storage_slot=0, value=None)
 
     blocks = [
         Block(
@@ -199,11 +211,11 @@ def _generic_call(
             caller_address: Account(
                 balance=pre[caller_address].balance + value, code=pre[caller_address].code
             ),
-            target: pre[target],
+            target: target_account,
         }
     else:
         post = {
-            target: Account(balance=pre[target].balance + value, code=pre[target].code),
+            target: Account(balance=target_account.balance + value, code=target_account.code),
         }
 
     blockchain_test(
