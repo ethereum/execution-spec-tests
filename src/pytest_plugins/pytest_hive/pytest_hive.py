@@ -97,12 +97,18 @@ def simulator(request):  # noqa: D103
     return request.config.hive_simulator
 
 
-@pytest.fixture(scope="session")
-def session_temp_folder(request) -> Path:  # noqa: D103
-    return request.config.option.hive_session_temp_folder
+def get_test_suite_scope(fixture_name, config: pytest.Config):
+    """
+    Return the appropriate scope of the test suite.
+
+    See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
+    """
+    if hasattr(config, "test_suite_scope"):
+        return config.test_suite_scope
+    return "module"
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope=get_test_suite_scope)
 def test_suite(
     simulator: Simulation,
     session_temp_folder: Path,
