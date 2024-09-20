@@ -82,10 +82,10 @@ class GethTransitionTool(TransitionTool):
         if debug_output_path:
             command += ["--debug", "--json", "--verbosity", "100"]
 
-        if FixtureFormats.is_state_test(fixture_format):
+        if fixture_format.is_state_test():
             assert self.statetest_subcommand, "statetest subcommand not set"
             command.append(self.statetest_subcommand)
-        elif FixtureFormats.is_blockchain_test(fixture_format):
+        elif fixture_format.is_blockchain_test():
             assert self.blocktest_subcommand, "blocktest subcommand not set"
             command.append(self.blocktest_subcommand)
         else:
@@ -130,7 +130,7 @@ class GethTransitionTool(TransitionTool):
                 f"EVM test failed.\n{' '.join(command)}\n\n Error:\n{result.stderr.decode()}"
             )
 
-        if FixtureFormats.is_state_test(fixture_format):
+        if fixture_format.is_state_test():
             result_json = json.loads(result.stdout.decode())
             if not isinstance(result_json, list):
                 raise Exception(f"Unexpected result from evm statetest: {result_json}")
