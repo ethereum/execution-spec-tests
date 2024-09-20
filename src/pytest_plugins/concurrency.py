@@ -14,18 +14,29 @@ from filelock import FileLock
 
 
 @pytest.fixture(scope="session")
-def session_temp_folder(testrun_uid: str) -> Generator[Path, None, None]:  # noqa: D103, SC200
+def session_temp_folder_name(testrun_uid: str) -> str:  # noqa: SC200
     """
-    Create a global temporary folder that will be shared among all the
+    Define the name of the temporary folder that will be shared among all the
     xdist workers to coordinate the tests.
 
     "testrun_uid" is a fixture provided by the xdist plugin, and is unique for each test run,
     so it is used to create the unique folder name for each test run.
+    """
+    return f"pytest-{testrun_uid}"  # noqa: SC200
+
+
+@pytest.fixture(scope="session")
+def session_temp_folder(
+    session_temp_folder_name: str,
+) -> Generator[Path, None, None]:
+    """
+    Create a global temporary folder that will be shared among all the
+    xdist workers to coordinate the tests.
 
     We also create a file to keep track of how many workers are still using the folder, so we can
     delete it when the last worker is done.
     """
-    session_temp_folder = Path(get_temp_dir()) / f"pytest-{testrun_uid}"
+    session_temp_folder = Path(get_temp_dir()) / session_temp_folder_name
     session_temp_folder.mkdir(exist_ok=True)
 
     folder_users_file_name = "folder_users"
