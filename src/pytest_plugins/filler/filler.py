@@ -218,6 +218,14 @@ def pytest_configure(config):
         "markers",
         "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
     )
+    config.addinivalue_line(
+        "markers",
+        "fill: Markers to be added in fill mode only.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "execute: Markers to be added in execute mode only.",
+    )
     if config.option.collectonly:
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
@@ -881,6 +889,10 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
                 if spec_name in params and params[spec_name].is_hive_format():
                     items.remove(item)
                     break
+        for marker in item.iter_markers():
+            if marker.name == "fill":
+                for mark in marker.args:
+                    item.add_marker(mark)
         if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
 
