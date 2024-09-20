@@ -257,6 +257,7 @@ msm
 mypy
 ctx
 namespace
+natively
 nav
 ncheck
 nethermind
