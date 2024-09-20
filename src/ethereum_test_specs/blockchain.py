@@ -21,6 +21,7 @@ from ethereum_test_base_types import (
     Number,
 )
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
+from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
@@ -327,6 +328,9 @@ class BlockchainTest(BaseTest):
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         BlockchainFixture,
         BlockchainEngineFixture,
+    ]
+    supported_execute_formats: ClassVar[List[ExecuteFormat]] = [
+        TransactionPost,
     ]
 
     def make_genesis(
@@ -736,6 +740,26 @@ class BlockchainTest(BaseTest):
             return self.make_fixture(t8n, fork, eips)
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
+
+    def execute(
+        self,
+        *,
+        fork: Fork,
+        execute_format: ExecuteFormat,
+        eips: Optional[List[int]] = None,
+    ) -> BaseExecute:
+        """
+        Generate the list of test fixtures.
+        """
+        if execute_format == TransactionPost:
+            txs: List[Transaction] = []
+            for block in self.blocks:
+                txs += block.txs
+            return TransactionPost(
+                transactions=txs,
+                post=self.post,
+            )
+        raise Exception(f"Unsupported execute format: {execute_format}")
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]

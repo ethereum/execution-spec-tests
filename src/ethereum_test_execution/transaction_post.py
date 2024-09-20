@@ -2,7 +2,7 @@
 Simple transaction-send then post-check execution format.
 """
 
-from typing import List
+from typing import ClassVar, List
 
 import pytest
 
@@ -20,6 +20,11 @@ class TransactionPost(BaseExecute):
 
     transactions: List[Transaction]
     post: Alloc
+
+    execute_format_name: ClassVar[str] = "transaction_post"
+    description: ClassVar[
+        str
+    ] = "Simple transaction sending, then post-check after all transactions are included"
 
     def execute(self, eth_rpc: EthRPC):
         """
