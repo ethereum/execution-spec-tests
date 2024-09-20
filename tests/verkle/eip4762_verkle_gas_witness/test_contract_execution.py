@@ -154,16 +154,16 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
             21000 + 200 + 10 + 3 + 3,
             [[0, 0]],
         ),
-        # (  # sufficient_gas_for_jump_instruction_but_not_for_code_chunk
-        #     code_with_jumps(150 * 31, [Jump(10, 1000)]),
-        #     21000 + 200 + 10 + 3 + 8,
-        #     [[0, 0]],
-        # ),
-        # (  # sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk
-        #     code_with_jumps(150 * 31, [Jumpi(10, 1000, True)]),
-        #     21000 + 200 + 10 + 3 + 3 + 10,
-        #     [[0, 0]],
-        # ),
+        (  # sufficient_gas_for_jump_instruction_but_not_for_code_chunk
+            code_with_jumps(150 * 31, [Jump(10, 1000)]),
+            21000 + 200 + 10 + 3 + 8,
+            [[0, 0]],
+        ),
+        (  # sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk
+            code_with_jumps(150 * 31, [Jumpi(10, 1000, True)]),
+            21000 + 200 + 10 + 3 + 3 + 10,
+            [[0, 0]],
+        ),
         (  # jump_outside_code_size
             code_with_jumps(150 * 31, [Jump(10, 150 * 31 + 42)]),
             1_000_000,
@@ -204,8 +204,8 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         "false_jumpi",
         "insufficient_gas_for_jump_instruction",
         "insufficient_gas_for_jumpi_instruction",
-        # "sufficient_gas_for_jump_instruction_but_not_for_code_chunk", # TODO(verkle): re-enable when fixing in geth
-        # "sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk",# TODO(verkle): re-enable when fixing in geth
+        "sufficient_gas_for_jump_instruction_but_not_for_code_chunk",
+        "sufficient_gas_for_jumpi_instruction_but_not_for_code_chunk",
         "jump_outside_code_size",
         "jumpi_outside_code_size",
         "push20_with_data_split_in_two_chunks",
