@@ -43,6 +43,7 @@ dependencies = [
     "ethereum-types>=0.2.1,<0.3",
     "pyyaml>=6.0.2",
     "types-pyyaml>=6.0.12.20240917",
+    "pytest-json-report>=1.5.0,<2",
 ]
 
 [project.urls]
