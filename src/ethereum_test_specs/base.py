@@ -13,6 +13,7 @@ import pytest
 from pydantic import BaseModel, Field
 
 from ethereum_test_base_types import to_hex
+from ethereum_test_execution import BaseExecute, ExecuteFormat
 from ethereum_test_fixtures import BaseFixture, FixtureFormat
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Transaction, Withdrawal
@@ -74,6 +75,7 @@ class BaseTest(BaseModel):
     _t8n_call_counter: Iterator[int] = count(0)
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = []
+    supported_execute_formats: ClassVar[List[ExecuteFormat]] = []
 
     @abstractmethod
     def generate(
@@ -89,6 +91,18 @@ class BaseTest(BaseModel):
         Generate the list of test fixtures.
         """
         pass
+
+    def execute(
+        self,
+        *,
+        fork: Fork,
+        execute_format: ExecuteFormat,
+        eips: Optional[List[int]] = None,
+    ) -> BaseExecute:
+        """
+        Generate the list of test fixtures.
+        """
+        raise Exception(f"Unsupported execute format: {execute_format}")
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
