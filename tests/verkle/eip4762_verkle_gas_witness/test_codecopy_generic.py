@@ -33,7 +33,7 @@ code_size = 130 * 31 + 60
     "instruction",
     [
         Op.CODECOPY,
-        # Op.EXTCODECOPY,
+        Op.EXTCODECOPY,
     ],
 )
 @pytest.mark.parametrize(
