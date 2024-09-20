@@ -41,6 +41,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Fix erroneous fork message in pytest session header with development forks ([#806](https://github.com/ethereum/execution-spec-tests/pull/806)).
 - 🐞 Fix `Conditional` code generator in EOF mode ([#821](https://github.com/ethereum/execution-spec-tests/pull/821))
 - 🔀 `ethereum_test_rpc` library has been created with what was previously `ethereum_test_tools.rpc` ([#822](https://github.com/ethereum/execution-spec-tests/pull/822))
+- ✨ Add `Wei` type to `ethereum_test_base_types` which allows parsing wei amounts from strings like "1 ether", "1000 wei", "10**2 gwei", etc ([#825](https://github.com/ethereum/execution-spec-tests/pull/825))
 
 ### 🔧 EVM Tools
 
