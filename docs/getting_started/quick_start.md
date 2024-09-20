@@ -70,13 +70,13 @@ By default, JSON test fixtures are generated from this repository's Python test 
 
 3. Verify the generated fixtures:
 
-    a. Checking the corresponding fixture file has been generated:
+    a. Check the corresponding fixture file has been generated:
 
     ```console
     head fixtures/state_tests/shanghai/eip3855_push0/push0/push0_contract_during_call_contexts.json
     ```
 
-    b. Opening the generated HTML test using the link provided at the bottom of the console output. This is written to the output directory at:
+    b. Open the generated HTML test using the link provided at the bottom of the console output. This is written to the output directory at:
 
     ```console
     ./fixtures/.meta/report_fill.html
