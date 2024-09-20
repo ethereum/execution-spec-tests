@@ -135,6 +135,7 @@ enum
 env
 envvar
 EOA
+EOAs
 eof
 EOF1
 EOFException
@@ -267,6 +268,7 @@ marioevz
 markdownlint
 md
 mem
+mempool
 metaclass
 mixhash
 mkdocs
@@ -407,6 +409,7 @@ TestAddress
 testscollected
 TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
+testrun
 textwrap
 tf
 ThreeHrSleep
@@ -431,6 +434,7 @@ typehints
 u256
 ubuntu
 ukiyo
+uid
 uncomment
 undersize
 unlink
