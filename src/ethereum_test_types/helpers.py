@@ -12,7 +12,7 @@ from ethereum_test_base_types.base_types import Address, Bytes, Hash
 from ethereum_test_base_types.conversions import BytesConvertible, FixedSizeBytesConvertible
 from ethereum_test_vm import Opcodes as Op
 
-from .types import EOA
+from .types import EOA, int_to_bytes
 
 """
 Helper functions
@@ -47,8 +47,7 @@ def compute_create_address(
             address = Address(address)
         if nonce is None:
             nonce = 0
-        nonce_bytes = bytes() if nonce == 0 else nonce.to_bytes(length=1, byteorder="big")
-        hash = keccak256(encode([address, nonce_bytes]))
+        hash = keccak256(encode([address, int_to_bytes(nonce)]))
         return Address(hash[-20:])
     if opcode == Op.CREATE2:
         return compute_create2_address(address, salt, initcode)
