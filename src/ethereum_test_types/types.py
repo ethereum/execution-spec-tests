@@ -56,6 +56,16 @@ def keccak256(data: bytes) -> Hash:
     return Bytes(data).keccak256()
 
 
+def int_to_bytes(value: int) -> bytes:
+    """
+    Converts an integer to its big-endian representation.
+    """
+    if value == 0:
+        return b""
+
+    return int_to_bytes(value // 256) + bytes([value % 256])
+
+
 # Sentinel classes
 class Removable:
     """
@@ -1084,12 +1094,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         """
         if self.to is not None:
             raise ValueError("transaction is not a contract creation")
-        nonce_bytes = (
-            bytes() if self.nonce == 0 else self.nonce.to_bytes(length=1, byteorder="big")
-        )
         if self.sender is None:
             raise ValueError("sender address is None")
-        hash = Bytes(eth_rlp.encode([self.sender, nonce_bytes])).keccak256()
+        hash = Bytes(eth_rlp.encode([self.sender, int_to_bytes(self.nonce)])).keccak256()
         return Address(hash[-20:])
 
 
