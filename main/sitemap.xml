@@ -2876,6 +2876,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_gas/</loc>
+         <lastmod>2024-09-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_gas/test_eofcreate_gas/</loc>
+         <lastmod>2024-09-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates/</loc>
          <lastmod>2024-09-23</lastmod>
          <changefreq>daily</changefreq>

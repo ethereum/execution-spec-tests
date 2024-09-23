@@ -14,8 +14,7 @@
     <thead>
         <tr>
             <th>Test ID</th>
-                        <th>mem_expansion_size</th>
-                        <th>mem_expansion_extra_gas</th>
+                        <th>mem_expansion_bytes</th>
                         <th>opcode</th>
                         <th>pre_setup</th>
                         <th>cold_gas</th>
@@ -25,8 +24,7 @@
     </thead>
     <tbody>
                 <tr>
-            <td>no_mem_expansion-EXTCALL</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
@@ -35,8 +33,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTCALL_with_value</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL_with_value</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td></td>
@@ -45,8 +42,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTDELEGATECALL</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTDELEGATECALL</td>
                         <td>0</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
@@ -55,8 +51,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTSTATICCALL</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTSTATICCALL</td>
                         <td>0</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
@@ -65,8 +60,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTCALL_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL_new_acc</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
@@ -75,8 +69,7 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTCALL_with_value_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL_with_value_new_acc</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td></td>
@@ -85,8 +78,7 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTDELEGATECALL_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTDELEGATECALL_new_acc</td>
                         <td>0</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
@@ -95,8 +87,7 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTSTATICCALL_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTSTATICCALL_new_acc</td>
                         <td>0</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
@@ -105,9 +96,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL</td>
+            <td>mem_expansion_bytes_1-EXTCALL</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -115,9 +105,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL_with_value</td>
+            <td>mem_expansion_bytes_1-EXTCALL_with_value</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>11600</td>
@@ -125,9 +114,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTDELEGATECALL</td>
+            <td>mem_expansion_bytes_1-EXTDELEGATECALL</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -135,9 +123,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTSTATICCALL</td>
+            <td>mem_expansion_bytes_1-EXTSTATICCALL</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -145,9 +132,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTCALL_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -155,9 +141,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL_with_value_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTCALL_with_value_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>36600</td>
@@ -165,9 +150,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTDELEGATECALL_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTDELEGATECALL_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -175,9 +159,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTSTATICCALL_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTSTATICCALL_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -185,9 +168,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL</td>
+            <td>mem_expansion_bytes_32-EXTCALL</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -195,9 +177,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL_with_value</td>
+            <td>mem_expansion_bytes_32-EXTCALL_with_value</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>11600</td>
@@ -205,9 +186,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTDELEGATECALL</td>
+            <td>mem_expansion_bytes_32-EXTDELEGATECALL</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -215,9 +195,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTSTATICCALL</td>
+            <td>mem_expansion_bytes_32-EXTSTATICCALL</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -225,9 +204,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTCALL_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -235,9 +213,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL_with_value_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTCALL_with_value_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>36600</td>
@@ -245,9 +222,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTDELEGATECALL_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTDELEGATECALL_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -255,9 +231,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTSTATICCALL_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTSTATICCALL_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -265,9 +240,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL</td>
+            <td>mem_expansion_bytes_33-EXTCALL</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -275,9 +249,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL_with_value</td>
+            <td>mem_expansion_bytes_33-EXTCALL_with_value</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>11600</td>
@@ -285,9 +258,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTDELEGATECALL</td>
+            <td>mem_expansion_bytes_33-EXTDELEGATECALL</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -295,9 +267,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTSTATICCALL</td>
+            <td>mem_expansion_bytes_33-EXTSTATICCALL</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -305,9 +276,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTCALL_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -315,9 +285,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL_with_value_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTCALL_with_value_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>36600</td>
@@ -325,9 +294,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTDELEGATECALL_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTDELEGATECALL_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -335,9 +303,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTSTATICCALL_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTSTATICCALL_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -345,8 +312,7 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTCALL</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
@@ -355,8 +321,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTCALL_with_value</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL_with_value</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td></td>
@@ -365,8 +330,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTDELEGATECALL</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTDELEGATECALL</td>
                         <td>0</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
@@ -375,8 +339,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTSTATICCALL</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTSTATICCALL</td>
                         <td>0</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
@@ -385,8 +348,7 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTCALL_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL_new_acc</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
@@ -395,8 +357,7 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTCALL_with_value_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTCALL_with_value_new_acc</td>
                         <td>0</td>
                         <td>EXTCALL</td>
                         <td></td>
@@ -405,8 +366,7 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTDELEGATECALL_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTDELEGATECALL_new_acc</td>
                         <td>0</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
@@ -415,8 +375,7 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>no_mem_expansion-EXTSTATICCALL_new_acc</td>
-                        <td>0</td>
+            <td>mem_expansion_bytes_0-EXTSTATICCALL_new_acc</td>
                         <td>0</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
@@ -425,9 +384,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL</td>
+            <td>mem_expansion_bytes_1-EXTCALL</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -435,9 +393,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL_with_value</td>
+            <td>mem_expansion_bytes_1-EXTCALL_with_value</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>11600</td>
@@ -445,9 +402,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTDELEGATECALL</td>
+            <td>mem_expansion_bytes_1-EXTDELEGATECALL</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -455,9 +411,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTSTATICCALL</td>
+            <td>mem_expansion_bytes_1-EXTSTATICCALL</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -465,9 +420,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTCALL_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -475,9 +429,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTCALL_with_value_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTCALL_with_value_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>36600</td>
@@ -485,9 +438,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTDELEGATECALL_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTDELEGATECALL_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -495,9 +447,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1byte_mem_expansion-EXTSTATICCALL_new_acc</td>
+            <td>mem_expansion_bytes_1-EXTSTATICCALL_new_acc</td>
                         <td>1</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -505,9 +456,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL</td>
+            <td>mem_expansion_bytes_32-EXTCALL</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -515,9 +465,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL_with_value</td>
+            <td>mem_expansion_bytes_32-EXTCALL_with_value</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>11600</td>
@@ -525,9 +474,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTDELEGATECALL</td>
+            <td>mem_expansion_bytes_32-EXTDELEGATECALL</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -535,9 +483,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTSTATICCALL</td>
+            <td>mem_expansion_bytes_32-EXTSTATICCALL</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -545,9 +492,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTCALL_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -555,9 +501,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTCALL_with_value_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTCALL_with_value_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>36600</td>
@@ -565,9 +510,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTDELEGATECALL_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTDELEGATECALL_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -575,9 +519,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>1word_mem_expansion-EXTSTATICCALL_new_acc</td>
+            <td>mem_expansion_bytes_32-EXTSTATICCALL_new_acc</td>
                         <td>32</td>
-                        <td>3</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -585,9 +528,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL</td>
+            <td>mem_expansion_bytes_33-EXTCALL</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -595,9 +537,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL_with_value</td>
+            <td>mem_expansion_bytes_33-EXTCALL_with_value</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>11600</td>
@@ -605,9 +546,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTDELEGATECALL</td>
+            <td>mem_expansion_bytes_33-EXTDELEGATECALL</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -615,9 +555,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTSTATICCALL</td>
+            <td>mem_expansion_bytes_33-EXTSTATICCALL</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -625,9 +564,8 @@
                         <td>False</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTCALL_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td>PUSH0</td>
                         <td>2600</td>
@@ -635,9 +573,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTCALL_with_value_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTCALL_with_value_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTCALL</td>
                         <td></td>
                         <td>36600</td>
@@ -645,9 +582,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTDELEGATECALL_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTDELEGATECALL_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTDELEGATECALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
@@ -655,9 +591,8 @@
                         <td>True</td>
                     </tr>
                 <tr>
-            <td>33bytes_mem_expansion-EXTSTATICCALL_new_acc</td>
+            <td>mem_expansion_bytes_33-EXTSTATICCALL_new_acc</td>
                         <td>33</td>
-                        <td>6</td>
                         <td>EXTSTATICCALL</td>
                         <td>JUMPDEST</td>
                         <td>2600</td>
