@@ -103,20 +103,10 @@ class PagePropsBase:
     @property
     @abstractmethod
     def template(self) -> str:
-      pass
         """
-        Return the template name based on the class type.
+        Get the jinja2 template used to render this page.
         """
-        if isinstance(self, FunctionPageProps):
-            return "function.md.j2"
-        elif isinstance(self, ModulePageProps):
-            return "module.md.j2"
-        elif isinstance(self, DirectoryPageProps):
-            return "directory.md.j2"
-        elif isinstance(self, MarkdownPageProps):
-            return "markdown_header.md.j2"
-        else:
-            raise ValueError(f"Unknown page type: {self.__class__.__name__}")
+        raise NotImplementedError
 
     @property
     @abstractmethod
@@ -139,7 +129,7 @@ class PagePropsBase:
         """
         Write the page to the target directory.
         """
-        template = jinja2_env.get_template(self.get_template())
+        template = jinja2_env.get_template(self.template)
         rendered_content = template.render(**asdict(self))
         with mkdocs_gen_files.open(self.target_output_file, "w") as destination:
             for line in rendered_content.splitlines(keepends=True):
@@ -167,6 +157,13 @@ class FunctionPageProps(PagePropsBase):
     docstring_one_liner: str
     html_static_page_target: str
     cases: Optional[List[TestCase]]
+
+    @property
+    def template(self) -> str:
+        """
+        Get the filename of the jinja2 template used to render this page.
+        """
+        return "function.html.j2"
 
     @property
     def target_output_file(self) -> Path:
@@ -221,6 +218,13 @@ class ModulePageProps(PagePropsBase):
     test_functions: List[TestFunction]
 
     @property
+    def template(self) -> str:
+        """
+        Get the filename of the jinja2 template used to render this page.
+        """
+        return "module.md.j2"
+
+    @property
     def target_output_file(self) -> Path:
         """
         Get the target output file for this page.
@@ -237,6 +241,13 @@ class DirectoryPageProps(PagePropsBase):
     """
 
     @property
+    def template(self) -> str:
+        """
+        Get the filename of the jinja2 template used to render this page.
+        """
+        return "directory.md.j2"
+
+    @property
     def target_output_file(self) -> Path:
         """
         Get the target output file for this page.
@@ -251,6 +262,13 @@ class MarkdownPageProps(PagePropsBase):
     """
 
     @property
+    def template(self) -> str:
+        """
+        Get the filename of the jinja2 template used to render this page.
+        """
+        return "markdown_header.md.j2"
+
+    @property
     def target_output_file(self) -> Path:
         """
         Get the target output file for this page.
@@ -263,7 +281,7 @@ class MarkdownPageProps(PagePropsBase):
 
         We read the md file and write it with `mkdocs_gen_files`.
         """
-        template = jinja2_env.get_template(self.get_template())
+        template = jinja2_env.get_template(self.template)
         rendered_content = template.render(**asdict(self))
         with open(self.path, "r") as md_source:
             with mkdocs_gen_files.open(self.target_output_file, "w") as destination:

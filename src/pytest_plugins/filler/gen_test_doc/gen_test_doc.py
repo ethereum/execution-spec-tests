@@ -52,6 +52,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from pytest import Item
 
 from ethereum_test_forks import get_forks
+from ethereum_test_specs import SPEC_TYPES
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -72,6 +73,8 @@ from .page_props import (
 )
 
 logger = logging.getLogger("mkdocs")
+
+docstring_test_function_history: Dict[str, str] = {}
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -183,7 +186,7 @@ def get_docstring_one_liner(item: pytest.Item) -> str:
         docstring in docstring_test_function_history
         and docstring_test_function_history[docstring] != test_function_id
     ):
-        logger.warning(
+        logger.info(
             f"Duplicate docstring for {test_function_id}: "
             f"{docstring_test_function_history[docstring]} and {test_function_id}"
         )
