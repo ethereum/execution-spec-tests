@@ -1,0 +1,24 @@
+{% extends "base.md.j2" %}
+{% block title %}
+# `{{ title }}()`
+{% endblock %}
+{% block additional_content %}
+
+::: {{ package_name }}
+    options:
+        filters: ["^[tT]est*|^Spec*"]
+
+{% if cases %}
+## Parametrized Test Cases
+
+The interactive table below is also available as a [standalone page]({{ html_static_page_target }}).
+
+!!! note "Skipped Parameters"
+
+    For more concise readability, the table below does not list the following parameter values: 
+    {{ test_function_parameter_table_skipped_parameters }}.
+
+{% include 'function_parameter_datatable.html.j2' %}
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script> 
+{% endif %}
+{% endblock %}

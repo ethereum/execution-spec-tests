@@ -10,3 +10,6 @@ evmone:
 besu:
   evm-bin: evmtool
   x-dist: 0
+ethjs:
+  evm-bin: ethereumjs-t8ntool.sh
+  x-dist: auto

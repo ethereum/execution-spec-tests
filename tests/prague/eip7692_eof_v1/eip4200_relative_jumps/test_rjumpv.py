@@ -1033,7 +1033,7 @@ def test_rjumpv_into_exchange(
                     + Op.PUSH1(2)
                     + Op.PUSH1(3)
                     + Op.PUSH1(0)
-                    + Op.RJUMPV[1]
+                    + Op.RJUMPV[jump_table]
                     + Op.EXCHANGE[0x00]
                     + Op.SSTORE
                     + Op.STOP,
@@ -1177,4 +1177,68 @@ def test_rjumpv_at_the_end(
             ],
         ),
         expect_exception=EOFException.MISSING_STOP_OPCODE,
+    )
+
+
+def test_rjumpv_backwards_min_stack_wrong(
+    eof_test: EOFTestFiller,
+):
+    """
+    Backwards rjumpv where min_stack does not match
+    """
+    container = Container.Code(
+        code=(
+            Op.PUSH0  # (0, 0)
+            + Op.PUSH1(0)  # (1, 1)
+            + Op.RJUMPV[1]  # (2, 2) To PUSH1
+            + Op.PUSH0  # (1, 1)
+            + Op.PUSH1(4)  # (1, 2)
+            + Op.RJUMPV[-11]  # (2, 3) To first RJUMPV with (1, 2)
+            + Op.STOP  # (1, 2)
+        ),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
+
+
+def test_rjumpv_rjumpi_backwards_min_stack_wrong(
+    eof_test: EOFTestFiller,
+):
+    """
+    Backwards rjumpv where min_stack does not match
+    """
+    container = Container.Code(
+        code=(
+            Op.PUSH0  # (0, 0)
+            + Op.PUSH1(0)  # (1, 1)
+            + Op.RJUMPV[1]  # (2, 2) To PUSH1
+            + Op.PUSH0  # (1, 1)
+            + Op.PUSH1(4)  # (1, 2)
+            + Op.RJUMPI[-10]  # (2, 3) To first RJUMPV with (1, 2)
+            + Op.STOP  # (1, 2)
+        ),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
+
+
+def test_double_rjumpv(
+    eof_test: EOFTestFiller,
+):
+    """
+    Two RJUMPVs, causing the min stack to underflow
+    """
+    container = Container.Code(
+        code=(Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[6] + Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[0] + Op.RETURN),
+        max_stack_height=3,
+    )
+    eof_test(
+        data=container,
+        expect_exception=EOFException.STACK_UNDERFLOW,
     )

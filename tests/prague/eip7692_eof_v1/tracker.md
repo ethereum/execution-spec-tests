@@ -7,10 +7,10 @@
 
 ### Validation
 
-- [x] Empty code is not a valid EOF (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_invalid_containers -k empty_container`)
-- [x] Valid container without data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_invalid_containers -k single_code_section_no_data_section`)
-- [x] Valid container with data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_valid_containers -k single_code_section_with_data_section`)
-- [x] Valid container with truncated data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_invalid_containers -k data_section_contents_incomplete`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1test_migrated_valid_invalid.py::test_migrated_valid_invalid -k data_section_contents_incomplete`)
+- [x] Empty code is not a valid EOF (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k empty_container`)
+- [x] Valid container without data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k single_code_section_no_data_section`)
+- [x] Valid container with data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_valid_containers -k single_code_section_with_data_section`)
+- [x] Valid container with truncated data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k data_section_contents_incomplete`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1test_migrated_valid_invalid.py::test_migrated_valid_invalid -k data_section_contents_incomplete`)
 - [x] Valid container with data section truncated to empty (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_invalid_containers -k no_data_section_contents`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1test_migrated_valid_invalid.py::test_migrated_valid_invalid -k no_data_section_contents`)
 - [x] Valid containers with multiple code sections (`tests/prague/eip7692_eof_v1/tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_valid_containers -k multiple_code_sections`)
 - [x] Valid containers with max number of code sections (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_max_code_sections`)
@@ -155,6 +155,8 @@
 - [ ] Truncated CALLF immediate (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_callf_truncated_Copier.json src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
 - [ ] Unreachable code sections (ethereum/tests: src/EOFTestsFiller/efValidation/unreachable_code_sections_Copier.json)
 - [ ] Sections reachable from other sections, but not reachable from section 0 (ethereum/tests: src/EOFTestsFiller/efValidation/unreachable_code_sections_Copier.json)
+- [ ] Unreachable code section that calls itself with JUMPF
+- [ ] Unreachable code section that calls itself with CALLF
 - [ ] RETF with maximum number of outputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 
 ### Execution
@@ -264,6 +266,7 @@
 - [ ] RETF reached via different paths (ethereum/tests: src/EOFTestsFiller/efStack/retf_stack_validation_Copier.json)
 - [ ] RETF in variable stack segment is not allowed (ethereum/tests: src/EOFTestsFiller/efStack/retf_variable_stack_Copier.json)
 - [ ] Extra items on stack allowed for terminating instructions other than RETF (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
+- [x] Invalid RETF in a non-returning function (`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_first_section_returning_code`)
 
 #### JUMPF
 
@@ -275,6 +278,7 @@
 - [ ] JUMPF into function with fewer outputs than current one (ethereum/tests: src/EOFTestsFiller/efStack/jumpf_to_returning_Copier.json)
 - [ ] Extra items on stack are allowed for JUMPF to returning function (ethereum/tests: src/EOFTestsFiller/efStack/jumpf_to_returning_Copier.json)
 - [ ] JUMPF to returning in a variable stack segment is not allowed (ethereum/tests: src/EOFTestsFiller/efStack/jumpf_to_returning_variable_stack_Copier.json)
+- [x] Invalid JUMPF in a non-returning function (`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_retf_in_nonreturning`)
 
 #### Stack overflow
 
@@ -329,18 +333,19 @@
 
 ### Validation
 
-- [ ] Zero section returning (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
-- [ ] Zero section declared non-returning but ends with RETF (ethereum/tests: src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
+- [x] Zero section returning (`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_first_section_returning` ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
+- [x] Zero section declared non-returning but ends with RETF (`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_retf_in_nonreturning` ethereum/tests: src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)
 - [ ] CALLF into non-returning function (ethereum/tests: src/EOFTestsFiller/efValidation/callf_into_nonreturning_Copier.json)
 - [ ] Valid JUMPF into sections with equal number of outputs (ethereum/tests: src/EOFTestsFiller/efValidation/jumpf_equal_outputs_Copier.json)
 - [ ] Valid JUMPF into sections with different but compatible number of outputs (ethereum/tests: src/EOFTestsFiller/efValidation/jumpf_compatible_outputs_Copier.json)
 - [ ] JUMPF into sections with incompatible outputs (ethereum/tests: src/EOFTestsFiller/efValidation/jumpf_incompatible_outputs_Copier.json)
 - [ ] Non-returning section without JUMPF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
-- [ ] Non-returning section with JUMPF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
+- [x] Non-returning section with JUMPF (`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_jumpf_in_nonreturning` ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
 - [ ] Returning section with RETF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
 - [ ] Returning section with JUMPF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
 - [ ] Returning section with JUMPF to returning and RETF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
 - [ ] Returning section with JUMPF to non-returning and RETF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
+- [x] Returning section without JUMPF nor RETF (`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_returning_section_not_returning`)
 - [ ] Invalid non-returning flag (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
 - [ ] Circular JUMPF between two sections (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)
 - [ ] JUMPF into non-existing section
@@ -373,48 +378,48 @@
 
 ### Execution
 
-- [x] EXTDELEGATECALL from EOF to EOF (evmone-tests: state_tests/state_transition/eof_calls/eof1_extdelegatecall_eof1.json)
-- [x] EXTDELEGATECALL from EOF to legacy fails (evmone-tests: state_tests/state_transition/eof_calls/eof1_extdelegatecall_legacy.json)
-- [ ] EXTSTATICCALL forwards static mode (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_static.json)
-- [x] EXTCALL with value success (evmone-tests: state_tests/state_transition/eof_calls/extcall_with_value.json)
-- [ ] EXTCALL with value from EXTSTATICCALL (evmone-tests: state_tests/state_transition/eof_calls/extcall_static_with_value.json)
-- [x] EXTCALL with value, not enough balance (evmone-tests: state_tests/state_transition/eof_calls/extcall_failing_with_value_balance_check.json)
-- [ ] EXTCALL with value, check additional charge for value (evmone-tests: state_tests/state_transition/eof_calls/extcall_failing_with_value_additional_cost.json)
-- [x] EXTCALL with gas not enough for callee to get 5000 gas (evmone-tests: state_tests/state_transition/eof_calls/extcall_min_callee_gas_failure_mode.json)
-- [x] RETURNDATA* after EXTCALL (evmone-tests: state_tests/state_transition/eof_calls/extcall_output.json)
-- [x] RETURNDATA* after EXTDELEGATECALL (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_output.json state_tests/state_transition/eof_calls/extdelegatecall_returndatasize.json state_tests/state_transition/eof_calls/returndatacopy.json state_tests/state_transition/eof_calls/returndataload.json)
-- [x] RETURNDATA* after EXTSTATICCALL (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_output.json)
-- [x] RETURNDATA* after aborted EXT*CALL (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_returndatasize_abort.json)
-- [x] Failed EXTCALL clears returndata from previous EXTCALL (evmone-tests: state_tests/state_transition/eof_calls/extcall_clears_returndata.json)
-- [ ] EXTCALL not enough gas for input memory charge (evmone-tests: state_tests/state_transition/eof_calls/extcall_memory.json)
-- [ ] EXTDELEGATECALL not enough gas for input memory charge (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_memory.json)
-- [ ] EXTSTATICCALL not enough gas for input memory charge (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_memory.json)
-- [x] EXTCALL exception due to target address overflow (bits set in high 12 bytes) (evmone-tests: state_tests/state_transition/eof_calls/extcall_ase_ready_violation.json)
-- [x] EXTDELEGATECALL exception due to target address overflow (bits set in high 12 bytes) (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_ase_ready_violation.json)
-- [x] EXTSTATICCALL exception due to target address overflow (bits set in high 12 bytes) (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_ase_ready_violation.json)
-- [ ] EXTCALL not enough gas for warming up target address (evmone-tests: state_tests/state_transition/eof_calls/extcall_cold_oog.json)
-- [ ] EXTDELEGATECALL not enough gas for warming up target address (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_cold_oog.json)
-- [ ] EXTSTATICCALL not enough gas for warming up target address (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_cold_oog.json)
-- [ ] EXTCALL not enough gas for account creation cost (transfer value to non-existing account) (evmone-tests: state_tests/state_transition/eof_calls/extcall_value_zero_to_nonexistent_account.json)
-- [x] OOG after EXTCALL (evmone-tests: state_tests/state_transition/eof_calls/extcall_then_oog.json)
-- [x] OOG after EXTDELEGATECALL (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_then_oog.json)
-- [x] OOG after EXTSTATICCALL (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_then_oog.json)
-- [x] REVERT inside EXTCALL (evmone-tests: state_tests/state_transition/eof_calls/extcall_callee_revert.json)
-- [x] REVERT inside EXTDELEGATECALL (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_callee_revert.json)
-- [x] REVERT inside EXTSTATICCALL (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_callee_revert.json)
-- [x] EXTCALL with input (evmone-tests: state_tests/state_transition/eof_calls/extcall_input.json)
-- [x] EXTDELEGATECALL with input (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_input.json)
-- [x] EXTSTATICCALL with input (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_input.json)
-- [x] EXTCALL with just enough gas for MIN_RETAINED_GAS and MIN_CALLEE_GAS (evmone-tests: state_tests/state_transition/eof_calls/extcall_with_value_enough_gas.json)
-- [x] EXTCALL with not enough gas for MIN_CALLEE_GAS (evmone-tests: state_tests/state_transition/eof_calls/extcall_with_value_low_gas.json)
+- [x] EXTDELEGATECALL from EOF to EOF (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_sstore)
+- [x] EXTDELEGATECALL from EOF to legacy fails (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore)
+- [ ] EXTDELEGATECALL forwards static mode (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_static.json)
+- [x] EXTCALL with value success (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_with_value)
+- [x] EXTCALL with value from EXTSTATICCALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_static_flag_with_value)
+- [x] EXTCALL with value, not enough balance (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_with_value)
+- [x] EXTCALL with value, check additional charge for value (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] EXTCALL with gas not enough for callee to get 5000 gas (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_min_callee_gas)
+- [x] RETURNDATA* after EXTCALL (./eip7069_extcall/test_returndataload.py)
+- [x] RETURNDATA* after EXTDELEGATECALL (./eip7069_extcall/test_returndataload.py)
+- [x] RETURNDATA* after EXTSTATICCALL (./eip7069_extcall/test_returndataload.py)
+- [x] RETURNDATA* after aborted EXT*CALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer)
+- [x] Failed EXTCALL clears returndata from previous EXTCALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer)
+- [x] EXTCALL not enough gas for input memory charge (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] EXTDELEGATECALL not enough gas for input memory charge (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] EXTSTATICCALL not enough gas for input memory charge (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] EXTCALL exception due to target address overflow (bits set in high 12 bytes) (./eip7069_extcall/test_address_space_extension.py)
+- [x] EXTDELEGATECALL exception due to target address overflow (bits set in high 12 bytes) (./eip7069_extcall/test_address_space_extension.py)
+- [x] EXTSTATICCALL exception due to target address overflow (bits set in high 12 bytes) (./eip7069_extcall/test_address_space_extension.py)
+- [x] EXTCALL not enough gas for warming up target address (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] EXTDELEGATECALL not enough gas for warming up target address (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] EXTSTATICCALL not enough gas for warming up target address (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] EXTCALL not enough gas for account creation cost (transfer value to non-existing account) (./eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas)
+- [x] OOG after EXTCALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_then_fails)
+- [x] OOG after EXTDELEGATECALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_then_fails)
+- [x] OOG after EXTSTATICCALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_then_fails)
+- [x] REVERT inside EXTCALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_revert_abort)
+- [x] REVERT inside EXTDELEGATECALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_revert_abort)
+- [x] REVERT inside EXTSTATICCALL (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_revert_abort)
+- [x] EXTCALL with input (./eip7692_eof_v1/eip7069_extcall/test_calldata.py)
+- [x] EXTDELEGATECALL with input (./eip7692_eof_v1/eip7069_extcall/test_calldata.py)
+- [x] EXTSTATICCALL with input (./eip7692_eof_v1/eip7069_extcall/test_calldata.py)
+- [x] EXTCALL with just enough gas for MIN_RETAINED_GAS and MIN_CALLEE_GAS (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_min_callee_gas)
+- [x] EXTCALL with not enough gas for MIN_CALLEE_GAS (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_min_callee_gas)
 - [ ] ADDRESS and CALLER inside EXTCALL (evmone-tests: state_tests/state_transition/eof_calls/extcall_recipient_and_code_address.json)
 - [ ] ADDRESS and CALLER inside EXTDELEGATECALL (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_recipient_and_code_address.json)
 - [ ] ADDRESS and CALLER inside EXTSTATICCALL (evmone-tests: state_tests/state_transition/eof_calls/extstaticcall_recipient_and_code_address.json)
 - [ ] Refund inside EXTCALL is applied after the transaction (evmone-tests: state_tests/state_transition/eof_calls/extcall_gas_refund_propagation.json)
 - [ ] Refund inside EXTDELEGATECALL is applied after the transaction (evmone-tests: state_tests/state_transition/eof_calls/extdelegatecall_gas_refund_propagation.json)
-- [x] EXTSTATICCALL from EOF to non-pure legacy contract failing (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)
-- [x] EXTSTATICCALL from EOF to pure EOF contract (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)
-- [x] EXTSTATICCALL from EOF to non-pure EOF contract failing (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)
+- [x] EXTSTATICCALL from EOF to non-pure legacy contract failing (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore)
+- [x] EXTSTATICCALL from EOF to pure EOF contract (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_mstore)
+- [x] EXTSTATICCALL from EOF to non-pure EOF contract failing (./eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_sstore)
 
 
 ## EIP-7620: EOF Contract Creation
@@ -426,10 +431,10 @@
 - [ ] EOFCREATE is not a valid terminating instruction (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)
 - [ ] EOFCREATE immediate referring to non-existing container (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)
 - [ ] EOFCREATE immediate referring to container with truncated data (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)
-- [x] Valid RETURNCONTRACTs referring to various container numbers (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_returncontract_valid_Copier.json)
-- [x] Truncated before RETURNCONTRACT immediate (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_returncontract_invalid_Copier.json)
-- [x] RETURNCONTRACT immediate referring to non-existing container (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_returncontract_invalid_Copier.json)
-- [x] Unreachable code after RETURNCONTRACT, check that RETURNCONTRACT is terminating (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_returncontract_invalid_Copier.json)
+- [x] Valid RETURNCONTRACTs referring to various container numbers (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py -k test_returncontract_valid_index`)
+- [x] Truncated before RETURNCONTRACT immediate (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_invalid_truncated_immediate`)
+- [x] RETURNCONTRACT immediate referring to non-existing container (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py -k test_returncontract_invalid_index`)
+- [x] Unreachable code after RETURNCONTRACT, check that RETURNCONTRACT is terminating (`tests/prague/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_terminating`)
 
 ### Execution
 
