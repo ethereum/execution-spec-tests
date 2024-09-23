@@ -1,7 +1,8 @@
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
-            <th>Test ID</th>
+            <th>Test ID (Abbreviated)</th>
+            <th>Hidden</th>
             {% for header in cases[0].params.keys() %}
             <th>{{ header }}</th>
             {% endfor %}
@@ -10,7 +11,13 @@
     <tbody>
         {% for case in cases %}
         <tr>
-            <td>{{ case.id }}</td>
+            <td> 
+                <!-- Tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="{{ case.full_id }}" title="{{ case.full_id }}">
+                    ...{{ case.abbreviated_id }}
+                </abbr>
+            </td>
+            <td>{{ case.full_id }}</td>
             {% for value in case.params.values() %}
             <td>{{ value }}</td>
             {% endfor %}

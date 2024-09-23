@@ -1,0 +1,17 @@
+.slide {
+    display: inline-block;
+    position: relative;
+    opacity: 0;
+    left: 20px;
+    transition: all 0.5s ease;
+}
+
+.slide.show {
+    opacity: 1;
+    left: 0;
+}
+
+.slide.hide {
+    opacity: 0;
+    left: 20px;
+}

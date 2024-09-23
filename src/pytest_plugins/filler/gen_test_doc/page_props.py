@@ -142,7 +142,8 @@ class TestCase:
     Properties used to define a single test case in test function parameter tables.
     """
 
-    id: str
+    full_id: str
+    abbreviated_id: str
     params: Dict[str, Any]
 
 

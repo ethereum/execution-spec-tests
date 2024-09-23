@@ -119,3 +119,4 @@ extra_javascript:
 
 extra_css:
   - https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css
+  - stylesheets/custom.css
