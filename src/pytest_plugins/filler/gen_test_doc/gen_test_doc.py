@@ -178,6 +178,17 @@ def get_docstring_one_liner(item: pytest.Item) -> str:
         logger.warning(f"No docstring available for `{test_function_name}`.")
         return f"[📖🐛 No docstring available]({github_issue_url})"
     docstring = docstring.strip()
+    test_function_id = get_test_function_id(item)
+    if (
+        docstring in docstring_test_function_history
+        and docstring_test_function_history[docstring] != test_function_id
+    ):
+        logger.warning(
+            f"Duplicate docstring for {test_function_id}: "
+            f"{docstring_test_function_history[docstring]} and {test_function_id}"
+        )
+    else:
+        docstring_test_function_history[docstring] = test_function_id
     lines = docstring.splitlines()
 
     bad_oneliner_issue_url = create_github_issue_url(
@@ -202,13 +213,7 @@ def get_test_function_test_type(item: pytest.Item) -> str:
     """
     Get the test type for the test function based on its fixtures.
     """
-    test_types: List[str] = [
-        "state_test",
-        "state_test_only",
-        "blockchain_test",
-        "eof_test",
-        "eof_state_test",
-    ]
+    test_types: List[str] = [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]
     item = cast(pytest.Function, item)  # help mypy infer type
     fixture_names = item.fixturenames
     for test_type in test_types:
@@ -235,7 +240,9 @@ class TestDocsGenerator:
         self.source_dir = Path("tests")
         self.ref = get_current_commit_hash_or_tag()
         self.top_level_nav_entry = "Test Case Reference"
-        self.skip_params = ["blockchain_test", "state_test", "eof_test", "fork"]
+        self.skip_params = ["fork"] + [
+            spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES
+        ]
         # intermediate collected pages and their properties
         self.function_page_props: FunctionPagePropsLookup = {}
         self.module_page_props: ModulePagePropsLookup = {}

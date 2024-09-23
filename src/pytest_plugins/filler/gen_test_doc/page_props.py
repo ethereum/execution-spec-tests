@@ -100,7 +100,10 @@ class PagePropsBase:
     pytest_node_id: str
     package_name: str
 
-    def get_template(self) -> str:
+    @property
+    @abstractmethod
+    def template(self) -> str:
+      pass
         """
         Return the template name based on the class type.
         """
