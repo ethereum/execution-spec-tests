@@ -163,7 +163,7 @@ class FunctionPageProps(PagePropsBase):
         """
         Get the filename of the jinja2 template used to render this page.
         """
-        return "function.html.j2"
+        return "function.md.j2"
 
     @property
     def target_output_file(self) -> Path:
