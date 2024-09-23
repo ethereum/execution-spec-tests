@@ -394,7 +394,11 @@ class TestDocsGenerator:
 
                     if filtered_test_id_parts:
                         test_cases.append(
-                            TestCase(id=filtered_test_id, params=dict(zip(keys, values)))
+                            TestCase(
+                                full_id=item.nodeid,
+                                abbreviated_id=filtered_test_id,
+                                params=dict(zip(keys, values)),
+                            )
                         )
 
             module_relative_path = Path(items[0].module.__file__).relative_to(Path.cwd())
